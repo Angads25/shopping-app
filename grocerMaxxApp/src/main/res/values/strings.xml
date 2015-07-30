@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GrocerMax</string>
+    <string name="flurry_api_key">V3KV9J6M8GVYCCDGQ4WW</string>
+    <string name="facebook_app_key">509044982469915</string>
+    <string name="welcome_text">Welcome Guest</string>
+    <string name="drawer_first">Home</string>
+    <string name="drawer_second">Share App</string>
+    <string name="drawer_third">Rate App</string>
+    <string name="drawer_forth">More Apps</string>
+    <string name="drawer_fifth">Contact Us</string>
+    <string name="drawer_sixth">Settings</string>
+    <string name="drawer_seventh">Seven</string>
+
+    <!-- facebook id for app demo -->
+    <string name="no_internet_msg">No Internet Connection.</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="choose_language">Choose your language</string>
+    <string name="image_content_desc">Image</string>
+    <string name="Login">Login/Sign up</string>
+    <string name="create_account" translatable="false">Create an account It is quick free and gives you access to special features.</string>
+    <string name="agreement" translatable="false">By clicking this button you agree and accept our User Agreement and Privacy Policy.</string>
+    <string name="not_user" translatable="false">Not a user yet?</string>
+    <string name="FirstName">First Name*</string>
+    <string name="LastName">Last Name*</string>
+    <string name="MobileNo">Mobile No.*</string>
+    <string name="ConfirmPassword">Confirm Password*</string>
+    <string name="email">Email</string>
+    <string name="Email">Email*</string>
+    <string name="Password">Password*</string>
+    <string name="CreateAccount">CREATE ACCOUNT</string>
+    <string name="forgot_password_header_support" translatable="false">We will email you the password</string>
+    <string name="address_book" translatable="false">Address Book</string>
+    <string name="view_profile">View Profile</string>
+    <string name="edit_profile">Edit Profile</string>
+     <string name="change_password">Change Password</string>
+    <string name="easy_shoping_great_value_friendly_service"> Easy Shoping, Great Value, Friendly Service \n Currently delivering in Gurgaon.\n Coming soon to Delhi</string>
+    <string name="shop">Shop</string>
+    <string name="search_">Search Products</string>
+    <string name="please_enter_text_">Please enter text.</string>
+    <string name="no_product_found_">No product found.</string>
+    <string name="go_shopping">Go Shopping</string>
+    <string name="shipping">Shipping &amp; Handling  </string>
+    <string name="Zero">0</string>
+    <string name="app_id">951586228219659</string>
+     <string name="facebook_app_name">GrocerMax</string>
+
+</resources>

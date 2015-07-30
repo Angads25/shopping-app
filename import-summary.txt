@@ -1,0 +1,148 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Manifest Merging:
+-----------------
+Your project uses libraries that provide manifests, and your Eclipse
+project did not explicitly turn on manifest merging. In Android Gradle
+projects, manifests are always merged (meaning that contents from your
+libraries' manifests will be merged into the app manifest. If you had
+manually copied contents from library manifests into your app manifest
+you may need to remove these for the app to build correctly.
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+From Android-SDK:
+* .gitignore
+* Android-SDK.iml
+* PayU.iml
+* README.md
+* build.gradle
+* proguard-rules.pro
+From CustomBrowserLatest:
+* .gitignore
+* CustomBrowser-release.aar
+* CustomBrowserLatest.iml
+* README.md
+* build.gradle
+From FacebookSDK:
+* FacebookSDK.iml
+* build.gradle
+* build.xml
+From GrocerMaxxApp:
+* proguard-project.txt
+From Mobikwik_Payment_Android_SDK:
+* Mobikwik_Payment_Android_SDK.iml
+* build.gradle
+* ic_launcher-web.png
+* proguard-project.txt
+From view_pager_indicator:
+* pom.xml
+* view_pager_indicator.iml
+
+Replaced Jars with Dependencies:
+--------------------------------
+The importer recognized the following .jar files as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the .jar file in your project was of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the jar replacement in the import wizard and try again:
+
+android-support-v4.jar => com.android.support:support-v4:19.1.0
+android-support-v7-appcompat.jar => com.android.support:appcompat-v7:18.0.0
+gson-2.2.4.jar => com.google.code.gson:gson:2.2.4
+
+Potentially Missing Dependency:
+-------------------------------
+When we replaced the following .jar files with a Gradle dependency, we
+inferred the dependency version number from the filename. This
+specific version may not actually be available from the repository.
+If you get a build error stating that the dependency is missing, edit
+the version number to for example "+" to pick up the latest version
+instead. (This may require you to update your code if the library APIs
+have changed.)
+
+gson-2.2.4.jar => version 2.2.4 in com.google.code.gson:gson:2.2.4
+
+Replaced Libraries with Dependencies:
+-------------------------------------
+The importer recognized the following library projects as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the source files in your project were of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the library replacement in the import wizard and try
+again:
+
+android-support-v7-appcompat => [com.android.support:appcompat-v7:18.0.0]
+google-play-services_lib => [com.google.android.gms:play-services:+]
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+In CustomBrowserLatest:
+* AndroidManifest.xml => customBrowserLatest/src/main/AndroidManifest.xml
+* assets/ => customBrowserLatest/src/main/assets
+* libs/classes.jar => customBrowserLatest/libs/classes.jar
+* res/ => customBrowserLatest/src/main/res/
+* src/ => customBrowserLatest/src/main/java
+In Android-SDK:
+* AndroidManifest.xml => androidSDK/src/main/AndroidManifest.xml
+* assets/ => androidSDK/src/main/assets
+* lint.xml => androidSDK/lint.xml
+* res/ => androidSDK/src/main/res/
+* src/ => androidSDK/src/main/java/
+In FacebookSDK:
+* AndroidManifest.xml => facebookSDK/src/main/AndroidManifest.xml
+* assets/ => facebookSDK/src/main/assets
+* libs/bolts-android-1.1.2.jar => facebookSDK/libs/bolts-android-1.1.2.jar
+* lint.xml => facebookSDK/lint.xml
+* res/ => facebookSDK/src/main/res/
+* src/ => facebookSDK/src/main/java/
+In Mobikwik_Payment_Android_SDK:
+* AndroidManifest.xml => mobikwik_Payment_Android_SDK/src/main/AndroidManifest.xml
+* assets/ => mobikwik_Payment_Android_SDK/src/main/assets
+* libs/mobikwik_payment_android_sdk.jar => mobikwik_Payment_Android_SDK/libs/mobikwik_payment_android_sdk.jar
+* lint.xml => mobikwik_Payment_Android_SDK/lint.xml
+* res/ => mobikwik_Payment_Android_SDK/src/main/res/
+* src/ => mobikwik_Payment_Android_SDK/src/main/java
+In view_pager_indicator:
+* AndroidManifest.xml => view_pager_indicator/src/main/AndroidManifest.xml
+* assets/ => view_pager_indicator/src/main/assets
+* res/ => view_pager_indicator/src/main/res/
+* src/ => view_pager_indicator/src/main/java/
+In GrocerMaxxApp:
+* AndroidManifest.xml => grocerMaxxApp/src/main/AndroidManifest.xml
+* assets/ => grocerMaxxApp/src/main/assets/
+* libs/FlurryAnalytics-5.5.0.jar => grocerMaxxApp/libs/FlurryAnalytics-5.5.0.jar
+* libs/httpmime-4.1.1.jar => grocerMaxxApp/libs/httpmime-4.1.1.jar
+* libs/libGoogleAnalyticsServices.jar => grocerMaxxApp/libs/libGoogleAnalyticsServices.jar
+* libs/pgsdk.jar => grocerMaxxApp/libs/pgsdk.jar
+* libs/universal-image-loader-1.9.3.jar => grocerMaxxApp/libs/universal-image-loader-1.9.3.jar
+* lint.xml => grocerMaxxApp/lint.xml
+* res/ => grocerMaxxApp/src/main/res/
+* src/ => grocerMaxxApp/src/main/java/
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

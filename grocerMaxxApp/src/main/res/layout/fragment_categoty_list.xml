@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ececec" >
+
+    <LinearLayout
+        android:id="@+id/main_lay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/category_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:divider="@color/app_background"
+            android:fadingEdge="none"
+            
+            android:dividerHeight="5dp"
+            android:listSelector="@android:color/transparent" />
+
+        <include
+            android:id="@+id/load_more_progressBar"
+            layout="@layout/footer_progress_dialog"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/button_place_order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/orange_text"
+            android:padding="10dp"
+            android:text="Place Order"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+</RelativeLayout>

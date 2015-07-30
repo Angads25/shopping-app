@@ -1,0 +1,41 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "com.sakshay.grocermax"
+        minSdkVersion 11
+        targetSdkVersion 21
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:multidex:1.0.0'
+    compile project(':facebookSDK')
+    compile project(':androidSDK')
+    compile project(':view_pager_indicator')
+    compile project(':mobikwik_Payment_Android_SDK')
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.android.support:appcompat-v7:21.0.+'
+    compile 'com.android.support:support-v4:21.0.+'
+    //compile 'com.google.android.gms:play-services:+'
+    compile 'com.google.android.gms:play-services-plus:7.5.0'
+    compile 'com.google.android.gms:play-services-identity:7.5.0'
+    compile 'com.google.android.gms:play-services-drive:7.5.0'
+
+    compile files('libs/FlurryAnalytics-5.5.0.jar')
+    compile files('libs/httpmime-4.1.1.jar')
+    compile files('libs/libGoogleAnalyticsServices.jar')
+    compile files('libs/pgsdk.jar')
+    compile files('libs/universal-image-loader-1.9.3.jar')
+}

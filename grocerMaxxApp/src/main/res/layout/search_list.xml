@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_lay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/mart_header" />
+
+    <HorizontalScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none" >
+
+        <TextView
+            android:id="@+id/tv_Bradcrum"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="Bradecrum"
+            android:textColor="#808080"
+            android:textSize="16dp"
+           
+            android:visibility="gone" />
+    </HorizontalScrollView>
+
+    <View
+        android:id="@+id/hrc_Bradcrum"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#e2e2e2"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_your_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="3dp"
+        android:text="Product List"
+        android:textColor="@color/red"
+        android:textSize="@dimen/text_size_14" />
+
+    <ListView
+        android:id="@+id/category_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
+        android:layout_weight="4"
+        android:background="@color/white"
+        android:cacheColorHint="@android:color/transparent"
+        android:clipToPadding="false"
+        android:divider="@color/app_background"
+        android:dividerHeight="5dp"
+        android:listSelector="@android:color/transparent" />
+
+     <LinearLayout
+        android:id="@+id/ll_total"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f3faff"
+        android:orientation="vertical"
+        android:visibility="visible" >
+    
+    
+
+    <include
+        android:id="@+id/load_more_progressBar"
+        layout="@layout/footer_progress_dialog"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/button_place_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/cart_place_update"
+        android:padding="10dp"
+        android:text="PLACE ORDER"
+        android:textColor="@color/white"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/footer"
+        layout="@layout/mart_footer" />
+    
+     </LinearLayout>
+
+</LinearLayout>

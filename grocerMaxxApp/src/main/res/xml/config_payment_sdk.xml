@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mid" >MBK9002</string>
+    <string name="merchantname" >MyMerchantName</string>
+    <string name="mode" >0</string>
+    <string name="sdksign" >a_lvjRAEvSbC0ENdEVuGC0B2Uo9</string>
+    <string name="redirecturl" >com.sakshay.grocermax.MobiKwikWallet</string>
+    <string name="checksumUrl" >https://staging.mobikwik.com/pgTest/checksum.jsp</string>
+    <string name="pgResponseUrl" >https://staging.mobikwik.com/pgTest/response.jsp</string>
+    <string name="allowMixedContent" >false</string> 
+</resources>
+
+
+

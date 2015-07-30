@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.sakshay.grocermax"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="11" />
+
+    <uses-permission android:name="com.shopclues.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.NETWORK" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>     <!-- for flurry analytics -->
+    
+
+    <uses-feature
+        android:name="android.hardware.TELEPHONY"
+        android:required="false" />
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+
+    <application
+        android:name="com.sakshay.grocermax.MyApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/app_icon"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.NoTitleBar" >
+        <activity
+            android:name="com.sakshay.grocermax.SplashScreen"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.sakshay.grocermax.HomeScreen"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".CODConfirmation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.sakshay.grocermax.LoginActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.sakshay.grocermax.CategoryTabs"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/StyledIndicators"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.sakshay.grocermax.AddressDetail"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.sakshay.grocermax.UserProfile"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.sakshay.grocermax.OrderHistory"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.sakshay.grocermax.EditProfile"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.sakshay.grocermax.OrderDetail"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.sakshay.grocermax.DashBoardScreen"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.sakshay.grocermax.ProductDetailScreen"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.sakshay.grocermax.BrowseActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.sakshay.grocermax.CategoryList"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.sakshay.grocermax.ProductListScreen"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.sakshay.grocermax.Registration"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.sakshay.grocermax.ChooseAddress"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.sakshay.grocermax.CreateNewAddress"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.sakshay.grocermax.CartProductList"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.sakshay.grocermax.ReviewOrderAndPay"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.sakshay.grocermax.OffersPromoCode"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.payu.sdk.ProcessPaymentActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" 
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.payu.sdk.PaymentOptionsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:theme="@style/AppTheme"
+             />
+        <activity
+            android:name="com.sakshay.grocermax.PayTMActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        
+        <activity
+            android:name="com.sakshay.grocermax.MobiKwikWallet"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        
+        
+        
+        <activity
+            android:name="com.sakshay.grocermax.SearchTabs"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/StyledIndicators"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        
+        <activity
+            android:name="com.paytm.pgsdk.PaytmPGActivity"
+            android:configChanges="keyboardHidden|orientation|keyboard"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.sakshay.grocermax.GooglePlus"
+            android:screenOrientation="portrait" />
+        
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        
+
+        <service android:name="com.sakshay.grocermax.api.ConnectionService" />
+
+        <meta-data
+            android:name="payu_merchant_id"
+            android:value="yPnUG6" />
+
+        <activity
+            android:name="com.facebook.LoginActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        
+        
+        
+        
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationName"
+            android:value="@string/facebook_app_name" />
+ 
+        
+        
+        
+        
+        <activity
+            android:name="com.paymentsdk.android.PaymentSDKRequestHandler"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
+            android:label="Mobikwik Payments"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+            <intent-filter>
+                <action android:name="MobikwikSDK" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.PaymentOptionsSelector"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Secure Payment Gateway"
+            android:launchMode="singleTop"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.CardOrNetbanking"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Payment Method"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.PGResponseHandler"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Payment Gateway Response"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.AddBalance"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Payment"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.PGWebView"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Secure Payment Gateway"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.WalletDebitConfirmation"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Payment Confirmation"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.PGPaymentConfirmation"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Payment Confirmation"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.WalletResponseHandler"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Payment Response"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.GetUserDetailsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Enter Details"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.DirectPayActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="DirectPay"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.Transparent"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.PaymentHostActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Payment"
+            android:launchMode="singleTop"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.AddCardActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Add Card"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        
+        
+   
+    </application>
+
+</manifest>

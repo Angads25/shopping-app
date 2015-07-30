@@ -1,0 +1,11 @@
+{
+	"messageCode":"1004",
+	"Message":"Logged In successfully",
+	"Token":
+	{
+		"AccessToken":"rewftwl0mufsvysckekiqgml",
+		"issued_at":"\/Date(1423584641000+0530)\/",
+		"UserId":"61723373-785e-407d-a966-ad3b2694ceef",
+		"MerchantId":"276f9496-0e5c-4465-b9ce-784514788ae9"
+	}
+}

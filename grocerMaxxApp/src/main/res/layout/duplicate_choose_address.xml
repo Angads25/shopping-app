@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_lay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ececec"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/mart_header" />`
+        
+        
+        <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Select Your Delivery Slot"
+	        android:textColor="#c0392b"
+	        android:layout_marginTop="5dp"
+	        android:layout_marginLeft="10dp"
+	        android:textSize="@dimen/text_size_14" />
+	    
+        
+        <RelativeLayout 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+    
+   <ScrollView 
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content" 
+       android:layout_above="@+id/button_place_order">
+       
+        <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:orientation="vertical">
+            
+            
+            <LinearLayout 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" 
+                android:orientation="vertical"
+                android:background="@color/white" 
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" 
+                android:layout_marginTop="10dp"> 
+                
+                <TextView 
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:textSize="@dimen/text_size_13"
+                    android:textStyle="bold"
+                    android:textColor="#292522"
+                    android:layout_marginBottom="5dp"
+                    android:text="Date" />
+                
+                <GridView 
+					    android:id="@+id/gridview"
+					    android:layout_width="wrap_content"
+					    android:layout_height="170dp"
+					    
+					    android:numColumns="2"
+					    android:verticalSpacing="10dp"
+					    android:listSelector="@color/delivery_slot_selected_color"
+					    android:horizontalSpacing="10dp" />
+                
+                <LinearLayout 
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:visibility="gone"
+                    android:orientation="horizontal" >
+                    
+                    <Button 
+                        android:id="@+id/first_date"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:background="#fbf9f9"
+                        android:layout_marginRight="5dp"
+                        android:textSize="@dimen/text_size_12"
+                        android:text="Today" />
+                    
+                    <Button 
+                        android:id="@+id/second_date"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="Tomorrow"
+                        android:textColor="@color/white"
+                        android:background="#c0392b"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="@dimen/text_size_12" />
+                    
+                </LinearLayout>
+                
+                
+                <LinearLayout 
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:visibility="gone"
+                    android:orientation="horizontal" >
+                    
+                    <Button 
+                        android:id="@+id/third_date"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="21-05-2015"
+                        android:background="#fbf9f9"
+                        android:layout_marginRight="5dp"
+                        android:textSize="@dimen/text_size_12"
+                        style="@android:attr/buttonBarButtonStyle" />
+                    
+                    <Button 
+                        android:id="@+id/fourth_date"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="22-05-2015"
+                        android:background="#fbf9f9"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="@dimen/text_size_12" />
+                    
+                </LinearLayout>
+                
+                 <LinearLayout 
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:visibility="gone"
+                    android:orientation="horizontal" >
+                    
+                    <Button 
+                        android:id="@+id/fifth_date"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:background="#fbf9f9"
+                        android:textSize="@dimen/text_size_12"
+                        android:layout_marginRight="5dp"
+                        android:text="23-05-2015"
+                        />
+                    
+                    <Button 
+                        android:id="@+id/sixth_date"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="24-05-2015"
+                        android:background="#fbf9f9"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="@dimen/text_size_12" />
+                    
+                </LinearLayout>
+                
+                
+             </LinearLayout>
+            
+            
+            
+            
+            <LinearLayout 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" 
+                android:orientation="vertical"
+                android:background="@color/white" 
+                android:layout_marginLeft="5dp"
+                android:paddingBottom="10dp"
+                android:layout_marginRight="5dp" 
+                android:layout_marginTop="10dp"> 
+                
+                <TextView 
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:textSize="@dimen/text_size_13"
+                    android:textStyle="bold"
+                    android:textColor="#292522"
+                    android:text="Time Slot" />
+                
+                <LinearLayout 
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="4"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical" >
+                    
+                    <Button 
+                        android:id="@+id/first_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        
+                        android:background="#fbf9f9"
+                        android:textSize="@dimen/text_size_12" />
+                    
+                    <Button 
+                        android:id="@+id/second_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:background="#fbf9f9"
+                        android:textSize="@dimen/text_size_12" />
+                    
+                    <Button 
+                        android:id="@+id/third_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:background="#fbf9f9"
+                        android:textSize="@dimen/text_size_12" />
+                    
+                    <Button 
+                        android:id="@+id/fourth_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="10dp"
+                        
+                        android:layout_weight="1"
+                        android:background="#fbf9f9"
+                        android:textSize="@dimen/text_size_12" />
+                    
+                </LinearLayout>
+                
+             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Shipping Address"
+                    android:textColor="#292522"
+                    android:textSize="@dimen/text_size_13"
+                    android:textStyle="bold" />
+
+    <!--              <Button
+                    android:id="@+id/addr_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/address_corner_box"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="Rohit Kumar"
+                    android:textSize="@dimen/text_size_12" />
+     -->           
+                <Spinner
+	                android:id="@+id/spinner_shipping"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_marginTop="10dp"
+	                android:layout_marginLeft="10dp"
+	                android:layout_marginRight="10dp"
+	                android:background="@drawable/spinner_background" />
+                
+                 <LinearLayout
+	                android:id="@+id/layout_shipping"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_marginTop="10dp"
+	                android:layout_marginLeft="10dp"
+	                android:layout_marginRight="10dp"
+	                android:orientation="vertical" >
+	            </LinearLayout>
+	            
+                  <RelativeLayout
+                    android:id="@+id/rl_shipping_selected_addr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:background="@drawable/add_new_address_long_border"  >
+
+                    <RelativeLayout 
+                        android:id="@+id/rl_addr_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp" 
+                        android:background="#c0392b" >
+                        
+                    <TextView 
+                        android:id="@+id/txt_shipping_header_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rohit Kumar"
+                        android:layout_centerVertical="true"
+                        android:background="#c0392b"
+                        android:paddingLeft="10dp"
+                        android:textSize="@dimen/text_size_12"  />
+                    
+                    <ImageView 
+                        android:id="@+id/img_downward_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/forward_icon" />
+                    
+                    </RelativeLayout>
+                    
+                    <TextView 
+                        android:id="@+id/shipping_addr_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Abhishek Yadav"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="15dp"
+                        android:layout_below="@+id/rl_addr_name"
+                        android:textSize="@dimen/text_size_11" />
+                    
+                    <TextView 
+                        android:id="@+id/shipping_addr_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5, Nathupur Road"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:layout_below="@+id/shipping_addr_name"
+                        android:textSize="@dimen/text_size_11" />
+                    
+                     <TextView 
+                        android:id="@+id/shipping_addr_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Gurgaon"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:layout_below="@+id/shipping_addr_1"
+                        android:textSize="@dimen/text_size_11" />
+                     
+                      <TextView 
+                        android:id="@+id/shipping_addr_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="India"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:layout_below="@+id/shipping_addr_2"
+                        android:textSize="@dimen/text_size_11" />
+                      
+                      <TextView 
+                        android:id="@+id/shipping_addr_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100064"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="10dp"
+                        
+                        android:layout_below="@+id/shipping_addr_3"
+                        android:textSize="@dimen/text_size_11" />
+                      
+                      <TextView 
+                        android:id="@+id/shipping_addr_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100064"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="10dp"
+                        
+                        android:layout_below="@+id/shipping_addr_4"
+                        android:textSize="@dimen/text_size_11" />
+                      
+                      <TextView 
+                        android:id="@+id/shipping_addr_6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100064"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="5dp"
+                        android:layout_below="@+id/shipping_addr_5"
+                        android:textSize="@dimen/text_size_11" />
+                    
+                </RelativeLayout>
+
+                <CheckBox
+	                android:id="@+id/check_billing"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_marginTop="10dp"
+	                android:layout_marginLeft="10dp"
+	                android:layout_marginRight="10dp"
+	                android:text="Billing address is different from shipping address"
+	                android:textColor="@color/black"
+	                android:textSize="@dimen/text_size_11" />
+                
+                <TextView
+	                android:id="@+id/text_billing"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_marginTop="10dp"
+	                android:text="Billing Address"
+	                android:textColor="@color/black"
+	                android:layout_marginLeft="10dp"
+	                android:textStyle="bold" />
+                
+                <Spinner
+	                android:id="@+id/spinner_billing"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_marginTop="10dp"
+	                android:layout_marginLeft="10dp"
+	                android:layout_marginRight="10dp"
+	                android:background="@drawable/spinner_background"
+	                android:gravity="center_horizontal" />
+                
+                <LinearLayout
+	                android:id="@+id/layout_billing"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_marginTop="10dp"
+	                android:orientation="vertical" >
+            	</LinearLayout>
+
+   <!--              <Button
+                    android:id="@+id/addr_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/add_new_address"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="Rohit Kumar"
+                    android:textSize="@dimen/text_size_12" />
+ -->
+                   <RelativeLayout
+                    android:id="@+id/rl_billing_selected_addr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:background="@drawable/add_new_address_long_border"  >
+
+                    <RelativeLayout 
+                        android:id="@+id/rl_billing_addr_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp" 
+                        android:background="#c0392b" >
+                        
+                    <TextView 
+                        android:id="@+id/txt_billing_header_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rohit Kumar"
+                        android:layout_centerVertical="true"
+                        android:background="#c0392b"
+                        android:paddingLeft="10dp"
+                        android:textSize="@dimen/text_size_12"  />
+                    
+                    <ImageView 
+                        android:id="@+id/img_downward_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/forward_icon" />
+                    
+                    </RelativeLayout>
+                    
+                    <TextView 
+                        android:id="@+id/billing_addr_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Abhishek Yadav"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="15dp"
+                        android:layout_below="@+id/rl_billing_addr_name"
+                        android:textSize="@dimen/text_size_11" />
+                    
+                    <TextView 
+                        android:id="@+id/billing_addr_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5, Nathupur Road"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:layout_below="@+id/billing_addr_name"
+                        android:textSize="@dimen/text_size_11" />
+                    
+                     <TextView 
+                        android:id="@+id/billing_addr_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Gurgaon"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:layout_below="@+id/billing_addr_1"
+                        android:textSize="@dimen/text_size_11" />
+                     
+                      <TextView 
+                        android:id="@+id/billing_addr_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="India"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:layout_below="@+id/billing_addr_2"
+                        android:textSize="@dimen/text_size_11" />
+                      
+                      <TextView 
+                        android:id="@+id/billing_addr_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100064"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:layout_below="@+id/billing_addr_3"
+                        android:textSize="@dimen/text_size_11" />
+                      
+                      <TextView 
+                        android:id="@+id/billing_addr_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100064"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:layout_below="@+id/billing_addr_4"
+                        android:textSize="@dimen/text_size_11" />
+                      
+                      <TextView 
+                        android:id="@+id/billing_addr_6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100064"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="5dp"
+                        android:layout_below="@+id/billing_addr_5"
+                        android:textSize="@dimen/text_size_11" />
+                    
+                </RelativeLayout>
+                
+                <Button
+                    android:id="@+id/add_new_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/add_new_address"
+                    android:text="ADD NEW ADDRESS"
+                    android:textColor="#c54e43"
+                    android:textSize="@dimen/text_size_10" />
+            </LinearLayout>
+            
+        </LinearLayout>
+       
+       
+   </ScrollView>
+   
+   <Button
+        android:id="@+id/button_place_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:text="PLACE ORDER"
+        android:textSize="@dimen/text_size_14"
+        android:background="@drawable/cart_place_update"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white" />
+   
+   </RelativeLayout>
+   
+        <include
+        android:id="@+id/footer"
+        layout="@layout/mart_footer" />
+   
+
+</LinearLayout>

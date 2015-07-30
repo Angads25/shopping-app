@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/white_container"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/label_bank"
+        style="@style/textBlueHeading"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Select Your Debit Card" />
+
+    <ListView
+        android:id="@+id/list_debitcards"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp" />
+
+</LinearLayout>

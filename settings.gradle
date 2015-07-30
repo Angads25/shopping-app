@@ -1,0 +1,6 @@
+include ':customBrowserLatest'
+include ':androidSDK'
+include ':facebookSDK'
+include ':mobikwik_Payment_Android_SDK'
+include ':view_pager_indicator'
+include ':grocerMaxxApp'

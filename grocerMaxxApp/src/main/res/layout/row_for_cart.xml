@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingRight="5dp"
+    android:background="#ffffff" >
+
+    <RelativeLayout 
+        android:id="@+id/rl_prod_list_cart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    
+    <ImageView
+        android:id="@+id/product_image"
+        android:layout_width="80dp"
+        android:layout_height="113dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_alignBottom="@+id/ll"
+        android:layout_alignTop="@+id/ll"
+        android:src="@drawable/app_icon" />
+    
+     <ImageView 
+         android:id="@+id/offer_image"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:src="@drawable/offer" />
+
+		<TextView
+            android:id="@+id/product_cart_brand_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="-1dp"
+            android:singleLine="true"
+            android:textAllCaps="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="3dp"
+            android:layout_toRightOf="@+id/product_image"
+            android:layout_toLeftOf="@+id/ll_cancel"
+            android:text="SECO FRUITO"
+            android:textColor="#a3a3a3"
+            android:textSize="@dimen/text_size_10"
+             />
+		
+		<LinearLayout 
+		    android:id="@+id/ll_cancel"
+		    android:layout_width="40dp"
+		    android:layout_height="40dp"
+		    android:layout_marginRight="10dp"
+		    android:layout_marginTop="8dp"
+		    android:layout_alignParentRight="true"
+		    android:gravity="right"
+		    android:layout_marginBottom="-5dp" >
+		
+		<ImageView
+            android:id="@+id/cancel_image"
+            android:layout_width="20dp"
+            android:layout_height="25dp"
+            android:src="@drawable/delete_icon" />
+
+		</LinearLayout>
+		
+        <TextView
+            android:id="@+id/product_cart_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-1dp"
+            android:singleLine="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/product_image"
+            android:layout_below="@+id/product_cart_brand_name"
+            android:text=""
+            android:textColor="#121212"
+            android:textSize="@dimen/text_size_12"
+            />
+        
+        <TextView
+            android:id="@+id/product_cart_mlorgm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:singleLine="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/product_image"
+            android:layout_below="@+id/product_cart_name"
+            android:text=""
+            android:textColor="#121212"
+            android:textSize="@dimen/text_size_12"
+            />
+        
+        <LinearLayout 
+            android:id="@+id/ll_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+			
+            android:layout_toRightOf="@+id/product_image"
+            android:layout_below="@+id/product_cart_mlorgm" >
+    
+        <TextView
+            android:id="@+id/mul_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+			android:layout_marginLeft="5dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="-4dp"
+            android:textColor="#121212"
+            android:textSize="@dimen/text_size_12"
+            android:singleLine="true"
+            android:text="2" />
+        
+        <TextView 
+            android:id="@+id/tv_multiply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="x"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="-4dp"
+            android:textColor="#121212"
+            android:textSize="@dimen/text_size_12"
+            android:singleLine="true" />
+            
+		<TextView
+            android:id="@+id/quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="-4dp"
+            android:textColor="#121212"
+            android:textSize="@dimen/text_size_12"
+            android:text="120 |" />
+		
+		<TextView 
+		    android:id="@+id/old_price"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:singleLine="true"
+		    android:text="Rs. 150"
+		    android:textColor="#a1a1a1"
+		    android:visibility="gone"
+		    android:textSize="@dimen/text_size_11"
+		    android:layout_gravity="center_vertical" />
+		
+		</LinearLayout>
+		
+   
+		<RelativeLayout 
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" 
+		    android:layout_below="@+id/ll_quantity" 
+		    android:layout_marginTop="-8dp"
+		    android:layout_toRightOf="@+id/product_image" >
+		    
+		    <TextView
+	            android:id="@+id/mrp"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginBottom="5dp"
+	            android:singleLine="true"
+	            android:text="Rs. 230"
+	            android:textColor="#e5390e"
+	            android:layout_centerVertical="true"
+	            android:layout_alignParentLeft="true"
+	            android:layout_marginLeft="5dp"
+	            android:layout_toLeftOf="@+id/llplusminus"
+	            android:textSize="@dimen/text_size_13"  />
+		
+        <LinearLayout
+            android:id="@+id/llplusminus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="-12dp"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal" >
+             
+            <ImageView
+                android:id="@+id/decrease_quantity"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/minus_pressed_btn_change"
+                android:visibility="visible" />
+            
+            <View 
+                android:layout_width="6dp"
+                android:layout_height="2dp" />
+            
+             <TextView
+                 android:id="@+id/tv_quantity"
+                 android:layout_width="30dp"
+                 android:layout_height="wrap_content"
+                 android:text="1"
+                 android:gravity="center"
+                 android:layout_gravity="center"
+                 android:textColor="#e5390e"
+				 android:layout_marginLeft="-5dp"
+                 android:layout_marginRight="-5dp"
+                 android:textSize="@dimen/text_size_13" />
+            
+              <View 
+                android:layout_width="6dp"
+                android:layout_height="2dp" />
+             
+            <ImageView
+                android:id="@+id/increase_quantity"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="15dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/add_pressed_btn_change"
+                android:visibility="visible" />
+        </LinearLayout>
+		    
+		</RelativeLayout>
+		
+		</RelativeLayout>
+		
+    <TextView 
+        android:id="@+id/tv_offers_cart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MCIVITIES COOKIES BUY 2,GET 1 FREE"
+        android:textColor="#ff4121"
+        android:textSize="@dimen/text_size_13" 
+        android:background="#f9f3e4"
+        android:gravity="center"
+        android:padding="5dp"
+        android:layout_below="@+id/rl_prod_list_cart"/>
+		
+
+</RelativeLayout>

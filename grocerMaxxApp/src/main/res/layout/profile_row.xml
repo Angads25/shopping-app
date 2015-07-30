@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/row_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+    
+    <RelativeLayout
+         android:id="@+id/layout_address_info"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="10dp"
+         android:layout_marginRight="10dp"
+         android:layout_marginTop="0dp"
+         android:visibility="visible"
+         android:layout_marginBottom="5dp"
+         android:background="@drawable/my_address_view"  >
+
+         <RelativeLayout 
+             android:id="@+id/rl_addr_name"
+             android:layout_width="match_parent"
+             android:layout_height="30dp"
+             android:background="@drawable/address_top" >
+             
+         <TextView 
+             android:id="@+id/text_header_profile"
+             android:layout_width="match_parent"
+             android:layout_height="30dp"
+             android:text=""
+             android:layout_centerVertical="true"
+             android:gravity="center_vertical" 
+             android:textColor="@color/white"
+             android:layout_alignParentLeft="true"
+             android:layout_marginLeft="10dp"
+             android:layout_marginRight="10dp"
+             android:textSize="@dimen/text_size_12"  />
+         
+    </RelativeLayout>
+         
+         <TextView 
+             android:id="@+id/name_profile"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Abhishek Yadav"
+             android:paddingLeft="10dp"
+             android:paddingTop="15dp"
+             android:textColor="@color/headmultiplepage"
+             android:layout_below="@+id/rl_addr_name"
+             android:textSize="@dimen/text_size_12" />
+         
+         <TextView 
+             android:id="@+id/phone_profile"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="5, Nathupur Road"
+             android:paddingLeft="10dp"
+             android:paddingTop="10dp"
+             android:layout_below="@+id/name_profile"
+             android:textColor="@color/headmultiplepage"
+             android:textSize="@dimen/text_size_12" />
+         
+          <TextView 
+             android:id="@+id/address1_profile"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Gurgaon"
+             android:paddingLeft="10dp"
+             android:paddingTop="10dp"
+             android:layout_below="@+id/phone_profile"
+             android:textColor="@color/headmultiplepage"
+             android:textSize="@dimen/text_size_12" />
+          
+           <TextView 
+             android:id="@+id/city_profile"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="India"
+             android:paddingLeft="10dp"
+             android:paddingTop="10dp"
+             android:layout_below="@+id/address1_profile"
+             android:textColor="@color/headmultiplepage"
+             android:textSize="@dimen/text_size_12" />
+           
+           <TextView 
+             android:id="@+id/state_profile"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="100064"
+             android:paddingLeft="10dp"
+             android:paddingTop="10dp"
+             android:textColor="@color/headmultiplepage"
+             android:layout_below="@+id/city_profile"
+             android:textSize="@dimen/text_size_12" />
+           
+           <TextView 
+             android:id="@+id/country_profile"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="100064"
+             android:paddingLeft="10dp"
+             android:paddingTop="10dp"
+             android:textColor="@color/headmultiplepage"
+             android:layout_below="@+id/state_profile"
+             android:textSize="@dimen/text_size_12" />
+           
+           <TextView 
+             android:id="@+id/pincode_profile"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="100064"
+             android:paddingLeft="10dp"
+             android:paddingTop="10dp"
+             android:paddingBottom="5dp"
+             android:textColor="@color/headmultiplepage"
+             android:layout_below="@+id/country_profile"
+             android:textSize="@dimen/text_size_12" />
+         
+     </RelativeLayout>
+    
+  
+</LinearLayout>

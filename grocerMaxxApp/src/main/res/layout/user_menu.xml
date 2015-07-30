@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom_font="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/transparent"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:gravity="left"
+        
+        android:orientation="vertical" >
+        
+        <ImageView 
+            android:id="@+id/iv_ttoopp"
+            android:visibility="gone"
+            android:layout_width="@dimen/user_menu_width"
+            android:layout_height="wrap_content"
+            android:background="@drawable/top_menu_arrow"  />
+
+        <ScrollView
+            android:id="@+id/sv_user_menu"
+            android:layout_width="@dimen/user_menu_width"
+            android:layout_height="wrap_content"
+            
+            android:scrollbars="none" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/llLogin"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="10dip"
+                    
+                    android:paddingTop="10dip" >
+
+                    <ImageView
+                        android:id="@+id/imgLoginArrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dip"
+                        android:background="@drawable/list_right_arrow" />
+
+                  
+                    <TextView
+                        android:id="@+id/tvUserName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dip"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="@string/Login"
+                        android:textColor="#3a3838"
+                        android:textSize="@dimen/text_size_14" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/line_color" />
+
+                <LinearLayout
+                    android:id="@+id/llOrderHistory"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="10dip"
+                    android:paddingTop="10dip" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dip"
+                        android:background="@drawable/list_right_arrow" />
+
+                    <TextView
+                        android:id="@+id/tvOrderHistory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dip"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="Order History"
+                        android:textColor="#3a3838"
+                        android:textSize="@dimen/text_size_14" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/line_color" />
+
+              
+                
+
+                <LinearLayout
+                    android:id="@+id/llAddressBook"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="10dip"
+                    android:paddingTop="10dip" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dip"
+                        android:background="@drawable/list_right_arrow" />
+
+                    <TextView
+                        android:id="@+id/tvAddressBook"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dip"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="My Addresses"
+                        android:textColor="#3a3838"
+                        android:textSize="@dimen/text_size_14" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/line_color" />
+
+                <LinearLayout
+                    android:id="@+id/llViewProfile"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="10dip"
+                    android:paddingTop="10dip" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dip"
+                        android:background="@drawable/list_right_arrow" />
+
+                    <TextView
+                        android:id="@+id/tvViewProfile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dip"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="@string/view_profile"
+                        android:textColor="#3a3838"
+                        android:textSize="@dimen/text_size_14" />
+                </LinearLayout>
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/line_color" />
+
+                
+                <LinearLayout
+                    android:id="@+id/llEditProfile"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="10dip"
+                    android:paddingTop="10dip"
+                    android:visibility="gone" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dip"
+                        android:background="@drawable/list_right_arrow" />
+
+                    <TextView
+                        android:id="@+id/tvEditProfile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dip"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="@string/edit_profile"
+                        android:textColor="#3a3838"
+                        android:textSize="@dimen/text_size_14" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/line_color"
+                    android:visibility="gone" />
+                
+                  <LinearLayout
+                    android:id="@+id/my_fav_lay"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="10dip"
+                    android:paddingTop="10dip">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dip"
+                        android:background="@drawable/list_right_arrow" />
+
+                    <TextView
+                        android:id="@+id/my_fav_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dip"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="Invite Friends"
+                        android:textColor="#3a3838"
+                        android:textSize="@dimen/text_size_14" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/line_color"/>
+                
+
+                <LinearLayout
+                    android:id="@+id/llSupport"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="10dip"
+                    android:paddingTop="10dip" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dip"
+                        android:background="@drawable/list_right_arrow" />
+
+                    <TextView
+                        android:id="@+id/tvCustomerSupport"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dip"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="Call Us"
+                        android:textColor="#3a3838"
+                        android:textSize="@dimen/text_size_14" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/line_color"/>
+                <LinearLayout
+                    android:id="@+id/feedback_lay"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="10dip"
+                    android:paddingTop="10dip">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dip"
+                        android:background="@drawable/list_right_arrow" />
+
+                    <TextView
+                        android:id="@+id/feedback_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dip"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="Write To Us"
+                        android:textColor="#3a3838"
+                        android:textSize="@dimen/text_size_14" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/line_color"/>
+
+                <TextView
+                    android:id="@+id/tvSignOut"
+                    android:layout_width="fill_parent"
+                    android:layout_height="42dip"
+                    android:background="@color/bg_light"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="SIGN OUT"
+                    android:textColor="@color/teal_color"
+                    android:textSize="@dimen/text_size_16"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <View
+        android:layout_width="6dip"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/header_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/mk_header" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <android.support.v4.widget.DrawerLayout
+            android:id="@+id/drawer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <FrameLayout
+                android:id="@+id/content_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/uic_bg"
+                android:paddingLeft="@dimen/padding_main"
+                android:paddingRight="@dimen/padding_main" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fields_margin_top"
+                        android:background="@drawable/s_container"
+                        android:paddingLeft="@dimen/padding_main"
+                        android:paddingRight="@dimen/padding_main" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="You have selected" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1" />
+
+                        <Spinner
+                            android:id="@+id/payment_selector_spinner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="6dp"
+                            android:layout_marginTop="6dp"
+                            android:background="@drawable/spinner_bg" />
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:id="@+id/payment_frame"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/fields_margin_top" >
+                    </FrameLayout>
+                </LinearLayout>
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/left_drawer"
+                android:layout_width="260dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:background="@color/uic_bg"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingTop="1dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/uic_header_bg"
+                    android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="@string/drawerHeading"
+                    android:textColor="#fff"
+                    android:textSize="20sp" />
+
+                <ListView
+                    android:id="@+id/drawer_list"
+                    android:layout_width="260dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:choiceMode="singleChoice"
+                    android:divider="#FFF"
+                    android:dividerHeight="1dp" />
+            </LinearLayout>
+        </android.support.v4.widget.DrawerLayout>
+    </LinearLayout>
+
+</LinearLayout>

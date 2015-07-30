@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:drawable="@drawable/placeorder_blue"
+          android:state_pressed="true" />
+    <item android:drawable="@drawable/blue"
+          android:state_focused="true" />
+    <item android:drawable="@drawable/placeoder_grey" />
+    <!-- 
+    <item  android:drawable="@drawable/cart_place_order_border" android:state_pressed="true" android:color="#e1e1e1"></item>
+    <item  android:drawable="@drawable/cart_place_order_border" android:state_selected="true" android:color="@color/blue"></item>
+    <item  android:drawable="@drawable/cart_place_order_border" android:state_focused="true" android:color="@color/orange_text"></item>
+    <item  android:drawable="@drawable/cart_place_order_border" android:color="@color/red"></item>
+     -->
+</selector>

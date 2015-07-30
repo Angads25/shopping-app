@@ -1,0 +1,106 @@
+{
+    "messageCode": "1004",
+    "Message": "Successful",
+    "Categories": [
+        {
+            "CategoryId": "CU00000895",
+            "CategoryName": "Electronics",
+            "ParentCategoryId": "NA",
+            "Lineage": "/CU00000895/",
+            "Depth": 0,
+            "IsLeaf": false,
+            "ReferenceCode": "CU00000895",
+            "ProductCount": 0
+        },
+        {
+            "CategoryId": "CU00042484",
+            "CategoryName": "Mine Cat",
+            "ParentCategoryId": "NA",
+            "Lineage": "/CU00042484/",
+            "Depth": 0,
+            "IsLeaf": true,
+            "ReferenceCode": "CU00042484",
+            "ProductCount": 0
+        },
+        {
+            "CategoryId": "CU00033489",
+            "CategoryName": "Testme",
+            "ParentCategoryId": "NA",
+            "Lineage": "/CU00033489/",
+            "Depth": 0,
+            "IsLeaf": true,
+            "ReferenceCode": "CU00033489",
+            "ProductCount": 0
+        },
+        {
+            "CategoryId": "CU00003162",
+            "CategoryName": "Travel and Luggage",
+            "ParentCategoryId": "NA",
+            "Lineage": "/CU00003162/",
+            "Depth": 0,
+            "IsLeaf": false,
+            "ReferenceCode": "CU00003162",
+            "ProductCount": 0
+        },
+        {
+            "CategoryId": "CU00029126",
+            "CategoryName": "Deals",
+            "ParentCategoryId": "NA",
+            "Lineage": "/CU00029126/",
+            "Depth": 0,
+            "IsLeaf": false,
+            "ReferenceCode": "CU00029126",
+            "ProductCount": 0
+        },
+        {
+            "CategoryId": "CU00042590",
+            "CategoryName": "Boots",
+            "ParentCategoryId": "NA",
+            "Lineage": "/CU00042590/",
+            "Depth": 0,
+            "IsLeaf": true,
+            "ReferenceCode": "CU00042590",
+            "ProductCount": 0
+        },
+        {
+            "CategoryId": "CU00009160",
+            "CategoryName": "iPads",
+            "ParentCategoryId": "NA",
+            "Lineage": "/CU00009160/",
+            "Depth": 0,
+            "IsLeaf": true,
+            "ReferenceCode": "CU00009160",
+            "ProductCount": 7
+        },
+        {
+            "CategoryId": "CU00000346",
+            "CategoryName": "Computer and Accessories",
+            "ParentCategoryId": "NA",
+            "Lineage": "/CU00000346/",
+            "Depth": 0,
+            "IsLeaf": false,
+            "ReferenceCode": "CU00000346",
+            "ProductCount": 0
+        },
+        {
+            "CategoryId": "CU00002221",
+            "CategoryName": "Home,Decor & Furnishing",
+            "ParentCategoryId": "NA",
+            "Lineage": "/CU00002221/",
+            "Depth": 0,
+            "IsLeaf": false,
+            "ReferenceCode": "CU00002221",
+            "ProductCount": 0
+        },
+        {
+            "CategoryId": "CU00002925",
+            "CategoryName": "Kids and Family",
+            "ParentCategoryId": "NA",
+            "Lineage": "/CU00002925/",
+            "Depth": 0,
+            "IsLeaf": false,
+            "ReferenceCode": "CU00002925",
+            "ProductCount": 0
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="text_color">#000000</color>
+    <color name="button_bg_normal">#0099DD</color>
+    <color name="button_bg_pressed">#00638F</color>
+
+    <!-- NEW UI COLORS -->
+    <color name="uic_bg">#f2f1f1</color>
+    <color name="uic_btn_bg">#ffffff</color>
+    <!-- <color name="uic_btn_pressed">#ff8b25</color> -->
+    <color name="uic_btn_pressed">#4d4e4e</color>
+    <color name="uic_btn_selected">#4d4e4e</color>
+    <color name="uic_btn_selected_dull">#fdfdfd</color>
+    <color name="uic_btn_txt_normal">#b0b0b0</color>
+    <color name="uic_btn_txt_selected">#ffffff</color>
+    <color name="uic_header_bg">#01b7c2</color>
+    <color name="uic_btn_disable">#c2c1c1</color>
+
+</resources>

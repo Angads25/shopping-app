@@ -1,0 +1,44 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="header">23sp</dimen>
+    
+    <dimen name="text_size_22">22sp</dimen>
+    <dimen name="text_size_20">20sp</dimen>
+	<dimen name="text_size_18">18sp</dimen>
+	<dimen name="text_size_16">16sp</dimen>
+	<dimen name="text_size_17">17sp</dimen>
+	<dimen name="text_size_14">14sp</dimen>
+	<dimen name="text_size_15">15sp</dimen>
+	<dimen name="text_size_12">12sp</dimen>
+	<dimen name="text_size_11">11sp</dimen>
+	<dimen name="text_size_10">10sp</dimen>
+	<dimen name="text_size_13">13sp</dimen>
+	<dimen name="divider_height">4dp</dimen>
+	<dimen name="text_size_8">80sp</dimen>
+	
+	<dimen name="content_regular">18sp</dimen>
+	<dimen name="content_medium">16sp</dimen>
+	<dimen name="content_small">12sp</dimen>
+	
+	
+	<dimen name="user_menu_width">215dip</dimen>
+	<dimen name="user_menu_height">40dip</dimen>
+	
+	<dimen name="user_menu_text_size">14sp</dimen>
+	<dimen name="padding_item">10dp</dimen>
+	
+	
+	<dimen name="user_menu_margin_right">12dip</dimen>
+	
+	
+	<dimen name="menu_item_width">25dip</dimen>
+	<dimen name="menu_item_height">28dip</dimen>
+	
+	<dimen name="smallheader">21sp</dimen>
+	<dimen name="clue_bucs_header_total">30sp</dimen>
+	
+	<dimen name="plp_header">45dp</dimen>
+	<dimen name="plp_footer">50dp</dimen>
+	
+</resources>

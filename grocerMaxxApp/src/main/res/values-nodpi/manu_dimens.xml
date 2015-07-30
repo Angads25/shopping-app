@@ -1,0 +1,16 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="header_mart">50dp</dimen>
+    <dimen name="footer_mart">50dp</dimen>
+    
+    <dimen name="padding_dashboard_button">30dp</dimen>
+    
+    <dimen name="header_screen_name_text">16dp</dimen>
+    
+    <dimen name="product_detail_name_text">24dp</dimen>
+    <dimen name="product_detail_desc_text">14dp</dimen>
+    <dimen name="product_detail_mrp_text">14dp</dimen>
+    <dimen name="product_detail_desc_detail_text">12dp</dimen>
+
+</resources>

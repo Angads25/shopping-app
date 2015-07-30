@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.paymentsdk.android"
+    android:versionCode="7"
+    android:versionName="4.4" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="17" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- For OTP SMS -->
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+
+    <application android:allowBackup="true" >
+        <activity
+            android:name="com.paymentsdk.android.PaymentSDKRequestHandler"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
+            android:label="Mobikwik Payments"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+            <intent-filter>
+                <action android:name="MobikwikSDK" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.PaymentOptionsSelector"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Secure Payment Gateway"
+            android:launchMode="singleTop"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.CardOrNetbanking"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Payment Method"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.PGResponseHandler"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Payment Gateway Response"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.AddBalance"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Payment"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.PGWebView"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Secure Payment Gateway"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.WalletDebitConfirmation"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Payment Confirmation"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.PGPaymentConfirmation"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Payment Confirmation"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.WalletResponseHandler"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Payment Response"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.GetUserDetailsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Enter Details"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.DirectPayActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="DirectPay"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.Transparent"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.PaymentHostActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Payment"
+            android:launchMode="singleTop"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.paymentsdk.android.AddCardActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Add Card"
+            android:theme="@style/LightErrorFix"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_lay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/mart_header" />
+
+    <LinearLayout 
+            android:id="@+id/llbreadcrum"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:paddingTop="-20dp"
+            android:visibility="gone"
+            android:gravity="center_vertical"
+            android:background="@color/breadcrum_color" >
+        
+        <ImageView
+                android:id="@+id/icon_header_home"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
+                
+                android:src="@drawable/home_icon" />
+    
+    <HorizontalScrollView
+        android:id="@+id/hscrollview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none" >
+
+        <!--
+             <TextView
+            android:id="@+id/tv_Bradcrum"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:singleLine="true"
+            android:textStyle="bold"
+            android:text="Bradecrum"
+            android:gravity="center_vertical"
+            android:textColor="#808080"
+            android:textSize="16dp" 
+            />
+        -->
+
+        <LinearLayout
+            android:id="@+id/ll_Bradcrum"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:orientation="horizontal" >
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    </LinearLayout>
+    
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:visibility="gone"
+        android:background="#e2e2e2" />
+
+    <com.viewpagerindicator.TabPageIndicator
+        android:id="@+id/indicator"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>
