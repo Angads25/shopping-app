@@ -134,5 +134,14 @@
     <color name="headmultiplepage">#121212</color>
     
     <color name="subsubcategorycolor">#ffa800</color>
-    
+
+
+    <!-- material (appCompat) theme colors -->
+    <color name="primaryColor">#ee2d09</color>
+    <color name="primaryColorDark">#b22603</color>
+    <color name="accentColor">#ffa800</color>
+    <color name="pallete_black">#121212</color>
+    <color name="pallete_grey">#bebebe</color>
+    <color name="pallete_blue">#0e69e5</color>
+
 </resources>

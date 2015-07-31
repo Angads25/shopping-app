@@ -38,6 +38,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -82,8 +83,9 @@ public abstract class BaseActivity extends FragmentActivity {
 //	ImageView icon_header_back;
 //	ImageView icon_header_logo,
 	ImageView icon_header_logo_without_search,icon_header_logo_with_search;
-	ImageView icon_header_cart, icon_header_search;
-	public static ImageView icon_header_user;                     //icon differ in login and logout case.
+	ImageView /*icon_header_cart,*/ icon_header_search;
+	ImageButton icon_header_cart;
+	public static ImageButton icon_header_user;                     //icon differ in login and logout case.
 	public static TextView cart_count_txt;
 	private PopupWindow popupMenuOption;
 	private LinearLayout llSearchLayout;
@@ -135,8 +137,8 @@ public abstract class BaseActivity extends FragmentActivity {
 		});
 //		icon_header_back = (ImageView) view.findViewById(R.id.icon_header_back);
 		
-	    icon_header_user = (ImageView) view.findViewById(R.id.icon_header_user);
-		icon_header_cart = (ImageView) view.findViewById(R.id.icon_header_cart);
+	    icon_header_user = (ImageButton) view.findViewById(R.id.icon_header_user);
+		icon_header_cart = (ImageButton) view.findViewById(R.id.icon_header_cart);
 		cart_count_txt = (TextView) view.findViewById(R.id.nom_producte);
 		icon_header_search = (ImageView) view
 				.findViewById(R.id.icon_header_search);
@@ -156,9 +158,11 @@ public abstract class BaseActivity extends FragmentActivity {
 	    martHeader = (View) view.findViewById(R.id.header_shadow);
 	    
 	    if(MySharedPrefs.INSTANCE.getUserId() != null){
-	    	BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon);  //login icon
+			//TODO: commented this out as it was superimposing another image which was bigge than params specified,
+			//please handle again for login logout
+	    	//BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon);  //login icon
 	    }else{
-	    	BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_logout);  //logout icon
+	    	//BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_logout);  //logout icon
 	    }
 	    
 		if(MySharedPrefs.INSTANCE.getTotalItem()!=null)
