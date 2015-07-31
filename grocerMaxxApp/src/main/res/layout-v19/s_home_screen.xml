@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/red"
+    android:background="@color/white"
     tools:context=".HomeScreen" >
 
     <include
@@ -13,7 +13,6 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@color/white"
         android:id="@+id/fl_hotOffersContainer"
         android:elevation="10dp"
         >
@@ -28,7 +27,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:weightSum="5" >
+        android:weightSum="5"
+        >
 
         <ScrollView
             android:id="@+id/scroll_view"
@@ -38,7 +38,8 @@
             android:background="@color/white"
             android:fadingEdge="none"
             android:orientation="vertical"
-            android:scrollbars="none" >
+            android:scrollbars="none"
+            >
 
             <LinearLayout
                 android:id="@+id/cat_main_layout"
