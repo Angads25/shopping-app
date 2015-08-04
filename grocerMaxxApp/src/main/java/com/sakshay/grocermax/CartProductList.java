@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
+import com.flurry.sdk.in;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.sakshay.grocermax.adapters.CartAdapter;
 import com.sakshay.grocermax.api.ConnectionService;
@@ -60,6 +61,9 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	//	public JSONArray jsonArray ;
 	public JSONObject jsonObjectUpdate = null;
 	public StringBuilder sbDeleteProdId;
+
+	private boolean bIsEdit = false;   //true if user plus or minus anything in cart otherwise false and use in onDestroy.
+
 	String strUserIdtemp,strQuoteIdtemp;
 //	public String strCouponCode,
 //				  strSubTotal,
@@ -462,22 +466,27 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 
 				case R.id.button_place_order:
 
-					if (CartProductList.cartList.size() == 0) {
-						UtilityMethods.customToast(ToastConstant.ATLEAST_ONE_ITEM_IN_CART, mContext);
-						return;
-					}
-					String userId = MySharedPrefs.INSTANCE.getUserId();
-					if (userId == null || userId.length() == 0) {
-						Intent intent = new Intent(mContext, LoginActivity.class);
-						startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
-					} else {
-						callAddressApi();
-					}
+					Intent intent = new Intent(this,LoginActivity.class);
+					startActivity(intent);
 
 					break;
+//					if (CartProductList.cartList.size() == 0) {
+//						UtilityMethods.customToast(ToastConstant.ATLEAST_ONE_ITEM_IN_CART, mContext);
+//						return;
+//					}
+//					String userId = MySharedPrefs.INSTANCE.getUserId();
+//					if (userId == null || userId.length() == 0) {
+//						Intent intent = new Intent(mContext, LoginActivity.class);
+//						startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
+//					} else {
+//						callAddressApi();
+//					}
+//
+//					break;
 
 				case R.id.button_update_cart1:
 					updateItemInCartBackToCart();
+					bIsEdit = false;
 					break;
 
 		}
@@ -801,8 +810,9 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		if(sbDeleteProdId != null && sbDeleteProdId.length() > 0) {
+		if((sbDeleteProdId != null && sbDeleteProdId.length() > 0) || (bIsEdit)) {
 			updateItemInCart();
+			bIsEdit = false;
 		}
 	}
 
@@ -811,15 +821,18 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 //    }
 
 	public void updateHeaderQuantity(String strUpdateQuantity,String plusMinus){
+		bIsEdit = true;
 		if(plusMinus.equalsIgnoreCase("plus")){
 			int updated= Integer.parseInt(cart_count_txt.getText().toString()) + Integer.parseInt(strUpdateQuantity);
 			cart_count_txt.setText(String.valueOf(updated));
 			MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(updated));  //it holds local value of cart b/c when pressed back in base activity it updates value.
+			initHeader(findViewById(R.id.header), true, null);
 		}else if(plusMinus.equalsIgnoreCase("minus")){
 			if(plusMinus.equalsIgnoreCase("minus")){
 				int updated= Integer.parseInt(cart_count_txt.getText().toString()) - Integer.parseInt(strUpdateQuantity);
 				cart_count_txt.setText(String.valueOf(updated));
 				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(updated));  //it holds local value of cart b/c when pressed back in base activity it updates value.
+				initHeader(findViewById(R.id.header), true, null);
 			}
 		}
 
