@@ -148,8 +148,9 @@ public class ExpandableListAdapter extends AnimatedExpandableListAdapter{
 		TextView cat_name = (TextView) v.findViewById(R.id.item_name_childs);
 		ImageView cat_image = (ImageView) v.findViewById(R.id.image_childs);
 		View viewLine = (View) v.findViewById(R.id.line_childs);
-		cat_image.setVisibility(View.VISIBLE);
-		
+		//cat_image.setVisibility(View.VISIBLE);
+		cat_image.setVisibility(View.GONE);
+
 		cat_name.setPadding(0, 5, 0, 5);
 		
 //		if(isLastChild){
