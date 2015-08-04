@@ -65,7 +65,7 @@ public class ChooseAddress extends BaseActivity implements OnClickListener{
 	private Spinner spinner_billing;
 	private ImageView iv_left_bottom_spinner;
 	private LinearLayout layout_billing = null;
-	
+	private Button btnSaveAddress;
 	private Button button_place_order;
 	private int requestNewAddress = 111;
 	private ArrayList<Address> addressList;
@@ -131,6 +131,10 @@ public class ChooseAddress extends BaseActivity implements OnClickListener{
 		tvShippingAddr5 = (TextView) findViewById(R.id.shipping_addr_5);
 		tvShippingAddr6 = (TextView) findViewById(R.id.shipping_addr_6);
 		tvHeaderMsg = (TextView) findViewById(R.id.msg);
+
+
+		btnSaveAddress = (Button) findViewById(R.id.add_new_address);
+		btnSaveAddress.setVisibility(View.GONE);
 		
 		rlBillingAddr = (RelativeLayout) findViewById(R.id.rl_billing_selected_addr);
 		rlBillingAddrTop = (RelativeLayout) findViewById(R.id.rl_billing_addr_name);
@@ -783,6 +787,23 @@ public class ChooseAddress extends BaseActivity implements OnClickListener{
 			msg.setVisibility(View.VISIBLE);
 			msg.setText("You don't have any address saved. Please go to address book and create a new address to continue");
 			button_place_order.setEnabled(false);
+
+
+			btnSaveAddress.setEnabled(true);
+			btnSaveAddress.setVisibility(View.VISIBLE);
+			btnSaveAddress.setOnClickListener(
+					new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+//					Address address = null;
+//					Intent intent = new Intent(mContext, CreateNewAddress.class);
+//					intent.putExtra("address", address);
+//					startActivity(intent);
+//					startActivityForResult(intent, requestNewAddress);
+				}
+			});
+
 		}
 		
 		initHeader(findViewById(R.id.header), true, "Choose Address");
@@ -1369,6 +1390,10 @@ public class ChooseAddress extends BaseActivity implements OnClickListener{
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode!=requestNewAddress && resultCode==RESULT_OK) {
 			//New address added refresh list
+//			showDialog();
+//			String url = UrlsConstants.CHECKOUT_ADDRESS_BOOK+MySharedPrefs.INSTANCE.getUserId();
+//			myApi.reqCheckOutAddress(url);
+//			finish();
 		}else{
 			UtilityMethods.customToast(ToastConstant.ERROR_MSG, mContext);
 		}

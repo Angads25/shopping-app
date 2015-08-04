@@ -2,14 +2,13 @@ package com.sakshay.grocermax;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.appcompat.R.integer;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -29,7 +28,6 @@ import com.sakshay.grocermax.bean.CartDetail;
 import com.sakshay.grocermax.bean.CartDetailBean;
 import com.sakshay.grocermax.bean.CheckoutAddressBean;
 import com.sakshay.grocermax.bean.OrderReviewBean;
-import com.sakshay.grocermax.bean.OrderedProductList;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants;
@@ -39,10 +37,11 @@ import com.sakshay.grocermax.utils.UrlsConstants;
 import com.sakshay.grocermax.utils.UtilityMethods;
 
 public class CartProductList extends BaseActivity implements OnClickListener{
+
 	ListView mList;
-	Button place_order,update_cart;
+	public Button place_order,update_cart;
 	public static ArrayList<CartDetail> cartList;           //managing cart items on delete and add on view cart screen locally
-	String user_id;  
+	String user_id;
 	CartDetailBean cartBean;
 	OrderReviewBean orderReviewBean;
 	CartAdapter mAdapter;
@@ -50,23 +49,22 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	TextView txt_subTotal,txt_shipping,txt_grand_total,txt_discount;
 	public TextView tv_subTotal,tv_discount;
 	public TextView tv_grandTotal,tv_shipping;
-//	TextView tv_yousave;
+	//	TextView tv_yousave;
 	TextView tvSavePrice;
 	TextView txtDiscount;
 	TextView textView1;
 	TextView textViewCoupon,tvCoupon;
-	
 	TextView tvYourCart;
 	LinearLayout ll_total,ll_discount,ll_shipping,ll_coupon;
 	EasyTracker tracker;
-//	public JSONArray jsonArray ;
+	//	public JSONArray jsonArray ;
 	public JSONObject jsonObjectUpdate = null;
 	public StringBuilder sbDeleteProdId;
-	
+	String strUserIdtemp,strQuoteIdtemp;
 //	public String strCouponCode,
 //				  strSubTotal,
 //				  strSubtotalWithDiscount;
-	
+
 	public static CartProductList instance;
 	public static CartProductList getInstance(){
 		if(instance == null){
@@ -77,26 +75,26 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	public CartProductList(){
 		instance = this;
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_categoty_list);
-		
+
 		user_id = MySharedPrefs.INSTANCE.getUserId();
 		sbDeleteProdId = new StringBuilder();
-		
+
 		UpdateCartbg.getInstance().alDeleteId = new ArrayList<String>();
-		
+
 		addActionsInFilter(MyReceiverActions.DELETE_FROM_CART);
 		addActionsInFilter(MyReceiverActions.CHECKOUT_ADDRESS);
 		addActionsInFilter(MyReceiverActions.CART_DETAIL_AFTER_DELETE);
 		addActionsInFilter(MyReceiverActions.CART_DETAIL_AFTER_LOGIN);
 		addActionsInFilter(MyReceiverActions.VIEW_CART_GO_HOME_SCREEN);
-		
+
 //		addActionsInFilter(MyReceiverActions.VIEW_CART);
 		addActionsInFilter(MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
-		
+
 		tv_subTotal=(TextView)findViewById(R.id.tv_subTotal);
 		tv_discount=(TextView)findViewById(R.id.tv_discount);
 		tvCoupon = (TextView)findViewById(R.id.tv_coupon);
@@ -111,14 +109,14 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		ll_discount=(LinearLayout)findViewById(R.id.ll_discount);
 		ll_shipping=(LinearLayout)findViewById(R.id.ll_shipping);
 		ll_coupon = (LinearLayout)findViewById(R.id.ll_coupon);
-		
+
 		txt_subTotal = (TextView) findViewById(R.id.txt_subtotal);
 		txt_shipping = (TextView) findViewById(R.id.txt_shipping);
 		txt_grand_total = (TextView) findViewById(R.id.txt_grand_total);
 		txt_discount = (TextView) findViewById(R.id.txt_discount);
 		textView1 = (TextView) findViewById(R.id.textView1);
 		textViewCoupon = (TextView) findViewById(R.id.textViewcoupon);
-		
+
 		txt_subTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 		txt_shipping.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 		txt_grand_total.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
@@ -126,7 +124,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		textView1.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 		textViewCoupon.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 		tvSavePrice.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-		
+
 		tv_subTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 		tv_discount.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 		tvCoupon.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
@@ -134,30 +132,28 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		tv_shipping.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 		txtDiscount.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 		tvYourCart.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-		
-        Bundle bundle = getIntent().getExtras();
-        if(bundle != null){
-        	cartList = bundle.getParcelableArrayList("cartList");
-        	cartBean = (CartDetailBean) bundle.getSerializable("cartBean");
-        	
-        	initHeader(findViewById(R.id.header), true, "Your Basket");
-        	setCartList(cartBean);
-    		initFooter(findViewById(R.id.footer), 1, -1);
-        }
-        icon_header_cart.setClickable(false);
-        icon_header_cart.setEnabled(false);
-        cart_count_txt.setClickable(false);
-        cart_count_txt.setEnabled(false);
+
+		Bundle bundle = getIntent().getExtras();
+		if(bundle != null){
+			cartList = bundle.getParcelableArrayList("cartList");
+			cartBean = (CartDetailBean) bundle.getSerializable("cartBean");
+
+			initHeader(findViewById(R.id.header), true, "Your Basket");
+			setCartList(cartBean);
+			initFooter(findViewById(R.id.footer), 1, -1);
+		}
+		icon_header_cart.setClickable(false);
+		icon_header_cart.setEnabled(false);
+		cart_count_txt.setClickable(false);
+		cart_count_txt.setEnabled(false);
 	}
-	
-	
-	
+
 	public void setCartList(CartDetailBean cartBean)
 	{
 		if(cartList != null && cartList.size() > 0){
 			ll_total.setVisibility(View.VISIBLE);
 			orderReviewBean=MySharedPrefs.INSTANCE.getOrderReviewBean();
-			
+
 			if(cartBean!=null)
 			{
 				float saving=0;
@@ -165,59 +161,74 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				{
 					saving=saving+(cartList.get(i).getQty()*(Float.parseFloat(cartList.get(i).getMrp())-Float.parseFloat(cartList.get(i).getPrice())));
 				}
-			//float discount=Float.parseFloat(cartBean.getSubTotal())-Float.parseFloat(cartBean.getGrandTotal());
-			saving = saving-(Float.parseFloat(orderReviewBean.getDiscount_amount()));
+				//float discount=Float.parseFloat(cartBean.getSubTotal())-Float.parseFloat(cartBean.getGrandTotal());
+				saving = saving-(Float.parseFloat(orderReviewBean.getDiscount_amount()));
 //		    tv_yousave.setText("Rs."+String.format("%.2f",saving));
-			tv_subTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(cartBean.getSubTotal())));
-			tv_discount.setText("Rs."+String.format("%.2f", Float.parseFloat(orderReviewBean.getDiscount_amount())));
-			tvSavePrice.setText("Rs."+String.format("%.2f",saving));
+				tv_subTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(cartBean.getSubTotal())));
+				tv_discount.setText("Rs."+String.format("%.2f", Float.parseFloat(orderReviewBean.getDiscount_amount())));
+				tvSavePrice.setText("Rs."+String.format("%.2f",saving));
 			/*if(Float.parseFloat(orderReviewBean.getDiscount_amount())==0)
 			{
 				ll_discount.setVisibility(View.GONE);
 			}
 			else
 				ll_discount.setVisibility(View.VISIBLE);*/
-			tv_shipping.setText("Rs."+Float.parseFloat(orderReviewBean.getShipping_ammount()));
+				tv_shipping.setText("Rs."+Float.parseFloat(orderReviewBean.getShipping_ammount()));
 			/*if(Float.parseFloat(orderReviewBean.getShipping_ammount())==0)
 			{
 				ll_shipping.setVisibility(View.GONE);
 			}
 			else
 				ll_shipping.setVisibility(View.VISIBLE);*/
-			//tv_discount.setText("-"+String.format("%.2f",discount));
-			tv_grandTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(cartBean.getGrandTotal())));
-			
-			if(MySharedPrefs.INSTANCE.getTotalItem()!=null)
-			{
-				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int)Float.parseFloat(cartBean.getItems_qty())));
-				cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
-			}
-			//cart_count_txt.setText(cartBean.getItems_count());
-			
-			OrderReviewBean orderReviewBean=MySharedPrefs.INSTANCE.getOrderReviewBean();
-	    	orderReviewBean.setProduct(cartList);
+				//tv_discount.setText("-"+String.format("%.2f",discount));
+				tv_grandTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(cartBean.getGrandTotal())));
+
+				if(MySharedPrefs.INSTANCE.getTotalItem()!=null)
+				{
+					MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int)Float.parseFloat(cartBean.getItems_qty())));
+					cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
+				}
+				//cart_count_txt.setText(cartBean.getItems_count());
+
+
+
+				OrderReviewBean orderReviewBean=MySharedPrefs.INSTANCE.getOrderReviewBean();
+				orderReviewBean.setProduct(cartList);
 //	    	orderReviewBean.setSubTotal(cartBean.getGrandTotal());
 //	    	orderReviewBean.setSubTotal(cartBean.get);
-	    	orderReviewBean.setSaving(String.valueOf(saving));                      //think will use when Order and review Pay for displaying order data
-	    	MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean);
+				orderReviewBean.setSaving(String.valueOf(saving));                      //think will use when Order and review Pay for displaying order data
+				MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean);
+
+				///////////////// used b/c when user deleted or edit products from cart and sign out then below id's becomes empty ////////////////
+				if(MySharedPrefs.INSTANCE.getUserId() != null && !MySharedPrefs.INSTANCE.getUserId().equals(""))
+				{
+					strUserIdtemp = MySharedPrefs.INSTANCE.getUserId();
+				}
+				if(MySharedPrefs.INSTANCE.getQuoteId() != null && !MySharedPrefs.INSTANCE.getQuoteId().equals(""))
+				{
+					strQuoteIdtemp = MySharedPrefs.INSTANCE.getQuoteId();
+				}
+				///////////////// used b/c when user deleted or edit products from cart and sign out then below id's becomes empty ////////////////
+
+
 			}
 			else
 				ll_total.setVisibility(View.GONE);
-			
-			
+
+
 			mList = (ListView) findViewById(R.id.category_list);
 			place_order = (Button) findViewById(R.id.button_place_order);
-			
+
 //			mAdapter = new CartAdapter(CartProductList.this, cartList);
 //			mAdapter = new CartAdapter(CartProductList.this);
 			update_cart = (Button) findViewById(R.id.button_update_cart1);
-			
+
 			place_order.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 			update_cart.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-			
+
 			mAdapter = new CartAdapter(CartProductList.this);
 			mList.setAdapter(mAdapter);
-			
+
 			mList.setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
@@ -226,7 +237,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			});
 			place_order.setVisibility(View.VISIBLE);
 			place_order.setOnClickListener(this);
-			update_cart.setVisibility(View.VISIBLE);
+			update_cart.setVisibility(View.GONE);
 			update_cart.setOnClickListener(this);
 		}
 		else
@@ -238,8 +249,8 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			startActivity(intent);
 			finish();
 		}
-	 }
-	
+	}
+
 	public void deleteItem(int position)
 	{
 		String userId = MySharedPrefs.INSTANCE.getUserId();
@@ -272,32 +283,32 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		myApi.reqDeleteFromCart(url);
 		this.position = position;*/
 	}
-	
-public void changeQuantity(String item_id,int qty)
-{
-	if(qty>0)
+
+	public void changeQuantity(String item_id,int qty)
 	{
-		try {
-		JSONArray products = new JSONArray();
-		JSONObject prod_obj = new JSONObject();
-		prod_obj.put("productid", item_id);
-		prod_obj.put("quantity", qty);
-		products.put(prod_obj);
-	
-		showDialog();
-		String	url = UrlsConstants.UPDATE_CART_URL
-					+ MySharedPrefs.INSTANCE.getUserId() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
-					+ URLEncoder.encode(products.toString(), "UTF-8");
-		myApi.reqViewCartAfterDelete(url,MyReceiverActions.CART_DETAIL_AFTER_DELETE);
-		
-		
-	} catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+		if(qty>0)
+		{
+			try {
+				JSONArray products = new JSONArray();
+				JSONObject prod_obj = new JSONObject();
+				prod_obj.put("productid", item_id);
+				prod_obj.put("quantity", qty);
+				products.put(prod_obj);
+
+				showDialog();
+				String	url = UrlsConstants.UPDATE_CART_URL
+						+ MySharedPrefs.INSTANCE.getUserId() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
+						+ URLEncoder.encode(products.toString(), "UTF-8");
+				myApi.reqViewCartAfterDelete(url,MyReceiverActions.CART_DETAIL_AFTER_DELETE);
+
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
-	}
-}
-	
+
 	private void updateCart()
 	{
 		AppConstants.cart_count = cartList.size();
@@ -323,12 +334,12 @@ public void changeQuantity(String item_id,int qty)
 			}
 			else
 				position = -1;
-			
+
 		}
 		else if(action.equals(MyReceiverActions.CHECKOUT_ADDRESS))
 		{
 			try{
-			CheckoutAddressBean bean = (CheckoutAddressBean) bundle.getSerializable(ConnectionService.RESPONSE);
+				CheckoutAddressBean bean = (CheckoutAddressBean) bundle.getSerializable(ConnectionService.RESPONSE);
 			/*if(bean.getAddress().size()>0)
 			{*/
 				Intent intent = new Intent(CartProductList.this, ChooseAddress.class);
@@ -338,7 +349,7 @@ public void changeQuantity(String item_id,int qty)
 				Toast.makeText(CartProductList.this,ToastConstant.NO_ACCOUNT_ADDR,0).show();
 			}*/
 			}catch(Exception e){}
-			
+
 		}
 		else if(action.equals(MyReceiverActions.CART_DETAIL_AFTER_DELETE)){
 			dismissDialog();
@@ -353,89 +364,94 @@ public void changeQuantity(String item_id,int qty)
 			setCartList(cartBean);
 			boolean bSingleItemFlag = false;    //it will use when only 1 item in cart and deleted(b/c in that case it will not compare using loops as cartList will empty coming from server)          
 			boolean bFlag = false;             //it will call when all items of clone cart compare in j loop and is on last index and not found with same id in cartList (means this id not found and should be deleted from local cart)
-			
-			    ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart(this, Constants.localCloneFile);
-				if(cart_products != null && cart_products.size() > 0 && cartList != null && cartList.size() > 0)
+
+			ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart(this, Constants.localCloneFile);
+			if(cart_products != null && cart_products.size() > 0 && cartList != null && cartList.size() > 0)
+			{
+				try
 				{
-					try
+					for(int i=0; i<cart_products.size(); i++)
 					{
-						for(int i=0; i<cart_products.size(); i++)                                                       
-						{
-							bSingleItemFlag = true;
-							bFlag = false;
-							for(int j=0;j<cartList.size();j++){           //cart coming from server
-								if(cart_products.get(i).getItem_id().equalsIgnoreCase(cartList.get(j).getItem_id())){  //manage clone cart when added or deleted to show update quantity on product listing and description
-									
-									bFlag = true;
-									
-									cart_products.get(i).setQty(cartList.get(j).getQty());  //plus OR minus
-									
-									CartDetail cart_obj = new CartDetail();
-									cart_obj.setPrice(cart_products.get(i).getPrice());
-									cart_obj.setFlag(cart_products.get(i).getFlag());
-									cart_obj.setItem_id(cart_products.get(i).getItem_id());
-									cart_obj.setName(cart_products.get(i).getName());
-									cart_obj.setPrice(cart_products.get(i).getPrice());
-									cart_obj.setItem_id(cart_products.get(i).getItem_id());
-									cart_obj.setProduct_thumbnail(cart_products.get(i).getProduct_thumbnail());
-									cart_obj.setQty(cartList.get(j).getQty());
-									cart_obj.setQuoteId(cart_products.get(i).getQuoteId());
-									cart_obj.setResult(cart_products.get(i).getResult());
-									cart_obj.setSku(cart_products.get(i).getSku());
-									cart_obj.setTotalItem(cart_products.get(i).getTotalItem());
-									
-									UtilityMethods.deleteCloneCartItem(this, cart_products.get(i).getItem_id());
-									UtilityMethods.writeCloneCart(this,Constants.localCloneFile, cart_obj);
-								}else if(!bFlag && (j == cartList.size()-1)){  //false means not enter in j loop AND (j== size-1) mean last index of j loop i.e particular item deleted   
-									UtilityMethods.deleteCloneCartItem(this, cart_products.get(i).getItem_id());  //delete particular item from clone cart locally to update quantity on product listing and description
-								}
+						bSingleItemFlag = true;
+						bFlag = false;
+						for(int j=0;j<cartList.size();j++){           //cart coming from server
+							if(cart_products.get(i).getItem_id().equalsIgnoreCase(cartList.get(j).getItem_id())){  //manage clone cart when added or deleted to show update quantity on product listing and description
+
+								bFlag = true;
+
+								cart_products.get(i).setQty(cartList.get(j).getQty());  //plus OR minus
+
+								CartDetail cart_obj = new CartDetail();
+								cart_obj.setPrice(cart_products.get(i).getPrice());
+								cart_obj.setFlag(cart_products.get(i).getFlag());
+								cart_obj.setItem_id(cart_products.get(i).getItem_id());
+								cart_obj.setName(cart_products.get(i).getName());
+								cart_obj.setPrice(cart_products.get(i).getPrice());
+								cart_obj.setItem_id(cart_products.get(i).getItem_id());
+								cart_obj.setProduct_thumbnail(cart_products.get(i).getProduct_thumbnail());
+								cart_obj.setQty(cartList.get(j).getQty());
+								cart_obj.setQuoteId(cart_products.get(i).getQuoteId());
+								cart_obj.setResult(cart_products.get(i).getResult());
+								cart_obj.setSku(cart_products.get(i).getSku());
+								cart_obj.setTotalItem(cart_products.get(i).getTotalItem());
+
+								UtilityMethods.deleteCloneCartItem(this, cart_products.get(i).getItem_id());
+								UtilityMethods.writeCloneCart(this,Constants.localCloneFile, cart_obj);
+							}else if(!bFlag && (j == cartList.size()-1)){  //false means not enter in j loop AND (j== size-1) mean last index of j loop i.e particular item deleted
+								UtilityMethods.deleteCloneCartItem(this, cart_products.get(i).getItem_id());  //delete particular item from clone cart locally to update quantity on product listing and description
 							}
 						}
-					}catch(Exception e){}
-				}else{
-					if(cart_products.size() == 1){
-						UtilityMethods.deleteCloneCartItem(this, cart_products.get(0).getItem_id());  //when there is single item in local clone file and not going in loop so delete there. 
 					}
+				}catch(Exception e){}
+			}else{
+				if(cart_products.size() == 1){
+					UtilityMethods.deleteCloneCartItem(this, cart_products.get(0).getItem_id());  //when there is single item in local clone file and not going in loop so delete there.
 				}
+			}
 		}
 		else if(action.equals(MyReceiverActions.CART_DETAIL_AFTER_LOGIN)){
-			   dismissDialog();
-			   CartDetailBean cartBean = (CartDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
-			   UtilityMethods.deleteCloneCart(this);
-				for(int i=0;i<cartBean.getItems().size();i++)
-				{
-					UtilityMethods.writeCloneCart(this, Constants.localCloneFile, cartBean.getItems().get(i));
-				}	
-			   if(MySharedPrefs.INSTANCE.getTotalItem()!=null)
-			   {
-			    MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int)Float.parseFloat(cartBean.getItems_qty())));
-			    BaseActivity.cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
-			   }
-			   cartList.clear();
-			   cartList=cartBean.getItems();
-			   setCartList(cartBean);
-			   callAddressApi();
-			  }
+			dismissDialog();
+			CartDetailBean cartBean = (CartDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
+			UtilityMethods.deleteCloneCart(this);
+			for(int i=0;i<cartBean.getItems().size();i++)
+			{
+				UtilityMethods.writeCloneCart(this, Constants.localCloneFile, cartBean.getItems().get(i));
+			}
+			if(MySharedPrefs.INSTANCE.getTotalItem()!=null)
+			{
+				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int)Float.parseFloat(cartBean.getItems_qty())));
+				BaseActivity.cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
+			}
+			cartList.clear();
+			cartList=cartBean.getItems();
+			setCartList(cartBean);
+//			callAddressApi();                        //commented on 4/8/15
+		}
 		else if(action.equals(MyReceiverActions.VIEW_CART_GO_HOME_SCREEN)){
 			dismissDialog();
 			CartDetailBean cartBean= (CartDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
 		}
 		else if(action.equals(MyReceiverActions.VIEW_CART_UPDATE_LOCALLY)){
-			   dismissDialog();
-			   CartDetailBean cartBean = (CartDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
-			   UtilityMethods.deleteCloneCart(this);
-			   for(int i=0;i<cartBean.getItems().size();i++)
-			   {
-			   	   UtilityMethods.writeCloneCart(this, Constants.localCloneFile, cartBean.getItems().get(i));
-			   }	
-			   if(MySharedPrefs.INSTANCE.getTotalItem()!=null)
-			   {
-				    MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int)Float.parseFloat(cartBean.getItems_qty())));
-				    BaseActivity.cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
-			   }
-			   cartList.clear();
-			   cartList=cartBean.getItems();
-			   setCartList(cartBean);
+			dismissDialog();
+			CartDetailBean cartBean = (CartDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
+//				   if(cartBean.getFlag().equalsIgnoreCase(Constants.SERVER_SUCCESS)) {
+			UtilityMethods.deleteCloneCart(this);
+			for(int i=0;i<cartBean.getItems().size();i++)
+			{
+				UtilityMethods.writeCloneCart(this, Constants.localCloneFile, cartBean.getItems().get(i));
+			}
+			if(MySharedPrefs.INSTANCE.getTotalItem()!=null)
+			{
+//				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(bean.getTotalItem()));
+				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int)Float.parseFloat(cartBean.getItems_qty())));
+				BaseActivity.cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
+			}
+			cartList.clear();
+			cartList=cartBean.getItems();
+			setCartList(cartBean);
+//			   }else{
+//				   finish();
+//			   }
 		}
 
 	}
@@ -443,30 +459,31 @@ public void changeQuantity(String item_id,int qty)
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()){
-			case R.id.button_place_order:
-				if(CartProductList.cartList.size() == 0){
-					UtilityMethods.customToast(ToastConstant.ATLEAST_ONE_ITEM_IN_CART, mContext);
-					return;
-				}
-				String userId = MySharedPrefs.INSTANCE.getUserId();
-				if(userId == null || userId.length() == 0)
-				{
-					Intent intent = new Intent(mContext, LoginActivity.class);
-					startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
-				}
-				else
-				{
-					callAddressApi();
-				}
-				break;
-				
-			case R.id.button_update_cart1:
-				updateItemInCartBackToCart();
-				break;
+
+				case R.id.button_place_order:
+
+					if (CartProductList.cartList.size() == 0) {
+						UtilityMethods.customToast(ToastConstant.ATLEAST_ONE_ITEM_IN_CART, mContext);
+						return;
+					}
+					String userId = MySharedPrefs.INSTANCE.getUserId();
+					if (userId == null || userId.length() == 0) {
+						Intent intent = new Intent(mContext, LoginActivity.class);
+						startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
+					} else {
+						callAddressApi();
+					}
+
+					break;
+
+				case R.id.button_update_cart1:
+					updateItemInCartBackToCart();
+					break;
+
 		}
 	}
-	
-	
+
+
 //	public void updateItemInCart()
 //	{
 //		try {
@@ -529,14 +546,14 @@ public void changeQuantity(String item_id,int qty)
 //			e.printStackTrace();
 //		}
 //	}
-	
+
 	public void updateItemInCart()
 	{
 		try {
 			JSONArray products = new JSONArray();
 			for(int i=0;i<cartList.size();i++)
 			{
-			if(Float.parseFloat(cartList.get(i).getPrice())!=0)
+				if(Float.parseFloat(cartList.get(i).getPrice())!=0)
 				{
 					JSONObject prod_obj = new JSONObject();
 					prod_obj.put("productid", cartList.get(i).getItem_id());
@@ -544,28 +561,18 @@ public void changeQuantity(String item_id,int qty)
 					System.out.println(cartList.get(i).getQty()+"==qty===item id=="+cartList.get(i).getItem_id());
 					products.put(prod_obj);
 				}
-			}			
+			}
 
-			String strUserId = "";
-			if(!MySharedPrefs.INSTANCE.getUserId().equalsIgnoreCase("") && !MySharedPrefs.INSTANCE.getUserId().equalsIgnoreCase("null"))
-			{
-				strUserId = MySharedPrefs.INSTANCE.getUserId();
-			}
-				
-			String strQuoteId = "";
-			if(!MySharedPrefs.INSTANCE.getQuoteId().equalsIgnoreCase("") && !MySharedPrefs.INSTANCE.getQuoteId().equalsIgnoreCase("null"))
-			{
-				strQuoteId = MySharedPrefs.INSTANCE.getQuoteId();
-			}
-			
+
+
 //			String url = UrlsConstants.NEW_BASE_URL+"deleteitem?userid="+ MySharedPrefs.INSTANCE.getUserId() +
 //					"&productid=" + sbDeleteProdId +
 //					"&quote_id="+ MySharedPrefs.INSTANCE.getQuoteId() +"&updateid="+ URLEncoder.encode(products.toString(), "UTF-8");
-			
-			String url = UrlsConstants.NEW_BASE_URL+"deleteitem?userid="+ strUserId +
+
+			String url = UrlsConstants.NEW_BASE_URL+"deleteitem?userid="+ strUserIdtemp +
 					"&productid=" + sbDeleteProdId +
-					"&quote_id="+ strQuoteId +"&updateid="+ URLEncoder.encode(products.toString(), "UTF-8");
-			
+					"&quote_id="+ strQuoteIdtemp +"&updateid="+ URLEncoder.encode(products.toString(), "UTF-8");
+
 			System.out.println("==URL'S HERE=="+url);
 			if(UtilityMethods.isInternetAvailable(this)){
 				UpdateCartbg.getInstance().bLocally = true;
@@ -576,20 +583,20 @@ public void changeQuantity(String item_id,int qty)
 //						+ MySharedPrefs.INSTANCE.getUserId() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
 //						+ URLEncoder.encode(products.toString(), "UTF-8");
 //			myApi.reqViewCartAfterDelete(url,MyReceiverActions.CART_DETAIL_AFTER_DELETE);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void updateItemInCartBackToCart()
 	{
 		try {
 			JSONArray products = new JSONArray();
 			for(int i=0;i<cartList.size();i++)
 			{
-			if(Float.parseFloat(cartList.get(i).getPrice())!=0)
+				if(Float.parseFloat(cartList.get(i).getPrice())!=0)
 				{
 					JSONObject prod_obj = new JSONObject();
 					prod_obj.put("productid", cartList.get(i).getItem_id());
@@ -597,21 +604,21 @@ public void changeQuantity(String item_id,int qty)
 					System.out.println(cartList.get(i).getQty()+"==qty===item id=="+cartList.get(i).getItem_id());
 					products.put(prod_obj);
 				}
-			}			
+			}
 			showDialog();
-			
+
 //			String url = UrlsConstants.NEW_BASE_URL+"deleteitem?userid="+ MySharedPrefs.INSTANCE.getUserId() +
 //					"&productid=" + UpdateCartbg.getInstance().alDeleteId +
 //					"&quote_id="+ MySharedPrefs.INSTANCE.getQuoteId() +"&updateid="+ URLEncoder.encode(products.toString(), "UTF-8");
-			
+
 			String strUserId = "";
-			if(!MySharedPrefs.INSTANCE.getUserId().equalsIgnoreCase("") && !MySharedPrefs.INSTANCE.getUserId().equalsIgnoreCase("null"))
+			if(MySharedPrefs.INSTANCE.getUserId() != null && !MySharedPrefs.INSTANCE.getUserId().equals(""))
 			{
 				strUserId = MySharedPrefs.INSTANCE.getUserId();
 			}
-				
+
 			String strQuoteId = "";
-			if(!MySharedPrefs.INSTANCE.getQuoteId().equalsIgnoreCase("") && !MySharedPrefs.INSTANCE.getQuoteId().equalsIgnoreCase("null"))
+			if(MySharedPrefs.INSTANCE.getQuoteId() != null && !MySharedPrefs.INSTANCE.getQuoteId().equals(""))
 			{
 				strQuoteId = MySharedPrefs.INSTANCE.getQuoteId();
 			}
@@ -619,11 +626,11 @@ public void changeQuantity(String item_id,int qty)
 //			String url = UrlsConstants.NEW_BASE_URL+"deleteitem?userid="+ MySharedPrefs.INSTANCE.getUserId() +
 //					"&productid=" + sbDeleteProdId +
 //					"&quote_id="+ MySharedPrefs.INSTANCE.getQuoteId() +"&updateid="+ URLEncoder.encode(products.toString(), "UTF-8");
-			
+
 			String url = UrlsConstants.NEW_BASE_URL+"deleteitem?userid="+ strUserId +
 					"&productid=" + sbDeleteProdId +
 					"&quote_id="+ strQuoteId +"&updateid="+ URLEncoder.encode(products.toString(), "UTF-8");
-			
+
 			System.out.println("==URL'S HERE=="+url);
 			if(UtilityMethods.isInternetAvailable(this)){
 				UpdateCartbg.getInstance().bLocally = true;
@@ -634,15 +641,15 @@ public void changeQuantity(String item_id,int qty)
 //						+ MySharedPrefs.INSTANCE.getUserId() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
 //						+ URLEncoder.encode(products.toString(), "UTF-8");
 //			myApi.reqViewCartAfterDelete(url,MyReceiverActions.CART_DETAIL_AFTER_DELETE);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
+
+
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -650,51 +657,51 @@ public void changeQuantity(String item_id,int qty)
 		{
 //			callAddressApi();
 			showDialog();
-		   String url = UrlsConstants.VIEW_CART_URL
-		     + MySharedPrefs.INSTANCE.getUserId()+"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId();
-		   myApi.reqViewCartAfterDelete(url,MyReceiverActions.CART_DETAIL_AFTER_LOGIN);
+			String url = UrlsConstants.VIEW_CART_URL
+					+ MySharedPrefs.INSTANCE.getUserId()+"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId();
+			myApi.reqViewCartAfterDelete(url,MyReceiverActions.CART_DETAIL_AFTER_LOGIN);
 		}
 	}
-	
+
 	private void callAddressApi()
 	{
 		showDialog();
 		String url = UrlsConstants.CHECKOUT_ADDRESS_BOOK+MySharedPrefs.INSTANCE.getUserId();
 		myApi.reqCheckOutAddress(url);
 	}
-	
+
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		if(cartList != null && cartList.size() > 0){
-			ll_total.setVisibility(View.VISIBLE);
-			orderReviewBean=MySharedPrefs.INSTANCE.getOrderReviewBean();
-			if(cartBean!=null)
-			{
-				float saving=0;
-				for(int i=0;i<cartList.size();i++)
-				{
-					saving=saving+(cartList.get(i).getQty()*(Float.parseFloat(cartList.get(i).getMrp())-Float.parseFloat(cartList.get(i).getPrice())));
-				}
-				saving = saving-(Float.parseFloat(orderReviewBean.getDiscount_amount()));
-	
-	//			tv_subTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(cartBean.getSubTotal())));
-				tv_subTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(orderReviewBean.getSubTotal())));
-				tv_discount.setText("Rs."+String.format("%.2f", Float.parseFloat(orderReviewBean.getDiscount_amount())));
-				tvSavePrice.setText("Rs."+String.format("%.2f",saving));
-				tv_shipping.setText("Rs."+Float.parseFloat(orderReviewBean.getShipping_ammount()));
+		try {
+			if (cartList != null && cartList.size() > 0) {
+				ll_total.setVisibility(View.VISIBLE);
+				orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
+//			if(cartBean!=null)
+				if (orderReviewBean != null) {
+					float saving = 0;
+					for (int i = 0; i < cartList.size(); i++) {
+						saving = saving + (cartList.get(i).getQty() * (Float.parseFloat(cartList.get(i).getMrp()) - Float.parseFloat(cartList.get(i).getPrice())));
+					}
+					saving = saving - (Float.parseFloat(orderReviewBean.getDiscount_amount()));
+
+					//			tv_subTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(cartBean.getSubTotal())));
+					tv_subTotal.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getSubTotal())));
+					tv_discount.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getDiscount_amount())));
+					tvSavePrice.setText("Rs." + String.format("%.2f", saving));
+					tv_shipping.setText("Rs." + Float.parseFloat(orderReviewBean.getShipping_ammount()));
 //				tv_grandTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(cartBean.getGrandTotal())));
-				tv_grandTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(orderReviewBean.getGrandTotal())));
+					tv_grandTotal.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getGrandTotal())));
+				}
+//			else
+//				ll_total.setVisibility(View.GONE);
+
 			}
-			else
-				ll_total.setVisibility(View.GONE);
-			
-		}
-		
+		}catch(Exception e){}
 	}
-	
-	
+
+
 //	@Override
 //	public void onResume() {
 //		// TODO Auto-generated method stub
@@ -760,52 +767,62 @@ public void changeQuantity(String item_id,int qty)
 //		}
 //
 //	}
-	
+
 	@Override
 	public void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		updateItemInCart();
+
 	}
 
 	@Override
-    protected void onStart() {
-    	// TODO Auto-generated method stub
-    	super.onStart();
-    	try{
-	    	tracker.activityStart(this);
-	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){}
-    }
-    
-    @Override
-    protected void onStop() {
-    	// TODO Auto-generated method stub
-    	super.onStop();
-    	try{
-	    	tracker.activityStop(this);
-	    	FlurryAgent.onEndSession(this);
-    	}catch(Exception e){}
-    }
-    
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		try{
+			tracker.activityStart(this);
+			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
+			FlurryAgent.onPageView();         //Use onPageView to report page view count.
+		}catch(Exception e){}
+	}
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		try{
+			tracker.activityStop(this);
+			FlurryAgent.onEndSession(this);
+
+		}catch(Exception e){}
+	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		if(sbDeleteProdId != null && sbDeleteProdId.length() > 0) {
+			updateItemInCart();
+		}
+	}
+
 //    public String getHeaderUpdateQuantity(){
 //    	return cart_count_txt.getText().toString();
 //    }
 
-    public void updateHeaderQuantity(String strUpdateQuantity,String plusMinus){
-    	if(plusMinus.equalsIgnoreCase("plus")){
-    			int updated= Integer.parseInt(cart_count_txt.getText().toString()) + Integer.parseInt(strUpdateQuantity);
-    			cart_count_txt.setText(String.valueOf(updated));
-    			MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(updated));  //it holds local value of cart b/c when pressed back in base activity it updates value. 
-    	}else if(plusMinus.equalsIgnoreCase("minus")){
-    		if(plusMinus.equalsIgnoreCase("minus")){
-    			int updated= Integer.parseInt(cart_count_txt.getText().toString()) - Integer.parseInt(strUpdateQuantity);
-    			cart_count_txt.setText(String.valueOf(updated));
-    			MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(updated));  //it holds local value of cart b/c when pressed back in base activity it updates value.
-    		}
-    	}
-	    
-    }
-	
+	public void updateHeaderQuantity(String strUpdateQuantity,String plusMinus){
+		if(plusMinus.equalsIgnoreCase("plus")){
+			int updated= Integer.parseInt(cart_count_txt.getText().toString()) + Integer.parseInt(strUpdateQuantity);
+			cart_count_txt.setText(String.valueOf(updated));
+			MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(updated));  //it holds local value of cart b/c when pressed back in base activity it updates value.
+		}else if(plusMinus.equalsIgnoreCase("minus")){
+			if(plusMinus.equalsIgnoreCase("minus")){
+				int updated= Integer.parseInt(cart_count_txt.getText().toString()) - Integer.parseInt(strUpdateQuantity);
+				cart_count_txt.setText(String.valueOf(updated));
+				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(updated));  //it holds local value of cart b/c when pressed back in base activity it updates value.
+			}
+		}
+
+	}
+
 }

@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.KeyEvent;
@@ -75,7 +76,7 @@ import com.sakshay.grocermax.utils.UtilityMethods;
 
 public abstract class BaseActivity extends FragmentActivity {
 
-	protected Context mContext;
+	protected Context mContext = this;
 	public static Activity activity;
 	public DisplayImageOptions baseImageoptions;
 
@@ -101,7 +102,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mContext = this;
+//		mContext = this;
 		activity = this;
 		addActionsInFilter(MyReceiverActions.CHECKOUT);
 		addActionsInFilter(MyReceiverActions.USER_DETAILS);
@@ -349,7 +350,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	}
 
 	public void goforsearch() {
-		search_key = edtSearch.getText().toString();
+		search_key = edtSearch.getText().toString().trim();
 		if (!search_key.equals("")) {
 			UtilityMethods.hideKeyBoard(BaseActivity.this);
 			showDialog();
@@ -357,8 +358,9 @@ public abstract class BaseActivity extends FragmentActivity {
 //			String url = UrlsConstants.SEARCH_PRODUCT + search_key + "&page=1";
 			String url = UrlsConstants.SEARCH_PRODUCT + search_key;
 //			myApi.reqSearchProductList(url);
+			url = url.replace(" ","%20");
 			new SearchLoader(this).execute(url);
-
+			Log.i("SEARCH_REQUEST", "URL::" + url);
 		} else {
 //			Toast.makeText(mContext,ToastConstant.ENTER_TEXT,
 //					Toast.LENGTH_LONG).show();
@@ -761,10 +763,25 @@ public abstract class BaseActivity extends FragmentActivity {
 				TextView tv = (TextView) v;
 				String optionName = tv.getText().toString();
 				if (optionName.equalsIgnoreCase(getString(R.string.Login))) {
-					Intent intent = new Intent(mContext, LoginActivity.class);
-					//startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
-					startActivityForResult(intent, 555);
+					if (UtilityMethods.getCurrentClassName(BaseActivity.this).equals(getApplicationContext().getPackageName() + ".CartProductList")) {  //return back to CartProductList class
+						Intent intent = new Intent(mContext, LoginActivity.class);
+						startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
+					}else{
+						Intent intent = new Intent(mContext, LoginActivity.class);
+//					//startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
+						startActivityForResult(intent, 555);
+					}
 				}
+
+//				TextView tv = (TextView) v;
+//				String optionName = tv.getText().toString();
+//				if (optionName.equalsIgnoreCase(getString(R.string.Login))) {
+//					Intent intent = new Intent(mContext, LoginActivity.class);
+//					//startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
+//					startActivityForResult(intent, 555);
+//				}
+
+
 				// selectItem("Sign In/Register");
 				break;
 
@@ -892,9 +909,13 @@ public abstract class BaseActivity extends FragmentActivity {
 			default:
 				break;
 			}
-			if (popupMenuOption != null)
-				popupMenuOption.dismiss();
-
+			try {
+				if (popupMenuOption != null)
+					popupMenuOption.dismiss();
+			}catch(Exception e){
+				System.out.println(e.getMessage());
+				System.out.println(e.getMessage());
+			}
 		}
 	};
 	

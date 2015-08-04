@@ -91,7 +91,6 @@ public class AddressDetail extends BaseActivity{
 	
 	public void goToAddress(Address address)
 	{
-		
 		Intent intent = new Intent(mContext, CreateNewAddress.class);
 		intent.putExtra("address", address);
 		startActivityForResult(intent, requestNewAddress);

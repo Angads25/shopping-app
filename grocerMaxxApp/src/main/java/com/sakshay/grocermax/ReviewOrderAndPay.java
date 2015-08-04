@@ -580,7 +580,9 @@ public class ReviewOrderAndPay extends BaseActivity
 		button_pay.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				
+				orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
+				total = Float.parseFloat(orderReviewBean.getGrandTotal())+Float.parseFloat(orderReviewBean.getShipping_ammount())
+						+Float.parseFloat(orderReviewBean.getDiscount_amount());
 //				if(!bCash && !bOnline && !bPayTM && !bMobiKwik){
 //					UtilityMethods.customToast(ToastConstant.SELECT_PAYMENT_MODE, mContext);
 //					return;
@@ -629,7 +631,7 @@ public class ReviewOrderAndPay extends BaseActivity
 		 * Float.parseFloat(tax.getText().toString());
 		 */
  
-//		total=Float.parseFloat(orderReviewBean.getGrandTotal())+Float.parseFloat(orderReviewBean.getShipping_ammount())+Float.parseFloat(orderReviewBean.getDiscount_amount());
+		total=Float.parseFloat(orderReviewBean.getGrandTotal())+Float.parseFloat(orderReviewBean.getShipping_ammount())+Float.parseFloat(orderReviewBean.getDiscount_amount());
 		
 		
 //		tvSubTotal.setText("Rs. "+String.format("%.2f",Float.parseFloat(orderReviewBean.getGrandTotal())));

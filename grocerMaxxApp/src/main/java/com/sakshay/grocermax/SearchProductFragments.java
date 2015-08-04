@@ -35,6 +35,7 @@ public final class SearchProductFragments extends Fragment implements OnScrollLi
 //	int itemPerPage = 10;
 //	boolean hasMoreItem = true;
 	private ListView mList;
+
 	private ProductListAdapter mAdapter;
 	private ProductListBean productListBean;
 //	private int pageNo = 1;
@@ -130,33 +131,42 @@ public final class SearchProductFragments extends Fragment implements OnScrollLi
         return view;
     }
     
-    private void makeUI(){
-    	main_lay.setVisibility(View.VISIBLE);
-    	progressBar.setVisibility(View.GONE);
-    	ProductListBean listBean = null;
-    	try 
-    	  {
+    private void makeUI() {
+		main_lay.setVisibility(View.VISIBLE);
+		progressBar.setVisibility(View.GONE);
+		ProductListBean listBean = null;
+		try {
 			Gson gson = new Gson();
 			listBean = gson.fromJson(jsonObject.toString(), ProductListBean.class);
-		  } catch (Exception e) {}
-    					
-    	if (listBean!=null) 
-    	{
-	    	footerView.setVisibility(View.GONE);
-	    	productListBean = listBean;
-			product_list = productListBean.getProduct();
-//			mAdapter = new ProductListAdapter(categoryTabs, product_list);
-//			mAdapter = new ProductListAdapter(searchTabs, product_list);
-			mAdapter = new ProductListAdapter(getActivity(), product_list);
-			mList.setAdapter(mAdapter);
-    	}				
-    	else
+		} catch (Exception e) {
+		}
+
+		if (listBean != null)
 		{
-			product_list=new ArrayList<Product>();
-			Product product=new Product("No product found for this category");
+			if (listBean.getProduct().size() > 0)
+			{
+				footerView.setVisibility(View.GONE);
+				productListBean = listBean;
+				product_list = productListBean.getProduct();
+	//			mAdapter = new ProductListAdapter(categoryTabs, product_list);
+	//			mAdapter = new ProductListAdapter(searchTabs, product_list);
+				mAdapter = new ProductListAdapter(getActivity(), product_list);
+				mList.setAdapter(mAdapter);
+		    } else {
+				product_list = new ArrayList<Product>();
+				Product product = new Product("No product found for this category");
+				product_list.add(product);
+	//			mAdapter = new ProductListAdapter(categoryTabs, product_list);
+	//			mAdapter = new ProductListAdapter(searchTabs, product_list);
+				mAdapter = new ProductListAdapter(getActivity(), product_list);
+				mList.setAdapter(mAdapter);
+		}
+	  }else{
+			product_list = new ArrayList<Product>();
+			Product product = new Product("No product found for this category");
 			product_list.add(product);
-//			mAdapter = new ProductListAdapter(categoryTabs, product_list);
-//			mAdapter = new ProductListAdapter(searchTabs, product_list);
+			//			mAdapter = new ProductListAdapter(categoryTabs, product_list);
+			//			mAdapter = new ProductListAdapter(searchTabs, product_list);
 			mAdapter = new ProductListAdapter(getActivity(), product_list);
 			mList.setAdapter(mAdapter);
 		}

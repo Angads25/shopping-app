@@ -22,10 +22,11 @@
         android:width="1dip"
         android:color="#eB5B22" /> -->
     
-   <!--   <solid android:color="#dc5d1d"/>  !-->
-  
- 
-    <solid android:color="#de2c01"/> 
+   <!--   <solid android:color="#dc5d1d"/>
+    <solid android:color="#de2c01"/> !-->
+
+
+    <solid android:color="#de2c01"/>
     
     
     

@@ -234,15 +234,15 @@ public class ProductListAdapter extends BaseAdapter {
 		}
 		
 		
-		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)holder.added_product_count.getLayoutParams();
-			if(String.valueOf(edit_quantity).length() > 1){
-				params.setMargins(39, 17, 0, 0);  // left, top, right, bottom
-				holder.added_product_count.setLayoutParams(params);
-			}
-			else if(String.valueOf(edit_quantity).length() == 1){
-				params.setMargins(46, 17, 0, 0);  // left, top, right, bottom
-				holder.added_product_count.setLayoutParams(params);
-			}
+//		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)holder.added_product_count.getLayoutParams();
+//			if(String.valueOf(edit_quantity).length() > 1){
+//				params.setMargins(39, 17, 0, 0);  // left, top, right, bottom
+//				holder.added_product_count.setLayoutParams(params);
+//			}
+//			else if(String.valueOf(edit_quantity).length() == 1){
+//				params.setMargins(46, 17, 0, 0);  // left, top, right, bottom
+//				holder.added_product_count.setLayoutParams(params);
+//			}
 		
 		//holder.quantity.setText("1");
 		holder.increase_quantity.setTag(holder.quantity);
@@ -339,15 +339,15 @@ public class ProductListAdapter extends BaseAdapter {
 				img_added_product_count.setVisibility(View.VISIBLE);
 				
 				
-				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)added_product_count.getLayoutParams();
-				if(String.valueOf(edit_quantity).length() > 1){
-					params.setMargins(39, 17, 0, 0);  // left, top, right, bottom
-					added_product_count.setLayoutParams(params);
-				}
-				else if(String.valueOf(edit_quantity).length() == 1){
-					params.setMargins(46, 17, 0, 0);  // left, top, right, bottom
-					added_product_count.setLayoutParams(params);
-				}
+//				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)added_product_count.getLayoutParams();
+//				if(String.valueOf(edit_quantity).length() > 1){
+//					params.setMargins(39, 17, 0, 0);  // left, top, right, bottom
+//					added_product_count.setLayoutParams(params);
+//				}
+//				else if(String.valueOf(edit_quantity).length() == 1){
+//					params.setMargins(46, 17, 0, 0);  // left, top, right, bottom
+//					added_product_count.setLayoutParams(params);
+//				}
 				
 //				if (MySharedPrefs.INSTANCE.getUserId() == null|| MySharedPrefs.INSTANCE.getUserId().equals("")) 
 //				{
@@ -478,11 +478,13 @@ public class ProductListAdapter extends BaseAdapter {
 			holder.increase_quantity.setVisibility(View.GONE);
 			holder.decrease_quantity.setVisibility(View.GONE);
 			holder.add_to_cart.setVisibility(View.GONE);
-			
+			holder.img_added_product_count.setVisibility(View.GONE);
 			holder.added_product_count.setVisibility(View.GONE);
 			holder.iv_offer_image.setVisibility(View.GONE);
 			holder.tvOffers.setVisibility(View.GONE);
-			
+
+
+
 			holder.prod_brand.setVisibility(View.GONE);
 //			holder.prod_name.setVisibility(View.GONE);
 			holder.prod_gram_or_ml.setVisibility(View.GONE);

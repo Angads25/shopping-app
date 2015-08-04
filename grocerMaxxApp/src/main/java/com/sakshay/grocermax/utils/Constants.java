@@ -100,6 +100,7 @@ public class Constants {
 		public static final String SELECT_GENDER = "Please select gender";
 		public static final String REGISTER_SUCCESSFULL = "User registered Successfully";
 		public static final String SELECT_PAYMENT_MODE = "Please select payment method";
+		public static final String VIEW_CART_EMPTY = "All products have deleted";
 		
 		public static final String SHIP_FNAME = "Please enter first name in shipping address";
 		public static final String SHIP_LNAME = "Please enter last name in shipping address";

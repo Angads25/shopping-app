@@ -129,6 +129,7 @@ public class ConnectionServiceParser {
 	//  useful when user moves to timing slot screen it updates the data of cart which need to send the data to Review order and Pay screen  //
 	public static CartDetailBean parseViewCartResponseLocally(String jsonString)
 			throws JSONException {
+		CartDetailBean cartBean = null;
 		try
 		{
 			UpdateCartbg.getInstance().bLocally = false;
@@ -151,10 +152,10 @@ public class ConnectionServiceParser {
 			strDiscount = new JSONObject(jsonString).getJSONObject("shipping_address").optString("discount_amount");
 			orderReviewBean.setDiscount_amount(strDiscount);
 			MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean);
-		}catch(Exception e){}
+
 		
 		Gson gson = new Gson();
-		CartDetailBean cartBean = gson.fromJson(jsonString,CartDetailBean.class);
+		cartBean = gson.fromJson(jsonString,CartDetailBean.class);
 		
 //		UtilityMethods.deleteCloneCart(BaseActivity.activity);
 //		for(int i=0;i<cartBean.getItems().size();i++)
@@ -173,12 +174,16 @@ public class ConnectionServiceParser {
 					{
 						saving=saving+(cartList.get(i).getQty()*(Float.parseFloat(cartList.get(i).getMrp())-Float.parseFloat(cartList.get(i).getPrice())));
 					}
-					saving = saving-(Float.parseFloat(strDiscount));
-					if(MySharedPrefs.INSTANCE.getTotalItem()!=null)
-					{
-						MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int)Float.parseFloat(cartBean.getItems_qty())));
-	//							BaseActivity.cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());       //can't update b/c it's on UI thread
+
+					if(!strDiscount.equals("") && !strDiscount.equals(" ")) {
+						saving = saving - (Float.parseFloat(strDiscount));
 					}
+
+//					if(MySharedPrefs.INSTANCE.getTotalItem()!=null)
+//					{
+//						MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int)Float.parseFloat(cartBean.getItems_qty())));
+	//							BaseActivity.cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());       //can't update b/c it's on UI thread
+//					}
 					OrderReviewBean orderReviewBean1=MySharedPrefs.INSTANCE.getOrderReviewBean();
 			    	orderReviewBean1.setProduct(cartList);
 //			    	orderReviewBean1.setSubTotal(cartBean.getGrandTotal());
@@ -186,6 +191,7 @@ public class ConnectionServiceParser {
 			    	MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean1);		    	
 				}
 		}
+		}catch(Exception e){}
 		return cartBean;
 	}
 	///// parse there b/c updated cart values in OrderReviewBean used in shared preference for updating the values of cart/////

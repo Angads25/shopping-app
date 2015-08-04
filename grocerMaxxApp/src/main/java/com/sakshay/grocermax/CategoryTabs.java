@@ -90,13 +90,14 @@ public class CategoryTabs extends BaseActivity {
 		ll_brad_crum.setBackgroundColor(getResources().getColor(R.color.breadcrum_color));
 		hscrollview=(HorizontalScrollView)findViewById(R.id.hscrollview);
 //		hscrollview.setVisibility(View.VISIBLE);
-		String brade_crum[]=MySharedPrefs.INSTANCE.getBradecrum().split(">>");
-		for(int i=0;i<brade_crum.length;i++)
-		{
-				 addImageView(ll_brad_crum);
-				 addTextView(ll_brad_crum, brade_crum[i]);
+		if(MySharedPrefs.INSTANCE.getBradecrum() != null) {
+			String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");
+
+			for (int i = 0; i < brade_crum.length; i++) {
+				addImageView(ll_brad_crum);
+				addTextView(ll_brad_crum, brade_crum[i]);
+			}
 		}
-		
 		hscrollview.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
 		    @Override
 		    public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {

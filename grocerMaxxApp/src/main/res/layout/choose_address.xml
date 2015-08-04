@@ -731,19 +731,28 @@
                             android:textSize="@dimen/text_size_11" />
                     </RelativeLayout>
 
-                    <Button
-                        android:id="@+id/add_new_address"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/add_new_address"
-                        android:text="ADD NEW ADDRESS"
-                        android:textColor="#c54e43"
-                        android:textSize="@dimen/text_size_10"
-                        android:visibility="gone" />
+
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
+
+        <Button
+            android:id="@+id/add_new_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/cart_place_order"
+            android:padding="14dp"
+            android:text="CREATE ADDRESS"
+            android:textColor="@color/white"
+            android:layout_above="@+id/button_place_order"
+
+            android:textSize="@dimen/text_size_18"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/button_place_order"

@@ -78,7 +78,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
     String USER_EMAIL = "";          //common for facebook and google plus
     
     EasyTracker tracker;
-    
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -301,9 +301,11 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 				}else{
 					url = UrlsConstants.LOGIN_URL+"uemail="+ userN + "&password=" + pwd+"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId();
 				}
-				
+
 				//String url = UrlsConstants.LOGIN_URL+"uemail="+ userN + "&password=" + pwd;
+
 				myApi.reqLogin(url);
+
 				
 			} else {
 				Toast.makeText(mContext, ToastConstant.msgNoInternet ,Toast.LENGTH_LONG).show();
@@ -362,6 +364,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 				QUOTE_ID_AFTER_FB=MySharedPrefs.INSTANCE.getQuoteId();
 				url = UrlsConstants.FB_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getFacebookEmail() + "&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&fname=" + USER_FNAME+"&lname="+USER_LNAME+"&number=0000000000";
 			}
+
 			myApi.reqLogin(url);
 			
 		} else {
@@ -499,7 +502,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 				MySharedPrefs.INSTANCE.putQuoteId(userDataBean.getQuoteId());/////////last change
 				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(userDataBean.getTotalItem()));
 				ArrayList<CartDetail> cart_products = UtilityMethods.readLocalCart(LoginActivity.this, AppConstants.localCartFile);  //send to server if local cart has products for adding.
-				if(cart_products != null && cart_products.size() > 0)          //not work when login with facebook after to press Place Order (b/c card empty) 
+				if(cart_products != null && cart_products.size() > 0)            //it will call when user has come from HOME | PRODUCT LISTING | DESCRIPTION only.
 				{
 					try
 					{
@@ -535,26 +538,26 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 						e.printStackTrace();
 					}
 				}
-				else
-				{
+				else          //SIMPLE LOGIN AND FACEBOOK CASE : user can come here by [direct login] OR [from product listing] and [home screen] OR [from view cart].
+				{             //quote id will not return from server in SIMPLE LOGIN case BUT quote id will return in case of FACEBOOK login.
+					          //if calling from CartProductList then in BaseActivity startActivityForResult will call other wise simply finish will work .
+					int str = userDataBean.getTotalItem();
 					cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
-					if(userDataBean.getTotalItem() > 0){
-						showDialog();
-						if(MySharedPrefs.INSTANCE.getQuoteId() != null && !MySharedPrefs.INSTANCE.getQuoteId().equals("")){
-							System.out.println("==some value sharedprefs11=="+MySharedPrefs.INSTANCE.getQuoteId()+">>");
-							String url = UrlsConstants.VIEW_CART_URL+ MySharedPrefs.INSTANCE.getUserId()+"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId();
-	//						myApi.reqViewCart(url);
-							myApi.reqViewCartGoHomeScreen(url);
-						}else if(userDataBean.getQuoteId() != null && !userDataBean.getQuoteId().equals("")){
-							System.out.println("==some value simple11=="+userDataBean.getQuoteId()+"||||");
-							String url = UrlsConstants.VIEW_CART_URL+ MySharedPrefs.INSTANCE.getUserId()+"&quote_id="+userDataBean.getQuoteId();
-	//						myApi.reqViewCart(url);
-							myApi.reqViewCartGoHomeScreen(url);
-						}
-					}else{
+//					if(userDataBean.getTotalItem() > 0){            //means user has >= than 1 product
+//						showDialog();
+//						if(MySharedPrefs.INSTANCE.getQuoteId() != null && !MySharedPrefs.INSTANCE.getQuoteId().equals("")){    //not call in simple login but call in facebook as i am getting quote id in fb case
+//							String url = UrlsConstants.VIEW_CART_URL+ MySharedPrefs.INSTANCE.getUserId()+"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId();
+////							myApi.reqViewCart(url);
+//							myApi.reqViewCartGoHomeScreen(url);
+//						}else if(userDataBean.getQuoteId() != null && !userDataBean.getQuoteId().equals("")){   //not call in simple login but call in facebook as i am getting quote id in fb case
+//							String url = UrlsConstants.VIEW_CART_URL+ MySharedPrefs.INSTANCE.getUserId()+"&quote_id="+userDataBean.getQuoteId();
+////							myApi.reqViewCart(url);
+//							myApi.reqViewCartGoHomeScreen(url);
+//						}
+//					}else{                                   //if user has no total item that mean he will redirect to home screen or product listing or product description screen.
 						setResult(RESULT_OK);
 						finish();
-					}		
+//					}
 				}
 				
 			}
@@ -562,7 +565,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 				UtilityMethods.customToast(ToastConstant.LOGIN_FAIL, mContext);
 			}
 		}
-		else if(bundle.getString("ACTION").equals(MyReceiverActions.ADD_TO_CART))
+		else if(bundle.getString("ACTION").equals(MyReceiverActions.ADD_TO_CART))  //it will call when user has come from HOME | PRODUCT LISTING | DESCRIPTION only.
 		{
 			BaseResponseBean response = (BaseResponseBean) bundle.getSerializable(ConnectionService.RESPONSE);
 			if(response.getFlag().equals("1"))
@@ -606,8 +609,13 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 						UtilityMethods.writeCloneCart(LoginActivity.this, Constants.localCloneFile, cartBean.getItems().get(i));
 					}			
 				}
-				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(cartBean.getTotalItem()));
-				cart_count_txt.setText(String.valueOf(cartBean.getTotalItem()));
+			if(MySharedPrefs.INSTANCE.getTotalItem()!=null)
+			{
+				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int)Float.parseFloat(cartBean.getItems_qty())));
+				cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
+			}
+//				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(cartBean.getItems_qty()));
+//				cart_count_txt.setText(String.valueOf(cartBean.getItems_qty()));
 //			}
 			setResult(RESULT_OK);
 			finish();
@@ -899,3 +907,12 @@ implements ConnectionCallbacks, OnConnectionFailedListener
     
 	
 }
+
+
+
+/* LOGIN SCENARIOS :
+* 1) SIMPLE LOGIN:
+*    a) user will move on to home screen OR product listing screen OR description screen (b/c finally call finish) as user also came from following screens.
+ *   b) user will move on to product listing screen as user came from the same screen and we are checking the name of screen in BaseActivity Userprofile icon
+*
+* */

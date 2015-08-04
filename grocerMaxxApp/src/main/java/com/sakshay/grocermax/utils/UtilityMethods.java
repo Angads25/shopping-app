@@ -38,6 +38,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Parcel;
 import android.text.Html;
@@ -50,6 +51,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sakshay.grocermax.BaseActivity;
+import com.sakshay.grocermax.MyApplication;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
 import com.sakshay.grocermax.bean.CartDetail;
@@ -883,11 +885,22 @@ public class UtilityMethods {
 	 public static String getCurrentClassName(Context con)
 	 {
 		 ActivityManager am = (ActivityManager) con.getSystemService(Context.ACTIVITY_SERVICE);
-		    List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
+//		    List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
+		 ActivityManager mActivityManager =(ActivityManager) MyApplication.getInstance().getSystemService(Context.ACTIVITY_SERVICE);
+		 String asa = con.getApplicationContext().getPackageName();
+		 String mPackageName = "";
+		 if(Build.VERSION.SDK_INT > 20){
+			 mPackageName = mActivityManager.getRunningAppProcesses().get(0).getClass().getName();
+		 }
+		 else{
+			 mPackageName = mActivityManager.getRunningTasks(1).get(0).topActivity.getClassName();
+		 }
 		    /*Log.d("topActivity", "CURRENT Activity ::" + taskInfo.get(0).topActivity.getClassName());
 		    ComponentName componentInfo = taskInfo.get(0).topActivity;
 		    componentInfo.getPackageName();*/
-		    return taskInfo.get(0).topActivity.getClassName();
+
+//		    return taskInfo.get(0).topActivity.getClassName();
+		    return mPackageName;
 	 }
 	 
 	 public static Bitmap getRoundedShape(Bitmap scaleBitmapImage) {
