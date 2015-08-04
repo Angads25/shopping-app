@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/red"
+    android:background="@color/primaryColorDark"
     tools:context=".HomeScreen" >
 
     <include
@@ -28,7 +28,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:weightSum="5" >
+        android:weightSum="5"
+        >
 
         <ScrollView
             android:id="@+id/scroll_view"
@@ -55,17 +56,24 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:background="@drawable/beverages_large"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:background="@color/white">
 
             <!-- TODO wire this with category header of selected scrollview, its text color and size.-->
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="CATEGORY"
-                android:padding="5dp"
-                android:background="@color/pallete_grey"
-                android:id="@+id/tv_homescreen_category_heading"/>
+                android:layout_height="30dp"
+                android:background="@color/pallete_grey">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="CATEGORY"
+                    android:padding="5dp"
+                    android:textSize="@dimen/text_size_16"
+                    android:layout_gravity="center"
+                    android:id="@+id/tv_homescreen_category_heading"/>
+
+            </LinearLayout>
 
             <ListView
                 android:id="@+id/cat_list"
@@ -90,7 +98,7 @@
                 android:dividerHeight="-2dp"
                 android:cacheColorHint="#00000000"
                 android:listSelector="@android:color/transparent"
-                android:background="@drawable/beverages_large" >
+                >
 				
 			</ExpandableListView>
 			

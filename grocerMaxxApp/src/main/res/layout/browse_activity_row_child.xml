@@ -17,15 +17,17 @@
         android:paddingRight="5dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp" >
-        
+
+        <!-- TODO, please remove this, child does not need this-->
         <ImageView
             android:id="@+id/image_childs"
-            android:layout_width="11dp"
-            android:layout_height="11dp"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
             android:paddingTop="2dp"
+            android:visibility="visible"
             android:background="@color/transparent"
             android:src="@drawable/categories_arrow_icon" />
         
@@ -33,13 +35,13 @@
             android:id="@+id/item_name_childs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/image_childs"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="30dp"
             android:layout_centerVertical="true"
             android:background="@color/transparent"
-            android:textColor="@color/white"
+            android:textColor="@color/pallete_grey"
             android:textSize="@dimen/text_size_14" />
-        
+
+        <!-- TODO , please remove this as child needs no arrow-->
         <ImageView 
             android:id="@+id/img_arrow_childs"
             android:layout_width="wrap_content"
