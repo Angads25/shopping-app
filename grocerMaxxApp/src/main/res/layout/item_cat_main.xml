@@ -25,9 +25,8 @@
         <ImageView
             android:id="@+id/cat_icon"
             android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:scaleType="fitXY"
-            
+            android:layout_height="match_parent"
+
             android:src="@drawable/cat_dairy" />
 
         <TextView

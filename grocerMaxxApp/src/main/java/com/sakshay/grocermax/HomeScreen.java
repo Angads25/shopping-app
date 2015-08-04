@@ -380,7 +380,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 			
 			tvSelctionCat = cat_name;                         //assign currently selected view to previously selected holder           
 			
-			expandableListView.setBackgroundResource(backImage[position]);
+			//expandableListView.setBackgroundResource(backImage[position]);
 			expandableListView.setCacheColorHint(android.R.color.transparent);
 		}
 	};
