@@ -68,6 +68,8 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.s_home_screen);
+
+
 		
 		addActionsInFilter(MyReceiverActions.PRODUCT_LIST_FROM_HOME);
 		 
@@ -264,14 +266,13 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 			catImageArray[i] = (ImageView) view.findViewById(R.id.cat_icon);                //main category image like staples
 			TextView cat_name = (TextView) view.findViewById(R.id.cat_name);                //main category name
 			ImageView indicator = (ImageView) view.findViewById(R.id.indicator);            //main category indicator like right side arrow
-		    linearMainCat[i] = (LinearLayout) view.findViewById(R.id.ll_main_cat);
+			linearMainCat[i] = (LinearLayout) view.findViewById(R.id.ll_main_cat);
 			catImageArray[i].setImageResource(getImageResource(catObj.get(i).getCategory()));
 			cat_name.setText(catObj.get(i).getCategory());
-			
-			
-			
+
+
 			cat_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
-			
+
 //			arrowImageArray[i] = indicator;
 			if (i != 0) {
 //				arrowImageArray[i].setVisibility(View.INVISIBLE);                           //main category right indicator hide
@@ -279,15 +280,15 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 				cat_name.setTextColor(getResources().getColor(R.color.main_cat_text_unselected));
 			} else {
 //				linearMainCat[i].setBackgroundColor(getResources().getColor(R.color.main_cat_selected));
-				tvSelctionCat = cat_name;           
+				tvSelctionCat = cat_name;
 				cat_name.setTextColor(getResources().getColor(R.color.main_cat_text_selected));
 //				arrowImageArray[i].setVisibility(View.VISIBLE);                            //main category right indicator visible
 				catImageArray[i].setSelected(true);
 //				sub_cat_listView.setAdapter(mAdapter);                //sub category adapter(on right side top)
- 				expandableListView.setAdapter(exAdapter);             //under sub category adapter
-				first_level=catObj.get(i).getCategory();
-				
-				
+				expandableListView.setAdapter(exAdapter);             //under sub category adapter
+				first_level = catObj.get(i).getCategory();
+
+
 			}
 			view.setTag(i);
 			view.setOnClickListener(listener);
