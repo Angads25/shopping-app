@@ -265,10 +265,12 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 			View view = inflater.inflate(R.layout.item_cat_main, null);
 			catImageArray[i] = (ImageView) view.findViewById(R.id.cat_icon);                //main category image like staples
 			TextView cat_name = (TextView) view.findViewById(R.id.cat_name);                //main category name
+			TextView catNamePlaceHolderTV = (TextView)view .findViewById(R.id.cat_name_placeholder);
 			ImageView indicator = (ImageView) view.findViewById(R.id.indicator);            //main category indicator like right side arrow
 			linearMainCat[i] = (LinearLayout) view.findViewById(R.id.ll_main_cat);
 			catImageArray[i].setImageResource(getImageResource(catObj.get(i).getCategory()));
 			cat_name.setText(catObj.get(i).getCategory());
+			catNamePlaceHolderTV.setText(catObj.get(i).getCategory());
 
 
 			cat_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
@@ -277,13 +279,13 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 			if (i != 0) {
 //				arrowImageArray[i].setVisibility(View.INVISIBLE);                           //main category right indicator hide
 				catImageArray[i].setSelected(false);
-				cat_name.setTextColor(getResources().getColor(R.color.main_cat_text_unselected));
+				cat_name.setTextColor(getResources().getColor(R.color.white));
 			} else {
 //				linearMainCat[i].setBackgroundColor(getResources().getColor(R.color.main_cat_selected));
 				tvSelctionCat = cat_name;
 				cat_name.setTextColor(getResources().getColor(R.color.main_cat_text_selected));
 //				arrowImageArray[i].setVisibility(View.VISIBLE);                            //main category right indicator visible
-				catImageArray[i].setSelected(true);
+//				catImageArray[i].setSelected(true);
 //				sub_cat_listView.setAdapter(mAdapter);                //sub category adapter(on right side top)
 				expandableListView.setAdapter(exAdapter);             //under sub category adapter
 				first_level = catObj.get(i).getCategory();
@@ -360,13 +362,20 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 				}
 			}
 			
-			tvSelctionCat.setTextColor(getResources().getColor(R.color.main_cat_text_unselected));         //unselected text color bluish for previously selected in main category
+			tvSelctionCat.setTextColor(getResources().getColor(R.color.white));         //unselected text color bluish for previously selected in main category
 			
 //			linearMainCat[position].setBackgroundColor(getResources().getColor(R.color.main_cat_unselected));    //selected background set blue in main category
 			position = (Integer) view.getTag();
 			
 			TextView cat_name = (TextView) view.findViewById(R.id.cat_name);                           //get view of currently selected main category
-			cat_name.setTextColor(getResources().getColor(R.color.main_cat_text_selected));              //selected text color white of main category 
+			cat_name.setTextColor(getResources().getColor(R.color.main_cat_text_selected));              //selected text color white of main category
+			LinearLayout catSelectedLL = (LinearLayout) view.findViewById(R.id.ll_cat_main_selected);
+			catSelectedLL.setVisibility(View.VISIBLE);
+			//TODO, unselect others now
+
+			//TODO get name of category
+			TextView categoryTV = (TextView) view.findViewById(R.id.tv_homescreen_category_heading);
+			//categoryTV.setText(catObj.get((int)view.getTag()).getCategory());
 			
 //			linearMainCat[position].setBackgroundColor(getResources().getColor(R.color.main_cat_selected));
 			
@@ -375,12 +384,12 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 			exAdapter.refreshList(catObj.get(position).getChildren());
 			hideAllImage();
 //			arrowImageArray[position].setVisibility(View.VISIBLE);
-			catImageArray[position].setSelected(true);
+			//catImageArray[position].setSelected(true);
 			//scroll_view.scrollTo(0, 0);
 			
 			tvSelctionCat = cat_name;                         //assign currently selected view to previously selected holder           
 			
-			expandableListView.setBackgroundResource(backImage[position]);
+			//expandableListView.setBackgroundResource(backImage[position]);
 			expandableListView.setCacheColorHint(android.R.color.transparent);
 		}
 	};
