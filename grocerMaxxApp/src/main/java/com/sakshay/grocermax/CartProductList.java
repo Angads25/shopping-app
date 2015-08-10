@@ -466,23 +466,19 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 
 				case R.id.button_place_order:
 
-					Intent intent = new Intent(this,LoginActivity.class);
-					startActivity(intent);
+					if (CartProductList.cartList.size() == 0) {
+						UtilityMethods.customToast(ToastConstant.ATLEAST_ONE_ITEM_IN_CART, mContext);
+						return;
+					}
+					String userId = MySharedPrefs.INSTANCE.getUserId();
+					if (userId == null || userId.length() == 0) {
+						Intent intent = new Intent(mContext, LoginActivity.class);
+						startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
+					} else {
+						callAddressApi();
+					}
 
 					break;
-//					if (CartProductList.cartList.size() == 0) {
-//						UtilityMethods.customToast(ToastConstant.ATLEAST_ONE_ITEM_IN_CART, mContext);
-//						return;
-//					}
-//					String userId = MySharedPrefs.INSTANCE.getUserId();
-//					if (userId == null || userId.length() == 0) {
-//						Intent intent = new Intent(mContext, LoginActivity.class);
-//						startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
-//					} else {
-//						callAddressApi();
-//					}
-//
-//					break;
 
 				case R.id.button_update_cart1:
 					updateItemInCartBackToCart();
