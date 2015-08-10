@@ -19,17 +19,6 @@
         android:background="@color/transparent"
         android:layout_gravity="center_vertical" >
 
-        <!-- TODO , please remove this and from java code as well-->
-        <ImageView
-            android:id="@+id/image_parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginRight="10dp"
-            android:visibility="gone"
-            android:src="@drawable/categories_arrow_icon" />
-
         <TextView 
             android:id="@+id/item_name_parent"
             android:layout_width="wrap_content"
@@ -51,16 +40,9 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:src="@drawable/categories_arrow_icon"/>
+            android:visibility="gone"
+            android:src="@drawable/arrow_right"/>
 
-        <ImageView
-            android:id="@+id/img_arrow_parent_new"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/categories_arrow_icon"/>
     </RelativeLayout>
     
     <View 

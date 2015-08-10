@@ -74,6 +74,7 @@ public class ExpandableListAdapter extends AnimatedExpandableListAdapter{
 
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded,View convertView, ViewGroup parent) {
+		//isExpanded TRUE when listview expanded on click of list view and FALSE when collapsing.
 		View v=convertView;
 		if(convertView==null)
 		{
@@ -81,12 +82,32 @@ public class ExpandableListAdapter extends AnimatedExpandableListAdapter{
 			v=inflater.inflate(R.layout.browse_activity_row_parent, null);
 		}
 		TextView cat_name = (TextView) v.findViewById(R.id.item_name_parent);
-		ImageView cat_image = (ImageView) v.findViewById(R.id.image_parent);
+//		ImageView cat_image = (ImageView) v.findViewById(R.id.image_parent);
 		ImageView img_arrow = (ImageView) v.findViewById(R.id.img_arrow_parent);
 		View view = (View) v.findViewById(R.id.line_parent);
 //		view.setVisibility(View.VISIBLE);
-		cat_image.setVisibility(View.GONE);
-		img_arrow.setVisibility(View.GONE);
+
+//		cat_name.setText(catObj.get(groupPosition).getChildren().get(childPosition).getCategory());
+
+//		if(catObj.get(position).getChildren().get(groupPosition).getChildren().get(i).getChildren().size()>0){
+		if(catObj.get(groupPosition).getChildren().size() > 0) {  //sub-sub category present
+//			for(int i=0;i<catObj.get(groupPosition).getChildren().size() ;i++){
+//
+//			}
+			if (catObj.get(groupPosition).getChildren().get(0).getChildren().size() > 0) {  //sub-sub-sub category present
+				img_arrow.setVisibility(View.VISIBLE);
+			} else {
+				img_arrow.setVisibility(View.GONE);
+			}
+		}
+
+//		cat_name.setText(catObj.get(groupPosition).getCategory());
+
+//		if(catObj.get(groupPosition).getChildren().size() > 0) {
+//			img_arrow.setVisibility(View.VISIBLE);
+//		}else{
+//			img_arrow.setVisibility(View.GONE);
+//		}
 		
 //		convertView.setOnClickListener(new View.OnClickListener() {
 //			
