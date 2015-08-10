@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -64,6 +65,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 	View viewtemp = null;
 	TextView tvtemp = null;
 	
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -83,7 +85,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 			String response = UtilityMethods.readCategoryResponse(this, AppConstants.categoriesFile);
 			catObj = UtilityMethods.getCategorySubCategory(response);
 		}
-		
+		/*
 		backImage[0] = R.drawable.beverages_large;
 		backImage[1] = R.drawable.diary_large;
 		backImage[2] = R.drawable.frozen_large;
@@ -93,7 +95,19 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		backImage[6] = R.drawable.diary_large;
 		backImage[7] = R.drawable.frozen_large;
 		backImage[8] = R.drawable.fruits_large;
-		backImage[9] = R.drawable.non_veg_large;		
+		backImage[9] = R.drawable.non_veg_large;
+		*/
+		//TODO, abhishek 4 images being repeated here...what goes where is accoring to your logic please replace
+		backImage[0] = R.drawable.beverages_large;
+		backImage[1] = R.drawable.diary_large;
+		backImage[2] = R.drawable.frozen_large;
+		backImage[3] = R.drawable.fruits_large;
+		backImage[4] = R.drawable.non_veg_large;
+		backImage[5] = R.drawable.beverages_large;
+		backImage[6] = R.drawable.family_care_large;
+		backImage[7] = R.drawable.home_care_large;
+		backImage[8] = R.drawable.home_needs_large;
+		backImage[9] = R.drawable.staples_large;
 		
 		cat_main_layout = (LinearLayout) findViewById(R.id.cat_main_layout);
 		scroll_view = (ScrollView) findViewById(R.id.scroll_view);
@@ -101,6 +115,11 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		
 //		expandableListView=(AnimatedExpandableListView)findViewById(R.id.lvExp);
 		expandableListView=(ExpandableListView)findViewById(R.id.lvExp);
+		Drawable expandibleListBackgroundImage = ContextCompat.getDrawable(this, R.drawable.expandible_list_doodle);
+		expandibleListBackgroundImage.setAlpha(20);
+		expandableListView.setBackground(expandibleListBackgroundImage);
+
+
 		expandableListView.setGroupIndicator(null);
 		
 		expandableListView.setOnGroupExpandListener(new OnGroupExpandListener() {
@@ -263,12 +282,14 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		linearMainCat = new LinearLayout[catObj.size()];
 		for (int i = 0; i < catObj.size(); i++) {                                 //handling main category on left side of screen in view
 			View view = inflater.inflate(R.layout.item_cat_main, null);
+
 			catImageArray[i] = (ImageView) view.findViewById(R.id.cat_icon);                //main category image like staples
 			TextView cat_name = (TextView) view.findViewById(R.id.cat_name);                //main category name
 			TextView catNamePlaceHolderTV = (TextView)view .findViewById(R.id.cat_name_placeholder);
 			ImageView indicator = (ImageView) view.findViewById(R.id.indicator);            //main category indicator like right side arrow
 			linearMainCat[i] = (LinearLayout) view.findViewById(R.id.ll_main_cat);
 			catImageArray[i].setImageResource(getImageResource(catObj.get(i).getCategory()));
+
 			cat_name.setText(catObj.get(i).getCategory());
 			catNamePlaceHolderTV.setText(catObj.get(i).getCategory());
 
@@ -294,6 +315,9 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 			}
 			view.setTag(i);
 			view.setOnClickListener(listener);
+			catImageArray[i].setMinimumHeight((linearMainCat[i].getMeasuredHeight())); // trying to make it a square
+
+
 			cat_main_layout.addView(view);                       //main category(left side) adding view under it
 		}
 		

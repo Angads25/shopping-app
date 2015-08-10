@@ -38,6 +38,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_centerVertical="true"
+            android:text="Category heading"
             android:background="@color/transparent"
             android:textColor="@color/pallete_black"
             android:paddingBottom="10dp"
