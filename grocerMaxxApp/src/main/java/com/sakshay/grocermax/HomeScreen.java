@@ -39,13 +39,14 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 	private ArrayList<CategorySubcategoryBean> catObj;
 	private HomeListAdapter mAdapter;
 	private int position = 0;
-	
 	private LinearLayout cat_main_layout;
 	private ScrollView scroll_view;
 //	private ListView sub_cat_listView;
 //	private ImageView []arrowImageArray;              //show selected right side arrow of main category         
 	private ImageView []catImageArray;                    //main category images
 	private LinearLayout []linearMainCat;
+	private LinearLayout []catSelectedLL;
+	private TextView categoryTV;
 	EasyTracker tracker;
 	int backImage[] = new int[10];
 	
@@ -93,8 +94,9 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		backImage[6] = R.drawable.diary_large;
 		backImage[7] = R.drawable.frozen_large;
 		backImage[8] = R.drawable.fruits_large;
-		backImage[9] = R.drawable.non_veg_large;		
-		
+		backImage[9] = R.drawable.non_veg_large;
+
+		categoryTV = (TextView) findViewById(R.id.tv_homescreen_category_heading);
 		cat_main_layout = (LinearLayout) findViewById(R.id.cat_main_layout);
 		scroll_view = (ScrollView) findViewById(R.id.scroll_view);
 //		sub_cat_listView = (ListView) findViewById(R.id.cat_list);
@@ -261,6 +263,8 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 //		arrowImageArray = new ImageView[catObj.size()];
 		catImageArray = new ImageView[catObj.size()];
 		linearMainCat = new LinearLayout[catObj.size()];
+		catSelectedLL = new LinearLayout[catObj.size()];             //handle selection and unselection of selected main category.
+
 		for (int i = 0; i < catObj.size(); i++) {                                 //handling main category on left side of screen in view
 			View view = inflater.inflate(R.layout.item_cat_main, null);
 			catImageArray[i] = (ImageView) view.findViewById(R.id.cat_icon);                //main category image like staples
@@ -268,6 +272,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 			TextView catNamePlaceHolderTV = (TextView)view .findViewById(R.id.cat_name_placeholder);
 			ImageView indicator = (ImageView) view.findViewById(R.id.indicator);            //main category indicator like right side arrow
 			linearMainCat[i] = (LinearLayout) view.findViewById(R.id.ll_main_cat);
+			catSelectedLL[i] = (LinearLayout) view.findViewById(R.id.ll_cat_main_selected);
 			catImageArray[i].setImageResource(getImageResource(catObj.get(i).getCategory()));
 			cat_name.setText(catObj.get(i).getCategory());
 			catNamePlaceHolderTV.setText(catObj.get(i).getCategory());
@@ -280,8 +285,10 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 //				arrowImageArray[i].setVisibility(View.INVISIBLE);                           //main category right indicator hide
 				catImageArray[i].setSelected(false);
 				cat_name.setTextColor(getResources().getColor(R.color.white));
+				catSelectedLL[i].setVisibility(View.INVISIBLE);
 			} else {
 //				linearMainCat[i].setBackgroundColor(getResources().getColor(R.color.main_cat_selected));
+				categoryTV.setText(catObj.get(i).getCategory());
 				tvSelctionCat = cat_name;
 				cat_name.setTextColor(getResources().getColor(R.color.main_cat_text_selected));
 //				arrowImageArray[i].setVisibility(View.VISIBLE);                            //main category right indicator visible
@@ -289,7 +296,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 //				sub_cat_listView.setAdapter(mAdapter);                //sub category adapter(on right side top)
 				expandableListView.setAdapter(exAdapter);             //under sub category adapter
 				first_level = catObj.get(i).getCategory();
-
+				catSelectedLL[i].setVisibility(View.VISIBLE);
 
 			}
 			view.setTag(i);
@@ -353,7 +360,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 			if(keyboardVisibility)
 			imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
-			
+
 			for(int i=0;i<expandableListView.getExpandableListAdapter().getGroupCount();i++)
 			{
 				if(expandableListView.isGroupExpanded(i)){
@@ -363,19 +370,19 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 			}
 			
 			tvSelctionCat.setTextColor(getResources().getColor(R.color.white));         //unselected text color bluish for previously selected in main category
-			
+
+			catSelectedLL[position].setVisibility(View.INVISIBLE);                     //unselected previous main category selected
 //			linearMainCat[position].setBackgroundColor(getResources().getColor(R.color.main_cat_unselected));    //selected background set blue in main category
 			position = (Integer) view.getTag();
 			
 			TextView cat_name = (TextView) view.findViewById(R.id.cat_name);                           //get view of currently selected main category
 			cat_name.setTextColor(getResources().getColor(R.color.main_cat_text_selected));              //selected text color white of main category
-			LinearLayout catSelectedLL = (LinearLayout) view.findViewById(R.id.ll_cat_main_selected);
-			catSelectedLL.setVisibility(View.VISIBLE);
-			//TODO, unselect others now
 
-			//TODO get name of category
-			TextView categoryTV = (TextView) view.findViewById(R.id.tv_homescreen_category_heading);
-			//categoryTV.setText(catObj.get((int)view.getTag()).getCategory());
+//			LinearLayout catSelectedLL = (LinearLayout) view.findViewById(R.id.ll_cat_main_selected);
+//			catSelectedLL.setVisibility(View.VISIBLE);
+			catSelectedLL[position].setVisibility(View.VISIBLE);                     //select current selected main category
+
+			categoryTV.setText(catObj.get(position).getCategory());
 			
 //			linearMainCat[position].setBackgroundColor(getResources().getColor(R.color.main_cat_selected));
 			
