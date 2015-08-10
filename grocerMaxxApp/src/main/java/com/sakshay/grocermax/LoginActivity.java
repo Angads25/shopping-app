@@ -172,7 +172,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 				logIn();
 			}
 		});
-		button_skip.setShadowLayer(30, 0, 0, Color.BLUE);
+
 		button_skip.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 	}
 	
