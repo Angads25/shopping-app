@@ -65,10 +65,12 @@ public class Registration extends BaseActivity {
 		} else if (SCREEN_NAME.equals("Registration")) {
 			setContentView(R.layout.registeration);
 			TextView tvHeaderRegister = (TextView) findViewById(R.id.header_register);
-			tvHeaderRegister.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+			//TODO this ttf is not lookiap
+			//tvHeaderRegister.setTypeface(CustomFonts.getInstance().getRobotoBlack(this));
 			addActionsInFilter(MyReceiverActions.REGISTER_USER);
 			addActionsInFilter(MyReceiverActions.ADD_TO_CART);
-			displayRegistrationView();
+			//TODO abhi, now that lots of views are gone please rewire registration screen
+			//displayRegistrationView();
 		}
 		
 	}
@@ -108,6 +110,7 @@ public class Registration extends BaseActivity {
 		});
 
 	}
+/*
 
 	private void displayRegistrationView() {
 		
@@ -543,13 +546,15 @@ public class Registration extends BaseActivity {
 					url += params;
 					myApi.reqUserRegistration(url);
 					
-					/*HashMap<String, String> map = new HashMap<String, String>();
+					*/
+/*HashMap<String, String> map = new HashMap<String, String>();
 					
 					map.put("fname", _fname);
 					map.put("lname", _lname);
 					map.put("uemail", _email_id);
 					map.put("number", _mobile_no);
-					map.put("password", _password);*/
+					map.put("password", _password);*//*
+
 					
 				} else {
 //					Toast.makeText(mContext, ToastConstant.msgNoInternet ,Toast.LENGTH_LONG).show();
@@ -559,6 +564,7 @@ public class Registration extends BaseActivity {
 		});
 
 	}
+*/
 
 	@Override
 	void OnResponse(Bundle bundle) {
