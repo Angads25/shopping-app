@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@drawable/sel_fruits" android:state_selected="true"/>
-    <item android:drawable="@drawable/fruits" android:state_selected="false"/>
-    <item android:drawable="@drawable/fruits"/>
+    <item android:drawable="@drawable/fruits_large" android:state_selected="true"/>
+    <item android:drawable="@drawable/fruits_large" android:state_selected="false"/>
+    <item android:drawable="@drawable/fruits_large"/>
 
 </selector>

@@ -101,7 +101,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		*/
 		//TODO, abhishek 4 images being repeated here...what goes where is accoring to your logic please replace
 		backImage[0] = R.drawable.beverages_large;
-		backImage[1] = R.drawable.diary_large;
+		backImage[1] = R.drawable.dairy_large;
 		backImage[2] = R.drawable.frozen_large;
 		backImage[3] = R.drawable.fruits_large;
 		backImage[4] = R.drawable.non_veg_large;
@@ -118,9 +118,9 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		
 //		expandableListView=(AnimatedExpandableListView)findViewById(R.id.lvExp);
 		expandableListView=(ExpandableListView)findViewById(R.id.lvExp);
-		Drawable expandibleListBackgroundImage = ContextCompat.getDrawable(this, R.drawable.expandible_list_doodle);
+		/*Drawable expandibleListBackgroundImage = ContextCompat.getDrawable(this, R.drawable.background_doodle);
 		expandibleListBackgroundImage.setAlpha(20);
-		expandableListView.setBackground(expandibleListBackgroundImage);
+		expandableListView.setBackground(expandibleListBackgroundImage);*/
 
 
 		expandableListView.setGroupIndicator(null);
@@ -324,7 +324,6 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 			view.setTag(i);
 			view.setOnClickListener(listener);
 			catImageArray[i].setMinimumHeight((linearMainCat[i].getMeasuredHeight())); // trying to make it a square
-
 
 			cat_main_layout.addView(view);                       //main category(left side) adding view under it
 		}
