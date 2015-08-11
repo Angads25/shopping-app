@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -82,8 +83,9 @@ public class CategoryTabs extends BaseActivity {
 		});
 		
 		LinearLayout llBreadcrumb = (LinearLayout)findViewById(R.id.llbreadcrum);
-		llBreadcrumb.setVisibility(View.VISIBLE);
-		
+//		llBreadcrumb.setVisibility(View.VISIBLE);
+		llBreadcrumb.setVisibility(View.GONE);
+
 		tv_bradcrum=(TextView)findViewById(R.id.tv_Bradcrum);
 		
 		ll_brad_crum=(LinearLayout)findViewById(R.id.ll_Bradcrum);
@@ -117,8 +119,8 @@ public class CategoryTabs extends BaseActivity {
 
         ViewPager pager = (ViewPager)findViewById(R.id.pager);
         pager.setAdapter(adapter);
-        pager.setOffscreenPageLimit(catObj.size()); 
-        
+        pager.setOffscreenPageLimit(catObj.size());
+
         TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.indicator);
         indicator.setViewPager(pager);
         

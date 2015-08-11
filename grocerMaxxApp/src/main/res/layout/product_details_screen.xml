@@ -106,9 +106,9 @@
 	                    android:layout_height="wrap_content"
 	                    android:gravity="center_horizontal"
 	                    android:text="Almonds"
-	                    android:textColor="#a3a3a3"
+	                    android:textColor="@color/primaryColor"
 	                    android:textAllCaps="true"
-	                    android:textSize="@dimen/text_size_12" />
+	                    android:textSize="@dimen/text_size_14" />
 	                
 	                <TextView
 	                    android:id="@+id/product_desc_name"
@@ -117,7 +117,7 @@
 	                    android:gravity="center_horizontal"
 	                    android:layout_below="@+id/product_desc_brand"
 	                    android:text="ROASTED SALTED"
-	                    android:textColor="#121212"
+	                    android:textColor="@color/pallete_black"
 	                    android:textSize="@dimen/text_size_14" />
 	                
 	                <TextView
@@ -126,13 +126,13 @@
 	                    android:layout_height="wrap_content"
 	                    android:gravity="center_horizontal"
 	                    android:text="500G"
-	                    android:textColor="#121212"
+	                    android:textColor="@color/pallete_black"
 	                    android:layout_below="@+id/product_desc_name"
 	                    android:textSize="@dimen/text_size_14" />
                 
                 </RelativeLayout>
                 
-                <TextView
+                <!--<TextView
                     android:id="@+id/tv_cancel_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
                     android:textColor="#a3a3a3"
                     android:layout_marginLeft="5dp"
                     android:layout_marginBottom="-25dp"
-                    android:textSize="@dimen/text_size_14" />
+                    android:textSize="@dimen/text_size_14" />-->
                 
                 
         <RelativeLayout 
@@ -151,31 +151,86 @@
 		    android:layout_below="@+id/tv_cancel_price" 
 		    android:layout_marginTop="10dp"
 		    android:layout_toRightOf="@+id/product_image" >
-		    
-		    <TextView
-	            android:id="@+id/text_mow_price"
-	            android:layout_width="100dp"
-	            android:layout_height="wrap_content"
-	            android:layout_marginBottom="5dp"
-	            android:singleLine="true"
-	            android:layout_marginLeft="5dp"
-	            android:layout_alignParentLeft="true"
-	            android:text="Rs. 240hjahjhjhjshjan"
-	            android:textColor="#e5390e"
-	            android:layout_centerVertical="true"
-	            android:layout_marginTop="-5dp"
-	            android:textSize="@dimen/text_size_15" />
+
+            //TODO wire these calculations
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/ll_calculation_top">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="qty"
+                    android:id="@+id/quantity_2"
+                    android:textSize="@dimen/text_size_14"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="x"
+                    android:textAllCaps="true"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:textSize="@dimen/text_size_14"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/text_mow_price"
+                    android:textSize="@dimen/text_size_14"
+                    android:text="price"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="|"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:textSize="@dimen/text_size_14"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="discounted rate"
+                    android:textColor="@color/primaryColor"
+                    android:id="@+id/tv_cancel_price"
+                    android:textSize="@dimen/text_size_14"/>
+
+            </LinearLayout>
+
+            //TODO wire this total
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total"
+                android:textColor="@color/pallete_black"
+                android:id="@+id/tv_total"
+                android:textSize="@dimen/text_size_14"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/ll_calculation_top"/>
+
+            <!-- <TextView
+                 android:id="@+id/text_mow_price"
+                 android:layout_width="100dp"
+                 android:layout_height="wrap_content"
+                 android:layout_marginBottom="5dp"
+                 android:singleLine="true"
+                 android:layout_marginLeft="5dp"
+                 android:layout_alignParentLeft="true"
+                 android:text="Rs. 240"
+                 android:textColor="#e5390e"
+                 android:layout_centerVertical="true"
+                 android:layout_marginTop="-5dp"
+                 android:textSize="@dimen/text_size_15" />-->
 		
         <LinearLayout
             android:id="@+id/llplusminus"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:gravity="right"
+            android:layout_marginTop="10dp"
             android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/text_mow_price"
             android:orientation="horizontal" >
-            
+
              <RelativeLayout 
                 android:id="@+id/rl_out_of_stock_desc"
                 android:layout_width="wrap_content"
@@ -270,29 +325,29 @@
 		</RelativeLayout>
                 
                 
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
