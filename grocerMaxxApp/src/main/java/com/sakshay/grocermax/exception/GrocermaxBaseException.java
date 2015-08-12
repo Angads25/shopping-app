@@ -48,8 +48,8 @@ public class GrocermaxBaseException extends Exception {
 
     public GrocermaxBaseException(String strClassName, String strMethodName,String strMessage,String strErrorCode,String strServerResponse) {
         super();
-        //    new SearchLoader(this).execute(url);
-        UtilityMethods.customToast("message", MyApplication.getInstance());
+           //    new SearchLoader(this).execute(url);
+//        UtilityMethods.customToast("message", MyApplication.getInstance());
     }
 }
 
