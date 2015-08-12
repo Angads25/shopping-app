@@ -118,9 +118,8 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		
 //		expandableListView=(AnimatedExpandableListView)findViewById(R.id.lvExp);
 		expandableListView=(ExpandableListView)findViewById(R.id.lvExp);
-		/*Drawable expandibleListBackgroundImage = ContextCompat.getDrawable(this, R.drawable.background_doodle);
-		expandibleListBackgroundImage.setAlpha(20);
-		expandableListView.setBackground(expandibleListBackgroundImage);*/
+
+		expandableListView.getBackground().mutate().setAlpha(20);
 
 
 		expandableListView.setGroupIndicator(null);
@@ -165,10 +164,17 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 				{
 					
 					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-					if(!keyboardVisibility)
-					imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
-					
-				boolean expandStatus=false;
+					if(android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT){
+						if(!keyboardVisibility)
+							imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+
+					}else{
+						if(keyboardVisibility)
+							imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+					}
+
+
+					boolean expandStatus=false;
 				second_level=catObj.get(position).getChildren().get(groupPosition).getCategory();
 				MySharedPrefs.INSTANCE.putBradecrum(first_level+">>"+second_level);
 				for(int i=0;i<catObj.get(position).getChildren().get(groupPosition).getChildren().size();i++)
@@ -382,8 +388,15 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		public void onClick(View view) {
 			
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			if(!keyboardVisibility)
-			imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+
+			if(android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT){
+				if(!keyboardVisibility)
+				imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+
+			}else{
+				if(keyboardVisibility)
+					imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+			}
 
 			for(int i=0;i<expandableListView.getExpandableListAdapter().getGroupCount();i++)
 			{

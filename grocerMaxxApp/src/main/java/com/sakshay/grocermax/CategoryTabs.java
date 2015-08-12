@@ -125,7 +125,8 @@ public class CategoryTabs extends BaseActivity {
         indicator.setViewPager(pager);
         
         View headerView = findViewById(R.id.header);
-        initHeader(headerView, true, header.replaceAll("/", " >> "));
+		if(headerView !=null)
+        	initHeader(headerView, true, header.replaceAll("/", " >> "));
         
         TextView textView = (TextView)headerView.findViewById(R.id.screenName);
         

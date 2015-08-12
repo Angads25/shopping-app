@@ -24,6 +24,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
@@ -190,7 +191,8 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 //		icon_header_back.setOnClickListener(headerClick);
 		icon_header_logo_with_search.setOnClickListener(headerClick);
-		icon_header_logo_without_search.setOnClickListener(headerClick);
+		if(icon_header_logo_without_search != null)
+			icon_header_logo_without_search.setOnClickListener(headerClick);
 		icon_header_user.setOnClickListener(headerClick);
 		icon_header_cart.setOnClickListener(headerClick);
 		cart_count_txt.setOnClickListener(headerClick);
@@ -344,8 +346,15 @@ public abstract class BaseActivity extends FragmentActivity {
 			llSearchLayout.setVisibility(View.GONE);
 			edtSearch.getText().clear();
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			if(keyboardVisibility)
-			imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+
+			if(android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT){
+				if(!keyboardVisibility)
+					imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+
+			}else{
+				if(keyboardVisibility)
+					imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+			}
 		}
 
 		// UtilityMethods.hideKeyboard(BaseActivity.this);
