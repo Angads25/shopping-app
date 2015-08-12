@@ -73,7 +73,7 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 		try {
 			response = client.execute(httpGet);
 			HttpEntity resEntity = response.getEntity();
-			strResult =  EntityUtils.toString(resEntity);
+//			strResult =  EntityUtils.toString(resEntity);
 			return EntityUtils.toString(resEntity);
 		} catch (ClientProtocolException e) {
 			((BaseActivity)context).dismissDialog();
@@ -213,10 +213,13 @@ public class SearchLoader extends AsyncTask<String, String, String> {
     	context.startActivity(call);
 
 		}catch(JSONException e){
+			((BaseActivity)context).dismissDialog();
 			new GrocermaxBaseException("SearchLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.JSON_EXCEPTION,result);
 		}catch (NullPointerException e){
+			((BaseActivity)context).dismissDialog();
 			new GrocermaxBaseException("SearchLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.NULL_POINTER,result);
 		}catch (Exception e){
+			((BaseActivity)context).dismissDialog();
 			new GrocermaxBaseException("SearchLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.EXCEPTION,result);
 		}
     }
