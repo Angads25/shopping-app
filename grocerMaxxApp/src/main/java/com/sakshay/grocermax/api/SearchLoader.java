@@ -12,6 +12,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -21,6 +22,7 @@ import android.os.AsyncTask;
 
 import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.SearchTabs;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.utils.MyHttpUtils;
 import com.sakshay.grocermax.utils.UtilityMethods;
 
@@ -39,7 +41,6 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 	private final String TAG_CAT_IS_ACTIVE = "is_active";
 	private final String TAG_CAT_POSITION = "position";
 	private final String TAG_CAT_LEVEL = "level";
-	
 	private final String TAG_PROD_FULL_NAME = "Name";
 	private final String TAG_PROD_BRAND = "p_brand";
 	private final String TAG_PROD_P_NAME = "p_name";
@@ -63,20 +64,32 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 	
     @Override
     protected String doInBackground(String... params) {
+		String strResult = "";
     	HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
-    	HttpGet httpGet = new HttpGet(params[0]);
+		String urlString = params[0];
+		if(urlString.contains("?")) {
+			urlString += "&version=1.0";
+		}else{
+			urlString += "?version=1.0";
+		}
+    	HttpGet httpGet = new HttpGet(urlString);
 		httpGet.setHeader("Content-Type", "application/json");
 		HttpResponse response = null;
 		try {
 			response = client.execute(httpGet);
 			HttpEntity resEntity = response.getEntity();
+//			strResult =  EntityUtils.toString(resEntity);
 			return EntityUtils.toString(resEntity);
 		} catch (ClientProtocolException e) {
 			((BaseActivity)context).dismissDialog();
-			e.printStackTrace();
+			new GrocermaxBaseException("SearchLoader","doInBackground",e.getMessage(),GrocermaxBaseException.CLIENT_PROTOCOL_EXCEPTION,strResult);
 		} catch (IOException e) {
 			((BaseActivity)context).dismissDialog();
-			e.printStackTrace();
+			new GrocermaxBaseException("SearchLoader","doInBackground",e.getMessage(),GrocermaxBaseException.IO_EXCEPTION,strResult);
+		}
+		catch (Exception e){
+			((BaseActivity)context).dismissDialog();
+			new GrocermaxBaseException("SearchLoader","doInBackground",e.getMessage(),GrocermaxBaseException.EXCEPTION,strResult);
 		}
 		return null;
     }
@@ -101,8 +114,7 @@ public class SearchLoader extends AsyncTask<String, String, String> {
     			UtilityMethods.customToast(jsonObject.getString("Result"), context);
     			return;	
     		}
-    		
-    		
+
     		listCategory = new ArrayList<HashMap<String,String>>();
     		listProd = new ArrayList<HashMap<String,String>>();
     		HashMap<String, String> map;
@@ -132,7 +144,6 @@ public class SearchLoader extends AsyncTask<String, String, String> {
     		JSONArray jsonArrProd = jsonObject.getJSONArray("Product");
     		alProd = new ArrayList<JSONObject>();
     		for(int i=0;i<jsonArrProd.length();i++)
-//    		for(int i=jsonArrProd.length()-1;i>=0;i--)
     		{
     			map = new HashMap<String, String>();
     			JSONObject jsonObjectProd = jsonArrProd.getJSONObject(i);
@@ -170,10 +181,7 @@ public class SearchLoader extends AsyncTask<String, String, String> {
     			alProd.add(jsonObjectProd);
     			listProd.add(map);
     		}    		
-    	
-    	}catch(Exception e){}
-    	
-    	
+
     	jsonArrMulProd = new JSONArray[listCategory.size()];
 //    	valuePairs = new HashMap<String, JSONArray>();
     	jsonObjectTop = new JSONObject[listCategory.size()];
@@ -183,8 +191,6 @@ public class SearchLoader extends AsyncTask<String, String, String> {
     		jsonArrMulProd[m] = new JSONArray();
     		jsonObjectTop[m] = new JSONObject();
     	}
-    	
-    	try{
     	
     	for(int i=0;i<listProd.size();i++)
     	{
@@ -203,21 +209,25 @@ public class SearchLoader extends AsyncTask<String, String, String> {
     			}
     		}
     	}
-    	}catch(Exception e){}
-    	
-    	try{
+
     	for(int k=0;k<jsonArrMulProd.length;k++)
     	{
     		System.out.println("==Final Prod Array=="+jsonArrMulProd[k]);
     		jsonObjectTop[k].put("Product",jsonArrMulProd[k]);
     	}
-    	System.out.println(jsonArrMulProd);
-    	}catch(Exception e){}
-    	
     	Intent call = new Intent(context, SearchTabs.class);
     	context.startActivity(call);
-    	
-    	
+
+		}catch(JSONException e){
+			((BaseActivity)context).dismissDialog();
+			new GrocermaxBaseException("SearchLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.JSON_EXCEPTION,result);
+		}catch (NullPointerException e){
+			((BaseActivity)context).dismissDialog();
+			new GrocermaxBaseException("SearchLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.NULL_POINTER,result);
+		}catch (Exception e){
+			((BaseActivity)context).dismissDialog();
+			new GrocermaxBaseException("SearchLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.EXCEPTION,result);
+		}
     }
     
 } 

@@ -330,7 +330,7 @@ public class CategoryList extends BaseActivity {
 		super.onResume();
 		initHeader(findViewById(R.id.header), true, null);
 	}
-	
+
 	@Override
     protected void onStart() {
     	// TODO Auto-generated method stub
@@ -341,7 +341,7 @@ public class CategoryList extends BaseActivity {
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){}
     }
-    
+
     @Override
     protected void onStop() {
     	// TODO Auto-generated method stub

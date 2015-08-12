@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.flurry.android.FlurryAgent;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.sakshay.grocermax.api.MyReceiverActions;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 
 public class CODConfirmation extends BaseActivity implements OnClickListener{
 	
@@ -19,35 +20,33 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		Bundle bundle = getIntent().getExtras();
-		try{
-			orderid = bundle.getString("orderid");
-			status = bundle.getString("status");
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		
-		if(status.equals("success")){
-			setContentView(R.layout.confirmation_activity);
-			TextView tvSuccess = (TextView) findViewById(R.id.tv_success);
-			TextView tvOrder = (TextView) findViewById(R.id.tv_order);
-			TextView tvOrderId = (TextView) findViewById(R.id.tv_order_id);
-			TextView tvCheckMailDetails = (TextView) findViewById(R.id.tv_check_mail_for_details);
+		try {
+			Bundle bundle = getIntent().getExtras();
+			try {
+				orderid = bundle.getString("orderid");
+				status = bundle.getString("status");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			if (status.equals("success")) {
+				setContentView(R.layout.confirmation_activity);
+				TextView tvSuccess = (TextView) findViewById(R.id.tv_success);
+				TextView tvOrder = (TextView) findViewById(R.id.tv_order);
+				TextView tvOrderId = (TextView) findViewById(R.id.tv_order_id);
+				TextView tvCheckMailDetails = (TextView) findViewById(R.id.tv_check_mail_for_details);
 //			String msg="Your order has been successfully placed.Order ID is <b>"+orderid+"</b>.Please check your mail for details.";
-			String msg = "Order ID is <b>"+orderid+"</b>";
-			tvOrderId.setText(Html.fromHtml(msg));
+				String msg = "Order ID is <b>" + orderid + "</b>";
+				tvOrderId.setText(Html.fromHtml(msg));
 //			hint.setText(Html.fromHtml(msg));
-			tvSuccess.setVisibility(View.VISIBLE);
-			tvOrder.setVisibility(View.VISIBLE);
-			tvOrderId.setVisibility(View.VISIBLE);
-			tvCheckMailDetails.setVisibility(View.VISIBLE);
-			
-			
-		}else{
-			setContentView(R.layout.order_failure);
+				tvSuccess.setVisibility(View.VISIBLE);
+				tvOrder.setVisibility(View.VISIBLE);
+				tvOrderId.setVisibility(View.VISIBLE);
+				tvCheckMailDetails.setVisibility(View.VISIBLE);
+
+
+			} else {
+				setContentView(R.layout.order_failure);
 //			setContentView(R.layout.confirmation_activity);
 //			TextView tvSuccess = (TextView) findViewById(R.id.tv_success);
 //			TextView tvOrder = (TextView) findViewById(R.id.tv_order);
@@ -62,16 +61,19 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 //			String msg="Your order has been failed";
 //			hint.setText(Html.fromHtml(msg));
 //			tvOrderFailure.setText(Html.fromHtml(msg));
-		}
-		
-		 addActionsInFilter(MyReceiverActions.ORDER_HISTORY);
-		 TextView continue_shopping = (TextView) findViewById(R.id.continueButton);
-		 continue_shopping.setOnClickListener(this);
-		 TextView order_history = (TextView) findViewById(R.id.orderHistory);
-		 order_history.setOnClickListener(this);
-		 
+			}
+
+			addActionsInFilter(MyReceiverActions.ORDER_HISTORY);
+			TextView continue_shopping = (TextView) findViewById(R.id.continueButton);
+			continue_shopping.setOnClickListener(this);
+			TextView order_history = (TextView) findViewById(R.id.orderHistory);
+			order_history.setOnClickListener(this);
+
 //		 initHeader(findViewById(R.id.header), true, "Order Confirmation");
-		 initHeader(findViewById(R.id.header), true, null);
+			initHeader(findViewById(R.id.header), true, null);
+		}catch(Exception e){
+			new GrocermaxBaseException("CODConfirmation","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 
 	@Override
@@ -82,8 +84,7 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-		
-		
+		try{
 		switch(v.getId())
 		{
 			case R.id.continueButton:
@@ -96,23 +97,34 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 				openOrderHistory();
 				break;
 		}
+		}catch(Exception e){
+			new GrocermaxBaseException("CODConfirmation","onClick",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		try{
 		initHeader(findViewById(R.id.header), true, null);
+		}catch(Exception e){
+			new GrocermaxBaseException("CODConfirmation","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
-		Intent intent = new Intent(CODConfirmation.this, HomeScreen.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(intent);
-		finish();
+		try {
+			Intent intent = new Intent(CODConfirmation.this, HomeScreen.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			finish();
+		}catch(Exception e){
+			new GrocermaxBaseException("CODConfirmation","onBackPressed",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	
 	@Override
@@ -123,7 +135,9 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 	    	tracker.activityStart(this);
 	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("CODConfirmation","onStart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
     
     @Override
@@ -133,7 +147,9 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
     	try{
 	    	tracker.activityStop(this);
 	    	FlurryAgent.onEndSession(this);
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("CODConfirmation","onStop",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
 	
 	

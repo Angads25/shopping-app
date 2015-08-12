@@ -27,6 +27,7 @@ import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.bean.CartDetail;
 import com.sakshay.grocermax.bean.Product;
 import com.sakshay.grocermax.bean.ProductDetail;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants.ToastConstant;
 import com.sakshay.grocermax.utils.Constants;
@@ -66,104 +67,101 @@ public class ProductDetailScreen extends BaseActivity implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		super.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		try {
+			Bundle bundle = getIntent().getExtras();
+			if (bundle != null) {
+				product = (Product) bundle.getSerializable("Product");
+				strBrand = bundle.getString("BRAND");
+				strName = bundle.getString("NAME");
+				strGramorml = bundle.getString("GRAMSORML");
+				strPromotion = bundle.getString("PROMOTION");
+				productDetail = (ProductDetail) bundle.getSerializable("ProductContent");
+			}
 
-		Bundle bundle = getIntent().getExtras();
-		if (bundle != null) {
-			 product = (Product) bundle.getSerializable("Product");
-			 strBrand = bundle.getString("BRAND");
-			 strName = bundle.getString("NAME");
-			 strGramorml = bundle.getString("GRAMSORML");
-			 strPromotion = bundle.getString("PROMOTION");
-			 productDetail = (ProductDetail) bundle.getSerializable("ProductContent");
-		}
+			setContentView(R.layout.product_details_screen);
 
-		setContentView(R.layout.product_details_screen);	
-
-		addActionsInFilter(MyReceiverActions.ADD_TO_CART);
+			addActionsInFilter(MyReceiverActions.ADD_TO_CART);
 
 //		text_product_name = (TextView) findViewById(R.id.text_product_name);
-		product_image = (ImageView) findViewById(R.id.product_image);
+			product_image = (ImageView) findViewById(R.id.product_image);
 
-		text_description = (TextView) findViewById(R.id.text_description);
-		text_mow_price = (TextView) findViewById(R.id.text_mow_price);
-		text_weight = (TextView) findViewById(R.id.text_weight);
-		quantity = (TextView) findViewById(R.id.quantity);
-		add_cart = (TextView) findViewById(R.id.add_cart);
-		rlOutOfStockDesc = (RelativeLayout) findViewById(R.id.rl_out_of_stock_desc);
-		addedProductCountDesc = (TextView) findViewById(R.id.added_product_count_desc);
-		
-		tvOffers = (TextView) findViewById(R.id.tv_offers_details);
-		
-		prod_desc_brand = (TextView) findViewById(R.id.product_desc_brand);
-		prod_desc_name = (TextView) findViewById(R.id.product_desc_name);
-		prod_desc_gmorml = (TextView) findViewById(R.id.product_desc_gmorml);
-		prod_desc_brand.setText(strBrand);
-		prod_desc_name.setText(strName);
-		prod_desc_gmorml.setText(strGramorml);
-		
-		iv_cart = (ImageView) findViewById(R.id.iv_cart);
-		
-		prod_desc_brand.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
-		prod_desc_name.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-		prod_desc_gmorml.setTypeface(CustomFonts.getInstance().getRobotoLight(this));
+			text_description = (TextView) findViewById(R.id.text_description);
+			text_mow_price = (TextView) findViewById(R.id.text_mow_price);
+			text_weight = (TextView) findViewById(R.id.text_weight);
+			quantity = (TextView) findViewById(R.id.quantity);
+			add_cart = (TextView) findViewById(R.id.add_cart);
+			rlOutOfStockDesc = (RelativeLayout) findViewById(R.id.rl_out_of_stock_desc);
+			addedProductCountDesc = (TextView) findViewById(R.id.added_product_count_desc);
 
-		decrease_quantity = (ImageView) findViewById(R.id.decrease_quantity);
-		increase_quantity = (ImageView) findViewById(R.id.increase_quantity);
+			tvOffers = (TextView) findViewById(R.id.tv_offers_details);
 
-		decrease_quantity.setOnClickListener(this);
-		increase_quantity.setOnClickListener(this);
-		
+			prod_desc_brand = (TextView) findViewById(R.id.product_desc_brand);
+			prod_desc_name = (TextView) findViewById(R.id.product_desc_name);
+			prod_desc_gmorml = (TextView) findViewById(R.id.product_desc_gmorml);
+			prod_desc_brand.setText(strBrand);
+			prod_desc_name.setText(strName);
+			prod_desc_gmorml.setText(strGramorml);
+
+			iv_cart = (ImageView) findViewById(R.id.iv_cart);
+
+			prod_desc_brand.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
+			prod_desc_name.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+			prod_desc_gmorml.setTypeface(CustomFonts.getInstance().getRobotoLight(this));
+
+			decrease_quantity = (ImageView) findViewById(R.id.decrease_quantity);
+			increase_quantity = (ImageView) findViewById(R.id.increase_quantity);
+
+			decrease_quantity.setOnClickListener(this);
+			increase_quantity.setOnClickListener(this);
+
 //		text_mow_price.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-		
-		imgCancel = (ImageView) findViewById(R.id.img_cancel);
-		tvCancelPrice = (TextView) findViewById(R.id.tv_cancel_price);
-		tvCancelPrice.setPaintFlags(tvCancelPrice.getPaintFlags()
-				| Paint.STRIKE_THRU_TEXT_FLAG);
 
-		imgCancel.setOnClickListener(this);
-		add_cart.setOnClickListener(this);
-		
+			imgCancel = (ImageView) findViewById(R.id.img_cancel);
+			tvCancelPrice = (TextView) findViewById(R.id.tv_cancel_price);
+			tvCancelPrice.setPaintFlags(tvCancelPrice.getPaintFlags()
+					| Paint.STRIKE_THRU_TEXT_FLAG);
+
+			imgCancel.setOnClickListener(this);
+			add_cart.setOnClickListener(this);
+
 //		tvCancelPrice.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-		
+
 //		face = Typeface.createFromAsset(this.getAssets(), "Rupee.ttf");
 //		text_mow_price.setTypeface(face);
 //		text_mow_price.setText("`"+ productDetail.getSale_price());
-		
-		if(product.getPromotionLevel() != null){
-			tvOffers.setVisibility(View.VISIBLE);
-			tvOffers.setText(product.getPromotionLevel());
-		}else{
-			tvOffers.setVisibility(View.GONE);
-		}
-		
-		
-		
-		
+
+			if (product.getPromotionLevel() != null) {
+				tvOffers.setVisibility(View.VISIBLE);
+				tvOffers.setText(product.getPromotionLevel());
+			} else {
+				tvOffers.setVisibility(View.GONE);
+			}
+
+
 //		face = Typeface.createFromAsset(this.getAssets(), "Rupee.ttf");
 //		tvCancelPrice.setTypeface(face);
 //		tvCancelPrice.setText("`"+ productDetail.getProductPrice());
-		
-		Typeface font2 = Typeface.createFromAsset(MyApplication.getInstance().getAssets(), "Roboto-Bold.ttf");
-		Typeface font1 = Typeface.createFromAsset(MyApplication.getInstance().getAssets(), "Rupee.ttf");
-		SpannableStringBuilder SS = new SpannableStringBuilder("`"+productDetail.getProductPrice());
-        SS.setSpan (new CustomTypefaceSpan("", font1), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        SS.setSpan (new CustomTypefaceSpan("", font2), 1, productDetail.getProductPrice().toString().length()-(productDetail.getProductPrice().toString().length()-1),Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-//        SS.setSpan (new CustomTypefaceSpan("", font2), 1, productDetail.getProductPrice().toString().length()+1,Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-//        SS.setSpan (new CustomTypefaceSpan("", font2), 1, productDetail.getProductPrice().toString().length()+1,Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-        tvCancelPrice.setText(SS);
-        
-        
-        
-        font1 = Typeface.createFromAsset(MyApplication.getInstance().getAssets(), "Rupee.ttf");
-        font2 = Typeface.createFromAsset(MyApplication.getInstance().getAssets(), "Roboto-Bold.ttf");
-        SS = new SpannableStringBuilder("`"+productDetail.getSale_price());
-        SS.setSpan (new CustomTypefaceSpan("", font1), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-//        SS.setSpan (new CustomTypefaceSpan("", font2), 1, productDetail.getSale_price().length()-(productDetail.getSale_price().length()-1),Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-        SS.setSpan (new CustomTypefaceSpan("", font2), 1, productDetail.getSale_price().toString().length()+1,Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-        text_mow_price.setText(SS);
 
-        System.out.println("==length=="+productDetail.getProductPrice().toString().length());
-        
+			Typeface font2 = Typeface.createFromAsset(MyApplication.getInstance().getAssets(), "Roboto-Bold.ttf");
+			Typeface font1 = Typeface.createFromAsset(MyApplication.getInstance().getAssets(), "Rupee.ttf");
+			SpannableStringBuilder SS = new SpannableStringBuilder("`" + productDetail.getProductPrice());
+			SS.setSpan(new CustomTypefaceSpan("", font1), 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+			SS.setSpan(new CustomTypefaceSpan("", font2), 1, productDetail.getProductPrice().toString().length() - (productDetail.getProductPrice().toString().length() - 1), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+//        SS.setSpan (new CustomTypefaceSpan("", font2), 1, productDetail.getProductPrice().toString().length()+1,Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+//        SS.setSpan (new CustomTypefaceSpan("", font2), 1, productDetail.getProductPrice().toString().length()+1,Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+			tvCancelPrice.setText(SS);
+
+
+			font1 = Typeface.createFromAsset(MyApplication.getInstance().getAssets(), "Rupee.ttf");
+			font2 = Typeface.createFromAsset(MyApplication.getInstance().getAssets(), "Roboto-Bold.ttf");
+			SS = new SpannableStringBuilder("`" + productDetail.getSale_price());
+			SS.setSpan(new CustomTypefaceSpan("", font1), 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+//        SS.setSpan (new CustomTypefaceSpan("", font2), 1, productDetail.getSale_price().length()-(productDetail.getSale_price().length()-1),Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+			SS.setSpan(new CustomTypefaceSpan("", font2), 1, productDetail.getSale_price().toString().length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+			text_mow_price.setText(SS);
+
+			System.out.println("==length==" + productDetail.getProductPrice().toString().length());
+
 //		String productName = product.getName();
 //		productName = productName.replaceAll("  ", " ");
 //		productName = productName.replaceAll("   ", " ");
@@ -185,93 +183,90 @@ public class ProductDetailScreen extends BaseActivity implements
 
 //		setSpanText(firstPart, secondPart, text_product_name);
 
-		initImageLoaderM();
-		ImageLoader.getInstance().displayImage(
-				productDetail.getProductThumbnail(), product_image,
-				baseImageoptions);
+			initImageLoaderM();
+			ImageLoader.getInstance().displayImage(
+					productDetail.getProductThumbnail(), product_image,
+					baseImageoptions);
 
-		text_weight.setText("Weight ");
-		
-		
-		int edit_quantity = 0;
-        ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart(this, Constants.localCloneFile);
-		if(cart_products != null && cart_products.size() > 0)
-		{
-			try
-			{
-				for(int i=0; i<cart_products.size(); i++)
-				{
-					if(cart_products.get(i).getItem_id().equalsIgnoreCase(product.getProductid()))
-					{
-						edit_quantity  = edit_quantity + cart_products.get(i).getQty();
+			text_weight.setText("Weight ");
+
+
+			int edit_quantity = 0;
+			ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart(this, Constants.localCloneFile);
+			if (cart_products != null && cart_products.size() > 0) {
+				try {
+					for (int i = 0; i < cart_products.size(); i++) {
+						if (cart_products.get(i).getItem_id().equalsIgnoreCase(product.getProductid())) {
+							edit_quantity = edit_quantity + cart_products.get(i).getQty();
+						}
 					}
+				} catch (Exception e) {
 				}
-			}catch(Exception e){}
-		}
-		
-		if(edit_quantity > 0){
-			iv_cart.setVisibility(View.VISIBLE);
-		    addedProductCountDesc.setVisibility(View.VISIBLE);
-		    addedProductCountDesc.setText(String.valueOf(edit_quantity));
-		}else{
-			iv_cart.setVisibility(View.INVISIBLE);
-			addedProductCountDesc.setVisibility(View.INVISIBLE);
-		}
-		
-		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)addedProductCountDesc.getLayoutParams();
-		if(String.valueOf(edit_quantity).length() > 1){
-			params.setMargins(0, 7, 12, 0);  // left, top, right, bottom
-			addedProductCountDesc.setLayoutParams(params);
-		}
-		else if(String.valueOf(edit_quantity).length() == 1){
-			params.setMargins(0, 7, 5, 0);  // left, top, right, bottom
-			addedProductCountDesc.setLayoutParams(params);
-		}
-		
+			}
+
+			if (edit_quantity > 0) {
+				iv_cart.setVisibility(View.VISIBLE);
+				addedProductCountDesc.setVisibility(View.VISIBLE);
+				addedProductCountDesc.setText(String.valueOf(edit_quantity));
+			} else {
+				iv_cart.setVisibility(View.INVISIBLE);
+				addedProductCountDesc.setVisibility(View.INVISIBLE);
+			}
+
+			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) addedProductCountDesc.getLayoutParams();
+			if (String.valueOf(edit_quantity).length() > 1) {
+				params.setMargins(0, 7, 12, 0);  // left, top, right, bottom
+				addedProductCountDesc.setLayoutParams(params);
+			} else if (String.valueOf(edit_quantity).length() == 1) {
+				params.setMargins(0, 7, 5, 0);  // left, top, right, bottom
+				addedProductCountDesc.setLayoutParams(params);
+			}
+
 //		setSpanText("GrocerMax Price:", "   Rs. "+productDetail.getSale_price(),text_mow_price);
 //		text_mow_price.setText("Rs. "+productDetail.getSale_price()); 
 
-		text_description.setText(product.getName());
-		
-		if(productDetail.getStatus().equals("In stock"))
-		{
+			text_description.setText(product.getName());
+
+			if (productDetail.getStatus().equals("In stock")) {
 //			increase_quantity.setImageResource(R.drawable.plus_icon);
 //			decrease_quantity.setImageResource(R.drawable.minus_icon);
 //			add_cart.setBackgroundResource(R.drawable.orange_border_gradient_box);
-			rlOutOfStockDesc.setVisibility(View.GONE);
-			decrease_quantity.setVisibility(View.VISIBLE);
-			increase_quantity.setVisibility(View.VISIBLE);
-			quantity.setVisibility(View.VISIBLE);
-		    add_cart.setVisibility(View.VISIBLE);
-			add_cart.setClickable(true);
-			increase_quantity.setClickable(true);
-			decrease_quantity.setClickable(true);
-		}
-		else
-		{
+				rlOutOfStockDesc.setVisibility(View.GONE);
+				decrease_quantity.setVisibility(View.VISIBLE);
+				increase_quantity.setVisibility(View.VISIBLE);
+				quantity.setVisibility(View.VISIBLE);
+				add_cart.setVisibility(View.VISIBLE);
+				add_cart.setClickable(true);
+				increase_quantity.setClickable(true);
+				decrease_quantity.setClickable(true);
+			} else {
 //			increase_quantity.setImageResource(R.drawable.plus_icon_disable);
 //			decrease_quantity.setImageResource(R.drawable.minus_icon_disable);
 //			add_cart.setBackgroundResource(R.drawable.gray_border_gradient_box);
-			rlOutOfStockDesc.setVisibility(View.VISIBLE);
-			decrease_quantity.setVisibility(View.GONE);
-			increase_quantity.setVisibility(View.GONE);
-			quantity.setVisibility(View.GONE);
-		    add_cart.setVisibility(View.GONE);
-			quantity.setText("0");
-			add_cart.setClickable(false);
-			increase_quantity.setClickable(false);
-			decrease_quantity.setClickable(false);
-		}
-		
-		if(MySharedPrefs.INSTANCE.getItemQuantity()!=null)
-		quantity.setText(MySharedPrefs.INSTANCE.getItemQuantity());
+				rlOutOfStockDesc.setVisibility(View.VISIBLE);
+				decrease_quantity.setVisibility(View.GONE);
+				increase_quantity.setVisibility(View.GONE);
+				quantity.setVisibility(View.GONE);
+				add_cart.setVisibility(View.GONE);
+				quantity.setText("0");
+				add_cart.setClickable(false);
+				increase_quantity.setClickable(false);
+				decrease_quantity.setClickable(false);
+			}
 
-		initHeader(findViewById(R.id.header), true, screenName);
-		initFooter(findViewById(R.id.footer), 2, -1);
+			if (MySharedPrefs.INSTANCE.getItemQuantity() != null)
+				quantity.setText(MySharedPrefs.INSTANCE.getItemQuantity());
+
+			initHeader(findViewById(R.id.header), true, screenName);
+			initFooter(findViewById(R.id.footer), 2, -1);
+		}catch(Exception e){
+			new GrocermaxBaseException("PayTMActivity","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 
 	@Override
 	public void onClick(View view) {
+		try{
 		switch (view.getId()) {
 		case R.id.decrease_quantity:
 			int quant = Integer.parseInt(quantity.getText().toString());
@@ -407,6 +402,9 @@ public class ProductDetailScreen extends BaseActivity implements
 		default:
 			break;
 		}
+		}catch(Exception e){
+			new GrocermaxBaseException("ProductDetailScreen","onClick",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 
 	private void setSpanText(String fString, String sString, TextView textView) {
@@ -428,6 +426,7 @@ public class ProductDetailScreen extends BaseActivity implements
 
 	@Override
 	void OnResponse(Bundle bundle) {
+		try{
 		String action = bundle.getString("ACTION");
 		if (action.equalsIgnoreCase(MyReceiverActions.ADD_TO_CART)) {
 			BaseResponseBean bean = (BaseResponseBean) bundle
@@ -449,6 +448,9 @@ public class ProductDetailScreen extends BaseActivity implements
 				UtilityMethods.customToast(ToastConstant.ERROR_MSG, mContext);
 			}
 		}
+		}catch(Exception e){
+			new GrocermaxBaseException("ProductDetailScreen","OnResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 
 	}
 	
@@ -456,7 +458,11 @@ public class ProductDetailScreen extends BaseActivity implements
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		initHeader(findViewById(R.id.header), true, null);
+		try {
+			initHeader(findViewById(R.id.header), true, null);
+		}catch(Exception e){
+			new GrocermaxBaseException("ProductDetailScreen","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 
 	@Override
@@ -467,7 +473,9 @@ public class ProductDetailScreen extends BaseActivity implements
 	    	tracker.activityStart(this);
 	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("ProductDetailScreen","onStart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
     
     @Override
@@ -477,7 +485,9 @@ public class ProductDetailScreen extends BaseActivity implements
     	try{
 	    	tracker.activityStop(this);
 	    	FlurryAgent.onEndSession(this);
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("ProductDetailScreen","onStart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
 	
 	

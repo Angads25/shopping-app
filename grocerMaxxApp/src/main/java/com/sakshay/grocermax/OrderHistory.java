@@ -17,6 +17,7 @@ import com.sakshay.grocermax.adapters.OrderHistoryAdapter;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.OrderHistoryBean;
 import com.sakshay.grocermax.bean.Orderhistory;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.utils.CustomFonts;
 
 public class OrderHistory extends BaseActivity{
@@ -28,7 +29,7 @@ public class OrderHistory extends BaseActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		try{
 		Bundle bundle = getIntent().getExtras();
 		if(bundle != null)
 		{
@@ -65,8 +66,10 @@ public class OrderHistory extends BaseActivity{
 			msg.setText("Your order history is empty");
 		}
 		
-		
 		initHeader(findViewById(R.id.header), true, "Order History");
+		}catch(Exception e){
+			new GrocermaxBaseException("OrderHistory","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 
 	@Override
@@ -79,7 +82,11 @@ public class OrderHistory extends BaseActivity{
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		initHeader(findViewById(R.id.header), true, null);
+		try {
+			initHeader(findViewById(R.id.header), true, null);
+		}catch(Exception e){
+			new GrocermaxBaseException("OrderHistory","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	
 	@Override
@@ -90,7 +97,9 @@ public class OrderHistory extends BaseActivity{
 	    	tracker.activityStart(this);
 	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("OrderHistory","onStart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
     
     @Override
@@ -100,7 +109,9 @@ public class OrderHistory extends BaseActivity{
     	try{
 	    	tracker.activityStop(this);
 	    	FlurryAgent.onEndSession(this);
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("OrderHistory","onStop",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
 	
 	

@@ -62,8 +62,6 @@ public class UrlsConstants {
 			+ "registeration.php?";*/
 	  public final static String REGESTRATION_URL = NEW_BASE_URL
 				+ "createuser?";
-	  
-	
 
 	public final static String EDIT_USER_URL = BASE_URL
 			+ "editprofile.php?UserID=";// 166&fname=Suman&uemail=suman.tripath333i@sakshay.in

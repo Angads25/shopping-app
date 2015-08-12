@@ -19,6 +19,7 @@ import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.bean.CartDetail;
 import com.sakshay.grocermax.bean.LoginResponse;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants.ToastConstant;
@@ -49,7 +50,7 @@ public class Registration extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		try{
 		SCREEN_NAME = getIntent().getExtras().getString("whichScreen");
 
 		mContext = this;
@@ -72,7 +73,9 @@ public class Registration extends BaseActivity {
 			//TODO abhi, now that lots of views are gone please rewire registration screen
 			//displayRegistrationView();
 		}
-		
+		}catch(Exception e){
+			new GrocermaxBaseException("Registeration","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 
 	private void displayForgotPasswordView() {
@@ -568,6 +571,7 @@ public class Registration extends BaseActivity {
 
 	@Override
 	void OnResponse(Bundle bundle) {
+		try{
 		if (bundle.getString("ACTION").equals(MyReceiverActions.REGISTER_USER)) {
 			LoginResponse userDataBean= (LoginResponse) bundle.getSerializable(ConnectionService.RESPONSE);
 			if (userDataBean.getFlag().equalsIgnoreCase("1")) {
@@ -656,6 +660,9 @@ public class Registration extends BaseActivity {
 			}
 			
 		}
+		}catch(Exception e){
+			new GrocermaxBaseException("Registeration","onStart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	
 	@Override
@@ -672,7 +679,9 @@ public class Registration extends BaseActivity {
 	    	tracker.activityStart(this);
 	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("Registeration","onStart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
     
     @Override
@@ -682,7 +691,9 @@ public class Registration extends BaseActivity {
     	try{
 	    	tracker.activityStop(this);
 	    	FlurryAgent.onEndSession(this);
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("Registeration","onStop",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
 	
 	

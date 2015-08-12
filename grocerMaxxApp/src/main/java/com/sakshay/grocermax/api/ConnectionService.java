@@ -47,6 +47,7 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.sakshay.grocermax.CartProductList;
 import com.sakshay.grocermax.api.ConnectionServiceParser.MyParserType;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.MyHttpUtils;
@@ -191,14 +192,17 @@ public class ConnectionService extends IntentService {
 		} catch (IOException e) {
 			bundle.putString(ERROR, IO_EXCEPTION);
 			Log.e(TAG, "ERROR::" + e.getMessage());
+			new GrocermaxBaseException("ConnectionService","onHandleIntent",e.getMessage(),GrocermaxBaseException.IO_EXCEPTION,response_str);
 			e.printStackTrace();
 		} catch (JSONException e) {
 			bundle.putString(ERROR, JSON_EXCEPTION);
 			Log.e(TAG, "ERROR::" + e.getMessage());
+			new GrocermaxBaseException("ConnectionService","onHandleIntent",e.getMessage(),GrocermaxBaseException.JSON_EXCEPTION,response_str);
 			e.printStackTrace();
 		} catch (Exception e) {
 			bundle.putString(ERROR, EXCEPTION);
-			Log.e(TAG, "ERROR::" + "Unknow Error");
+			Log.e(TAG, "ERROR::" + "Unknown Error");
+			new GrocermaxBaseException("ConnectionService","onHandleIntent",e.getMessage(),GrocermaxBaseException.EXCEPTION,response_str);
 			e.printStackTrace();
 		}
 		finally{
@@ -225,59 +229,68 @@ public class ConnectionService extends IntentService {
 			HttpClient client) throws ClientProtocolException, IOException,
 			SAXException, ParserConfigurationException {
 
+
 		List<NameValuePair> nameValuePairs = null;
 		HttpResponse response = null;
-		if (hashMap != null) {
-			nameValuePairs = new ArrayList<NameValuePair>(hashMap.size());
-			for (Map.Entry<String, String> entry : hashMap.entrySet()) {
-				String key = entry.getKey();
-				String value = entry.getValue();
-				nameValuePairs.add(new BasicNameValuePair(key, value));
-			}
-		}
+		try {
 
-		if (requestType.equalsIgnoreCase("POST")) {
-			HttpPost httpPost = new HttpPost(urlString);
-			httpPost.setHeader("Content-Type", "application/json");
-			if (accessToken != null) {
-				httpPost.setHeader("AccessToken", "" + accessToken);
+			if (hashMap != null) {
+				nameValuePairs = new ArrayList<NameValuePair>(hashMap.size());
+				for (Map.Entry<String, String> entry : hashMap.entrySet()) {
+					String key = entry.getKey();
+					String value = entry.getValue();
+					nameValuePairs.add(new BasicNameValuePair(key, value));
+				}
 			}
-			// IF Required.
-			// httpPost.setHeader("Authorization", "Basic " +
-			// Base64.NO_WRAP));
-			
 
-			
-			
-			
-			if (nameValuePairs != null) {
-				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-			} else if (jsonString != null) {
-				httpPost.setEntity(new StringEntity(jsonString));
-			}
-			
+			if (requestType.equalsIgnoreCase("POST")) {
+				HttpPost httpPost = new HttpPost(urlString);
+				httpPost.setHeader("Content-Type", "application/json");
+				if (accessToken != null) {
+					httpPost.setHeader("AccessToken", "" + accessToken);
+				}
+				// IF Required.
+				// httpPost.setHeader("Authorization", "Basic " +
+				// Base64.NO_WRAP));
+
+
+				if (nameValuePairs != null) {
+					httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+				} else if (jsonString != null) {
+					httpPost.setEntity(new StringEntity(jsonString));
+				}
+
 //			if(CartProductList.getInstance().jsonObjectUpdate != null){
 //				httpPost.setEntity(new StringEntity(CartProductList.getInstance().jsonObjectUpdate.toString(), "UTF8"));
 //			}
 //			
 //			System.out.println("==post="+httpPost);
 //			System.out.println("==json=="+CartProductList.getInstance().jsonObjectUpdate.toString());
-			
-			response = client.execute(httpPost);
-			CartProductList.getInstance().jsonObjectUpdate = null;
-		} else if (requestType.equalsIgnoreCase("GET")) {
-			HttpGet httpGet = new HttpGet(urlString);
-			if (AppConstants.DEBUG) {
-				Log.i(TAG, "URL:::" + urlString);
+
+				response = client.execute(httpPost);
+				CartProductList.getInstance().jsonObjectUpdate = null;
+			} else if (requestType.equalsIgnoreCase("GET")) {
+				if(urlString.contains("?")) {
+					urlString += "&version=1.0";
+				}else{
+					urlString += "?version=1.0";
+				}
+				HttpGet httpGet = new HttpGet(urlString);
+				if (AppConstants.DEBUG) {
+					Log.i(TAG, "URL:::" + urlString);
+				}
+				httpGet.setHeader("Content-Type", "application/json");
+				if (accessToken != null) {
+					httpGet.setHeader("AccessToken", "" + accessToken);
+				}
+				// IF Required.
+				// httpGet.setHeader("Authorization", "Basic " +
+				// Base64.NO_WRAP));
+				response = client.execute(httpGet);
 			}
-			httpGet.setHeader("Content-Type", "application/json");
-			if (accessToken != null) {
-				httpGet.setHeader("AccessToken", "" + accessToken);
-			}
-			// IF Required.
-			// httpGet.setHeader("Authorization", "Basic " +
-			// Base64.NO_WRAP));
-			response = client.execute(httpGet);
+		}catch (Exception e) {
+			new GrocermaxBaseException("ConnectionService","processRequest",e.getMessage(),GrocermaxBaseException.EXCEPTION,EntityUtils.toString(response.getEntity()));
+			e.printStackTrace();
 		}
 
 		HttpEntity resEntity = response.getEntity();
@@ -320,126 +333,141 @@ public class ConnectionService extends IntentService {
 			throws SAXException, ParserConfigurationException, IOException,
 			JSONException, RemoteException, OperationApplicationException {
 
-		switch (type) {
-		case MyParserType.LOGIN:
-			bundle.putSerializable(RESPONSE,
-					(Serializable) ConnectionServiceParser
-							.parseLoginResponse(response));
-			break;
-		case MyParserType.REGISTRATION:
-			bundle.putSerializable(RESPONSE,
-					(Serializable) ConnectionServiceParser
-							.parseSimpleResponse(response));
-			break;
-		case MyParserType.FORGOT_PWD:
-			bundle.putSerializable(RESPONSE,
-					(Serializable) ConnectionServiceParser
-							.parseSimpleResponse(response));
-			break;
-		case MyParserType.EDIT_PROFILE:
-			bundle.putSerializable(RESPONSE,
-					(Serializable) ConnectionServiceParser
-							.parseSimpleResponse(response));
-			break;	
-			
-		case MyParserType.CATEGORY_LIST:
-			if (AppConstants.DEBUG) {
-				Log.i(TAG, "RESPONSE FOR PARSE:::" + response);
-			}
-			bundle.putSerializable(RESPONSE,
-					(Serializable) ConnectionServiceParser
-							.parseCategoryResponse(response));
-			// bundle.putSerializable(RESPONSE, (Serializable) response);
-			break;
-		case MyParserType.CATEGORY_SUBCATEGORY_LIST:
-			if (AppConstants.DEBUG) {
-				Log.i(TAG, "RESPONSE FOR PARSE:::" + response);
-				
-			}
-			// bundle.putSerializable(RESPONSE,
-			// (Serializable) ConnectionServiceParser
-			// .parseCategoryResponse(response));
-			bundle.putSerializable(RESPONSE, (Serializable) response);
-			break;
-		case MyParserType.PRODUCT_LIST:
-			bundle.putSerializable(RESPONSE,
-					(Serializable) ConnectionServiceParser
-							.parseProductResponse(response));
-			break;
-		case MyParserType.SEARCH_PRODUCT_LIST:
-			bundle.putSerializable(RESPONSE,
-					(Serializable) ConnectionServiceParser
-							.parseProductResponse(response));
-			break;
-		case MyParserType.PRODUCT_CONTENT_LIST:
-			bundle.putSerializable(RESPONSE,
-					(Serializable) ConnectionServiceParser
-							.parseProductContentResponse(response));
-			break;
-		case MyParserType.ADD_TO_CART:
-			bundle.putSerializable(RESPONSE,
-					(Serializable) ConnectionServiceParser
-							.parseSimpleResponse(response));
-			break;
-		case MyParserType.DELETE_FROM_CART:
-			bundle.putSerializable(RESPONSE,
-					(Serializable) ConnectionServiceParser
-							.parseSimpleResponse(response));
-			break;
-		case MyParserType.VIEW_CART:
+		try {
 
-			bundle.putSerializable(RESPONSE,
-					(Serializable) ConnectionServiceParser
-							.parseViewCartResponse(response));
-			break;
-		case MyParserType.VIEW_CART_UPDATE_LOCALLY:
+			switch (type) {
+				case MyParserType.LOGIN:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseLoginResponse(response));
+					break;
+				case MyParserType.REGISTRATION:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseSimpleResponse(response));
+					break;
+				case MyParserType.FORGOT_PWD:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseSimpleResponse(response));
+					break;
+				case MyParserType.EDIT_PROFILE:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseSimpleResponse(response));
+					break;
 
-			bundle.putSerializable(RESPONSE,
-					(Serializable) ConnectionServiceParser
-							.parseViewCartResponseLocally(response));
-			break;	
-		case MyParserType.USER_DETAILS:
-			bundle.putSerializable(RESPONSE,
-					(Serializable) ConnectionServiceParser
-							.parseUserDetailsResponse(response));
-			break;
-		case MyParserType.ORDER_HISTORY:
-			bundle.putSerializable(RESPONSE,
-					(Serializable) ConnectionServiceParser
-							.parseOrderHistoryResponse(response));
-			break;
-		case MyParserType.ORDER_DETAIL:
-			bundle.putSerializable(RESPONSE,
-					(Serializable)response);
-			break;
-		case MyParserType.ADDRESS_BOOK:
-			bundle.putSerializable(RESPONSE,
-					(Serializable) ConnectionServiceParser
-							.parseAddressBookResponse(response));
-			break;
-		case MyParserType.ADD_ADDRESS:
-			bundle.putSerializable(RESPONSE,
-					(Serializable) ConnectionServiceParser
-							.parseSimpleResponse(response));
-			break;
-		case MyParserType.DELETE_ADDRESS:
-			bundle.putSerializable(RESPONSE,
-					(Serializable) ConnectionServiceParser
-							.parseSimpleResponse(response));
-			break;
-		case MyParserType.FINAL_CHECKOUT:
-			bundle.putSerializable(RESPONSE,
-					(Serializable) ConnectionServiceParser
-							.parseFinalCheckoutResponse(response));
-			break;
-		case MyParserType.CHECKOUT_ADDRESS:
-			bundle.putSerializable(RESPONSE,
-					(Serializable) ConnectionServiceParser
-							.parseCheckoutAddressResponse(response));
-			break;
-		case MyParserType.GET_SET_ORDERSTATUS:
-			bundle.putSerializable(RESPONSE,(Serializable)response);
-			break;
+				case MyParserType.CATEGORY_LIST:
+					if (AppConstants.DEBUG) {
+						Log.i(TAG, "RESPONSE FOR PARSE:::" + response);
+					}
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseCategoryResponse(response));
+					// bundle.putSerializable(RESPONSE, (Serializable) response);
+					break;
+				case MyParserType.CATEGORY_SUBCATEGORY_LIST:
+					if (AppConstants.DEBUG) {
+						Log.i(TAG, "RESPONSE FOR PARSE:::" + response);
+
+					}
+					// bundle.putSerializable(RESPONSE,
+					// (Serializable) ConnectionServiceParser
+					// .parseCategoryResponse(response));
+					bundle.putSerializable(RESPONSE, (Serializable) response);
+					break;
+				case MyParserType.PRODUCT_LIST:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseProductResponse(response));
+					break;
+				case MyParserType.SEARCH_PRODUCT_LIST:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseProductResponse(response));
+					break;
+				case MyParserType.PRODUCT_CONTENT_LIST:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseProductContentResponse(response));
+					break;
+				case MyParserType.ADD_TO_CART:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseSimpleResponse(response));
+					break;
+				case MyParserType.DELETE_FROM_CART:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseSimpleResponse(response));
+					break;
+				case MyParserType.VIEW_CART:
+
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseViewCartResponse(response));
+					break;
+				case MyParserType.VIEW_CART_UPDATE_LOCALLY:
+
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseViewCartResponseLocally(response));
+					break;
+				case MyParserType.USER_DETAILS:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseUserDetailsResponse(response));
+					break;
+				case MyParserType.ORDER_HISTORY:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseOrderHistoryResponse(response));
+					break;
+				case MyParserType.ORDER_DETAIL:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) response);
+					break;
+				case MyParserType.ADDRESS_BOOK:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseAddressBookResponse(response));
+					break;
+				case MyParserType.ADD_ADDRESS:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseSimpleResponse(response));
+					break;
+				case MyParserType.DELETE_ADDRESS:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseSimpleResponse(response));
+					break;
+				case MyParserType.FINAL_CHECKOUT:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseFinalCheckoutResponse(response));
+					break;
+				case MyParserType.CHECKOUT_ADDRESS:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseCheckoutAddressResponse(response));
+					break;
+				case MyParserType.GET_SET_ORDERSTATUS:
+					bundle.putSerializable(RESPONSE, (Serializable) response);
+					break;
+			}
+
+		}
+		catch (JSONException e) {
+			bundle.putString(ERROR, JSON_EXCEPTION);
+			Log.e(TAG, "ERROR::" + e.getMessage());
+			new GrocermaxBaseException("ConnectionService","parseData",e.getMessage(),GrocermaxBaseException.JSON_EXCEPTION,response);
+			e.printStackTrace();
+		} catch (Exception e) {
+			bundle.putString(ERROR, EXCEPTION);
+			Log.e(TAG, "ERROR::" + "Unknow Error");
+			new GrocermaxBaseException("ConnectionService","parseData",e.getMessage(),GrocermaxBaseException.EXCEPTION,response);
+			e.printStackTrace();
 		}
 	}
 	

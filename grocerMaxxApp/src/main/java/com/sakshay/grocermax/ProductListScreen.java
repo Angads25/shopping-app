@@ -26,6 +26,7 @@ import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.bean.Product;
 import com.sakshay.grocermax.bean.ProductDetailsListBean;
 import com.sakshay.grocermax.bean.ProductListBean;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.Constants.ToastConstant;
 import com.sakshay.grocermax.utils.UrlsConstants;
@@ -57,89 +58,86 @@ public class ProductListScreen extends BaseActivity implements OnScrollListener 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		try {
+			Bundle bundle = getIntent().getExtras();
+			if (bundle != null) {
+				productListBean = (ProductListBean) bundle
+						.getSerializable("ProductList");
 
-		Bundle bundle = getIntent().getExtras();
-		if (bundle != null) {
-			productListBean = (ProductListBean) bundle
-					.getSerializable("ProductList");
-			try {
-				header = bundle.getString("Header");
-				cat_id = bundle.getString("cat_id");
-			} catch (Exception e) {
-				e.printStackTrace();
+					header = bundle.getString("Header");
+					cat_id = bundle.getString("cat_id");
 			}
-		}
-		setContentView(R.layout.search_list);
-		
-		if (productListBean.getProduct().size() < itemPerPage) {
-			hasMoreItem = false;
-		} else {
-			hasMoreItem = true;
-		}
+			setContentView(R.layout.search_list);
 
-		tv_bradcrum=(TextView)findViewById(R.id.tv_Bradcrum);
-		hrc=(View)findViewById(R.id.hrc_Bradcrum);
-		if(MySharedPrefs.INSTANCE.getBradecrum().equals(""))
-		{
-			tv_bradcrum.setVisibility(View.VISIBLE);
-			hrc.setVisibility(View.VISIBLE);
-			tv_bradcrum.setText("Search result for '"+MySharedPrefs.INSTANCE.getSearchKey()+"'");
-			tv_bradcrum.setClickable(false);
-			tv_bradcrum.setEnabled(false);
-		}
-		else
-		{
-			hrc.setVisibility(View.VISIBLE);
-			tv_bradcrum.setVisibility(View.VISIBLE);
-			tv_bradcrum.setText(MySharedPrefs.INSTANCE.getBradecrum());
-			tv_bradcrum.setClickable(true);
-			tv_bradcrum.setEnabled(true);
-		}
-		tv_bradcrum.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				finish();
+			if (productListBean.getProduct().size() < itemPerPage) {
+				hasMoreItem = false;
+			} else {
+				hasMoreItem = true;
 			}
-		});
-		
-		addActionsInFilter(MyReceiverActions.PRODUCT_CONTENT_LIST);
-		addActionsInFilter(MyReceiverActions.PRODUCT_LIST);
-		addActionsInFilter(MyReceiverActions.ADD_TO_CART);
 
-		mList = (ListView) findViewById(R.id.category_list);
-		footerView = (LinearLayout) findViewById(R.id.load_more_progressBar);
-		product_list = productListBean.getProduct();
-		mAdapter = new ProductListAdapter(ProductListScreen.this, product_list);
-		mList.setAdapter(mAdapter);
-		mList.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1,
-					int position, long arg3) {
-
-				if(clickStatus==0)
-	               {
-	            	clickStatus=1;
-				
-				product = productListBean.getProduct().get(position);
-				MySharedPrefs.INSTANCE.putItemQuantity(productListBean.getProduct().get(position).getQuantity());
-
-				showDialog();
-
-				String url = UrlsConstants.PRODUCT_DETAIL_URL
-						+ product.getProductid();
-
-				myApi.reqProductContentList(url);
+			tv_bradcrum = (TextView) findViewById(R.id.tv_Bradcrum);
+			hrc = (View) findViewById(R.id.hrc_Bradcrum);
+			if (MySharedPrefs.INSTANCE.getBradecrum().equals("")) {
+				tv_bradcrum.setVisibility(View.VISIBLE);
+				hrc.setVisibility(View.VISIBLE);
+				tv_bradcrum.setText("Search result for '" + MySharedPrefs.INSTANCE.getSearchKey() + "'");
+				tv_bradcrum.setClickable(false);
+				tv_bradcrum.setEnabled(false);
+			} else {
+				hrc.setVisibility(View.VISIBLE);
+				tv_bradcrum.setVisibility(View.VISIBLE);
+				tv_bradcrum.setText(MySharedPrefs.INSTANCE.getBradecrum());
+				tv_bradcrum.setClickable(true);
+				tv_bradcrum.setEnabled(true);
 			}
-			}
-		});
-		mList.setOnScrollListener(this);
+			tv_bradcrum.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					finish();
+				}
+			});
 
-		initHeader(findViewById(R.id.header), true, header);
-		initFooter(findViewById(R.id.footer), 0, -1);
+			addActionsInFilter(MyReceiverActions.PRODUCT_CONTENT_LIST);
+			addActionsInFilter(MyReceiverActions.PRODUCT_LIST);
+			addActionsInFilter(MyReceiverActions.ADD_TO_CART);
+
+			mList = (ListView) findViewById(R.id.category_list);
+			footerView = (LinearLayout) findViewById(R.id.load_more_progressBar);
+			product_list = productListBean.getProduct();
+			mAdapter = new ProductListAdapter(ProductListScreen.this, product_list);
+			mList.setAdapter(mAdapter);
+			mList.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+										int position, long arg3) {
+
+					if (clickStatus == 0) {
+						clickStatus = 1;
+
+						product = productListBean.getProduct().get(position);
+						MySharedPrefs.INSTANCE.putItemQuantity(productListBean.getProduct().get(position).getQuantity());
+
+						showDialog();
+
+						String url = UrlsConstants.PRODUCT_DETAIL_URL
+								+ product.getProductid();
+
+						myApi.reqProductContentList(url);
+					}
+				}
+			});
+			mList.setOnScrollListener(this);
+
+			initHeader(findViewById(R.id.header), true, header);
+			initFooter(findViewById(R.id.footer), 0, -1);
+		}catch(Exception e){
+			new GrocermaxBaseException("ProductListScreen","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 
 	@Override
 	void OnResponse(Bundle bundle) {
+		try{
 		String action = bundle.getString("ACTION");
 		if (action.equals(MyReceiverActions.PRODUCT_CONTENT_LIST)) {
 			ProductDetailsListBean contentListBean = (ProductDetailsListBean) bundle
@@ -186,6 +184,9 @@ public class ProductListScreen extends BaseActivity implements OnScrollListener 
 			} else {
 				UtilityMethods.customToast(productListBean.getResult(), mContext);
 			}
+		}
+		}catch(Exception e){
+			new GrocermaxBaseException("ProductListScreen","onResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
 
@@ -302,8 +303,12 @@ public class ProductListScreen extends BaseActivity implements OnScrollListener 
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		try{
 		initHeader(findViewById(R.id.header), true, null);
 		clickStatus=0;
+		}catch(Exception e){
+			new GrocermaxBaseException("ProductListScreen","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	
 	@Override
@@ -314,7 +319,9 @@ public class ProductListScreen extends BaseActivity implements OnScrollListener 
 	    	tracker.activityStart(this);
 	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("ProductListScreen","onStart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
     
     @Override
@@ -324,7 +331,9 @@ public class ProductListScreen extends BaseActivity implements OnScrollListener 
     	try{
 	    	tracker.activityStop(this);
 	    	FlurryAgent.onEndSession(this);
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("ProductListScreen","onStop",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
 	
 	

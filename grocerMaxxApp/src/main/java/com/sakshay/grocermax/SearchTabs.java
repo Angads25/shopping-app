@@ -29,6 +29,7 @@ import com.sakshay.grocermax.api.SearchLoader;
 import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.bean.Product;
 import com.sakshay.grocermax.bean.ProductDetailsListBean;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.Constants.ToastConstant;
 import com.sakshay.grocermax.utils.UrlsConstants;
@@ -64,20 +65,19 @@ public class SearchTabs extends BaseActivity{
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.s_category_tabs);
-        
-        addActionsInFilter(MyReceiverActions.PRODUCT_CONTENT_LIST);
-		addActionsInFilter(MyReceiverActions.ADD_TO_CART);
-		ProductListFragments p=new ProductListFragments();
-		
+        try {
+			addActionsInFilter(MyReceiverActions.PRODUCT_CONTENT_LIST);
+			addActionsInFilter(MyReceiverActions.ADD_TO_CART);
+			ProductListFragments p = new ProductListFragments();
+
 //		horizontalScrollView = (HorizontalScrollView) findViewById(R.id.hscrollview);
 //		horizontalScrollView.setVisibility(View.GONE);
-		
-		
-		
-        Bundle bundle = getIntent().getExtras();
-        header = "";
-        
-        dismissDialog();
+
+
+			Bundle bundle = getIntent().getExtras();
+			header = "";
+
+			dismissDialog();
 //		if (bundle != null) {
 //			catObj = (ArrayList<CategorySubcategoryBean>) bundle.getSerializable("Categories");
 //			header = bundle.getString("Header");
@@ -100,9 +100,9 @@ public class SearchTabs extends BaseActivity{
 //				finish();
 //			}
 //		});
-		
+
 //		tv_bradcrum=(TextView)findViewById(R.id.tv_Bradcrum);
-		
+
 //		ll_brad_crum=(LinearLayout)findViewById(R.id.ll_Bradcrum);
 //		ll_brad_crum.setBackgroundColor(getResources().getColor(R.color.breadcrum_color));
 //		hscrollview=(HorizontalScrollView)findViewById(R.id.hscrollview);
@@ -112,7 +112,7 @@ public class SearchTabs extends BaseActivity{
 //				 addImageView(ll_brad_crum);
 //				 addTextView(ll_brad_crum, brade_crum[i]);
 //		}
-		
+
 //		hscrollview.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
 //		    @Override
 //		    public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
@@ -120,38 +120,41 @@ public class SearchTabs extends BaseActivity{
 //		    	hscrollview.fullScroll(View.FOCUS_RIGHT);
 //		    }
 //		});
-		
+
 //		ll_brad_crum.setOnClickListener(new OnClickListener() {
 //			@Override
 //			public void onClick(View v) {
 //				finish();
 //			}
 //		});
-				
-        FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
 
-        ViewPager pager = (ViewPager)findViewById(R.id.pager);
-        pager.setAdapter(adapter);
-        
+			FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
+
+			ViewPager pager = (ViewPager) findViewById(R.id.pager);
+			pager.setAdapter(adapter);
+
 //        pager.setOffscreenPageLimit(catObj.size());
-        pager.setOffscreenPageLimit(SearchLoader.jsonObjectTop.length);
-        
-        TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.indicator);
-        indicator.setViewPager(pager);
-        
-        View headerView = findViewById(R.id.header);
-        initHeader(headerView, true, header.replaceAll("/", " >> "));
-        
-        TextView textView = (TextView)headerView.findViewById(R.id.screenName);
-        
-        textView.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				finish();
-			}
-		});
+			pager.setOffscreenPageLimit(SearchLoader.jsonObjectTop.length);
+
+			TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
+			indicator.setViewPager(pager);
+
+			View headerView = findViewById(R.id.header);
+			initHeader(headerView, true, header.replaceAll("/", " >> "));
+
+			TextView textView = (TextView) headerView.findViewById(R.id.screenName);
+
+			textView.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					finish();
+				}
+			});
+		}catch(Exception e){
+			new GrocermaxBaseException("SearchTabs","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 
     }
 
@@ -204,8 +207,11 @@ public class SearchTabs extends BaseActivity{
 			}
 			
 			myApi.reqAddToCart(url);
-		} catch (Exception e) {
-			e.printStackTrace();
+		}catch(NullPointerException e){
+			new GrocermaxBaseException("SearchTabs","addToCart",e.getMessage(), GrocermaxBaseException.NULL_POINTER,"nodetail");
+		}
+		catch (Exception e) {
+			new GrocermaxBaseException("SearchTabs","addToCart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 
 	}
@@ -231,6 +237,7 @@ public class SearchTabs extends BaseActivity{
 	
 	@Override
 	void OnResponse(Bundle bundle) {
+		try{
 		String action = bundle.getString("ACTION");
 		if (action.equals(MyReceiverActions.PRODUCT_CONTENT_LIST)) {
 			ProductDetailsListBean contentListBean = (ProductDetailsListBean) bundle
@@ -263,16 +270,23 @@ public class SearchTabs extends BaseActivity{
 					UtilityMethods.customToast(ToastConstant.ERROR_MSG, mContext);
 				}
 			}
-		} 
+		}
+		} catch (Exception e) {
+			new GrocermaxBaseException("SearchTabs","OnResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		initHeader(findViewById(R.id.header), true, null);
-		if(martHeader != null){
-			martHeader.setVisibility(View.GONE);
+		try {
+			initHeader(findViewById(R.id.header), true, null);
+			if (martHeader != null) {
+				martHeader.setVisibility(View.GONE);
+			}
+		} catch (Exception e) {
+			new GrocermaxBaseException("SearchTabs","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 //		clickStatus=0;
 	}
@@ -334,7 +348,9 @@ protected void onStart() {
     	tracker.activityStart(this);
     	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
     	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-	}catch(Exception e){}
+	}catch(Exception e){
+		new GrocermaxBaseException("SearchTabs","onStart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+	}
 }
 
 @Override
@@ -344,7 +360,9 @@ protected void onStop() {
 	try{
     	tracker.activityStop(this);
     	FlurryAgent.onEndSession(this);
-	}catch(Exception e){}
+	}catch(Exception e){
+		new GrocermaxBaseException("SearchTabs","onStop",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+	}
 }
 	
 }
