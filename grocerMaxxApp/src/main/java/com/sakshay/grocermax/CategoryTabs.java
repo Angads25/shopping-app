@@ -155,6 +155,7 @@ public class CategoryTabs extends BaseActivity
 		}catch(Exception e){
 			new GrocermaxBaseException("CategoryTabs", "onCreate", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
+
     }
 
 
