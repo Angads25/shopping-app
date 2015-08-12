@@ -75,7 +75,6 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		setContentView(R.layout.s_home_screen);
 		try {
 			addActionsInFilter(MyReceiverActions.PRODUCT_LIST_FROM_HOME);
-
 			tvSelctionCat = new TextView(this);
 
 			Bundle bundle = getIntent().getExtras();
@@ -97,29 +96,32 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		backImage[8] = R.drawable.fruits_large;
 		backImage[9] = R.drawable.non_veg_large;
 		*/
-			//TODO, abhishek 4 images being repeated here...what goes where is accoring to your logic please replace
-			backImage[0] = R.drawable.beverages_large;
-			backImage[1] = R.drawable.diary_large;
-			backImage[2] = R.drawable.frozen_large;
-			backImage[3] = R.drawable.fruits_large;
-			backImage[4] = R.drawable.non_veg_large;
-			backImage[5] = R.drawable.beverages_large;
-			backImage[6] = R.drawable.family_care_large;
-			backImage[7] = R.drawable.home_care_large;
-			backImage[8] = R.drawable.home_needs_large;
-			backImage[9] = R.drawable.staples_large;
 
-			categoryTV = (TextView) findViewById(R.id.tv_homescreen_category_heading);
-			cat_main_layout = (LinearLayout) findViewById(R.id.cat_main_layout);
-			scroll_view = (ScrollView) findViewById(R.id.scroll_view);
+		//TODO, abhishek 4 images being repeated here...what goes where is accoring to your logic please replace
+		backImage[0] = R.drawable.beverages_large;
+		backImage[1] = R.drawable.dairy_large;
+		backImage[2] = R.drawable.frozen_large;
+		backImage[3] = R.drawable.fruits_large;
+		backImage[4] = R.drawable.non_veg_large;
+		backImage[5] = R.drawable.beverages_large;
+		backImage[6] = R.drawable.family_care_large;
+		backImage[7] = R.drawable.home_care_large;
+		backImage[8] = R.drawable.home_needs_large;
+		backImage[9] = R.drawable.staples_large;
+
+		categoryTV = (TextView) findViewById(R.id.tv_homescreen_category_heading);
+		cat_main_layout = (LinearLayout) findViewById(R.id.cat_main_layout);
+		scroll_view = (ScrollView) findViewById(R.id.scroll_view);
+
 //		sub_cat_listView = (ListView) findViewById(R.id.cat_list);
 
 //		expandableListView=(AnimatedExpandableListView)findViewById(R.id.lvExp);
-			expandableListView = (ExpandableListView) findViewById(R.id.lvExp);
-			Drawable expandibleListBackgroundImage = ContextCompat.getDrawable(this, R.drawable.expandible_list_doodle);
-			expandibleListBackgroundImage.setAlpha(20);
-			expandableListView.setBackground(expandibleListBackgroundImage);
 
+//			Drawable expandibleListBackgroundImage = ContextCompat.getDrawable(this, R.drawable.expandible_list_doodle);
+//			expandibleListBackgroundImage.setAlpha(20);
+//			expandableListView.setBackground(expandibleListBackgroundImage);
+		expandableListView=(ExpandableListView)findViewById(R.id.lvExp);
+		expandableListView.getBackground().mutate().setAlpha(20);
 
 			expandableListView.setGroupIndicator(null);
 
@@ -144,25 +146,31 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 //				if(tvtemp != null){
 ////					tvtemp.setTextColor(getResources().getColor(R.color.main_child_cat_text_unselected));
 //					tvtemp.setTextColor(getResources().getColor(R.color.white));
-//				}                                           
-//				
+//				}
+//
 //				View viewe = (View) v.findViewById(R.id.line_parent);
 //				viewe.setVisibility(View.GONE);
-//				
+//
 //				TextView cat_names = (TextView) v.findViewById(R.id.item_name_parent);
 //
 ////				cat_names.setTextColor(getResources().getColor(R.color.main_child_cat_text_selected));
 //				cat_names.setTextColor(getResources().getColor(R.color.subsubcategorycolor));
-//				
-//				viewtemp = viewe;        
+//
+//				viewtemp = viewe;
 //				tvtemp = cat_names;       //to blue
-
 
 					if (group_click == 0) {
 
 						InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-						if (!keyboardVisibility)
-							imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+						if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+							if (!keyboardVisibility)
+								imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+
+						} else {
+							if (keyboardVisibility)
+								imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+						}
+
 
 						boolean expandStatus = false;
 						second_level = catObj.get(position).getChildren().get(groupPosition).getCategory();
@@ -190,31 +198,54 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 									carBean.setCategory("All");
 									carBean.setCategoryId(catObj.get(position).getChildren().get(groupPosition).getCategoryId());
 									list.add(0, carBean);
+
 								}
+//						if (expandStatus == false) {
+//							group_click = 1;
+//
+//							for (int i = 0; i < expandableListView.getExpandableListAdapter().getGroupCount(); i++) {
+//								expandableListView.collapseGroup(i);
+//							}
+//
+//							Intent expandableListView.setOnGroupClickListener(new OnGroupClickListener() { = new Intent(HomeScreen.this, CategoryTabs.class);
+//							Bundle call_bundle = new Bundle();
+//							ArrayList<CategorySubcategoryBean> list = catObj.get(position).getChildren().get(groupPosition).getChildren();
+//
+//							if (list.size() > 0) {
+//								if (!list.get(0).getCategory().equals("All")) {
+//									CategorySubcategoryBean carBean = new CategorySubcategoryBean();
+//									carBean.setCategory("All");
+//									carBean.setCategoryId(catObj.get(position).getChildren().get(groupPosition).getCategoryId());
+//									list.add(0, carBean);
+//								}
+//							}
+								else {
+									CategorySubcategoryBean carBean = new CategorySubcategoryBean();
+									carBean.setCategory("All");
+									carBean.setCategoryId(catObj.get(position).getChildren().get(groupPosition).getCategoryId());
+									list.add(carBean);
+								}
+								call_bundle.putSerializable("Categories", list);
+								call_bundle.putSerializable("Header", catObj.get(position).getChildren().get(groupPosition).getBreadcrumb());
+								call.putExtras(call_bundle);
+								startActivity(call);
+								return true;
 							} else {
-								CategorySubcategoryBean carBean = new CategorySubcategoryBean();
-								carBean.setCategory("All");
-								carBean.setCategoryId(catObj.get(position).getChildren().get(groupPosition).getCategoryId());
-								list.add(carBean);
-							}
-							call_bundle.putSerializable("Categories", list);
-							call_bundle.putSerializable("Header", catObj.get(position).getChildren().get(groupPosition).getBreadcrumb());
-							call.putExtras(call_bundle);
-							startActivity(call);
-							return true;
-						} else {
 					/* if (expandableListView.isGroupExpanded(groupPosition)) {
 						 expandableListView.collapseGroupWithAnimation(groupPosition);
 		                } else {
 		                	expandableListView.expandGroupWithAnimation(groupPosition);
 		                }*/
+								//expandableListView.expandGroupWithAnimation(groupPosition);
+								return false;
+							}
 							//expandableListView.expandGroupWithAnimation(groupPosition);
-							return false;
 						}
-						//expandableListView.expandGroupWithAnimation(groupPosition);
 					}
-					return true;
+						return true;
+
 				}
+
 			});
 
 			expandableListView.setOnChildClickListener(new OnChildClickListener() {
@@ -262,6 +293,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 
 			mAdapter = new HomeListAdapter(mContext, catObj.get(0).getChildren());
 			exAdapter = new ExpandableListAdapter(mContext, catObj.get(0).getChildren());
+
 
 			LayoutInflater inflater = this.getLayoutInflater();
 //		arrowImageArray = new ImageView[catObj.size()];
@@ -323,31 +355,33 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		}catch(Exception e){
 			new GrocermaxBaseException("HomeScreen","onCreate",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
+
 	}
-	
+
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 	 @Override
-	 public void onWindowFocusChanged(boolean hasFocus) {
-	  super.onWindowFocusChanged(hasFocus);
-	  try {
-		  Drawable drawable_groupIndicator =
+	 public void onWindowFocusChanged(boolean hasFocus){
+			super.onWindowFocusChanged(hasFocus);
+			try {
+				Drawable drawable_groupIndicator =
 //	   getResources().getDrawable(R.drawable.arrow_cb);            //temp commented
-				  getResources().getDrawable(R.drawable.close_icon);  //temp done
-		  int drawable_width = drawable_groupIndicator.getMinimumWidth();
+						getResources().getDrawable(R.drawable.close_icon);  //temp done
+				int drawable_width = drawable_groupIndicator.getMinimumWidth();
 
-		  if (android.os.Build.VERSION.SDK_INT <
-				  android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
-			  expandableListView.setIndicatorBounds(
-					  expandableListView.getWidth() - drawable_width,
-					  expandableListView.getWidth());
-		  } else {
-			  expandableListView.setIndicatorBoundsRelative(
-					  expandableListView.getWidth() - drawable_width,
-					  expandableListView.getWidth());
-		  }
-	  }catch(Exception e){
-		  new GrocermaxBaseException("HomeScreen","onCreate",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
-	  }
+				if (android.os.Build.VERSION.SDK_INT <
+						android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+					expandableListView.setIndicatorBounds(
+							expandableListView.getWidth() - drawable_width,
+							expandableListView.getWidth());
+				} else {
+					expandableListView.setIndicatorBoundsRelative(
+							expandableListView.getWidth() - drawable_width,
+							expandableListView.getWidth());
+				}
+			} catch (Exception e) {
+				new GrocermaxBaseException("HomeScreen", "onCreate", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+			}
+
 	 }
 	
 	private int getImageResource(String name){
@@ -374,8 +408,15 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		public void onClick(View view) {
 			
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			if(!keyboardVisibility)
-			imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+
+			if(android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT){
+				if(!keyboardVisibility)
+				imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+
+			}else{
+				if(keyboardVisibility)
+					imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+			}
 
 			for(int i=0;i<expandableListView.getExpandableListAdapter().getGroupCount();i++)
 			{
@@ -425,6 +466,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 			catImageArray[i].setSelected(false);
 		}
 	}
+
 	@Override
 	void OnResponse(Bundle bundle) {
 		// TODO Auto-generated method stub

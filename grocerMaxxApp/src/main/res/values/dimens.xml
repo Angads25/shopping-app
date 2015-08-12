@@ -40,5 +40,6 @@
 	
 	<dimen name="plp_header">45dp</dimen>
 	<dimen name="plp_footer">50dp</dimen>
-	
+	<dimen name="action_bar_elevation">20dp</dimen>
+
 </resources>

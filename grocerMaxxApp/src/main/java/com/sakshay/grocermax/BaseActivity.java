@@ -25,6 +25,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
@@ -190,25 +191,26 @@ public abstract class BaseActivity extends FragmentActivity {
 				icon_header_search.setVisibility(View.GONE);
 			}
 //		icon_header_back.setOnClickListener(headerClick);
-			icon_header_logo_with_search.setOnClickListener(headerClick);
+
+		icon_header_logo_with_search.setOnClickListener(headerClick);
+		if(icon_header_logo_without_search != null)
 			icon_header_logo_without_search.setOnClickListener(headerClick);
-			icon_header_user.setOnClickListener(headerClick);
-			icon_header_cart.setOnClickListener(headerClick);
-			cart_count_txt.setOnClickListener(headerClick);
-			imgSearchIcon.setOnClickListener(headerClick);
-			imgSearchCloseIcon.setOnClickListener(headerClick);
-			edtSearch.setOnEditorActionListener(new OnEditorActionListener() {
+		icon_header_user.setOnClickListener(headerClick);
+		icon_header_cart.setOnClickListener(headerClick);
+		cart_count_txt.setOnClickListener(headerClick);
+		imgSearchIcon.setOnClickListener(headerClick);
+		imgSearchCloseIcon.setOnClickListener(headerClick);
+		edtSearch.setOnEditorActionListener(new OnEditorActionListener() {
 
-				@Override
-				public boolean onEditorAction(TextView v, int actionId,
-											  KeyEvent event) {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId,
+					KeyEvent event) {
 
-					if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-						UtilityMethods.hideKeyboardFromContext(BaseActivity.this);
-						goforsearch();
-					}
-					return false;
-
+				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+					UtilityMethods.hideKeyboardFromContext(BaseActivity.this);
+					goforsearch();
+				}
+				return false;
 				}
 			});
 		}catch(Exception e){
@@ -216,7 +218,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 
 	}
-	
+
 	public void setCartCount()
 	{
 		cart_count_txt.setText(""+AppConstants.cart_count);
@@ -278,7 +280,7 @@ public abstract class BaseActivity extends FragmentActivity {
 			}
 		}
 	};
-	
+
 //	Timer timer = null;
 //	int count;
 //	private void SyncCartData(){
@@ -322,40 +324,50 @@ public abstract class BaseActivity extends FragmentActivity {
 //	}
 
 	public void showSearchView(boolean b) {
+
 		try {
-			if (b) {
-				cart_count_txt.setVisibility(View.GONE);
-				icon_header_user.setVisibility(View.GONE);
-				icon_header_cart.setVisibility(View.GONE);
-				rlSearchLook.setVisibility(View.VISIBLE);
 
-				llLeftIcon.setVisibility(View.VISIBLE);               //
-				llLeftIcon1.setVisibility(View.GONE);               //
+		if (b) {
+			cart_count_txt.setVisibility(View.GONE);
+			icon_header_user.setVisibility(View.GONE);
+			icon_header_cart.setVisibility(View.GONE);
+			rlSearchLook.setVisibility(View.VISIBLE);
 
-				icon_header_search.setVisibility(View.GONE);
-				llSearchLayout.setVisibility(View.VISIBLE);
-				edtSearch.setCursorVisible(true);
-				edtSearch.setFocusable(true);
-				edtSearch.requestFocus();
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-			} else {
-				cart_count_txt.setVisibility(View.VISIBLE);
-				icon_header_user.setVisibility(View.VISIBLE);
-				icon_header_cart.setVisibility(View.VISIBLE);
-				rlSearchLook.setVisibility(View.VISIBLE);
+			llLeftIcon.setVisibility(View.VISIBLE);               //
+			llLeftIcon1.setVisibility(View.GONE);               //
 
-				llLeftIcon.setVisibility(View.GONE);                       //
-				llLeftIcon1.setVisibility(View.VISIBLE);               //
+			icon_header_search.setVisibility(View.GONE);
+			llSearchLayout.setVisibility(View.VISIBLE);
+			edtSearch.setCursorVisible(true);
+			edtSearch.setFocusable(true);
+			edtSearch.requestFocus();
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+		} else {
+			cart_count_txt.setVisibility(View.VISIBLE);
+			icon_header_user.setVisibility(View.VISIBLE);
+			icon_header_cart.setVisibility(View.VISIBLE);
+			rlSearchLook.setVisibility(View.VISIBLE);
 
-				icon_header_search.setVisibility(View.VISIBLE);
-				llSearchLayout.setVisibility(View.GONE);
-				edtSearch.getText().clear();
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				if (keyboardVisibility)
+			llLeftIcon.setVisibility(View.GONE);                       //
+			llLeftIcon1.setVisibility(View.VISIBLE);               //
+
+			icon_header_search.setVisibility(View.VISIBLE);
+			llSearchLayout.setVisibility(View.GONE);
+			edtSearch.getText().clear();
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+			if(android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT){
+				if(!keyboardVisibility)
+					imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+
+			}else{
+				if(keyboardVisibility)
 					imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
 			}
-		}catch(Exception e){
+
+		}
+		}catch(Exception e) {
 			new GrocermaxBaseException("BaseActivity", "showSearchView", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 		// UtilityMethods.hideKeyboard(BaseActivity.this);
