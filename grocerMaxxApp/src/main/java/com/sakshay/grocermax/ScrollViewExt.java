@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ScrollView;
 
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
+
 public class ScrollViewExt extends ScrollView {
     private ScrollViewListener scrollViewListener = null;
     public ScrollViewExt(Context context) {
@@ -25,8 +27,12 @@ public class ScrollViewExt extends ScrollView {
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
-        if (scrollViewListener != null) {
-            scrollViewListener.onScrollChanged(this, l, t, oldl, oldt);
+        try {
+            if (scrollViewListener != null) {
+                scrollViewListener.onScrollChanged(this, l, t, oldl, oldt);
+            }
+        }catch(Exception e){
+            new GrocermaxBaseException("ReviewOrderAndPay","onScrollChanged",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
         }
     }
 }

@@ -19,6 +19,7 @@ import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.Address;
 import com.sakshay.grocermax.bean.UserDetailBean;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.CustomFonts;
 import com.sakshay.grocermax.utils.RoundedImageView;
@@ -43,6 +44,7 @@ public class UserProfile extends BaseActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_profile);
+		try{
 		addActionsInFilter(MyReceiverActions.USER_DETAILS1);
 		Bundle bundle = getIntent().getExtras();
 		if(bundle != null)
@@ -214,6 +216,9 @@ public class UserProfile extends BaseActivity{
 			});
 			    
 		}
+		} catch (Exception e) {
+			new GrocermaxBaseException("UserProfile","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	
 	public void goToAddress(Address address)
@@ -230,9 +235,13 @@ public class UserProfile extends BaseActivity{
 	protected void onActivityResult(int requestcode, int resultcode, Intent data) {
 		if(requestcode==111)
 		{
-			showDialog();
-			String url = UrlsConstants.USER_DETAIL_URL + MySharedPrefs.INSTANCE.getUserId();
-			myApi.reqUserDetails1(url);
+			try{
+				showDialog();
+				String url = UrlsConstants.USER_DETAIL_URL + MySharedPrefs.INSTANCE.getUserId();
+				myApi.reqUserDetails1(url);
+			} catch (Exception e) {
+				new GrocermaxBaseException("UserProfile","onActivityResult",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+			}
 		}
 	}
 	
@@ -248,15 +257,19 @@ public class UserProfile extends BaseActivity{
 
 	@Override
 	void OnResponse(Bundle bundle) {
-		
-		if (bundle.getString("ACTION").equals(MyReceiverActions.USER_DETAILS1)) {
-			userDetailBean = (UserDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
-			setAddress();
+		try{
+			if (bundle.getString("ACTION").equals(MyReceiverActions.USER_DETAILS1)) {
+				userDetailBean = (UserDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
+				setAddress();
+			}
+		} catch (Exception e) {
+			new GrocermaxBaseException("UserProfile","OnResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,String.valueOf(bundle));
 		}
 	}
 	
 	public void setAddress()
 	{
+		try{
 		address_lay.removeAllViews();
 		if(userDetailBean.getShippingAddress().getCity() != null)
 		{
@@ -359,6 +372,12 @@ public class UserProfile extends BaseActivity{
 			});
 			    
 		}
+		} catch (NullPointerException e) {
+			new GrocermaxBaseException("UserProfile","setAddress",e.getMessage(), GrocermaxBaseException.NULL_POINTER,"nodetail");
+		}
+	 	catch (Exception e) {
+			new GrocermaxBaseException("UserProfile","setAddress",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	
 	
@@ -366,7 +385,11 @@ public class UserProfile extends BaseActivity{
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		try{
 		initHeader(findViewById(R.id.header), true, null);
+		} catch (Exception e) {
+			new GrocermaxBaseException("UserProfile","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	
 	@Override
@@ -377,7 +400,9 @@ public class UserProfile extends BaseActivity{
 	    	tracker.activityStart(this);
 	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("UserProfile","onStart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
     
     @Override
@@ -387,7 +412,9 @@ public class UserProfile extends BaseActivity{
     	try{
 	    	tracker.activityStop(this);
 	    	FlurryAgent.onEndSession(this);
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("UserProfile","onStop",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
 	
 	

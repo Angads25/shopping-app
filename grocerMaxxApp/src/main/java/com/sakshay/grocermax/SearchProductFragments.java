@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.sakshay.grocermax.adapters.ProductListAdapter;
 import com.sakshay.grocermax.bean.Product;
 import com.sakshay.grocermax.bean.ProductListBean;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.UrlsConstants;
 
@@ -58,6 +59,7 @@ public final class SearchProductFragments extends Fragment implements OnScrollLi
 //    }
 
 	 public static SearchProductFragments newInstance(JSONObject jsonObject) {
+
 		    SearchProductFragments fragment = new SearchProductFragments();
 //	    	fragment.cat_id = categorySubcategoryBean.getCategoryId();
 //	    	fragment.valuePairs = valuePairs;
@@ -71,8 +73,12 @@ public final class SearchProductFragments extends Fragment implements OnScrollLi
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
     	super.onActivityCreated(savedInstanceState);
+		try{
 //    	categoryTabs = ((CategoryTabs)getActivity());
     	searchTabs = ((SearchTabs)getActivity());
+		}catch(Exception e){
+			new GrocermaxBaseException("SearchProductFragments","onActivityCreated",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
     
     @Override
@@ -89,7 +95,7 @@ public final class SearchProductFragments extends Fragment implements OnScrollLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	View view = inflater.inflate(R.layout.fragment_categoty_list, container, false);
-    	
+    	try{
     	main_lay = (LinearLayout) view.findViewById(R.id.main_lay);
     	progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
     	
@@ -127,7 +133,9 @@ public final class SearchProductFragments extends Fragment implements OnScrollLi
 //		CallAPI callapi=new CallAPI();
 //		CategoryTabs.asyncTasks.add(callapi);
 //		callapi.execute(UrlsConstants.PRODUCT_LIST_URL + cat_id);
-		
+		}catch(Exception e){
+			new GrocermaxBaseException("SearchProductFragments","onCreateView",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
         return view;
     }
     

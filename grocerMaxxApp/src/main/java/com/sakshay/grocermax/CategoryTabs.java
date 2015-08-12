@@ -29,6 +29,7 @@ import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.bean.Product;
 import com.sakshay.grocermax.bean.ProductDetailsListBean;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.Constants.ToastConstant;
 import com.sakshay.grocermax.utils.CustomFonts;
@@ -52,88 +53,93 @@ public class CategoryTabs extends BaseActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.s_category_tabs);
-        
-        addActionsInFilter(MyReceiverActions.PRODUCT_CONTENT_LIST);
-		addActionsInFilter(MyReceiverActions.ADD_TO_CART);
-		ProductListFragments p=new ProductListFragments();
-		
-        Bundle bundle = getIntent().getExtras();
-		if (bundle != null) {
-			catObj = (ArrayList<CategorySubcategoryBean>) bundle.getSerializable("Categories");
-			header = bundle.getString("Header");
+		try {
+
+			addActionsInFilter(MyReceiverActions.PRODUCT_CONTENT_LIST);
+			addActionsInFilter(MyReceiverActions.ADD_TO_CART);
+			ProductListFragments p = new ProductListFragments();
+
+			Bundle bundle = getIntent().getExtras();
+			if (bundle != null) {
+				catObj = (ArrayList<CategorySubcategoryBean>) bundle.getSerializable("Categories");
+				header = bundle.getString("Header");
 			/*for(int i=0;i<catObj.size();i++)
 			{
 				ProductListFragments.CallAPI callapi=new ProductListFragments().new CallAPI();
 				asyncTasks.add(callapi);
 			}*/
-		}
-
-		iconHeaderHome = (ImageView)findViewById(R.id.icon_header_home);
-		iconHeaderHome.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(mContext, HomeScreen.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				finish();
 			}
-		});
-		
-		LinearLayout llBreadcrumb = (LinearLayout)findViewById(R.id.llbreadcrum);
-		llBreadcrumb.setVisibility(View.VISIBLE);
-		
-		tv_bradcrum=(TextView)findViewById(R.id.tv_Bradcrum);
-		
-		ll_brad_crum=(LinearLayout)findViewById(R.id.ll_Bradcrum);
-		ll_brad_crum.setBackgroundColor(getResources().getColor(R.color.breadcrum_color));
-		hscrollview=(HorizontalScrollView)findViewById(R.id.hscrollview);
+
+			iconHeaderHome = (ImageView) findViewById(R.id.icon_header_home);
+			iconHeaderHome.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Intent intent = new Intent(mContext, HomeScreen.class);
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
+					finish();
+				}
+			});
+
+			LinearLayout llBreadcrumb = (LinearLayout) findViewById(R.id.llbreadcrum);
+			llBreadcrumb.setVisibility(View.VISIBLE);
+
+			tv_bradcrum = (TextView) findViewById(R.id.tv_Bradcrum);
+
+			ll_brad_crum = (LinearLayout) findViewById(R.id.ll_Bradcrum);
+			ll_brad_crum.setBackgroundColor(getResources().getColor(R.color.breadcrum_color));
+			hscrollview = (HorizontalScrollView) findViewById(R.id.hscrollview);
 //		hscrollview.setVisibility(View.VISIBLE);
-		if(MySharedPrefs.INSTANCE.getBradecrum() != null) {
-			String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");
+			if (MySharedPrefs.INSTANCE.getBradecrum() != null) {
+				String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");
 
-			for (int i = 0; i < brade_crum.length; i++) {
-				addImageView(ll_brad_crum);
-				addTextView(ll_brad_crum, brade_crum[i]);
+				for (int i = 0; i < brade_crum.length; i++) {
+					addImageView(ll_brad_crum);
+					addTextView(ll_brad_crum, brade_crum[i]);
+				}
 			}
+			hscrollview.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+				@Override
+				public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+					hscrollview.removeOnLayoutChangeListener(this);
+					hscrollview.fullScroll(View.FOCUS_RIGHT);
+				}
+			});
+
+			ll_brad_crum.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					finish();
+				}
+			});
+
+			FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
+
+			ViewPager pager = (ViewPager) findViewById(R.id.pager);
+			pager.setAdapter(adapter);
+			pager.setOffscreenPageLimit(catObj.size());
+
+			TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
+			indicator.setViewPager(pager);
+
+			View headerView = findViewById(R.id.header);
+			initHeader(headerView, true, header.replaceAll("/", " >> "));
+
+			TextView textView = (TextView) headerView.findViewById(R.id.screenName);
+
+			textView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					finish();
+				}
+			});
+		}catch(Exception e){
+			new GrocermaxBaseException("CategoryTabs", "onCreate", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
-		hscrollview.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-		    @Override
-		    public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-		    	hscrollview.removeOnLayoutChangeListener(this);
-		    	hscrollview.fullScroll(View.FOCUS_RIGHT);
-		    }
-		});
-		
-		ll_brad_crum.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
-		
-        FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
 
-        ViewPager pager = (ViewPager)findViewById(R.id.pager);
-        pager.setAdapter(adapter);
-        pager.setOffscreenPageLimit(catObj.size()); 
-        
-        TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.indicator);
-        indicator.setViewPager(pager);
-        
-        View headerView = findViewById(R.id.header);
-        initHeader(headerView, true, header.replaceAll("/", " >> "));
-        
-        TextView textView = (TextView)headerView.findViewById(R.id.screenName);
-        
-        textView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				finish();
-			}
-		});
-    }
+	}
 
 	class GoogleMusicAdapter extends FragmentPagerAdapter {
         public GoogleMusicAdapter(FragmentManager fm) {
@@ -153,10 +159,8 @@ public class CategoryTabs extends BaseActivity {
         @Override
         public int getCount() {
           return catObj.size();
-        	
+
         }
-        
-        
     }
 
 	public void addToCart(String product_id, String quantity) {
@@ -182,8 +186,10 @@ public class CategoryTabs extends BaseActivity {
 			}
 			
 			myApi.reqAddToCart(url);
-		} catch (Exception e) {
-			e.printStackTrace();
+		}catch(NullPointerException e){
+			new GrocermaxBaseException("CategoryTabs", "addToCart", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
+		}catch(Exception e){
+			new GrocermaxBaseException("CategoryTabs", "addToCart", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 
 	}
@@ -202,13 +208,16 @@ public class CategoryTabs extends BaseActivity {
 					+ URLEncoder.encode(products.toString(), "UTF-8");
 			myApi.reqAddToCart(url);
 			
-		} catch (Exception e) {
-			e.printStackTrace();
+		}catch(NullPointerException e){
+			new GrocermaxBaseException("CategoryTabs", "addToCartGuest", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "product_id"+product_id+"quantity"+quantity);
+		}catch(Exception e){
+			new GrocermaxBaseException("CategoryTabs", "addToCartGuest", e.getMessage(), GrocermaxBaseException.EXCEPTION, "product_id"+product_id+"quantity"+quantity);
 		}
 	}
 	
 	@Override
 	void OnResponse(Bundle bundle) {
+		try{
 		String action = bundle.getString("ACTION");
 		if (action.equals(MyReceiverActions.PRODUCT_CONTENT_LIST)) {
 			ProductDetailsListBean contentListBean = (ProductDetailsListBean) bundle
@@ -241,31 +250,41 @@ public class CategoryTabs extends BaseActivity {
 					UtilityMethods.customToast(ToastConstant.ERROR_MSG, mContext);
 				}
 			}
-		} 
+		}
+		}catch(NullPointerException e){
+			new GrocermaxBaseException("CategoryTabs", "OnResponse", e.getMessage(), GrocermaxBaseException.NULL_POINTER, String.valueOf(bundle));
+		}catch(Exception e){
+			new GrocermaxBaseException("CategoryTabs", "OnResponse", e.getMessage(), GrocermaxBaseException.EXCEPTION, String.valueOf(bundle));
+		}
 	}
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		initHeader(findViewById(R.id.header), true, null);
-		if(martHeader != null){
-			martHeader.setVisibility(View.GONE);
+		try {
+			initHeader(findViewById(R.id.header), true, null);
+			if (martHeader != null) {
+				martHeader.setVisibility(View.GONE);
+			}
+			clickStatus = 0;
+		}catch(Exception e){
+			new GrocermaxBaseException("CategoryTabs", "onResume", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
-		clickStatus=0;
-		
 	}
 	
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
-		for(int i=0;i<asyncTasks.size();i++)
-			if(!asyncTasks.get(i).isCancelled())
-			{
-				asyncTasks.get(i).cancel(true);
-				System.out.println(asyncTasks.get(i)+"----"+asyncTasks.get(i).isCancelled());
-			}
-			
+		try {
+			for (int i = 0; i < asyncTasks.size(); i++)
+				if (!asyncTasks.get(i).isCancelled()) {
+					asyncTasks.get(i).cancel(true);
+					System.out.println(asyncTasks.get(i) + "----" + asyncTasks.get(i).isCancelled());
+				}
+		}catch(Exception e){
+			new GrocermaxBaseException("CategoryTabs", "onResume", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+		}
 	}
 	
 public void addTextView(LinearLayout ll,String value)
@@ -310,7 +329,9 @@ protected void onStart() {
     	tracker.activityStart(this);
     	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
     	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-	}catch(Exception e){}
+	}catch(Exception e){
+		new GrocermaxBaseException("CategoryTabs", "onStart", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+	}
 }
 
 @Override
@@ -320,7 +341,9 @@ protected void onStop() {
 	try{
     	tracker.activityStop(this);
     	FlurryAgent.onEndSession(this);
-	}catch(Exception e){}
+	}catch(Exception e){
+		new GrocermaxBaseException("CategoryTabs", "onStop", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+	}
 }
 	
 }

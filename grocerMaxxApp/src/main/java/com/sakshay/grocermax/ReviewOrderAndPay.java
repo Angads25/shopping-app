@@ -31,6 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.internal.Utility;
 import com.flurry.android.FlurryAgent;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.payu.sdk.PayU;
@@ -40,6 +41,7 @@ import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.CartDetail;
 import com.sakshay.grocermax.bean.FinalCheckoutBean;
 import com.sakshay.grocermax.bean.OrderReviewBean;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants.ToastConstant;
 import com.sakshay.grocermax.utils.CustomFonts;
@@ -50,7 +52,7 @@ import com.sakshay.grocermax.utils.UtilityMethods;
 //import com.payu.sdk.Payment;
 //import android.widget.Toast;
 
-public class ReviewOrderAndPay extends BaseActivity 
+public class ReviewOrderAndPay extends BaseActivity
 {
 //	ListView mList;
 	private Button button_pay;
@@ -82,174 +84,170 @@ public class ReviewOrderAndPay extends BaseActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		try {
 //		setContentView(R.layout.review_order_and_pay);
-		setContentView(R.layout.delete);
-		mProgressDialog = new ProgressDialog(ReviewOrderAndPay.this);
+			setContentView(R.layout.delete);
+			mProgressDialog = new ProgressDialog(ReviewOrderAndPay.this);
 //		String str = MySharedPrefs.INSTANCE.getCouponApply();
-		
-		addActionsInFilter(MyReceiverActions.FINAL_CHECKOUT);
-		addActionsInFilter(MyReceiverActions.GET_ORDER_STATUS);
-		addActionsInFilter(MyReceiverActions.SET_ORDER_STATUS);
-		orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
-		
-		TextView tv = (TextView) findViewById(R.id.tv_choose_to_pay);
-		tv.setTypeface(CustomFonts.getInstance().getRobotoBlack(this));
-		
-		/****************** PROMO CODE *********************/
-		RelativeLayout llOnlinePayment = (RelativeLayout) findViewById(R.id.ll_online_payment);
-		RelativeLayout llCashOnDelivery = (RelativeLayout) findViewById(R.id.ll_cash_on_delivery);
-		RelativeLayout llPayTM = (RelativeLayout) findViewById(R.id.ll_paytm);
-		RelativeLayout llMobiKwik = (RelativeLayout) findViewById(R.id.ll_mobikwik);
-		
-		llFirstPage = (Button) findViewById(R.id.ll_first_page);
-		llSecondPage = (Button) findViewById(R.id.ll_second_page);
-				
-		txtItemCount = (TextView) findViewById(R.id.txt_item_count);
-		txtSubTotal = (TextView) findViewById(R.id.txt_subtotal);
-		txtShippingCharges = (TextView) findViewById(R.id.txt_shipping_charges);
-		txtYouSaved = (TextView) findViewById(R.id.txt_you_saved);
-		txtTotal = (TextView) findViewById(R.id.txt_total);
-		
-		tvItemCount = (TextView) findViewById(R.id.tv_item_count);
-		tvSubTotal = (TextView) findViewById(R.id.tv_subtotal);
-		tvShippingCharges = (TextView) findViewById(R.id.tv_shipping_charges);
-		tvYouSaved = (TextView) findViewById(R.id.tv_you_saved);
-		tvTotal = (TextView) findViewById(R.id.tv_total);
-		
-		txtItemCount.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-		txtSubTotal.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-		txtShippingCharges.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-		txtYouSaved.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-		txtTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-		
-		tvItemCount.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-		tvSubTotal.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-		tvShippingCharges.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-		tvYouSaved.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-		tvTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-		
-		etCouponCode = (EditText) findViewById(R.id.edit_coupon_code);
+
+			addActionsInFilter(MyReceiverActions.FINAL_CHECKOUT);
+			addActionsInFilter(MyReceiverActions.GET_ORDER_STATUS);
+			addActionsInFilter(MyReceiverActions.SET_ORDER_STATUS);
+			orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
+
+			TextView tv = (TextView) findViewById(R.id.tv_choose_to_pay);
+			tv.setTypeface(CustomFonts.getInstance().getRobotoBlack(this));
+
+			/****************** PROMO CODE *********************/
+			RelativeLayout llOnlinePayment = (RelativeLayout) findViewById(R.id.ll_online_payment);
+			RelativeLayout llCashOnDelivery = (RelativeLayout) findViewById(R.id.ll_cash_on_delivery);
+			RelativeLayout llPayTM = (RelativeLayout) findViewById(R.id.ll_paytm);
+			RelativeLayout llMobiKwik = (RelativeLayout) findViewById(R.id.ll_mobikwik);
+
+			llFirstPage = (Button) findViewById(R.id.ll_first_page);
+			llSecondPage = (Button) findViewById(R.id.ll_second_page);
+
+			txtItemCount = (TextView) findViewById(R.id.txt_item_count);
+			txtSubTotal = (TextView) findViewById(R.id.txt_subtotal);
+			txtShippingCharges = (TextView) findViewById(R.id.txt_shipping_charges);
+			txtYouSaved = (TextView) findViewById(R.id.txt_you_saved);
+			txtTotal = (TextView) findViewById(R.id.txt_total);
+
+			tvItemCount = (TextView) findViewById(R.id.tv_item_count);
+			tvSubTotal = (TextView) findViewById(R.id.tv_subtotal);
+			tvShippingCharges = (TextView) findViewById(R.id.tv_shipping_charges);
+			tvYouSaved = (TextView) findViewById(R.id.tv_you_saved);
+			tvTotal = (TextView) findViewById(R.id.tv_total);
+
+			txtItemCount.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+			txtSubTotal.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			txtShippingCharges.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			txtYouSaved.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			txtTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+
+			tvItemCount.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+			tvSubTotal.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			tvShippingCharges.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			tvYouSaved.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			tvTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+
+			etCouponCode = (EditText) findViewById(R.id.edit_coupon_code);
 //		orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
-		List<CartDetail> cartList = orderReviewBean.getProduct();
-		if(cartList!=null)
-		{
-			for(int i=0;i<cartList.size();i++)
-			{
-				saving=saving+(cartList.get(i).getQty()*(Float.parseFloat(cartList.get(i).getMrp())-Float.parseFloat(cartList.get(i).getPrice())));
+			List<CartDetail> cartList = orderReviewBean.getProduct();
+			if (cartList != null) {
+				for (int i = 0; i < cartList.size(); i++) {
+					saving = saving + (cartList.get(i).getQty() * (Float.parseFloat(cartList.get(i).getMrp()) - Float.parseFloat(cartList.get(i).getPrice())));
+				}
+				saving = saving - (Float.parseFloat(orderReviewBean.getDiscount_amount()));   //- - plus
+				tvSubTotal.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getSubTotal())));
+				tvYouSaved.setText("Rs." + String.format("%.2f", saving));
+				if (orderReviewBean.getShipping_ammount() != null && orderReviewBean.getShipping_ammount().length() > 0) {
+					tvShippingCharges.setText("Rs." + Float.parseFloat(orderReviewBean.getShipping_ammount()));
+				}
+				tvTotal.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getGrandTotal())));
+				tvItemCount.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getGrandTotal())));
+				if (MySharedPrefs.INSTANCE.getTotalItem() != null) {
+					txtItemCount.setText(MySharedPrefs.INSTANCE.getTotalItem() + " item");
+				}
 			}
-			saving = saving-(Float.parseFloat(orderReviewBean.getDiscount_amount()));   //- - plus			
-			tvSubTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(orderReviewBean.getSubTotal())));
-			tvYouSaved.setText("Rs."+String.format("%.2f",saving));
-			if(orderReviewBean.getShipping_ammount() != null && orderReviewBean.getShipping_ammount().length() > 0){
-				tvShippingCharges.setText("Rs."+Float.parseFloat(orderReviewBean.getShipping_ammount()));
-			}
-			tvTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(orderReviewBean.getGrandTotal())));
-			tvItemCount.setText("Rs."+String.format("%.2f",Float.parseFloat(orderReviewBean.getGrandTotal())));
-			if(MySharedPrefs.INSTANCE.getTotalItem()!=null)
-			{
-				txtItemCount.setText(MySharedPrefs.INSTANCE.getTotalItem()+" item");
-			}
-		}
 
-		if(orderReviewBean.getCouponCode() != null && !orderReviewBean.getCouponCode().equalsIgnoreCase("null")){
-			llFirstPage.setVisibility(View.GONE);
-			llSecondPage.setVisibility(View.VISIBLE);
+			if (orderReviewBean.getCouponCode() != null && !orderReviewBean.getCouponCode().equalsIgnoreCase("null")) {
+				llFirstPage.setVisibility(View.GONE);
+				llSecondPage.setVisibility(View.VISIBLE);
 //			tvEnterCode.setText("Applied Code");
-			etCouponCode.setEnabled(false);
-			etCouponCode.setText(orderReviewBean.getCouponCode());
+				etCouponCode.setEnabled(false);
+				etCouponCode.setText(orderReviewBean.getCouponCode());
 //			tvMiddleLineCoupon.setBackgroundDrawable(getResources().getDrawable(R.color.gray_1));
-		}else{
-			llFirstPage.setVisibility(View.VISIBLE);
-			llSecondPage.setVisibility(View.GONE);
+			} else {
+				llFirstPage.setVisibility(View.VISIBLE);
+				llSecondPage.setVisibility(View.GONE);
 //			tvEnterCode.setText("Enter Code");
-			etCouponCode.setEnabled(true);
-			etCouponCode.setHint("Enter coupon code");
+				etCouponCode.setEnabled(true);
+				etCouponCode.setHint("Enter coupon code");
 //			tvMiddleLineCoupon.setBackgroundDrawable(getResources().getDrawable(R.color.red));
-		}
-		
-		llFirstPage.setBackgroundResource(R.drawable.pay_selected_btn);
-		llSecondPage.setBackgroundResource(R.drawable.pay_selected_btn);
-		
-		llFirstPage.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				if(etCouponCode.getText().toString().length() > 0){
-					new Coupon(mContext,"Apply").execute(strApplyCoupon+etCouponCode.getText().toString());
-				}else{
-					UtilityMethods.customToast(ToastConstant.SELECT_COUPON_CODE, mContext);
-				}
 			}
-		});
-		
-		llSecondPage.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				if(etCouponCode.getText().toString().length() > 0){
-					new Coupon(mContext,"Remove").execute(strRemoveCoupon+etCouponCode.getText().toString());
-				}else{
-					UtilityMethods.customToast(ToastConstant.SELECT_COUPON_CODE, mContext);
-				}
-			}
-		});
-		
-		strApplyCoupon = UrlsConstants.ADD_COUPON+MySharedPrefs.INSTANCE.getUserId()+"&quote_id="
-							+MySharedPrefs.INSTANCE.getQuoteId()+"&couponcode=";
 
-		strRemoveCoupon = UrlsConstants.REMOVE_COUPON+MySharedPrefs.INSTANCE.getUserId()+"&quote_id="
-				+MySharedPrefs.INSTANCE.getQuoteId()+"&couponcode=";
-		/****************** PROMO CODE *********************/
-		
-		final ImageView ivOnlinePayment = (ImageView) findViewById(R.id.iv_online_payment);
-		final ImageView ivCashonDelivery = (ImageView) findViewById(R.id.iv_cash_on_delivery);
-		final ImageView ivPayTM = (ImageView) findViewById(R.id.iv_paytm);
-		final ImageView ivMobiKwik = (ImageView) findViewById(R.id.iv_mobikwik);
-		
-		final TextView btnOnlinePayment = (TextView) findViewById(R.id.btn_online_Payment);
-		final TextView btnCashonDelivery = (TextView) findViewById(R.id.btn_cash_on_delivery);
-		final TextView btnPayTM = (TextView) findViewById(R.id.btn_paytm);
-		final TextView btnMobiKwik = (TextView) findViewById(R.id.btn_mobikwik);
-		
-		
+			llFirstPage.setBackgroundResource(R.drawable.pay_selected_btn);
+			llSecondPage.setBackgroundResource(R.drawable.pay_selected_btn);
+
+			llFirstPage.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					if (etCouponCode.getText().toString().length() > 0) {
+						new Coupon(mContext, "Apply").execute(strApplyCoupon + etCouponCode.getText().toString());
+					} else {
+						UtilityMethods.customToast(ToastConstant.SELECT_COUPON_CODE, mContext);
+					}
+				}
+			});
+
+			llSecondPage.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					if (etCouponCode.getText().toString().length() > 0) {
+						new Coupon(mContext, "Remove").execute(strRemoveCoupon + etCouponCode.getText().toString());
+					} else {
+						UtilityMethods.customToast(ToastConstant.SELECT_COUPON_CODE, mContext);
+					}
+				}
+			});
+
+			strApplyCoupon = UrlsConstants.ADD_COUPON + MySharedPrefs.INSTANCE.getUserId() + "&quote_id="
+					+ MySharedPrefs.INSTANCE.getQuoteId() + "&couponcode=";
+
+			strRemoveCoupon = UrlsConstants.REMOVE_COUPON + MySharedPrefs.INSTANCE.getUserId() + "&quote_id="
+					+ MySharedPrefs.INSTANCE.getQuoteId() + "&couponcode=";
+			/****************** PROMO CODE *********************/
+
+			final ImageView ivOnlinePayment = (ImageView) findViewById(R.id.iv_online_payment);
+			final ImageView ivCashonDelivery = (ImageView) findViewById(R.id.iv_cash_on_delivery);
+			final ImageView ivPayTM = (ImageView) findViewById(R.id.iv_paytm);
+			final ImageView ivMobiKwik = (ImageView) findViewById(R.id.iv_mobikwik);
+
+			final TextView btnOnlinePayment = (TextView) findViewById(R.id.btn_online_Payment);
+			final TextView btnCashonDelivery = (TextView) findViewById(R.id.btn_cash_on_delivery);
+			final TextView btnPayTM = (TextView) findViewById(R.id.btn_paytm);
+			final TextView btnMobiKwik = (TextView) findViewById(R.id.btn_mobikwik);
+
 
 //		TextView txtSubTotal = (TextView) findViewById(R.id.txt_subtotal);
 //		TextView txtShipping = (TextView) findViewById(R.id.txt_shipping);
 //		TextView txtYouPay = (TextView) findViewById(R.id.txt_you_pay);
 //		TextView txtYouSaved = (TextView) findViewById(R.id.txt_you_saved);
 //		TextView txtDiscountReview = (TextView) findViewById(R.id.txt_discount_review);
-		
+
 //		TextView tvSubTotal = (TextView) findViewById(R.id.tv_subTotal_payment);
 //		TextView tvShipping = (TextView) findViewById(R.id.tv_shipping_payment);
 //		TextView tvYouPay = (TextView) findViewById(R.id.tv_you_pay);
 //		TextView tvYouSaved = (TextView) findViewById(R.id.tv_you_saved);
 //		TextView tvDiscountReview = (TextView) findViewById(R.id.tv_discount_review);
-		TextView tvCreditCard = (TextView) findViewById(R.id.CreditCard);
-		
-		ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);         //unselect
-		ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);        //unselect
-		ivPayTM.setImageResource(R.drawable.uncheck_pay);         //unselect
-		ivMobiKwik.setImageResource(R.drawable.uncheck_pay);         //unselect
-		
+			TextView tvCreditCard = (TextView) findViewById(R.id.CreditCard);
+
+			ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);         //unselect
+			ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);        //unselect
+			ivPayTM.setImageResource(R.drawable.uncheck_pay);         //unselect
+			ivMobiKwik.setImageResource(R.drawable.uncheck_pay);         //unselect
+
 //		btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);       //unselect
 //		btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);      //unselect
 //		btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);       //unselect
 //		btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);       //unselect
-		
+
 //		btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 //		btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));   //unselect
 //		btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 //		btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-		
-		btnOnlinePayment.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-		btnCashonDelivery.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-		btnPayTM.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-		btnMobiKwik.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-		
-		tvCreditCard.setTypeface(CustomFonts.getInstance().getRobotoBold(this));		
+
+			btnOnlinePayment.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			btnCashonDelivery.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			btnPayTM.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			btnMobiKwik.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+
+			tvCreditCard.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 //		tvSubTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 //		tvShipping.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 //		tvYouPay.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
@@ -261,340 +259,340 @@ public class ReviewOrderAndPay extends BaseActivity
 //		txtYouPay.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 //		txtYouSaved.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 //		txtDiscountReview.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-		
-		btnOnlinePayment.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				bCash = false;
-				bPayTM = false;
-				bMobiKwik = false;
-				if(bOnline){
-					bOnline = false;
-				}else{
-					bOnline = true;
-				}
-				
-				if(bOnline){
-					ivOnlinePayment.setImageResource(R.drawable.check_pay);           //select
-					ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);        //unselect
-					ivPayTM.setImageResource(R.drawable.uncheck_pay);         		  //unselect
-					ivMobiKwik.setImageResource(R.drawable.uncheck_pay);         		  //unselect
-					
-//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_selected_btn);
-//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);
-					
-//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_selected_text_color));      //select
-//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));   //unselect
-//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-//					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-				}else{
-					ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);           //unselect
-//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-				}
-			}
-		});
-		
-		llOnlinePayment.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				bCash = false;
-				bPayTM = false;
-				bMobiKwik = false;
-				if(bOnline){
-					bOnline = false;
-				}else{
-					bOnline = true;
-				}
-				
-				if(bOnline){
-					ivOnlinePayment.setImageResource(R.drawable.check_pay);           //select
-					ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);        //unselect
-					ivPayTM.setImageResource(R.drawable.uncheck_pay);         //unselect
-					ivMobiKwik.setImageResource(R.drawable.uncheck_pay);         //unselect
-					
-//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_selected_btn);
-//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);
-					
-//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_selected_text_color));      //select
-//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));   //unselect
-//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-//					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-				}else{
-					ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);           //unselect
-//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-				}
-				
-			}
-		});
-		
-		btnCashonDelivery.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				bOnline = false;
-				bPayTM = false;
-				bPayTM = false;
-				if(bCash){
-					bCash = false;
-				}else{
-					bCash = true;
-				}
-				
-				if(bCash){
-					ivCashonDelivery.setImageResource(R.drawable.check_pay);        //select
-					ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);       //unselect
-					ivPayTM.setImageResource(R.drawable.uncheck_pay);       //unselect
-					ivMobiKwik.setImageResource(R.drawable.uncheck_pay);       //unselect
-					
-//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_selected_btn);
-//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);
-					
-//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_selected_text_color));   //select
-//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));      //unselect
-//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-//					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-				}else{
-					ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);           //unselect
-//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnCashonDelivery.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
-//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-				}
-			}
-		});
-		
-		llCashOnDelivery.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				bOnline = false;
-				bPayTM = false;
-				bMobiKwik = false;
-				if(bCash){
-					bCash = false;
-				}else{
-					bCash = true;
-				}
-				
-				if(bCash){
-					ivCashonDelivery.setImageResource(R.drawable.check_pay);        //select
-					ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);       //unselect
-					ivPayTM.setImageResource(R.drawable.uncheck_pay);       //unselect
-					ivMobiKwik.setImageResource(R.drawable.uncheck_pay);       //unselect
-					
-//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_selected_btn);
-//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);
-					
-//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_selected_text_color));   //select
-//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));      //unselect
-//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-//					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-				}else{
-					ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);           //unselect
-//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnCashonDelivery.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
-//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-				}
-				
-			}
-		});
-		
-		
-		btnPayTM.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				bCash = false;
-				bOnline = false;
-				bMobiKwik = false;
-				if(bPayTM){
-					bPayTM = false;
-				}else{
-					bPayTM = true;
-				}
-				
-				if(bPayTM){
-					ivPayTM.setImageResource(R.drawable.check_pay);           //select
-					ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);         //unselect
-					ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);        //unselect
-					ivMobiKwik.setImageResource(R.drawable.uncheck_pay);        //unselect
-					
-//					btnPayTM.setBackgroundResource(R.drawable.pay_selected_btn);
-//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);
-					
-//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_selected_text_color));        //select
-//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));      //unselect
-//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
-//					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
-				}else{
-					ivPayTM.setImageResource(R.drawable.uncheck_pay);           //unselect
-//					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnPayTM.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
-//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-				}
-			}
-		});
-		
-		
-		llPayTM.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				bCash = false;
-				bOnline = false;
-				bMobiKwik = false;
-				if(bPayTM){
-					bPayTM = false;
-				}else{
-					bPayTM = true;
-				}
-				
-				if(bPayTM){
-					ivPayTM.setImageResource(R.drawable.check_pay);           //select
-					ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);         //unselect
-					ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);        //unselect
-					ivMobiKwik.setImageResource(R.drawable.uncheck_pay);        //unselect
-					
-//					btnPayTM.setBackgroundResource(R.drawable.pay_selected_btn);
-//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);
-					
-//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_selected_text_color));        //select
-//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));      //unselect
-//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
-//					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
-				}else{
-					ivPayTM.setImageResource(R.drawable.uncheck_pay);           //unselect
-//					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnPayTM.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
-//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-				}
 
-			}
-		});
-		
-		btnMobiKwik.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				bCash = false;
-				bOnline = false;
-				bPayTM = false;
-				if(bMobiKwik){
+			btnOnlinePayment.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					bCash = false;
+					bPayTM = false;
 					bMobiKwik = false;
-				}else{
-					bMobiKwik = true;
+					if (bOnline) {
+						bOnline = false;
+					} else {
+						bOnline = true;
+					}
+
+					if (bOnline) {
+						ivOnlinePayment.setImageResource(R.drawable.check_pay);           //select
+						ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);        //unselect
+						ivPayTM.setImageResource(R.drawable.uncheck_pay);                  //unselect
+						ivMobiKwik.setImageResource(R.drawable.uncheck_pay);                  //unselect
+
+//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_selected_btn);
+//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
+//					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
+//					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);
+
+//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_selected_text_color));      //select
+//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));   //unselect
+//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
+//					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
+					} else {
+						ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);           //unselect
+//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
+//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
+					}
 				}
-				
-				if(bMobiKwik){
-					ivMobiKwik.setImageResource(R.drawable.check_pay);           //select
-					ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);         //unselect
-					ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);        //unselect
-					ivPayTM.setImageResource(R.drawable.uncheck_pay);        //unselect
-					
+			});
+
+			llOnlinePayment.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					bCash = false;
+					bPayTM = false;
+					bMobiKwik = false;
+					if (bOnline) {
+						bOnline = false;
+					} else {
+						bOnline = true;
+					}
+
+					if (bOnline) {
+						ivOnlinePayment.setImageResource(R.drawable.check_pay);           //select
+						ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);        //unselect
+						ivPayTM.setImageResource(R.drawable.uncheck_pay);         //unselect
+						ivMobiKwik.setImageResource(R.drawable.uncheck_pay);         //unselect
+
+//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_selected_btn);
+//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
+//					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
+//					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);
+
+//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_selected_text_color));      //select
+//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));   //unselect
+//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
+//					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
+					} else {
+						ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);           //unselect
+//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
+//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
+					}
+
+				}
+			});
+
+			btnCashonDelivery.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					bOnline = false;
+					bPayTM = false;
+					bPayTM = false;
+					if (bCash) {
+						bCash = false;
+					} else {
+						bCash = true;
+					}
+
+					if (bCash) {
+						ivCashonDelivery.setImageResource(R.drawable.check_pay);        //select
+						ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);       //unselect
+						ivPayTM.setImageResource(R.drawable.uncheck_pay);       //unselect
+						ivMobiKwik.setImageResource(R.drawable.uncheck_pay);       //unselect
+
+//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_selected_btn);
+//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
+//					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
+//					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);
+
+//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_selected_text_color));   //select
+//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));      //unselect
+//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
+//					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
+					} else {
+						ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);           //unselect
+//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
+//					btnCashonDelivery.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
+//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
+					}
+				}
+			});
+
+			llCashOnDelivery.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					bOnline = false;
+					bPayTM = false;
+					bMobiKwik = false;
+					if (bCash) {
+						bCash = false;
+					} else {
+						bCash = true;
+					}
+
+					if (bCash) {
+						ivCashonDelivery.setImageResource(R.drawable.check_pay);        //select
+						ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);       //unselect
+						ivPayTM.setImageResource(R.drawable.uncheck_pay);       //unselect
+						ivMobiKwik.setImageResource(R.drawable.uncheck_pay);       //unselect
+
+//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_selected_btn);
+//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
+//					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
+//					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);
+
+//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_selected_text_color));   //select
+//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));      //unselect
+//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
+//					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
+					} else {
+						ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);           //unselect
+//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
+//					btnCashonDelivery.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
+//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
+					}
+
+				}
+			});
+
+
+			btnPayTM.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					bCash = false;
+					bOnline = false;
+					bMobiKwik = false;
+					if (bPayTM) {
+						bPayTM = false;
+					} else {
+						bPayTM = true;
+					}
+
+					if (bPayTM) {
+						ivPayTM.setImageResource(R.drawable.check_pay);           //select
+						ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);         //unselect
+						ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);        //unselect
+						ivMobiKwik.setImageResource(R.drawable.uncheck_pay);        //unselect
+
+//					btnPayTM.setBackgroundResource(R.drawable.pay_selected_btn);
+//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
+//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
+//					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);
+
+//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_selected_text_color));        //select
+//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));      //unselect
+//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
+//					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
+					} else {
+						ivPayTM.setImageResource(R.drawable.uncheck_pay);           //unselect
+//					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
+//					btnPayTM.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
+//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
+					}
+				}
+			});
+
+
+			llPayTM.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					bCash = false;
+					bOnline = false;
+					bMobiKwik = false;
+					if (bPayTM) {
+						bPayTM = false;
+					} else {
+						bPayTM = true;
+					}
+
+					if (bPayTM) {
+						ivPayTM.setImageResource(R.drawable.check_pay);           //select
+						ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);         //unselect
+						ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);        //unselect
+						ivMobiKwik.setImageResource(R.drawable.uncheck_pay);        //unselect
+
+//					btnPayTM.setBackgroundResource(R.drawable.pay_selected_btn);
+//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
+//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
+//					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);
+
+//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_selected_text_color));        //select
+//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));      //unselect
+//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
+//					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
+					} else {
+						ivPayTM.setImageResource(R.drawable.uncheck_pay);           //unselect
+//					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
+//					btnPayTM.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
+//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
+					}
+
+				}
+			});
+
+			btnMobiKwik.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					bCash = false;
+					bOnline = false;
+					bPayTM = false;
+					if (bMobiKwik) {
+						bMobiKwik = false;
+					} else {
+						bMobiKwik = true;
+					}
+
+					if (bMobiKwik) {
+						ivMobiKwik.setImageResource(R.drawable.check_pay);           //select
+						ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);         //unselect
+						ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);        //unselect
+						ivPayTM.setImageResource(R.drawable.uncheck_pay);        //unselect
+
 //					btnMobiKwik.setBackgroundResource(R.drawable.pay_selected_btn);
 //					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
 //					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
 //					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
-					
+
 //					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_selected_text_color));        //select
 //					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));      //unselect
 //					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
 //					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
-				}else{
-					ivMobiKwik.setImageResource(R.drawable.uncheck_pay);           //unselect
+					} else {
+						ivMobiKwik.setImageResource(R.drawable.uncheck_pay);           //unselect
 //					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);
 //					btnMobiKwik.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
 //					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
+					}
 				}
-			}
-		});
-			
-		llMobiKwik.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				bCash = false;
-				bOnline = false;
-				bPayTM = false;
-				if(bMobiKwik){
-					bMobiKwik = false;
-				}else{
-					bMobiKwik = true;
-				}
-				
-				if(bMobiKwik){
-					ivMobiKwik.setImageResource(R.drawable.check_pay);             	  //select
-					ivPayTM.setImageResource(R.drawable.uncheck_pay);           	  //unselect
-					ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);         //unselect
-					ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);        //unselect
-					
+			});
+
+			llMobiKwik.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					bCash = false;
+					bOnline = false;
+					bPayTM = false;
+					if (bMobiKwik) {
+						bMobiKwik = false;
+					} else {
+						bMobiKwik = true;
+					}
+
+					if (bMobiKwik) {
+						ivMobiKwik.setImageResource(R.drawable.check_pay);                  //select
+						ivPayTM.setImageResource(R.drawable.uncheck_pay);              //unselect
+						ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);         //unselect
+						ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);        //unselect
+
 //					btnMobiKwik.setBackgroundResource(R.drawable.pay_selected_btn);
 //					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
 //					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
 //					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
-					
+
 //					btnPayTM.setTextColor(getResources().getColor(R.color.payment_selected_text_color));                //select
 //					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));              //unselect
 //					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));      //unselect
 //					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
-					
-				}else{
-					ivMobiKwik.setImageResource(R.drawable.uncheck_pay);           								 //unselect
+
+					} else {
+						ivMobiKwik.setImageResource(R.drawable.uncheck_pay);                                         //unselect
 //					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);                            //unselect
 //					btnMobiKwik.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
 //					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-				}
+					}
 
-			}
-		});
-		
-		
+				}
+			});
+
+
 //		mList = (ListView) findViewById(R.id.product_list);
 
-		button_pay = (Button) findViewById(R.id.btn_apply_coupon);
+			button_pay = (Button) findViewById(R.id.btn_apply_coupon);
 //		button_pay.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-		
-		button_pay.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
-				total = Float.parseFloat(orderReviewBean.getGrandTotal())+Float.parseFloat(orderReviewBean.getShipping_ammount())
-						+Float.parseFloat(orderReviewBean.getDiscount_amount());
+
+			button_pay.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
+					total = Float.parseFloat(orderReviewBean.getGrandTotal()) + Float.parseFloat(orderReviewBean.getShipping_ammount())
+							+ Float.parseFloat(orderReviewBean.getDiscount_amount());
 //				if(!bCash && !bOnline && !bPayTM && !bMobiKwik){
 //					UtilityMethods.customToast(ToastConstant.SELECT_PAYMENT_MODE, mContext);
 //					return;
 //				}else
-				if(!bCash && !bOnline){
-					UtilityMethods.customToast(ToastConstant.SELECT_PAYMENT_MODE, mContext);
-					return;
-				}else if(bOnline){
-					payment_mode="payucheckout_shared";
-				}else if(bCash){
-					payment_mode="cashondelivery";
-				}
+					if (!bCash && !bOnline) {
+						UtilityMethods.customToast(ToastConstant.SELECT_PAYMENT_MODE, mContext);
+						return;
+					} else if (bOnline) {
+						payment_mode = "payucheckout_shared";
+					} else if (bCash) {
+						payment_mode = "cashondelivery";
+					}
 //				else if(bPayTM){
 //					payment_mode="paytm";
 //				}
@@ -602,23 +600,23 @@ public class ReviewOrderAndPay extends BaseActivity
 //					payment_mode="mobikwik";
 //				}
 
-				showDialog();
-				OrderReviewBean orderReviewBean=MySharedPrefs.INSTANCE.getOrderReviewBean();
-				String shipping = orderReviewBean.getShipping().toString();
-				String billing = orderReviewBean.getBilling().toString();
-					
-				String url;
-				try {
-					url = UrlsConstants.FINAL_CHECKOUT+URLEncoder.encode(shipping, "UTF-8")+"&billing="+URLEncoder.encode(billing, "UTF-8")+"&userid="+MySharedPrefs.INSTANCE.getUserId()+"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&timeslot="+orderReviewBean.getTimeSlot()+"&date="+orderReviewBean.getDate()+"&payment_method="+payment_mode+"&shipping_method=tablerate_bestway";
-					System.out.println("=URL OUTPUT=="+url);
-					myApi.reqFinalCheckout(url.replaceAll(" ","%20"));
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					showDialog();
+					OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
+					String shipping = orderReviewBean.getShipping().toString();
+					String billing = orderReviewBean.getBilling().toString();
+
+					String url;
+					try {
+						url = UrlsConstants.FINAL_CHECKOUT + URLEncoder.encode(shipping, "UTF-8") + "&billing=" + URLEncoder.encode(billing, "UTF-8") + "&userid=" + MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId() + "&timeslot=" + orderReviewBean.getTimeSlot() + "&date=" + orderReviewBean.getDate() + "&payment_method=" + payment_mode + "&shipping_method=tablerate_bestway";
+						System.out.println("=URL OUTPUT==" + url);
+						myApi.reqFinalCheckout(url.replaceAll(" ", "%20"));
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
 				}
-			
-			}
-		});
+			});
 				
 		/*if(Float.parseFloat(orderReviewBean.getShipping_ammount())==0)
 		tr_shipping.setVisibility(View.GONE);
@@ -630,21 +628,24 @@ public class ReviewOrderAndPay extends BaseActivity
 		 * Float.parseFloat(shipping_amt.getText().toString()) +
 		 * Float.parseFloat(tax.getText().toString());
 		 */
- 
-		total=Float.parseFloat(orderReviewBean.getGrandTotal())+Float.parseFloat(orderReviewBean.getShipping_ammount())+Float.parseFloat(orderReviewBean.getDiscount_amount());
-		
-		
+
+			total = Float.parseFloat(orderReviewBean.getGrandTotal()) + Float.parseFloat(orderReviewBean.getShipping_ammount()) + Float.parseFloat(orderReviewBean.getDiscount_amount());
+
+
 //		tvSubTotal.setText("Rs. "+String.format("%.2f",Float.parseFloat(orderReviewBean.getGrandTotal())));
 //		tvShipping.setText("Rs. "+String.format("%.2f",Float.parseFloat(orderReviewBean.getShipping_ammount())));
-		
+
 //		tvYouSaved.setText("Rs. "+String.format("%.2f",Float.parseFloat(orderReviewBean.getSaving())));
 //		tvYouSaved.setText("Rs. "+orderReviewBean.getSaving());
 //		tvYouSaved.setText("Rs. "+String.format("%.2f",Float.parseFloat(orderReviewBean.getDiscount_amount())));
 //		tvYouPay.setText("Rs. "+String.format("%.2f",Float.parseFloat(String.valueOf(total))));
 //		tvDiscountReview.setText("Rs. "+String.format("%.2f",Float.parseFloat(orderReviewBean.getDiscount_amount())));
 
-		initHeader(findViewById(R.id.header), true, "Review Order");
-		initFooter(findViewById(R.id.footer), 4, 3);
+			initHeader(findViewById(R.id.header), true, "Review Order");
+			initFooter(findViewById(R.id.footer), 4, 3);
+		}catch(Exception e){
+			new GrocermaxBaseException("ReviewOrderAndPay","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 
 	String cardNumber;
@@ -782,23 +783,23 @@ public class ReviewOrderAndPay extends BaseActivity
 //                            PayU.getInstance(MainActivity.this).startPaymentProcess(finalAmount, params, new PayU.PaymentMode[]{PayU.PaymentMode.CC, PayU.PaymentMode.NB});
 
                     } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
                         if(mProgressDialog != null && mProgressDialog.isShowing())
                             mProgressDialog.dismiss();
-                        Toast.makeText(ReviewOrderAndPay.this, e.getMessage(), Toast.LENGTH_LONG).show();
+						new GrocermaxBaseException("ReviewOrderAndPay","doInBackground",e.getMessage(), GrocermaxBaseException.UnsupportedEncodingException,"nodetail");
+//                        Toast.makeText(ReviewOrderAndPay.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     } catch (ClientProtocolException e) {
-                        e.printStackTrace();
                         if(mProgressDialog != null && mProgressDialog.isShowing())
                             mProgressDialog.dismiss();
-                        Toast.makeText(ReviewOrderAndPay.this, e.getMessage(), Toast.LENGTH_LONG).show();
+						new GrocermaxBaseException("ReviewOrderAndPay","doInBackground",e.getMessage(), GrocermaxBaseException.CLIENT_PROTOCOL_EXCEPTION,"nodetail");
+//                        Toast.makeText(ReviewOrderAndPay.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     } catch (JSONException e) {
                         if(mProgressDialog != null && mProgressDialog.isShowing())
                             mProgressDialog.dismiss();
-                        e.printStackTrace();
+						new GrocermaxBaseException("ReviewOrderAndPay","doInBackground",e.getMessage(), GrocermaxBaseException.JSON_EXCEPTION,"nodetail");
                     } catch (IOException e) {
-                        e.printStackTrace();
                         if(mProgressDialog != null && mProgressDialog.isShowing())
                             mProgressDialog.dismiss();
+						new GrocermaxBaseException("ReviewOrderAndPay","doInBackground",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
                     } /*catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
 
@@ -815,9 +816,6 @@ public class ReviewOrderAndPay extends BaseActivity
 		{
 			//new CODConfirm().execute();
 		}
-
-		
-		
 		
 	}
 	private String bytesToHexString(byte[] bytes) {
@@ -834,6 +832,7 @@ public class ReviewOrderAndPay extends BaseActivity
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		try{
         if (requestCode == PayU.RESULT) {
             if(resultCode == RESULT_OK) {
                 //success
@@ -867,13 +866,16 @@ public class ReviewOrderAndPay extends BaseActivity
 //                }
             }
         }
+		}catch(Exception e){
+			new GrocermaxBaseException("ReviewOrderAndPay","onActivityResult",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
 	
 
 	@Override
 	void OnResponse(Bundle bundle) {
 		// TODO Auto-generated method stub
-		
+		try{
 		if (bundle.getString("ACTION").equals(MyReceiverActions.FINAL_CHECKOUT)) {
 		finalCheckoutBean= (FinalCheckoutBean) bundle.getSerializable(ConnectionService.RESPONSE);
 		if (finalCheckoutBean.getFlag().equalsIgnoreCase("1")) {
@@ -934,7 +936,7 @@ public class ReviewOrderAndPay extends BaseActivity
 //		}
 		if (bundle.getString("ACTION").equals(MyReceiverActions.SET_ORDER_STATUS)) {
 			String response= (String) bundle.getSerializable(ConnectionService.RESPONSE);
-			try {
+
 				JSONObject resJsonObject=new JSONObject(response);
 				if(resJsonObject.getInt("flag")==1)
 				{
@@ -951,9 +953,10 @@ public class ReviewOrderAndPay extends BaseActivity
 					startActivity(intent);
 					finish();
 				}
-			} catch (Exception e) {
-			}
 		}
+	}catch(Exception e){
+	new GrocermaxBaseException("ReviewOrderAndPay","onResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+}
 		
 	}
 	
@@ -963,7 +966,11 @@ public class ReviewOrderAndPay extends BaseActivity
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		initHeader(findViewById(R.id.header), true, null);
+		try {
+			initHeader(findViewById(R.id.header), true, null);
+		}catch(Exception e){
+			new GrocermaxBaseException("ReviewOrderAndPay","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	
 	
@@ -975,7 +982,9 @@ public class ReviewOrderAndPay extends BaseActivity
 	    	tracker.activityStart(this);
 	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("ReviewOrderAndPay","onStart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
     
     @Override
@@ -985,7 +994,9 @@ public class ReviewOrderAndPay extends BaseActivity
     	try{
 	    	tracker.activityStop(this);
 	    	FlurryAgent.onEndSession(this);
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("ReviewOrderAndPay","onStop",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
 	
 	
@@ -1050,10 +1061,13 @@ class Coupon extends AsyncTask<String, String, String>
 			return EntityUtils.toString(resEntity);
 		} catch (ClientProtocolException e) {
 			((BaseActivity)context).dismissDialog();
-			e.printStackTrace();
+			new GrocermaxBaseException("ReviewOrderAndPay","doInBackground",e.getMessage(), GrocermaxBaseException.CLIENT_PROTOCOL_EXCEPTION,"nodetail");
 		} catch (IOException e) {
 			((BaseActivity)context).dismissDialog();
-			e.printStackTrace();
+			new GrocermaxBaseException("ReviewOrderAndPay","doInBackground",e.getMessage(), GrocermaxBaseException.IO_EXCEPTION,"nodetail");
+		} catch (Exception e){
+			((BaseActivity)context).dismissDialog();
+			new GrocermaxBaseException("ReviewOrderAndPay","doInBackground",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 		
 		return null;
@@ -1173,6 +1187,7 @@ class Coupon extends AsyncTask<String, String, String>
 				}
 			}
 		}catch(Exception e){
+			new GrocermaxBaseException("ReviewOrderAndPay","onPostExecute",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 		((BaseActivity)context).dismissDialog();
 	}

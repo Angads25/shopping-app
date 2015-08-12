@@ -32,6 +32,7 @@ import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
 import com.sakshay.grocermax.adapters.ProductListAdapter;
 import com.sakshay.grocermax.bean.Product;
 import com.sakshay.grocermax.bean.ProductListBean;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants.ToastConstant;
 import com.sakshay.grocermax.utils.MyHttpUtils;
@@ -75,18 +76,21 @@ public final class ProductListFragments extends Fragment implements OnScrollList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-		if ((savedInstanceState != null) && savedInstanceState.containsKey("ProductList")) {
-			productListBean = (ProductListBean) savedInstanceState
-					.getSerializable("ProductList");
+        try {
+			if ((savedInstanceState != null) && savedInstanceState.containsKey("ProductList")) {
+				productListBean = (ProductListBean) savedInstanceState
+						.getSerializable("ProductList");
 				cat_id = savedInstanceState.getString("cat_id");
-		}
+			}
+			}catch(Exception e){
+				new GrocermaxBaseException("ProductListFragments","onStart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+			}
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	View view = inflater.inflate(R.layout.fragment_categoty_list, container, false);
-    	
+    	try{
     	main_lay = (LinearLayout) view.findViewById(R.id.main_lay);
     	progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
     	
@@ -122,7 +126,10 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 		CallAPI callapi=new CallAPI();
 		CategoryTabs.asyncTasks.add(callapi);
 		callapi.execute(UrlsConstants.PRODUCT_LIST_URL + cat_id);
-		
+		}catch(Exception e){
+			new GrocermaxBaseException("ProductListFragments","onCreateView",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
+
         return view;
     }
     
@@ -138,7 +145,13 @@ public final class ProductListFragments extends Fragment implements OnScrollList
         @Override
         protected String doInBackground(String... params) {
         	HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
-        	HttpGet httpGet = new HttpGet(params[0]);
+			String strURL = params[0];
+			if(strURL.contains("?")) {
+				strURL += "&version=1.0";
+			}else{
+				strURL += "?version=1.0";
+			}
+        	HttpGet httpGet = new HttpGet(strURL);
 			httpGet.setHeader("Content-Type", "application/json");
 			HttpResponse response = null;
 			try {
@@ -146,25 +159,23 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 				HttpEntity resEntity = response.getEntity();
 				return EntityUtils.toString(resEntity);
 			} catch (ClientProtocolException e) {
-				e.printStackTrace();
+				new GrocermaxBaseException("ProductListFragments","doInBackground",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 			} catch (IOException e) {
-				e.printStackTrace();
+				new GrocermaxBaseException("ProductListFragments","doInBackground",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 			}
 			return null;
         }
      
         protected void onPostExecute(String result) {
-        	
+		  try{
         	main_lay.setVisibility(View.VISIBLE);
         	progressBar.setVisibility(View.GONE);
         	ProductListBean listBean = null;
         	if (result!=null) {
         		Log.i(TAG, "RESPONSE:::" + result);
-        		try {
         			Gson gson = new Gson();
         			listBean = gson.fromJson(result, ProductListBean.class);
-				} catch (Exception e) {
-				}
+
         		if (listBean!=null && listBean.getFlag().equalsIgnoreCase("1")) {
     				if (listBean.getProduct().size() < itemPerPage) {
     					hasMoreItem = false;
@@ -194,7 +205,11 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 						mList.setAdapter(mAdapter);
 	    			}
 			}
+		}catch(Exception e){
+			new GrocermaxBaseException("ProductListFragments","onPostExecute",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
         }
+
         
     } 
     
@@ -224,6 +239,7 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 	}
 
 	private void loadMoreData() {
+		try{
 		if (UtilityMethods.isInternetAvailable(categoryTabs.mContext)) {
 			if (hasMoreItem) {
 				// mList.addFooterView(footerView);
@@ -232,6 +248,7 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 				footerView.setVisibility(View.VISIBLE);
 					url = UrlsConstants.PRODUCT_LIST_URL + cat_id + "&page="
 							+ pageNo;
+
 					new CallAPI().execute(url);
 					//callApi.execute(url);
 					//startMyTask(callApi, url);
@@ -244,13 +261,20 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 //					Toast.LENGTH_LONG).show();
 			UtilityMethods.customToast(ToastConstant.msgNoInternet, categoryTabs.mContext);
 		}
+		}catch(Exception e){
+			new GrocermaxBaseException("ProductListFragments","loadMoreData",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable("ProductList", productListBean);
-        outState.putString("cat_id", cat_id);
+		try {
+			outState.putSerializable("ProductList", productListBean);
+			outState.putString("cat_id", cat_id);
+		}catch(Exception e){
+			new GrocermaxBaseException("ProductListFragments","onSaveInstanceState",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
     
    

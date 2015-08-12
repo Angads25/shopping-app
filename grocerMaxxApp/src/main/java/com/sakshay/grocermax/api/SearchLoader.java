@@ -77,13 +77,13 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 			return EntityUtils.toString(resEntity);
 		} catch (ClientProtocolException e) {
 			((BaseActivity)context).dismissDialog();
-			new GrocermaxBaseException("SearchLoader","doInBackground",e.getMessage(),GrocermaxBaseException.CLIENT_PROTOCOL_EXCEPTION,"80",strResult);
+			new GrocermaxBaseException("SearchLoader","doInBackground",e.getMessage(),GrocermaxBaseException.CLIENT_PROTOCOL_EXCEPTION,strResult);
 		} catch (IOException e) {
 			((BaseActivity)context).dismissDialog();
-			new GrocermaxBaseException("SearchLoader","doInBackground",e.getMessage(),GrocermaxBaseException.IO_EXCEPTION,"83",strResult);
+			new GrocermaxBaseException("SearchLoader","doInBackground",e.getMessage(),GrocermaxBaseException.IO_EXCEPTION,strResult);
 		}catch (Exception e){
 			((BaseActivity)context).dismissDialog();
-			new GrocermaxBaseException("SearchLoader","doInBackground",e.getMessage(),GrocermaxBaseException.EXCEPTION,"86",strResult);
+			new GrocermaxBaseException("SearchLoader","doInBackground",e.getMessage(),GrocermaxBaseException.EXCEPTION,strResult);
 		}
 		return null;
     }
@@ -213,11 +213,11 @@ public class SearchLoader extends AsyncTask<String, String, String> {
     	context.startActivity(call);
 
 		}catch(JSONException e){
-			new GrocermaxBaseException("SearchLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.JSON_EXCEPTION,"216",result);
+			new GrocermaxBaseException("SearchLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.JSON_EXCEPTION,result);
 		}catch (NullPointerException e){
-			new GrocermaxBaseException("SearchLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.NULL_POINTER,"218",result);
+			new GrocermaxBaseException("SearchLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.NULL_POINTER,result);
 		}catch (Exception e){
-			new GrocermaxBaseException("SearchLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.EXCEPTION,"220",result);
+			new GrocermaxBaseException("SearchLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.EXCEPTION,result);
 		}
     }
     

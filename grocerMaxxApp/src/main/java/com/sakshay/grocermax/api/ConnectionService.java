@@ -192,17 +192,17 @@ public class ConnectionService extends IntentService {
 		} catch (IOException e) {
 			bundle.putString(ERROR, IO_EXCEPTION);
 			Log.e(TAG, "ERROR::" + e.getMessage());
-			new GrocermaxBaseException("ConnectionService","onHandleIntent",e.getMessage(),GrocermaxBaseException.IO_EXCEPTION,"195",response_str);
+			new GrocermaxBaseException("ConnectionService","onHandleIntent",e.getMessage(),GrocermaxBaseException.IO_EXCEPTION,response_str);
 			e.printStackTrace();
 		} catch (JSONException e) {
 			bundle.putString(ERROR, JSON_EXCEPTION);
 			Log.e(TAG, "ERROR::" + e.getMessage());
-			new GrocermaxBaseException("ConnectionService","onHandleIntent",e.getMessage(),GrocermaxBaseException.JSON_EXCEPTION,"200",response_str);
+			new GrocermaxBaseException("ConnectionService","onHandleIntent",e.getMessage(),GrocermaxBaseException.JSON_EXCEPTION,response_str);
 			e.printStackTrace();
 		} catch (Exception e) {
 			bundle.putString(ERROR, EXCEPTION);
 			Log.e(TAG, "ERROR::" + "Unknown Error");
-			new GrocermaxBaseException("ConnectionService","onHandleIntent",e.getMessage(),GrocermaxBaseException.EXCEPTION,"205",response_str);
+			new GrocermaxBaseException("ConnectionService","onHandleIntent",e.getMessage(),GrocermaxBaseException.EXCEPTION,response_str);
 			e.printStackTrace();
 		}
 		finally{
@@ -289,7 +289,7 @@ public class ConnectionService extends IntentService {
 				response = client.execute(httpGet);
 			}
 		}catch (Exception e) {
-			new GrocermaxBaseException("ConnectionService","processRequest",e.getMessage(),GrocermaxBaseException.EXCEPTION,"287",EntityUtils.toString(response.getEntity()));
+			new GrocermaxBaseException("ConnectionService","processRequest",e.getMessage(),GrocermaxBaseException.EXCEPTION,EntityUtils.toString(response.getEntity()));
 			e.printStackTrace();
 		}
 
@@ -461,12 +461,12 @@ public class ConnectionService extends IntentService {
 		catch (JSONException e) {
 			bundle.putString(ERROR, JSON_EXCEPTION);
 			Log.e(TAG, "ERROR::" + e.getMessage());
-			new GrocermaxBaseException("ConnectionService","parseData",e.getMessage(),GrocermaxBaseException.JSON_EXCEPTION,"459",response);
+			new GrocermaxBaseException("ConnectionService","parseData",e.getMessage(),GrocermaxBaseException.JSON_EXCEPTION,response);
 			e.printStackTrace();
 		} catch (Exception e) {
 			bundle.putString(ERROR, EXCEPTION);
 			Log.e(TAG, "ERROR::" + "Unknow Error");
-			new GrocermaxBaseException("ConnectionService","parseData",e.getMessage(),GrocermaxBaseException.EXCEPTION,"457",response);
+			new GrocermaxBaseException("ConnectionService","parseData",e.getMessage(),GrocermaxBaseException.EXCEPTION,response);
 			e.printStackTrace();
 		}
 	}

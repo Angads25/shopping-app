@@ -45,6 +45,7 @@ import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.bean.CartDetail;
 import com.sakshay.grocermax.bean.CartDetailBean;
 import com.sakshay.grocermax.bean.LoginResponse;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.AppLoadingScreen;
@@ -83,55 +84,57 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login_screen);
-		//context = this;
+		try {
+			//context = this;
 
-		tracker = EasyTracker.getInstance(this);
-		
-		try{
-			mGoogleApiClient = new GoogleApiClient.Builder(LoginActivity.this).
-	        		addConnectionCallbacks(LoginActivity.this).addOnConnectionFailedListener(LoginActivity.this).
-	        		addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
-	        mGoogleApiClient.connect();
-		}catch(Exception e){}
-		
-		addActionsInFilter(MyReceiverActions.LOGIN);
-		addActionsInFilter(MyReceiverActions.ADD_TO_CART);
+			tracker = EasyTracker.getInstance(this);
+
+			try {
+				mGoogleApiClient = new GoogleApiClient.Builder(LoginActivity.this).
+						addConnectionCallbacks(LoginActivity.this).addOnConnectionFailedListener(LoginActivity.this).
+						addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
+				mGoogleApiClient.connect();
+			} catch (Exception e) {
+			}
+
+			addActionsInFilter(MyReceiverActions.LOGIN);
+			addActionsInFilter(MyReceiverActions.ADD_TO_CART);
 //		addActionsInFilter(MyReceiverActions.VIEW_CART);
-		addActionsInFilter(MyReceiverActions.VIEW_CART_GO_HOME_SCREEN);
+			addActionsInFilter(MyReceiverActions.VIEW_CART_GO_HOME_SCREEN);
 
-		TextView register = (TextView)findViewById(R.id.register);
-		Spannable word = new SpannableString("New Here? ");        
+			TextView register = (TextView) findViewById(R.id.register);
+			Spannable word = new SpannableString("New Here? ");
 
-		word.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.orange_text)), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			word.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.orange_text)), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-		register.setText(word);
-		Spannable wordTwo = new SpannableString("Register Now");        
+			register.setText(word);
+			Spannable wordTwo = new SpannableString("Register Now");
 
-		wordTwo.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.text_grey)), 0, wordTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		register.append(wordTwo);
-		register.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				replaceScreen("Registration");
-				
-			}
-		});
-		
-		TextView forgot_pwd = (TextView)findViewById(R.id.forgot_password);
-		forgot_pwd.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				replaceScreen("ForgotPassword");
-			}
-		});
-		forgot_pwd.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-		
-		username = (EditText) findViewById(R.id.username);
-		password = (EditText) findViewById(R.id.password);
-		username.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
-		password.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
+			wordTwo.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.text_grey)), 0, wordTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			register.append(wordTwo);
+			register.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					replaceScreen("Registration");
+
+				}
+			});
+
+			TextView forgot_pwd = (TextView) findViewById(R.id.forgot_password);
+			forgot_pwd.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					replaceScreen("ForgotPassword");
+				}
+			});
+			forgot_pwd.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+
+			username = (EditText) findViewById(R.id.username);
+			password = (EditText) findViewById(R.id.password);
+			username.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
+			password.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
 		/*username.setText("suman.ditm07@gmail.com");
 		password.setText("XHqvaHnW");*/
 
@@ -141,20 +144,20 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 			username.setText(MySharedPrefs.INSTANCE.getRememberMeEmail());
 //		}
 
-		button_facebook = (TextView) findViewById(R.id.button_facebook);
-		button_facebook.setOnClickListener(fb_signin_listener);
-		
-		googlePlus = (ImageView) findViewById(R.id.google_plus_left_icon);
-		tv_google_btn = (TextView) findViewById(R.id.button_google);	
-		
+			button_facebook = (TextView) findViewById(R.id.button_facebook);
+			button_facebook.setOnClickListener(fb_signin_listener);
+
+			googlePlus = (ImageView) findViewById(R.id.google_plus_left_icon);
+			tv_google_btn = (TextView) findViewById(R.id.button_google);
+
 //	    signinButton = (SignInButton) findViewById(R.id.google_plus_icon);
-		
-		googlePlus.setOnClickListener(google_signin_listener);
-		tv_google_btn.setOnClickListener(google_signin_listener);
-		
-		
+
+			googlePlus.setOnClickListener(google_signin_listener);
+			tv_google_btn.setOnClickListener(google_signin_listener);
+
+
 //	    signinButton.setOnClickListener(clickListener);
-		
+
 //		Session session = Session.getActiveSession();
 //		if (session != null && session.isOpened()) {
 //			button_facebook.setText("Sign out Facebook");
@@ -164,16 +167,19 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 //			button_facebook.setOnClickListener(fb_signin_listener);
 //		}
 
-		button_skip = (TextView) findViewById(R.id.login);
-		button_skip.setOnClickListener(new OnClickListener() {
+			button_skip = (TextView) findViewById(R.id.login);
+			button_skip.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				logIn();
-			}
-		});
+				@Override
+				public void onClick(View v) {
+					logIn();
+				}
+			});
 
-		button_skip.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+			button_skip.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","OnResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
 	}
 	
 	public void gotoHome(View v)
@@ -202,23 +208,28 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 	OnClickListener google_signin_listener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			try {
 //			try{
 //				mGoogleApiClient = new GoogleApiClient.Builder(LoginActivity.this).
 //		        		addConnectionCallbacks(LoginActivity.this).addOnConnectionFailedListener(LoginActivity.this).
 //		        		addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
 //		        mGoogleApiClient.connect();
 //			}catch(Exception e){}
-			if (UtilityMethods.isInternetAvailable(mContext)) {
-				if(tv_google_btn.getText().toString().equalsIgnoreCase("LOGIN WITH GOOGLE")){
-					googleLoginWithEmailPermission();
-				}else if(tv_google_btn.getText().toString().equalsIgnoreCase("LOGOUT WITH GOOGLE")){
+				if (UtilityMethods.isInternetAvailable(mContext)) {
+					if (tv_google_btn.getText().toString().equalsIgnoreCase("LOGIN WITH GOOGLE")) {
+						googleLoginWithEmailPermission();
+					} else if (tv_google_btn.getText().toString().equalsIgnoreCase("LOGOUT WITH GOOGLE")) {
 //					googlePlusLogoutLocally();
-					googlePlusLogout();
-				}
-			} else{
+						googlePlusLogout();
+					}
+				} else {
 //				Toast.makeText(mContext, ToastConstant.msgNoInternet, Toast.LENGTH_SHORT).show();
-				UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
+					UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
+				}
+			}catch(Exception e){
+				new GrocermaxBaseException("LoginActivity","google_signin_listener",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 			}
+
 		}
 	};
 	
@@ -228,10 +239,14 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 	OnClickListener fb_signin_listener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			if (UtilityMethods.isInternetAvailable(mContext)) {
-				facebookLoginWithEmailPermission();
-			} else
-				UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
+			try{
+				if (UtilityMethods.isInternetAvailable(mContext)) {
+					facebookLoginWithEmailPermission();
+				} else
+					UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
+			}catch(Exception e){
+				new GrocermaxBaseException("LoginActivity","fb_signin_listener",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+			}
 		}
 	};
 	
@@ -253,12 +268,16 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 
 		@Override
 		public void onClick(View v) {
-			MySharedPrefs.INSTANCE.clearAllData();
-			Session session = Session.getActiveSession();
-			if (!session.isClosed()) {
-				session.closeAndClearTokenInformation();
-				button_facebook.setText("Sign in with Facebook");
-				button_facebook.setOnClickListener(fb_signin_listener);
+			try{
+				MySharedPrefs.INSTANCE.clearAllData();
+				Session session = Session.getActiveSession();
+				if (!session.isClosed()) {
+					session.closeAndClearTokenInformation();
+					button_facebook.setText("Sign in with Facebook");
+					button_facebook.setOnClickListener(fb_signin_listener);
+				}
+			}catch(Exception e){
+				new GrocermaxBaseException("LoginActivity","fb_sign_out_listener",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 			}
 		}
 	};
@@ -382,20 +401,29 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //		64206 requestCode
+
 		switch (requestCode) {
 		case RC_SIGN_IN:
-			if (resultCode == RESULT_OK) {
-				signedInUser = false;
-			}
-			mIntentInProgress = false;
-			if (!mGoogleApiClient.isConnecting()) {
-				mGoogleApiClient.connect();
+			try{
+				if (resultCode == RESULT_OK) {
+					signedInUser = false;
+				}
+				mIntentInProgress = false;
+				if (!mGoogleApiClient.isConnecting()) {
+					mGoogleApiClient.connect();
+				}
+			}catch(Exception e){
+				new GrocermaxBaseException("LoginAactivity","OnResponseRcSignIn",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 			}
 
 			break;
 			
 		case FB_SIGN_IN:
+			try{
 			Session.getActiveSession().onActivityResult(LoginActivity.this, requestCode,resultCode, data);
+			}catch(Exception e){
+				new GrocermaxBaseException("LoginAactivity","OnResponseFbSignIn",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+			}
 		}
 		if(requestCode==111)
 		{
@@ -410,7 +438,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 //		}
 		
 		super.onActivityResult(requestCode, resultCode, data);
-		
+
 	}
 	
 	
@@ -436,30 +464,34 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 	
 	
 	private void facebookLoginWithEmailPermission() {
-		final List<String> newPermissionsRequest = new ArrayList<String>(Arrays.asList("email", "user_location"));
-		openActiveSession(LoginActivity.this, true, new Session.StatusCallback() {
-			@Override
-			public void call(final Session session, SessionState state, Exception exception) {
-				if (session.isOpened()) {
-					showDialog();
-					Request.newMeRequest(session, new Request.GraphUserCallback() {
-						@Override
-						public void onCompleted(GraphUser user, Response response) {
-							dismissDialog();
-							if (user != null) {
-								saveUserData(user);
-								button_facebook.setText("Sign out Facebook");
-								button_facebook.setOnClickListener(fb_sign_out_listener);
-								//TODO: Mohit Raheja
-								//								Intent intent = new Intent(mContext , HomeActivity.class);
-								//								startActivity(intent);
-								//								LoginActivity.this.finish();
+		try {
+			final List<String> newPermissionsRequest = new ArrayList<String>(Arrays.asList("email", "user_location"));
+			openActiveSession(LoginActivity.this, true, new Session.StatusCallback() {
+				@Override
+				public void call(final Session session, SessionState state, Exception exception) {
+					if (session.isOpened()) {
+						showDialog();
+						Request.newMeRequest(session, new Request.GraphUserCallback() {
+							@Override
+							public void onCompleted(GraphUser user, Response response) {
+								dismissDialog();
+								if (user != null) {
+									saveUserData(user);
+									button_facebook.setText("Sign out Facebook");
+									button_facebook.setOnClickListener(fb_sign_out_listener);
+									//TODO: Mohit Raheja
+									//								Intent intent = new Intent(mContext , HomeActivity.class);
+									//								startActivity(intent);
+									//								LoginActivity.this.finish();
+								}
 							}
-						}
-					}).executeAsync();
+						}).executeAsync();
+					}
 				}
-			}
-		}, newPermissionsRequest);
+			}, newPermissionsRequest);
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginAactivity","facebookLoginWithEmailPermission",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 
 	private static Session openActiveSession(Activity activity, boolean allowLoginUI, Session.StatusCallback callback, List<String> permissions) {
@@ -476,73 +508,62 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 	
 	@Override
 	void OnResponse(Bundle bundle) {
-		if(bundle.getString("ACTION").equals(MyReceiverActions.LOGIN))
-		{
-			LoginResponse userDataBean= (LoginResponse) bundle.getSerializable(ConnectionService.RESPONSE);
-			
-			if (userDataBean.getFlag().equalsIgnoreCase("1")) {          //successful login
-				MySharedPrefs.INSTANCE.putUserId(userDataBean.getUserID());
-				MySharedPrefs.INSTANCE.putFirstName(userDataBean.getFirstName());
-				MySharedPrefs.INSTANCE.putLastName(userDataBean.getLastName());
-				MySharedPrefs.INSTANCE.putMobileNo(userDataBean.getMobile());
-				
-				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon);  //login icon
-				if(USER_EMAIL.equals(""))
-			    {
-				     MySharedPrefs.INSTANCE.putUserEmail(username.getText().toString());
-				     MySharedPrefs.INSTANCE.putQuoteId(userDataBean.getQuoteId());
-			    }
-			    else
-			    {
-				     MySharedPrefs.INSTANCE.putUserEmail(USER_EMAIL);
-				     MySharedPrefs.INSTANCE.putQuoteId(QUOTE_ID_AFTER_FB);
-			    }
-				
-				MySharedPrefs.INSTANCE.putLoginStatus(true);
-				MySharedPrefs.INSTANCE.putQuoteId(userDataBean.getQuoteId());/////////last change
-				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(userDataBean.getTotalItem()));
-				ArrayList<CartDetail> cart_products = UtilityMethods.readLocalCart(LoginActivity.this, AppConstants.localCartFile);  //send to server if local cart has products for adding.
-				if(cart_products != null && cart_products.size() > 0)            //it will call when user has come from HOME | PRODUCT LISTING | DESCRIPTION only.
-				{
-					try
-					{
-						JSONArray products = new JSONArray();
-						for(int i=0; i<cart_products.size(); i++)
-						{
-							JSONObject prod_obj = new JSONObject();
-							prod_obj.put("productid", cart_products.get(i).getItem_id());
-							prod_obj.put("quantity",cart_products.get(i).getQty());
-							products.put(prod_obj);
-						}
-						showDialog();
-						String url;
-						if(MySharedPrefs.INSTANCE.getQuoteId()==null||MySharedPrefs.INSTANCE.getQuoteId().equals(""))
-						{
-							System.out.println("without quote json="+products.toString());
-							url = UrlsConstants.ADD_TO_CART_URL
-									+ userDataBean.getUserID() +"&products="
-									+ URLEncoder.encode(products.toString(), "UTF-8");
-						}
-						else
-						{
-							System.out.println("with quote json="+products.toString());
-							url = UrlsConstants.ADD_TO_CART_URL
-									+ userDataBean.getUserID() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
-									+ URLEncoder.encode(products.toString(), "UTF-8");
-						}
-						//String url = UrlsConstants.ADD_TO_CART_URL + userDataBean.getUserID() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+ "&products="+ URLEncoder.encode(products.toString(), "UTF-8");
-						myApi.reqAddToCart(url);
+		try {
+			if (bundle.getString("ACTION").equals(MyReceiverActions.LOGIN)) {
+				LoginResponse userDataBean = (LoginResponse) bundle.getSerializable(ConnectionService.RESPONSE);
+
+				if (userDataBean.getFlag().equalsIgnoreCase("1")) {          //successful login
+					MySharedPrefs.INSTANCE.putUserId(userDataBean.getUserID());
+					MySharedPrefs.INSTANCE.putFirstName(userDataBean.getFirstName());
+					MySharedPrefs.INSTANCE.putLastName(userDataBean.getLastName());
+					MySharedPrefs.INSTANCE.putMobileNo(userDataBean.getMobile());
+
+					BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon);  //login icon
+					if (USER_EMAIL.equals("")) {
+						MySharedPrefs.INSTANCE.putUserEmail(username.getText().toString());
+						MySharedPrefs.INSTANCE.putQuoteId(userDataBean.getQuoteId());
+					} else {
+						MySharedPrefs.INSTANCE.putUserEmail(USER_EMAIL);
+						MySharedPrefs.INSTANCE.putQuoteId(QUOTE_ID_AFTER_FB);
 					}
-					catch(Exception e)
+
+					MySharedPrefs.INSTANCE.putLoginStatus(true);
+					MySharedPrefs.INSTANCE.putQuoteId(userDataBean.getQuoteId());/////////last change
+					MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(userDataBean.getTotalItem()));
+					ArrayList<CartDetail> cart_products = UtilityMethods.readLocalCart(LoginActivity.this, AppConstants.localCartFile);  //send to server if local cart has products for adding.
+					if (cart_products != null && cart_products.size() > 0)            //it will call when user has come from HOME | PRODUCT LISTING | DESCRIPTION only.
 					{
-						e.printStackTrace();
-					}
-				}
-				else          //SIMPLE LOGIN AND FACEBOOK CASE : user can come here by [direct login] OR [from product listing] and [home screen] OR [from view cart].
-				{             //quote id will not return from server in SIMPLE LOGIN case BUT quote id will return in case of FACEBOOK login.
-					          //if calling from CartProductList then in BaseActivity startActivityForResult will call other wise simply finish will work .
-					int str = userDataBean.getTotalItem();
-					cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
+						try {
+							JSONArray products = new JSONArray();
+							for (int i = 0; i < cart_products.size(); i++) {
+								JSONObject prod_obj = new JSONObject();
+								prod_obj.put("productid", cart_products.get(i).getItem_id());
+								prod_obj.put("quantity", cart_products.get(i).getQty());
+								products.put(prod_obj);
+							}
+							showDialog();
+							String url;
+							if (MySharedPrefs.INSTANCE.getQuoteId() == null || MySharedPrefs.INSTANCE.getQuoteId().equals("")) {
+								System.out.println("without quote json=" + products.toString());
+								url = UrlsConstants.ADD_TO_CART_URL
+										+ userDataBean.getUserID() + "&products="
+										+ URLEncoder.encode(products.toString(), "UTF-8");
+							} else {
+								System.out.println("with quote json=" + products.toString());
+								url = UrlsConstants.ADD_TO_CART_URL
+										+ userDataBean.getUserID() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId() + "&products="
+										+ URLEncoder.encode(products.toString(), "UTF-8");
+							}
+							//String url = UrlsConstants.ADD_TO_CART_URL + userDataBean.getUserID() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+ "&products="+ URLEncoder.encode(products.toString(), "UTF-8");
+							myApi.reqAddToCart(url);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					} else          //SIMPLE LOGIN AND FACEBOOK CASE : user can come here by [direct login] OR [from product listing] and [home screen] OR [from view cart].
+					{             //quote id will not return from server in SIMPLE LOGIN case BUT quote id will return in case of FACEBOOK login.
+						//if calling from CartProductList then in BaseActivity startActivityForResult will call other wise simply finish will work .
+						int str = userDataBean.getTotalItem();
+						cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
 //					if(userDataBean.getTotalItem() > 0){            //means user has >= than 1 product
 //						showDialog();
 //						if(MySharedPrefs.INSTANCE.getQuoteId() != null && !MySharedPrefs.INSTANCE.getQuoteId().equals("")){    //not call in simple login but call in facebook as i am getting quote id in fb case
@@ -558,67 +579,61 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 						setResult(RESULT_OK);
 						finish();
 //					}
+					}
+
+				} else {
+					UtilityMethods.customToast(ToastConstant.LOGIN_FAIL, mContext);
 				}
-				
-			}
-			else{
-				UtilityMethods.customToast(ToastConstant.LOGIN_FAIL, mContext);
-			}
-		}
-		else if(bundle.getString("ACTION").equals(MyReceiverActions.ADD_TO_CART))  //it will call when user has come from HOME | PRODUCT LISTING | DESCRIPTION only.
-		{
-			BaseResponseBean response = (BaseResponseBean) bundle.getSerializable(ConnectionService.RESPONSE);
-			if(response.getFlag().equals("1"))
+			} else if (bundle.getString("ACTION").equals(MyReceiverActions.ADD_TO_CART))  //it will call when user has come from HOME | PRODUCT LISTING | DESCRIPTION only.
 			{
+				BaseResponseBean response = (BaseResponseBean) bundle.getSerializable(ConnectionService.RESPONSE);
+				if (response.getFlag().equals("1")) {
 //				String url = UrlsConstants.VIEW_CART_URL + MySharedPrefs.INSTANCE.getUserId();
 //				myApi.reqViewCart(url);  MySharedPrefs.INSTANCE.getUserId().equals("")
-				showDialog();
-				if(MySharedPrefs.INSTANCE.getQuoteId() != null && !MySharedPrefs.INSTANCE.getQuoteId().equals("")){
-					System.out.println("==some value sharedprefs=="+MySharedPrefs.INSTANCE.getQuoteId()+">>");
-					String url = UrlsConstants.VIEW_CART_URL+ MySharedPrefs.INSTANCE.getUserId()+"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId();
+					showDialog();
+					if (MySharedPrefs.INSTANCE.getQuoteId() != null && !MySharedPrefs.INSTANCE.getQuoteId().equals("")) {
+						System.out.println("==some value sharedprefs==" + MySharedPrefs.INSTANCE.getQuoteId() + ">>");
+						String url = UrlsConstants.VIEW_CART_URL + MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
 //					myApi.reqViewCart(url);
-					myApi.reqViewCartGoHomeScreen(url);
-				}else if(response.getQuoteId() != null && !response.getQuoteId().equals("")){
-					System.out.println("==some value simple=="+response.getQuoteId()+"||||");
-					String url = UrlsConstants.VIEW_CART_URL+ MySharedPrefs.INSTANCE.getUserId()+"&quote_id="+response.getQuoteId();
+						myApi.reqViewCartGoHomeScreen(url);
+					} else if (response.getQuoteId() != null && !response.getQuoteId().equals("")) {
+						System.out.println("==some value simple==" + response.getQuoteId() + "||||");
+						String url = UrlsConstants.VIEW_CART_URL + MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + response.getQuoteId();
 //					myApi.reqViewCart(url);
-					myApi.reqViewCartGoHomeScreen(url);
-				}else{
-					
-				}
-				UtilityMethods.deleteLocalCart(LoginActivity.this);
+						myApi.reqViewCartGoHomeScreen(url);
+					} else {
+
+					}
+					UtilityMethods.deleteLocalCart(LoginActivity.this);
 //				finish();
-			}
-			else
-			{
-				setResult(RESULT_OK);
-				finish();
-			}
-			MySharedPrefs.INSTANCE.putQuoteId(response.getQuoteId());
-			MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(response.getTotalItem()));
-		}
-		else if(bundle.getString("ACTION").equals(MyReceiverActions.VIEW_CART_GO_HOME_SCREEN))
-		{
-			CartDetailBean cartBean= (CartDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
+				} else {
+					setResult(RESULT_OK);
+					finish();
+				}
+				MySharedPrefs.INSTANCE.putQuoteId(response.getQuoteId());
+				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(response.getTotalItem()));
+			} else if (bundle.getString("ACTION").equals(MyReceiverActions.VIEW_CART_GO_HOME_SCREEN)) {
+				CartDetailBean cartBean = (CartDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
 //			if(cartBean.getFlag().equals("1"))
 //			{
-				if(cartBean.getItems().size()>0){
+				if (cartBean.getItems().size() > 0) {
 					UtilityMethods.deleteCloneCart(LoginActivity.this);
-					for(int i=0;i<cartBean.getItems().size();i++)
-					{
+					for (int i = 0; i < cartBean.getItems().size(); i++) {
 						UtilityMethods.writeCloneCart(LoginActivity.this, Constants.localCloneFile, cartBean.getItems().get(i));
-					}			
+					}
 				}
-			if(MySharedPrefs.INSTANCE.getTotalItem()!=null)
-			{
-				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int)Float.parseFloat(cartBean.getItems_qty())));
-				cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
-			}
+				if (MySharedPrefs.INSTANCE.getTotalItem() != null) {
+					MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int) Float.parseFloat(cartBean.getItems_qty())));
+					cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
+				}
 //				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(cartBean.getItems_qty()));
 //				cart_count_txt.setText(String.valueOf(cartBean.getItems_qty()));
 //			}
-			setResult(RESULT_OK);
-			finish();
+				setResult(RESULT_OK);
+				finish();
+			}
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
 	
@@ -629,9 +644,11 @@ implements ConnectionCallbacks, OnConnectionFailedListener
     	super.onStart();
     	try{
 	    	tracker.activityStart(this);
-	    	FlurryAgent.onStartSession(context,getResources().getString(R.string.flurry_api_key));
+	    	FlurryAgent.onStartSession(context, getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","onStart",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
     
     @Override
@@ -647,7 +664,9 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 	            mGoogleApiClient.disconnect();
 	        }
 		}
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","onStop",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
 
 	/**************************************************  GOOGLE PLUS INTEGARTION *************************************************/
@@ -668,46 +687,58 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 	@Override
 	public void onConnectionFailed(ConnectionResult result) {
 		// TODO Auto-generated method stub
-		
-		//save the result and resolve the connection failure upon a user click. 
-		
+		try {
+			//save the result and resolve the connection failure upon a user click.
+
 //		if (!result.hasResolution()) {
-		if (!mIntentInProgress && signedInUser && result.hasResolution()) {                         //pop up comes when user press on login with google and user click on cancel 
+			if (!mIntentInProgress && signedInUser && result.hasResolution()) {                         //pop up comes when user press on login with google and user click on cancel
 //            GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this, 0).show();
-            return;
-        }
-		if (!result.hasResolution()) {
-			GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this, 0).show();
-            return;
- 
+				return;
+			}
+			if (!result.hasResolution()) {
+				GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this, 0).show();
+				return;
+
+			}
+			if (!mIntentInProgress) {
+				// store mConnectionResult
+				mConnectionResult = result;
+				if (signedInUser) {
+					resolveSignInError();
+				}
+			}
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","onConnectionFailed",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
-        if (!mIntentInProgress) {
-            // store mConnectionResult
-            mConnectionResult = result;
-            if (signedInUser) {
-                resolveSignInError();
-            }
-        }
 	}
 	
 	@Override
 	public void onConnected(Bundle arg0) {
 		// TODO Auto-generated method stub
-		AppLoadingScreen.getInstance(context).dismissDialog();
-		signedInUser = false;
+		try {
+			AppLoadingScreen.getInstance(context).dismissDialog();
+			signedInUser = false;
 //        Toast.makeText(this, "Connected", Toast.LENGTH_LONG).show();
-        UtilityMethods.customToast("Connected", this);
-        getProfileInformation();
+			UtilityMethods.customToast("Connected", this);
+			getProfileInformation();
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","onConnected",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 
 	@Override
 	public void onConnectionSuspended(int cause) {
 		// TODO Auto-generated method stub
+		try{
 	        mGoogleApiClient.connect();
 //	        updateProfile(false);
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","onConnectionSuspended",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	
 	private void googleLoginWithEmailPermission(){
+		try{
 //		AppLoadingScreen.getInstance(context).showDialog();
 //		Toast.makeText(context,"22222", Toast.LENGTH_SHORT).show();
 		
@@ -720,20 +751,26 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 //        Toast.makeText(context,"5555", Toast.LENGTH_SHORT).show();
 //		Intent intent = new Intent(this, GooglePlus.class);
 //		context.startActivity(intent);
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","googleLoginWithEmailPermission",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	
 	private void googlePlusLogin() {
-		if(mGoogleApiClient != null){
-        if (!mGoogleApiClient.isConnecting()) {
-            signedInUser = true;
-            resolveSignInError();
-         }
-        UtilityMethods.customToast("googlewkwk plus login else", context);
-        }
-        else{
+		try {
+			if (mGoogleApiClient != null) {
+				if (!mGoogleApiClient.isConnecting()) {
+					signedInUser = true;
+					resolveSignInError();
+				}
+				UtilityMethods.customToast("googlewkwk plus login else", context);
+			} else {
 //        	Toast.makeText(context,"google plus login else", Toast.LENGTH_SHORT).show();
-        	UtilityMethods.customToast("google plus login else", context);
-        }
+				UtilityMethods.customToast("google plus login else", context);
+			}
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","googlePlusLogin",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
 	
 	private void resolveSignInError() {
@@ -903,8 +940,6 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 	}
     
     /**************************************************  GOOGLE PLUS INTEGARTION *************************************************/
-    
-    
 	
 }
 

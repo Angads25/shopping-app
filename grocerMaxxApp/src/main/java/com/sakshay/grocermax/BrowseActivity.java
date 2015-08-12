@@ -23,6 +23,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
 import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.utils.Constants.ToastConstant;
 import com.sakshay.grocermax.utils.ListSublistConstants.ListConstant;
 import com.sakshay.grocermax.utils.UrlsConstants;
@@ -44,32 +45,35 @@ public class BrowseActivity extends BaseActivity implements OnClickListener {
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.browse_activity);
-
-		addActionsInFilter(MyReceiverActions.CATEGORY_LIST);
+			super.onCreate(savedInstanceState);
+			setContentView(R.layout.browse_activity);
+		try {
+			addActionsInFilter(MyReceiverActions.CATEGORY_LIST);
 
 		// addActionsInFilter(MyReceiverActions.CATEGORY_SUB_CATEGORY_LIST);
 
-		main_lay = (LinearLayout) findViewById(R.id.main_lay);
-		for (int i = 0; i < browse_cat.length; i++) {
-			LinearLayout sub_lay = (LinearLayout) ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-					.inflate(R.layout.browse_activity_row, null, false);
+			main_lay = (LinearLayout) findViewById(R.id.main_lay);
+			for (int i = 0; i < browse_cat.length; i++) {
+				LinearLayout sub_lay = (LinearLayout) ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+						.inflate(R.layout.browse_activity_row, null, false);
 
-			sub_lay.setTag(browse_cat[i]);
-			ImageView image = (ImageView) sub_lay.findViewById(R.id.image);
-			TextView name = (TextView) sub_lay.findViewById(R.id.item_name);
+				sub_lay.setTag(browse_cat[i]);
+				ImageView image = (ImageView) sub_lay.findViewById(R.id.image);
+				TextView name = (TextView) sub_lay.findViewById(R.id.item_name);
 
-			image.setBackgroundDrawable(getResources().getDrawable(
-					getDrawableID(mContext, browse_cat_images[i])));
-			name.setText(browse_cat[i]);
+				image.setBackgroundDrawable(getResources().getDrawable(
+						getDrawableID(mContext, browse_cat_images[i])));
+				name.setText(browse_cat[i]);
 
-			sub_lay.setOnClickListener(this);
-			main_lay.addView(sub_lay);
+				sub_lay.setOnClickListener(this);
+				main_lay.addView(sub_lay);
+			}
+
+			initHeader(findViewById(R.id.header), true, "Browse by");
+			initFooter(findViewById(R.id.footer), 0, -1);
+		}catch(Exception e){
+			new GrocermaxBaseException("BrowseActivity", "onCreate", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
-
-		initHeader(findViewById(R.id.header), true, "Browse by");
-		initFooter(findViewById(R.id.footer), 0, -1);
 	}
 
 	public int getDrawableID(Context context, String name) {
@@ -82,59 +86,63 @@ public class BrowseActivity extends BaseActivity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		header = (String) v.getTag();
-
-		if (header.equals(browse_cat[0])) {
-			showDialog();
-
-			// String url = UrlsConstants.CATEGORY_LISTING_URL + "0";// for
-			// parent
-			String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;// +
-																		// "0";//
-																		// for
-																		// parent
-
-			myApi.reqCategorySubCategoryList(url);
+		try {
+			header = (String) v.getTag();
+			if (header.equals(browse_cat[0])) {
+				showDialog();
+				// String url = UrlsConstants.CATEGORY_LISTING_URL + "0";// for
+				// parent
+				String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;// +
+				// "0";//
+				// for
+				// parent
+				myApi.reqCategorySubCategoryList(url);
+			}
+		}catch(Exception e){
+			new GrocermaxBaseException("BrowseActivity", "onClick", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 	}
 
 	@Override
 	void OnResponse(Bundle bundle) {
+//		try {
+			String jsonResponse = (String) bundle
+					.getSerializable(ConnectionService.RESPONSE);
 
-		String jsonResponse = (String) bundle
-				.getSerializable(ConnectionService.RESPONSE);
+			if (!jsonResponse.trim().equals("")
+					&& getCategorySubCategory(jsonResponse).size() > 0) {
+				Intent call = new Intent(BrowseActivity.this, CategoryList.class);
+				Bundle call_bundle = new Bundle();
+				call_bundle.putSerializable("Categories", category);
+				call_bundle.putSerializable("Header", header);
+				call.putExtras(call_bundle);
+				// call.putExtra("Categories", category);
+				// call.putExtra("Header", header);
+				startActivity(call);
+			} else {
+				UtilityMethods.customToast(ToastConstant.DATA_NOT_FOUND, mContext);
+			}
 
-		if (!jsonResponse.trim().equals("")
-				&& getCategorySubCategory(jsonResponse).size() > 0) {
-			Intent call = new Intent(BrowseActivity.this, CategoryList.class);
-			Bundle call_bundle = new Bundle();
-			call_bundle.putSerializable("Categories", category);
-			call_bundle.putSerializable("Header", header);
-			call.putExtras(call_bundle);
-			// call.putExtra("Categories", category);
-			// call.putExtra("Header", header);
-			startActivity(call);
-		} else {
-			UtilityMethods.customToast(ToastConstant.DATA_NOT_FOUND, mContext);
-		}
-
-		// CategoryListBean userDataBean = (CategoryListBean) bundle
-		// .getSerializable(ConnectionService.RESPONSE);
-		// if (userDataBean.getFlag().equalsIgnoreCase("1")) {
-		// Intent call = new Intent(BrowseActivity.this, CategoryList.class);
-		// Bundle call_bundle = new Bundle();
-		// call_bundle.putSerializable("Categories", userDataBean);
-		// call_bundle.putSerializable("Header", header);
-		// call.putExtras(call_bundle);
-		// startActivity(call);
-		// } else {
-		// Toast.makeText(mContext, userDataBean.getResult(),
-		// Toast.LENGTH_LONG).show();
-		// }
+			// CategoryListBean userDataBean = (CategoryListBean) bundle
+			// .getSerializable(ConnectionService.RESPONSE);
+			// if (userDataBean.getFlag().equalsIgnoreCase("1")) {
+			// Intent call = new Intent(BrowseActivity.this, CategoryList.class);
+			// Bundle call_bundle = new Bundle();
+			// call_bundle.putSerializable("Categories", userDataBean);
+			// call_bundle.putSerializable("Header", header);
+			// call.putExtras(call_bundle);
+			// startActivity(call);
+			// } else {
+			// Toast.makeText(mContext, userDataBean.getResult(),
+			// Toast.LENGTH_LONG).show();
+			// }
+//		}catch(Exception e){
+//			new GrocermaxBaseException("BrowseActivity", "OnResponse", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+//		}
 	}
 
 	ArrayList<CategorySubcategoryBean> getCategorySubCategory(String content) {
-		try {
+	  try {
 			category = new ArrayList<CategorySubcategoryBean>();
 			CategorySubcategoryBean categoryOb;
 			JSONObject jsonObject = new JSONObject(content.trim());
@@ -181,7 +189,7 @@ public class BrowseActivity extends BaseActivity implements OnClickListener {
 						categorySubSubOb
 								.setCategoryId(""
 										+ jsonName
-												.getString(ListConstant.TAG_CATEGORYID));
+										.getString(ListConstant.TAG_CATEGORYID));
 
 						JSONArray jsonChildSubCategory;
 						try {
@@ -196,11 +204,11 @@ public class BrowseActivity extends BaseActivity implements OnClickListener {
 							categorySubSubSubOb
 									.setCategory(""
 											+ jsonName
-													.getString(ListConstant.TAG_NAME));
+											.getString(ListConstant.TAG_NAME));
 							categorySubSubSubOb
 									.setCategoryId(""
 											+ jsonName
-													.getString(ListConstant.TAG_CATEGORYID));
+											.getString(ListConstant.TAG_CATEGORYID));
 							JSONArray jsonChildSubSubCategory;
 							try {
 								jsonChildSubSubCategory = jsonName
@@ -216,11 +224,11 @@ public class BrowseActivity extends BaseActivity implements OnClickListener {
 								categorySubSubSubSubOb
 										.setCategory(""
 												+ jsonName
-														.getString(ListConstant.TAG_NAME));
+												.getString(ListConstant.TAG_NAME));
 								categorySubSubSubSubOb
 										.setCategoryId(""
 												+ jsonName
-														.getString(ListConstant.TAG_CATEGORYID));
+												.getString(ListConstant.TAG_CATEGORYID));
 								categorySubSubSubOb
 										.addCategory(categorySubSubSubSubOb);
 							}
@@ -233,18 +241,23 @@ public class BrowseActivity extends BaseActivity implements OnClickListener {
 
 				}
 				category.add(categoryOb);
+
 			}
-		} catch (JSONException e) {
+		}catch (JSONException e){
+			new GrocermaxBaseException("BrowseActivity", "getCategorySubCategory", e.getMessage(), GrocermaxBaseException.JSON_EXCEPTION, "nodetail");
+		}catch (Exception e){
+			new GrocermaxBaseException("BrowseActivity", "getCategorySubCategory", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 		return category;
 	}
+
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 		initHeader(findViewById(R.id.header), true, null);
 	}
-	
+
 	@Override
     protected void onStart() {
     	// TODO Auto-generated method stub
@@ -253,9 +266,11 @@ public class BrowseActivity extends BaseActivity implements OnClickListener {
 	    	tracker.activityStart(this);
 	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){}
+		}catch(Exception e){
+			new GrocermaxBaseException("BrowseActivity", "onStart", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+		}
     }
-    
+
     @Override
     protected void onStop() {
     	// TODO Auto-generated method stub
@@ -263,7 +278,9 @@ public class BrowseActivity extends BaseActivity implements OnClickListener {
     	try{
 	    	tracker.activityStop(this);
 	    	FlurryAgent.onEndSession(this);
-    	}catch(Exception e){}
+		}catch(Exception e){
+			new GrocermaxBaseException("BrowseActivity", "onStop", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+		}
     }
 
 }

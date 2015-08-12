@@ -30,6 +30,7 @@ import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
 import com.sakshay.grocermax.adapters.ExpandableListAdapter;
 import com.sakshay.grocermax.adapters.HomeListAdapter;
 import com.sakshay.grocermax.api.MyReceiverActions;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.CustomFonts;
@@ -72,21 +73,18 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.s_home_screen);
+		try {
+			addActionsInFilter(MyReceiverActions.PRODUCT_LIST_FROM_HOME);
 
+			tvSelctionCat = new TextView(this);
 
-		
-		addActionsInFilter(MyReceiverActions.PRODUCT_LIST_FROM_HOME);
-		 
-		tvSelctionCat = new TextView(this);
-		 
-		Bundle bundle = getIntent().getExtras();
-		if (bundle != null) {
-			catObj = (ArrayList<CategorySubcategoryBean>) bundle.getSerializable("Categories");
-		}
-		else{
-			String response = UtilityMethods.readCategoryResponse(this, AppConstants.categoriesFile);
-			catObj = UtilityMethods.getCategorySubCategory(response);
-		}
+			Bundle bundle = getIntent().getExtras();
+			if (bundle != null) {
+				catObj = (ArrayList<CategorySubcategoryBean>) bundle.getSerializable("Categories");
+			} else {
+				String response = UtilityMethods.readCategoryResponse(this, AppConstants.categoriesFile);
+				catObj = UtilityMethods.getCategorySubCategory(response);
+			}
 		/*
 		backImage[0] = R.drawable.beverages_large;
 		backImage[1] = R.drawable.diary_large;
@@ -99,47 +97,46 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		backImage[8] = R.drawable.fruits_large;
 		backImage[9] = R.drawable.non_veg_large;
 		*/
-		//TODO, abhishek 4 images being repeated here...what goes where is accoring to your logic please replace
-		backImage[0] = R.drawable.beverages_large;
-		backImage[1] = R.drawable.diary_large;
-		backImage[2] = R.drawable.frozen_large;
-		backImage[3] = R.drawable.fruits_large;
-		backImage[4] = R.drawable.non_veg_large;
-		backImage[5] = R.drawable.beverages_large;
-		backImage[6] = R.drawable.family_care_large;
-		backImage[7] = R.drawable.home_care_large;
-		backImage[8] = R.drawable.home_needs_large;
-		backImage[9] = R.drawable.staples_large;
+			//TODO, abhishek 4 images being repeated here...what goes where is accoring to your logic please replace
+			backImage[0] = R.drawable.beverages_large;
+			backImage[1] = R.drawable.diary_large;
+			backImage[2] = R.drawable.frozen_large;
+			backImage[3] = R.drawable.fruits_large;
+			backImage[4] = R.drawable.non_veg_large;
+			backImage[5] = R.drawable.beverages_large;
+			backImage[6] = R.drawable.family_care_large;
+			backImage[7] = R.drawable.home_care_large;
+			backImage[8] = R.drawable.home_needs_large;
+			backImage[9] = R.drawable.staples_large;
 
-		categoryTV = (TextView) findViewById(R.id.tv_homescreen_category_heading);
-		cat_main_layout = (LinearLayout) findViewById(R.id.cat_main_layout);
-		scroll_view = (ScrollView) findViewById(R.id.scroll_view);
+			categoryTV = (TextView) findViewById(R.id.tv_homescreen_category_heading);
+			cat_main_layout = (LinearLayout) findViewById(R.id.cat_main_layout);
+			scroll_view = (ScrollView) findViewById(R.id.scroll_view);
 //		sub_cat_listView = (ListView) findViewById(R.id.cat_list);
-		
+
 //		expandableListView=(AnimatedExpandableListView)findViewById(R.id.lvExp);
-		expandableListView=(ExpandableListView)findViewById(R.id.lvExp);
-		Drawable expandibleListBackgroundImage = ContextCompat.getDrawable(this, R.drawable.expandible_list_doodle);
-		expandibleListBackgroundImage.setAlpha(20);
-		expandableListView.setBackground(expandibleListBackgroundImage);
+			expandableListView = (ExpandableListView) findViewById(R.id.lvExp);
+			Drawable expandibleListBackgroundImage = ContextCompat.getDrawable(this, R.drawable.expandible_list_doodle);
+			expandibleListBackgroundImage.setAlpha(20);
+			expandableListView.setBackground(expandibleListBackgroundImage);
 
 
-		expandableListView.setGroupIndicator(null);
-		
-		expandableListView.setOnGroupExpandListener(new OnGroupExpandListener() {
-			@Override
-			public void onGroupExpand(int groupPosition) {
-				for(int i=0;i<expandableListView.getExpandableListAdapter().getGroupCount();i++)
-				{
-					if(i!=groupPosition)
-						expandableListView.collapseGroup(i);
+			expandableListView.setGroupIndicator(null);
+
+			expandableListView.setOnGroupExpandListener(new OnGroupExpandListener() {
+				@Override
+				public void onGroupExpand(int groupPosition) {
+					for (int i = 0; i < expandableListView.getExpandableListAdapter().getGroupCount(); i++) {
+						if (i != groupPosition)
+							expandableListView.collapseGroup(i);
+					}
 				}
-			}
-		});
-		
-		expandableListView.setOnGroupClickListener(new OnGroupClickListener() {
-			@Override
-			public boolean onGroupClick(ExpandableListView parent, View v,int groupPosition, long id) {
-				// TODO Auto-generated method stub
+			});
+
+			expandableListView.setOnGroupClickListener(new OnGroupClickListener() {
+				@Override
+				public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+					// TODO Auto-generated method stub
 
 //				if(viewtemp != null){                          //from blue
 //					viewtemp.setVisibility(View.VISIBLE);
@@ -159,222 +156,216 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 //				
 //				viewtemp = viewe;        
 //				tvtemp = cat_names;       //to blue
-				
-				
-				if(group_click==0)
-				{
-					
-					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-					if(!keyboardVisibility)
-					imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
-					
-				boolean expandStatus=false;
-				second_level=catObj.get(position).getChildren().get(groupPosition).getCategory();
-				MySharedPrefs.INSTANCE.putBradecrum(first_level+">>"+second_level);
-				for(int i=0;i<catObj.get(position).getChildren().get(groupPosition).getChildren().size();i++)
-				{
-					if(catObj.get(position).getChildren().get(groupPosition).getChildren().get(i).getChildren().size()>0)
-					{
-						expandStatus=true;
-						break;
-					}
-				}
-				if(expandStatus==false)
-				{
-					group_click=1;
-					
-					for(int i=0;i<expandableListView.getExpandableListAdapter().getGroupCount();i++)
-				    {
-				       expandableListView.collapseGroup(i);
-				    }
-					
-					Intent call = new Intent(HomeScreen.this, CategoryTabs.class);
-					Bundle call_bundle = new Bundle();
-					ArrayList<CategorySubcategoryBean> list=catObj.get(position).getChildren().get(groupPosition).getChildren();
-					
-					if(list.size() > 0){
-						if(!list.get(0).getCategory().equals("All"))
-						{
-							CategorySubcategoryBean carBean=new CategorySubcategoryBean();
-							carBean.setCategory("All");
-							carBean.setCategoryId(catObj.get(position).getChildren().get(groupPosition).getCategoryId());
-							list.add(0,carBean);
+
+
+					if (group_click == 0) {
+
+						InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+						if (!keyboardVisibility)
+							imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+
+						boolean expandStatus = false;
+						second_level = catObj.get(position).getChildren().get(groupPosition).getCategory();
+						MySharedPrefs.INSTANCE.putBradecrum(first_level + ">>" + second_level);
+						for (int i = 0; i < catObj.get(position).getChildren().get(groupPosition).getChildren().size(); i++) {
+							if (catObj.get(position).getChildren().get(groupPosition).getChildren().get(i).getChildren().size() > 0) {
+								expandStatus = true;
+								break;
+							}
 						}
-					}else{
-						CategorySubcategoryBean carBean=new CategorySubcategoryBean();
-						carBean.setCategory("All");
-						carBean.setCategoryId(catObj.get(position).getChildren().get(groupPosition).getCategoryId());
-						list.add(carBean);
-					}
-					call_bundle.putSerializable("Categories", list);
-					call_bundle.putSerializable("Header", catObj.get(position).getChildren().get(groupPosition).getBreadcrumb());
-					call.putExtras(call_bundle);
-					startActivity(call);
-					return true;
-				}
-				else
-				{
+						if (expandStatus == false) {
+							group_click = 1;
+
+							for (int i = 0; i < expandableListView.getExpandableListAdapter().getGroupCount(); i++) {
+								expandableListView.collapseGroup(i);
+							}
+
+							Intent call = new Intent(HomeScreen.this, CategoryTabs.class);
+							Bundle call_bundle = new Bundle();
+							ArrayList<CategorySubcategoryBean> list = catObj.get(position).getChildren().get(groupPosition).getChildren();
+
+							if (list.size() > 0) {
+								if (!list.get(0).getCategory().equals("All")) {
+									CategorySubcategoryBean carBean = new CategorySubcategoryBean();
+									carBean.setCategory("All");
+									carBean.setCategoryId(catObj.get(position).getChildren().get(groupPosition).getCategoryId());
+									list.add(0, carBean);
+								}
+							} else {
+								CategorySubcategoryBean carBean = new CategorySubcategoryBean();
+								carBean.setCategory("All");
+								carBean.setCategoryId(catObj.get(position).getChildren().get(groupPosition).getCategoryId());
+								list.add(carBean);
+							}
+							call_bundle.putSerializable("Categories", list);
+							call_bundle.putSerializable("Header", catObj.get(position).getChildren().get(groupPosition).getBreadcrumb());
+							call.putExtras(call_bundle);
+							startActivity(call);
+							return true;
+						} else {
 					/* if (expandableListView.isGroupExpanded(groupPosition)) {
 						 expandableListView.collapseGroupWithAnimation(groupPosition);
 		                } else {
 		                	expandableListView.expandGroupWithAnimation(groupPosition);
 		                }*/
-					//expandableListView.expandGroupWithAnimation(groupPosition);
-					return false;
-				}
-				//expandableListView.expandGroupWithAnimation(groupPosition);
-				}
-				return true;
-			}
-		});
-		
-		expandableListView.setOnChildClickListener(new OnChildClickListener() {
-			@Override
-			public boolean onChildClick(ExpandableListView parent, View v,int groupPosition, int childPosition, long id) {
-				// TODO Auto-generated method stub
-				if(child_click==0)
-				{
-				child_click=1;
-				third_level=catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getCategory();
-				MySharedPrefs.INSTANCE.putBradecrum(first_level+">>"+catObj.get(position).getChildren().get(groupPosition).getCategory()+">>"+third_level);
-				if(catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getChildren().size()>0)
-				{
-					Intent call = new Intent(HomeScreen.this, CategoryTabs.class);
-					Bundle call_bundle = new Bundle();
-					
-					ArrayList<CategorySubcategoryBean> list=catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getChildren();
-					if(list.size() > 0){
-						if(!list.get(0).getCategory().equals("All"))
-						{
-							CategorySubcategoryBean carBean=new CategorySubcategoryBean();
-							carBean.setCategory("All");
-							carBean.setCategoryId(catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getCategoryId());
-							list.add(0,carBean);
+							//expandableListView.expandGroupWithAnimation(groupPosition);
+							return false;
 						}
-					}else{
-						CategorySubcategoryBean carBean=new CategorySubcategoryBean();
-						carBean.setCategory("All");
-						carBean.setCategoryId(catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getCategoryId());
-						list.add(carBean);
+						//expandableListView.expandGroupWithAnimation(groupPosition);
 					}
-					call_bundle.putSerializable("Categories",list);
-					call_bundle.putSerializable("Header", catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getBreadcrumb());
-					call.putExtras(call_bundle);
-					startActivity(call);
+					return true;
 				}
-				else
-				{
-					showDialog();
-					String url = UrlsConstants.PRODUCT_LIST_URL + catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getCategoryId() + "&page=1";
-					MySharedPrefs.INSTANCE.putCatId(catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getCategoryId());
-					myApi.reqProductListFromHomeScreen(url);
+			});
+
+			expandableListView.setOnChildClickListener(new OnChildClickListener() {
+				@Override
+				public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+					// TODO Auto-generated method stub
+					if (child_click == 0) {
+						child_click = 1;
+						third_level = catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getCategory();
+						MySharedPrefs.INSTANCE.putBradecrum(first_level + ">>" + catObj.get(position).getChildren().get(groupPosition).getCategory() + ">>" + third_level);
+						if (catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getChildren().size() > 0) {
+							Intent call = new Intent(HomeScreen.this, CategoryTabs.class);
+							Bundle call_bundle = new Bundle();
+
+							ArrayList<CategorySubcategoryBean> list = catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getChildren();
+							if (list.size() > 0) {
+								if (!list.get(0).getCategory().equals("All")) {
+									CategorySubcategoryBean carBean = new CategorySubcategoryBean();
+									carBean.setCategory("All");
+									carBean.setCategoryId(catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getCategoryId());
+									list.add(0, carBean);
+								}
+							} else {
+								CategorySubcategoryBean carBean = new CategorySubcategoryBean();
+								carBean.setCategory("All");
+								carBean.setCategoryId(catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getCategoryId());
+								list.add(carBean);
+							}
+							call_bundle.putSerializable("Categories", list);
+							call_bundle.putSerializable("Header", catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getBreadcrumb());
+							call.putExtras(call_bundle);
+							startActivity(call);
+						} else {
+							showDialog();
+							String url = UrlsConstants.PRODUCT_LIST_URL + catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getCategoryId() + "&page=1";
+							MySharedPrefs.INSTANCE.putCatId(catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getCategoryId());
+							myApi.reqProductListFromHomeScreen(url);
+						}
+					}
+					return true;
 				}
-				}
-				return true;
-			}
-		});
-		
+			});
+
 //		sub_cat_listView.setOnItemClickListener(this);
-		
-		mAdapter = new HomeListAdapter(mContext, catObj.get(0).getChildren());
-		exAdapter = new ExpandableListAdapter(mContext, catObj.get(0).getChildren());
 
-		LayoutInflater inflater = this.getLayoutInflater();
+			mAdapter = new HomeListAdapter(mContext, catObj.get(0).getChildren());
+			exAdapter = new ExpandableListAdapter(mContext, catObj.get(0).getChildren());
+
+			LayoutInflater inflater = this.getLayoutInflater();
 //		arrowImageArray = new ImageView[catObj.size()];
-		catImageArray = new ImageView[catObj.size()];
-		linearMainCat = new LinearLayout[catObj.size()];
-		catSelectedLL = new LinearLayout[catObj.size()];             //handle selection and unselection of selected main category.
+			catImageArray = new ImageView[catObj.size()];
+			linearMainCat = new LinearLayout[catObj.size()];
+			catSelectedLL = new LinearLayout[catObj.size()];             //handle selection and unselection of selected main category.
 
-		for (int i = 0; i < catObj.size(); i++) {                                 //handling main category on left side of screen in view
-			View view = inflater.inflate(R.layout.item_cat_main, null);
+			for (int i = 0; i < catObj.size(); i++) {                                 //handling main category on left side of screen in view
+				View view = inflater.inflate(R.layout.item_cat_main, null);
 
-			catImageArray[i] = (ImageView) view.findViewById(R.id.cat_icon);                //main category image like staples
-			TextView cat_name = (TextView) view.findViewById(R.id.cat_name);                //main category name
-			TextView catNamePlaceHolderTV = (TextView)view .findViewById(R.id.cat_name_placeholder);
-			ImageView indicator = (ImageView) view.findViewById(R.id.indicator);            //main category indicator like right side arrow
-			linearMainCat[i] = (LinearLayout) view.findViewById(R.id.ll_main_cat);
-			catSelectedLL[i] = (LinearLayout) view.findViewById(R.id.ll_cat_main_selected);
-			catImageArray[i].setImageResource(getImageResource(catObj.get(i).getCategory()));
+				catImageArray[i] = (ImageView) view.findViewById(R.id.cat_icon);                //main category image like staples
+				TextView cat_name = (TextView) view.findViewById(R.id.cat_name);                //main category name
+				TextView catNamePlaceHolderTV = (TextView) view.findViewById(R.id.cat_name_placeholder);
+				ImageView indicator = (ImageView) view.findViewById(R.id.indicator);            //main category indicator like right side arrow
+				linearMainCat[i] = (LinearLayout) view.findViewById(R.id.ll_main_cat);
+				catSelectedLL[i] = (LinearLayout) view.findViewById(R.id.ll_cat_main_selected);
+				catImageArray[i].setImageResource(getImageResource(catObj.get(i).getCategory()));
 
-			cat_name.setText(catObj.get(i).getCategory());
-			catNamePlaceHolderTV.setText(catObj.get(i).getCategory());
+				cat_name.setText(catObj.get(i).getCategory());
+				catNamePlaceHolderTV.setText(catObj.get(i).getCategory());
 
 
-			cat_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
+				cat_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
 
 //			arrowImageArray[i] = indicator;
-			if (i != 0) {
+				if (i != 0) {
 //				arrowImageArray[i].setVisibility(View.INVISIBLE);                           //main category right indicator hide
-				catImageArray[i].setSelected(false);
-				cat_name.setTextColor(getResources().getColor(R.color.white));
-				catSelectedLL[i].setVisibility(View.INVISIBLE);
-			} else {
+					catImageArray[i].setSelected(false);
+					cat_name.setTextColor(getResources().getColor(R.color.white));
+					catSelectedLL[i].setVisibility(View.INVISIBLE);
+				} else {
 //				linearMainCat[i].setBackgroundColor(getResources().getColor(R.color.main_cat_selected));
-				categoryTV.setText(catObj.get(i).getCategory());
-				tvSelctionCat = cat_name;
-				cat_name.setTextColor(getResources().getColor(R.color.main_cat_text_selected));
+					categoryTV.setText(catObj.get(i).getCategory());
+					tvSelctionCat = cat_name;
+					cat_name.setTextColor(getResources().getColor(R.color.main_cat_text_selected));
 //				arrowImageArray[i].setVisibility(View.VISIBLE);                            //main category right indicator visible
 //				catImageArray[i].setSelected(true);
 //				sub_cat_listView.setAdapter(mAdapter);                //sub category adapter(on right side top)
-				expandableListView.setAdapter(exAdapter);             //under sub category adapter
-				first_level = catObj.get(i).getCategory();
-				catSelectedLL[i].setVisibility(View.VISIBLE);
+					expandableListView.setAdapter(exAdapter);             //under sub category adapter
+					first_level = catObj.get(i).getCategory();
+					catSelectedLL[i].setVisibility(View.VISIBLE);
 
+				}
+				view.setTag(i);
+				view.setOnClickListener(listener);
+				catImageArray[i].setMinimumHeight((linearMainCat[i].getMeasuredHeight())); // trying to make it a square
+
+
+				cat_main_layout.addView(view);                       //main category(left side) adding view under it
 			}
-			view.setTag(i);
-			view.setOnClickListener(listener);
-			catImageArray[i].setMinimumHeight((linearMainCat[i].getMeasuredHeight())); // trying to make it a square
 
+			initHeader(findViewById(R.id.header), true, null);
 
-			cat_main_layout.addView(view);                       //main category(left side) adding view under it
-		}
-		
-		initHeader(findViewById(R.id.header), true, null);
-		
 //		icon_header_back.setVisibility(View.GONE);
-		icon_header_logo_with_search.setClickable(false);
-		icon_header_logo_with_search.setEnabled(false);
-		icon_header_logo_without_search.setClickable(false);
-		icon_header_logo_without_search.setEnabled(false);
+			icon_header_logo_with_search.setClickable(false);
+			icon_header_logo_with_search.setEnabled(false);
+			icon_header_logo_without_search.setClickable(false);
+			icon_header_logo_without_search.setEnabled(false);
+		}catch(Exception e){
+			new GrocermaxBaseException("HomeScreen","onCreate",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 	 @Override
 	 public void onWindowFocusChanged(boolean hasFocus) {
 	  super.onWindowFocusChanged(hasFocus);
-	  
-	  Drawable drawable_groupIndicator = 
+	  try {
+		  Drawable drawable_groupIndicator =
 //	   getResources().getDrawable(R.drawable.arrow_cb);            //temp commented
-			  getResources().getDrawable(R.drawable.close_icon);  //temp done
-	  int drawable_width = drawable_groupIndicator.getMinimumWidth();
-	  
-	  if(android.os.Build.VERSION.SDK_INT < 
-	   android.os.Build.VERSION_CODES.JELLY_BEAN_MR2){
-	   expandableListView.setIndicatorBounds(
-	    expandableListView.getWidth()-drawable_width, 
-	    expandableListView.getWidth());
-	  }else{
-	   expandableListView.setIndicatorBoundsRelative(
-	    expandableListView.getWidth()-drawable_width, 
-	    expandableListView.getWidth());
+				  getResources().getDrawable(R.drawable.close_icon);  //temp done
+		  int drawable_width = drawable_groupIndicator.getMinimumWidth();
+
+		  if (android.os.Build.VERSION.SDK_INT <
+				  android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+			  expandableListView.setIndicatorBounds(
+					  expandableListView.getWidth() - drawable_width,
+					  expandableListView.getWidth());
+		  } else {
+			  expandableListView.setIndicatorBoundsRelative(
+					  expandableListView.getWidth() - drawable_width,
+					  expandableListView.getWidth());
+		  }
+	  }catch(Exception e){
+		  new GrocermaxBaseException("HomeScreen","onCreate",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 	  }
 	 }
 	
 	private int getImageResource(String name){
-		name = name.replaceAll(" ", "_");
-		name = name.replaceAll("-", "_");
-		name = name.toLowerCase();
-		if (name.contains("fruits")) {
-			name = "fruits";
-		}else if (name.contains("dairy")) {
-			name = "dairy";
-		}
 
-		int resId = 0;
-		resId = getResources().getIdentifier("cat_"+name, "drawable", HomeScreen.this.getApplicationInfo().packageName);
-		if (resId == 0) {
-			resId = getResources().getIdentifier("cat_staples", "drawable", HomeScreen.this.getApplicationInfo().packageName);
-		}
+			name = name.replaceAll(" ", "_");
+			name = name.replaceAll("-", "_");
+			name = name.toLowerCase();
+			if (name.contains("fruits")) {
+				name = "fruits";
+			} else if (name.contains("dairy")) {
+				name = "dairy";
+			}
+
+			int resId = 0;
+			resId = getResources().getIdentifier("cat_" + name, "drawable", HomeScreen.this.getApplicationInfo().packageName);
+			if (resId == 0) {
+				resId = getResources().getIdentifier("cat_staples", "drawable", HomeScreen.this.getApplicationInfo().packageName);
+			}
 		return resId;
 	}
 
@@ -441,25 +432,33 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 	}
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		Intent call = new Intent(HomeScreen.this, CategoryTabs.class);
-		Bundle call_bundle = new Bundle();
-		call_bundle.putSerializable("Categories", catObj.get(position).getChildren().get(arg2).getChildren());
-		call_bundle.putSerializable("Header", catObj.get(position).getChildren().get(arg2).getBreadcrumb());
-		call.putExtras(call_bundle);
-		startActivity(call);
+		try {
+			Intent call = new Intent(HomeScreen.this, CategoryTabs.class);
+			Bundle call_bundle = new Bundle();
+			call_bundle.putSerializable("Categories", catObj.get(position).getChildren().get(arg2).getChildren());
+			call_bundle.putSerializable("Header", catObj.get(position).getChildren().get(arg2).getBreadcrumb());
+			call.putExtras(call_bundle);
+			startActivity(call);
+		}catch(Exception e){
+			new GrocermaxBaseException("HomeScreen","onItemClick",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		try {
 		/*for(int i=0;i<expandableListView.getExpandableListAdapter().getGroupCount();i++)
 		{
 				expandableListView.collapseGroup(i);
 		}*/
-		child_click=0;
-		group_click=0;
-		initHeader(findViewById(R.id.header), true, null);
+			child_click = 0;
+			group_click = 0;
+			initHeader(findViewById(R.id.header), true, null);
+		}catch(Exception e){
+			new GrocermaxBaseException("HomeScreen","onResume",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	
 	@Override
@@ -470,7 +469,9 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 	    	tracker.activityStart(this);
 	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("HomeScreen","onStart",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
     
     @Override
@@ -480,7 +481,9 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
     	try{
 	    	tracker.activityStop(this);
 	    	FlurryAgent.onEndSession(this);
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("HomeScreen","onStop",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
 	
 	

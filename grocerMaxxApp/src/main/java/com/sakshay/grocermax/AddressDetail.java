@@ -82,7 +82,8 @@ public class AddressDetail extends BaseActivity{
 			findViewById(R.id.footer).setVisibility(View.GONE);
 			initHeader(findViewById(R.id.header), true, "My Addresses");
 		}catch(Exception e){
-			new GrocermaxBaseException("AddressDetail","onCreate",e.getMessage(),GrocermaxBaseException.EXCEPTION,"85","nodetail");
+			new GrocermaxBaseException("AddressDetail","onCreate",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+
 		}
 	}
 	
@@ -93,7 +94,7 @@ public class AddressDetail extends BaseActivity{
 			intent.putExtra("address", address);
 			startActivityForResult(intent, requestNewAddress);
 		}catch(Exception e){
-			new GrocermaxBaseException("AddressDetail","goToAddress",e.getMessage(),GrocermaxBaseException.EXCEPTION,"96","nodetail");
+			new GrocermaxBaseException("AddressDetail","goToAddress",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
 	public void deleteAddress(Address address,int position)
@@ -125,7 +126,7 @@ public class AddressDetail extends BaseActivity{
 			builder.show();
 		}
 		catch(Exception e){
-			new GrocermaxBaseException("AddressDetail","askConfirmAlert",e.getMessage(),GrocermaxBaseException.EXCEPTION,"128","nodetail");
+			new GrocermaxBaseException("AddressDetail","askConfirmAlert",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
 	
@@ -146,7 +147,7 @@ public class AddressDetail extends BaseActivity{
 				}
 			}
 		}catch(Exception e){
-			new GrocermaxBaseException("AddressDetail","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"128",baseResponseBean.getResult());
+			new GrocermaxBaseException("AddressDetail","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,baseResponseBean.getResult());
 		}
 		
 	}
@@ -168,7 +169,7 @@ public class AddressDetail extends BaseActivity{
 				}
 			}
 		}catch(Exception e){
-			new GrocermaxBaseException("AddressDetail","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"171","nodetail");
+			new GrocermaxBaseException("AddressDetail","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
 	
@@ -179,7 +180,7 @@ public class AddressDetail extends BaseActivity{
 		try {
 			initHeader(findViewById(R.id.header), true, null);
 		}catch(Exception e){
-			new GrocermaxBaseException("AddressDetail","onResume",e.getMessage(),GrocermaxBaseException.EXCEPTION,"182","nodetail");
+			new GrocermaxBaseException("AddressDetail","onResume",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
 	
@@ -191,7 +192,9 @@ public class AddressDetail extends BaseActivity{
 	    	tracker.activityStart(this);
 	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("AddressDetail","OnStart",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
     
     @Override
@@ -201,7 +204,9 @@ public class AddressDetail extends BaseActivity{
     	try{
 	    	tracker.activityStop(this);
 	    	FlurryAgent.onEndSession(this);
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("AddressDetail","OnStop",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
 
 }

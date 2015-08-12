@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
+
 public class KeyboardStatusDetector {
     KeyboardVisibilityListener visibilityListener;
 
@@ -20,28 +22,33 @@ public class KeyboardStatusDetector {
     }
 
     public KeyboardStatusDetector registerView(final View v) {
-        v.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                Rect r = new Rect();
-                v.getWindowVisibleDisplayFrame(r);
+        try {
+            v.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    Rect r = new Rect();
+                    v.getWindowVisibleDisplayFrame(r);
 
-                int heightDiff = v.getRootView().getHeight() - (r.bottom - r.top);
-                if (heightDiff > 100) { // if more than 100 pixels, its probably a keyboard...
-                    /** Check this variable to debounce layout events */
-                    if(!keyboardVisible) {
-                        keyboardVisible = true;
-                        if(visibilityListener != null) visibilityListener.onVisibilityChanged(true);
-                    }
-                } else {
-                    if(keyboardVisible) {
-                        keyboardVisible = false;
-                        if(visibilityListener != null) visibilityListener.onVisibilityChanged(false);
+                    int heightDiff = v.getRootView().getHeight() - (r.bottom - r.top);
+                    if (heightDiff > 100) { // if more than 100 pixels, its probably a keyboard...
+                        /** Check this variable to debounce layout events */
+                        if (!keyboardVisible) {
+                            keyboardVisible = true;
+                            if (visibilityListener != null)
+                                visibilityListener.onVisibilityChanged(true);
+                        }
+                    } else {
+                        if (keyboardVisible) {
+                            keyboardVisible = false;
+                            if (visibilityListener != null)
+                                visibilityListener.onVisibilityChanged(false);
+                        }
                     }
                 }
-            }
-        });
-
+            });
+        }catch(Exception e){
+            new GrocermaxBaseException("KeyboardStatusDetector","OnResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"");
+        }
         return this;
     }
 

@@ -19,6 +19,7 @@ import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.OrderDetailItem;
 import com.sakshay.grocermax.bean.OrderedProductList;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.utils.CustomFonts;
 import com.sakshay.grocermax.utils.UrlsConstants;
 
@@ -39,13 +40,19 @@ public class OrderDetail extends BaseActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.order_detail);
-        order_id = getIntent().getStringExtra("order_id");
-        order_increement_id = getIntent().getStringExtra("order_increement_id");
-		addActionsInFilter(MyReceiverActions.ORDER_DETAIL);
-		initHeader(findViewById(R.id.header), true, "Order Detail");
-		initViews();
-		showDialog();
-		myApi.reqOrderDetail(UrlsConstants.ORDER_DETAIL_URL+order_id);
+		try {
+			order_id = getIntent().getStringExtra("order_id");
+			order_increement_id = getIntent().getStringExtra("order_increement_id");
+			addActionsInFilter(MyReceiverActions.ORDER_DETAIL);
+			initHeader(findViewById(R.id.header), true, "Order Detail");
+			initViews();
+			showDialog();
+			myApi.reqOrderDetail(UrlsConstants.ORDER_DETAIL_URL + order_id);
+		}catch(NullPointerException e){
+			new GrocermaxBaseException("OrderDetail","onCreate",e.getMessage(), GrocermaxBaseException.NULL_POINTER,"nodetail");
+		}catch(Exception e){
+			new GrocermaxBaseException("OrderDetail","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	public void initViews()
 	{
@@ -160,9 +167,9 @@ public class OrderDetail extends BaseActivity{
 	void OnResponse(Bundle bundle) {
 		dismissDialog();
 		if (bundle.getString("ACTION").equals(MyReceiverActions.ORDER_DETAIL)) {
-			String orderDetail= (String) bundle.getSerializable(ConnectionService.RESPONSE);
 			try
 			{
+			String orderDetail= (String) bundle.getSerializable(ConnectionService.RESPONSE);
 				JSONObject orderDetailJson=new JSONObject(orderDetail);
 				if (orderDetailJson.getString("flag").equalsIgnoreCase("1")) {
 					orderDetailJson=orderDetailJson.getJSONObject("OrderDetail");
@@ -218,7 +225,7 @@ public class OrderDetail extends BaseActivity{
 				}
 			}catch(Exception e)
 			{
-				
+				new GrocermaxBaseException("OrderDetail","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 			}
 			
 		}
@@ -350,7 +357,11 @@ public class OrderDetail extends BaseActivity{
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		initHeader(findViewById(R.id.header), true, null);
+		try {
+			initHeader(findViewById(R.id.header), true, null);
+		}catch(Exception e){
+			new GrocermaxBaseException("OrderDetail","onResume",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	
 	@Override
@@ -361,7 +372,9 @@ public class OrderDetail extends BaseActivity{
 	    	tracker.activityStart(this);
 	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("OrderDetail","onStart",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
     
     @Override
@@ -371,7 +384,9 @@ public class OrderDetail extends BaseActivity{
     	try{
 	    	tracker.activityStop(this);
 	    	FlurryAgent.onEndSession(this);
-    	}catch(Exception e){}
+    	}catch(Exception e){
+			new GrocermaxBaseException("OrderDetail","onStart",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
     }
 	
 	

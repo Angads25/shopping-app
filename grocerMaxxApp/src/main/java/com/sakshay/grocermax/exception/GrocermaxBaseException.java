@@ -2,7 +2,11 @@ package com.sakshay.grocermax.exception;
 
 import android.content.Context;
 import android.os.AsyncTask;
+
+import com.sakshay.grocermax.MyApplication;
 import com.sakshay.grocermax.utils.MyHttpUtils;
+import com.sakshay.grocermax.utils.UtilityMethods;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -10,6 +14,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by Abhishek on 8/5/2015.
@@ -33,15 +38,18 @@ public class GrocermaxBaseException extends Exception {
     public static final String IO_EXCEPTION =  "15";
     public static final String JSON_EXCEPTION =  "16";
     public static final String EXCEPTION =  "17";
+    public static final String UnsupportedEncodingException =  "18";
 
-    public GrocermaxBaseException(String strClassName, String strMethodName,String strMessage,String strErrorCode,String strLineNo) {
+
+//    public GrocermaxBaseException(String strClassName, String strMethodName,String strMessage,String strErrorCode,String strLineNo) {
+//        super();
+//        //    new SearchLoader(this).execute(url);
+//    }
+
+    public GrocermaxBaseException(String strClassName, String strMethodName,String strMessage,String strErrorCode,String strServerResponse) {
         super();
         //    new SearchLoader(this).execute(url);
-    }
-
-    public GrocermaxBaseException(String strClassName, String strMethodName,String strMessage,String strErrorCode,String strLineNo,String strServerResponse) {
-        super();
-        //    new SearchLoader(this).execute(url);
+        UtilityMethods.customToast("message", MyApplication.getInstance());
     }
 }
 
