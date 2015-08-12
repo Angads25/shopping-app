@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/primaryColor"
     android:clipToPadding="false"
-    android:elevation="20dp"
+    android:elevation="@dimen/action_bar_elevation"
     app:popupTheme="@style/CustomToolBarTheme"
     app:theme="@style/CustomToolBarTheme">
 
