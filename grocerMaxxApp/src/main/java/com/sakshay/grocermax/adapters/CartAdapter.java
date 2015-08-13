@@ -253,7 +253,7 @@ public class CartAdapter extends BaseAdapter{
 					OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 
 //			        if(totalPriceYouPay >= Float.parseFloat(orderReviewBean.getShipping_ammount())){
-					if(sub_totalPriceYouPay >= 500){
+					if(sub_totalPriceYouPay >= Float.parseFloat(CartProductList.strShippingChargeLimit)){
 						CartProductList.getInstance().tv_shipping.setText("Rs.0.0");
 					}else{                                 //shipping and billing charges
 //						totalPriceYouPay += 50;
@@ -320,7 +320,7 @@ public class CartAdapter extends BaseAdapter{
 						float sub_totalPriceYouPay = 	Float.parseFloat(CartProductList.getInstance().tv_subTotal.getText().toString().replace("Rs.", ""))
 								-Float.parseFloat(CartProductList.cartList.get(position).getPrice().replace(",", ""));
 //			        if(totalPriceYouPay >= Float.parseFloat(orderReviewBean.getShipping_ammount())){
-						if(sub_totalPriceYouPay >= 500){
+						if(sub_totalPriceYouPay >= Float.parseFloat(CartProductList.strShippingChargeLimit)){
 							CartProductList.getInstance().tv_shipping.setText("Rs.0.0");
 						}else{                                 //shipping and billing charges
 //						totalPriceYouPay += 50;
@@ -421,7 +421,7 @@ public class CartAdapter extends BaseAdapter{
 
 			float sub_totalPriceYouPay = Float.parseFloat(CartProductList.getInstance().tv_subTotal.getText().toString().replace("Rs.", "")) - totalDeltedPrice;
 //	        if(totalPriceYouPay >= Float.parseFloat(orderReviewBean.getShipping_ammount())){
-			if(sub_totalPriceYouPay >= 500){
+			if(sub_totalPriceYouPay >= Float.parseFloat(CartProductList.strShippingChargeLimit)){
 				CartProductList.getInstance().tv_shipping.setText("Rs.0.0");
 			}else{                                 //shipping and billing charges
 //				sub_totalPriceYouPay += 50;
