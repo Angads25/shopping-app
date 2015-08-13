@@ -63,6 +63,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	//	public JSONArray jsonArray ;
 	public JSONObject jsonObjectUpdate = null;
 	public StringBuilder sbDeleteProdId;
+	public static String strShippingChargeLimit = "0";
 
 	private boolean bIsEdit = false;   //true if user plus or minus anything in cart otherwise false and use in onDestroy.
 
@@ -159,104 +160,101 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 
 	public void setCartList(CartDetailBean cartBean)
 	{
-		if(cartList != null && cartList.size() > 0){
-			ll_total.setVisibility(View.VISIBLE);
-			orderReviewBean=MySharedPrefs.INSTANCE.getOrderReviewBean();
+		try {
+			if (cartList != null && cartList.size() > 0) {
+				ll_total.setVisibility(View.VISIBLE);
+				orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 
-			if(cartBean!=null)
-			{
-				float saving=0;
-				for(int i=0;i<cartList.size();i++)
-				{
-					saving=saving+(cartList.get(i).getQty()*(Float.parseFloat(cartList.get(i).getMrp())-Float.parseFloat(cartList.get(i).getPrice())));
-				}
-				//float discount=Float.parseFloat(cartBean.getSubTotal())-Float.parseFloat(cartBean.getGrandTotal());
-				saving = saving-(Float.parseFloat(orderReviewBean.getDiscount_amount()));
+				if (cartBean != null) {
+					float saving = 0;
+					for (int i = 0; i < cartList.size(); i++) {
+						saving = saving + (cartList.get(i).getQty() * (Float.parseFloat(cartList.get(i).getMrp()) - Float.parseFloat(cartList.get(i).getPrice())));
+					}
+					//float discount=Float.parseFloat(cartBean.getSubTotal())-Float.parseFloat(cartBean.getGrandTotal());
+					saving = saving - (Float.parseFloat(orderReviewBean.getDiscount_amount()));
 //		    tv_yousave.setText("Rs."+String.format("%.2f",saving));
-				tv_subTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(cartBean.getSubTotal())));
-				tv_discount.setText("Rs."+String.format("%.2f", Float.parseFloat(orderReviewBean.getDiscount_amount())));
-				tvSavePrice.setText("Rs."+String.format("%.2f",saving));
+					tv_subTotal.setText("Rs." + String.format("%.2f", Float.parseFloat(cartBean.getSubTotal())));
+					tv_discount.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getDiscount_amount())));
+					tvSavePrice.setText("Rs." + String.format("%.2f", saving));
 			/*if(Float.parseFloat(orderReviewBean.getDiscount_amount())==0)
 			{
 				ll_discount.setVisibility(View.GONE);
 			}
 			else
 				ll_discount.setVisibility(View.VISIBLE);*/
-				tv_shipping.setText("Rs."+Float.parseFloat(orderReviewBean.getShipping_ammount()));
+					tv_shipping.setText("Rs." + Float.parseFloat(orderReviewBean.getShipping_ammount()));
 			/*if(Float.parseFloat(orderReviewBean.getShipping_ammount())==0)
 			{
 				ll_shipping.setVisibility(View.GONE);
 			}
 			else
 				ll_shipping.setVisibility(View.VISIBLE);*/
-				//tv_discount.setText("-"+String.format("%.2f",discount));
-				tv_grandTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(cartBean.getGrandTotal())));
+					//tv_discount.setText("-"+String.format("%.2f",discount));
+					tv_grandTotal.setText("Rs." + String.format("%.2f", Float.parseFloat(cartBean.getGrandTotal())));
 
-				if(MySharedPrefs.INSTANCE.getTotalItem()!=null)
-				{
-					MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int)Float.parseFloat(cartBean.getItems_qty())));
-					cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
-				}
-				//cart_count_txt.setText(cartBean.getItems_count());
-
+					if (MySharedPrefs.INSTANCE.getTotalItem() != null) {
+						MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int) Float.parseFloat(cartBean.getItems_qty())));
+						cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
+					}
+					//cart_count_txt.setText(cartBean.getItems_count());
 
 
-				OrderReviewBean orderReviewBean=MySharedPrefs.INSTANCE.getOrderReviewBean();
-				orderReviewBean.setProduct(cartList);
+					OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
+					orderReviewBean.setProduct(cartList);
 //	    	orderReviewBean.setSubTotal(cartBean.getGrandTotal());
 //	    	orderReviewBean.setSubTotal(cartBean.get);
-				orderReviewBean.setSaving(String.valueOf(saving));                      //think will use when Order and review Pay for displaying order data
-				MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean);
+					orderReviewBean.setSaving(String.valueOf(saving));                      //think will use when Order and review Pay for displaying order data
+					MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean);
 
-				///////////////// used b/c when user deleted or edit products from cart and sign out then below id's becomes empty ////////////////
-				if(MySharedPrefs.INSTANCE.getUserId() != null && !MySharedPrefs.INSTANCE.getUserId().equals(""))
-				{
-					strUserIdtemp = MySharedPrefs.INSTANCE.getUserId();
-				}
-				if(MySharedPrefs.INSTANCE.getQuoteId() != null && !MySharedPrefs.INSTANCE.getQuoteId().equals(""))
-				{
-					strQuoteIdtemp = MySharedPrefs.INSTANCE.getQuoteId();
-				}
-				///////////////// used b/c when user deleted or edit products from cart and sign out then below id's becomes empty ////////////////
+					///////////////// used b/c when user deleted or edit products from cart and sign out then below id's becomes empty ////////////////
+					if (MySharedPrefs.INSTANCE.getUserId() != null && !MySharedPrefs.INSTANCE.getUserId().equals("")) {
+						strUserIdtemp = MySharedPrefs.INSTANCE.getUserId();
+					}
+					if (MySharedPrefs.INSTANCE.getQuoteId() != null && !MySharedPrefs.INSTANCE.getQuoteId().equals("")) {
+						strQuoteIdtemp = MySharedPrefs.INSTANCE.getQuoteId();
+					}
+					///////////////// used b/c when user deleted or edit products from cart and sign out then below id's becomes empty ////////////////
 
 
-			}
-			else
-				ll_total.setVisibility(View.GONE);
+				} else
+					ll_total.setVisibility(View.GONE);
 
 
-			mList = (ListView) findViewById(R.id.category_list);
-			place_order = (Button) findViewById(R.id.button_place_order);
+				mList = (ListView) findViewById(R.id.category_list);
+				place_order = (Button) findViewById(R.id.button_place_order);
 
 //			mAdapter = new CartAdapter(CartProductList.this, cartList);
 //			mAdapter = new CartAdapter(CartProductList.this);
-			update_cart = (Button) findViewById(R.id.button_update_cart1);
+				update_cart = (Button) findViewById(R.id.button_update_cart1);
 
-			place_order.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-			update_cart.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+				place_order.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+				update_cart.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 
-			mAdapter = new CartAdapter(CartProductList.this);
-			mList.setAdapter(mAdapter);
+				mAdapter = new CartAdapter(CartProductList.this);
+				mList.setAdapter(mAdapter);
 
-			mList.setOnItemClickListener(new OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-					//				showDialog();
-				}
-			});
-			place_order.setVisibility(View.VISIBLE);
-			place_order.setOnClickListener(this);
-			update_cart.setVisibility(View.GONE);
-			update_cart.setOnClickListener(this);
-		}
-		else
-		{
-			UtilityMethods.customToast(ToastConstant.CART_EMPTY, mContext);
-			ll_total.setVisibility(View.GONE);
-			Intent intent = new Intent(CartProductList.this, HomeScreen.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(intent);
-			finish();
+				mList.setOnItemClickListener(new OnItemClickListener() {
+					@Override
+					public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+						//				showDialog();
+					}
+				});
+				place_order.setVisibility(View.VISIBLE);
+				place_order.setOnClickListener(this);
+				update_cart.setVisibility(View.GONE);
+				update_cart.setOnClickListener(this);
+			} else {
+				UtilityMethods.customToast(ToastConstant.CART_EMPTY, mContext);
+				ll_total.setVisibility(View.GONE);
+				Intent intent = new Intent(CartProductList.this, HomeScreen.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+				finish();
+			}
+		}catch(NullPointerException e){
+			new GrocermaxBaseException("CartProductList", "setCartList", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
+		}catch(Exception e){
+			new GrocermaxBaseException("CartProductList", "setCartList", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 	}
 
@@ -312,8 +310,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 
 
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				new GrocermaxBaseException("CartProductList", "changeQuantity", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 			}
 		}
 	}
@@ -345,7 +342,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					position = -1;
 
 			} else if (action.equals(MyReceiverActions.CHECKOUT_ADDRESS)) {
-				try {
+
 					CheckoutAddressBean bean = (CheckoutAddressBean) bundle.getSerializable(ConnectionService.RESPONSE);
 			/*if(bean.getAddress().size()>0)
 			{*/
@@ -355,8 +352,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			/*}else{
 				Toast.makeText(CartProductList.this,ToastConstant.NO_ACCOUNT_ADDR,0).show();
 			}*/
-				} catch (Exception e) {
-				}
+
 
 			} else if (action.equals(MyReceiverActions.CART_DETAIL_AFTER_DELETE)) {
 				dismissDialog();
@@ -373,7 +369,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 
 				ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart(this, Constants.localCloneFile);
 				if (cart_products != null && cart_products.size() > 0 && cartList != null && cartList.size() > 0) {
-					try {
+
 						for (int i = 0; i < cart_products.size(); i++) {
 							bSingleItemFlag = true;
 							bFlag = false;
@@ -405,8 +401,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 								}
 							}
 						}
-					} catch (Exception e) {
-					}
+
 				} else {
 					if (cart_products.size() == 1) {
 						UtilityMethods.deleteCloneCartItem(this, cart_products.get(0).getItem_id());  //when there is single item in local clone file and not going in loop so delete there.
@@ -652,8 +647,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			new GrocermaxBaseException("CartProductList", "updateItemInCartBackToCart", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 	}
-
-
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
