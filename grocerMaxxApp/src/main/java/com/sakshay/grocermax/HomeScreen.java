@@ -315,7 +315,6 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 				cat_name.setText(catObj.get(i).getCategory());
 				catNamePlaceHolderTV.setText(catObj.get(i).getCategory());
 
-
 				cat_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
 
 //			arrowImageArray[i] = indicator;
@@ -340,7 +339,6 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 				view.setTag(i);
 				view.setOnClickListener(listener);
 				catImageArray[i].setMinimumHeight((linearMainCat[i].getMeasuredHeight())); // trying to make it a square
-
 
 				cat_main_layout.addView(view);                       //main category(left side) adding view under it
 			}
