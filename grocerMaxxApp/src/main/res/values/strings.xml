@@ -42,7 +42,7 @@
     <string name="please_enter_text_">Please enter text.</string>
     <string name="no_product_found_">No product found.</string>
     <string name="go_shopping">Go Shopping</string>
-    <string name="shipping">Shipping &amp; Handling  </string>
+    <string name="shipping">Shipping charges: </string>
     <string name="Zero">0</string>
     <string name="app_id">951586228219659</string>
      <string name="facebook_app_name">GrocerMax</string>
