@@ -72,7 +72,6 @@ public class CategoryTabs extends BaseActivity {
 				asyncTasks.add(callapi);
 			}*/
 			}
-<<<<<<< Temporary merge branch 1
 
 			iconHeaderHome = (ImageView) findViewById(R.id.icon_header_home);
 			iconHeaderHome.setOnClickListener(new View.OnClickListener() {
@@ -88,26 +87,14 @@ public class CategoryTabs extends BaseActivity {
 			});
 
 			LinearLayout llBreadcrumb = (LinearLayout) findViewById(R.id.llbreadcrum);
-			llBreadcrumb.setVisibility(View.VISIBLE);
+			llBreadcrumb.setVisibility(View.GONE);
 
 			tv_bradcrum = (TextView) findViewById(R.id.tv_Bradcrum);
 
 			ll_brad_crum = (LinearLayout) findViewById(R.id.ll_Bradcrum);
 			ll_brad_crum.setBackgroundColor(getResources().getColor(R.color.breadcrum_color));
-			hscrollview = (HorizontalScrollView) findViewById(R.id.hscrollview);
-=======
-		});
-		
-		LinearLayout llBreadcrumb = (LinearLayout)findViewById(R.id.llbreadcrum);
-//		llBreadcrumb.setVisibility(View.VISIBLE);
-		llBreadcrumb.setVisibility(View.GONE);
 
-		tv_bradcrum=(TextView)findViewById(R.id.tv_Bradcrum);
-		
-		ll_brad_crum=(LinearLayout)findViewById(R.id.ll_Bradcrum);
-		ll_brad_crum.setBackgroundColor(getResources().getColor(R.color.breadcrum_color));
-		hscrollview=(HorizontalScrollView)findViewById(R.id.hscrollview);
->>>>>>> Temporary merge branch 2
+			hscrollview = (HorizontalScrollView) findViewById(R.id.hscrollview);
 //		hscrollview.setVisibility(View.VISIBLE);
 			if (MySharedPrefs.INSTANCE.getBradecrum() != null) {
 				String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");
@@ -156,28 +143,28 @@ public class CategoryTabs extends BaseActivity {
 			new GrocermaxBaseException("CategoryTabs", "onCreate", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 
-1
-	}
-=======
-        ViewPager pager = (ViewPager)findViewById(R.id.pager);
-        pager.setAdapter(adapter);
-        pager.setOffscreenPageLimit(catObj.size());
 
-        TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.indicator);
-        indicator.setViewPager(pager);
-        
-        View headerView = findViewById(R.id.header);
-		if(headerView !=null)
-        	initHeader(headerView, true, header.replaceAll("/", " >> "));
-        
-        TextView textView = (TextView)headerView.findViewById(R.id.screenName);
-        
-        textView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				finish();
-			}
-		});
+//	}
+//
+//        ViewPager pager = (ViewPager)findViewById(R.id.pager);
+//        pager.setAdapter(adapter);
+//        pager.setOffscreenPageLimit(catObj.size());
+//
+//        TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.indicator);
+//        indicator.setViewPager(pager);
+//
+//        View headerView = findViewById(R.id.header);
+//		if(headerView !=null)
+//        	initHeader(headerView, true, header.replaceAll("/", " >> "));
+//
+//        TextView textView = (TextView)headerView.findViewById(R.id.screenName);
+//
+//        textView.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View arg0) {
+//				finish();
+//			}
+//		});
     }
 
 
