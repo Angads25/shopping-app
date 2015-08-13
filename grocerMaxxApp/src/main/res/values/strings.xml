@@ -46,5 +46,7 @@
     <string name="Zero">0</string>
     <string name="app_id">951586228219659</string>
      <string name="facebook_app_name">GrocerMax</string>
+    <string name="makeitdefaultaddress">Make it my default billing address</string>
+    <string name="makeitmydefaultshipping">Make it my default shipping address</string>
 
 </resources>
