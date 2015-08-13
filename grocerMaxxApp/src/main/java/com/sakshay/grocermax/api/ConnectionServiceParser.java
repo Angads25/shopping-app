@@ -101,9 +101,10 @@ public class ConnectionServiceParser {
 
 	public static CartDetailBean parseViewCartResponse(String jsonString)
 			throws JSONException {
-		
+
+		String str = new JSONObject(jsonString).getString("shippingChargeLimit").toString();
+		CartProductList.strShippingChargeLimit = new JSONObject(jsonString).getString("shippingChargeLimit").toString();
 		jsonString=new JSONObject(jsonString).getJSONObject("CartDetail").toString();
-		
 		OrderReviewBean orderReviewBean=new OrderReviewBean();
 		orderReviewBean.setTax_ammount(new JSONObject(jsonString).getJSONObject("shipping_address").optString("tax_amount"));
 		orderReviewBean.setShipping_ammount(new JSONObject(jsonString).getJSONObject("shipping_address").optString("shipping_amount"));
