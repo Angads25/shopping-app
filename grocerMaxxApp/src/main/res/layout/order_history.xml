@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/header"
-        layout="@layout/mart_header" />
+        layout="@layout/mart_header_2" />
 
     <TextView
         android:id="@+id/msg"
@@ -22,17 +22,13 @@
         android:textSize="@dimen/text_size_16"
         android:gravity="left"
         android:text="Order History"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <ListView
         android:id="@+id/category_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/white"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
         android:dividerHeight="5dp"
         android:divider="@color/app_background"
         android:layout_centerHorizontal="true"
