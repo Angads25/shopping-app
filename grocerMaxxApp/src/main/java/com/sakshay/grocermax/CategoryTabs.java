@@ -39,10 +39,7 @@ import com.sakshay.grocermax.utils.UrlsConstants;
 import com.sakshay.grocermax.utils.UtilityMethods;
 import com.viewpagerindicator.TabPageIndicator;
 
-public class CategoryTabs extends BaseActivity
-{
-
-
+public class CategoryTabs extends BaseActivity {
 	private String header;
 	private ArrayList<CategorySubcategoryBean> catObj;
 	public Product product;
@@ -54,7 +51,7 @@ public class CategoryTabs extends BaseActivity
 	public static int clickStatus=0;
 	public static ArrayList<ProductListFragments.CallAPI> asyncTasks=new ArrayList<ProductListFragments.CallAPI>();
 	EasyTracker tracker;
-
+	
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -75,18 +72,42 @@ public class CategoryTabs extends BaseActivity
 				asyncTasks.add(callapi);
 			}*/
 			}
+<<<<<<< Temporary merge branch 1
 
+			iconHeaderHome = (ImageView) findViewById(R.id.icon_header_home);
+			iconHeaderHome.setOnClickListener(new View.OnClickListener() {
 
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Intent intent = new Intent(mContext, HomeScreen.class);
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
+					finish();
+				}
+			});
+
+			LinearLayout llBreadcrumb = (LinearLayout) findViewById(R.id.llbreadcrum);
+			llBreadcrumb.setVisibility(View.VISIBLE);
+
+			tv_bradcrum = (TextView) findViewById(R.id.tv_Bradcrum);
+
+			ll_brad_crum = (LinearLayout) findViewById(R.id.ll_Bradcrum);
+			ll_brad_crum.setBackgroundColor(getResources().getColor(R.color.breadcrum_color));
+			hscrollview = (HorizontalScrollView) findViewById(R.id.hscrollview);
+=======
+		});
+		
 		LinearLayout llBreadcrumb = (LinearLayout)findViewById(R.id.llbreadcrum);
 //		llBreadcrumb.setVisibility(View.VISIBLE);
 		llBreadcrumb.setVisibility(View.GONE);
 
 		tv_bradcrum=(TextView)findViewById(R.id.tv_Bradcrum);
-
+		
 		ll_brad_crum=(LinearLayout)findViewById(R.id.ll_Bradcrum);
 		ll_brad_crum.setBackgroundColor(getResources().getColor(R.color.breadcrum_color));
 		hscrollview=(HorizontalScrollView)findViewById(R.id.hscrollview);
-
+>>>>>>> Temporary merge branch 2
 //		hscrollview.setVisibility(View.VISIBLE);
 			if (MySharedPrefs.INSTANCE.getBradecrum() != null) {
 				String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");
@@ -131,31 +152,32 @@ public class CategoryTabs extends BaseActivity
 					finish();
 				}
 			});
-
-
-
-//        ViewPager pager = (ViewPager)findViewById(R.id.pager);
-//        pager.setAdapter(adapter);
-//        pager.setOffscreenPageLimit(catObj.size());
-//
-//        TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.indicator);
-//        indicator.setViewPager(pager);
-//
-//        View headerView = findViewById(R.id.header);
-//        initHeader(headerView, true, header.replaceAll("/", " >> "));
-//
-//        TextView textView = (TextView)headerView.findViewById(R.id.screenName);
-//
-//        textView.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View arg0) {
-//				finish();
-//			}
-//		});
 		}catch(Exception e){
 			new GrocermaxBaseException("CategoryTabs", "onCreate", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 
+1
+	}
+=======
+        ViewPager pager = (ViewPager)findViewById(R.id.pager);
+        pager.setAdapter(adapter);
+        pager.setOffscreenPageLimit(catObj.size());
+
+        TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.indicator);
+        indicator.setViewPager(pager);
+        
+        View headerView = findViewById(R.id.header);
+		if(headerView !=null)
+        	initHeader(headerView, true, header.replaceAll("/", " >> "));
+        
+        TextView textView = (TextView)headerView.findViewById(R.id.screenName);
+        
+        textView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
     }
 
 
@@ -202,7 +224,7 @@ public class CategoryTabs extends BaseActivity
 						+ MySharedPrefs.INSTANCE.getUserId() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
 						+ URLEncoder.encode(products.toString(), "UTF-8");
 			}
-
+			
 			myApi.reqAddToCart(url);
 		}catch(NullPointerException e){
 			new GrocermaxBaseException("CategoryTabs", "addToCart", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
@@ -211,7 +233,7 @@ public class CategoryTabs extends BaseActivity
 		}
 
 	}
-
+	
 	public void addToCartGuest(String product_id, String quantity) {
     	showDialog();
 		try {
@@ -221,19 +243,17 @@ public class CategoryTabs extends BaseActivity
 			prod_obj.put("quantity", quantity);
 			products.put(prod_obj);
 			String url;
-
+			
 			url = UrlsConstants.ADD_TO_CART_GUEST_URL+"quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
 					+ URLEncoder.encode(products.toString(), "UTF-8");
 			myApi.reqAddToCart(url);
-
+			
 		}catch(NullPointerException e){
 			new GrocermaxBaseException("CategoryTabs", "addToCartGuest", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "product_id"+product_id+"quantity"+quantity);
 		}catch(Exception e){
 			new GrocermaxBaseException("CategoryTabs", "addToCartGuest", e.getMessage(), GrocermaxBaseException.EXCEPTION, "product_id"+product_id+"quantity"+quantity);
 		}
 	}
-
-
 	
 	@Override
 	void OnResponse(Bundle bundle) {

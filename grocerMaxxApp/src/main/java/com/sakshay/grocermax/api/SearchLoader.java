@@ -41,7 +41,6 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 	private final String TAG_CAT_IS_ACTIVE = "is_active";
 	private final String TAG_CAT_POSITION = "position";
 	private final String TAG_CAT_LEVEL = "level";
-	
 	private final String TAG_PROD_FULL_NAME = "Name";
 	private final String TAG_PROD_BRAND = "p_brand";
 	private final String TAG_PROD_P_NAME = "p_name";
@@ -67,13 +66,19 @@ public class SearchLoader extends AsyncTask<String, String, String> {
     protected String doInBackground(String... params) {
 		String strResult = "";
     	HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
-    	HttpGet httpGet = new HttpGet(params[0]);
+		String urlString = params[0];
+		if(urlString.contains("?")) {
+			urlString += "&version=1.0";
+		}else{
+			urlString += "?version=1.0";
+		}
+    	HttpGet httpGet = new HttpGet(urlString);
 		httpGet.setHeader("Content-Type", "application/json");
 		HttpResponse response = null;
 		try {
 			response = client.execute(httpGet);
 			HttpEntity resEntity = response.getEntity();
-			strResult =  EntityUtils.toString(resEntity);
+//			strResult =  EntityUtils.toString(resEntity);
 			return EntityUtils.toString(resEntity);
 		} catch (ClientProtocolException e) {
 			((BaseActivity)context).dismissDialog();
@@ -81,7 +86,8 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 		} catch (IOException e) {
 			((BaseActivity)context).dismissDialog();
 			new GrocermaxBaseException("SearchLoader","doInBackground",e.getMessage(),GrocermaxBaseException.IO_EXCEPTION,strResult);
-		}catch (Exception e){
+		}
+		catch (Exception e){
 			((BaseActivity)context).dismissDialog();
 			new GrocermaxBaseException("SearchLoader","doInBackground",e.getMessage(),GrocermaxBaseException.EXCEPTION,strResult);
 		}
@@ -213,10 +219,13 @@ public class SearchLoader extends AsyncTask<String, String, String> {
     	context.startActivity(call);
 
 		}catch(JSONException e){
+			((BaseActivity)context).dismissDialog();
 			new GrocermaxBaseException("SearchLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.JSON_EXCEPTION,result);
 		}catch (NullPointerException e){
+			((BaseActivity)context).dismissDialog();
 			new GrocermaxBaseException("SearchLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.NULL_POINTER,result);
 		}catch (Exception e){
+			((BaseActivity)context).dismissDialog();
 			new GrocermaxBaseException("SearchLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.EXCEPTION,result);
 		}
     }
