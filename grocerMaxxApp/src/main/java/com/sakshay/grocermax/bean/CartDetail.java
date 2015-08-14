@@ -30,41 +30,40 @@ public class CartDetail extends BaseResponseBean implements Serializable,Parcela
 	private String mrp;
 	
 	@Expose
-	private String p_brand_cart;
+	private String p_brand;
 	@Expose
-	private String p_name_cart;
+	private String p_name;
 	@Expose
-	private String p_pack_cart;
+	private String p_pack;
 	@Expose
-	private String promotionLevel;
-	
+	private String promotion_level;
 
 	public String getBrand(){
-		return p_brand_cart;
+		return p_brand;
 	}
 	public void setBrand(String brand){
-		this.p_brand_cart = brand;
+		this.p_brand = brand;
 	}
 	
 	public String getProductName(){
-		return p_name_cart;
+		return p_name;
 	}
 	public void setProductName(String name){
-		this.p_name_cart = name;
+		this.p_name = name;
 	}
 	
 	public String getGramsORml(){
-		return p_pack_cart;
+		return p_pack;
 	}
 	public void setGramsORml(String gramsorml){
-		this.p_pack_cart = gramsorml;
+		this.p_pack = gramsorml;
 	}
 
 	public String getPromotionLevel(){
-		return promotionLevel;
+		return promotion_level;
 	}
 	public void setPromotionLevel(String promotionLevel){
-		this.promotionLevel = promotionLevel;
+		this.promotion_level = promotionLevel;
 	}
 	
 	public String getMrp() {
@@ -129,10 +128,10 @@ public class CartDetail extends BaseResponseBean implements Serializable,Parcela
 	}
 	
 	protected CartDetail(Parcel in) {
-		p_brand_cart = in.readString();
-		p_name_cart = in.readString();
-		p_pack_cart = in.readString();
-		promotionLevel = in.readString();
+		p_brand = in.readString();
+		p_name = in.readString();
+		p_pack = in.readString();
+		promotion_level = in.readString();
 		product_id = in.readString();
 		name = in.readString();
 		price = in.readString();
@@ -149,10 +148,10 @@ public class CartDetail extends BaseResponseBean implements Serializable,Parcela
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-    	dest.writeString(p_brand_cart);
-    	dest.writeString(p_name_cart);
-    	dest.writeString(p_pack_cart);
-    	dest.writeString(promotionLevel);
+    	dest.writeString(p_brand);
+    	dest.writeString(p_name);
+    	dest.writeString(p_pack);
+    	dest.writeString(promotion_level);
         dest.writeString(product_id);
         dest.writeString(name);
         dest.writeString(price);
