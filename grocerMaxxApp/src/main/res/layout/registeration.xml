@@ -136,7 +136,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:background="@null"
-                    android:hint="First name"
+                    android:hint="required"
                     android:singleLine="true"
                     android:textColorHint="@color/register_address_text_unselected_color"
                     android:textSize="@dimen/text_size_15" />
@@ -165,7 +165,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:background="@null"
-                    android:hint="Last name"
+                    android:hint="optional"
                     android:singleLine="true"
                     android:textColorHint="@color/register_address_text_unselected_color"
                     android:textSize="@dimen/text_size_15" />
@@ -196,6 +196,7 @@
                     android:layout_height="35dp"
                     android:background="@null"
                     android:hint="required"
+                    android:maxLength="10"
                     android:inputType="number"
                     android:singleLine="true"
                     android:textColorHint="@color/register_address_text_unselected_color"
@@ -254,7 +255,7 @@
                     android:textSize="@dimen/text_size_14" />
 
                 <EditText
-                    android:id="@+id/et_password"
+                    android:id="@+id/et_register_password"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:background="@null"
