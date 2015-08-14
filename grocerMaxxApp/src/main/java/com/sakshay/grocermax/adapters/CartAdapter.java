@@ -84,7 +84,7 @@ public class CartAdapter extends BaseAdapter{
 			holder.price = (TextView) convertView.findViewById(R.id.mrp);
 			holder.offerImage = (ImageView) convertView.findViewById(R.id.offer_image);
 			holder.tvOffers = (TextView) convertView.findViewById(R.id.tv_offers_cart);
-			holder.tvMultiply = (TextView) convertView.findViewById(R.id.tv_multiply);
+	//		holder.tvMultiply = (TextView) convertView.findViewById(R.id.tv_multiply);
 
 //			holder.amount = (TextView) convertView.findViewById(R.id.amount);
 //			holder.amount.setPaintFlags(holder.amount.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
@@ -110,13 +110,14 @@ public class CartAdapter extends BaseAdapter{
 		holder.prod_gmorml.setTypeface(CustomFonts.getInstance().getRobotoLight(activity));
 		holder.prod_old_price.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 		holder.prod_mul_quantity.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
-		holder.tvMultiply.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
+//		holder.tvMultiply.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 		holder.price.setTypeface(CustomFonts.getInstance().getRobotoBold(activity));
 //		holder.quantity.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 		holder.tv_quantity.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 
 		final CartDetail obj = getItem(position);
 //		holder.prod_brand_name.setText(obj.getBrand());
+		//TODO, abhishek why isnt brandname, product name etc coming as seperate
 		holder.prod_brand_name.setText(obj.getName());
 //		holder.prod_name_1.setText(obj.getName());
 

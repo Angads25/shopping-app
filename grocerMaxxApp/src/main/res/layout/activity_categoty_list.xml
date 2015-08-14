@@ -131,7 +131,6 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_weight="4"
-        android:background="@color/white"
         android:cacheColorHint="@android:color/transparent"
         android:clipToPadding="false"
         android:divider="@color/app_background"
