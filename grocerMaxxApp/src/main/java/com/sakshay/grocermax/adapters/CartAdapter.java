@@ -117,7 +117,8 @@ public class CartAdapter extends BaseAdapter{
 
 		final CartDetail obj = getItem(position);
 //		holder.prod_brand_name.setText(obj.getBrand());
-		holder.prod_brand_name.setText(obj.getName());
+		holder.prod_brand_name.setText(obj.getBrand());
+//		holder.prod_brand_name.setText(obj.getName());
 //		holder.prod_name_1.setText(obj.getName());
 
 		holder.prod_name.setText(obj.getProductName());
