@@ -21,10 +21,12 @@
                 android:id="@+id/rl_userprofile_picplaceholder"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
-                <ImageView
+
+                <com.sakshay.grocermax.utils.RoundedImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/abc_btn_radio_to_on_mtrl_015"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/shahid"
                     android:id="@+id/iv_userprofile_displaypic"/>
             </LinearLayout>
 

@@ -4,9 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <include
+    <!--<include
         android:id="@+id/header"
-        layout="@layout/mart_header" />
+        layout="@layout/mart_header" />-->
     
       <RelativeLayout 
           android:layout_width="match_parent"
@@ -60,8 +60,8 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:gravity="center_horizontal"
-            android:text="Success"
-            android:textColor="@color/black"
+            android:text="Success!!"
+            android:textColor="@color/primaryColor"
             android:textSize="@dimen/text_size_18" />
         
         <TextView 
@@ -73,7 +73,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:textColor="@color/black"
+            android:textColor="@color/primaryColor"
             android:layout_centerHorizontal="true"
             android:textSize="@dimen/text_size_12" />
         
@@ -86,7 +86,7 @@
             android:paddingTop="15dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:textColor="@color/black"
+            android:textColor="@color/pallete_black"
             android:textSize="@dimen/text_size_12"
             android:layout_below="@+id/tv_order" />
         
@@ -99,7 +99,7 @@
             android:padding="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:textColor="@color/black"
+            android:textColor="@color/pallete_black"
             android:textSize="@dimen/text_size_12"
             android:layout_below="@+id/tv_order_id" />
         
@@ -110,7 +110,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="25dp"
         android:weightSum="2"
         android:layout_below="@+id/tv_check_mail_for_details"
         android:orientation="horizontal" >
@@ -123,7 +123,9 @@
             android:text="Continue Shopping"
             android:textColor="@color/white"
             android:layout_weight="1"
-            android:textSize="12dp" />
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_14" />
 
         <TextView
             android:id="@+id/orderHistory"
@@ -132,10 +134,11 @@
             android:layout_below="@id/continueButton"
             android:background="@drawable/sucess_failure_button"
             android:gravity="center"
-            android:textSize="12dp"
             android:text="Order History"
             android:textColor="@color/white"
             android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_size_14"
             android:layout_marginLeft="10dp" />
 
     </LinearLayout>
@@ -145,7 +148,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_button"
-            android:textColor="@color/black"
+            android:textColor="@color/pallete_black"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:gravity="center_horizontal"
@@ -167,12 +170,14 @@
             android:weightSum="4"
             android:orientation="horizontal"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:layout_gravity="bottom"
             android:gravity="bottom"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp" >
+        android:paddingLeft="100dp"
+        android:paddingRight="100dp"
+
+             >
             
             <ImageView 
                 android:id="@+id/facebook_success"

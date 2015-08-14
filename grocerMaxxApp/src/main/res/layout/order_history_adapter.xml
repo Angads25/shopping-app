@@ -37,14 +37,14 @@
                 android:layout_toRightOf="@id/product_image"
                 android:shrinkColumns="1">
 
-                <TableRow
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv1"
-                        android:layout_width="85dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Order ID"
                         android:textColor="@color/light_Gray"
@@ -64,10 +64,10 @@
                         android:textColor="@color/pallete_black"
                         android:textSize="@dimen/text_size_14" />
 
-                </TableRow>
+                </LinearLayout>
 
-                <TableRow
-                    android:layout_width="fill_parent"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:gravity="center_vertical"
@@ -75,7 +75,7 @@
 
                     <TextView
                         android:id="@+id/tv2"
-                        android:layout_width="85dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Order date"
                         android:textColor="@color/light_Gray"
@@ -95,19 +95,18 @@
                         android:layout_weight="1"
                         android:textColor="@color/pallete_black"
                         android:textSize="@dimen/text_size_14" />
-                </TableRow>
+                </LinearLayout>
 
-                <TableRow
-                    android:layout_width="fill_parent"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv3"
-                        android:layout_width="85dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
                         android:text="Amount Paid"
                         android:textColor="@color/light_Gray"
                         android:textSize="@dimen/text_size_14" />
@@ -125,9 +124,9 @@
                         android:layout_marginLeft="10dp"
                         android:textColor="@color/pallete_black"
                         android:textSize="@dimen/text_size_14" />
-                </TableRow>
+                </LinearLayout>
 
-                <TableRow
+                <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -135,9 +134,8 @@
 
                     <TextView
                         android:id="@+id/tv5"
-                        android:layout_width="85dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
                         android:text="Status"
                         android:textColor="@color/light_Gray"
                         android:textSize="@dimen/text_size_14" />
@@ -155,19 +153,18 @@
                         android:layout_marginLeft="10dp"
                         android:textColor="@color/pallete_black"
                         android:textSize="@dimen/text_size_14" />
-                </TableRow>
+                </LinearLayout>
 
                 <TableRow
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv6"
-                        android:layout_width="85dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
                         android:text="Items"
                         android:textColor="@color/light_Gray"
                         android:textSize="@dimen/text_size_14" />
@@ -191,8 +188,8 @@
 
             <ImageView
                 android:id="@+id/arrowImage"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:layout_centerVertical="true"
