@@ -260,6 +260,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 
 	public void deleteItem(int position)
 	{
+		try{
 		String userId = MySharedPrefs.INSTANCE.getUserId();
 		if(userId!=null && userId.trim().length()>0)
 		{
@@ -289,10 +290,16 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		String url = UrlsConstants.DELETE_FROM_CART_URL + user_id + "&productid=" + cartList.get(position).getProductId();
 		myApi.reqDeleteFromCart(url);
 		this.position = position;*/
+		}catch(NullPointerException e){
+			new GrocermaxBaseException("CartProductList", "deleteItem", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
+		}catch(Exception e){
+			new GrocermaxBaseException("CartProductList", "deleteItem", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+		}
 	}
 
 	public void changeQuantity(String item_id,int qty)
 	{
+		try{
 		if(qty>0)
 		{
 			try {
@@ -313,15 +320,26 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				new GrocermaxBaseException("CartProductList", "changeQuantity", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 			}
 		}
+		}catch(NullPointerException e){
+			new GrocermaxBaseException("CartProductList", "changeQuantity", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
+		}catch(Exception e){
+			new GrocermaxBaseException("CartProductList", "changeQuantity", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+		}
 	}
 
 	private void updateCart()
 	{
+		try{
 		AppConstants.cart_count = cartList.size();
 		mAdapter.updateList(cartList);
 		if(cartList.size() == 0)
 		{
 			place_order.setVisibility(View.GONE);
+		}
+		}catch(NullPointerException e){
+			new GrocermaxBaseException("CartProductList", "updateCart", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
+		}catch(Exception e){
+			new GrocermaxBaseException("CartProductList", "updateCart", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 	}
 
