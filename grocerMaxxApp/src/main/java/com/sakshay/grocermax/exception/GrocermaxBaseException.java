@@ -53,7 +53,6 @@ public class GrocermaxBaseException extends Exception {
     }
 }
 
-
 class AppCrash extends AsyncTask<String, String, String>
 {
     Context context;

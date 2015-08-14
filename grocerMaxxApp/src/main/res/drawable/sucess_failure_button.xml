@@ -15,7 +15,7 @@
         android:top="10dip" />
     
     <corners 
-        android:radius="0dp"/>
+        android:radius="4dp"/>
 
     <!-- <stroke
         android:dashWidth="1dip"
@@ -25,6 +25,6 @@
    <!--   <solid android:color="#dc5d1d"/>-->
   
  
-    <solid android:color="@color/primaryColorDark"/>
+    <solid android:color="@color/primaryColor"/>
 
 </shape>
