@@ -22,6 +22,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -58,8 +59,8 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 	private View footerView;
 	private LinearLayout main_lay;
 	private ProgressBar progressBar;
-	public static TextView tvGlobalUpdateProductList;
-	
+	public static TextView tvGlobalUpdateProductList;        //will update product listing screen if on product description page quantity has been changed and user press back btn OR cross btn
+	public static ImageView imgAddedProductCount;           //will update product listing screen if on product description page quantity has been changed and user press back btn OR cross btn
     public static ProductListFragments newInstance(CategorySubcategoryBean categorySubcategoryBean) {
     	ProductListFragments fragment = new ProductListFragments();
     	fragment.cat_id = categorySubcategoryBean.getCategoryId();
@@ -113,8 +114,8 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 				  categoryTabs.showDialog();
 				  
 				  tvGlobalUpdateProductList = (TextView) view.findViewById(R.id.added_product_count);
-				  
-				  
+				  imgAddedProductCount = (ImageView) view.findViewById(R.id.img_added_product_count);
+
 				  String url = UrlsConstants.PRODUCT_DETAIL_URL + categoryTabs.product.getProductid();
 				  categoryTabs.myApi.reqProductContentList(url);
 				}
