@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/app_bar_header"
+        layout="@layout/mart_header">
+
+    </include>
+
+    <RelativeLayout
+        android:id="@+id/rl_header_checkoutscreen_2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/app_bar_header"
+        android:background="@color/white"
+        android:paddingBottom="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="8dp">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/carat_left" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@+id/iv_back"
+            android:layout_toRightOf="@+id/iv_back"
+            android:gravity="center"
+            android:text="Delivery details"
+            android:textAllCaps="true"
+            android:textColor="@color/pallete_black"
+            android:textSize="@dimen/text_size_14" />
+
+        <ImageView
+            android:id="@+id/iv_checkout_progress_indicator"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:background="@color/button_green" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_header_checkoutscreen_2"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_new_date"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_above="@+id/btn_select_delivery_details"
+            android:layout_marginTop="10dp"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:text="Date"
+                android:textAllCaps="true"
+                android:textColor="@color/pallete_black"
+                android:textSize="@dimen/text_size_14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:text="Today"
+                android:textColor="@color/light_Gray"
+                android:textSize="@dimen/text_size_14" />
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="2dp"
+                android:orientation="horizontal"
+                android:weightSum="5">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:src="@drawable/carat_left" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:text="Today"
+                    android:textColor="@color/pallete_black"
+                    android:textSize="@dimen/text_size_14" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+
+                    android:layout_weight="0.5"
+                    android:src="@drawable/carat_right" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_delivery_slot"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:text="Time"
+                android:textAllCaps="true"
+                android:textColor="@color/pallete_black"
+                android:textSize="@dimen/text_size_14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:text="02:00 pm - 05:00 pm"
+                android:textColor="@color/light_Gray"
+                android:textSize="@dimen/text_size_14" />
+
+
+        </RelativeLayout>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:elevation="2dp">
+
+
+    //TODO wire this up, carefully, on touch change background and text colors
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        >
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+
+            <RelativeLayout
+                android:background="@color/white"
+                android:padding="5dp"
+                android:layout_weight="1"
+                android:layout_margin="1dp">
+
+                <TextView
+                    android:id="@+id/tv_slotfull_1st_slot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="Slot full"
+                    android:textAllCaps="true"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="@dimen/text_size_12" />
+
+                <TextView
+                    android:id="@+id/tv_time_1st_slot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_slotfull_1st_slot"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="08:00 am - 11:00 am"
+                    android:textSize="@dimen/text_size_14" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="@color/white"
+                android:padding="5dp"
+                android:layout_weight="1"
+                android:layout_margin="1dp">
+
+                <TextView
+                    android:id="@+id/tv_slotfull_2nd_slot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="Slot full"
+                    android:textAllCaps="true"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="@dimen/text_size_12" />
+
+                <TextView
+                    android:id="@+id/tv_time_2nd_slot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_slotfull_2nd_slot"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="11:00 am - 2:00 pm"
+                    android:textSize="@dimen/text_size_14" />
+
+            </RelativeLayout>
+
+        </TableRow>
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+
+            <RelativeLayout
+                android:background="@color/white"
+                android:padding="5dp"
+                android:layout_weight="1"
+                android:layout_margin="1dp">
+
+                <TextView
+                    android:id="@+id/tv_slotfull_3rd_slot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="Slot full"
+                    android:textAllCaps="true"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="@dimen/text_size_12" />
+
+                <TextView
+                    android:id="@+id/tv_time_3rd_slot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_slotfull_3rd_slot"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="08:00 am - 11:00 am"
+                    android:textSize="@dimen/text_size_14" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="@color/white"
+                android:padding="5dp"
+                android:layout_weight="1"
+                android:layout_margin="1dp">
+
+                <TextView
+                    android:id="@+id/tv_slotfull_4th_slot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="Slot full"
+                    android:textAllCaps="true"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="@dimen/text_size_12" />
+
+                <TextView
+                    android:id="@+id/tv_time_4th_slot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_slotfull_4th_slot"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="11:00 am - 2:00 pm"
+                    android:textSize="@dimen/text_size_14" />
+
+            </RelativeLayout>
+
+        </TableRow>
+
+    </TableLayout>
+</RelativeLayout>
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_select_payment_method"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/pallete_blue"
+        android:text="Select payment method"
+        android:textAllCaps="true"
+        android:textColor="@color/white" />
+</RelativeLayout>
