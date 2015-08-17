@@ -360,8 +360,6 @@ public class ProductDetailScreen extends BaseActivity implements
 							ProductListFragments.imgAddedProductCount.setVisibility(View.VISIBLE);
 							ProductListFragments.tvGlobalUpdateProductList.setVisibility(View.VISIBLE);
 							ProductListFragments.tvGlobalUpdateProductList.setText(String.valueOf(edit_quantity));    //update quantity on product listing when add to cart on this page
-							ProductListFragments.imgAddedProductCount = null;
-							ProductListFragments.tvGlobalUpdateProductList = null;
 						}
 
 
