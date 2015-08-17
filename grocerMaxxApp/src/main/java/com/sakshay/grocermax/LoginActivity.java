@@ -103,15 +103,15 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 			addActionsInFilter(MyReceiverActions.VIEW_CART_GO_HOME_SCREEN);
 
 			TextView register = (TextView) findViewById(R.id.register);
-			Spannable word = new SpannableString("New Here? ");
+			//Spannable word = new SpannableString("New Here? ");
 
-			word.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.orange_text)), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			//word.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.orange_text)), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-			register.setText(word);
-			Spannable wordTwo = new SpannableString("Register Now");
+			//register.setText(word);
+			//Spannable wordTwo = new SpannableString("Register Now");
 
-			wordTwo.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.text_grey)), 0, wordTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-			register.append(wordTwo);
+			//wordTwo.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.text_grey)), 0, wordTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			//register.append(wordTwo);
 			register.setOnClickListener(new OnClickListener() {
 
 				@Override
