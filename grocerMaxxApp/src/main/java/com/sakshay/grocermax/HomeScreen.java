@@ -306,8 +306,6 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 
 			cat_name.setText(catObj.get(i).getCategory());
 			catNamePlaceHolderTV.setText(catObj.get(i).getCategory());
-
-
 			cat_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
 
 //			arrowImageArray[i] = indicator;

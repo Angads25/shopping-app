@@ -80,6 +80,18 @@ implements ConnectionCallbacks, OnConnectionFailedListener
     
     EasyTracker tracker;
 
+	public static LoginActivity instance = null;
+	public static LoginActivity getInstance(){
+		if(instance == null){
+			instance = new LoginActivity();
+		}
+		return instance;
+	}
+	public LoginActivity(){
+		instance = this;
+	}
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -236,10 +248,11 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 	/**
 	 * facebook sign in listener
 	 * */
-	OnClickListener fb_signin_listener = new OnClickListener() {
+	public OnClickListener fb_signin_listener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			try{
+
 				if (UtilityMethods.isInternetAvailable(mContext)) {
 					facebookLoginWithEmailPermission();
 				} else
@@ -420,9 +433,9 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 			
 		case FB_SIGN_IN:
 			try{
-			Session.getActiveSession().onActivityResult(LoginActivity.this, requestCode,resultCode, data);
+				Session.getActiveSession().onActivityResult(LoginActivity.this, requestCode,resultCode, data);
 			}catch(Exception e){
-				new GrocermaxBaseException("LoginAactivity","OnResponseFbSignIn",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+				new GrocermaxBaseException("LoginActivity","OnResponseFbSignIn",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 			}
 		}
 		if(requestCode==111)
@@ -459,10 +472,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 //		}
 //		Toast.makeText(this, "activity result", Toast.LENGTH_LONG).show();
 //	}
-	
-	
-	
-	
+
+
 	private void facebookLoginWithEmailPermission() {
 		try {
 			final List<String> newPermissionsRequest = new ArrayList<String>(Arrays.asList("email", "user_location"));
@@ -490,7 +501,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 				}
 			}, newPermissionsRequest);
 		}catch(Exception e){
-			new GrocermaxBaseException("LoginAactivity","facebookLoginWithEmailPermission",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+			new GrocermaxBaseException("LoginActivity","facebookLoginWithEmailPermission",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
 
@@ -926,9 +937,17 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 		
 		if (UtilityMethods.isInternetAvailable(mContext)) {
 			showDialog();
-			//----ISHAN--------String url = UrlsConstants.LOGIN_URL+"uemail="+ userN + "&password=" + pwd;
-			
-			String url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ USER_EMAIL + "&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
+			//-----------String url = UrlsConstants.LOGIN_URL+"uemail="+ userN + "&password=" + pwd;
+//			String url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ USER_EMAIL + "&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
+
+			String url = "";
+			if(MySharedPrefs.INSTANCE.getQuoteId()==null||MySharedPrefs.INSTANCE.getQuoteId().equals(""))
+			{
+				url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ USER_EMAIL + "&quote_id=no&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
+			}else{
+				url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ USER_EMAIL + "&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
+			}
+
 //			String url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getGoogleEmail() + "&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
 //			String url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getGoogleEmail() + "&fname=" + USER_NAME+"&number=0000000000";
 			myApi.reqLogin(url);

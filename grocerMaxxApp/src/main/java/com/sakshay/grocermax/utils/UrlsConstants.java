@@ -19,8 +19,12 @@ public class UrlsConstants {
 //	public final static String NEW_BASE_URL = "http://uat.grocermax.com/webservice/new_services/";
 
 	// dev url
-	public final static String BASE_URL = "http://dev.grocermax.com/webservice/";
-	public final static String NEW_BASE_URL = "http://dev.grocermax.com/webservice/new_services/";
+//	public final static String BASE_URL = "http://dev.grocermax.com/webservice/";
+//	public final static String NEW_BASE_URL = "http://dev.grocermax.com/webservice/new_services/";
+
+	//staging
+	public final static String BASE_URL = "http://staging.grocermax.com/webservice/";
+	public final static String NEW_BASE_URL = "http://staging.grocermax.com/webservice/new_services/";
 
    // live url
 //	public final static String BASE_URL = "http://grocermax.com/webservice/";

@@ -474,7 +474,7 @@ public abstract class BaseActivity extends FragmentActivity {
 						addToCartNewProduct();
 					} else {                                                    //user is login,and going to view his cart
 						String url = UrlsConstants.VIEW_CART_URL + MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
-						System.out.println("==view cart URL==" + url);
+//						System.out.println("==view cart URL==" + url);
 						myApi.reqViewCart(url);
 					}
 				} else                                       //user is login first time and at login time blank quote id coming from server
@@ -506,11 +506,12 @@ public abstract class BaseActivity extends FragmentActivity {
 	}
 	
 	private void addToCartNewProduct(){
+
 		ArrayList<CartDetail> cart_products = null;
 		try {
 			cart_products = UtilityMethods.readLocalCart(BaseActivity.this, Constants.localCartFile);
 			if (cart_products != null && cart_products.size() >= 0) {
-				try {
+
 					JSONArray products = new JSONArray();
 					for (int i = 0; i < cart_products.size(); i++) {
 						JSONObject prod_obj = new JSONObject();
@@ -534,9 +535,7 @@ public abstract class BaseActivity extends FragmentActivity {
 					String urls = url;
 					//String url = UrlsConstants.ADD_TO_CART_URL + userDataBean.getUserID() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+ "&products="+ URLEncoder.encode(products.toString(), "UTF-8");
 					myApi.reqAddToCartNewProduct(url);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+
 			}
 		}catch(NullPointerException e){
 			new GrocermaxBaseException("BaseActivity", "addToCartNewProduct", e.getMessage(), GrocermaxBaseException.NULL_POINTER, String.valueOf(cart_products));
@@ -968,29 +967,41 @@ public abstract class BaseActivity extends FragmentActivity {
 	
 	public void openOrderHistory()
 	{
-		String email = MySharedPrefs.INSTANCE.getUserEmail();
-		showDialog();
-		String url = UrlsConstants.ORDER_HISTORY_URL+MySharedPrefs.INSTANCE.getUserEmail();//email;
-		myApi.reqOrderHistory(url);
+		try{
+			String email = MySharedPrefs.INSTANCE.getUserEmail();
+			showDialog();
+			String url = UrlsConstants.ORDER_HISTORY_URL+MySharedPrefs.INSTANCE.getUserEmail();//email;
+			myApi.reqOrderHistory(url);
+		}catch(NullPointerException e){
+			new GrocermaxBaseException("BaseActivity", "openOrderHistory", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
+		}catch(Exception e){
+			new GrocermaxBaseException("BaseActivity", "openOrderHistory", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+		}
 	}
 
 	public void shareToGMail(String email, String subject) {
-		Intent emailIntent = new Intent(Intent.ACTION_SEND);
-		emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { email });
-		emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
-		emailIntent.setType("text/plain");
-		final PackageManager pm = this.getPackageManager();
-		final List<ResolveInfo> matches = pm.queryIntentActivities(emailIntent,
-				0);
-		ResolveInfo best = null;
-		for (final ResolveInfo info : matches)
-			if (info.activityInfo.packageName.endsWith(".gm")
-					|| info.activityInfo.name.toLowerCase().contains("gmail"))
-				best = info;
-		if (best != null)
-			emailIntent.setClassName(best.activityInfo.packageName,
-					best.activityInfo.name);
-		this.startActivity(emailIntent);
+		try{
+			Intent emailIntent = new Intent(Intent.ACTION_SEND);
+			emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { email });
+			emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+			emailIntent.setType("text/plain");
+			final PackageManager pm = this.getPackageManager();
+			final List<ResolveInfo> matches = pm.queryIntentActivities(emailIntent,
+					0);
+			ResolveInfo best = null;
+			for (final ResolveInfo info : matches)
+				if (info.activityInfo.packageName.endsWith(".gm")
+						|| info.activityInfo.name.toLowerCase().contains("gmail"))
+					best = info;
+			if (best != null)
+				emailIntent.setClassName(best.activityInfo.packageName,
+						best.activityInfo.name);
+			this.startActivity(emailIntent);
+		}catch(NullPointerException e){
+			new GrocermaxBaseException("BaseActivity", "shareToGMail", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
+		}catch(Exception e){
+			new GrocermaxBaseException("BaseActivity", "shareToGMail", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+		}
 	}
 
 	private ProgressDialog mProgressDialog;
@@ -1057,16 +1068,22 @@ public abstract class BaseActivity extends FragmentActivity {
 	}
 
 	private void unRegisterReceiver() {
+		try {
 			if (isRegister) {
 				LocalBroadcastManager.getInstance(mContext).unregisterReceiver(
 						receiver);
 				isRegister = false;
 			}
+		}
+		catch(Exception e){
+			new GrocermaxBaseException("BaseActivity", "unRegisterReceiver", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+		}
 	}
 
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			try{
 			dismissDialog();
 			Bundle bundle = intent.getBundleExtra(ConnectionService.DATA);
 			String errorString = bundle.getString(ConnectionService.ERROR);
@@ -1245,6 +1262,11 @@ public abstract class BaseActivity extends FragmentActivity {
 //							Toast.LENGTH_SHORT).show();
 					UtilityMethods.customToast(ToastConstant.ERROR_MSG, mContext);
 			}
+			}catch(NullPointerException e){
+				new GrocermaxBaseException("BaseActivity", "BroadcastReceiver", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
+			}catch(Exception e){
+				new GrocermaxBaseException("BaseActivity", "BroadcastReceiver", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+			}
 		}
 	};
 
@@ -1284,7 +1306,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	}
 	
 	private Session getSession() {
-	     return Session.openActiveSession(this, false, callback);
+			return Session.openActiveSession(this, false, callback);
 	}
 	 
 	private Session.StatusCallback callback = new Session.StatusCallback() {
