@@ -356,10 +356,15 @@ public class ProductDetailScreen extends BaseActivity implements
 						addedProductCountDesc.setText(String.valueOf(edit_quantity));
 						addedProductCountDesc.setVisibility(View.VISIBLE);
 						
-						if(ProductListFragments.tvGlobalUpdateProductList != null){
+						if(ProductListFragments.tvGlobalUpdateProductList != null && ProductListFragments.imgAddedProductCount != null){
+							ProductListFragments.imgAddedProductCount.setVisibility(View.VISIBLE);
+							ProductListFragments.tvGlobalUpdateProductList.setVisibility(View.VISIBLE);
 							ProductListFragments.tvGlobalUpdateProductList.setText(String.valueOf(edit_quantity));    //update quantity on product listing when add to cart on this page
+							ProductListFragments.imgAddedProductCount = null;
+							ProductListFragments.tvGlobalUpdateProductList = null;
 						}
-						
+
+
 //						RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams)addedProductCountDesc.getLayoutParams();
 //						if(String.valueOf(edit_quantity).length() > 1){
 //							params1.setMargins(0, 7, 12, 0);  // left, top, right, bottom
