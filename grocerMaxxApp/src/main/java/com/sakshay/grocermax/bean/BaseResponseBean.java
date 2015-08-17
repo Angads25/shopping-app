@@ -14,17 +14,14 @@ public class BaseResponseBean implements Serializable{
 	private String flag;
 	@Expose
 	private String Result;
-	
 	@Expose
 	private String QuoteId;
-	
 	@Expose
 	private int TotalItem;
 	/**
-	 * 
+	 *
 	 * @return The flag
 	 */
-	
 	@Expose
 	private String Mobile;
 	
@@ -32,30 +29,23 @@ public class BaseResponseBean implements Serializable{
 		return Mobile;
 	}
 	
-	public void setMobile(String Mobile){
-		this.Mobile = Mobile;
-	}
-	
-	
-	public String getFlag() {
-		return flag;
-	}
+	public void setMobile(String Mobile){	this.Mobile = Mobile;}
+
+	public String getFlag() {return flag;}
 
 	public int getTotalItem() {
 		return TotalItem;
 	}
 
-	public void setTotalItem(int totalItem) {
+	public void setTotalItem(int totalItem)
+	{
+
 		TotalItem = totalItem;
 	}
 
-	public String getQuoteId() {
-		return QuoteId;
-	}
+	public String getQuoteId() {return QuoteId;}
 
-	public void setQuoteId(String quoteId) {
-		QuoteId = quoteId;
-	}
+	public void setQuoteId(String quoteId) {QuoteId = quoteId;}
 
 	/**
 	 * 
