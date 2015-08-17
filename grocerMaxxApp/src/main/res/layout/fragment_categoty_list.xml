@@ -21,7 +21,6 @@
             android:layout_weight="1"
             android:divider="@color/app_background"
             android:fadingEdge="none"
-            
             android:dividerHeight="5dp"
             android:listSelector="@android:color/transparent" />
 
