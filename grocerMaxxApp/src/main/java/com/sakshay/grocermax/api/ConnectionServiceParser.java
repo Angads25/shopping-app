@@ -65,11 +65,10 @@ public class ConnectionServiceParser {
 		LoginResponse responseBean = gson.fromJson(jsonString,LoginResponse.class);
 		return responseBean;
 	}
-	
-	
 
 	public static LoginResponse parseLoginResponse(String jsonString)
 			throws JSONException {
+
 		JSONObject jsonObject = new JSONObject();
 		Gson gson = new Gson();
 		LoginResponse bean = gson.fromJson(jsonString, LoginResponse.class);
