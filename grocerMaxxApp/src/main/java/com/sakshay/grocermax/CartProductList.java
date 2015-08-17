@@ -58,12 +58,14 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	TextView textView1;
 	TextView textViewCoupon,tvCoupon;
 	TextView tvYourCart;
+	TextView tvCartItemCount,tvCartTotalTop;
+	TextView txtItems,txtTotal;
 	LinearLayout ll_total,ll_discount,ll_shipping,ll_coupon;
 	EasyTracker tracker;
 	//	public JSONArray jsonArray ;
 	public JSONObject jsonObjectUpdate = null;
 	public StringBuilder sbDeleteProdId;
-	public static String strShippingChargeLimit = "0";
+	public static String strShippingChargeLimit = "50";
 
 	private boolean bIsEdit = false;   //true if user plus or minus anything in cart otherwise false and use in onDestroy.
 
@@ -111,6 +113,10 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			tv_shipping = (TextView) findViewById(R.id.tv_shipping);
 //		tv_yousave=(TextView)findViewById(R.id.tv_yousave);
 			tvYourCart = (TextView) findViewById(R.id.tv_your_cart);
+			tvCartItemCount = (TextView) findViewById(R.id.tv_cart_item_count);
+			tvCartTotalTop = (TextView) findViewById(R.id.tv_cart_total);
+			txtItems = (TextView) findViewById(R.id.txt_items);
+			txtTotal = (TextView) findViewById(R.id.txt_total);
 
 			ll_total = (LinearLayout) findViewById(R.id.ll_total);
 			ll_discount = (LinearLayout) findViewById(R.id.ll_discount);
@@ -131,6 +137,10 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			textView1.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			textViewCoupon.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			tvSavePrice.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			tvCartItemCount.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			tvCartTotalTop.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			txtItems.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			txtTotal.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 
 			tv_subTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			tv_discount.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
@@ -167,6 +177,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 
 				if (cartBean != null) {
 					float saving = 0;
+
 					for (int i = 0; i < cartList.size(); i++) {
 						saving = saving + (cartList.get(i).getQty() * (Float.parseFloat(cartList.get(i).getMrp()) - Float.parseFloat(cartList.get(i).getPrice())));
 					}
@@ -192,10 +203,17 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					//tv_discount.setText("-"+String.format("%.2f",discount));
 					tv_grandTotal.setText("Rs." + String.format("%.2f", Float.parseFloat(cartBean.getGrandTotal())));
 
+					if(tvCartTotalTop != null){
+						tvCartTotalTop.setText("Rs." + String.format("%.2f", Float.parseFloat(cartBean.getGrandTotal())));
+					}
+					if(tvCartItemCount != null) {
+						tvCartItemCount.setText(String.valueOf(cartList.size()));
+					}
 					if (MySharedPrefs.INSTANCE.getTotalItem() != null) {
 						MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int) Float.parseFloat(cartBean.getItems_qty())));
 						cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
 					}
+
 					//cart_count_txt.setText(cartBean.getItems_count());
 
 
@@ -702,6 +720,10 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 //			if(cartBean!=null)
 				if (orderReviewBean != null) {
 					float saving = 0;
+					if(tvCartItemCount != null) {
+						tvCartItemCount.setText(String.valueOf(cartList.size()));
+					}
+
 					for (int i = 0; i < cartList.size(); i++) {
 						saving = saving + (cartList.get(i).getQty() * (Float.parseFloat(cartList.get(i).getMrp()) - Float.parseFloat(cartList.get(i).getPrice())));
 					}
@@ -714,6 +736,9 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					tv_shipping.setText("Rs." + Float.parseFloat(orderReviewBean.getShipping_ammount()));
 //				tv_grandTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(cartBean.getGrandTotal())));
 					tv_grandTotal.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getGrandTotal())));
+					if(tvCartTotalTop != null){
+						tvCartTotalTop.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getGrandTotal())));
+					}
 				}
 //			else
 //				ll_total.setVisibility(View.GONE);
@@ -803,6 +828,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		// TODO Auto-generated method stub
 		super.onStart();
 		try{
+
 			tracker.activityStart(this);
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
