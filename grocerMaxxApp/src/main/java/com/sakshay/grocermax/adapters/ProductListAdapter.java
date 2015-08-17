@@ -88,6 +88,8 @@ public class ProductListAdapter extends BaseAdapter {
 //					.findViewById(R.id.product_name);
 			holder.sale_price = (TextView) convertView
 					.findViewById(R.id.sale_price);
+			holder.quantity_2 = (TextView) convertView
+					.findViewById(R.id.quantity_2);
 			holder.amount = (TextView) convertView.findViewById(R.id.amount);
 			holder.amount.setPaintFlags(holder.amount.getPaintFlags()
 					| Paint.STRIKE_THRU_TEXT_FLAG);
@@ -190,14 +192,18 @@ public class ProductListAdapter extends BaseAdapter {
         SS = new SpannableStringBuilder("`"+obj.getSalePrice().toString());
         SS.setSpan (new CustomTypefaceSpan("", font1), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 //        SS.setSpan (new CustomTypefaceSpan("", font2), 1, obj.getSalePrice().toString().length()-(obj.getSalePrice().toString().length()-1),Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-        SS.setSpan (new CustomTypefaceSpan("", font2), 1, obj.getSalePrice().toString().length()+1,Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        SS.setSpan(new CustomTypefaceSpan("", font2), 1, obj.getSalePrice().toString().length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
         holder.sale_price.setText(SS);
-        
-        
+
+		font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Bold.ttf");
+		font1 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
+		SS = new SpannableStringBuilder("`"+"1");
+		SS.setSpan (new CustomTypefaceSpan("", font1), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+		SS.setSpan(new CustomTypefaceSpan("", font2), 1, "1".length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+		holder.quantity_2.setText(SS);
 		
 //        holder.sale_price.setText("`"+ obj.getSalePrice().toString());
 //        holder.sale_price.setTypeface(CustomFonts.getInstance().getRobotoBold(activity));
-        
         
 	    int edit_quantity = 0;
         ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart(activity, Constants.localCloneFile);
@@ -473,6 +479,7 @@ public class ProductListAdapter extends BaseAdapter {
 			holder.prod_name.setText(obj.getName());
 			holder.prod_image.setVisibility(View.GONE);
 			holder.sale_price.setVisibility(View.GONE);
+			holder.quantity_2.setVisibility(View.GONE);
 			holder.amount.setVisibility(View.GONE);
 			holder.quantity.setVisibility(View.GONE);
 			holder.increase_quantity.setVisibility(View.GONE);
@@ -500,6 +507,7 @@ public class ProductListAdapter extends BaseAdapter {
 	private class ViewHolder {
 
 //		TextView prod_name
+		TextView quantity_2;
 		TextView added_product_count,quantity, add_to_cart, amount, sale_price;
 		ImageView img_added_product_count;
 		TextView prod_brand,prod_name,prod_gram_or_ml;
