@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/mart_header"
+        android:id="@+id/app_bar_header">
+
+    </include>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/rl_header_checkoutscreen_1"
+        android:layout_below="@id/app_bar_header"
+        android:background="@color/white"
+        android:paddingRight="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/carat_left"
+            android:id="@+id/iv_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/text_size_14"
+            android:textAllCaps="true"
+            android:textColor="@color/pallete_black"
+            android:text="Select billing address"
+            android:layout_toRightOf="@+id/iv_back"
+            android:layout_toEndOf="@+id/iv_back"
+            android:gravity="center"/>
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:id="@+id/iv_checkout_progress_indicator"
+            android:background="@color/button_green"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lv_billing_addresses"
+        android:layout_below="@+id/rl_header_checkoutscreen_1"
+        android:layout_above="@+id/rl_add_new_address">
+
+    </ListView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/rl_add_new_address"
+        android:background="@color/white"
+        android:padding="8dp"
+        android:layout_above="@+id/btn_select_delivery_details"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="10dp"
+        android:elevation="2dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/text_size_14"
+            android:textColor="@color/pallete_black"
+            android:text="Add new address"
+            android:layout_alignParentLeft="true"
+            />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/plus_grey"/>
+
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_select_delivery_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select delivery details"
+        android:textColor="@color/white"
+        android:textAllCaps="true"
+        android:layout_alignParentBottom="true"
+        android:background="@color/pallete_blue"/>
+</RelativeLayout>

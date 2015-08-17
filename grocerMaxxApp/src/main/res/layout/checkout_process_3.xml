@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/mart_header"
+        android:id="@+id/app_bar_header">
+
+    </include>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/rl_header_checkoutscreen_3"
+        android:layout_below="@id/app_bar_header"
+        android:background="@color/white"
+        android:paddingRight="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/carat_left"
+            android:id="@+id/iv_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/text_size_14"
+            android:textAllCaps="true"
+            android:textColor="@color/pallete_black"
+            android:text="Payment method"
+            android:layout_toRightOf="@+id/iv_back"
+            android:layout_toEndOf="@+id/iv_back"
+            android:gravity="center"/>
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:id="@+id/iv_checkout_progress_indicator"
+            android:background="@color/button_green"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_header_checkoutscreen_3"
+        android:layout_above="@+id/btn_place_order">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select mode of payment"
+                android:textAllCaps="true"
+                android:textSize="@dimen/text_size_14"
+                android:textColor="@color/pallete_black"
+                android:layout_marginTop="5dp"/>
+
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view_payment_types"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                card_view:cardCornerRadius="4dp"
+                card_view:cardElevation="2dp"
+                card_view:cardUseCompatPadding="true"
+                android:background="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/rl_cash_on_delivery"
+                        android:background="@color/white"
+                        android:padding="8dp"
+                        android:layout_above="@+id/btn_select_delivery_details"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_14"
+                            android:textColor="@color/pallete_black"
+                            android:text="Cash on delivery"
+                            android:layout_alignParentLeft="true"
+                            />
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/checkbox_unselect"
+                            android:id="@+id/iv_cod"/>
+
+
+                    </RelativeLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/light_Gray"></View>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/rl_credit_debit_card"
+                        android:background="@color/white"
+                        android:padding="8dp"
+                        android:layout_above="@+id/btn_select_delivery_details"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_14"
+                            android:textColor="@color/pallete_black"
+                            android:text="Credit / Debit card"
+                            android:layout_alignParentLeft="true"
+                            />
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/checkbox_unselect"
+                            android:id="@+id/iv_credit_debit_card"/>
+
+
+                    </RelativeLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/light_Gray"></View>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/rl_sodexo_coupons"
+                        android:background="@color/white"
+                        android:padding="8dp"
+                        android:layout_above="@+id/btn_select_delivery_details"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_14"
+                            android:textColor="@color/pallete_black"
+                            android:text="Sodexho coupons"
+                            android:layout_alignParentLeft="true"
+                            />
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/checkbox_unselect"
+                            android:id="@+id/iv_sodexo_coupon"/>
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/light_Gray"></View>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/rl_mobikwik"
+                        android:background="@color/white"
+                        android:padding="8dp"
+                        android:layout_above="@+id/btn_select_delivery_details"
+                        >
+                        //TODO, replace this with imageView with mobikwik image
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_14"
+                            android:textColor="@color/pallete_black"
+                            android:text="mobikwik image"
+                            android:layout_alignParentLeft="true"
+                            />
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/checkbox_unselect"
+                            android:id="@+id/iv_paytm"/>
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/rl_paytm"
+                        android:background="@color/white"
+                        android:padding="8dp"
+                        android:layout_above="@+id/btn_select_delivery_details"
+                        >
+                        //TODO, replace this with imageView with paytm image
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_14"
+                            android:textColor="@color/pallete_black"
+                            android:text="paytm image"
+                            android:layout_alignParentLeft="true"
+                            />
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/checkbox_unselect"
+                            android:id="@+id/iv_mobikwik"/>
+
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Order Summary"
+                android:textAllCaps="true"
+                android:textSize="@dimen/text_size_14"
+                android:textColor="@color/pallete_black"
+                android:layout_marginTop="8dp"/>
+
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view_ordersummary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                card_view:cardCornerRadius="4dp"
+                card_view:cardElevation="2dp"
+                card_view:cardUseCompatPadding="true"
+                android:background="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/rl_no_of_items"
+                        android:background="@color/white"
+                        android:padding="8dp"
+                        android:layout_above="@+id/btn_select_delivery_details"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_14"
+                            android:textColor="@color/pallete_black"
+                            android:text="N items"
+                            android:layout_alignParentLeft="true"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_14"
+                            android:textColor="@color/light_Gray"
+                            android:text="Rs. "
+                            android:layout_alignParentRight="true"
+                            />
+                    </RelativeLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/light_Gray"></View>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/rl_subtotal"
+                        android:background="@color/white"
+                        android:padding="8dp"
+                        android:layout_above="@+id/btn_select_delivery_details"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_14"
+                            android:textColor="@color/light_Gray"
+                            android:text="Sub total:"
+                            android:layout_alignParentLeft="true"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_14"
+                            android:textColor="@color/light_Gray"
+                            android:text="Rs. "
+                            android:layout_alignParentRight="true"
+                            />
+                    </RelativeLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/light_Gray"></View>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/rl_shippingcharges"
+                        android:background="@color/white"
+                        android:padding="8dp"
+                        android:layout_above="@+id/btn_select_delivery_details"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_14"
+                            android:textColor="@color/light_Gray"
+                            android:text="Shipping charges:"
+                            android:layout_alignParentLeft="true"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_14"
+                            android:textColor="@color/light_Gray"
+                            android:text="Rs. "
+                            android:layout_alignParentRight="true"
+                            />
+                    </RelativeLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/light_Gray"></View>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/rl_coupon_discount"
+                        android:background="@color/white"
+                        android:padding="8dp"
+                        android:layout_above="@+id/btn_select_delivery_details"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_14"
+                            android:textColor="@color/light_Gray"
+                            android:text="Coupon discount:"
+                            android:layout_alignParentLeft="true"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_14"
+                            android:textColor="@color/accentColor"
+                            android:text="Rs. "
+                            android:layout_alignParentRight="true"
+                            />
+                    </RelativeLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/light_Gray"></View>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/rl_yousaved"
+                        android:background="@color/white"
+                        android:padding="8dp"
+                        android:layout_above="@+id/btn_select_delivery_details"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_14"
+                            android:textColor="@color/light_Gray"
+                            android:text="You saved:"
+                            android:layout_alignParentLeft="true"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_14"
+                            android:textColor="@color/accentColor"
+                            android:text="Rs. "
+                            android:layout_alignParentRight="true"
+                            />
+                    </RelativeLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/light_Gray"></View>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/rl_total"
+                        android:background="@color/white"
+                        android:padding="8dp"
+                        android:layout_above="@+id/btn_select_delivery_details"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_14"
+                            android:textColor="@color/pallete_black"
+                            android:text="Total:"
+                            android:layout_alignParentLeft="true"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_14"
+                            android:textColor="@color/pallete_black"
+                            android:text="Rs. "
+                            android:layout_alignParentRight="true"
+                            />
+                    </RelativeLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/light_Gray"></View>
+
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view_coupon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                card_view:cardCornerRadius="4dp"
+                card_view:cardElevation="2dp"
+                card_view:cardUseCompatPadding="true"
+                android:background="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/rl_coupon_code"
+                        android:background="@color/white"
+                        android:layout_above="@+id/btn_select_delivery_details"
+                        >
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:hint="Enter coupon code"
+                            android:textColorHint="@color/light_Gray"
+                            android:id="@+id/et_coupon_code"
+                            android:layout_toLeftOf="@+id/btn_apply_coupon"
+                            android:layout_alignParentLeft="true"
+                            />
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Apply Code"
+                            android:textAllCaps="true"
+                            android:background="@color/primaryColorDark"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_12"
+                            android:id="@+id/btn_apply_coupon"
+                            android:layout_alignParentRight="true"
+                            android:gravity="center"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_place_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Place order"
+        android:textColor="@color/white"
+        android:textAllCaps="true"
+        android:layout_alignParentBottom="true"
+        android:background="@color/pallete_blue"/>
+</RelativeLayout>
