@@ -46,6 +46,7 @@ public class ProductDetailScreen extends BaseActivity implements
 	private TextView quantity;
 	private TextView add_cart;
 	private ImageView product_image;
+	private TextView quantity_2;
 
 	private ImageView decrease_quantity;
 	private ImageView increase_quantity;
@@ -92,6 +93,7 @@ public class ProductDetailScreen extends BaseActivity implements
 			add_cart = (TextView) findViewById(R.id.add_cart);
 			rlOutOfStockDesc = (RelativeLayout) findViewById(R.id.rl_out_of_stock_desc);
 			addedProductCountDesc = (TextView) findViewById(R.id.added_product_count_desc);
+			quantity_2 = (TextView) findViewById(R.id.quantity_2);
 
 			tvOffers = (TextView) findViewById(R.id.tv_offers_details);
 
@@ -160,7 +162,15 @@ public class ProductDetailScreen extends BaseActivity implements
 			SS.setSpan(new CustomTypefaceSpan("", font2), 1, productDetail.getSale_price().toString().length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 			text_mow_price.setText(SS);
 
-			System.out.println("==length==" + productDetail.getProductPrice().toString().length());
+			font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Bold.ttf");
+			font1 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
+			SS = new SpannableStringBuilder("`"+"1");
+			SS.setSpan (new CustomTypefaceSpan("", font1), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+			SS.setSpan(new CustomTypefaceSpan("", font2), 1, "1".length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+			quantity_2.setText(SS);
+
+
+//			System.out.println("==length==" + productDetail.getProductPrice().toString().length());
 
 //		String productName = product.getName();
 //		productName = productName.replaceAll("  ", " ");
@@ -213,14 +223,14 @@ public class ProductDetailScreen extends BaseActivity implements
 				addedProductCountDesc.setVisibility(View.INVISIBLE);
 			}
 
-			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) addedProductCountDesc.getLayoutParams();
-			if (String.valueOf(edit_quantity).length() > 1) {
-				params.setMargins(0, 7, 12, 0);  // left, top, right, bottom
-				addedProductCountDesc.setLayoutParams(params);
-			} else if (String.valueOf(edit_quantity).length() == 1) {
-				params.setMargins(0, 7, 5, 0);  // left, top, right, bottom
-				addedProductCountDesc.setLayoutParams(params);
-			}
+//			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) addedProductCountDesc.getLayoutParams();
+//			if (String.valueOf(edit_quantity).length() > 1) {
+//				params.setMargins(0, 7, 12, 0);  // left, top, right, bottom
+//				addedProductCountDesc.setLayoutParams(params);
+//			} else if (String.valueOf(edit_quantity).length() == 1) {
+//				params.setMargins(0, 7, 5, 0);  // left, top, right, bottom
+//				addedProductCountDesc.setLayoutParams(params);
+//			}
 
 //		setSpanText("GrocerMax Price:", "   Rs. "+productDetail.getSale_price(),text_mow_price);
 //		text_mow_price.setText("Rs. "+productDetail.getSale_price()); 
@@ -350,15 +360,15 @@ public class ProductDetailScreen extends BaseActivity implements
 							ProductListFragments.tvGlobalUpdateProductList.setText(String.valueOf(edit_quantity));    //update quantity on product listing when add to cart on this page
 						}
 						
-						RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams)addedProductCountDesc.getLayoutParams();
-						if(String.valueOf(edit_quantity).length() > 1){
-							params1.setMargins(0, 7, 12, 0);  // left, top, right, bottom
-							addedProductCountDesc.setLayoutParams(params1);
-						}
-						else if(String.valueOf(edit_quantity).length() == 1){
-							params1.setMargins(0, 7, 5, 0);  // left, top, right, bottom
-							addedProductCountDesc.setLayoutParams(params1);
-						}
+//						RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams)addedProductCountDesc.getLayoutParams();
+//						if(String.valueOf(edit_quantity).length() > 1){
+//							params1.setMargins(0, 7, 12, 0);  // left, top, right, bottom
+//							addedProductCountDesc.setLayoutParams(params1);
+//						}
+//						else if(String.valueOf(edit_quantity).length() == 1){
+//							params1.setMargins(0, 7, 5, 0);  // left, top, right, bottom
+//							addedProductCountDesc.setLayoutParams(params1);
+//						}
 						
 //				  }
 //				}, 1000);
