@@ -160,15 +160,7 @@
                         android:textSize="@dimen/text_size_13" />
 
                 </RelativeLayout>
-                <TextView
-                    android:id="@+id/add_cart_prod_list"
-                    android:layout_width="55dp"
-                    android:layout_height="35dp"
 
-                    android:background="@drawable/add_to_cart_btn"
-                    android:layout_below="@+id/product_name"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -185,7 +177,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="qty"
+                            android:text="1"
                             android:id="@+id/quantity_2"
                             android:textSize="@dimen/text_size_14"/>
                         <TextView
@@ -241,6 +233,7 @@
                             android:gravity="left"
                             android:singleLine="true"
                             android:text="Rs. Total"
+                            android:visibility="gone"
                             android:textColor="#e5390e"
                             android:textSize="@dimen/text_size_14" />-->
 
@@ -249,6 +242,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right|center_vertical"
+                            android:layout_marginTop="5dp"
                             android:layout_marginRight="10dp"
                             android:visibility="gone">
 
@@ -268,7 +262,7 @@
                                 android:layout_below="@+id/tv_top_red"
                                 android:layout_centerVertical="true"
                                 android:layout_marginRight="10dp"
-                                android:paddingRight="8dp"
+
                                 android:text="OUT OF STOCK"
                                 android:textColor="@color/red"
                                 android:textSize="@dimen/text_size_12" />
@@ -297,7 +291,7 @@
                                 android:orientation="horizontal"
                                 android:background="@drawable/shape_grey_border"
                                 android:layout_marginRight="5dp"
-                                android:layout_alignParentRight="true"
+                                android:layout_alignParentLeft="true"
                                 >
 
                                 <ImageView
@@ -356,6 +350,15 @@
 
                             </LinearLayout>
 
+                            <TextView
+                                android:id="@+id/add_cart_prod_list"
+                                android:layout_width="55dp"
+                                android:layout_height="35dp"
+                                android:background="@drawable/add_to_cart_btn"
+
+                                android:layout_alignParentRight="true"
+                                android:layout_alignParentEnd="true" />
+
 
                         </RelativeLayout>
 
@@ -376,6 +379,7 @@
             android:background="#f9f3e4"
             android:gravity="center"
             android:padding="5dp"
+            android:layout_gravity="bottom"
             android:text="MCIVITIES COOKIES BUY 2,GET 1 FREE"
             android:textColor="#ff4121"
             android:textSize="@dimen/text_size_13"
