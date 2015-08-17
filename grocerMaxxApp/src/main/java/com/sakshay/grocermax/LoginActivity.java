@@ -523,7 +523,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 			if (bundle.getString("ACTION").equals(MyReceiverActions.LOGIN)) {
 				LoginResponse userDataBean = (LoginResponse) bundle.getSerializable(ConnectionService.RESPONSE);
 
-				if (userDataBean.getFlag().equalsIgnoreCase("1")) {          //successful login
+				if (userDataBean.getFlag().equalsIgnoreCase("1")) {          //successfull login
 					MySharedPrefs.INSTANCE.putUserId(userDataBean.getUserID());
 					MySharedPrefs.INSTANCE.putFirstName(userDataBean.getFirstName());
 					MySharedPrefs.INSTANCE.putLastName(userDataBean.getLastName());
