@@ -153,7 +153,6 @@ public class ProductDetailScreen extends BaseActivity implements
 //        SS.setSpan (new CustomTypefaceSpan("", font2), 1, productDetail.getProductPrice().toString().length()+1,Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 			tvCancelPrice.setText(SS);
 
-
 			font1 = Typeface.createFromAsset(MyApplication.getInstance().getAssets(), "Rupee.ttf");
 			font2 = Typeface.createFromAsset(MyApplication.getInstance().getAssets(), "Roboto-Bold.ttf");
 			SS = new SpannableStringBuilder("`" + productDetail.getSale_price());
