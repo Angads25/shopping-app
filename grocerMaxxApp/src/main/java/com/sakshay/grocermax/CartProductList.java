@@ -65,7 +65,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	//	public JSONArray jsonArray ;
 	public JSONObject jsonObjectUpdate = null;
 	public StringBuilder sbDeleteProdId;
-	public static String strShippingChargeLimit = "50";
+	public static String strShippingChargeLimit = "500";
 
 	private boolean bIsEdit = false;   //true if user plus or minus anything in cart otherwise false and use in onDestroy.
 
