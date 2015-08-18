@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.hardware.Camera.Size;
 import android.text.SpannableStringBuilder;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.CartProductList;
+import com.sakshay.grocermax.MyApplication;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.UpdateCartbg;
 import com.sakshay.grocermax.bean.CartDetail;
@@ -86,6 +88,9 @@ public class CartAdapter extends BaseAdapter{
 			holder.tvOffers = (TextView) convertView.findViewById(R.id.tv_offers_cart);
 	//		holder.tvMultiply = (TextView) convertView.findViewById(R.id.tv_multiply);
 
+			holder.prod_old_price.setPaintFlags(holder.prod_old_price.getPaintFlags()
+					| Paint.STRIKE_THRU_TEXT_FLAG);
+
 //			holder.amount = (TextView) convertView.findViewById(R.id.amount);
 //			holder.amount.setPaintFlags(holder.amount.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
 
@@ -108,7 +113,7 @@ public class CartAdapter extends BaseAdapter{
 		holder.prod_brand_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 		holder.prod_name.setTypeface(CustomFonts.getInstance().getRobotoBold(activity));
 		holder.prod_gmorml.setTypeface(CustomFonts.getInstance().getRobotoLight(activity));
-		holder.prod_old_price.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
+//		holder.prod_old_price.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 		holder.prod_mul_quantity.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 //		holder.tvMultiply.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 		holder.price.setTypeface(CustomFonts.getInstance().getRobotoBold(activity));
@@ -137,6 +142,7 @@ public class CartAdapter extends BaseAdapter{
 		holder.price.setText("Rs. " + String.format("%.2f", Float.parseFloat(price)));
 
 		String mrp=obj.getMrp().toString().replace(",", "");
+
 //		holder.amount.setText("Rs. " + String.format("%.2f", Float.parseFloat(mrp)));
 
 		float saving=obj.getQty()*(Float.parseFloat(mrp)-Float.parseFloat(price));
@@ -207,8 +213,18 @@ public class CartAdapter extends BaseAdapter{
 //		holder.price.setTypeface(CustomFonts.getInstance().getRupee(activity));
 
 //		holder.price.setText("`"+String.format("%.2f", total));
-		holder.prod_old_price.setTypeface(CustomFonts.getInstance().getRupee(activity));
-//		holder.prod_old_price.setText();
+//		holder.prod_old_price.setTypeface(CustomFonts.getInstance().getRupee(activity));
+//		holder.prod_old_price.setText("`" + String.format("%.2f", total));
+
+		String strmrp = String.format("%.2f", Float.parseFloat(mrp)).toString();
+		font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Bold.ttf");
+		font1 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
+		SpannableStringBuilder SSmrp = new SpannableStringBuilder("`"+strmrp);
+		SS.setSpan (new CustomTypefaceSpan("", font1), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+		SS.setSpan (new CustomTypefaceSpan("", font2), 1, strmrp.length() - (strmrp.length() - 1),Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+//		strmrp.length() - (strmrp.length() - 1), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+		holder.prod_old_price.setText(SSmrp);
+
 
 		holder.increase_quantity.setTag(value);
 		holder.decrease_quantity.setTag(value);
