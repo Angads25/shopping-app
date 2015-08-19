@@ -89,6 +89,7 @@ public class ProductListAdapter extends BaseAdapter {
 //			holder.prod_name = (TextView) convertView
 //					.findViewById(R.id.product_name);
 
+
 			holder.sale_price = (TextView) convertView
 					.findViewById(R.id.sale_price);
 			holder.quantity_2 = (TextView) convertView
@@ -135,9 +136,7 @@ public class ProductListAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 				holder.setObject(obj,position);
 		}
-
-
-
+		
 
 		if(!obj.getName().equals("No product found for this category"))
 		{
@@ -181,6 +180,7 @@ public class ProductListAdapter extends BaseAdapter {
 //		holder.sale_price.setText("Rs. " + obj.getSalePrice());
 
 
+
 		Typeface font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Bold.ttf");
 		Typeface font1 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
 		SpannableStringBuilder SS = new SpannableStringBuilder("`"+obj.getSalePrice().toString());
@@ -195,7 +195,6 @@ public class ProductListAdapter extends BaseAdapter {
 		SS.setSpan (new CustomTypefaceSpan("", font1), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 		SS.setSpan(new CustomTypefaceSpan("", font2), 1, "1".length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 		holder.quantity_2.setText(SS);
-
 
 //        holder.sale_price.setText("`"+ obj.getSalePrice().toString());
 //        holder.sale_price.setTypeface(CustomFonts.getInstance().getRobotoBold(activity));
@@ -249,7 +248,6 @@ public class ProductListAdapter extends BaseAdapter {
 
 
 
-
 			if(obj.getStatus().equals("In stock"))
 			{
 //				holder.increase_quantity.setImageResource(R.drawable.plus_icon);
@@ -260,7 +258,6 @@ public class ProductListAdapter extends BaseAdapter {
 				holder.increase_quantity.setVisibility(View.VISIBLE);
 				holder.quantity.setVisibility(View.VISIBLE);
 				holder.add_to_cart.setVisibility(View.VISIBLE);
-
 				holder.add_to_cart.setClickable(true);
 				holder.increase_quantity.setClickable(true);
 				holder.decrease_quantity.setClickable(true);
@@ -273,13 +270,11 @@ public class ProductListAdapter extends BaseAdapter {
 				holder.increase_quantity.setVisibility(View.GONE);
 				holder.quantity.setVisibility(View.GONE);
 				holder.add_to_cart.setVisibility(View.GONE);
-
 				products.get(position).setQuantity("0");
 				holder.add_to_cart.setClickable(false);
 				holder.increase_quantity.setClickable(false);
 				holder.decrease_quantity.setClickable(false);
 			}
-
 		}
 		else
 		{
@@ -303,8 +298,9 @@ public class ProductListAdapter extends BaseAdapter {
 			holder.prod_gram_or_ml.setVisibility(View.GONE);
 		}
 
-
+		
 		holder.quantity.setText(products.get(position).getQuantity());
+		
 
 
 		return convertView;
@@ -352,9 +348,9 @@ public class ProductListAdapter extends BaseAdapter {
 			this.tvOffers = (TextView) convertView
 					.findViewById(R.id.tv_offers);
 
+
 			this.quantity_2 = (TextView) convertView
 					.findViewById(R.id.quantity_2);
-
 
 			this.prod_brand = (TextView) convertView
 					.findViewById(R.id.product_brand);
@@ -595,8 +591,6 @@ public class ProductListAdapter extends BaseAdapter {
 		public Product getObject(){
 			return this.obj;
 		}
-
-
 
 	}
 
