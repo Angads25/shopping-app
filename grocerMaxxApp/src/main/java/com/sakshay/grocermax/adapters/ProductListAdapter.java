@@ -164,7 +164,7 @@ public class ProductListAdapter extends BaseAdapter {
 //		holder.amount.setText("Rs. " + obj.getPrice().toString());
 //		holder.amount.setTypeface(face);
 
-//		TextView txt = (TextView) findViewById(R.id.custom_fonts);
+//		TextView txt = (TextView) findViewById(R.id.custom_fonts);  
 //        txt.setTextSize(30);
 //        Typeface font1 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
 
@@ -355,16 +355,16 @@ public class ProductListAdapter extends BaseAdapter {
 //					added_product_count.setLayoutParams(params);
 //				}
 
-//				if (MySharedPrefs.INSTANCE.getUserId() == null|| MySharedPrefs.INSTANCE.getUserId().equals(""))
+//				if (MySharedPrefs.INSTANCE.getUserId() == null|| MySharedPrefs.INSTANCE.getUserId().equals("")) 
 //				{
 //					if(MySharedPrefs.INSTANCE.getQuoteId()==null || MySharedPrefs.INSTANCE.getQuoteId().equals(""))   //when user is not login and added products in cart and display view cart then quote id create of user.
 //					{
-////
+////					
 ////					progressDialog = new ProgressDialog(activity);
 ////					progressDialog.setMessage("Loading...");
 ////					progressDialog.show();
 ////					progressDialog.setCancelable(false);
-////
+////					
 ////					final Handler handler = new Handler();
 ////					handler.postDelayed(new Runnable() {
 ////					  @Override
@@ -387,14 +387,14 @@ public class ProductListAdapter extends BaseAdapter {
 //							cart_obj.setProduct_thumbnail(obj.getImage());
 //							// String key = obj.getProductid().toString();
 //							boolean result = UtilityMethods.writeLocalCart(activity,Constants.localCartFile, cart_obj);
-//							UtilityMethods.writeCloneCart(activity,Constants.localCloneFile, cart_obj);
+//							UtilityMethods.writeCloneCart(activity,Constants.localCloneFile, cart_obj);      
 //							if (result)
 //							{
 ////								progressDialog.dismiss();
 ////								Toast.makeText(activity,ToastConstant.PRODUCT_ADDED_CART,Toast.LENGTH_LONG).show();
 //								UtilityMethods.customToast(ToastConstant.PRODUCT_ADDED_CART, activity);
 //							}
-//
+//							
 //							int edit_quantity = 0;
 //					        ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart(activity, Constants.localCloneFile);
 //							if(cart_products != null && cart_products.size() > 0)
@@ -410,16 +410,16 @@ public class ProductListAdapter extends BaseAdapter {
 //									}
 //								}catch(Exception e){}
 //							}
-//
-//
+//							
+//							
 //							added_product_count.setText(String.valueOf(edit_quantity));
 //							added_product_count.setVisibility(View.VISIBLE);
 //							img_added_product_count.setVisibility(View.VISIBLE);
 ////							notifyDataSetChanged();
-//
+//							
 ////					  }
 ////					}, 1000);
-////
+////					
 //				}else
 //					{
 //						if (activity instanceof ProductListScreen) {
