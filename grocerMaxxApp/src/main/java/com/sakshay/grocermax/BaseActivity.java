@@ -84,7 +84,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	public static Activity activity;
 	public DisplayImageOptions baseImageoptions;
 
-//	ImageView icon_header_back;
+	ImageView icon_header_back;
 //	ImageView icon_header_logo,
 	ImageView icon_header_logo_without_search,icon_header_logo_with_search;
 	ImageView /*icon_header_cart,*/ icon_header_search;
@@ -100,6 +100,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	private LinearLayout llLeftIcon;
 	private LinearLayout llLeftIcon1;
 	public View martHeader;
+	public TextView tvHeaderName;
 
 	private String search_key;
 	public static boolean keyboardVisibility=false;
@@ -141,8 +142,8 @@ public abstract class BaseActivity extends FragmentActivity {
 					}
 				}
 			});
-//		icon_header_back = (ImageView) view.findViewById(R.id.icon_header_back);
-
+		    icon_header_back = (ImageView) view.findViewById(R.id.icon_header_back);
+			tvHeaderName = (TextView) view.findViewById(R.id.tv_appbar_breadcrumb);
 			icon_header_user = (ImageButton) view.findViewById(R.id.icon_header_user);
 			icon_header_cart = (ImageButton) view.findViewById(R.id.icon_header_cart);
 			cart_count_txt = (TextView) view.findViewById(R.id.nom_producte);
@@ -183,6 +184,15 @@ public abstract class BaseActivity extends FragmentActivity {
 //		} else {
 //			screenName.setVisibility(View.GONE);
 //		}
+			if (name != null && name.length() > 0) {
+				if(tvHeaderName != null) {
+					tvHeaderName.setText(name);
+				}
+			} else {
+				if(tvHeaderName != null) {
+					tvHeaderName.setVisibility(View.GONE);
+				}
+			}
 
 			if (showSearch) {
 				icon_header_search.setOnClickListener(headerClick);
@@ -190,7 +200,7 @@ public abstract class BaseActivity extends FragmentActivity {
 			} else {
 				icon_header_search.setVisibility(View.GONE);
 			}
-//		icon_header_back.setOnClickListener(headerClick);
+
 
 		icon_header_logo_with_search.setOnClickListener(headerClick);
 		if(icon_header_logo_without_search != null)
@@ -200,6 +210,9 @@ public abstract class BaseActivity extends FragmentActivity {
 		cart_count_txt.setOnClickListener(headerClick);
 		imgSearchIcon.setOnClickListener(headerClick);
 		imgSearchCloseIcon.setOnClickListener(headerClick);
+
+		icon_header_back.setOnClickListener(headerClick);
+		tvHeaderName.setOnClickListener(headerClick);
 		edtSearch.setOnEditorActionListener(new OnEditorActionListener() {
 
 			@Override
@@ -229,9 +242,12 @@ public abstract class BaseActivity extends FragmentActivity {
 		public void onClick(View view) {
 			try {
 				switch (view.getId()) {
-//			case R.id.icon_header_back:
-//				finish();
-//				break;
+					case R.id.tv_appbar_breadcrumb:
+						finish();
+						break;
+					case R.id.icon_header_back:
+						finish();
+						break;
 					case R.id.icon_header_logo_with_search:
 						Intent intent = new Intent(mContext, HomeScreen.class);
 						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
