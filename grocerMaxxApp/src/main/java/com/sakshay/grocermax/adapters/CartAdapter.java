@@ -139,7 +139,7 @@ public class CartAdapter extends BaseAdapter{
 		}
 
 		String price=obj.getPrice().toString().replace(",", "");
-		holder.price.setText("Rs. " + String.format("%.2f", Float.parseFloat(price)));
+//		holder.price.setText("Rs. " + String.format("%.2f", Float.parseFloat(price)));
 
 		String mrp=obj.getMrp().toString().replace(",", "");
 
@@ -219,12 +219,10 @@ public class CartAdapter extends BaseAdapter{
 		String strmrp = String.format("%.2f", Float.parseFloat(mrp)).toString();
 		font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Bold.ttf");
 		font1 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
-		SpannableStringBuilder SSmrp = new SpannableStringBuilder("`"+strmrp);
-		SS.setSpan (new CustomTypefaceSpan("", font1), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-		SS.setSpan (new CustomTypefaceSpan("", font2), 1, strmrp.length() - (strmrp.length() - 1),Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-//		strmrp.length() - (strmrp.length() - 1), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+		SpannableStringBuilder SSmrp = new SpannableStringBuilder("`"+strmrp.toString());
+		SSmrp.setSpan (new CustomTypefaceSpan("", font1), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+		SSmrp.setSpan (new CustomTypefaceSpan("", font2), 1, strmrp.length() - (strmrp.length()-1) ,Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 		holder.prod_old_price.setText(SSmrp);
-
 
 		holder.increase_quantity.setTag(value);
 		holder.decrease_quantity.setTag(value);
@@ -257,12 +255,12 @@ public class CartAdapter extends BaseAdapter{
 					float total = value1 * Float.parseFloat(obj.getPrice().replace(",", ""));
 					String str = String.format("%.2f", total).toString();
 
-					Typeface font4 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Regular.ttf");
-					Typeface font3 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
-					SpannableStringBuilder SS1 = new SpannableStringBuilder("`"+str);
-					SS1.setSpan (new CustomTypefaceSpan("", font3), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-					SS1.setSpan (new CustomTypefaceSpan("", font4), 1, str.length()+1,Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-					holder.price.setText(SS1);
+//					Typeface font4 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Regular.ttf");
+//					Typeface font3 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
+//					SpannableStringBuilder SS1 = new SpannableStringBuilder("`"+str);
+//					SS1.setSpan (new CustomTypefaceSpan("", font3), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+//					SS1.setSpan (new CustomTypefaceSpan("", font4), 1, str.length()+1,Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+//					holder.price.setText(SS1);
 
 					float sub_totalPriceYouPay = 	Float.parseFloat(CartProductList.getInstance().tv_subTotal.getText().toString().replace("Rs.", ""))
 							+Float.parseFloat(CartProductList.cartList.get(position).getPrice().replace(",", ""));
@@ -325,12 +323,12 @@ public class CartAdapter extends BaseAdapter{
 						float total = value1 * Float.parseFloat(obj.getPrice().replace(",", ""));
 						String str = String.format("%.2f", total).toString();
 
-						Typeface font4 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Regular.ttf");
-						Typeface font3 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
-						SpannableStringBuilder SS1 = new SpannableStringBuilder("`"+str);
-						SS1.setSpan (new CustomTypefaceSpan("", font3), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-						SS1.setSpan (new CustomTypefaceSpan("", font4), 1, str.length()+1,Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-						holder.price.setText(SS1);
+//						Typeface font4 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Regular.ttf");
+//						Typeface font3 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
+//						SpannableStringBuilder SS1 = new SpannableStringBuilder("`"+str);
+//						SS1.setSpan (new CustomTypefaceSpan("", font3), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+//						SS1.setSpan (new CustomTypefaceSpan("", font4), 1, str.length()+1,Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+//						holder.price.setText(SS1);
 
 						OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 
