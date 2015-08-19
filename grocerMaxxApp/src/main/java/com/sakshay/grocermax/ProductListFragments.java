@@ -145,6 +145,7 @@ public final class ProductListFragments extends Fragment implements OnScrollList
     public class CallAPI extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... params) {
+			try {
         	HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
 			String strURL = params[0];
 			if(strURL.contains("?")) {
@@ -155,7 +156,7 @@ public final class ProductListFragments extends Fragment implements OnScrollList
         	HttpGet httpGet = new HttpGet(strURL);
 			httpGet.setHeader("Content-Type", "application/json");
 			HttpResponse response = null;
-			try {
+
 				response = client.execute(httpGet);
 				HttpEntity resEntity = response.getEntity();
 				return EntityUtils.toString(resEntity);
@@ -216,26 +217,38 @@ public final class ProductListFragments extends Fragment implements OnScrollList
     
 	public void onScroll(AbsListView view, int firstVisibleItem,
 			int visibleItemCount, int totalItemCount) {
-		this.currentFirstVisibleItem = firstVisibleItem;
-		this.currentVisibleItemCount = visibleItemCount;
-		this.totalItemCount = totalItemCount;
+		try {
+			this.currentFirstVisibleItem = firstVisibleItem;
+			this.currentVisibleItemCount = visibleItemCount;
+			this.totalItemCount = totalItemCount;
+		}catch(Exception e){
+		new GrocermaxBaseException("ProductListFragments","onScroll",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+	}
 	}
 
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
-		this.currentScrollState = scrollState;
-		this.isScrollCompleted();
+		try{
+			this.currentScrollState = scrollState;
+			this.isScrollCompleted();
+		}catch(Exception e) {
+			new GrocermaxBaseException("ProductListFragments", "onScrollStateChanged", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+		}
 	}
 
 	private void isScrollCompleted() {
-		if (this.currentVisibleItemCount + this.currentFirstVisibleItem >= totalItemCount && this.currentScrollState == SCROLL_STATE_IDLE) {
-			/***
-			 * In this way I detect if there's been a scroll which has completed
-			 ***/
-			/*** do the work for load more date! ***/
-			if (!isLoading) {
-				//isLoading = true;
-				loadMoreData();
+		try {
+			if (this.currentVisibleItemCount + this.currentFirstVisibleItem >= totalItemCount && this.currentScrollState == SCROLL_STATE_IDLE) {
+				/***
+				 * In this way I detect if there's been a scroll which has completed
+				 ***/
+				/*** do the work for load more date! ***/
+				if (!isLoading) {
+					//isLoading = true;
+					loadMoreData();
+				}
 			}
+		}catch(Exception e) {
+			new GrocermaxBaseException("ProductListFragments", "isScrollCompleted", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 	}
 
@@ -277,11 +290,5 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 			new GrocermaxBaseException("ProductListFragments","onSaveInstanceState",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
     }
-    
-   
-	
-	
-	
-	
     
 }
