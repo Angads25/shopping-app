@@ -40,10 +40,10 @@ public class ProductListAdapter extends BaseAdapter {
 	private LayoutInflater inflater = null;
 	ProgressDialog progressDialog;
 	Typeface face;
-	
-	
+
+
 	public ProductListAdapter(){
-		
+
 	}
 
 	public ProductListAdapter(Activity activity, List<Product> list) {
@@ -51,8 +51,8 @@ public class ProductListAdapter extends BaseAdapter {
 		this.activity = activity;
 		this.products = list;
 		this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		
-		
+
+
 	    for(int i=0;i<products.size();i++)
 	    	products.get(i).setQuantity("1");
 	}
@@ -79,13 +79,16 @@ public class ProductListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
+		final Product obj = getItem(position);
 		ViewHolder holder = null;
-		if (convertView == null) {
+
+			if (convertView == null) {
 			convertView = inflater.inflate(R.layout.product_list_row, parent,
 					false);
-			holder = new ViewHolder();
+			holder = new ViewHolder(convertView,obj);
 //			holder.prod_name = (TextView) convertView
 //					.findViewById(R.id.product_name);
+
 			holder.sale_price = (TextView) convertView
 					.findViewById(R.id.sale_price);
 			holder.quantity_2 = (TextView) convertView
@@ -105,10 +108,10 @@ public class ProductListAdapter extends BaseAdapter {
 					.findViewById(R.id.decrease_quantity);
 			holder.tvOffers = (TextView) convertView
 					.findViewById(R.id.tv_offers);
-			
-			
-			
-			
+
+
+
+
 			holder.prod_brand = (TextView) convertView
 					.findViewById(R.id.product_brand);
 			holder.prod_name = (TextView) convertView
@@ -117,8 +120,8 @@ public class ProductListAdapter extends BaseAdapter {
 					.findViewById(R.id.product_gram_or_ml);
 			holder.rlOutofStock =  (RelativeLayout) convertView
 					.findViewById(R.id.rl_out_of_stock);
-			
-			
+
+
 			holder.added_product_count = (TextView) convertView
 					.findViewById(R.id.added_product_count);
 			holder.img_added_product_count = (ImageView) convertView
@@ -126,31 +129,28 @@ public class ProductListAdapter extends BaseAdapter {
 			holder.iv_offer_image = (ImageView) convertView
 					.findViewById(R.id.offer_image);
 
+
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
+				holder.setObject(obj,position);
 		}
 
-		final Product obj = getItem(position);
-		
-		holder.prod_brand.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
-		holder.prod_name.setTypeface(CustomFonts.getInstance().getRobotoBold(activity));
-		holder.prod_gram_or_ml.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
-		
-	
-		
+
+
+
 		if(!obj.getName().equals("No product found for this category"))
 		{
 		holder.prod_name.setText(obj.getName());
 		if (AppConstants.DEBUG) {
 			Log.d("", "PRICE WITHOUT DISSCOUNT::" + obj.getSalePrice());
 		}
-			
-		
+
+
 		holder.prod_brand.setText(obj.getBrand());
 		holder.prod_gram_or_ml.setText(obj.getGramsORml());
 		holder.prod_name.setText(obj.getProductName());
-		
+
 		if(obj.getPromotionLevel() != null){
 			holder.tvOffers.setText(obj.getPromotionLevel());
 			holder.tvOffers.setVisibility(View.VISIBLE);
@@ -159,37 +159,31 @@ public class ProductListAdapter extends BaseAdapter {
 			holder.tvOffers.setVisibility(View.GONE);
 			holder.iv_offer_image.setVisibility(View.GONE);
 		}
-		
+
 //		face = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
 //		holder.amount.setText("Rs. " + obj.getPrice().toString());
 //		holder.amount.setTypeface(face);
-		
-//		TextView txt = (TextView) findViewById(R.id.custom_fonts);  
+
+//		TextView txt = (TextView) findViewById(R.id.custom_fonts);
 //        txt.setTextSize(30);
 //        Typeface font1 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
-		
-		
-		Typeface font1 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
-        Typeface font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Light.ttf");
-        SpannableStringBuilder SS = new SpannableStringBuilder("`"+obj.getPrice().toString());
-        SS.setSpan (new CustomTypefaceSpan("", font1), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        SS.setSpan (new CustomTypefaceSpan("", font2), 1, obj.getPrice().toString().length()-(obj.getPrice().toString().length()-1),Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-        holder.amount.setText(SS);
-		
+
+
 //		Typeface type = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
 //        holder.amount.setText("`"+obj.getPrice().toString());
 //		holder.amount.setTypeface(type);
-        
+
 //		holder.amount.setTypeface(CustomFonts.getInstance().getRobotoLight(activity));
-	    
-	    
+
+
 //	    holder.sale_price.setTypeface(face);
 //		holder.sale_price.setText("`"+ obj.getSalePrice().toString());
 //		holder.sale_price.setText("Rs. " + obj.getSalePrice());
-		
-        font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Bold.ttf");
-	    font1 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
-        SS = new SpannableStringBuilder("`"+obj.getSalePrice().toString());
+
+
+		Typeface font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Bold.ttf");
+		Typeface font1 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
+		SpannableStringBuilder SS = new SpannableStringBuilder("`"+obj.getSalePrice().toString());
         SS.setSpan (new CustomTypefaceSpan("", font1), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 //        SS.setSpan (new CustomTypefaceSpan("", font2), 1, obj.getSalePrice().toString().length()-(obj.getSalePrice().toString().length()-1),Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
         SS.setSpan(new CustomTypefaceSpan("", font2), 1, obj.getSalePrice().toString().length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
@@ -201,10 +195,11 @@ public class ProductListAdapter extends BaseAdapter {
 		SS.setSpan (new CustomTypefaceSpan("", font1), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 		SS.setSpan(new CustomTypefaceSpan("", font2), 1, "1".length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 		holder.quantity_2.setText(SS);
-		
+
+
 //        holder.sale_price.setText("`"+ obj.getSalePrice().toString());
 //        holder.sale_price.setTypeface(CustomFonts.getInstance().getRobotoBold(activity));
-        
+
 	    int edit_quantity = 0;
         ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart(activity, Constants.localCloneFile);
 		if(cart_products != null && cart_products.size() > 0)
@@ -220,8 +215,8 @@ public class ProductListAdapter extends BaseAdapter {
 				}
 			}catch(Exception e){}
 		}
-		
-		
+
+
 		if(edit_quantity > 0){
 			holder.img_added_product_count.setVisibility(View.VISIBLE);
 //			holder.added_product_count.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, 8));
@@ -238,8 +233,8 @@ public class ProductListAdapter extends BaseAdapter {
 			holder.added_product_count.setVisibility(View.INVISIBLE);
 			holder.img_added_product_count.setVisibility(View.INVISIBLE);
 		}
-		
-		
+
+
 //		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)holder.added_product_count.getLayoutParams();
 //			if(String.valueOf(edit_quantity).length() > 1){
 //				params.setMargins(39, 17, 0, 0);  // left, top, right, bottom
@@ -249,102 +244,250 @@ public class ProductListAdapter extends BaseAdapter {
 //				params.setMargins(46, 17, 0, 0);  // left, top, right, bottom
 //				holder.added_product_count.setLayoutParams(params);
 //			}
-		
+
 		//holder.quantity.setText("1");
-		holder.increase_quantity.setTag(holder.quantity);
-		holder.decrease_quantity.setTag(holder.quantity);
-		holder.add_to_cart.setTag(R.id.amount,holder.added_product_count);
-		holder.add_to_cart.setTag(R.id.sale_price,holder.quantity);
-		holder.add_to_cart.setTag(R.id.product_brand,holder.img_added_product_count);
-		
-		ImageLoader.getInstance().displayImage(obj.getImage(),
-				holder.prod_image, ((BaseActivity) activity).baseImageoptions);
 
-		holder.increase_quantity.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				TextView quantity = (TextView) v.getTag();
-				int quant = Integer.parseInt(quantity.getText().toString());
-				quantity.setText("" + (quant + 1));
-				products.get(position).setQuantity(quantity.getText().toString());
-				MySharedPrefs.INSTANCE.putItemQuantity(quantity.getText().toString());
+
+
+
+			if(obj.getStatus().equals("In stock"))
+			{
+//				holder.increase_quantity.setImageResource(R.drawable.plus_icon);
+//				holder.decrease_quantity.setImageResource(R.drawable.minus_icon);
+//				holder.add_to_cart.setBackgroundResource(R.drawable.orange_border_gradient_box);
+				holder.rlOutofStock.setVisibility(View.GONE);
+				holder.decrease_quantity.setVisibility(View.VISIBLE);
+				holder.increase_quantity.setVisibility(View.VISIBLE);
+				holder.quantity.setVisibility(View.VISIBLE);
+				holder.add_to_cart.setVisibility(View.VISIBLE);
+
+				holder.add_to_cart.setClickable(true);
+				holder.increase_quantity.setClickable(true);
+				holder.decrease_quantity.setClickable(true);
+			}else{
+//				holder.increase_quantity.setImageResource(R.drawable.plus_icon_disable);
+//				holder.decrease_quantity.setImageResource(R.drawable.minus_icon_disable);
+//				holder.add_to_cart.setBackgroundResource(R.drawable.gray_border_gradient_box);
+				holder.rlOutofStock.setVisibility(View.VISIBLE);
+				holder.decrease_quantity.setVisibility(View.GONE);
+				holder.increase_quantity.setVisibility(View.GONE);
+				holder.quantity.setVisibility(View.GONE);
+				holder.add_to_cart.setVisibility(View.GONE);
+
+				products.get(position).setQuantity("0");
+				holder.add_to_cart.setClickable(false);
+				holder.increase_quantity.setClickable(false);
+				holder.decrease_quantity.setClickable(false);
 			}
-		});
 
-		holder.decrease_quantity.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				TextView quantity = (TextView) v.getTag();
-				int quant = Integer.parseInt(quantity.getText().toString());
-				if (quant >= 2) {
-					quantity.setText("" + (quant - 1));
+		}
+		else
+		{
+			holder.prod_name.setText(obj.getName());
+			holder.prod_image.setVisibility(View.GONE);
+			holder.sale_price.setVisibility(View.GONE);
+			holder.amount.setVisibility(View.GONE);
+			holder.quantity.setVisibility(View.GONE);
+			holder.increase_quantity.setVisibility(View.GONE);
+			holder.decrease_quantity.setVisibility(View.GONE);
+			holder.add_to_cart.setVisibility(View.GONE);
+			holder.img_added_product_count.setVisibility(View.GONE);
+			holder.added_product_count.setVisibility(View.GONE);
+			holder.iv_offer_image.setVisibility(View.GONE);
+			holder.tvOffers.setVisibility(View.GONE);
+
+
+
+			holder.prod_brand.setVisibility(View.GONE);
+//			holder.prod_name.setVisibility(View.GONE);
+			holder.prod_gram_or_ml.setVisibility(View.GONE);
+		}
+
+
+		holder.quantity.setText(products.get(position).getQuantity());
+
+
+		return convertView;
+	}
+
+	private class ViewHolder {
+
+//		TextView prod_name
+		TextView added_product_count,quantity, add_to_cart, amount, sale_price;
+		ImageView img_added_product_count;
+		TextView prod_brand,prod_name,prod_gram_or_ml;
+		ImageView prod_image, increase_quantity, decrease_quantity;
+		ImageView iv_offer_image;
+		TextView tvOffers;
+		TextView quantity_2;
+//		TextView prod_out_of_stock;
+		RelativeLayout rlOutofStock;
+
+		Typeface font1;
+		Typeface font2;
+		CustomTypefaceSpan customTypeFace1;
+		CustomTypefaceSpan customTypeFace2;
+
+		Product obj;
+		int position;
+
+
+		public ViewHolder(View convertView,Product obj) {
+			this.obj = obj;
+			this.sale_price = (TextView) convertView
+					.findViewById(R.id.sale_price);
+			this.amount = (TextView) convertView.findViewById(R.id.amount);
+			this.amount.setPaintFlags(this.amount.getPaintFlags()
+					| Paint.STRIKE_THRU_TEXT_FLAG);
+			this.quantity = (TextView) convertView
+					.findViewById(R.id.quantity);
+			this.add_to_cart = (TextView) convertView
+					.findViewById(R.id.add_cart_prod_list);
+			this.prod_image = (ImageView) convertView
+					.findViewById(R.id.product_image);
+			this.increase_quantity = (ImageView) convertView
+					.findViewById(R.id.increase_quantity);
+			this.decrease_quantity = (ImageView) convertView
+					.findViewById(R.id.decrease_quantity);
+			this.tvOffers = (TextView) convertView
+					.findViewById(R.id.tv_offers);
+
+			this.quantity_2 = (TextView) convertView
+					.findViewById(R.id.quantity_2);
+
+
+			this.prod_brand = (TextView) convertView
+					.findViewById(R.id.product_brand);
+			this.prod_name = (TextView) convertView
+					.findViewById(R.id.product_name);
+			this.prod_gram_or_ml = (TextView) convertView
+					.findViewById(R.id.product_gram_or_ml);
+			this.rlOutofStock =  (RelativeLayout) convertView
+					.findViewById(R.id.rl_out_of_stock);
+
+
+			this.added_product_count = (TextView) convertView
+					.findViewById(R.id.added_product_count);
+			this.img_added_product_count = (ImageView) convertView
+					.findViewById(R.id.img_added_product_count);
+			this.iv_offer_image = (ImageView) convertView
+					.findViewById(R.id.offer_image);
+
+			this.prod_brand.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
+			this.prod_name.setTypeface(CustomFonts.getInstance().getRobotoBold(activity));
+			this.prod_gram_or_ml.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
+
+			this.font1 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
+			this.font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Light.ttf");
+			this.customTypeFace1 = new CustomTypefaceSpan("", this.font1);
+			this.customTypeFace2 = new CustomTypefaceSpan("", this.font2);
+
+
+
+			SpannableStringBuilder SS = new SpannableStringBuilder("`"+obj.getPrice().toString());
+			SS.setSpan (this.customTypeFace1, 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+			SS.setSpan (this.customTypeFace2, 1, obj.getPrice().toString().length()-(obj.getPrice().toString().length()-1),Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+			this.amount.setText(SS);
+			SS = new SpannableStringBuilder("`"+obj.getSalePrice().toString());
+			SS.setSpan (this.customTypeFace1, 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+//        SS.setSpan (new CustomTypefaceSpan("", font2), 1, obj.getSalePrice().toString().length()-(obj.getSalePrice().toString().length()-1),Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+			SS.setSpan (this.customTypeFace1, 1, obj.getSalePrice().toString().length()+1,Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+			this.sale_price.setText(SS);
+			this.increase_quantity.setTag(this.quantity);
+			this.decrease_quantity.setTag(this.quantity);
+			this.add_to_cart.setTag(R.id.amount,this.added_product_count);
+			this.add_to_cart.setTag(R.id.sale_price,this.quantity);
+			this.add_to_cart.setTag(R.id.product_brand,this.img_added_product_count);
+
+			ImageLoader.getInstance().displayImage(obj.getImage(),
+					this.prod_image, ((BaseActivity) activity).baseImageoptions);
+
+			this.increase_quantity.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					TextView quantity = (TextView) v.getTag();
+					int quant = Integer.parseInt(quantity.getText().toString());
+					quantity.setText("" + (quant + 1));
 					products.get(position).setQuantity(quantity.getText().toString());
 					MySharedPrefs.INSTANCE.putItemQuantity(quantity.getText().toString());
 				}
-			}
-		});
+			});
 
-		holder.add_to_cart.setTag(holder.quantity);
-		holder.add_to_cart.setOnClickListener(new OnClickListener() {
+			this.decrease_quantity.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					TextView quantity = (TextView) v.getTag();
+					int quant = Integer.parseInt(quantity.getText().toString());
+					if (quant >= 2) {
+						quantity.setText("" + (quant - 1));
+						products.get(position).setQuantity(quantity.getText().toString());
+						MySharedPrefs.INSTANCE.putItemQuantity(quantity.getText().toString());
+					}
+				}
+			});
 
-			@Override
-			public void onClick(View v) {
+			this.add_to_cart.setTag(this.quantity);
+			this.add_to_cart.setOnClickListener(new OnClickListener() {
+				final Product obj = getObject();
+				@Override
+				public void onClick(View v) {
 //				final TextView quantity = (TextView) v.getTag();
-				final TextView added_product_count = (TextView) v.getTag(R.id.amount);
-				final TextView quantity = (TextView) v.getTag(R.id.sale_price);
-				final ImageView img_added_product_count = (ImageView) v.getTag(R.id.product_brand);
-				
-				CartDetail cart_obj = new CartDetail();
-				cart_obj.setPrice(obj.getPrice());
-				cart_obj.setItem_id(obj.getProductid());
-				cart_obj.setName(obj.getName());
-				cart_obj.setQty(Integer.parseInt(quantity.getText().toString()));
-				cart_obj.setBrand(obj.getBrand());
-				cart_obj.setGramsORml(obj.getGramsORml());
-				cart_obj.setProductName(obj.getProductName());
-				cart_obj.setPromotionLevel(obj.getPromotionLevel());
-				if(MySharedPrefs.INSTANCE.getTotalItem()!=null)
-				{
-					MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(Integer.parseInt(MySharedPrefs.INSTANCE.getTotalItem())+Integer.parseInt(quantity.getText().toString())));
-					BaseActivity.cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
-				}
-				else
-				{
-					MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(0+Integer.parseInt(quantity.getText().toString())));
-					BaseActivity.cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
-				}
-				cart_obj.setProduct_thumbnail(obj.getImage());
-				// String key = obj.getProductid().toString();
-				boolean result = UtilityMethods.writeLocalCart(activity,Constants.localCartFile, cart_obj);
-				UtilityMethods.writeCloneCart(activity,Constants.localCloneFile, cart_obj);      
-				if (result)
-				{
+					final TextView added_product_count = (TextView) v.getTag(R.id.amount);
+					final TextView quantity = (TextView) v.getTag(R.id.sale_price);
+					final ImageView img_added_product_count = (ImageView) v.getTag(R.id.product_brand);
+
+
+					CartDetail cart_obj = new CartDetail();
+					cart_obj.setPrice(obj.getPrice());
+					cart_obj.setItem_id(obj.getProductid());
+					cart_obj.setName(obj.getName());
+					cart_obj.setQty(Integer.parseInt(quantity.getText().toString()));
+					cart_obj.setBrand(obj.getBrand());
+					cart_obj.setGramsORml(obj.getGramsORml());
+					cart_obj.setProductName(obj.getProductName());
+					cart_obj.setPromotionLevel(obj.getPromotionLevel());
+					if(MySharedPrefs.INSTANCE.getTotalItem()!=null)
+					{
+						MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(Integer.parseInt(MySharedPrefs.INSTANCE.getTotalItem())+Integer.parseInt(quantity.getText().toString())));
+						BaseActivity.cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
+					}
+					else
+					{
+						MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(0+Integer.parseInt(quantity.getText().toString())));
+						BaseActivity.cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
+					}
+					cart_obj.setProduct_thumbnail(obj.getImage());
+					// String key = obj.getProductid().toString();
+					boolean result = UtilityMethods.writeLocalCart(activity,Constants.localCartFile, cart_obj);
+					UtilityMethods.writeCloneCart(activity,Constants.localCloneFile, cart_obj);
+					if (result)
+					{
 //					progressDialog.dismiss();
 //					Toast.makeText(activity,ToastConstant.PRODUCT_ADDED_CART,Toast.LENGTH_LONG).show();
-					UtilityMethods.customToast(ToastConstant.PRODUCT_ADDED_CART, activity);
-				}
-				
-				int edit_quantity = 0;
-		        ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart(activity, Constants.localCloneFile);
-				if(cart_products != null && cart_products.size() > 0)
-				{
-					try
+						UtilityMethods.customToast(ToastConstant.PRODUCT_ADDED_CART, activity);
+					}
+
+					int edit_quantity = 0;
+					ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart(activity, Constants.localCloneFile);
+					if(cart_products != null && cart_products.size() > 0)
 					{
-						for(int i=0; i<cart_products.size(); i++)
+						try
 						{
-							if(cart_products.get(i).getItem_id().equalsIgnoreCase(obj.getProductid()))
+							for(int i=0; i<cart_products.size(); i++)
 							{
-								edit_quantity  = edit_quantity+cart_products.get(i).getQty();
+								if(cart_products.get(i).getItem_id().equalsIgnoreCase(obj.getProductid()))
+								{
+									edit_quantity  = edit_quantity+cart_products.get(i).getQty();
+								}
 							}
-						}
-					}catch(Exception e){}
-				}
-				
-				added_product_count.setText(String.valueOf(edit_quantity));
-				added_product_count.setVisibility(View.VISIBLE);
-				img_added_product_count.setVisibility(View.VISIBLE);
-				
-				
+						}catch(Exception e){}
+					}
+
+					added_product_count.setText(String.valueOf(edit_quantity));
+					added_product_count.setVisibility(View.VISIBLE);
+					img_added_product_count.setVisibility(View.VISIBLE);
+
+
 //				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)added_product_count.getLayoutParams();
 //				if(String.valueOf(edit_quantity).length() > 1){
 //					params.setMargins(39, 17, 0, 0);  // left, top, right, bottom
@@ -354,17 +497,17 @@ public class ProductListAdapter extends BaseAdapter {
 //					params.setMargins(46, 17, 0, 0);  // left, top, right, bottom
 //					added_product_count.setLayoutParams(params);
 //				}
-				
-//				if (MySharedPrefs.INSTANCE.getUserId() == null|| MySharedPrefs.INSTANCE.getUserId().equals("")) 
+
+//				if (MySharedPrefs.INSTANCE.getUserId() == null|| MySharedPrefs.INSTANCE.getUserId().equals(""))
 //				{
 //					if(MySharedPrefs.INSTANCE.getQuoteId()==null || MySharedPrefs.INSTANCE.getQuoteId().equals(""))   //when user is not login and added products in cart and display view cart then quote id create of user.
 //					{
-////					
+////
 ////					progressDialog = new ProgressDialog(activity);
 ////					progressDialog.setMessage("Loading...");
 ////					progressDialog.show();
 ////					progressDialog.setCancelable(false);
-////					
+////
 ////					final Handler handler = new Handler();
 ////					handler.postDelayed(new Runnable() {
 ////					  @Override
@@ -387,14 +530,14 @@ public class ProductListAdapter extends BaseAdapter {
 //							cart_obj.setProduct_thumbnail(obj.getImage());
 //							// String key = obj.getProductid().toString();
 //							boolean result = UtilityMethods.writeLocalCart(activity,Constants.localCartFile, cart_obj);
-//							UtilityMethods.writeCloneCart(activity,Constants.localCloneFile, cart_obj);      
+//							UtilityMethods.writeCloneCart(activity,Constants.localCloneFile, cart_obj);
 //							if (result)
 //							{
 ////								progressDialog.dismiss();
 ////								Toast.makeText(activity,ToastConstant.PRODUCT_ADDED_CART,Toast.LENGTH_LONG).show();
 //								UtilityMethods.customToast(ToastConstant.PRODUCT_ADDED_CART, activity);
 //							}
-//							
+//
 //							int edit_quantity = 0;
 //					        ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart(activity, Constants.localCloneFile);
 //							if(cart_products != null && cart_products.size() > 0)
@@ -410,16 +553,16 @@ public class ProductListAdapter extends BaseAdapter {
 //									}
 //								}catch(Exception e){}
 //							}
-//							
-//							
+//
+//
 //							added_product_count.setText(String.valueOf(edit_quantity));
 //							added_product_count.setVisibility(View.VISIBLE);
 //							img_added_product_count.setVisibility(View.VISIBLE);
 ////							notifyDataSetChanged();
-//							
+//
 ////					  }
 ////					}, 1000);
-////					
+////
 //				}else
 //					{
 //						if (activity instanceof ProductListScreen) {
@@ -440,87 +583,26 @@ public class ProductListAdapter extends BaseAdapter {
 ////					}
 ////				}
 //			}
-			}
-		});
-		
-			if(obj.getStatus().equals("In stock"))
-			{
-//				holder.increase_quantity.setImageResource(R.drawable.plus_icon);
-//				holder.decrease_quantity.setImageResource(R.drawable.minus_icon);
-//				holder.add_to_cart.setBackgroundResource(R.drawable.orange_border_gradient_box);
-				holder.rlOutofStock.setVisibility(View.GONE);
-				holder.decrease_quantity.setVisibility(View.VISIBLE);
-				holder.increase_quantity.setVisibility(View.VISIBLE);
-				holder.quantity.setVisibility(View.VISIBLE);
-				holder.add_to_cart.setVisibility(View.VISIBLE);
-				
-				holder.add_to_cart.setClickable(true);
-				holder.increase_quantity.setClickable(true);
-				holder.decrease_quantity.setClickable(true);
-			}else{
-//				holder.increase_quantity.setImageResource(R.drawable.plus_icon_disable);
-//				holder.decrease_quantity.setImageResource(R.drawable.minus_icon_disable);
-//				holder.add_to_cart.setBackgroundResource(R.drawable.gray_border_gradient_box);
-				holder.rlOutofStock.setVisibility(View.VISIBLE);
-				holder.decrease_quantity.setVisibility(View.GONE);
-				holder.increase_quantity.setVisibility(View.GONE);
-				holder.quantity.setVisibility(View.GONE);
-				holder.add_to_cart.setVisibility(View.GONE);
-				
-				products.get(position).setQuantity("0");
-				holder.add_to_cart.setClickable(false);
-				holder.increase_quantity.setClickable(false);
-				holder.decrease_quantity.setClickable(false);
-			}
-		
+				}
+			});
 		}
-		else
-		{
-			holder.prod_name.setText(obj.getName());
-			holder.prod_image.setVisibility(View.GONE);
-			holder.sale_price.setVisibility(View.GONE);
-			holder.quantity_2.setVisibility(View.GONE);
-			holder.amount.setVisibility(View.GONE);
-			holder.quantity.setVisibility(View.GONE);
-			holder.increase_quantity.setVisibility(View.GONE);
-			holder.decrease_quantity.setVisibility(View.GONE);
-			holder.add_to_cart.setVisibility(View.GONE);
-			holder.img_added_product_count.setVisibility(View.GONE);
-			holder.added_product_count.setVisibility(View.GONE);
-			holder.iv_offer_image.setVisibility(View.GONE);
-			holder.tvOffers.setVisibility(View.GONE);
 
-
-
-			holder.prod_brand.setVisibility(View.GONE);
-//			holder.prod_name.setVisibility(View.GONE);
-			holder.prod_gram_or_ml.setVisibility(View.GONE);
+		public void setObject(Product obj, int position){
+		this.obj = obj;
+			this.position = position;
 		}
-		
-		
-		holder.quantity.setText(products.get(position).getQuantity());
-		
 
-		return convertView;
-	}
+		public Product getObject(){
+			return this.obj;
+		}
 
-	private class ViewHolder {
 
-//		TextView prod_name
-		TextView quantity_2;
-		TextView added_product_count,quantity, add_to_cart, amount, sale_price;
-		ImageView img_added_product_count;
-		TextView prod_brand,prod_name,prod_gram_or_ml;
-		ImageView prod_image, increase_quantity, decrease_quantity;
-		ImageView iv_offer_image;
-		TextView tvOffers;
-//		TextView prod_out_of_stock;
-		RelativeLayout rlOutofStock;
+
 	}
 
 	public void updateList(List<Product> list) {
 		this.products = list;
-		
+
 		notifyDataSetChanged();
 	}
 }
