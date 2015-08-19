@@ -90,12 +90,6 @@ public class ProductListAdapter extends BaseAdapter {
 					.findViewById(R.id.sale_price);
 			holder.quantity_2 = (TextView) convertView
 					.findViewById(R.id.quantity_2);
-
-			holder.tvMultiply = (TextView) convertView
-					.findViewById(R.id.tv_multiply);
-			holder.tvVerticalBar = (TextView) convertView
-					.findViewById(R.id.tv_vertical_bar);
-
 			holder.amount = (TextView) convertView.findViewById(R.id.amount);
 			holder.amount.setPaintFlags(holder.amount.getPaintFlags()
 					| Paint.STRIKE_THRU_TEXT_FLAG);
@@ -111,6 +105,8 @@ public class ProductListAdapter extends BaseAdapter {
 					.findViewById(R.id.decrease_quantity);
 			holder.tvOffers = (TextView) convertView
 					.findViewById(R.id.tv_offers);
+
+
 
 
 			holder.prod_brand = (TextView) convertView
@@ -140,8 +136,8 @@ public class ProductListAdapter extends BaseAdapter {
 		holder.prod_brand.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 		holder.prod_name.setTypeface(CustomFonts.getInstance().getRobotoBold(activity));
 		holder.prod_gram_or_ml.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
-		holder.quantity_2.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
-		holder.quantity_2.setText("1");
+
+
 
 		if(!obj.getName().equals("No product found for this category"))
 		{
@@ -199,14 +195,12 @@ public class ProductListAdapter extends BaseAdapter {
 			SS.setSpan(new CustomTypefaceSpan("", font2), 1, obj.getSalePrice().toString().length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 			holder.sale_price.setText(SS);
 
-//			font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Bold.ttf");
-//			font1 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
-//			SS = new SpannableStringBuilder("`"+"1");
-//			SS.setSpan (new CustomTypefaceSpan("", font1), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-//			SS.setSpan(new CustomTypefaceSpan("", font2), 1, "1".length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-//			holder.quantity_2.setText(SS);
-
-
+			font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Bold.ttf");
+			font1 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
+			SS = new SpannableStringBuilder("`"+"1");
+			SS.setSpan (new CustomTypefaceSpan("", font1), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+			SS.setSpan(new CustomTypefaceSpan("", font2), 1, "1".length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+			holder.quantity_2.setText(SS);
 
 //        holder.sale_price.setText("`"+ obj.getSalePrice().toString());
 //        holder.sale_price.setTypeface(CustomFonts.getInstance().getRobotoBold(activity));
@@ -495,8 +489,6 @@ public class ProductListAdapter extends BaseAdapter {
 			holder.added_product_count.setVisibility(View.GONE);
 			holder.iv_offer_image.setVisibility(View.GONE);
 			holder.tvOffers.setVisibility(View.GONE);
-			holder.tvMultiply.setVisibility(View.GONE);
-			holder.tvVerticalBar.setVisibility(View.GONE);
 
 
 
@@ -522,7 +514,6 @@ public class ProductListAdapter extends BaseAdapter {
 		ImageView prod_image, increase_quantity, decrease_quantity;
 		ImageView iv_offer_image;
 		TextView tvOffers;
-		TextView tvMultiply,tvVerticalBar;
 		//		TextView prod_out_of_stock;
 		RelativeLayout rlOutofStock;
 	}
