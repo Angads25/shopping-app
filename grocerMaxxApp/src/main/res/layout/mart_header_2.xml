@@ -8,7 +8,9 @@
     android:clipToPadding="false"
     android:elevation="@dimen/action_bar_elevation"
     app:popupTheme="@style/CustomToolBarTheme"
-    app:theme="@style/CustomToolBarTheme">
+    app:theme="@style/CustomToolBarTheme"
+    app:contentInsetLeft="0dp"
+    app:contentInsetStart="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -35,9 +37,11 @@
             android:id="@+id/ll_left_icon_1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
             android:visibility="visible"
-            android:weightSum="7">
+            android:weightSum="7"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
 
             <LinearLayout
                 android:id="@+id/ll_placeholder_logoIcon_appBar"
@@ -49,7 +53,9 @@
                     android:id="@+id/icon_header_back"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/icon_back_for_actionbar" />
+                    android:src="@drawable/carat_left_white"
+                    android:layout_gravity="center"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -57,6 +63,7 @@
                     android:text="Path"
                     android:layout_marginTop="5dp"
                     android:textSize="28sp"
+                    android:singleLine="true"
                     android:textColor="@color/white"
                     android:id="@+id/tv_appbar_breadcrumb"/>
 
