@@ -62,7 +62,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 {
 	TextView button_facebook, button_skip;
 	EditText username, password;
-	ImageView googlePlus;
+//	ImageView googlePlus;
 	private static TextView tv_google_btn;
 	Context context=this;
 //	CheckBox remember_me;
@@ -159,12 +159,12 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 			button_facebook = (TextView) findViewById(R.id.button_facebook);
 			button_facebook.setOnClickListener(fb_signin_listener);
 
-			googlePlus = (ImageView) findViewById(R.id.google_plus_left_icon);
+//			googlePlus = (ImageView) findViewById(R.id.google_plus_left_icon);
 			tv_google_btn = (TextView) findViewById(R.id.button_google);
 
 //	    signinButton = (SignInButton) findViewById(R.id.google_plus_icon);
 
-			googlePlus.setOnClickListener(google_signin_listener);
+//			googlePlus.setOnClickListener(google_signin_listener);
 			tv_google_btn.setOnClickListener(google_signin_listener);
 
 
@@ -228,7 +228,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 //		        mGoogleApiClient.connect();
 //			}catch(Exception e){}
 				if (UtilityMethods.isInternetAvailable(mContext)) {
-					if (tv_google_btn.getText().toString().equalsIgnoreCase("LOGIN WITH GOOGLE")) {
+					if (tv_google_btn.getText().toString().equalsIgnoreCase("Connect with Google")) {
 						googleLoginWithEmailPermission();
 					} else if (tv_google_btn.getText().toString().equalsIgnoreCase("LOGOUT WITH GOOGLE")) {
 //					googlePlusLogoutLocally();
@@ -774,10 +774,10 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 					signedInUser = true;
 					resolveSignInError();
 				}
-				UtilityMethods.customToast("googlewkwk plus login else", context);
+//				UtilityMethods.customToast("googlewkwk plus login else", context);
 			} else {
 //        	Toast.makeText(context,"google plus login else", Toast.LENGTH_SHORT).show();
-				UtilityMethods.customToast("google plus login else", context);
+//				UtilityMethods.customToast("google plus login else", context);
 			}
 		}catch(Exception e){
 			new GrocermaxBaseException("LoginActivity","googlePlusLogin",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
@@ -867,7 +867,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
             mGoogleApiClient.disconnect();
             mGoogleApiClient.connect();
             if(tv_google_btn != null){
-            	tv_google_btn.setText("LOGIN WITH GOOGLE");
+            	tv_google_btn.setText("Connect with Google");
             }
 //            updateProfile(false);
          }
@@ -882,7 +882,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 //            mGoogleApiClient.connect();
 //            
 //            if(tv_google_btn != null){
-//            	tv_google_btn.setText("LOGIN WITH GOOGLE");
+//            	tv_google_btn.setText("Connect with Google");
 //            }
 ////            updateProfile(false);
 //         }

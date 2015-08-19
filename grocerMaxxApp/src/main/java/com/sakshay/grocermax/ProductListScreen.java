@@ -75,6 +75,9 @@ public class ProductListScreen extends BaseActivity implements OnScrollListener 
 				hasMoreItem = true;
 			}
 
+
+
+
 			tv_bradcrum = (TextView) findViewById(R.id.tv_Bradcrum);
 			hrc = (View) findViewById(R.id.hrc_Bradcrum);
 			if (MySharedPrefs.INSTANCE.getBradecrum().equals("")) {

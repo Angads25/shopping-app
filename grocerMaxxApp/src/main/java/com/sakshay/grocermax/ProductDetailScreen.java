@@ -38,7 +38,7 @@ import com.sakshay.grocermax.utils.UtilityMethods;
 
 public class ProductDetailScreen extends BaseActivity implements
 		OnClickListener {
-	private String screenName = "Product Detail";
+	private String screenName = "Product Description";
 	private TextView text_description;
 //	private TextView text_product_name;
 	private TextView text_mow_price;
@@ -106,6 +106,7 @@ public class ProductDetailScreen extends BaseActivity implements
 
 			iv_cart = (ImageView) findViewById(R.id.iv_cart);
 
+			quantity_2.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			prod_desc_brand.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
 			prod_desc_name.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			prod_desc_gmorml.setTypeface(CustomFonts.getInstance().getRobotoLight(this));
@@ -161,13 +162,14 @@ public class ProductDetailScreen extends BaseActivity implements
 			SS.setSpan(new CustomTypefaceSpan("", font2), 1, productDetail.getSale_price().toString().length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 			text_mow_price.setText(SS);
 
-			font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Bold.ttf");
-			font1 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
-			SS = new SpannableStringBuilder("`"+"1");
-			SS.setSpan (new CustomTypefaceSpan("", font1), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-			SS.setSpan(new CustomTypefaceSpan("", font2), 1, "1".length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-			quantity_2.setText(SS);
+//			font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Bold.ttf");
+//			font1 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
+//			SS = new SpannableStringBuilder("`"+"1");
+//			SS.setSpan (new CustomTypefaceSpan("", font1), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+//			SS.setSpan(new CustomTypefaceSpan("", font2), 1, "1".length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+//			quantity_2.setText(SS);
 
+			quantity_2.setText("1");
 
 //			System.out.println("==length==" + productDetail.getProductPrice().toString().length());
 
@@ -267,6 +269,9 @@ public class ProductDetailScreen extends BaseActivity implements
 				quantity.setText(MySharedPrefs.INSTANCE.getItemQuantity());
 
 			initHeader(findViewById(R.id.header), true, screenName);
+
+
+
 			initFooter(findViewById(R.id.footer), 2, -1);
 		}catch(Exception e){
 			new GrocermaxBaseException("PayTMActivity","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
@@ -471,7 +476,8 @@ public class ProductDetailScreen extends BaseActivity implements
 		// TODO Auto-generated method stub
 		super.onResume();
 		try {
-			initHeader(findViewById(R.id.header), true, null);
+//			initHeader(findViewById(R.id.header), true, null);
+			initHeader(findViewById(R.id.header), true, screenName);
 		}catch(Exception e){
 			new GrocermaxBaseException("ProductDetailScreen","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
