@@ -22,6 +22,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -86,6 +87,8 @@ public class CategoryTabs extends BaseActivity {
 				}
 			});
 
+
+
 			LinearLayout llBreadcrumb = (LinearLayout) findViewById(R.id.llbreadcrum);
 			llBreadcrumb.setVisibility(View.GONE);
 
@@ -95,7 +98,8 @@ public class CategoryTabs extends BaseActivity {
 			ll_brad_crum.setBackgroundColor(getResources().getColor(R.color.breadcrum_color));
 
 			hscrollview = (HorizontalScrollView) findViewById(R.id.hscrollview);
-//		hscrollview.setVisibility(View.VISIBLE);
+
+
 			if (MySharedPrefs.INSTANCE.getBradecrum() != null) {
 				String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");
 
@@ -103,6 +107,7 @@ public class CategoryTabs extends BaseActivity {
 					addImageView(ll_brad_crum);
 					addTextView(ll_brad_crum, brade_crum[i]);
 				}
+
 			}
 			hscrollview.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
 				@Override
@@ -119,6 +124,8 @@ public class CategoryTabs extends BaseActivity {
 				}
 			});
 
+
+
 			FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
 
 			ViewPager pager = (ViewPager) findViewById(R.id.pager);
@@ -129,16 +136,38 @@ public class CategoryTabs extends BaseActivity {
 			indicator.setViewPager(pager);
 
 			View headerView = findViewById(R.id.header);
-			initHeader(headerView, true, header.replaceAll("/", " >> "));
+//			initHeader(headerView, true, header.replaceAll("/", " >> "));
+			if (MySharedPrefs.INSTANCE.getBradecrum() != null) {
+				String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");
+				initHeader(headerView, true, brade_crum[0]);
+			}else{
+				initHeader(headerView, true, null);
+			}
+//			TextView textView = (TextView) headerView.findViewById(R.id.screenName);
+//			TextView textView = (TextView) headerView.findViewById(R.id.tv_appbar_breadcrumb);
 
-			TextView textView = (TextView) headerView.findViewById(R.id.screenName);
+//			ImageView ivBack = (ImageView) headerView.findViewById(R.id.icon_header_back);
 
-			textView.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View arg0) {
-					finish();
-				}
-			});
+//			if (MySharedPrefs.INSTANCE.getBradecrum() != null) {
+//				String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");
+//				if (textView != null) {
+//					textView.setText(brade_crum[0]);
+//				}
+//			}
+
+//			textView.setOnClickListener(new OnClickListener() {
+//				@Override
+//				public void onClick(View arg0) {
+//					finish();
+//				}
+//			});
+//			ivBack.setOnClickListener(new OnClickListener() {
+//				@Override
+//				public void onClick(View arg0) {
+//					finish();
+//				}
+//			});
+
 		}catch(Exception e){
 			new GrocermaxBaseException("CategoryTabs", "onCreate", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
@@ -289,7 +318,14 @@ public class CategoryTabs extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		try {
-			initHeader(findViewById(R.id.header), true, null);
+			if (MySharedPrefs.INSTANCE.getBradecrum() != null) {
+				String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");
+				initHeader(findViewById(R.id.header), true, brade_crum[0]);
+
+			}else{
+				initHeader(findViewById(R.id.header), true, null);
+			}
+//			initHeader(findViewById(R.id.header), true, null);
 			if (martHeader != null) {
 				martHeader.setVisibility(View.GONE);
 			}
