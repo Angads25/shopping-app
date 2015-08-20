@@ -72,7 +72,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 	private static final int RC_SIGN_IN = 0;          //
 	private static final int FB_SIGN_IN = 64206;
     // Google client to communicate with Google        //
-    private static GoogleApiClient mGoogleApiClient;            //
+    public static GoogleApiClient mGoogleApiClient;            //
     private boolean mIntentInProgress;                      //
     private boolean signedInUser;                            //
     private ConnectionResult mConnectionResult; 
@@ -214,36 +214,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 //			
 //		}
 //	};
-	/**
-	 * google sign in listener
-	 * */
-	OnClickListener google_signin_listener = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			try {
-//			try{
-//				mGoogleApiClient = new GoogleApiClient.Builder(LoginActivity.this).
-//		        		addConnectionCallbacks(LoginActivity.this).addOnConnectionFailedListener(LoginActivity.this).
-//		        		addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
-//		        mGoogleApiClient.connect();
-//			}catch(Exception e){}
-				if (UtilityMethods.isInternetAvailable(mContext)) {
-					if (tv_google_btn.getText().toString().equalsIgnoreCase("Connect with Google")) {
-						googleLoginWithEmailPermission();
-					} else if (tv_google_btn.getText().toString().equalsIgnoreCase("LOGOUT WITH GOOGLE")) {
-//					googlePlusLogoutLocally();
-						googlePlusLogout();
-					}
-				} else {
-//				Toast.makeText(mContext, ToastConstant.msgNoInternet, Toast.LENGTH_SHORT).show();
-					UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
-				}
-			}catch(Exception e){
-				new GrocermaxBaseException("LoginActivity","google_signin_listener",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
-			}
 
-		}
-	};
 	
 	/**
 	 * facebook sign in listener
@@ -693,7 +664,37 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 ////	        }
 ////		}
 //	}
-	
+
+	/**
+	 * google sign in listener
+	 * */
+	OnClickListener google_signin_listener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			try {
+//			try{
+//				mGoogleApiClient = new GoogleApiClient.Builder(LoginActivity.this).
+//		        		addConnectionCallbacks(LoginActivity.this).addOnConnectionFailedListener(LoginActivity.this).
+//		        		addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
+//		        mGoogleApiClient.connect();
+//			}catch(Exception e){}
+				if (UtilityMethods.isInternetAvailable(mContext)) {
+					if (tv_google_btn.getText().toString().equalsIgnoreCase("Connect with Google")) {
+						googleLoginWithEmailPermission();
+					} else if (tv_google_btn.getText().toString().equalsIgnoreCase("LOGOUT WITH GOOGLE")) {
+//					googlePlusLogoutLocally();
+						googlePlusLogout();
+					}
+				} else {
+//				Toast.makeText(mContext, ToastConstant.msgNoInternet, Toast.LENGTH_SHORT).show();
+					UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
+				}
+			}catch(Exception e){
+				new GrocermaxBaseException("LoginActivity","google_signin_listener",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+			}
+
+		}
+	};
 	
 	@Override
 	public void onConnectionFailed(ConnectionResult result) {
@@ -730,7 +731,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 			AppLoadingScreen.getInstance(context).dismissDialog();
 			signedInUser = false;
 //        Toast.makeText(this, "Connected", Toast.LENGTH_LONG).show();
-			UtilityMethods.customToast("Connected", this);
+//			UtilityMethods.customToast("Connected", this);
 			getProfileInformation();
 		}catch(Exception e){
 			new GrocermaxBaseException("LoginActivity","onConnected",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
@@ -811,8 +812,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener
                 String personName = currentPerson.getDisplayName();
                 String personPhotoUrl = currentPerson.getImage().getUrl();
                 String email = Plus.AccountApi.getAccountName(mGoogleApiClient);                
-                UtilityMethods.customToast(personName+email, this);
-                UtilityMethods.customToast(personPhotoUrl, this);
+//                UtilityMethods.customToast(personName+email, this);
+//                UtilityMethods.customToast(personPhotoUrl, this);
                 
 //                currentPerson.getId()
                 
