@@ -3,485 +3,410 @@
     android:id="@+id/main_lay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_background"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
+    //TODO, in this mart_header_2 hide search and cart icon as well for this screen [as per design]
 
     <include
         android:id="@+id/header"
-        layout="@layout/mart_header" />
+        layout="@layout/mart_header_2" />
 
-    <TextView
-        android:id="@+id/msg"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="3dp"
-        android:textColor="@color/app_header"
-        android:textSize="@dimen/text_size_16"
-        android:gravity="left"
-        android:text="@string/edit_profile"
-        android:visibility="visible" />
-    
-    <LinearLayout 
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="5dp"
-        android:weightSum="1" >
+        android:padding="8dp">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#ececec"
-        android:layout_weight="1"
-        android:scrollbars="none"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginBottom="5dp" >
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/msg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical" >
+            android:text="@string/edit_profile"
+            android:textAllCaps="true"
+            android:textColor="@color/pallete_black"
+            android:textSize="@dimen/text_size_16"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scrollbars="none">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:background="@color/white"
-                android:orientation="vertical" >
-
-             <RelativeLayout 
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginLeft="8dp"
-               android:layout_marginRight="10dp"
-               android:visibility="visible" >
-                 
-               <TextView 
-                   android:id="@+id/left_line_first_name"
-                   android:layout_width="1dp"
-                   android:layout_height="5dp"
-                   android:layout_marginTop="38dp"
-               	   android:background="@color/register_address_selected_line_color" />
-               
-                <LinearLayout
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:gravity="center_vertical"
-		            android:orientation="horizontal"
-		            android:paddingLeft="2dp"
-		            android:paddingBottom="5dp"
-		            android:paddingTop="5dp" >
-	            
-	                <EditText
-	                    android:id="@+id/fname"
-	                    android:layout_width="0dp"
-	                    android:layout_height="35dp"
-	                    android:layout_weight="1"
-	                    android:background="@null"
-	                    android:paddingTop="10dp"
-	                    android:textColorHint="@color/register_address_text_unselected_color"
-	                    android:hint="FIRST NAME*"
-	                    android:singleLine="true"
-	                    android:textSize="@dimen/text_size_12">
-	                    <requestFocus />
-	                     </EditText>
-                
-        		</LinearLayout>
-               
-               <TextView 
-                   android:id="@+id/middle_line_first_name"
-                   android:layout_width="match_parent"
-	               android:layout_height="1dp"
-	               android:layout_marginTop="42dp"
-	               android:layout_toRightOf="@+id/tv"
-	               android:background="@color/register_address_selected_line_color"  />
-               
-               <TextView 
-                   android:id="@+id/right_line_first_name"
-                   android:layout_width="1dp"
-                   android:layout_height="5dp"
-                   android:layout_marginTop="38dp"
-                   android:layout_alignParentRight="true"
-               	   android:background="@color/register_address_selected_line_color"  />
-               
-             </RelativeLayout>
-
-             <RelativeLayout 
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginLeft="8dp"
-               android:layout_marginRight="10dp"
-               android:visibility="visible" >
-                 
-               <TextView 
-                   android:id="@+id/left_line_last_name"
-                   android:layout_width="1dp"
-                   android:layout_height="5dp"
-                   android:layout_marginTop="38dp"
-               	   android:background="@color/register_address_line_color"  />
-               
-                <LinearLayout
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:gravity="center_vertical"
-		            android:orientation="horizontal"
-		            android:paddingBottom="5dp"
-		            android:paddingLeft="2dp"
-		            android:paddingTop="5dp" >
-	            
-	                <EditText
-	                    android:id="@+id/lname"
-	                    android:layout_width="0dp"
-	                    android:layout_height="35dp"
-	                    android:layout_weight="1"
-	                    android:paddingTop="10dp"
-	                    android:background="@null"
-	                    android:textColorHint="@color/register_address_text_unselected_color"
-	                    android:hint="LAST NAME*"
-	                    android:singleLine="true"
-	                    android:textSize="@dimen/text_size_12" />
-                
-        		</LinearLayout>
-               
-               <TextView 
-                   android:id="@+id/middle_line_last_name"
-                   android:layout_width="match_parent"
-	               android:layout_height="1dp"
-	               android:layout_marginTop="42dp"
-	               android:layout_toRightOf="@+id/tv"
-	               android:background="@color/register_address_line_color" />
-               
-               <TextView 
-                   android:id="@+id/right_line_last_name"
-                   android:layout_width="1dp"
-                   android:layout_height="5dp"
-                   android:layout_marginTop="38dp"
-                   android:layout_alignParentRight="true"
-               	   android:background="@color/register_address_line_color" />
-               
-             </RelativeLayout>
-             
-                
-             <RelativeLayout 
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginLeft="8dp"
-               android:layout_marginRight="10dp"
-               android:visibility="visible" >
-                 
-               <TextView 
-                   android:id="@+id/left_line_mobile_name"
-                   android:layout_width="1dp"
-                   android:layout_height="5dp"
-                   android:layout_marginTop="38dp"
-               	   android:background="@color/register_address_line_color" />
-               
-                <LinearLayout
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:gravity="center_vertical"
-		            android:orientation="horizontal"
-		            android:paddingBottom="5dp"
-		            android:paddingLeft="2dp"
-		            android:paddingTop="5dp" >
-	            
-	                <EditText
-	                    android:id="@+id/contact"
-	                    android:layout_width="0dp"
-	                    android:layout_height="35dp"
-	                    android:layout_weight="1"
-	                    android:background="@null"
-	                    android:paddingTop="10dp"
-	                    android:textColorHint="@color/register_address_text_unselected_color"
-	                    android:hint="MOBILE NO."
-	                    android:singleLine="true"
-	                    android:textSize="@dimen/text_size_12" />
-                
-        		</LinearLayout>
-               
-               <TextView 
-                   android:id="@+id/middle_line_mobile_name"
-                   android:layout_width="match_parent"
-	               android:layout_height="1dp"
-	               android:layout_marginTop="42dp"
-	               android:layout_toRightOf="@+id/tv"
-	               android:background="@color/register_address_line_color" />
-               
-               <TextView 
-                   android:id="@+id/right_line_mobile_name"
-                   android:layout_width="1dp"
-                   android:layout_height="5dp"
-                   android:layout_marginTop="38dp"
-                   android:layout_alignParentRight="true"
-               	   android:background="@color/register_address_line_color" />
-               
-             </RelativeLayout>
-                
-                
-            </LinearLayout>
-            
-            
-             <LinearLayout 
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" 
-                android:orientation="horizontal"
-                android:gravity="center_vertical" >
-                
-                <CheckBox
-                android:id="@+id/chbx"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" 
-                android:checked="false"
-                android:text="Change Password"
-                android:visibility="gone"
-                android:textColor="#c34c41" />
-                
-            </LinearLayout>
-
-            <TextView 
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:text="Change Password"
-                android:textColor="#d59d99"
-                android:visibility="gone" />
-            
-            
-            
-            <LinearLayout 
-               android:id="@+id/cb_change_pwd"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-			   android:paddingBottom="12dp"
-               android:layout_marginLeft="8dp"
-               android:orientation="horizontal" >
-               
-               <ImageView 
-                   android:id="@+id/cb_iv_change_pwd"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:src="@drawable/checkbox_unselect" />
-               
-               <TextView 
-                   android:id="@+id/cb_tv_change_pwd"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_gravity="center_vertical"
-                   android:layout_marginLeft="10dp"
-                   android:textSize="@dimen/text_size_12"
-                   android:text="CHANGE PASSWORD"
-                   android:textColor="@color/register_address_text_unselected_color" />    
-           </LinearLayout>
-            
-           
-         
+                android:orientation="vertical"
+                >
 
-            <LinearLayout
-                android:id="@+id/ll_pwd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:visibility="gone"
-                android:background="@color/white"
-                android:orientation="vertical" >
-
-             <RelativeLayout 
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginLeft="8dp"
-               android:layout_marginRight="5dp"
-               
-               android:visibility="visible" >
-                 
-               <TextView 
-                   android:id="@+id/left_line_old_pwd"
-                   android:layout_width="1dp"
-                   android:layout_height="5dp"
-                   android:layout_marginTop="38dp"
-               	   android:background="@color/register_address_line_color" />
-               
                 <LinearLayout
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:gravity="center_vertical"
-		            android:orientation="horizontal"
-		            android:paddingBottom="5dp"
-		            android:paddingLeft="2dp"
-		            android:paddingTop="5dp" >
-	            
-	                <EditText
-	                    android:id="@+id/old_password"
-	                    android:layout_width="0dp"
-	                    android:layout_height="35dp"
-	                    android:layout_weight="1"
-	                    android:background="@null"
-	                    android:paddingTop="10dp"
-	                    android:textColorHint="@color/register_address_text_unselected_color"
-	                    android:hint="OLD PASSWORD"
-	                    android:password="true"
-	                    android:singleLine="true"
-	                    android:textSize="@dimen/text_size_12" />
-                
-        		</LinearLayout>
-               
-               <TextView 
-                   android:id="@+id/middle_line_old_pwd"
-                   android:layout_width="match_parent"
-	               android:layout_height="1dp"
-	               android:layout_marginTop="42dp"
-	               android:layout_toRightOf="@+id/tv"
-	               android:background="@color/register_address_line_color"  />
-               
-               <TextView 
-                   android:id="@+id/right_line_old_pwd"
-                   android:layout_width="1dp"
-                   android:layout_height="5dp"
-                   android:layout_marginTop="38dp"
-                   android:layout_alignParentRight="true"
-               	   android:background="@color/register_address_line_color"  />
-               
-             </RelativeLayout>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
-             <RelativeLayout 
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginLeft="8dp"
-               android:layout_marginRight="10dp"
-               android:visibility="visible" >
-                 
-               <TextView 
-                   android:id="@+id/left_line_new_pwd"
-                   android:layout_width="1dp"
-                   android:layout_height="5dp"
-                   android:layout_marginTop="38dp"
-               	   android:background="@color/register_address_line_color" />
-               
-                <LinearLayout
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:gravity="center_vertical"
-		            android:orientation="horizontal"
-		            android:paddingBottom="5dp"
-		            android:paddingLeft="2dp"
-		            android:paddingTop="5dp" >
-	            
-	                <EditText
-	                    android:id="@+id/new_password"
-	                    android:layout_width="0dp"
-	                    android:layout_height="35dp"
-	                    android:layout_weight="1"
-	                    android:background="@null"
-	                    android:paddingTop="10dp"
-	                    android:textColorHint="@color/register_address_text_unselected_color"
-	                    android:hint="NEW PASSWORD"
-	                    android:password="true"
-	                    android:singleLine="true"
-	                    android:textSize="@dimen/text_size_12" />
-                
-        		</LinearLayout>
-               
-               <TextView 
-                   android:id="@+id/middle_line_new_pwd"
-                   android:layout_width="match_parent"
-	               android:layout_height="1dp"
-	               android:layout_marginTop="42dp"
-	               android:layout_toRightOf="@+id/tv"
-	               android:background="@color/register_address_line_color" />
-               
-               <TextView 
-                   android:id="@+id/right_line_new_pwd"
-                   android:layout_width="1dp"
-                   android:layout_height="5dp"
-                   android:layout_marginTop="38dp"
-                   android:layout_alignParentRight="true"
-               	   android:background="@color/register_address_line_color" />
-               
-             </RelativeLayout>
 
-             <RelativeLayout 
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginLeft="8dp"
-               android:layout_marginRight="10dp"
-               android:visibility="visible" >
-                 
-               <TextView 
-                   android:id="@+id/left_line_confirm_pwd"
-                   android:layout_width="1dp"
-                   android:layout_height="5dp"
-                   android:layout_marginTop="38dp"
-               	   android:background="@color/register_address_line_color" />
-               
+                    <!-- firstname-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="First Name"
+                            android:textSize="@dimen/text_size_14" />
+
+                        <EditText
+                            android:id="@+id/fname"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:background="@null"
+                            android:hint="required"
+                            android:singleLine="true"
+                            android:textColorHint="@color/register_address_text_unselected_color"
+                            android:textSize="@dimen/text_size_15" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/register_address_text_unselected_color"></View>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:layout_marginTop="5dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Last Name"
+                            android:textSize="@dimen/text_size_14" />
+
+                        <EditText
+                            android:id="@+id/lname"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:background="@null"
+                            android:hint="optional"
+                            android:singleLine="true"
+                            android:textColorHint="@color/register_address_text_unselected_color"
+                            android:textSize="@dimen/text_size_15" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/register_address_text_unselected_color"></View>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Mobile No"
+                            android:textSize="@dimen/text_size_14" />
+
+                        <EditText
+                            android:id="@+id/contact"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:background="@null"
+                            android:hint="required"
+                            android:maxLength="10"
+                            android:inputType="number"
+                            android:singleLine="true"
+                            android:textColorHint="@color/register_address_text_unselected_color"
+                            android:textSize="@dimen/text_size_15" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/register_address_text_unselected_color"></View>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+//TODO, no longer used, i think
                 <LinearLayout
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:gravity="center_vertical"
-		            android:orientation="horizontal"
-		            android:paddingBottom="5dp"
-		            android:paddingLeft="2dp"
-		            android:paddingTop="5dp" >
-	            
-	                <EditText
-	                    android:id="@+id/conf_password"
-	                    android:layout_width="0dp"
-	                    android:layout_height="35dp"
-	                    android:layout_weight="1"
-	                    android:background="@null"
-	                    android:paddingTop="10dp"
-	                    android:password="true"
-	                    android:textColorHint="@color/register_address_text_unselected_color"
-	                    android:hint="CONFIRM PASSWORD"
-	                    android:singleLine="true"
-	                    android:textSize="@dimen/text_size_12" />
-                
-        		</LinearLayout>
-               
-               <TextView 
-                   android:id="@+id/middle_line_confirm_pwd"
-                   android:layout_width="match_parent"
-	               android:layout_height="1dp"
-	               android:layout_marginTop="42dp"
-	               android:layout_toRightOf="@+id/tv"
-	               android:background="@color/register_address_line_color" />
-               
-               <TextView 
-                   android:id="@+id/right_line_confirm_pwd"
-                   android:layout_width="1dp"
-                   android:layout_height="5dp"
-                   android:layout_marginTop="38dp"
-                   android:layout_alignParentRight="true"
-               	   android:background="@color/register_address_line_color" />
-               
-             </RelativeLayout>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    >
+                    <CheckBox
+                        android:id="@+id/chbx"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:text="Change Password"
+                        android:textColor="#c34c41"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:padding="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Change Password"
+                    android:textAllCaps="true"
+                    android:textSize="@dimen/text_size_14"
+                    android:textColor="@color/pallete_black"
+                    android:visibility="visible" />
+                </LinearLayout>
+
+//TODO, not used anymore either
+                <LinearLayout
+                    android:id="@+id/cb_change_pwd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:orientation="horizontal"
+                    android:paddingBottom="12dp"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/cb_iv_change_pwd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/checkbox_unselect" />
+
+                    <TextView
+                        android:id="@+id/cb_tv_change_pwd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:text="CHANGE PASSWORD"
+                        android:textColor="@color/register_address_text_unselected_color"
+                        android:textSize="@dimen/text_size_12" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/ll_pwd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    android:padding="8dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible">
+
+                        //TODO wha?
+                        <TextView
+                            android:id="@+id/left_line_old_pwd"
+                            android:layout_width="1dp"
+                            android:layout_height="5dp"
+                            android:layout_marginTop="38dp"
+                            android:background="@color/register_address_line_color" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical"
+                            android:layout_marginTop="5dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Old password"
+                                android:textSize="@dimen/text_size_14" />
+
+                            <EditText
+                                android:id="@+id/old_password"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:hint="******"
+                                android:password="true"
+                                android:singleLine="true"
+
+                                android:textColorHint="@color/register_address_text_unselected_color"
+                                android:textSize="@dimen/text_size_14" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/middle_line_old_pwd"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="42dp"
+                            android:layout_toRightOf="@+id/tv"
+                            android:background="@color/register_address_line_color" />
+
+                        <TextView
+                            android:id="@+id/right_line_old_pwd"
+                            android:layout_width="1dp"
+                            android:layout_height="5dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="38dp"
+                            android:background="@color/register_address_line_color" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/left_line_new_pwd"
+                            android:layout_width="1dp"
+                            android:layout_height="5dp"
+                            android:layout_marginTop="38dp"
+                            android:background="@color/register_address_line_color" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical"
+                            android:layout_marginTop="5dp">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="New password"
+                                android:textSize="@dimen/text_size_14" />
+
+                            <EditText
+                                android:id="@+id/new_password"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@null"
+                                android:hint="Should be 8 characters long"
+                                android:password="true"
+                                android:singleLine="true"
+                                android:textColorHint="@color/register_address_text_unselected_color"
+                                android:textSize="@dimen/text_size_14" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/middle_line_new_pwd"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="42dp"
+                            android:layout_toRightOf="@+id/tv"
+                            android:background="@color/register_address_line_color" />
+
+                        <TextView
+                            android:id="@+id/right_line_new_pwd"
+                            android:layout_width="1dp"
+                            android:layout_height="5dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="38dp"
+                            android:background="@color/register_address_line_color" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/left_line_confirm_pwd"
+                            android:layout_width="1dp"
+                            android:layout_height="5dp"
+                            android:layout_marginTop="38dp"
+                            android:background="@color/register_address_line_color" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical"
+                            android:layout_marginTop="5dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Confirm password"
+                                android:textSize="@dimen/text_size_14" />
+                            <EditText
+                                android:id="@+id/conf_password"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@null"
+                                android:hint="required"
+                                android:password="true"
+                                android:singleLine="true"
+                                android:textColorHint="@color/register_address_text_unselected_color"
+                                android:textSize="@dimen/text_size_14" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/middle_line_confirm_pwd"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="42dp"
+                            android:layout_toRightOf="@+id/tv"
+                            android:background="@color/register_address_line_color" />
+
+                        <TextView
+                            android:id="@+id/right_line_confirm_pwd"
+                            android:layout_width="1dp"
+                            android:layout_height="5dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="38dp"
+                            android:background="@color/register_address_line_color" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+
             </LinearLayout>
+        </ScrollView>
 
-            
-        </LinearLayout>
-    </ScrollView>
-    
-    <TextView
-       android:id="@+id/change"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginLeft="5dp"
-       android:layout_marginRight="5dp"
-       android:layout_marginTop="10dp"
-       android:layout_marginBottom="10dp"
-       android:gravity="center_horizontal"
-       android:padding="14dp"
-       android:background="@drawable/edit_profile_border"
-       android:text="SAVE CHANGES"
-       android:textColor="@color/white"
-       android:textSize="@dimen/text_size_18" />
-    
+        <TextView
+            android:id="@+id/change"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_profile_border"
+            android:gravity="center_horizontal"
+            android:padding="14dp"
+            android:text="SAVE CHANGES"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_16" />
+
     </LinearLayout>
 
 

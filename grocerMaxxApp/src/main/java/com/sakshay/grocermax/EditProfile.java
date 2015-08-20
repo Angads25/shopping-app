@@ -81,13 +81,13 @@ public class EditProfile extends BaseActivity{
 			middleLineFirstName = (TextView) findViewById(R.id.middle_line_first_name);
 			rightLineFirstName = (TextView) findViewById(R.id.right_line_first_name);
 
-			leftLineLastName = (TextView) findViewById(R.id.left_line_last_name);
-			middleLineLastName = (TextView) findViewById(R.id.middle_line_last_name);
-			rightLineLastName = (TextView) findViewById(R.id.right_line_last_name);
+			//leftLineLastName = (TextView) findViewById(R.id.left_line_last_name);
+			//middleLineLastName = (TextView) findViewById(R.id.middle_line_last_name);
+			//rightLineLastName = (TextView) findViewById(R.id.right_line_last_name);
 
-			leftLineMobileName = (TextView) findViewById(R.id.left_line_mobile_name);
-			middleLineMobileName = (TextView) findViewById(R.id.middle_line_mobile_name);
-			rightLineMobileName = (TextView) findViewById(R.id.right_line_mobile_name);
+			//leftLineMobileName = (TextView) findViewById(R.id.left_line_mobile_name);
+			//middleLineMobileName = (TextView) findViewById(R.id.middle_line_mobile_name);
+			//rightLineMobileName = (TextView) findViewById(R.id.right_line_mobile_name);
 
 			leftLineoldPwd = (TextView) findViewById(R.id.left_line_old_pwd);
 			middleLineOldPwd = (TextView) findViewById(R.id.middle_line_old_pwd);
