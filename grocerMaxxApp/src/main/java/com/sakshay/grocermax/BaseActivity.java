@@ -167,9 +167,9 @@ public abstract class BaseActivity extends FragmentActivity {
 			if (MySharedPrefs.INSTANCE.getUserId() != null) {
 				//TODO: commented this out as it was superimposing another image which was bigge than params specified,
 				//please handle again for login logout
-				//BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon);  //login icon
+				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon);  //login icon
 			} else {
-				//BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_logout);  //logout icon
+				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_logout);  //logout icon
 			}
 
 			if (MySharedPrefs.INSTANCE.getTotalItem() != null) {
@@ -211,8 +211,11 @@ public abstract class BaseActivity extends FragmentActivity {
 		imgSearchIcon.setOnClickListener(headerClick);
 		imgSearchCloseIcon.setOnClickListener(headerClick);
 
-		icon_header_back.setOnClickListener(headerClick);
-		tvHeaderName.setOnClickListener(headerClick);
+		if(icon_header_back != null && tvHeaderName != null) {
+			icon_header_back.setOnClickListener(headerClick);
+			tvHeaderName.setOnClickListener(headerClick);
+		}
+
 		edtSearch.setOnEditorActionListener(new OnEditorActionListener() {
 
 			@Override
@@ -229,6 +232,8 @@ public abstract class BaseActivity extends FragmentActivity {
 		}catch(Exception e){
 			new GrocermaxBaseException("BaseActivity","initHeader",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
+
+
 
 	}
 
@@ -928,6 +933,7 @@ public abstract class BaseActivity extends FragmentActivity {
 //					LoginActivity loginActivity = new LoginActivity();
 //					loginActivity.googlePlusLogoutLocally();
 							LoginActivity.googlePlusLogout();
+							Registration.googlePlusLogoutReg();
 //					loginActivity.googlePlusLogout();
 							MySharedPrefs.INSTANCE.clearAllData();
 						}
