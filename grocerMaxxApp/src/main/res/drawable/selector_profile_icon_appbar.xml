@@ -5,6 +5,6 @@
         android:state_pressed="true" />
     <item android:drawable="@drawable/profile_selected"
         android:state_focused="true" />
-    <item android:drawable="@drawable/profile" />
+    <!-- <item android:drawable="@drawable/profile" /> -->
 
 </selector>
