@@ -9,7 +9,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -29,6 +31,11 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.flurry.android.FlurryAgent;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
 import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.BaseResponseBean;
@@ -38,6 +45,7 @@ import com.sakshay.grocermax.bean.LoginResponse;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
+import com.sakshay.grocermax.utils.AppLoadingScreen;
 import com.sakshay.grocermax.utils.Constants;
 import com.sakshay.grocermax.utils.Constants.ToastConstant;
 import com.sakshay.grocermax.utils.CustomFonts;
@@ -48,7 +56,8 @@ import com.sakshay.grocermax.utils.UtilityMethods;
  * @author Pratyesh Singh
  */
 
-public class Registration extends BaseActivity implements OnClickListener {
+public class Registration extends BaseActivity implements
+		GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 	String SCREEN_NAME = "Registration";
 //	ForgotPasswordTask forgotPasswordTask = null;
 //	RegistrationTask registrationTask = null;
@@ -57,11 +66,22 @@ public class Registration extends BaseActivity implements OnClickListener {
 	boolean clickOther = false;
 	String USER_EMAIL = "";
 	String QUOTE_ID_AFTER_FB = "";
+	ImageView iv_googlePlus;
+	Context context = this;
+	EasyTracker tracker;
+
 	ImageView ivFacebook;
 	TextView tvFacebook;
-	private static final int RC_SIGN_IN = 0;          //
 	private static final int FB_SIGN_IN = 64206;
-	EasyTracker tracker;
+
+	private static final int RC_SIGN_IN = 0;
+	private static TextView tv_google_btn;
+	private boolean signedInUser;
+	private ConnectionResult mConnectionResult;
+	private boolean mIntentInProgress;
+	public static GoogleApiClient mGoogleApiClient;
+
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +90,14 @@ public class Registration extends BaseActivity implements OnClickListener {
 		SCREEN_NAME = getIntent().getExtras().getString("whichScreen");
 
 		mContext = this;
+
+			try {
+				mGoogleApiClient = new GoogleApiClient.Builder(Registration.this).
+						addConnectionCallbacks(Registration.this).addOnConnectionFailedListener(Registration.this).
+						addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
+				mGoogleApiClient.connect();
+			} catch (Exception e) {
+			}
 		
 		if (SCREEN_NAME.equals("ForgotPassword")) {
 			setContentView(R.layout.forgot_p);
@@ -150,10 +178,13 @@ public class Registration extends BaseActivity implements OnClickListener {
 			final CheckBox cbFemale = (CheckBox) findViewById(R.id.cb_female);
 			final CheckBox cbOther = (CheckBox) findViewById(R.id.cb_other);
 
+			tv_google_btn = (TextView) findViewById(R.id.reg_button_google);
+			iv_googlePlus = (ImageView) findViewById(R.id.reg_google_plus_left_icon);
+			tv_google_btn.setOnClickListener(google_signin_listener);
+			iv_googlePlus.setOnClickListener(google_signin_listener);
+
 			ivFacebook = (ImageView)findViewById(R.id.facebook_icon);
 			tvFacebook = (TextView)findViewById(R.id.button_facebook);
-			ImageView ivGoogle = (ImageView)findViewById(R.id.google_plus_left_icon);
-			TextView tvGoogle = (TextView)findViewById(R.id.button_google);
 
 			tvFacebook.setOnClickListener(fb_signin_listener);
 			ivFacebook.setOnClickListener(fb_signin_listener);
@@ -170,18 +201,7 @@ public class Registration extends BaseActivity implements OnClickListener {
 //					UtilityMethods.customToast("FB iv",mContext);
 //				}
 //			});
-			tvGoogle.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					UtilityMethods.customToast("Google Plus tv",mContext);
-				}
-			});
-			ivGoogle.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					UtilityMethods.customToast("Google Plus iv",mContext);
-				}
-			});
+
 
 //			ivFB.setClickable(this);
 //			tvFB.setClickable(this);
@@ -398,6 +418,9 @@ public class Registration extends BaseActivity implements OnClickListener {
 					}
 				}
 			});
+
+			initHeader(findViewById(R.id.header), true, null);
+
 		}catch(NullPointerException e){
 			new GrocermaxBaseException("Registeration", "displayRegistrationView", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
 		}catch(Exception e){
@@ -491,7 +514,7 @@ public class Registration extends BaseActivity implements OnClickListener {
 				//finish();
 				MySharedPrefs.INSTANCE.putUserId(userDataBean.getUserID());
 				if(MySharedPrefs.INSTANCE.getFacebookEmail()==null)
-				MySharedPrefs.INSTANCE.putUserEmail(((EditText)findViewById(R.id.email_id)).getText().toString().trim());
+				MySharedPrefs.INSTANCE.putUserEmail(((EditText)findViewById(R.id.et_register_email)).getText().toString().trim());
 				else
 				MySharedPrefs.INSTANCE.putUserEmail(MySharedPrefs.INSTANCE.getFacebookEmail());	
 				MySharedPrefs.INSTANCE.putLoginStatus(true);
@@ -653,6 +676,11 @@ public class Registration extends BaseActivity implements OnClickListener {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		try {
+			initHeader(findViewById(R.id.header), true, null);
+		}catch(Exception e){
+			new GrocermaxBaseException("Registeration","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	
 	@Override
@@ -682,52 +710,24 @@ public class Registration extends BaseActivity implements OnClickListener {
 
 
 	@Override
-	public void onClick(View v) {
-		try {
-			switch (v.getId()) {
-
-				case R.id.rl_button_facebook:
-					UtilityMethods.customToast("Facebook",this);
-					break;
-
-				case R.id.facebook_icon:
-					UtilityMethods.customToast("FB",this);
-					break;
-
-				case R.id.button_google:
-					UtilityMethods.customToast("Google",this);
-					break;
-
-				case R.id.google_plus_left_icon:
-					UtilityMethods.customToast("G+",this);
-					break;
-			}
-		}catch(Exception e){
-			new GrocermaxBaseException("Registeration", "onClick", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
-		}
-	}
-
-
-
-	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //		64206 requestCode
 
 		switch (requestCode) {
-//			case RC_SIGN_IN:
-//				try{
-//					if (resultCode == RESULT_OK) {
-//						signedInUser = false;
-//					}
-//					mIntentInProgress = false;
-//					if (!mGoogleApiClient.isConnecting()) {
-//						mGoogleApiClient.connect();
-//					}
-//				}catch(Exception e){
-//					new GrocermaxBaseException("LoginAactivity","OnResponseRcSignIn",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
-//				}
-//
-//				break;
+			case RC_SIGN_IN:
+				try{
+					if (resultCode == RESULT_OK) {
+						signedInUser = false;
+					}
+					mIntentInProgress = false;
+					if (!mGoogleApiClient.isConnecting()) {
+						mGoogleApiClient.connect();
+					}
+				}catch(Exception e){
+					new GrocermaxBaseException("LoginAactivity","OnResponseRcSignIn",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+				}
+
+				break;
 
 			case FB_SIGN_IN:
 				try{
@@ -903,6 +903,320 @@ public class Registration extends BaseActivity implements OnClickListener {
 	/**
 	 * for logging with user id and password
 	 * */
+
+
+
+
+	/**************************************************  GOOGLE PLUS INTEGARTION *************************************************/
+
+//	@Override
+//	protected void onStop() {
+//		// TODO Auto-generated method stub
+//		super.onStop();
+////		googlePlusLogout();
+////		if(mGoogleApiClient != null){
+////			if (mGoogleApiClient.isConnected()) {
+////	            mGoogleApiClient.disconnect();
+////	        }
+////		}
+//	}
+
+	/**
+	 * google sign in listener
+	 * */
+	OnClickListener google_signin_listener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			try {
+//			try{
+//				mGoogleApiClient = new GoogleApiClient.Builder(LoginActivity.this).
+//		        		addConnectionCallbacks(LoginActivity.this).addOnConnectionFailedListener(LoginActivity.this).
+//		        		addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
+//		        mGoogleApiClient.connect();
+//			}catch(Exception e){}
+				if (UtilityMethods.isInternetAvailable(mContext)) {
+					if (tv_google_btn.getText().toString().equalsIgnoreCase("Join with Google")) {
+						googleLoginWithEmailPermission();
+					} else if (tv_google_btn.getText().toString().equalsIgnoreCase("LOGOUT WITH GOOGLE")) {
+//					googlePlusLogoutLocally();
+						googlePlusLogoutReg();
+					}
+				} else {
+//				Toast.makeText(mContext, ToastConstant.msgNoInternet, Toast.LENGTH_SHORT).show();
+					UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
+				}
+			}catch(Exception e){
+				new GrocermaxBaseException("LoginActivity","google_signin_listener",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+			}
+
+		}
+	};
+
+
+	@Override
+	public void onConnectionFailed(ConnectionResult result) {
+		// TODO Auto-generated method stub
+		try {
+			//save the result and resolve the connection failure upon a user click.
+
+//		if (!result.hasResolution()) {
+			if (!mIntentInProgress && signedInUser && result.hasResolution()) {                         //pop up comes when user press on login with google and user click on cancel
+//            GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this, 0).show();
+				return;
+			}
+			if (!result.hasResolution()) {
+				GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this, 0).show();
+				return;
+
+			}
+			if (!mIntentInProgress) {
+				// store mConnectionResult
+				mConnectionResult = result;
+				if (signedInUser) {
+					resolveSignInError();
+				}
+			}
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","onConnectionFailed",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
+	}
+
+	@Override
+	public void onConnected(Bundle arg0) {
+		// TODO Auto-generated method stub
+		try {
+			AppLoadingScreen.getInstance(context).dismissDialog();
+			signedInUser = false;
+//        Toast.makeText(this, "Connected", Toast.LENGTH_LONG).show();
+//			UtilityMethods.customToast("Connected", this);
+			getProfileInformation();
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","onConnected",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
+	}
+
+	@Override
+	public void onConnectionSuspended(int cause) {
+		// TODO Auto-generated method stub
+		try{
+			mGoogleApiClient.connect();
+//	        updateProfile(false);
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","onConnectionSuspended",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
+	}
+
+	private void googleLoginWithEmailPermission(){
+		try{
+//		AppLoadingScreen.getInstance(context).showDialog();
+//		Toast.makeText(context,"22222", Toast.LENGTH_SHORT).show();
+
+//        Toast.makeText(context,"4444", Toast.LENGTH_SHORT).show();
+//        googlePlusLogin();
+
+//		new GooglePlus((Activity)context,context);
+			googlePlusLogin();
+
+//        Toast.makeText(context,"5555", Toast.LENGTH_SHORT).show();
+//		Intent intent = new Intent(this, GooglePlus.class);
+//		context.startActivity(intent);
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","googleLoginWithEmailPermission",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
+	}
+
+	private void googlePlusLogin() {
+		try {
+			if (mGoogleApiClient != null) {
+				if (!mGoogleApiClient.isConnecting()) {
+					signedInUser = true;
+					resolveSignInError();
+				}
+//				UtilityMethods.customToast("googlewkwk plus login else", context);
+			} else {
+//        	Toast.makeText(context,"google plus login else", Toast.LENGTH_SHORT).show();
+//				UtilityMethods.customToast("google plus login else", context);
+			}
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","googlePlusLogin",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
+	}
+
+	private void resolveSignInError() {
+//		Toast.makeText(context,"88888", Toast.LENGTH_SHORT).show();
+		if(mConnectionResult != null){
+			if (mConnectionResult.hasResolution()) {
+				try {
+					mIntentInProgress = true;
+					mConnectionResult.startResolutionForResult(this, RC_SIGN_IN);
+				} catch (IntentSender.SendIntentException e) {
+					mIntentInProgress = false;
+					mGoogleApiClient.connect();
+				}
+			}
+		}
+//		else{
+//		}
+	}
+
+	private void getProfileInformation() {
+		try {
+			if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
+				tv_google_btn.setText("LOGOUT WITH GOOGLE");
+				Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+				saveGoogleUserData(currentPerson);
+
+				String personName = currentPerson.getDisplayName();
+				String personPhotoUrl = currentPerson.getImage().getUrl();
+				String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
+//				UtilityMethods.customToast(personName+email, this);
+//				UtilityMethods.customToast(personPhotoUrl, this);
+
+//                currentPerson.getId()
+
+
+//                currentPerson.getAboutMe();
+//                currentPerson.getAgeRange();
+//                currentPerson.getBirthday();
+//                currentPerson.getBraggingRights();
+//                currentPerson.getCircledByCount();
+//                currentPerson.getCover();
+//                currentPerson.getCurrentLocation();
+//
+//                currentPerson.getGender();
+//                currentPerson.getId();
+//                currentPerson.getImage();
+//                currentPerson.getLanguage();
+//                currentPerson.getName();
+//                currentPerson.getNickname();
+//                currentPerson.getOrganizations();
+//                currentPerson.getPlacesLived();
+//                currentPerson.getPlusOneCount();
+//                currentPerson.getRelationshipStatus();
+//                currentPerson.getTagline();
+//                currentPerson.getUrl();
+//                currentPerson.getUrls();
+
+
+
+
+//                username.setText(personName);
+//                emailLabel.setText(email);
+
+//                Toast.makeText(this, personName, Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, email, Toast.LENGTH_LONG).show();
+
+
+
+//                new LoadProfileImage(image).execute(personPhotoUrl);
+				// update profile frame with new info about Google Account
+				// profile
+//                updateProfile(true);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void googlePlusLogoutReg() {
+		if(mGoogleApiClient != null){
+			if (mGoogleApiClient.isConnected()) {
+				Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+				mGoogleApiClient.disconnect();
+				mGoogleApiClient.connect();
+				if(tv_google_btn != null){
+					tv_google_btn.setText("Join with Google");
+				}
+//            updateProfile(false);
+			}
+		}
+	}
+
+//    public static void googlePlusLogoutLocally() {
+//    	if(mGoogleApiClient != null){
+//        if (mGoogleApiClient.isConnected()) {
+//            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+//            mGoogleApiClient.disconnect();
+//            mGoogleApiClient.connect();
+//
+//            if(tv_google_btn != null){
+//            	tv_google_btn.setText("Join with Google");
+//            }
+////            updateProfile(false);
+//         }
+//    	}
+//    }
+
+
+	/**
+	 * for saving google plus data
+	 * */
+	private void saveGoogleUserData(Person currentPerson) {
+		String USER_ID = "";
+//		String USER_FNAME = "";
+//		String USER_MNAME = "";
+//		String USER_LNAME = "";
+
+		USER_EMAIL = "";
+		String USER_NAME = "";
+
+
+
+		USER_NAME = currentPerson.getDisplayName();
+
+//		USER_FNAME = currentPerson.getName();
+//		USER_MNAME = user.getMiddleName();
+//		USER_LNAME = user.getLastName();
+		try {
+			USER_EMAIL = Plus.AccountApi.getAccountName(mGoogleApiClient);
+		} catch (Exception e) {
+			Log.e("ERROR", "Enable to get email");
+		}
+
+		USER_ID = currentPerson.getId();
+
+//		if (USER_FNAME != null && USER_FNAME.length() > 0)
+//			USER_NAME = USER_FNAME;
+//		if (USER_MNAME != null && USER_MNAME.length() > 0)
+//			USER_NAME = USER_NAME + " " + USER_MNAME;
+//		if (USER_LNAME != null && USER_LNAME.length() > 0)
+//			USER_NAME = USER_NAME + " " + USER_LNAME;
+
+		if (USER_NAME != null && USER_NAME.length() > 0)
+			MySharedPrefs.INSTANCE.putGoogleName(USER_NAME);
+
+		if (USER_ID != null && USER_ID.length() > 0)
+			MySharedPrefs.INSTANCE.putGoogleId(USER_ID);
+
+		if (USER_EMAIL != null && USER_EMAIL.length() > 0)
+			MySharedPrefs.INSTANCE.putGoogleEmail(USER_EMAIL);
+
+		MySharedPrefs.INSTANCE.putUserDataSet(true);
+
+		if (UtilityMethods.isInternetAvailable(mContext)) {
+			showDialog();
+			//-----------String url = UrlsConstants.LOGIN_URL+"uemail="+ userN + "&password=" + pwd;
+//			String url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ USER_EMAIL + "&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
+
+			String url = "";
+			if(MySharedPrefs.INSTANCE.getQuoteId()==null||MySharedPrefs.INSTANCE.getQuoteId().equals(""))
+			{
+				url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ USER_EMAIL + "&quote_id=no&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
+			}else{
+				url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ USER_EMAIL + "&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
+			}
+
+//			String url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getGoogleEmail() + "&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
+//			String url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getGoogleEmail() + "&fname=" + USER_NAME+"&number=0000000000";
+			myApi.reqLogin(url);
+
+		} else {
+//			Toast.makeText(mContext, ToastConstant.msgNoInternet ,Toast.LENGTH_LONG).show();
+			UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
+		}
+	}
+
+	/**************************************************  GOOGLE PLUS INTEGARTION *************************************************/
 
 
 
