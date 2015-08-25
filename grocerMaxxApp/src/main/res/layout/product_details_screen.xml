@@ -343,7 +343,7 @@
                                 android:src="@drawable/minus_icon_pl"
                                 android:visibility="visible"
                                 android:padding="5dp"
-                                android:background="@drawable/shape_grey_border_withfillcolor"
+                                android:background="@drawable/shape_grey_border_withfillcolor_without_right"
                                 />
 
                             <View
@@ -386,7 +386,7 @@
                                 android:contentDescription=""
                                 android:src="@drawable/plus_grey"
                                 android:visibility="visible"
-                                android:background="@drawable/shape_grey_border_withfillcolor"
+                                android:background="@drawable/shape_grey_border_withfillcolor_without_left"
                                 />
 
                         </LinearLayout>
