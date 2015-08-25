@@ -40,11 +40,8 @@
                     android:id="@+id/facebook_icon"
                     android:layout_width="40dp"
                     android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
                     android:background="@drawable/facebook_curve"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:src="@drawable/fb" />
+                    android:src="@drawable/facebook_success" />
 
                 <TextView
                     android:id="@+id/button_facebook"
@@ -73,8 +70,7 @@
                     android:layout_centerVertical="true"
                     android:background="@drawable/google_curve"
                     android:gravity="center"
-                    android:padding="6dp"
-                    android:src="@drawable/g_plus" />
+                    android:src="@drawable/google_success" />
 
                 <TextView
                     android:id="@+id/button_google"

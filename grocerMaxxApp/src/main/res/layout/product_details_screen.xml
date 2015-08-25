@@ -340,10 +340,11 @@
                                 android:layout_height="match_parent"
                                 android:layout_alignParentBottom="true"
                                 android:layout_toLeftOf="@+id/view2"
-                                android:src="@drawable/minus"
+                                android:src="@drawable/minus_icon_pl"
                                 android:visibility="visible"
+                                android:padding="5dp"
                                 android:background="@drawable/shape_grey_border_withfillcolor"
-                                android:alpha="0.2"/>
+                                />
 
                             <View
                                 android:id="@+id/view2"
@@ -383,10 +384,10 @@
                                 android:layout_alignParentBottom="true"
                                 android:layout_toLeftOf="@+id/add_cart_prod_list"
                                 android:contentDescription=""
-                                android:src="@drawable/plus"
+                                android:src="@drawable/plus_grey"
                                 android:visibility="visible"
                                 android:background="@drawable/shape_grey_border_withfillcolor"
-                                android:alpha="0.2"/>
+                                />
 
                         </LinearLayout>
 

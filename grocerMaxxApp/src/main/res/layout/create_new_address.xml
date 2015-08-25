@@ -196,17 +196,17 @@
                         android:singleLine="true"
                         android:textColorHint="@color/register_address_text_unselected_color"
                         android:textSize="@dimen/text_size_14" />
+                    <TextView
+                        android:id="@+id/middle_line_address_name_new_addr"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:layout_height="1dp"
+                        android:background="@color/register_address_line_color"
+                        android:visibility="visible"/>
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/middle_line_address_name_new_addr"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="42dp"
-                    android:layout_toRightOf="@+id/tv"
-                    android:background="@color/register_address_line_color"
-                    android:visibility="visible"/>
+
 
                 <TextView
                     android:id="@+id/right_line_address_name_new_addr"
@@ -214,6 +214,7 @@
                     android:layout_height="5dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="38dp"
+                    android:visibility="gone"
                     android:background="@color/register_address_line_color" />
 
             </RelativeLayout>
@@ -259,15 +260,17 @@
                         android:textColorHint="@color/light_Gray"
                         android:textSize="@dimen/text_size_14" />
 
+                    <TextView
+                        android:id="@+id/middle_line_address_name_new_addr"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:layout_height="1dp"
+                        android:background="@color/register_address_line_color"
+                        android:visibility="visible"/>
+
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/middle_line_city_new_addr"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="42dp"
-                    android:layout_toRightOf="@+id/tv"
-                    android:background="@color/register_address_line_color" />
+
 
                 <TextView
                     android:id="@+id/right_line_city_new_addr"
@@ -434,15 +437,17 @@
                         android:textColorHint="@color/register_address_text_unselected_color"
                         android:textSize="@dimen/text_size_14" />
 
+                    <TextView
+                        android:id="@+id/middle_line_address_name_new_addr"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:layout_height="1dp"
+                        android:background="@color/register_address_line_color"
+                        android:visibility="visible"/>
+
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/middle_line_flat_new_addr"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="42dp"
-                    android:layout_toRightOf="@+id/tv"
-                    android:background="@color/register_address_line_color" />
+
 
                 <TextView
                     android:id="@+id/right_line_flat_new_addr"
@@ -494,15 +499,16 @@
                         android:textColorHint="@color/register_address_text_unselected_color"
                         android:textSize="@dimen/text_size_14" />
 
+                    <TextView
+                        android:id="@+id/middle_line_address_name_new_addr"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:layout_height="1dp"
+                        android:background="@color/register_address_line_color"
+                        android:visibility="visible"/>
+
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/middle_line_location_new_addr"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="42dp"
-                    android:layout_toRightOf="@+id/tv"
-                    android:background="@color/register_address_line_color" />
 
                 <TextView
                     android:id="@+id/right_line_location_new_addr"
@@ -552,15 +558,17 @@
                         android:textColorHint="@color/register_address_text_unselected_color"
                         android:textSize="@dimen/text_size_14" />
 
+                    <TextView
+                        android:id="@+id/middle_line_address_name_new_addr"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:layout_height="1dp"
+                        android:background="@color/register_address_line_color"
+                        android:visibility="visible"/>
+
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/middle_line_landmark_new_addr"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="42dp"
-                    android:layout_toRightOf="@+id/tv"
-                    android:background="@color/register_address_line_color" />
+
 
                 <TextView
                     android:id="@+id/right_line_landmark_new_addr"
@@ -616,15 +624,15 @@
 
                     </EditText>
 
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/middle_line_address_name_new_addr"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:layout_height="1dp"
+                        android:background="@color/register_address_line_color"
+                        android:visibility="visible"/>
 
-                <TextView
-                    android:id="@+id/middle_line_pincode_new_addr"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="42dp"
-                    android:layout_toRightOf="@+id/tv"
-                    android:background="@color/register_address_line_color" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/right_line_pincode_new_addr"
@@ -647,7 +655,7 @@
                     android:id="@+id/cb_iv_billing"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:src="@drawable/checkbox_unselect" />
+                    android:src="@drawable/chkbox_unselected" />
 
                 <TextView
                     android:id="@+id/cb_tv_billing"
@@ -671,7 +679,7 @@
                     android:id="@+id/cb_iv_shipping"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:src="@drawable/checkbox_unselect" />
+                    android:src="@drawable/chkbox_unselected" />
 
                 <TextView
                     android:id="@+id/cb_tv_shipping"

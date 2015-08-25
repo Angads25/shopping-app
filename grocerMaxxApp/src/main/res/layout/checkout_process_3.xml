@@ -20,9 +20,9 @@
         android:paddingBottom="8dp">
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/carat_left"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/left_carat"
             android:id="@+id/iv_back"/>
 
         <TextView
@@ -36,12 +36,36 @@
             android:layout_toEndOf="@+id/iv_back"
             android:gravity="center"/>
 
-        <ImageView
-            android:layout_width="80dp"
+        <LinearLayout
+            android:layout_width="110dp"
             android:layout_height="40dp"
-            android:id="@+id/iv_checkout_progress_indicator"
-            android:background="@color/button_green"
-            android:layout_alignParentRight="true"/>
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/progress_green"
+                />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/progress_green"
+                />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/progress_green"
+                />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/progress_grey"
+                />
+
+        </LinearLayout>
     </RelativeLayout>
 
     <ScrollView
@@ -106,7 +130,7 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_alignParentRight="true"
-                            android:src="@drawable/checkbox_unselect"
+                            android:src="@drawable/chkbox_unselected"
                             android:id="@+id/iv_cod"/>
 
 
@@ -137,7 +161,7 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_alignParentRight="true"
-                            android:src="@drawable/checkbox_unselect"
+                            android:src="@drawable/chkbox_unselected"
                             android:id="@+id/iv_credit_debit_card"/>
 
 
@@ -168,7 +192,7 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_alignParentRight="true"
-                            android:src="@drawable/checkbox_unselect"
+                            android:src="@drawable/chkbox_unselected"
                             android:id="@+id/iv_sodexo_coupon"/>
 
                     </RelativeLayout>
@@ -187,19 +211,19 @@
                         android:layout_above="@+id/btn_select_delivery_details"
                         >
                         //TODO, replace this with imageView with mobikwik image
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <ImageView
+                            android:layout_width="100dp"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
                             android:textColor="@color/pallete_black"
-                            android:text="mobikwik image"
                             android:layout_alignParentLeft="true"
+                            android:src="@drawable/mobikwik"
                             />
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_alignParentRight="true"
-                            android:src="@drawable/checkbox_unselect"
+                            android:src="@drawable/chkbox_unselected"
                             android:id="@+id/iv_paytm"/>
 
 
@@ -214,19 +238,20 @@
                         android:layout_above="@+id/btn_select_delivery_details"
                         >
                         //TODO, replace this with imageView with paytm image
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                        <ImageView
+
+                            android:layout_width="100dp"
+                            android:layout_height="30dp"
                             android:textSize="@dimen/text_size_14"
                             android:textColor="@color/pallete_black"
-                            android:text="paytm image"
                             android:layout_alignParentLeft="true"
+                            android:src="@drawable/paytm"
                             />
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_alignParentRight="true"
-                            android:src="@drawable/checkbox_unselect"
+                            android:src="@drawable/chkbox_unselected"
                             android:id="@+id/iv_mobikwik"/>
 
 

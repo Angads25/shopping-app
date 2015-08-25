@@ -64,6 +64,7 @@
                     android:layout_marginTop="5dp"
                     android:textSize="28sp"
                     android:singleLine="true"
+                    android:ems="3"
                     android:textColor="@color/white"
                     android:id="@+id/tv_appbar_breadcrumb"/>
 
