@@ -107,7 +107,7 @@ public class CreateNewAddress extends BaseActivity{
 			tvContactRight = (TextView) findViewById(R.id.right_line_mobileno_new_addr);
 
 			tvPinCodeLeft = (TextView) findViewById(R.id.left_line_pincode_new_addr);
-			tvPinCodeMiddle = (TextView) findViewById(R.id.middle_line_pincode_new_addr);
+			//tvPinCodeMiddle = (TextView) findViewById(R.id.middle_line_pincode_new_addr);
 			tvPinCodeRight = (TextView) findViewById(R.id.left_line_pincode_new_addr);
 
 			button_create_address = (Button) findViewById(R.id.button_create_address);

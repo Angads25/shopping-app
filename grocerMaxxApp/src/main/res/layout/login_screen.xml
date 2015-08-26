@@ -19,11 +19,12 @@
             android:layout_alignParentTop="true">
 
             <ImageView
+                android:padding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:onClick="gotoHome"
-                android:src="@drawable/g_logo" />
+                android:src="@drawable/grocer_logo_login" />
         </LinearLayout>
 
         //TODO safely remove [no longer used]

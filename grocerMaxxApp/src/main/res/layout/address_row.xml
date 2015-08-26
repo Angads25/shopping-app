@@ -60,7 +60,7 @@
               android:id="@+id/iv_cb_checkout"
               android:layout_width="25dp"
               android:layout_height="25dp"
-              android:src="@drawable/checkbox_unselect"
+              android:src="@drawable/chkbox_unselected"
               android:layout_alignParentRight="true"/>
          
     </RelativeLayout>
@@ -268,7 +268,7 @@
             android:layout_above="@+id/rl_editaddress"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/light_Gray"
+            android:background="@color/register_address_text_unselected_color"
           ></View>
         <RelativeLayout
             android:layout_width="match_parent"
