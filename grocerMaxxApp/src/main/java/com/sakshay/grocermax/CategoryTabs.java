@@ -135,6 +135,7 @@ public class CategoryTabs extends BaseActivity {
 			TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
 			indicator.setViewPager(pager);
 
+
 			View headerView = findViewById(R.id.header);
 //			initHeader(headerView, true, header.replaceAll("/", " >> "));
 			if (MySharedPrefs.INSTANCE.getBradecrum() != null) {
