@@ -3,7 +3,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="8dp"
     card_view:cardCornerRadius="4dp"
@@ -14,11 +14,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="8dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="vertical">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="150dp"
             android:background="@color/white"
             android:orientation="horizontal"
             android:weightSum="3">
@@ -303,10 +304,11 @@
                                     android:layout_height="match_parent"
                                     android:layout_alignParentBottom="true"
                                     android:layout_toLeftOf="@+id/view2"
-                                    android:src="@drawable/minus"
+                                    android:src="@drawable/minus_icon_pl"
+                                    android:padding="5dp"
                                     android:visibility="visible"
-                                    android:background="@drawable/shape_grey_border_withfillcolor"
-                                    android:alpha="0.2"/>
+                                    android:background="@drawable/shape_grey_border_withfillcolor_without_right"
+                                    />
 
                                 <View
                                     android:id="@+id/view2"
@@ -346,10 +348,10 @@
                                     android:layout_alignParentBottom="true"
                                     android:layout_toLeftOf="@+id/add_cart_prod_list"
                                     android:contentDescription=""
-                                    android:src="@drawable/plus"
+                                    android:src="@drawable/plus_grey"
                                     android:visibility="visible"
-                                    android:background="@drawable/shape_grey_border_withfillcolor"
-                                    android:alpha="0.2"/>
+                                    android:background="@drawable/shape_grey_border_withfillcolor_without_left"
+                                    />
 
                             </LinearLayout>
 
@@ -372,9 +374,7 @@
             </RelativeLayout>
 
         </LinearLayout>
-    </LinearLayout>
-
-    <TextView
+        <TextView
             android:id="@+id/tv_offers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -384,8 +384,11 @@
             android:padding="5dp"
             android:layout_gravity="bottom"
             android:text="MCIVITIES COOKIES BUY 2,GET 1 FREE"
-            android:textColor="#ff4121"
-            android:textSize="@dimen/text_size_13"
-            android:visibility="gone" />
+            android:textColor="@color/primaryColor"
+            android:textSize="@dimen/text_size_15"
+            android:visibility="visible" />
+    </LinearLayout>
+
+
 
 </android.support.v7.widget.CardView>

@@ -184,27 +184,35 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/facebook_success"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:gravity="center"
+                />
             
             <ImageView 
                 android:id="@+id/google_success"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/google_success"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:gravity="center"
+                />
             
             <ImageView 
                 android:id="@+id/whatsapp_success"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/whatsapp_success"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:gravity="center"
+                />
             
             <ImageView 
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/write_success"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:gravity="center"
+                />
             
         </LinearLayout>
     
