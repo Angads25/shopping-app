@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/header"
-        layout="@layout/mart_header_2"
+        layout="@layout/mart_header"
         ></include>
 
     <LinearLayout

@@ -58,6 +58,9 @@ public class AppConstants {
 		public static final String ERROR_MSG = "Some error occured, try again.";
 		public static final String DATA_NOT_FOUND = "Data not found";
 		public static final String CART_EMPTY = "Your cart is empty";
+
+		public static final String SHIPPING_ADDRESS_EMPTY = "Please select shipping address";
+		public static final String BILLING_ADDRESS_EMPTY = "Please select billing address";
 		
 		
 		public static final String PRODUCT_DELETED = "Product deleted successfully";

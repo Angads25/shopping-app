@@ -872,11 +872,11 @@ public class UtilityMethods {
          textview.setGravity(1);
          textview.setBackgroundColor(Color.WHITE);
          textview.setTextColor(Color.WHITE);
-         textview.setPadding(10,10,10,10);
+         textview.setPadding(10, 10, 10, 10);
          Toast toast = new Toast(context);
          toast.setView(textview);
+//		 toast.getView().setBackgroundDrawable(new ColorDrawable(0xb22603));
          toast.getView().setBackgroundDrawable(new ColorDrawable(0xff123456));
-//         toast.getView().setBackgroundDrawable(new ColorDrawable(0xe5390e));
          toast.setDuration(Toast.LENGTH_SHORT);
          toast.setGravity(Gravity.BOTTOM|Gravity.CENTER|Gravity.FILL_HORIZONTAL, 0, 0);
          toast.show();

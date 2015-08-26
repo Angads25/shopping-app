@@ -30,8 +30,9 @@ public class Constants {
 	public static ArrayList<String> placesList = new ArrayList<String>(Arrays.asList("Choose Your Location", "Gurgaon"));
 
 	public static ArrayList<String> quantity = new ArrayList<String>(Arrays.asList("1", "2", "3", "4", "5"));
-	
-	
+
+	public static final String GCM_SENDER_KEY = "441080484159";
+
 	public static final String localCartFileCount = "localcartcount.txt";
 	
 	public static final String serverCartFile = "servercart.txt";

@@ -73,8 +73,8 @@ public class ReviewOrderAndPay extends BaseActivity
 	Intent intent;
 	ProgressDialog mProgressDialog;
 	String txnId;
-	TextView txtItemCount,txtSubTotal,txtShippingCharges,txtYouSaved,txtTotal;
-	TextView tvItemCount,tvSubTotal,tvShippingCharges,tvYouSaved,tvTotal;
+	TextView txtItemCount,txtSubTotal,txtShippingCharges,txtYouSaved,txtTotal,txtCouponDiscount;
+	TextView tvItemCount,tvSubTotal,tvShippingCharges,tvYouSaved,tvTotal,tvCouponDiscount;
 	EditText etCouponCode;
 	float saving=0;
 	String strApplyCoupon;
@@ -86,7 +86,8 @@ public class ReviewOrderAndPay extends BaseActivity
 		super.onCreate(savedInstanceState);
 		try {
 //		setContentView(R.layout.review_order_and_pay);
-			setContentView(R.layout.delete);
+//			setContentView(R.layout.delete);
+			setContentView(R.layout.checkout_process_3);
 			mProgressDialog = new ProgressDialog(ReviewOrderAndPay.this);
 //		String str = MySharedPrefs.INSTANCE.getCouponApply();
 
@@ -99,10 +100,15 @@ public class ReviewOrderAndPay extends BaseActivity
 			tv.setTypeface(CustomFonts.getInstance().getRobotoBlack(this));
 
 			/****************** PROMO CODE *********************/
-			RelativeLayout llOnlinePayment = (RelativeLayout) findViewById(R.id.ll_online_payment);
-			RelativeLayout llCashOnDelivery = (RelativeLayout) findViewById(R.id.ll_cash_on_delivery);
-			RelativeLayout llPayTM = (RelativeLayout) findViewById(R.id.ll_paytm);
-			RelativeLayout llMobiKwik = (RelativeLayout) findViewById(R.id.ll_mobikwik);
+//			RelativeLayout llOnlinePayment = (RelativeLayout) findViewById(R.id.ll_online_payment);
+//			RelativeLayout llCashOnDelivery = (RelativeLayout) findViewById(R.id.ll_cash_on_delivery);
+//			RelativeLayout llPayTM = (RelativeLayout) findViewById(R.id.ll_paytm);
+//			RelativeLayout llMobiKwik = (RelativeLayout) findViewById(R.id.ll_mobikwik);
+			RelativeLayout llOnlinePayment = (RelativeLayout) findViewById(R.id.rl_online_payment);
+			RelativeLayout llCashOnDelivery = (RelativeLayout) findViewById(R.id.rl_cash_on_delivery);
+			RelativeLayout llPayTM = (RelativeLayout) findViewById(R.id.rl_paytm);
+			RelativeLayout llMobiKwik = (RelativeLayout) findViewById(R.id.rl_mobikwik);
+
 
 			llFirstPage = (Button) findViewById(R.id.ll_first_page);
 			llSecondPage = (Button) findViewById(R.id.ll_second_page);
@@ -111,23 +117,28 @@ public class ReviewOrderAndPay extends BaseActivity
 			txtSubTotal = (TextView) findViewById(R.id.txt_subtotal);
 			txtShippingCharges = (TextView) findViewById(R.id.txt_shipping_charges);
 			txtYouSaved = (TextView) findViewById(R.id.txt_you_saved);
+			txtCouponDiscount = (TextView) findViewById(R.id.txt_coupon_discount);
 			txtTotal = (TextView) findViewById(R.id.txt_total);
 
 			tvItemCount = (TextView) findViewById(R.id.tv_item_count);
 			tvSubTotal = (TextView) findViewById(R.id.tv_subtotal);
 			tvShippingCharges = (TextView) findViewById(R.id.tv_shipping_charges);
 			tvYouSaved = (TextView) findViewById(R.id.tv_you_saved);
+			tvCouponDiscount = (TextView) findViewById(R.id.tv_coupon_discount);
 			tvTotal = (TextView) findViewById(R.id.tv_total);
+
 
 			txtItemCount.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			txtSubTotal.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 			txtShippingCharges.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			txtCouponDiscount.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			txtYouSaved.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 			txtTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 
 			tvItemCount.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			tvSubTotal.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 			tvShippingCharges.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			tvCouponDiscount.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 			tvYouSaved.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 			tvTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 
@@ -151,12 +162,15 @@ public class ReviewOrderAndPay extends BaseActivity
 				}
 			}
 
+
+
 			if (orderReviewBean.getCouponCode() != null && !orderReviewBean.getCouponCode().equalsIgnoreCase("null")) {
 				llFirstPage.setVisibility(View.GONE);
 				llSecondPage.setVisibility(View.VISIBLE);
 //			tvEnterCode.setText("Applied Code");
 				etCouponCode.setEnabled(false);
 				etCouponCode.setText(orderReviewBean.getCouponCode());
+//				tvCouponDiscount.setText();
 //			tvMiddleLineCoupon.setBackgroundDrawable(getResources().getDrawable(R.color.gray_1));
 			} else {
 				llFirstPage.setVisibility(View.VISIBLE);
@@ -342,7 +356,7 @@ public class ReviewOrderAndPay extends BaseActivity
 					// TODO Auto-generated method stub
 					bOnline = false;
 					bPayTM = false;
-					bPayTM = false;
+					bMobiKwik = false;
 					if (bCash) {
 						bCash = false;
 					} else {
@@ -629,7 +643,7 @@ public class ReviewOrderAndPay extends BaseActivity
 		 * Float.parseFloat(tax.getText().toString());
 		 */
 
-			total = Float.parseFloat(orderReviewBean.getGrandTotal()) + Float.parseFloat(orderReviewBean.getShipping_ammount()) + Float.parseFloat(orderReviewBean.getDiscount_amount());
+		total = Float.parseFloat(orderReviewBean.getGrandTotal()) + Float.parseFloat(orderReviewBean.getShipping_ammount()) + Float.parseFloat(orderReviewBean.getDiscount_amount());
 
 
 //		tvSubTotal.setText("Rs. "+String.format("%.2f",Float.parseFloat(orderReviewBean.getGrandTotal())));
@@ -641,7 +655,7 @@ public class ReviewOrderAndPay extends BaseActivity
 //		tvYouPay.setText("Rs. "+String.format("%.2f",Float.parseFloat(String.valueOf(total))));
 //		tvDiscountReview.setText("Rs. "+String.format("%.2f",Float.parseFloat(orderReviewBean.getDiscount_amount())));
 
-			initHeader(findViewById(R.id.header), true, "Review Order");
+			initHeader(findViewById(R.id.app_bar_header), true, "Payment Method");
 			initFooter(findViewById(R.id.footer), 4, 3);
 		}catch(Exception e){
 			new GrocermaxBaseException("ReviewOrderAndPay","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
@@ -675,7 +689,8 @@ public class ReviewOrderAndPay extends BaseActivity
             params.put("txnid",orderid);
             params.put("firstname",MySharedPrefs.INSTANCE.getFirstName()+" "+MySharedPrefs.INSTANCE.getLastName());
             params.put("email",MySharedPrefs.INSTANCE.getUserEmail());
-            params.put("phone","9999999999");
+//            params.put("phone", "9999999999");
+			params.put("phone",MySharedPrefs.INSTANCE.getMobileNo());
             params.put("productinfo","GrocerMax Product Info");
             
             params.remove("amount");
@@ -967,7 +982,7 @@ public class ReviewOrderAndPay extends BaseActivity
 		// TODO Auto-generated method stub
 		super.onResume();
 		try {
-			initHeader(findViewById(R.id.header), true, null);
+			initHeader(findViewById(R.id.app_bar_header), true, "Payment Method");
 		}catch(Exception e){
 			new GrocermaxBaseException("ReviewOrderAndPay","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}

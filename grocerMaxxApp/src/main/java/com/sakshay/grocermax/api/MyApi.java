@@ -201,7 +201,7 @@ public class MyApi {
 		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.ADD_TO_CART);
 		m_context.startService(reqIntent);
 	}
-	
+
 	public void reqAddToCartGuest(String url) {
 		Intent reqIntent = new Intent(m_context, ConnectionService.class);
 		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.ADD_TO_CART_GUEST);

@@ -382,7 +382,10 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					CheckoutAddressBean bean = (CheckoutAddressBean) bundle.getSerializable(ConnectionService.RESPONSE);
 			/*if(bean.getAddress().size()>0)
 			{*/
-					Intent intent = new Intent(CartProductList.this, ChooseAddress.class);
+					Intent intent = new Intent(CartProductList.this, com.sakshay.grocermax.ShippingAddress.class);
+//					Intent intent = new Intent(CartProductList.this, BillingAddress.class);
+//					Intent intent = new Intent(CartProductList.this, ChooseAddress.class);
+//					Intent intent = new Intent(CartProductList.this, DeliveryDetails.class);
 					intent.putExtra("addressBean", bean);
 					startActivity(intent);
 			/*}else{
@@ -704,9 +707,15 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 
 	private void callAddressApi()
 	{
-		showDialog();
-		String url = UrlsConstants.CHECKOUT_ADDRESS_BOOK+MySharedPrefs.INSTANCE.getUserId();
-		myApi.reqCheckOutAddress(url);
+		try {
+			showDialog();
+			String url = UrlsConstants.CHECKOUT_ADDRESS_BOOK + MySharedPrefs.INSTANCE.getUserId();
+			myApi.reqCheckOutAddress(url);
+		}catch(NullPointerException e){
+		new GrocermaxBaseException("CartProductList", "callAddressApi", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
+		}catch(Exception e){
+			new GrocermaxBaseException("CartProductList", "callAddressApi", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+		}
 	}
 
 	@Override

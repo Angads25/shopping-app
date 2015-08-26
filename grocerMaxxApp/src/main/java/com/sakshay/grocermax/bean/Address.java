@@ -39,6 +39,16 @@ public class Address implements Serializable{
 	private String region;
 	@Expose
 	private String street;
+	@Expose
+	private String is_default_billing;
+	@Expose
+	private String is_default_shipping;
+
+	public String getDefaultBilling() {
+		return is_default_billing;
+	}
+
+	public void setDefaultBilling(String is_default_billing) {	this.is_default_billing = is_default_billing; }
 
 	public String getStreetAddress() {
 		return StreetAddress;
@@ -52,10 +62,7 @@ public class Address implements Serializable{
 	 * 
 	 * @return The firstname
 	 */
-	
-	
-	
-	
+
 	public String getFirstname() {
 		return firstname;
 	}

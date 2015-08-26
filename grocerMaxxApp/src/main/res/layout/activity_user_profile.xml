@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/mart_header_2"></include>
+    <include layout="@layout/mart_header_2"
+        android:id="@+id/app_bar_header"></include>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -39,32 +40,32 @@
                >
 
                 <TextView
+                    android:id="@+id/tv_userprofile_fullname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_16"
                     android:textColor="@color/pallete_black"
                     android:layout_marginTop="10dp"
                     android:text="Full Name"
-                    android:id="@+id/tv_userprofile_fullname"
                     />
                 <TextView
+                    android:id="@+id/tv_userprofile_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_14"
                     android:textColor="@color/light_Gray"
                     android:layout_marginTop="5dp"
                     android:text="email@email.com"
-                    android:id="@+id/tv_userprofile_email"
                     />
 
                 <TextView
+                    android:id="@+id/tv_userprofile_phoneno"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_14"
                     android:textColor="@color/light_Gray"
                     android:layout_marginTop="10dp"
                     android:text="+91 99999999"
-                    android:id="@+id/tv_userprofile_phoneno"
                     />
             </LinearLayout>
 
@@ -77,11 +78,42 @@
             android:background="@color/white"
             android:orientation="vertical"
             android:layout_below="@+id/ll_userprofile_top"
-            android:weightSum="3"
+            android:weightSum="8"
             android:layout_marginTop="10dp"
             android:elevation="5dp">
 
             <RelativeLayout
+                android:id="@+id/rl_login_signup"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="8dp"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/tv_login_signup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Login/Sign up"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/pallete_black"
+                    android:textSize="@dimen/text_size_16"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/arrow_right"
+                    android:layout_alignParentRight="true"
+
+                    />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentRight="true"
+                android:background="@color/light_Gray"></View>
+
+
+            <RelativeLayout
+                android:id="@+id/rl_orderhistory"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:padding="8dp"
@@ -90,11 +122,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="Order History"
+                    android:gravity="center_vertical"
                     android:textColor="@color/pallete_black"
                     android:textSize="@dimen/text_size_16"/>
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:src="@drawable/arrow_right"
                     android:layout_alignParentRight="true"
 
@@ -107,6 +141,7 @@
                 android:background="@color/light_Gray"></View>
 
             <RelativeLayout
+                android:id="@+id/rl_myaddresses"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:padding="8dp"
@@ -115,11 +150,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="My Addresses"
+                    android:gravity="center_vertical"
                     android:textColor="@color/pallete_black"
                     android:textSize="@dimen/text_size_16"/>
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:src="@drawable/arrow_right"
                     android:layout_alignParentRight="true"
 
@@ -134,6 +171,7 @@
 
 
             <RelativeLayout
+                android:id="@+id/rl_viewprofile"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:padding="8dp"
@@ -141,17 +179,137 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Edit my information"
+                    android:text="View Profile"
+                    android:gravity="center_vertical"
                     android:textColor="@color/pallete_black"
                     android:textSize="@dimen/text_size_16"/>
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:src="@drawable/arrow_right"
                     android:layout_alignParentRight="true"
 
                     />
             </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentRight="true"
+                android:background="@color/light_Gray"></View>
+
+            <RelativeLayout
+                android:id="@+id/rl_invitefriends"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="8dp"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Invite Friends"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/pallete_black"
+                    android:textSize="@dimen/text_size_16"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/arrow_right"
+                    android:layout_alignParentRight="true"
+
+                    />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentRight="true"
+                android:background="@color/light_Gray"></View>
+
+            <RelativeLayout
+                android:id="@+id/rl_callus"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="8dp"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Call Us"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/pallete_black"
+                    android:textSize="@dimen/text_size_16"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/arrow_right"
+                    android:layout_alignParentRight="true"
+
+                    />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentRight="true"
+                android:background="@color/light_Gray"></View>
+
+            <RelativeLayout
+                android:id="@+id/rl_writetous"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="8dp"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Write To Us"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/pallete_black"
+                    android:textSize="@dimen/text_size_16"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/arrow_right"
+                    android:layout_alignParentRight="true"
+
+                    />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentRight="true"
+                android:background="@color/light_Gray"></View>
+
+            <RelativeLayout
+                android:id="@+id/rl_signout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="8dp"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="SIGN OUT"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/pallete_black"
+                    android:textSize="@dimen/text_size_16"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/arrow_right"
+                    android:layout_alignParentRight="true"
+
+                    />
+            </RelativeLayout>
+
+
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

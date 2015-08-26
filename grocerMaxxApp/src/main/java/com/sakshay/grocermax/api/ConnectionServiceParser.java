@@ -243,6 +243,7 @@ public class ConnectionServiceParser {
 		JSONObject response = new JSONObject(jsonString);
 		JSONArray shipping_obj = response.getJSONArray("Shipping");
 		HashMap<String,ArrayList<String>> date_timeSlot=new HashMap<String, ArrayList<String>>();
+//		HashMap<String,ArrayList<String>> date_timeAvailableSlot=new HashMap<String, ArrayList<String>>();             //////
 		for(int i=0;i<shipping_obj.length();i++)
 		{
 			JSONObject slot_obj=shipping_obj.getJSONObject(i);
@@ -251,13 +252,48 @@ public class ConnectionServiceParser {
 				ArrayList<String> timeSlot=date_timeSlot.get(slot_obj.getString("Date"));
 				timeSlot.add(slot_obj.getString("TimeSlot"));
 				date_timeSlot.put(slot_obj.getString("Date"), timeSlot);
+
+//				ArrayList<String> timeSlot11 = date_timeSlot.get(slot_obj.getString("Date")); //////////
+//				timeSlot11.add(String.valueOf(slot_obj.getInt("Available"))); /////////////////////////////
+////				ArrayList<String> timeSlot11=new ArrayList<String>();              ///////////////
+////				timeSlot11.add(String.valueOf(slot_obj.getInt("Available")));
+//				date_timeAvailableSlot.put(slot_obj.getString("Date"), timeSlot11);///////////////
+
 			}else{
 				ArrayList<String> timeSlot=new ArrayList<String>();
 				timeSlot.add(slot_obj.getString("TimeSlot"));
 				date_timeSlot.put(slot_obj.getString("Date"), timeSlot);
+
+//				ArrayList<String> timeSlot11=new ArrayList<String>();              ///////////////
+//				timeSlot11.add(String.valueOf(slot_obj.getInt("Available")));                  ////////////////
+//				date_timeAvailableSlot.put(slot_obj.getString("Date"), timeSlot11);//////////////
 			}
 		}
+
+
+		HashMap<String,ArrayList<String>> date_timeAvailableSlot=new HashMap<String, ArrayList<String>>();             //////
+		for(int i=0;i<shipping_obj.length();i++)
+		{
+			JSONObject slot_obj=shipping_obj.getJSONObject(i);
+			if(date_timeSlot.containsKey(slot_obj.getString("Date")))
+			{
+				ArrayList<String> timeSlot11 = date_timeSlot.get(slot_obj.getString("Date")); //////////
+				timeSlot11.add(String.valueOf(slot_obj.getInt("Available"))); /////////////////////////////
+//				ArrayList<String> timeSlot11=new ArrayList<String>();              ///////////////
+//				timeSlot11.add(String.valueOf(slot_obj.getInt("Available")));
+				date_timeAvailableSlot.put(slot_obj.getString("Date"), timeSlot11);///////////////
+			}else{
+				ArrayList<String> timeSlot11=new ArrayList<String>();              ///////////////
+				timeSlot11.add(String.valueOf(slot_obj.getInt("Available")));                  ////////////////
+				date_timeAvailableSlot.put(slot_obj.getString("Date"), timeSlot11);//////////////
+			}
+		}
+
+
+
+
 		bean.setDate_timeSlot(date_timeSlot);
+		bean.setDate_timeAvailableSlot(date_timeAvailableSlot);
 		
 		return bean;
 	}

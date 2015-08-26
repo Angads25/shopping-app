@@ -83,7 +83,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	protected Context mContext = this;
 	public static Activity activity;
 	public DisplayImageOptions baseImageoptions;
-
+	private static SearchLoader searchLoader = null;
 	ImageView icon_header_back;
 //	ImageView icon_header_logo,
 	ImageView icon_header_logo_without_search,icon_header_logo_with_search;
@@ -93,7 +93,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	public static TextView cart_count_txt;
 	private PopupWindow popupMenuOption;
 	private LinearLayout llSearchLayout;
-	private EditText edtSearch;
+	public EditText edtSearch;
 	private ImageView imgSearchIcon;
 	private ImageView imgSearchCloseIcon;
 	private RelativeLayout rlSearchLook;
@@ -167,9 +167,12 @@ public abstract class BaseActivity extends FragmentActivity {
 			if (MySharedPrefs.INSTANCE.getUserId() != null) {
 				//TODO: commented this out as it was superimposing another image which was bigge than params specified,
 				//please handle again for login logout
-				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon);  //login icon
+//				BaseActivity.icon_header_user.setEnabled(true);
+				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_logout);  //login icon
+
 			} else {
-				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_logout);  //logout icon
+//				BaseActivity.icon_header_user.setEnabled(true);
+				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon);  //logout icon
 			}
 
 			if (MySharedPrefs.INSTANCE.getTotalItem() != null) {
@@ -224,6 +227,7 @@ public abstract class BaseActivity extends FragmentActivity {
 
 				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 					UtilityMethods.hideKeyboardFromContext(BaseActivity.this);
+
 					goforsearch();
 				}
 				return false;
@@ -271,7 +275,9 @@ public abstract class BaseActivity extends FragmentActivity {
 					case R.id.icon_header_user:
 						if (keyboardVisibility)
 							UtilityMethods.hideKeyBoard(BaseActivity.this);
-						showMoreOption(icon_header_user);
+//							showMoreOption(icon_header_user);
+							Intent intent2 = new Intent(mContext,UserHeaderProfile.class);
+							startActivity(intent2);
 						break;
 					case R.id.nom_producte:
 //				ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart(BaseActivity.this, Constants.localCloneFile);
@@ -398,6 +404,7 @@ public abstract class BaseActivity extends FragmentActivity {
 
 	public void goforsearch() {
 		try {
+
 			search_key = edtSearch.getText().toString().trim();
 			if (!search_key.equals("")) {
 				UtilityMethods.hideKeyBoard(BaseActivity.this);
@@ -407,7 +414,22 @@ public abstract class BaseActivity extends FragmentActivity {
 				String url = UrlsConstants.SEARCH_PRODUCT + search_key;
 //			myApi.reqSearchProductList(url);
 				url = url.replace(" ", "%20");
-				new SearchLoader(this).execute(url);
+//				new SearchLoader(this,search_key).execute(url);
+
+//				if (UtilityMethods.getCurrentClassName(this).equals(getApplicationContext().getPackageName() + ".SearchTabs")) {
+//
+//				}
+
+				if(BaseActivity.searchLoader != null){
+					if(!BaseActivity.searchLoader.isCancelled()){
+						BaseActivity.searchLoader.cancel(true);
+					}
+				}
+
+				BaseActivity.searchLoader = new SearchLoader(this,search_key);
+				BaseActivity.searchLoader.execute(url);
+
+
 				Log.i("SEARCH_REQUEST", "URL::" + url);
 			} else {
 //			Toast.makeText(mContext,ToastConstant.ENTER_TEXT,

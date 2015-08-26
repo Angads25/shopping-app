@@ -49,6 +49,7 @@
         android:layout_margin="10dp"
         android:orientation="vertical">
 
+        <!--android:text="Retry Payment"-->
         //TODO, this is no longer a continue button it is a retry payment
         <TextView
             android:id="@+id/continueButton"
@@ -56,11 +57,13 @@
             android:layout_height="wrap_content"
             android:background="@drawable/sucess_failure_button"
             android:gravity="center"
-            android:text="Retry Payment"
+            android:text="Continue Shopping"
+
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_16" />
 
+        <!--android:text="Pay via Cash on Delivery"-->
         //TODO, this is no longer orderhistroy, it is pay via cash on delivery
         <TextView
             android:id="@+id/orderHistory"
@@ -70,7 +73,8 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/pay_via_cash_on_delivery"
             android:gravity="center"
-            android:text="Pay via Cash on Delivery"
+            android:text="Order History"
+
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_16" />

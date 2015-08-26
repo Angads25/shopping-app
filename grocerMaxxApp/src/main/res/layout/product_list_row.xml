@@ -178,14 +178,15 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1"
+                            android:text=""
                             android:id="@+id/quantity_2"
                             android:textSize="@dimen/text_size_14"/>
                         <TextView
                             android:id="@+id/tv_multiply"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="x"
+                            android:text=""
+                            android:visibility="gone"
                             android:textAllCaps="true"
                             android:layout_marginLeft="2dp"
                             android:layout_marginRight="2dp"

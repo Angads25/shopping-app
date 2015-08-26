@@ -19,6 +19,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -37,20 +38,20 @@ import com.sakshay.grocermax.utils.UtilityMethods;
 import com.viewpagerindicator.TabPageIndicator;
 
 public class SearchTabs extends BaseActivity{
-
-	private static SearchTabs instance = null;
-	public static SearchTabs getInstance(){
-		if(instance == null){
-			instance = new SearchTabs();
-		}
-		return instance;
-	}
-	public SearchTabs(){
-		instance = this;
-	}
+	private String searchString;
+//	private static SearchTabs instance = null;
+//	public static SearchTabs getInstance(){
+//		if(instance == null){
+//			instance = new SearchTabs();
+//		}
+//		return instance;
+//	}
+//	public SearchTabs(){
+//		instance = this;
+//	}
 	
 	private String header;
-	private ArrayList<CategorySubcategoryBean> catObj;
+//	private ArrayList<CategorySubcategoryBean> catObj;
 	public Product product;
 //	TextView tv_bradcrum;
 //	LinearLayout ll_brad_crum;
@@ -66,6 +67,9 @@ public class SearchTabs extends BaseActivity{
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.s_category_tabs);
         try {
+			Intent intent = getIntent();
+			searchString = intent.getStringExtra("SEARCHSTRING");
+
 			addActionsInFilter(MyReceiverActions.PRODUCT_CONTENT_LIST);
 			addActionsInFilter(MyReceiverActions.ADD_TO_CART);
 			ProductListFragments p = new ProductListFragments();
@@ -133,6 +137,7 @@ public class SearchTabs extends BaseActivity{
 			ViewPager pager = (ViewPager) findViewById(R.id.pager);
 			pager.setAdapter(adapter);
 
+
 //        pager.setOffscreenPageLimit(catObj.size());
 			pager.setOffscreenPageLimit(SearchLoader.jsonObjectTop.length);
 
@@ -140,18 +145,21 @@ public class SearchTabs extends BaseActivity{
 			indicator.setViewPager(pager);
 
 			View headerView = findViewById(R.id.header);
-			initHeader(headerView, true, header.replaceAll("/", " >> "));
+			initHeader(headerView, true, searchString);
+			showSearchView(true);
+			edtSearch.setText(searchString);
+//			View headerView = findViewById(R.id.header);
+//			initHeader(headerView, true, header.replaceAll("/", " >> "));
+//			TextView textView = (TextView) headerView.findViewById(R.id.screenName);
+//			textView.setOnClickListener(new View.OnClickListener() {
+//
+//				@Override
+//				public void onClick(View v) {
+//					// TODO Auto-generated method stub
+//					finish();
+//				}
+//			});
 
-			TextView textView = (TextView) headerView.findViewById(R.id.screenName);
-
-			textView.setOnClickListener(new View.OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					finish();
-				}
-			});
 		}catch(Exception e){
 			new GrocermaxBaseException("SearchTabs","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
@@ -159,28 +167,29 @@ public class SearchTabs extends BaseActivity{
     }
 
 	class GoogleMusicAdapter extends FragmentPagerAdapter {
-        public GoogleMusicAdapter(FragmentManager fm) {
-            super(fm);
-        }
 
-        @Override
-        public Fragment getItem(int position) {
-        	return SearchProductFragments.newInstance(SearchLoader.jsonObjectTop[position % SearchLoader.jsonObjectTop.length]);
-        }
+			public GoogleMusicAdapter(FragmentManager fm) {
+				super(fm);
+			}
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-        	if(SearchLoader.listCategory.get(position % SearchLoader.jsonObjectTop.length).get(SearchLoader.TAG_CAT_NAME) != null){
-        		return SearchLoader.listCategory.get(position % SearchLoader.jsonObjectTop.length).get(SearchLoader.TAG_CAT_NAME).toUpperCase();
-        	}else{
-        		return SearchLoader.listCategory.get(position % SearchLoader.jsonObjectTop.length).get(SearchLoader.TAG_CAT_NAME);
-        	}
-        }
-        	
-        @Override
-        public int getCount() {
-        	return SearchLoader.jsonObjectTop.length;
-        }
+			@Override
+			public Fragment getItem ( int position){
+				return SearchProductFragments.newInstance(SearchLoader.jsonObjectTop[position % SearchLoader.jsonObjectTop.length]);
+			}
+
+			@Override
+			public CharSequence getPageTitle ( int position){
+				if (SearchLoader.listCategory.get(position % SearchLoader.jsonObjectTop.length).get(SearchLoader.TAG_CAT_NAME) != null) {
+					return SearchLoader.listCategory.get(position % SearchLoader.jsonObjectTop.length).get(SearchLoader.TAG_CAT_NAME).toUpperCase();
+				} else {
+					return SearchLoader.listCategory.get(position % SearchLoader.jsonObjectTop.length).get(SearchLoader.TAG_CAT_NAME);
+				}
+			}
+
+			@Override
+			public int getCount () {
+				return SearchLoader.jsonObjectTop.length;
+			}
         
     }
 
@@ -281,7 +290,10 @@ public class SearchTabs extends BaseActivity{
 		// TODO Auto-generated method stub
 		super.onResume();
 		try {
-			initHeader(findViewById(R.id.header), true, null);
+			initHeader(findViewById(R.id.header), true, searchString);
+//			initHeader(findViewById(R.id.header), true, null);
+			showSearchView(true);
+			edtSearch.setText(searchString);
 			if (martHeader != null) {
 				martHeader.setVisibility(View.GONE);
 			}

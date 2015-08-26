@@ -241,6 +241,10 @@ public class CartAdapter extends BaseAdapter{
 					value1=value1+1;
 
 					ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart(activity, Constants.localCloneFile);
+
+//					int size1 = cart_products.size();
+//					int size2 = CartProductList.cartList.size();
+
 //					if(cart_products.size() > 0 && CartProductList.cartList.size() > 0){
 					if(cart_products.get(position).getItem_id().equalsIgnoreCase(CartProductList.cartList.get(position).getItem_id())){  //manage clone cart when added or deleted to show update quantity on product listing and description
 //						cart_products.get(position).setQty(CartProductList.cartList.get(position).getQty());  //plus

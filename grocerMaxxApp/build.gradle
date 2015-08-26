@@ -28,6 +28,18 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.android.support:appcompat-v7:21.0.+'
     compile 'com.android.support:support-v4:21.0.+'
+
+
+    //compile 'com.google.android.gms:play-services-base:6.5.87'
+    //compile files('libs/gcm.jar')
+
+
+    //compile 'com.google.android.gms:play-services:7.8.0'
+   //compile 'com.google.android.gms:play-services-fitness:7.8.0'
+    //compile 'com.google.android.gms:play-services-wearable:7.8.0'
+
+    //compile files('libs/rewardsboxsdk-with-googleplayservice.jar')
+    //compile files('com.google.gms.google-services')
     //compile 'com.google.android.gms:play-services:+'
     compile 'com.google.android.gms:play-services-plus:7.5.0'
     compile 'com.google.android.gms:play-services-identity:7.5.0'

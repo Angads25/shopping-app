@@ -21,8 +21,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.sakshay.grocermax.BaseActivity;
+import com.sakshay.grocermax.LoginActivity;
 import com.sakshay.grocermax.SearchTabs;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
+import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.MyHttpUtils;
 import com.sakshay.grocermax.utils.UtilityMethods;
 
@@ -34,7 +36,7 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 	JSONArray jsonArrMulProd[];
 //	public static HashMap<String, JSONArray> valuePairs;
 //	public static JSONObject jsonObject[];
-	public static JSONObject jsonObjectTop[];                                 //contain array for individual tab. 
+	public static JSONObject jsonObjectTop[];                                 //contain array for individual tab.
 	private final String TAG_CAT_CATEGORY_ID = "category_id";
 	private final String TAG_CAT_PARENT_ID = "parent_id";
 	public static final String TAG_CAT_NAME = "name";
@@ -55,13 +57,16 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 //	private final String TAG_PROD_DESCRIPTION = "product_description";
 	private final String TAG_PROD_CURRENCY_CODE = "currencycode";
 	private final String TAG_PROD_CAT_ID = "categoryid";
-	
+
+	private String searchKey;
+
 	private Activity activity;
-	public SearchLoader(Context context){
+	public SearchLoader(Context context,String search_key){
 		this.context = context;
+		this.searchKey = search_key;
 		this.activity = activity;
 	}
-	
+
     @Override
     protected String doInBackground(String... params) {
 		String strResult = "";
@@ -146,40 +151,46 @@ public class SearchLoader extends AsyncTask<String, String, String> {
     		for(int i=0;i<jsonArrProd.length();i++)
     		{
     			map = new HashMap<String, String>();
-    			JSONObject jsonObjectProd = jsonArrProd.getJSONObject(i);
-    			String strProdName = jsonObjectProd.getString("Name");
-    			String strProdBrand = jsonObjectProd.getString("p_brand");
-    			String strProdPName = jsonObjectProd.getString("p_name");
-    			String strProdPack = jsonObjectProd.getString("p_pack");
-    			String strProdPositionLevel = jsonObjectProd.getString("promotion_level");
-    			String strProdStatus = jsonObjectProd.getString("Status");
-    			String strProdId = jsonObjectProd.getString("productid");
-    			String strProdPrice = jsonObjectProd.getString("Price");
-    			String strProdSalePrice = jsonObjectProd.getString("sale_price");
-    			String strProdImage = jsonObjectProd.getString("Image");
-//    			String strProdQuantity = jsonObjectProd.getString("product_qty");
-//    			String strProdDesc = jsonObjectProd.getString("product_description");
-    			String strProdCurrencyCode = jsonObjectProd.getString("currencycode");
-    			
-    			String strProdCatId = jsonObjectProd.getJSONArray("categoryid").getString(0);
-    			
-    			map.put(TAG_PROD_FULL_NAME, strProdName);
-    			map.put(TAG_PROD_BRAND, strProdBrand);
-    			map.put(TAG_PROD_P_NAME, strProdPName);
-    			map.put(TAG_PROD_PACK, strProdPack);
-    			map.put(TAG_PROD_PROMOTION_LEVEL, strProdPositionLevel);
-    			map.put(TAG_PROD_STATUS, strProdStatus);
-    			map.put(TAG_PROD_PRODUCT_ID, strProdId);
-    			map.put(TAG_PROD_PRICE, strProdPrice);
-    			map.put(TAG_PROD_SALE_PRICE, strProdSalePrice);
-    			map.put(TAG_PROD_IMAGE, strProdImage);
+				JSONObject jsonObjectProd = jsonArrProd.getJSONObject(i);
+				JSONArray json = jsonObjectProd.getJSONArray("categoryid");
+				if(json.length()>0) {
+					String strProdCatId = json.getString(0);
+					String strProdName = jsonObjectProd.getString("Name");
+					String strProdBrand = jsonObjectProd.getString("p_brand");
+					String strProdPName = jsonObjectProd.getString("p_name");
+					String strProdPack = jsonObjectProd.getString("p_pack");
+					String strProdPositionLevel = jsonObjectProd.getString("promotion_level");
+					String strProdStatus = jsonObjectProd.getString("Status");
+					String strProdId = jsonObjectProd.getString("productid");
+					String strProdPrice = jsonObjectProd.getString("Price");
+					String strProdSalePrice = jsonObjectProd.getString("sale_price");
+					String strProdImage = jsonObjectProd.getString("Image");
+	//    			String strProdQuantity = jsonObjectProd.getString("product_qty");
+	//    			String strProdDesc = jsonObjectProd.getString("product_description");
+					String strProdCurrencyCode = jsonObjectProd.getString("currencycode");
+
+	//    			String strProdCatId = jsonObjectProd.getJSONArray("categoryid").getString(0);
+
+
+
+					map.put(TAG_PROD_FULL_NAME, strProdName);
+					map.put(TAG_PROD_BRAND, strProdBrand);
+					map.put(TAG_PROD_P_NAME, strProdPName);
+					map.put(TAG_PROD_PACK, strProdPack);
+					map.put(TAG_PROD_PROMOTION_LEVEL, strProdPositionLevel);
+					map.put(TAG_PROD_STATUS, strProdStatus);
+					map.put(TAG_PROD_PRODUCT_ID, strProdId);
+					map.put(TAG_PROD_PRICE, strProdPrice);
+					map.put(TAG_PROD_SALE_PRICE, strProdSalePrice);
+					map.put(TAG_PROD_IMAGE, strProdImage);
 //    			map.put(TAG_PROD_PRODUCT_QTY, strProdQuantity);
 //    			map.put(TAG_PROD_DESCRIPTION, strProdDesc);
-    			map.put(TAG_PROD_CURRENCY_CODE, strProdCurrencyCode);
-    			map.put(TAG_PROD_CAT_ID, strProdCatId);
-    			
-    			alProd.add(jsonObjectProd);
-    			listProd.add(map);
+					map.put(TAG_PROD_CURRENCY_CODE, strProdCurrencyCode);
+					map.put(TAG_PROD_CAT_ID, strProdCatId);
+
+					alProd.add(jsonObjectProd);
+					listProd.add(map);
+				}
     		}    		
 
     	jsonArrMulProd = new JSONArray[listCategory.size()];
@@ -215,8 +226,22 @@ public class SearchLoader extends AsyncTask<String, String, String> {
     		System.out.println("==Final Prod Array=="+jsonArrMulProd[k]);
     		jsonObjectTop[k].put("Product",jsonArrMulProd[k]);
     	}
+
+//		if(SearchTabs.getInstance() != null) {
+//			SearchTabs.getInstance().finish();
+//		}
+
+		if (UtilityMethods.getCurrentClassName(context).equals(context.getPackageName() + ".SearchTabs")) {
+			((SearchTabs)context).finish();
+		}
+
     	Intent call = new Intent(context, SearchTabs.class);
-    	context.startActivity(call);
+		call.putExtra("SEARCHSTRING", searchKey);
+
+//			call.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//If set, and the activity being launched is already running in the current task, then instead of launching a new instance of that activity, all of the other activities on top of it will be closed and this Intent will be delivered to the (now on top) old activity as a new Intent.
+			context.startActivity(call);
+
+
 
 		}catch(JSONException e){
 			((BaseActivity)context).dismissDialog();

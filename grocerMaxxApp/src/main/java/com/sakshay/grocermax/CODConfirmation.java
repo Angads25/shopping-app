@@ -22,12 +22,8 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		try {
 			Bundle bundle = getIntent().getExtras();
-			try {
-				orderid = bundle.getString("orderid");
-				status = bundle.getString("status");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			orderid = bundle.getString("orderid");
+			status = bundle.getString("status");
 
 			if (status.equals("success")) {
 				setContentView(R.layout.confirmation_activity);

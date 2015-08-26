@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/mart_header"
+    <include layout="@layout/mart_header_2"
         android:id="@+id/app_bar_header">
 
     </include>
@@ -59,12 +59,13 @@
         android:id="@+id/rl_add_new_address"
         android:background="@color/white"
         android:padding="8dp"
-        android:layout_above="@+id/btn_select_delivery_details"
+        android:layout_above="@+id/btn_checkout_billing_addr"
         android:layout_marginBottom="30dp"
         android:layout_marginTop="10dp"
         android:elevation="2dp">
 
         <TextView
+            android:id="@+id/add_new_address"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textSize="@dimen/text_size_14"
@@ -82,7 +83,7 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/btn_select_delivery_details"
+        android:id="@+id/btn_checkout_billing_addr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Select delivery details"

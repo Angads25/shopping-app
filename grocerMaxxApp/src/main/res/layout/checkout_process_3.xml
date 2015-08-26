@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/mart_header"
+    <include layout="@layout/mart_header_2"
         android:id="@+id/app_bar_header">
 
     </include>
@@ -26,6 +26,7 @@
             android:id="@+id/iv_back"/>
 
         <TextView
+            android:id="@+id/CreditCard"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textSize="@dimen/text_size_14"
@@ -48,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_header_checkoutscreen_3"
-        android:layout_above="@+id/btn_place_order">
+        android:layout_above="@+id/btn_apply_coupon">
 
 
 
@@ -60,6 +61,7 @@
             >
 
             <TextView
+                android:id="@+id/tv_choose_to_pay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Select mode of payment"
@@ -86,6 +88,7 @@
                     android:orientation="vertical">
 
                     <RelativeLayout
+
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:id="@+id/rl_cash_on_delivery"
@@ -95,6 +98,7 @@
                         >
 
                         <TextView
+                            android:id="@+id/btn_cash_on_delivery"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
@@ -103,11 +107,12 @@
                             android:layout_alignParentLeft="true"
                             />
                         <ImageView
+                            android:id="@+id/iv_cash_on_delivery"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_alignParentRight="true"
                             android:src="@drawable/checkbox_unselect"
-                            android:id="@+id/iv_cod"/>
+                            />
 
 
                     </RelativeLayout>
@@ -119,13 +124,14 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/rl_credit_debit_card"
+                        android:id="@+id/rl_online_payment"
                         android:background="@color/white"
                         android:padding="8dp"
                         android:layout_above="@+id/btn_select_delivery_details"
                         >
 
                         <TextView
+                            android:id="@+id/btn_online_Payment"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
@@ -134,11 +140,12 @@
                             android:layout_alignParentLeft="true"
                             />
                         <ImageView
+                            android:id="@+id/iv_online_payment"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_alignParentRight="true"
                             android:src="@drawable/checkbox_unselect"
-                            android:id="@+id/iv_credit_debit_card"/>
+                            />
 
 
                     </RelativeLayout>
@@ -153,6 +160,7 @@
                         android:id="@+id/rl_sodexo_coupons"
                         android:background="@color/white"
                         android:padding="8dp"
+                        android:visibility="gone"
                         android:layout_above="@+id/btn_select_delivery_details"
                         >
 
@@ -176,6 +184,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:visibility="gone"
                         android:background="@color/light_Gray"></View>
 
                     <RelativeLayout
@@ -188,6 +197,7 @@
                         >
                         //TODO, replace this with imageView with mobikwik image
                         <TextView
+                            android:id="@+id/btn_mobikwik"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
@@ -196,11 +206,12 @@
                             android:layout_alignParentLeft="true"
                             />
                         <ImageView
+                            android:id="@+id/iv_mobikwik"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_alignParentRight="true"
                             android:src="@drawable/checkbox_unselect"
-                            android:id="@+id/iv_paytm"/>
+                            />
 
 
                     </RelativeLayout>
@@ -215,6 +226,7 @@
                         >
                         //TODO, replace this with imageView with paytm image
                         <TextView
+                            android:id="@+id/btn_paytm"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
@@ -223,11 +235,12 @@
                             android:layout_alignParentLeft="true"
                             />
                         <ImageView
+                            android:id="@+id/iv_paytm"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_alignParentRight="true"
                             android:src="@drawable/checkbox_unselect"
-                            android:id="@+id/iv_mobikwik"/>
+                            />
 
 
                     </RelativeLayout>
@@ -272,6 +285,7 @@
                         >
 
                         <TextView
+                            android:id="@+id/txt_item_count"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
@@ -281,6 +295,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/tv_item_count"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
@@ -304,6 +319,7 @@
                         >
 
                         <TextView
+                            android:id="@+id/txt_subtotal"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
@@ -313,6 +329,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/tv_subtotal"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
@@ -336,6 +353,7 @@
                         >
 
                         <TextView
+                            android:id="@+id/txt_shipping_charges"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
@@ -345,6 +363,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/tv_shipping_charges"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
@@ -368,6 +387,7 @@
                         >
 
                         <TextView
+                            android:id="@+id/txt_coupon_discount"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
@@ -377,11 +397,12 @@
                             />
 
                         <TextView
+                            android:id="@+id/tv_coupon_discount"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
                             android:textColor="@color/accentColor"
-                            android:text="Rs. "
+                            android:text="Rs. 0.00"
                             android:layout_alignParentRight="true"
                             />
                     </RelativeLayout>
@@ -400,6 +421,7 @@
                         >
 
                         <TextView
+                            android:id="@+id/txt_you_saved"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
@@ -409,6 +431,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/tv_you_saved"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
@@ -432,6 +455,7 @@
                         >
 
                         <TextView
+                            android:id="@+id/txt_total"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
@@ -441,6 +465,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/tv_total"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
@@ -483,15 +508,16 @@
                         android:layout_above="@+id/btn_select_delivery_details"
                         >
                         <EditText
+                            android:id="@+id/edit_coupon_code"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:hint="Enter coupon code"
                             android:textColorHint="@color/light_Gray"
-                            android:id="@+id/et_coupon_code"
                             android:layout_toLeftOf="@+id/btn_apply_coupon"
                             android:layout_alignParentLeft="true"
                             />
                         <Button
+                            android:id="@+id/ll_first_page"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:text="Apply Code"
@@ -499,7 +525,18 @@
                             android:background="@color/primaryColorDark"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_size_12"
-                            android:id="@+id/btn_apply_coupon"
+                            android:layout_alignParentRight="true"
+                            android:gravity="center"/>
+
+                        <Button
+                            android:id="@+id/ll_second_page"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Remove Code"
+                            android:textAllCaps="true"
+                            android:background="@color/primaryColorDark"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_12"
                             android:layout_alignParentRight="true"
                             android:gravity="center"/>
 
@@ -512,7 +549,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/btn_place_order"
+        android:id="@+id/btn_apply_coupon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Place order"

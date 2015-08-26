@@ -59,13 +59,19 @@ public final class SearchProductFragments extends Fragment implements OnScrollLi
 //    }
 
 	 public static SearchProductFragments newInstance(JSONObject jsonObject) {
-
-		    SearchProductFragments fragment = new SearchProductFragments();
+		try {
+			SearchProductFragments fragment = new SearchProductFragments();
 //	    	fragment.cat_id = categorySubcategoryBean.getCategoryId();
 //	    	fragment.valuePairs = valuePairs;
 //		    fragment.jsonArray = jsonArray;
-		    fragment.jsonObject = jsonObject;
-	        return fragment;
+			fragment.jsonObject = jsonObject;
+			return fragment;
+		}catch(Exception e){
+			new GrocermaxBaseException("SearchProductFragments","newInstance",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
+
+
+	        return null;
 	    }
 
 	
@@ -94,8 +100,9 @@ public final class SearchProductFragments extends Fragment implements OnScrollLi
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    	View view = inflater.inflate(R.layout.fragment_categoty_list, container, false);
+
     	try{
+		View view = inflater.inflate(R.layout.fragment_categoty_list, container, false);
     	main_lay = (LinearLayout) view.findViewById(R.id.main_lay);
     	progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
     	
@@ -129,25 +136,25 @@ public final class SearchProductFragments extends Fragment implements OnScrollLi
 		mList.setOnScrollListener(this);
 
 		makeUI();
-		
+		return view;
 //		CallAPI callapi=new CallAPI();
 //		CategoryTabs.asyncTasks.add(callapi);
 //		callapi.execute(UrlsConstants.PRODUCT_LIST_URL + cat_id);
 		}catch(Exception e){
 			new GrocermaxBaseException("SearchProductFragments","onCreateView",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
-        return view;
+		return  null;
     }
     
     private void makeUI() {
+		try{
 		main_lay.setVisibility(View.VISIBLE);
 		progressBar.setVisibility(View.GONE);
 		ProductListBean listBean = null;
-		try {
+
 			Gson gson = new Gson();
 			listBean = gson.fromJson(jsonObject.toString(), ProductListBean.class);
-		} catch (Exception e) {
-		}
+
 
 		if (listBean != null)
 		{
@@ -177,6 +184,9 @@ public final class SearchProductFragments extends Fragment implements OnScrollLi
 			//			mAdapter = new ProductListAdapter(searchTabs, product_list);
 			mAdapter = new ProductListAdapter(getActivity(), product_list);
 			mList.setAdapter(mAdapter);
+		}
+		} catch (Exception e) {
+			new GrocermaxBaseException("SearchProductFragments","makeUI",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
     }
     

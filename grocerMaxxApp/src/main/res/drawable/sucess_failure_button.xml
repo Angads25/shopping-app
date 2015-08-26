@@ -15,7 +15,7 @@
         android:top="10dip" />
     
     <corners 
-        android:radius="4dp"/>
+        android:radius="0dp"/>
 
     <!-- <stroke
         android:dashWidth="1dip"

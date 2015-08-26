@@ -139,7 +139,7 @@ public class CategoryTabs extends BaseActivity {
 //			initHeader(headerView, true, header.replaceAll("/", " >> "));
 			if (MySharedPrefs.INSTANCE.getBradecrum() != null) {
 				String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");
-				initHeader(headerView, true, brade_crum[0]);
+				initHeader(headerView, true, brade_crum[brade_crum.length-1]);
 			}else{
 				initHeader(headerView, true, null);
 			}
@@ -320,7 +320,7 @@ public class CategoryTabs extends BaseActivity {
 		try {
 			if (MySharedPrefs.INSTANCE.getBradecrum() != null) {
 				String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");
-				initHeader(findViewById(R.id.header), true, brade_crum[0]);
+				initHeader(findViewById(R.id.header), true, brade_crum[brade_crum.length-1]);
 
 			}else{
 				initHeader(findViewById(R.id.header), true, null);
@@ -346,7 +346,7 @@ public class CategoryTabs extends BaseActivity {
 					System.out.println(asyncTasks.get(i) + "----" + asyncTasks.get(i).isCancelled());
 				}
 		}catch(Exception e){
-			new GrocermaxBaseException("CategoryTabs", "onResume", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+			new GrocermaxBaseException("CategoryTabs", "onBackPressed", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 	}
 	

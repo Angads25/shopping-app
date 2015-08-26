@@ -54,7 +54,20 @@ public class CreateNewAddress extends BaseActivity{
 			 tvAddressLeft,tvAddressMiddle,tvAddressRight,
 			 tvContactLeft,tvContactMiddle,tvContactRight,
 			 tvPinCodeLeft,tvPinCodeMiddle,tvPinCodeRight;
-	
+	String strShippingorBilling = "";      //becomes non empty when coming from shipping address OR billing address screen.
+	String editIndex;                          //-1 when adding the address on Checkout AND integer value when editing the address
+
+//NEW
+//	edit_flat_new_addr
+//	edit_location_new_addr
+//	edit_landmark_new_addr
+//	OLD
+//	edit_last_name_new_addr
+//	edit_first_name_new_addr
+//	edit_state_new_addr
+//	edit_mobileno_new_addr
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -62,11 +75,19 @@ public class CreateNewAddress extends BaseActivity{
 		try {
 			String header = "";
 
-			if (getIntent().getSerializableExtra("address") != null)
+			if (getIntent().getSerializableExtra("address") != null) {                        //when editing the address from checkout shipping or billing.
 				address = (Address) getIntent().getSerializableExtra("address");
+				strShippingorBilling = getIntent().getStringExtra("shippingorbillingaddress");
+				editIndex = getIntent().getStringExtra("editindex");
+			}
+
+			if(getIntent().getStringExtra("shippingorbillingaddress") != null){               //when adding the address from checkout shipping or billing.
+				strShippingorBilling = getIntent().getStringExtra("shippingorbillingaddress");
+				editIndex = getIntent().getStringExtra("editindex");
+			}
 
 			addActionsInFilter(MyReceiverActions.ADD_ADDRESS);
-			addActionsInFilter(MyReceiverActions.EDIT_ADDRESS);
+			addActionsInFilter(MyReceiverActions.EDIT_ADDRESS);                           //just return message address updated successfully with flag 1 in success case.
 			addActionsInFilter(MyReceiverActions.EDIT_ADDRESS_BOOK);
 
 			tvFirstNameLeft = (TextView) findViewById(R.id.left_line_first_name_new_addr);
@@ -97,9 +118,20 @@ public class CreateNewAddress extends BaseActivity{
 			ivCBDefaultShipping = (ImageView) findViewById(R.id.cb_iv_shipping);
 			tvCBDefaultShipping = (TextView) findViewById(R.id.cb_tv_shipping);
 
+			if(strShippingorBilling.equalsIgnoreCase("shipping") || strShippingorBilling.equalsIgnoreCase("billing")){
+				ivCBDefaultBilling.setVisibility(View.GONE);
+				tvCBDefaultBilling.setVisibility(View.GONE);
+				ivCBDefaultShipping.setVisibility(View.GONE);
+				tvCBDefaultShipping.setVisibility(View.GONE);
+			}else{
+				ivCBDefaultBilling.setVisibility(View.VISIBLE);
+				tvCBDefaultBilling.setVisibility(View.VISIBLE);
+				ivCBDefaultShipping.setVisibility(View.VISIBLE);
+				tvCBDefaultShipping.setVisibility(View.VISIBLE);
+			}
+
 			check_default_billing = (CheckBox) findViewById(R.id.check_default);
 			check_default_shipping = (CheckBox) findViewById(R.id.check_default_shipping);
-
 
 			edit_pin = (EditText) findViewById(R.id.edit_pincode_new_addr);
 			text_city = (EditText) findViewById(R.id.edit_city_new_addr);            /////////////
@@ -457,6 +489,12 @@ public class CreateNewAddress extends BaseActivity{
 	private void createAddress()
 	{
 		try {
+			//UNCOMMENT BELOW CODE
+			edit_first_name.setText("Abhi");
+			edit_last_name.setText("yadav");
+			edit_contact.setText("9999999999");
+			//UNCOMMENT ABOVE CODE
+
 			if (edit_first_name.getText().toString().equals("")) {
 				UtilityMethods.customToast(ToastConstant.FNAME_BLANCK, mContext);
 				return;
@@ -504,10 +542,19 @@ public class CreateNewAddress extends BaseActivity{
 //			default_billing = 1;
 //		if(check_default_shipping.isChecked())
 //			default_shipping = 1;
-			if (bBilling)
-				default_billing = 1;
-			if (bShipping)
+
+			if(strShippingorBilling.equalsIgnoreCase("shipping")){
 				default_shipping = 1;
+			}else if(strShippingorBilling.equalsIgnoreCase("billing")){
+				default_billing = 1;
+			}else{
+				if (bBilling)
+					default_billing = 1;
+				if (bShipping)
+					default_shipping = 1;
+			}
+
+
 
 			String fname = edit_first_name.getText().toString();
 			String lname = edit_last_name.getText().toString();
@@ -557,18 +604,18 @@ public class CreateNewAddress extends BaseActivity{
 				if (responseBean.getFlag().equalsIgnoreCase("1")) {
 					showDialog();
 					String url = UrlsConstants.ADDRESS_BOOK + MySharedPrefs.INSTANCE.getUserId();
-//				Toast.makeText(mContext,responseBean.getResult(), Toast.LENGTH_LONG).show();
 					UtilityMethods.customToast(responseBean.getResult(), mContext);
 					myApi.reqAddressBook(url, MyReceiverActions.EDIT_ADDRESS_BOOK);
 				} else {
-//				Toast.makeText(mContext, responseBean.getResult(), Toast.LENGTH_LONG).show();
 					UtilityMethods.customToast(responseBean.getResult(), mContext);
 				}
 			} else if (action.equals(MyReceiverActions.EDIT_ADDRESS_BOOK)) {
 				AddressList bean = (AddressList) bundle.getSerializable(ConnectionService.RESPONSE);
 				Intent intent = new Intent();
 				intent.putExtra("addressBean", bean);
-				setResult(RESULT_OK, intent);
+				intent.putExtra("editIndex", editIndex);
+				setResult
+				(RESULT_OK, intent);
 				finish();
 			}
 		}catch(Exception e){

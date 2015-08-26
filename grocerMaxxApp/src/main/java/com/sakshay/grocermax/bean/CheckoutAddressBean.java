@@ -12,6 +12,28 @@ public class CheckoutAddressBean implements Serializable {
 	private ArrayList<Address> Address = new ArrayList<Address>();
 	@Expose
 	private Integer flag;
+//	@Expose
+//	private boolean Available;
+
+	HashMap<String,ArrayList<String>> date_timeAvailableSlot=new HashMap<String,ArrayList<String>>();
+
+	public HashMap<String, ArrayList<String>> getDate_timeAvailableSlot() {
+		return date_timeAvailableSlot;
+	}
+	public void setDate_timeAvailableSlot(HashMap<String, ArrayList<String>> date_timeSlot) {
+		this.date_timeAvailableSlot = date_timeSlot;
+	}
+
+
+//	HashMap<String,Integer> date_timeAvailableSlot
+//	public void setAvailable(boolean available){
+//		this.Available = available;
+//	}
+//
+//	public boolean getAvailable(){
+//		return Available;
+//	}
+
 
 	HashMap<String,ArrayList<String>> date_timeSlot=new HashMap<String, ArrayList<String>>();
 
@@ -33,7 +55,7 @@ public class CheckoutAddressBean implements Serializable {
 	}
 
 	
-	
+
 
 	public HashMap<String, ArrayList<String>> getDate_timeSlot() {
 		return date_timeSlot;
