@@ -160,7 +160,7 @@
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
                             android:textColor="@color/pallete_black"
-                            android:text="Credit / Debit card"
+                            android:text="Online Payment"
                             android:layout_alignParentLeft="true"
                             />
                         <ImageView
@@ -238,6 +238,11 @@
 
 
                     </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/light_Gray"></View>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
