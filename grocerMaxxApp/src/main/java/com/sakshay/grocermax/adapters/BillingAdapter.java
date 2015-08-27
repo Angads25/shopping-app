@@ -124,13 +124,13 @@ public class BillingAdapter extends BaseAdapter{
         });
 
         if(bIsSelect[position] == false){
-            holder.ivCbCheckoutBilling.setImageResource(R.drawable.uncheck_pay);
+            holder.ivCbCheckoutBilling.setImageResource(R.drawable.chkbox_unselected);
         }
 
         if(position == ((BillingAddress)mContext).selectedPosition) {
-            holder.ivCbCheckoutBilling.setImageResource(R.drawable.check_pay);
+            holder.ivCbCheckoutBilling.setImageResource(R.drawable.chkbox_selected);
         }else{
-            holder.ivCbCheckoutBilling.setImageResource(R.drawable.uncheck_pay);
+            holder.ivCbCheckoutBilling.setImageResource(R.drawable.chkbox_unselected);
         }
         holder.ivCbCheckoutBilling.setTag(position);
 
