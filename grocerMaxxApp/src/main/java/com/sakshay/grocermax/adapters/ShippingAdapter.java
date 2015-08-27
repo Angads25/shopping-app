@@ -137,13 +137,13 @@ public class ShippingAdapter extends BaseAdapter{
 
 
         if(bIsSelect[position] == false){
-            holder.ivCbCheckOut.setImageResource(R.drawable.uncheck_pay);
+            holder.ivCbCheckOut.setImageResource(R.drawable.chkbox_unselected);
         }
 
         if(position == ((ShippingAddress)mContext).selectedPosition) {
-            holder.ivCbCheckOut.setImageResource(R.drawable.check_pay);
+            holder.ivCbCheckOut.setImageResource(R.drawable.chkbox_selected);
         }else{
-            holder.ivCbCheckOut.setImageResource(R.drawable.uncheck_pay);
+            holder.ivCbCheckOut.setImageResource(R.drawable.chkbox_unselected);
         }
         holder.ivCbCheckOut.setTag(position);
 
