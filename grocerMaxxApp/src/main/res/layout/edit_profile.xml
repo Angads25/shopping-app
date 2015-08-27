@@ -170,46 +170,32 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/cb_change_pwd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:padding="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Change Password"
-                    android:textAllCaps="true"
-                    android:textSize="@dimen/text_size_14"
-                    android:textColor="@color/pallete_black"
-                    android:visibility="visible" />
-                </LinearLayout>
-
-//TODO, not used anymore either
-                <LinearLayout
-                    android:id="@+id/cb_change_pwd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:orientation="horizontal"
-                    android:paddingBottom="12dp"
-                    android:visibility="gone">
+                    android:padding="8dp"
+                    android:visibility="visible">
 
                     <ImageView
                         android:id="@+id/cb_iv_change_pwd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:src="@drawable/checkbox_unselect" />
 
-                    <TextView
-                        android:id="@+id/cb_tv_change_pwd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:text="CHANGE PASSWORD"
-                        android:textColor="@color/register_address_text_unselected_color"
-                        android:textSize="@dimen/text_size_12" />
+
+                <TextView
+                    android:id="@+id/cb_tv_change_pwd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Change Password"
+                    android:textAllCaps="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/text_size_14"
+                    android:textColor="@color/pallete_black"
+                    android:visibility="visible" />
                 </LinearLayout>
 
 
@@ -219,7 +205,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:orientation="vertical"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:padding="8dp">
 
                     <RelativeLayout
