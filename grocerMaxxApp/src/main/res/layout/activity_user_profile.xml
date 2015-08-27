@@ -46,7 +46,7 @@
                     android:textSize="@dimen/text_size_16"
                     android:textColor="@color/pallete_black"
                     android:layout_marginTop="10dp"
-                    android:text="Full Name"
+                    android:text=""
                     />
                 <TextView
                     android:id="@+id/tv_userprofile_email"
@@ -55,7 +55,7 @@
                     android:textSize="@dimen/text_size_14"
                     android:textColor="@color/light_Gray"
                     android:layout_marginTop="5dp"
-                    android:text="email@email.com"
+                    android:text=""
                     />
 
                 <TextView
@@ -65,7 +65,7 @@
                     android:textSize="@dimen/text_size_14"
                     android:textColor="@color/light_Gray"
                     android:layout_marginTop="10dp"
-                    android:text="+91 99999999"
+                    android:text=""
                     />
             </LinearLayout>
 
@@ -97,12 +97,12 @@
                     android:textColor="@color/pallete_black"
                     android:textSize="@dimen/text_size_16"/>
                 <ImageView
+                    android:id="@+id/iv_login_carrat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:src="@drawable/arrow_right"
                     android:layout_alignParentRight="true"
-
                     />
             </RelativeLayout>
             <View
@@ -120,6 +120,7 @@
                 android:layout_weight="1"
                 >
                 <TextView
+                    android:id="@+id/tv_orderhistory"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="Order History"
@@ -149,6 +150,7 @@
                 android:padding="8dp"
                 android:layout_weight="1">
                 <TextView
+                    android:id="@+id/tv_myaddresses"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="My Addresses"
@@ -179,6 +181,7 @@
                 android:padding="8dp"
                 android:layout_weight="1">
                 <TextView
+                    android:id="@+id/tv_viewprofile"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="View Profile"
@@ -208,6 +211,7 @@
                 android:padding="8dp"
                 android:layout_weight="1">
                 <TextView
+                    android:id="@+id/tv_invitefriends"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="Invite Friends"
@@ -237,6 +241,7 @@
                 android:padding="8dp"
                 android:layout_weight="1">
                 <TextView
+                    android:id="@+id/tv_callus"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="Call Us"
@@ -266,6 +271,7 @@
                 android:padding="8dp"
                 android:layout_weight="1">
                 <TextView
+                    android:id="@+id/tv_writetous"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="Write To Us"
@@ -283,6 +289,7 @@
             </RelativeLayout>
 
             <View
+                android:id="@+id/view_sign_out"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentRight="true"
@@ -295,6 +302,7 @@
                 android:padding="8dp"
                 android:layout_weight="1">
                 <TextView
+                    android:id="@+id/tv_signout"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="SIGN OUT"
