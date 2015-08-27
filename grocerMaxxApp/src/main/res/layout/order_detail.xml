@@ -118,7 +118,6 @@
                         android:textColor="@color/register_address_text_unselected_color"
                         android:textSize="@dimen/text_size_14" />
 
-
                     <TextView
                         android:id="@+id/tv_shipping_charges"
                         android:layout_width="fill_parent"
