@@ -178,8 +178,8 @@ public class Registration extends BaseActivity implements
 			final CheckBox cbFemale = (CheckBox) findViewById(R.id.cb_female);
 			final CheckBox cbOther = (CheckBox) findViewById(R.id.cb_other);
 
-			tv_google_btn = (TextView) findViewById(R.id.reg_button_google);
-			iv_googlePlus = (ImageView) findViewById(R.id.reg_google_plus_left_icon);
+			//tv_google_btn = (TextView) findViewById(R.id.reg_button_google);
+			//iv_googlePlus = (ImageView) findViewById(R.id.reg_google_plus_left_icon);
 			tv_google_btn.setOnClickListener(google_signin_listener);
 			iv_googlePlus.setOnClickListener(google_signin_listener);
 
