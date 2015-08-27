@@ -76,7 +76,7 @@
                         android:layout_marginTop="10dp">
 
                         <ImageView
-                            android:id="@+id/google_plus_left_icon"
+                            android:id="@+id/reg_google_plus_left_icon"
                             android:layout_width="40dp"
                             android:layout_height="match_parent"
                             android:layout_centerVertical="true"
@@ -85,11 +85,11 @@
                             android:src="@drawable/google_success" />
 
                         <TextView
-                            android:id="@+id/button_google"
+                            android:id="@+id/reg_button_google"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="2dp"
-                            android:layout_toRightOf="@+id/google_plus_left_icon"
+                            android:layout_toRightOf="@+id/reg_google_plus_left_icon"
                             android:background="@drawable/google_curve"
                             android:gravity="center"
                             android:text="Join with Google"
