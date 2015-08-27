@@ -1349,7 +1349,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 	}
 	
-	private Session getSession() {
+	public Session getSession() {
 			return Session.openActiveSession(this, false, callback);
 	}
 	 
