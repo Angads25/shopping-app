@@ -83,7 +83,7 @@ public class OrderHistory extends BaseActivity{
 		// TODO Auto-generated method stub
 		super.onResume();
 		try {
-			initHeader(findViewById(R.id.header), true, null);
+			initHeader(findViewById(R.id.header), true, "Order History");
 		}catch(Exception e){
 			new GrocermaxBaseException("OrderHistory","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
