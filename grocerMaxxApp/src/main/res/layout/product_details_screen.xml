@@ -533,6 +533,7 @@
                 android:id="@+id/tv_offers_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_below="@+id/rl_prod_list_cart"
                 android:background="#f9f3e4"
                 android:gravity="center"
