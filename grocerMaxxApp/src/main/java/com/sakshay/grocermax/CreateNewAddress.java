@@ -26,8 +26,10 @@ import com.sakshay.grocermax.utils.UrlsConstants;
 import com.sakshay.grocermax.utils.UtilityMethods;
 
 import java.io.IOException;
-//import android.widget.Toast;
-
+/*
+USER can update address from MyAddresses ,their checkbox of shipping and billing address will be visible.
+USER can update address from checkout screen ,their checkbox of shipping and billing address will not be visible(as it make shipping or billing from which screen of checkout user has come).
+*/
 public class CreateNewAddress extends BaseActivity{
 	private Button button_create_address;
 //	private Button button_cancel;
@@ -77,8 +79,8 @@ public class CreateNewAddress extends BaseActivity{
 
 			if (getIntent().getSerializableExtra("address") != null) {                        //when editing the address from checkout shipping or billing.
 				address = (Address) getIntent().getSerializableExtra("address");
-				strShippingorBilling = getIntent().getStringExtra("shippingorbillingaddress");
-				editIndex = getIntent().getStringExtra("editindex");
+//				strShippingorBilling = getIntent().getStringExtra("shippingorbillingaddress");
+//				editIndex = getIntent().getStringExtra("editindex");
 			}
 
 			if(getIntent().getStringExtra("shippingorbillingaddress") != null){               //when adding the address from checkout shipping or billing.
@@ -144,150 +146,150 @@ public class CreateNewAddress extends BaseActivity{
 
 			txtHeaderAddres = (TextView) findViewById(R.id.txt_create_address);
 
-			edit_first_name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//			edit_first_name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//
+//				@Override
+//				public void onFocusChange(View v, boolean hasFocus) {
+//					// TODO Auto-generated method stub
+//					if (hasFocus) {
+//						tvFirstNameLeft.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						tvFirstNameMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						tvFirstNameRight.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//
+//						tvLastNameLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvLastNameMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvLastNameRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						tvAddressLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvAddressMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvAddressRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						tvContactLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvContactMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvContactRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						tvPinCodeLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvPinCodeMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvPinCodeRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//					}
+//				}
+//			});
 
-				@Override
-				public void onFocusChange(View v, boolean hasFocus) {
-					// TODO Auto-generated method stub
-					if (hasFocus) {
-						tvFirstNameLeft.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						tvFirstNameMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						tvFirstNameRight.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//			edit_last_name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//
+//				@Override
+//				public void onFocusChange(View v, boolean hasFocus) {
+//					// TODO Auto-generated method stub
+//					if (hasFocus) {
+//						tvFirstNameLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvFirstNameMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvFirstNameRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						tvLastNameLeft.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						tvLastNameMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						tvLastNameRight.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//
+//						tvAddressLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvAddressMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvAddressRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						tvContactLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvContactMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvContactRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						tvPinCodeLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvPinCodeMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvPinCodeRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//					}
+//				}
+//			});
 
-						tvLastNameLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvLastNameMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvLastNameRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//			edit_address1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//
+//				@Override
+//				public void onFocusChange(View v, boolean hasFocus) {
+//					// TODO Auto-generated method stub
+//					if (hasFocus) {
+//						tvFirstNameLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvFirstNameMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvFirstNameRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						tvLastNameLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvLastNameMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvLastNameRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						tvAddressLeft.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						tvAddressMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						tvAddressRight.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//
+//						tvContactLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvContactMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvContactRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						tvPinCodeLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvPinCodeMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvPinCodeRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//					}
+//				}
+//			});
 
-						tvAddressLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvAddressMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvAddressRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//			edit_contact.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//
+//				@Override
+//				public void onFocusChange(View v, boolean hasFocus) {
+//					// TODO Auto-generated method stub
+//					if (hasFocus) {
+//						tvFirstNameLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvFirstNameMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvFirstNameRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						tvLastNameLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvLastNameMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvLastNameRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						tvAddressLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvAddressMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvAddressRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						tvContactLeft.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						tvContactMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						tvContactRight.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//
+//						tvPinCodeLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvPinCodeMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvPinCodeRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//					}
+//				}
+//			});
 
-						tvContactLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvContactMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvContactRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						tvPinCodeLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvPinCodeMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvPinCodeRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-					}
-				}
-			});
-
-			edit_last_name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-				@Override
-				public void onFocusChange(View v, boolean hasFocus) {
-					// TODO Auto-generated method stub
-					if (hasFocus) {
-						tvFirstNameLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvFirstNameMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvFirstNameRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						tvLastNameLeft.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						tvLastNameMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						tvLastNameRight.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-
-						tvAddressLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvAddressMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvAddressRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						tvContactLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvContactMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvContactRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						tvPinCodeLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvPinCodeMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvPinCodeRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-					}
-				}
-			});
-
-			edit_address1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-				@Override
-				public void onFocusChange(View v, boolean hasFocus) {
-					// TODO Auto-generated method stub
-					if (hasFocus) {
-						tvFirstNameLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvFirstNameMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvFirstNameRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						tvLastNameLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvLastNameMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvLastNameRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						tvAddressLeft.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						tvAddressMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						tvAddressRight.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-
-						tvContactLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvContactMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvContactRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						tvPinCodeLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvPinCodeMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvPinCodeRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-					}
-				}
-			});
-
-			edit_contact.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-				@Override
-				public void onFocusChange(View v, boolean hasFocus) {
-					// TODO Auto-generated method stub
-					if (hasFocus) {
-						tvFirstNameLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvFirstNameMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvFirstNameRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						tvLastNameLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvLastNameMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvLastNameRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						tvAddressLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvAddressMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvAddressRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						tvContactLeft.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						tvContactMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						tvContactRight.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-
-						tvPinCodeLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvPinCodeMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvPinCodeRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-					}
-				}
-			});
-
-			edit_pin.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-				@Override
-				public void onFocusChange(View v, boolean hasFocus) {
-					// TODO Auto-generated method stub
-					if (hasFocus) {
-						tvFirstNameLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvFirstNameMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvFirstNameRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						tvLastNameLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvLastNameMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvLastNameRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						tvAddressLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvAddressMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvAddressRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						tvContactLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvContactMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						tvContactRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						tvPinCodeLeft.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						tvPinCodeMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						tvPinCodeRight.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-					}
-				}
-			});
+//			edit_pin.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//
+//				@Override
+//				public void onFocusChange(View v, boolean hasFocus) {
+//					// TODO Auto-generated method stub
+//					if (hasFocus) {
+//						tvFirstNameLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvFirstNameMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvFirstNameRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						tvLastNameLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvLastNameMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvLastNameRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						tvAddressLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvAddressMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvAddressRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						tvContactLeft.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvContactMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						tvContactRight.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						tvPinCodeLeft.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						tvPinCodeMiddle.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						tvPinCodeRight.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//					}
+//				}
+//			});
 
 
 //		edit_pin = (EditText) findViewById(R.id.edit_pin);
@@ -387,14 +389,18 @@ public class CreateNewAddress extends BaseActivity{
 					UtilityMethods.hideKeyBoard(CreateNewAddress.this);
 					if (bBilling) {
 						bBilling = false;
+						bShipping = false;
 					} else {
 						bBilling = true;
+						bShipping = false;
 					}
 
 					if (bBilling) {
 						ivCBDefaultBilling.setImageResource(R.drawable.checkbox_select);
+						ivCBDefaultShipping.setImageResource(R.drawable.checkbox_unselect);
 					} else {
 						ivCBDefaultBilling.setImageResource(R.drawable.checkbox_unselect);
+						ivCBDefaultShipping.setImageResource(R.drawable.checkbox_unselect);
 					}
 
 				}
@@ -408,14 +414,18 @@ public class CreateNewAddress extends BaseActivity{
 					UtilityMethods.hideKeyBoard(CreateNewAddress.this);
 					if (bBilling) {
 						bBilling = false;
+						bShipping = false;
 					} else {
 						bBilling = true;
+						bShipping = false;
 					}
 
 					if (bBilling) {
 						ivCBDefaultBilling.setImageResource(R.drawable.checkbox_select);
+						ivCBDefaultShipping.setImageResource(R.drawable.checkbox_unselect);
 					} else {
 						ivCBDefaultBilling.setImageResource(R.drawable.checkbox_unselect);
+						ivCBDefaultShipping.setImageResource(R.drawable.checkbox_unselect);
 					}
 
 				}
@@ -429,14 +439,18 @@ public class CreateNewAddress extends BaseActivity{
 					UtilityMethods.hideKeyBoard(CreateNewAddress.this);
 					if (bShipping) {
 						bShipping = false;
+						bBilling = false;
 					} else {
 						bShipping = true;
+						bBilling = false;
 					}
 
 					if (bShipping) {
 						ivCBDefaultShipping.setImageResource(R.drawable.checkbox_select);
+						ivCBDefaultBilling.setImageResource(R.drawable.checkbox_unselect);     //
 					} else {
 						ivCBDefaultShipping.setImageResource(R.drawable.checkbox_unselect);
+						ivCBDefaultBilling.setImageResource(R.drawable.checkbox_unselect);
 					}
 
 				}
@@ -450,14 +464,18 @@ public class CreateNewAddress extends BaseActivity{
 					UtilityMethods.hideKeyBoard(CreateNewAddress.this);
 					if (bShipping) {
 						bShipping = false;
+						bBilling = false;
 					} else {
 						bShipping = true;
+						bBilling = false;
 					}
 
 					if (bShipping) {
 						ivCBDefaultShipping.setImageResource(R.drawable.checkbox_select);
+						ivCBDefaultBilling.setImageResource(R.drawable.checkbox_unselect);
 					} else {
 						ivCBDefaultShipping.setImageResource(R.drawable.checkbox_unselect);
+						ivCBDefaultBilling.setImageResource(R.drawable.checkbox_unselect);
 					}
 				}
 			});
@@ -543,18 +561,22 @@ public class CreateNewAddress extends BaseActivity{
 //		if(check_default_shipping.isChecked())
 //			default_shipping = 1;
 
-			if(strShippingorBilling.equalsIgnoreCase("shipping")){
+			if(strShippingorBilling.equalsIgnoreCase("shipping")){            //when user coming from checkout screen
 				default_shipping = 1;
-			}else if(strShippingorBilling.equalsIgnoreCase("billing")){
+			}else if(strShippingorBilling.equalsIgnoreCase("billing")){      //when user coming from checkout screen
 				default_billing = 1;
 			}else{
-				if (bBilling)
+				if (bBilling){
 					default_billing = 1;
-				if (bShipping)
+				}else if (bShipping) {
 					default_shipping = 1;
+				}
 			}
 
-
+			if(default_billing == 0 && default_shipping == 0){
+				UtilityMethods.customToast(ToastConstant.MAKE_SHIPPING_BILLING,mContext);
+				return;
+			}
 
 			String fname = edit_first_name.getText().toString();
 			String lname = edit_last_name.getText().toString();

@@ -241,10 +241,10 @@ public class ReviewOrderAndPay extends BaseActivity
 //		TextView tvDiscountReview = (TextView) findViewById(R.id.tv_discount_review);
 			TextView tvCreditCard = (TextView) findViewById(R.id.CreditCard);
 
-			ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);         //unselect
-			ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);        //unselect
-			ivPayTM.setImageResource(R.drawable.uncheck_pay);         //unselect
-			ivMobiKwik.setImageResource(R.drawable.uncheck_pay);         //unselect
+			ivOnlinePayment.setImageResource(R.drawable.chkbox_unselected);         //unselect
+			ivCashonDelivery.setImageResource(R.drawable.chkbox_unselected);        //unselect
+			ivPayTM.setImageResource(R.drawable.chkbox_unselected);         //unselect
+			ivMobiKwik.setImageResource(R.drawable.chkbox_unselected);         //unselect
 
 //		btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);       //unselect
 //		btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);      //unselect

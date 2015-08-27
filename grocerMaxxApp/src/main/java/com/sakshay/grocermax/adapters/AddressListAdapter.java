@@ -9,12 +9,15 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sakshay.grocermax.AddressDetail;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.Address;
 import com.sakshay.grocermax.utils.CustomFonts;
+
+import org.w3c.dom.Text;
 
 public class AddressListAdapter extends BaseAdapter{
 	
@@ -52,12 +55,13 @@ public class AddressListAdapter extends BaseAdapter{
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.address_row, parent, false);
+			convertView = inflater.inflate(R.layout.address_detail, parent, false);
 			holder = new ViewHolder();
 			
 //			convertView.findViewById(R.id.layout_address_info).setBackgroundColor(mContext.getResources().getColor(R.color.grey_bg));
-			
-			holder.edit_address = (ImageView) convertView.findViewById(R.id.editaddress);
+//			holder.edit_address = (ImageView) convertView.findViewById(R.id.editaddress);
+//			holder.edit_address = (TextView) convertView.findViewById(R.id.edit_address);
+			holder.rl_editaddress = (RelativeLayout) convertView.findViewById(R.id.rl_editaddress);
 			holder.delete_address = (ImageView) convertView.findViewById(R.id.deleteAddress);
 			holder.profilename = (TextView) convertView
 					.findViewById(R.id.text_header);
@@ -104,7 +108,7 @@ public class AddressListAdapter extends BaseAdapter{
 		holder.pincode.setText(obj.getPostcode());
 		holder.country.setText("India");
 		
-		holder.edit_address.setOnClickListener(new OnClickListener() {
+		holder.rl_editaddress.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -123,7 +127,10 @@ public class AddressListAdapter extends BaseAdapter{
 	
 	private class ViewHolder {
 		TextView profilename, address1, state, city, pincode, name, phone, country;
-		ImageView edit_address,delete_address;
+		ImageView delete_address;
+//		ImageView edit_address,
+//		TextView edit_address;
+		RelativeLayout rl_editaddress;
 		TextView txtHeader;
 	}
 	

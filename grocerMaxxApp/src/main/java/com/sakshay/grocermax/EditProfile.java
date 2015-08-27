@@ -102,203 +102,203 @@ public class EditProfile extends BaseActivity{
 			rightLineConfirmPwd = (TextView) findViewById(R.id.right_line_confirm_pwd);
 
 
-			fname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//			fname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//
+//				@Override
+//				public void onFocusChange(View v, boolean hasFocus) {
+//					// TODO Auto-generated method stub
+//					if (hasFocus) {
+//						leftLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						middleLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						rightLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//
+//						leftLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineoldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//					}
+//				}
+//			});
 
-				@Override
-				public void onFocusChange(View v, boolean hasFocus) {
-					// TODO Auto-generated method stub
-					if (hasFocus) {
-						leftLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						middleLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						rightLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//			lname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//
+//				@Override
+//				public void onFocusChange(View v, boolean hasFocus) {
+//					// TODO Auto-generated method stub
+//					if (hasFocus) {
+//						leftLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						middleLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						rightLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//
+//						leftLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineoldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//					}
+//				}
+//			});
 
-						leftLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//			contact.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//
+//				@Override
+//				public void onFocusChange(View v, boolean hasFocus) {
+//					// TODO Auto-generated method stub
+//					if (hasFocus) {
+//						leftLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						middleLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						rightLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//
+//						leftLineoldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//					}
+//				}
+//			});
 
-						leftLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//			old_pwd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//
+//				@Override
+//				public void onFocusChange(View v, boolean hasFocus) {
+//					// TODO Auto-generated method stub
+//					if (hasFocus) {
+//						leftLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineoldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						middleLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						rightLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//
+//						leftLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//					}
+//				}
+//			});
 
-						leftLineoldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//			new_pwd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//
+//				@Override
+//				public void onFocusChange(View v, boolean hasFocus) {
+//					// TODO Auto-generated method stub
+//					if (hasFocus) {
+//						leftLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineoldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						middleLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						rightLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//
+//						leftLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//					}
+//				}
+//			});
 
-						leftLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-					}
-				}
-			});
-
-			lname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-				@Override
-				public void onFocusChange(View v, boolean hasFocus) {
-					// TODO Auto-generated method stub
-					if (hasFocus) {
-						leftLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						middleLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						rightLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-
-						leftLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineoldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-					}
-				}
-			});
-
-			contact.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-				@Override
-				public void onFocusChange(View v, boolean hasFocus) {
-					// TODO Auto-generated method stub
-					if (hasFocus) {
-						leftLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						middleLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						rightLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-
-						leftLineoldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-					}
-				}
-			});
-
-			old_pwd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-				@Override
-				public void onFocusChange(View v, boolean hasFocus) {
-					// TODO Auto-generated method stub
-					if (hasFocus) {
-						leftLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineoldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						middleLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						rightLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-
-						leftLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-					}
-				}
-			});
-
-			new_pwd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-				@Override
-				public void onFocusChange(View v, boolean hasFocus) {
-					// TODO Auto-generated method stub
-					if (hasFocus) {
-						leftLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineoldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						middleLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						rightLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-
-						leftLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-					}
-				}
-			});
-
-			conf_pwd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-				@Override
-				public void onFocusChange(View v, boolean hasFocus) {
-					// TODO Auto-generated method stub
-					if (hasFocus) {
-						leftLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineoldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						middleLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-						rightLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-
-						leftLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						middleLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-						rightLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-					}
-				}
-			});
+//			conf_pwd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//
+//				@Override
+//				public void onFocusChange(View v, boolean hasFocus) {
+//					// TODO Auto-generated method stub
+//					if (hasFocus) {
+//						leftLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineoldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						middleLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//						rightLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
+//
+//						leftLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						middleLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//						rightLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
+//					}
+//				}
+//			});
 
 
 			ivCBChangePwd.setOnClickListener(new View.OnClickListener() {
@@ -430,7 +430,7 @@ public class EditProfile extends BaseActivity{
 					}
 				}
 			});
-			initHeader(findViewById(R.id.header), true, null);
+			initHeader(findViewById(R.id.header), true, "Edit my information");
 			showDialog();
 			String url = UrlsConstants.USER_DETAIL_URL + MySharedPrefs.INSTANCE.getUserId();
 			myApi.reqUserDetails1(url);
@@ -475,7 +475,7 @@ public class EditProfile extends BaseActivity{
 		// TODO Auto-generated method stub
 		super.onResume();
 		try{
-			initHeader(findViewById(R.id.header), true, null);
+			initHeader(findViewById(R.id.header), true, "Edit my information");
 		}catch(Exception e){
 			new GrocermaxBaseException("EditProfile","onResume",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}

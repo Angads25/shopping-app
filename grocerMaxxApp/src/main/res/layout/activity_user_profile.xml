@@ -173,13 +173,42 @@
                 android:layout_alignParentRight="true"
                 android:background="@color/light_Gray"></View>
 
+            <RelativeLayout
+                android:id="@+id/rl_editprofile"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="8dp"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/tv_editprofile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Edit Profile"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/pallete_black"
+                    android:textSize="@dimen/text_size_16"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/arrow_right"
+                    android:layout_alignParentRight="true"
+                    />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentRight="true"
+                android:background="@color/light_Gray"></View>
 
             <RelativeLayout
                 android:id="@+id/rl_viewprofile"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:padding="8dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:visibility="gone">
                 <TextView
                     android:id="@+id/tv_viewprofile"
                     android:layout_width="wrap_content"
@@ -202,7 +231,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentRight="true"
-                android:background="@color/light_Gray"></View>
+                android:background="@color/light_Gray"
+                android:visibility="gone"></View>
 
             <RelativeLayout
                 android:id="@+id/rl_invitefriends"

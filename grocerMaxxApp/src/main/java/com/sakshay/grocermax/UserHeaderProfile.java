@@ -37,10 +37,13 @@ import org.json.JSONObject;
  */
 public class UserHeaderProfile extends BaseActivity implements View.OnClickListener{
     TextView tvUserName,tvUserEmail,tvUserMobileNo;
-    RelativeLayout rlLogin,rlOrderHistory,rlMyAddresses,rlViewProfile,rlInviteFriends,rlCallToUs,rlWriteToUs,rlSignOut;
-    TextView tvLogin,tvOrderHistory,tvMyAddresses,tvViewProfile,tvInviteFriends,tvCallToUs,tvWriteToUs,tvSignOut;
+    RelativeLayout rlLogin,rlOrderHistory,rlMyAddresses,rlEditProfile,rlInviteFriends,rlCallToUs,rlWriteToUs,rlSignOut;
+//    rlViewProfile
+    TextView tvLogin,tvOrderHistory,tvMyAddresses,tvEditProfile,tvInviteFriends,tvCallToUs,tvWriteToUs,tvSignOut;
+//    tvViewProfile
     EasyTracker tracker;
-//    tv_login_signup
+//    private static int LOGIN_SIGNUP = 555;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +59,8 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
         rlLogin = (RelativeLayout) findViewById(R.id.rl_login_signup);
         rlOrderHistory = (RelativeLayout) findViewById(R.id.rl_orderhistory);
         rlMyAddresses = (RelativeLayout) findViewById(R.id.rl_myaddresses);
-        rlViewProfile = (RelativeLayout) findViewById(R.id.rl_viewprofile);
+//        rlViewProfile = (RelativeLayout) findViewById(R.id.rl_viewprofile);
+        rlEditProfile = (RelativeLayout) findViewById(R.id.rl_editprofile);
         rlInviteFriends = (RelativeLayout) findViewById(R.id.rl_invitefriends);
         rlCallToUs = (RelativeLayout) findViewById(R.id.rl_callus);
         rlWriteToUs = (RelativeLayout) findViewById(R.id.rl_writetous);
@@ -65,7 +69,8 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
         tvLogin = (TextView) findViewById(R.id.tv_login_signup);
         tvOrderHistory = (TextView) findViewById(R.id.tv_orderhistory);
         tvMyAddresses = (TextView) findViewById(R.id.tv_myaddresses);
-        tvViewProfile = (TextView) findViewById(R.id.tv_viewprofile);
+//        tvViewProfile = (TextView) findViewById(R.id.tv_viewprofile);
+        tvEditProfile = (TextView) findViewById(R.id.tv_editprofile);
         tvInviteFriends = (TextView) findViewById(R.id.tv_invitefriends);
         tvCallToUs = (TextView) findViewById(R.id.tv_callus);
         tvWriteToUs = (TextView) findViewById(R.id.tv_writetous);
@@ -74,7 +79,8 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
         rlLogin.setOnClickListener(this);
         rlOrderHistory.setOnClickListener(this);
         rlMyAddresses.setOnClickListener(this);
-        rlViewProfile.setOnClickListener(this);
+//        rlViewProfile.setOnClickListener(this);
+        rlEditProfile.setOnClickListener(this);
         rlInviteFriends.setOnClickListener(this);
         rlCallToUs.setOnClickListener(this);
         rlWriteToUs.setOnClickListener(this);
@@ -144,12 +150,24 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                     }
                 }
                 break;
-            case R.id.rl_viewprofile:
-                if (!UtilityMethods.getCurrentClassName(UserHeaderProfile.this).equals(getApplicationContext().getPackageName() + ".UserProfile")) {
+
+//            case R.id.rl_viewprofile:
+//                if (!UtilityMethods.getCurrentClassName(UserHeaderProfile.this).equals(getApplicationContext().getPackageName() + ".UserProfile")) {
+//                    if (userId != null && userId.trim().length() > 0) {
+//                        showDialog();
+//                        String url = UrlsConstants.USER_DETAIL_URL + userId;
+//                        myApi.reqUserDetails(url);
+//                    } else {
+//                        Intent intent = new Intent(mContext, LoginActivity.class);
+//                        startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
+//                    }
+//                }
+//                break;
+            case R.id.rl_editprofile:
+                if (!UtilityMethods.getCurrentClassName(UserHeaderProfile.this).equals(getApplicationContext().getPackageName() + ".EditProfile")) {
                     if (userId != null && userId.trim().length() > 0) {
-                        showDialog();
-                        String url = UrlsConstants.USER_DETAIL_URL + userId;
-                        myApi.reqUserDetails(url);
+                        Intent intent = new Intent(mContext, EditProfile.class);
+                        startActivity(intent);
                     } else {
                         Intent intent = new Intent(mContext, LoginActivity.class);
                         startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
@@ -208,6 +226,16 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                 finish();
                 break;
         }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == LOGIN_SIGNUP) {
+            Intent intent = new Intent(this,HomeScreen.class);
+            startActivity(intent);
+//        }
 
     }
 

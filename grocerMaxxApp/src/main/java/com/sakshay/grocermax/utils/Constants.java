@@ -71,6 +71,7 @@ public class Constants {
 		public static final String PRODUCT_DELETED = "Product deleted successfully";
 		public static final String NO_ACCOUNT_ADDR = "Your account dont have any address.Please create an address from address book";
 		public static final String SELECT_SHIP_ADDR = "Please select shipping address";
+		public static final String MAKE_SHIPPING_BILLING = "Please make this address shipping or billing";
 		
 		public static final String SELECT_BILL_ADDR = "Please select billing address";
 		public static final String SELECT_TIME = "Please select time slot";

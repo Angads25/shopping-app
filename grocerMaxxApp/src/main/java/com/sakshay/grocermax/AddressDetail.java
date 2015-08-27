@@ -178,7 +178,7 @@ public class AddressDetail extends BaseActivity{
 		// TODO Auto-generated method stub
 		super.onResume();
 		try {
-			initHeader(findViewById(R.id.header), true, null);
+			initHeader(findViewById(R.id.header), true, "My Addresses");
 		}catch(Exception e){
 			new GrocermaxBaseException("AddressDetail","onResume",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
