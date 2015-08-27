@@ -26,12 +26,13 @@ import com.sakshay.grocermax.utils.UrlsConstants;
 public class OrderDetail extends BaseActivity{
 	
 	TextView tv_about_order,tv_shipping_method,tv_payment_mode,tv_delivery_date,tv_shipping_address,tv_billing_address;
-	TextView tvOrderId;
+//	TextView tvOrderId;
 	String order_id,order_increement_id;
 	List<OrderDetailItem> items;
 	LinearLayout ll_product,ll_discount;
 	TextView tv_subtotal_2,tv_shipping,tv_youpay,tv_discount;
-	LinearLayout ll_header,ll_subtotal,ll_shipping,ll_youpay;
+//	LinearLayout ll_header;
+	LinearLayout ll_subtotal,ll_shipping,ll_youpay;
 	TextView tv_delivery_time;
 	EasyTracker tracker;
 	
@@ -56,15 +57,15 @@ public class OrderDetail extends BaseActivity{
 	}
 	public void initViews()
 	{
-		TextView tvProductNameHeading = (TextView) findViewById(R.id.tv_name);
-		TextView tvProductPriceHeading = (TextView) findViewById(R.id.tv_price);
-		TextView tvProductQuantityHeading = (TextView) findViewById(R.id.tv_quantity);
-		TextView tvProductSubTotalHeading = (TextView) findViewById(R.id.tv_subtotal);
+//		TextView tvProductNameHeading = (TextView) findViewById(R.id.tv_name);
+//		TextView tvProductPriceHeading = (TextView) findViewById(R.id.tv_price);
+//		TextView tvProductQuantityHeading = (TextView) findViewById(R.id.tv_quantity);
+//		TextView tvProductSubTotalHeading = (TextView) findViewById(R.id.tv_subtotal);
 		
-		tvProductNameHeading.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-		tvProductPriceHeading.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-		tvProductQuantityHeading.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-		tvProductSubTotalHeading.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+//		tvProductNameHeading.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+//		tvProductPriceHeading.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+//		tvProductQuantityHeading.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+//		tvProductSubTotalHeading.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 		
 		TextView tvAboutOrder = (TextView) findViewById(R.id.txt_about_order);
 		TextView tvDeliveryDate = (TextView) findViewById(R.id.txt_delivery_date);
@@ -83,8 +84,8 @@ public class OrderDetail extends BaseActivity{
 		tvPaymentMode.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 		
 		
-		tvOrderId = (TextView) findViewById(R.id.order_id);
-		tvOrderId.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+//		tvOrderId = (TextView) findViewById(R.id.order_id);
+//		tvOrderId.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 		
 		tv_about_order=(TextView)findViewById(R.id.tv_about_order);
 		tv_shipping_method=(TextView)findViewById(R.id.tv_shipping_method);
@@ -111,7 +112,7 @@ public class OrderDetail extends BaseActivity{
 		ll_shipping=(LinearLayout)findViewById(R.id.ll_shipping);
 		
 		
-		ll_header=(LinearLayout)findViewById(R.id.ll_header);
+//		ll_header=(LinearLayout)findViewById(R.id.ll_header);
 		
 		tv_subtotal_2=(TextView)findViewById(R.id.tv_subtotal_2);
 		tv_shipping=(TextView)findViewById(R.id.tv_shipping);
@@ -124,9 +125,9 @@ public class OrderDetail extends BaseActivity{
 		tv_delivery_time.setVisibility(View.GONE);
 		tv_shipping_address.setVisibility(View.GONE);
 		tv_billing_address.setVisibility(View.GONE);
-		tvOrderId.setVisibility(View.GONE);
+//		tvOrderId.setVisibility(View.GONE);
 		
-		ll_header.setVisibility(View.GONE);
+//		ll_header.setVisibility(View.GONE);
 		ll_subtotal.setVisibility(View.GONE);
 		ll_youpay.setVisibility(View.GONE);
 		ll_shipping.setVisibility(View.GONE);
@@ -135,8 +136,6 @@ public class OrderDetail extends BaseActivity{
 		TextView textSubTotal = (TextView) findViewById(R.id.txt_subtotal);
 		TextView textShipping = (TextView) findViewById(R.id.txt_shipping);
 		TextView textGrandTotal = (TextView) findViewById(R.id.txt_grand_total);
-		
-		
 		
 		textSubTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 		tv_subtotal_2.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
@@ -149,7 +148,7 @@ public class OrderDetail extends BaseActivity{
 	}
 	public void visibleViews()
 	{
-		tvOrderId.setVisibility(View.VISIBLE);
+//		tvOrderId.setVisibility(View.VISIBLE);
 		tv_about_order.setVisibility(View.VISIBLE);
 		tv_shipping_method.setVisibility(View.VISIBLE);
 		tv_payment_mode.setVisibility(View.VISIBLE);
@@ -157,7 +156,7 @@ public class OrderDetail extends BaseActivity{
 		tv_delivery_time.setVisibility(View.VISIBLE);
 		tv_shipping_address.setVisibility(View.VISIBLE);
 		tv_billing_address.setVisibility(View.VISIBLE);
-		ll_header.setVisibility(View.VISIBLE);
+//		ll_header.setVisibility(View.VISIBLE);
 		ll_subtotal.setVisibility(View.VISIBLE);
 		ll_youpay.setVisibility(View.VISIBLE);
 		ll_shipping.setVisibility(View.VISIBLE);
@@ -176,7 +175,7 @@ public class OrderDetail extends BaseActivity{
 					visibleViews();
 					
 //					tvOrderId.setText("Order ID : "+order_id);
-					tvOrderId.setText("Order ID : "+order_increement_id);
+//					tvOrderId.setText("Order ID : "+order_increement_id);
 					 
 					setOrderInformation(orderDetailJson.getString("created_at").split(" ")[0]);
 					setShippingMethod(orderDetailJson.getString("shipping_description"));
@@ -204,7 +203,7 @@ public class OrderDetail extends BaseActivity{
 					setAddress("",name_b, street_b, city_b, state_b, phone_b, pin_b, tv_billing_address);
 					Gson gson=new Gson();
 					 OrderedProductList orderedProductList=gson.fromJson(orderDetailJson.toString(),OrderedProductList.class);
-					setProductData(orderedProductList.getItems());
+//					setProductData(orderedProductList.getItems());
 					tv_shipping.setText("Rs. "+String.format("%.2f",Float.parseFloat(orderDetailJson.getJSONObject("payment").getString("shipping_amount"))));
 					tv_subtotal_2.setText("Rs. "+String.format("%.2f",Float.parseFloat(orderDetailJson.getString("subtotal"))));
 					float discount=Float.parseFloat(orderDetailJson.getString("discount_amount"));
@@ -220,8 +219,8 @@ public class OrderDetail extends BaseActivity{
 //					TextView msg = (TextView) findViewById(R.id.msg);
 //					msg.setVisibility(View.VISIBLE);
 //					msg.setText("No order detail available");
-					tvOrderId.setVisibility(View.VISIBLE);
-					tvOrderId.setText("No order detail available");
+//					tvOrderId.setVisibility(View.VISIBLE);
+//					tvOrderId.setText("No order detail available");
 				}
 			}catch(Exception e)
 			{
@@ -280,71 +279,69 @@ public class OrderDetail extends BaseActivity{
 		tv.setText(Html.fromHtml(value));
 	}
 	
-	public void setProductData(List<OrderDetailItem> items)
-	{
-		this.items=items;
-		for(int i=0;i<items.size();i++)
-		{
-			String name=items.get(i).getName();
-			String qty=String.valueOf((int)Float.parseFloat(items.get(i).getQty_ordered()));
-			String price=String.format("%.2f",Float.parseFloat(items.get(i).getPrice()));
-			String subtotal=String.format("%.2f",Float.parseFloat(items.get(i).getRow_total()));
-			addView(name,qty,price,subtotal);
-		}
-		
-	}
+//	public void setProductData(List<OrderDetailItem> items){
+//		this.items=items;
+//		for(int i=0;i<items.size();i++)
+//		{
+//			String name=items.get(i).getName();
+//			String qty=String.valueOf((int)Float.parseFloat(items.get(i).getQty_ordered()));
+//			String price=String.format("%.2f",Float.parseFloat(items.get(i).getPrice()));
+//			String subtotal=String.format("%.2f",Float.parseFloat(items.get(i).getRow_total()));
+//			addView(name,qty,price,subtotal);
+//		}
+//
+//	}
 	
-	public void addView(String name,String qty,String price,String total)
-	{
-		LinearLayout ll=new LinearLayout(this);
-		LinearLayout .LayoutParams layoutParams= new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,getdp(50));
-	    ll.setLayoutParams(layoutParams);
-	    ll.setOrientation(LinearLayout.HORIZONTAL);
-	    
-	    TextView tv1=new TextView(this);
-	    LinearLayout .LayoutParams layoutParams1= new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT,4f);
-	    tv1.setLayoutParams(layoutParams1);
-	    tv1.setGravity(Gravity.CENTER_VERTICAL|Gravity.TOP);
-	    tv1.setPadding(0,0,0,0);
-	    tv1.setTextColor(Color.BLACK);
-	    tv1.setText(name);
-	    
-	    TextView tv2=new TextView(this);
-	    LinearLayout .LayoutParams layoutParams2= new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT,1f);
-	    tv2.setLayoutParams(layoutParams2);
-	    tv2.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.TOP);
-	    tv2.setTextColor(Color.BLACK);
-	    tv2.setText(qty);
-	    
-	    TextView tv4=new TextView(this);
-	    LinearLayout .LayoutParams layoutParams4= new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT,2f);
-	    tv4.setLayoutParams(layoutParams4);
-	    tv4.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.TOP);
-	    tv4.setTextColor(Color.BLACK);
-	    tv4.setText("Rs. "+total);
-	    tv4.setPadding(0, 0, 5, 0);
-	    
-	    TextView tv3=new TextView(this);
-	    LinearLayout .LayoutParams layoutParams3= new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT,2f);
-	    tv3.setLayoutParams(layoutParams3);
-	    tv3.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.TOP);
-	    tv3.setTextColor(Color.BLACK);
-	    tv3.setText("Rs. "+price);
-	    
-	    
-	    View divider_view=new View(this);
-	    LinearLayout .LayoutParams divider_layout_param= new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,20);
-	    divider_view.setLayoutParams(divider_layout_param);
-	    
-	    ll.removeAllViews();
-	    ll.addView(tv1);
-	    ll.addView(tv3);
-	    ll.addView(tv2);
-	    ll.addView(tv4);
-	   
-	    ll_product.addView(ll);
-	    ll_product.addView(divider_view);
-	}
+//	public void addView(String name,String qty,String price,String total){
+//		LinearLayout ll=new LinearLayout(this);
+//		LinearLayout .LayoutParams layoutParams= new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,getdp(50));
+//	    ll.setLayoutParams(layoutParams);
+//	    ll.setOrientation(LinearLayout.HORIZONTAL);
+//
+//	    TextView tv1=new TextView(this);
+//	    LinearLayout .LayoutParams layoutParams1= new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT,4f);
+//	    tv1.setLayoutParams(layoutParams1);
+//	    tv1.setGravity(Gravity.CENTER_VERTICAL|Gravity.TOP);
+//	    tv1.setPadding(0,0,0,0);
+//	    tv1.setTextColor(Color.BLACK);
+//	    tv1.setText(name);
+//
+//	    TextView tv2=new TextView(this);
+//	    LinearLayout .LayoutParams layoutParams2= new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT,1f);
+//	    tv2.setLayoutParams(layoutParams2);
+//	    tv2.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.TOP);
+//	    tv2.setTextColor(Color.BLACK);
+//	    tv2.setText(qty);
+//
+//	    TextView tv4=new TextView(this);
+//	    LinearLayout .LayoutParams layoutParams4= new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT,2f);
+//	    tv4.setLayoutParams(layoutParams4);
+//	    tv4.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.TOP);
+//	    tv4.setTextColor(Color.BLACK);
+//	    tv4.setText("Rs. "+total);
+//	    tv4.setPadding(0, 0, 5, 0);
+//
+//	    TextView tv3=new TextView(this);
+//	    LinearLayout .LayoutParams layoutParams3= new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT,2f);
+//	    tv3.setLayoutParams(layoutParams3);
+//	    tv3.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.TOP);
+//	    tv3.setTextColor(Color.BLACK);
+//	    tv3.setText("Rs. "+price);
+//
+//
+//	    View divider_view=new View(this);
+//	    LinearLayout .LayoutParams divider_layout_param= new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,20);
+//	    divider_view.setLayoutParams(divider_layout_param);
+//
+//	    ll.removeAllViews();
+//	    ll.addView(tv1);
+//	    ll.addView(tv3);
+//	    ll.addView(tv2);
+//	    ll.addView(tv4);
+//
+//	    ll_product.addView(ll);
+//	    ll_product.addView(divider_view);
+//	}
 	public int getdp(int a)
 	{
 		int paddingPixel = a;
@@ -358,7 +355,7 @@ public class OrderDetail extends BaseActivity{
 		// TODO Auto-generated method stub
 		super.onResume();
 		try {
-			initHeader(findViewById(R.id.header), true, null);
+			initHeader(findViewById(R.id.header), true, "Order ID : "+order_increement_id);
 		}catch(Exception e){
 			new GrocermaxBaseException("OrderDetail","onResume",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
