@@ -224,8 +224,8 @@ public class ReviewOrderAndPay extends BaseActivity
 
 			final TextView btnOnlinePayment = (TextView) findViewById(R.id.btn_online_Payment);
 			final TextView btnCashonDelivery = (TextView) findViewById(R.id.btn_cash_on_delivery);
-			final TextView btnPayTM = (TextView) findViewById(R.id.btn_paytm);
-			final TextView btnMobiKwik = (TextView) findViewById(R.id.btn_mobikwik);
+			final ImageView btnPayTM = (ImageView) findViewById(R.id.btn_paytm);
+			final ImageView btnMobiKwik = (ImageView) findViewById(R.id.btn_mobikwik);
 
 
 //		TextView txtSubTotal = (TextView) findViewById(R.id.txt_subtotal);
@@ -258,8 +258,8 @@ public class ReviewOrderAndPay extends BaseActivity
 
 			btnOnlinePayment.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 			btnCashonDelivery.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-			btnPayTM.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-			btnMobiKwik.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+//			btnPayTM.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+//			btnMobiKwik.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 
 			tvCreditCard.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 //		tvSubTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
@@ -289,10 +289,10 @@ public class ReviewOrderAndPay extends BaseActivity
 					}
 
 					if (bOnline) {
-						ivOnlinePayment.setImageResource(R.drawable.check_pay);           //select
-						ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);        //unselect
-						ivPayTM.setImageResource(R.drawable.uncheck_pay);                  //unselect
-						ivMobiKwik.setImageResource(R.drawable.uncheck_pay);                  //unselect
+						ivOnlinePayment.setImageResource(R.drawable.chkbox_selected);           //select
+						ivCashonDelivery.setImageResource(R.drawable.chkbox_unselected);        //unselect
+						ivPayTM.setImageResource(R.drawable.chkbox_unselected);                  //unselect
+						ivMobiKwik.setImageResource(R.drawable.chkbox_unselected);                  //unselect
 
 //					btnOnlinePayment.setBackgroundResource(R.drawable.pay_selected_btn);
 //					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
@@ -304,7 +304,7 @@ public class ReviewOrderAndPay extends BaseActivity
 //					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 //					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 					} else {
-						ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);           //unselect
+						ivOnlinePayment.setImageResource(R.drawable.chkbox_unselected);           //unselect
 //					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
 //					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 					}
@@ -326,10 +326,10 @@ public class ReviewOrderAndPay extends BaseActivity
 					}
 
 					if (bOnline) {
-						ivOnlinePayment.setImageResource(R.drawable.check_pay);           //select
-						ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);        //unselect
-						ivPayTM.setImageResource(R.drawable.uncheck_pay);         //unselect
-						ivMobiKwik.setImageResource(R.drawable.uncheck_pay);         //unselect
+						ivOnlinePayment.setImageResource(R.drawable.chkbox_selected);           //select
+						ivCashonDelivery.setImageResource(R.drawable.chkbox_unselected);        //unselect
+						ivPayTM.setImageResource(R.drawable.chkbox_unselected);         //unselect
+						ivMobiKwik.setImageResource(R.drawable.chkbox_unselected);         //unselect
 
 //					btnOnlinePayment.setBackgroundResource(R.drawable.pay_selected_btn);
 //					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
@@ -341,7 +341,7 @@ public class ReviewOrderAndPay extends BaseActivity
 //					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 //					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 					} else {
-						ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);           //unselect
+						ivOnlinePayment.setImageResource(R.drawable.chkbox_unselected);           //unselect
 //					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
 //					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 					}
@@ -364,10 +364,10 @@ public class ReviewOrderAndPay extends BaseActivity
 					}
 
 					if (bCash) {
-						ivCashonDelivery.setImageResource(R.drawable.check_pay);        //select
-						ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);       //unselect
-						ivPayTM.setImageResource(R.drawable.uncheck_pay);       //unselect
-						ivMobiKwik.setImageResource(R.drawable.uncheck_pay);       //unselect
+						ivCashonDelivery.setImageResource(R.drawable.chkbox_selected);        //select
+						ivOnlinePayment.setImageResource(R.drawable.chkbox_unselected);       //unselect
+						ivPayTM.setImageResource(R.drawable.chkbox_unselected);       //unselect
+						ivMobiKwik.setImageResource(R.drawable.chkbox_unselected);       //unselect
 
 //					btnCashonDelivery.setBackgroundResource(R.drawable.pay_selected_btn);
 //					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
@@ -379,7 +379,7 @@ public class ReviewOrderAndPay extends BaseActivity
 //					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 //					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 					} else {
-						ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);           //unselect
+						ivCashonDelivery.setImageResource(R.drawable.chkbox_unselected);           //unselect
 //					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
 //					btnCashonDelivery.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
 //					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
@@ -402,10 +402,10 @@ public class ReviewOrderAndPay extends BaseActivity
 					}
 
 					if (bCash) {
-						ivCashonDelivery.setImageResource(R.drawable.check_pay);        //select
-						ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);       //unselect
-						ivPayTM.setImageResource(R.drawable.uncheck_pay);       //unselect
-						ivMobiKwik.setImageResource(R.drawable.uncheck_pay);       //unselect
+						ivCashonDelivery.setImageResource(R.drawable.chkbox_selected);        //select
+						ivOnlinePayment.setImageResource(R.drawable.chkbox_unselected);       //unselect
+						ivPayTM.setImageResource(R.drawable.chkbox_unselected);       //unselect
+						ivMobiKwik.setImageResource(R.drawable.chkbox_unselected);       //unselect
 
 //					btnCashonDelivery.setBackgroundResource(R.drawable.pay_selected_btn);
 //					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
@@ -417,7 +417,7 @@ public class ReviewOrderAndPay extends BaseActivity
 //					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 //					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 					} else {
-						ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);           //unselect
+						ivCashonDelivery.setImageResource(R.drawable.chkbox_unselected);           //unselect
 //					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
 //					btnCashonDelivery.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
 //					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
@@ -442,10 +442,11 @@ public class ReviewOrderAndPay extends BaseActivity
 					}
 
 					if (bPayTM) {
-						ivPayTM.setImageResource(R.drawable.check_pay);           //select
-						ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);         //unselect
-						ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);        //unselect
-						ivMobiKwik.setImageResource(R.drawable.uncheck_pay);        //unselect
+						ivPayTM.setImageResource(R.drawable.chkbox_selected);           //select
+//						ivPayTM.setImageResource(R.drawable.check_pay);           //select
+						ivOnlinePayment.setImageResource(R.drawable.chkbox_unselected);         //unselect
+						ivCashonDelivery.setImageResource(R.drawable.chkbox_unselected);        //unselect
+						ivMobiKwik.setImageResource(R.drawable.chkbox_unselected);        //unselect
 
 //					btnPayTM.setBackgroundResource(R.drawable.pay_selected_btn);
 //					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
@@ -457,7 +458,7 @@ public class ReviewOrderAndPay extends BaseActivity
 //					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
 //					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
 					} else {
-						ivPayTM.setImageResource(R.drawable.uncheck_pay);           //unselect
+						ivPayTM.setImageResource(R.drawable.chkbox_unselected);           //unselect
 //					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
 //					btnPayTM.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
 //					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
@@ -481,10 +482,10 @@ public class ReviewOrderAndPay extends BaseActivity
 					}
 
 					if (bPayTM) {
-						ivPayTM.setImageResource(R.drawable.check_pay);           //select
-						ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);         //unselect
-						ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);        //unselect
-						ivMobiKwik.setImageResource(R.drawable.uncheck_pay);        //unselect
+						ivPayTM.setImageResource(R.drawable.chkbox_selected);           //select
+						ivOnlinePayment.setImageResource(R.drawable.chkbox_unselected);         //unselect
+						ivCashonDelivery.setImageResource(R.drawable.chkbox_unselected);        //unselect
+						ivMobiKwik.setImageResource(R.drawable.chkbox_unselected);        //unselect
 
 //					btnPayTM.setBackgroundResource(R.drawable.pay_selected_btn);
 //					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
@@ -496,7 +497,7 @@ public class ReviewOrderAndPay extends BaseActivity
 //					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
 //					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
 					} else {
-						ivPayTM.setImageResource(R.drawable.uncheck_pay);           //unselect
+						ivPayTM.setImageResource(R.drawable.chkbox_unselected);           //unselect
 //					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
 //					btnPayTM.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
 //					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
@@ -520,10 +521,10 @@ public class ReviewOrderAndPay extends BaseActivity
 					}
 
 					if (bMobiKwik) {
-						ivMobiKwik.setImageResource(R.drawable.check_pay);           //select
-						ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);         //unselect
-						ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);        //unselect
-						ivPayTM.setImageResource(R.drawable.uncheck_pay);        //unselect
+						ivMobiKwik.setImageResource(R.drawable.chkbox_selected);           //select
+						ivOnlinePayment.setImageResource(R.drawable.chkbox_unselected);         //unselect
+						ivCashonDelivery.setImageResource(R.drawable.chkbox_unselected);        //unselect
+						ivPayTM.setImageResource(R.drawable.chkbox_unselected);        //unselect
 
 //					btnMobiKwik.setBackgroundResource(R.drawable.pay_selected_btn);
 //					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
@@ -535,7 +536,7 @@ public class ReviewOrderAndPay extends BaseActivity
 //					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
 //					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
 					} else {
-						ivMobiKwik.setImageResource(R.drawable.uncheck_pay);           //unselect
+						ivMobiKwik.setImageResource(R.drawable.chkbox_unselected);           //unselect
 //					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);
 //					btnMobiKwik.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
 //					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
@@ -558,10 +559,10 @@ public class ReviewOrderAndPay extends BaseActivity
 					}
 
 					if (bMobiKwik) {
-						ivMobiKwik.setImageResource(R.drawable.check_pay);                  //select
-						ivPayTM.setImageResource(R.drawable.uncheck_pay);              //unselect
-						ivOnlinePayment.setImageResource(R.drawable.uncheck_pay);         //unselect
-						ivCashonDelivery.setImageResource(R.drawable.uncheck_pay);        //unselect
+						ivMobiKwik.setImageResource(R.drawable.chkbox_selected);                  //select
+						ivPayTM.setImageResource(R.drawable.chkbox_unselected);              //unselect
+						ivOnlinePayment.setImageResource(R.drawable.chkbox_unselected);         //unselect
+						ivCashonDelivery.setImageResource(R.drawable.chkbox_unselected);        //unselect
 
 //					btnMobiKwik.setBackgroundResource(R.drawable.pay_selected_btn);
 //					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
@@ -574,7 +575,7 @@ public class ReviewOrderAndPay extends BaseActivity
 //					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
 
 					} else {
-						ivMobiKwik.setImageResource(R.drawable.uncheck_pay);                                         //unselect
+						ivMobiKwik.setImageResource(R.drawable.chkbox_unselected);                                         //unselect
 //					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);                            //unselect
 //					btnMobiKwik.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
 //					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
