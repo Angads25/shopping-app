@@ -1,7 +1,10 @@
 package com.sakshay.grocermax;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.Session;
 import com.flurry.android.FlurryAgent;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.sakshay.grocermax.api.ConnectionService;
@@ -34,12 +38,16 @@ import org.json.JSONObject;
 public class UserHeaderProfile extends BaseActivity implements View.OnClickListener{
     TextView tvUserName,tvUserEmail,tvUserMobileNo;
     RelativeLayout rlLogin,rlOrderHistory,rlMyAddresses,rlViewProfile,rlInviteFriends,rlCallToUs,rlWriteToUs,rlSignOut;
+    TextView tvLogin,tvOrderHistory,tvMyAddresses,tvViewProfile,tvInviteFriends,tvCallToUs,tvWriteToUs,tvSignOut;
     EasyTracker tracker;
-
+//    tv_login_signup
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+
+        View viewSignOut = (View) findViewById(R.id.view_sign_out);
+        ImageView ivLoginCarat = (ImageView) findViewById(R.id.iv_login_carrat);
 
         tvUserName = (TextView) findViewById(R.id.tv_userprofile_fullname);
         tvUserEmail = (TextView) findViewById(R.id.tv_userprofile_email);
@@ -54,7 +62,14 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
         rlWriteToUs = (RelativeLayout) findViewById(R.id.rl_writetous);
         rlSignOut = (RelativeLayout) findViewById(R.id.rl_signout);
 
-        TextView tv = (TextView) findViewById(R.id.tv_login_signup);
+        tvLogin = (TextView) findViewById(R.id.tv_login_signup);
+        tvOrderHistory = (TextView) findViewById(R.id.tv_orderhistory);
+        tvMyAddresses = (TextView) findViewById(R.id.tv_myaddresses);
+        tvViewProfile = (TextView) findViewById(R.id.tv_viewprofile);
+        tvInviteFriends = (TextView) findViewById(R.id.tv_invitefriends);
+        tvCallToUs = (TextView) findViewById(R.id.tv_callus);
+        tvWriteToUs = (TextView) findViewById(R.id.tv_writetous);
+        tvSignOut = (TextView) findViewById(R.id.tv_signout);
 
         rlLogin.setOnClickListener(this);
         rlOrderHistory.setOnClickListener(this);
@@ -66,29 +81,32 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
         rlSignOut.setOnClickListener(this);
 
         if (MySharedPrefs.INSTANCE.getLoginStatus()) {
-            String name = MySharedPrefs.INSTANCE.getUserEmail();
-            tvUserName.setText(name);
-            tvUserName.setTextColor(Color.WHITE);
+            tvUserName.setText(MySharedPrefs.INSTANCE.getFirstName()+" "+MySharedPrefs.INSTANCE.getLastName());
+            tvUserEmail.setText(MySharedPrefs.INSTANCE.getUserEmail());
+            tvUserMobileNo.setText(MySharedPrefs.INSTANCE.getMobileNo());
+//            tvUserName.setTextColor(Color.WHITE);
+            tvLogin.setText(MySharedPrefs.INSTANCE.getUserEmail());
+            tvLogin.setTextColor(Color.WHITE);
             rlLogin.setBackgroundColor(getResources().getColor(
                     R.color.app_header));
+            ivLoginCarat.setVisibility(View.GONE);
 
         } else {
-            tvUserName.setText(getString(R.string.Login));
-//            tvSignout.setVisibility(View.GONE);
+            tvLogin.setText(getString(R.string.Login));
             rlSignOut.setVisibility(View.GONE);
             rlLogin.setBackgroundColor(Color.WHITE);
-
             tvUserName.setTextAppearance(this, R.style.normal_textsize);
-
-            // my_fav_lay.setVisibility(View.GONE);
+            rlSignOut.setVisibility(View.GONE);
+            viewSignOut.setVisibility(View.GONE);
         }
 
-        initHeader(findViewById(R.id.app_bar_header), true, "User Profile");
+        initHeader(findViewById(R.id.app_bar_header), true, "My Profile");
         initFooter(findViewById(R.id.footer), 4, 3);
     }
 
     @Override
     public void onClick(View v) {
+        String userId = MySharedPrefs.INSTANCE.getUserId();
         switch (v.getId()) {
             case R.id.rl_login_signup:
                 RelativeLayout rl = (RelativeLayout)v.findViewById(R.id.rl_login_signup);
@@ -105,32 +123,89 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                 }
                 break;
             case R.id.rl_orderhistory:
-//                intent = new Intent(mContext, BrowseActivity.class);
-//                startActivity(intent);
+                if (!UtilityMethods.getCurrentClassName(UserHeaderProfile.this).equals(getApplicationContext().getPackageName() + ".OrderHistory")) {
+                    if (userId != null && userId.trim().length() > 0) {
+                        openOrderHistory();
+                    } else {
+                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
+                    }
+                }
                 break;
             case R.id.rl_myaddresses:
-//                intent = new Intent(mContext, BrowseActivity.class);
-//                startActivity(intent);
+                if (!UtilityMethods.getCurrentClassName(UserHeaderProfile.this).equals(getApplicationContext().getPackageName() + ".AddressDetail")) {
+                    if (userId != null && userId.trim().length() > 0) {
+                        showDialog();
+                        String url = UrlsConstants.ADDRESS_BOOK + userId;
+                        myApi.reqAddressBook(url, MyReceiverActions.ADDRESS_BOOK);
+                    } else {
+                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
+                    }
+                }
                 break;
             case R.id.rl_viewprofile:
-//                intent = new Intent(mContext, BrowseActivity.class);
-//                startActivity(intent);
+                if (!UtilityMethods.getCurrentClassName(UserHeaderProfile.this).equals(getApplicationContext().getPackageName() + ".UserProfile")) {
+                    if (userId != null && userId.trim().length() > 0) {
+                        showDialog();
+                        String url = UrlsConstants.USER_DETAIL_URL + userId;
+                        myApi.reqUserDetails(url);
+                    } else {
+                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
+                    }
+                }
                 break;
             case R.id.rl_invitefriends:
-//                intent = new Intent(mContext, BrowseActivity.class);
-//                startActivity(intent);
+                UtilityMethods.shareApp(mContext);
                 break;
             case R.id.rl_callus:
-//                intent = new Intent(mContext, BrowseActivity.class);
-//                startActivity(intent);
+                Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse(AppConstants.customer_care));
+                startActivity(callIntent);
+
                 break;
             case R.id.rl_writetous:
-//                intent = new Intent(mContext, BrowseActivity.class);
-//                startActivity(intent);
+                PackageInfo pInfo = null;
+                try {
+                    pInfo = getPackageManager().getPackageInfo(
+                            getPackageName(), 0);
+                } catch (PackageManager.NameNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                if (pInfo != null) {
+                    String subject = AppConstants.subject;
+                    shareToGMail(AppConstants.email, subject);
+                }
                 break;
             case R.id.rl_signout:
-//                intent = new Intent(mContext, BrowseActivity.class);
-//                startActivity(intent);
+                MySharedPrefs.INSTANCE.clearUserInfo();
+                MySharedPrefs.INSTANCE.putTotalItem("0");
+                cart_count_txt.setText("0");
+                BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_logout);
+                UtilityMethods.deleteCloneCart(UserHeaderProfile.this);
+
+                ////Fb logout/////////
+                if (MySharedPrefs.INSTANCE.getFacebookId() != null) {
+                    Session session = LoginActivity.getInstance().getSession();
+                    if (!session.isClosed()) {
+                        MySharedPrefs.INSTANCE.clearAllData();
+                        session.closeAndClearTokenInformation();
+                    }
+                }
+                if (MySharedPrefs.INSTANCE.getGoogleId() != null) {
+//					LoginActivity loginActivity = new LoginActivity();
+//					loginActivity.googlePlusLogoutLocally();
+                    LoginActivity.googlePlusLogout();
+                    Registration.googlePlusLogoutReg();
+//					loginActivity.googlePlusLogout();
+                    MySharedPrefs.INSTANCE.clearAllData();
+                }
+                UtilityMethods.customToast(AppConstants.ToastConstant.LOGOUT_SUCCESS, mContext);
+                Intent intent = new Intent(mContext, HomeScreen.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
                 break;
         }
 
@@ -145,7 +220,7 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
         // TODO Auto-generated method stub
         super.onResume();
         try {
-            initHeader(findViewById(R.id.app_bar_header), true, "User Profile");
+            initHeader(findViewById(R.id.app_bar_header), true, "My Profile");
         }catch(Exception e){
             new GrocermaxBaseException("CreateNewAddress","onResume",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
         }
