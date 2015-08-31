@@ -2,7 +2,10 @@ package com.sakshay.grocermax;
 
 import java.net.URLEncoder;
 import java.sql.Array;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -168,11 +171,14 @@ public abstract class BaseActivity extends FragmentActivity {
 				//TODO: commented this out as it was superimposing another image which was bigge than params specified,
 				//please handle again for login logout
 //				BaseActivity.icon_header_user.setEnabled(true);
-				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_logout);  //login icon
+//				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon);  //login icon
+//				BaseActivity.icon_header_user.setImageResource(R.drawable.profile);  //login icon
+				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_1);  //login icon
 
 			} else {
 //				BaseActivity.icon_header_user.setEnabled(true);
-				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon);  //logout icon
+				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_logout);  //logout icon
+				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_2);  //logout icon
 			}
 
 			if (MySharedPrefs.INSTANCE.getTotalItem() != null) {

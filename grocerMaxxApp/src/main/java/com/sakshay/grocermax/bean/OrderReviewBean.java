@@ -42,7 +42,16 @@ public class OrderReviewBean implements Serializable{
 	private String coupon_code;
 	@Expose
 	private String subtotal_with_discount;
-	
+	@Expose
+	private String you_save;
+
+	public String getCouponDiscount(){
+		return  you_save;
+	}
+	public void setCouponDiscount(String you_save){
+		this.you_save = you_save;
+	}
+
 	public String getCouponCode(){
 		return coupon_code;
 	}
@@ -55,7 +64,7 @@ public class OrderReviewBean implements Serializable{
 	public String getCouponSubtotalWithDsicount(){
 		return subtotal_with_discount;
 	}
-	
+
 	public String getSaving() {
 		return saving;
 	}

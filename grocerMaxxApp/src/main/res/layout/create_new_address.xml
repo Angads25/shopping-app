@@ -8,11 +8,12 @@
 
     <include
         android:id="@+id/header"
-        layout="@layout/mart_header" />
+        layout="@layout/mart_header_2" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:padding="8dp">
 
         <TextView

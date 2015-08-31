@@ -188,39 +188,12 @@
                 android:textSize="@dimen/text_size_14" />
 
             <TextView
-                android:id="@+id/comma_placeholder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=","
-                android:textColor="@color/pallete_black"
-                android:textSize="@dimen/text_size_14"
-                android:visibility="visible"/>
-
-            <TextView
-                android:id="@+id/comma_placeholder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=","
-                android:textColor="@color/pallete_black"
-                android:textSize="@dimen/text_size_14"
-                android:visibility="visible"/>
-
-            <TextView
                 android:id="@+id/city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="India"
                 android:textColor="@color/pallete_black"
                 android:textSize="@dimen/text_size_14" />
-
-            <TextView
-                android:id="@+id/comma_placeholder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=","
-                android:textColor="@color/pallete_black"
-                android:textSize="@dimen/text_size_14"
-                android:visibility="visible"/>
 
             <TextView
                 android:id="@+id/state"
@@ -231,30 +204,12 @@
                 android:textSize="@dimen/text_size_14" />
 
             <TextView
-                android:id="@+id/comma_placeholder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=","
-                android:textColor="@color/pallete_black"
-                android:textSize="@dimen/text_size_14"
-                android:visibility="visible"/>
-
-            <TextView
                 android:id="@+id/country"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="100064"
                 android:textColor="@color/pallete_black"
                 android:textSize="@dimen/text_size_14" />
-
-            <TextView
-                android:id="@+id/comma_placeholder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=","
-                android:textColor="@color/pallete_black"
-                android:textSize="@dimen/text_size_14"
-                android:visibility="visible"/>
 
             <TextView
                 android:id="@+id/pincode"

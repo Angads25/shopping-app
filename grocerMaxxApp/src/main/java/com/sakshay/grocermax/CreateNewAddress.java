@@ -69,7 +69,6 @@ public class CreateNewAddress extends BaseActivity{
 //	edit_state_new_addr
 //	edit_mobileno_new_addr
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -87,6 +86,8 @@ public class CreateNewAddress extends BaseActivity{
 				strShippingorBilling = getIntent().getStringExtra("shippingorbillingaddress");
 				editIndex = getIntent().getStringExtra("editindex");
 			}
+
+
 
 			addActionsInFilter(MyReceiverActions.ADD_ADDRESS);
 			addActionsInFilter(MyReceiverActions.EDIT_ADDRESS);                           //just return message address updated successfully with flag 1 in success case.
@@ -378,7 +379,12 @@ public class CreateNewAddress extends BaseActivity{
 //			}
 //		});
 
-			initHeader(findViewById(R.id.header), true, "");
+			if (address == null){
+				initHeader(findViewById(R.id.header), true, "CREATE NEW ADDRESS");
+			}else{
+				initHeader(findViewById(R.id.header), true, "UPDATE ADDRESS");
+			}
+
 			findViewById(R.id.footer).setVisibility(View.GONE);
 
 			ivCBDefaultBilling.setOnClickListener(new View.OnClickListener() {
@@ -650,7 +656,11 @@ public class CreateNewAddress extends BaseActivity{
 		// TODO Auto-generated method stub
 		super.onResume();
 		try {
-			initHeader(findViewById(R.id.header), true, null);
+			if (address == null){
+				initHeader(findViewById(R.id.header), true, "CREATE NEW ADDRESS");
+			}else{
+				initHeader(findViewById(R.id.header), true, "UPDATE ADDRESS");
+			}
 		}catch(Exception e){
 			new GrocermaxBaseException("CreateNewAddress","onResume",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}

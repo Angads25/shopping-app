@@ -65,12 +65,13 @@ public class AddressListAdapter extends BaseAdapter{
 			holder.delete_address = (ImageView) convertView.findViewById(R.id.deleteAddress);
 			holder.profilename = (TextView) convertView
 					.findViewById(R.id.text_header);
+
 			holder.address1 = (TextView) convertView
 					.findViewById(R.id.address1);
 			holder.state = (TextView) convertView
 					.findViewById(R.id.state);
-			holder.name = (TextView) convertView.findViewById(R.id.name);
-			holder.phone = (TextView) convertView.findViewById(R.id.phone);
+//			holder.name = (TextView) convertView.findViewById(R.id.name);
+//			holder.phone = (TextView) convertView.findViewById(R.id.phone);
 			holder.city = (TextView) convertView.findViewById(R.id.city);
 			holder.pincode = (TextView) convertView
 					.findViewById(R.id.pincode);
@@ -86,8 +87,8 @@ public class AddressListAdapter extends BaseAdapter{
 		holder.profilename.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
 		holder.address1.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
 		holder.state.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
-		holder.name.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
-		holder.phone.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
+//		holder.name.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
+//		holder.phone.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
 		holder.city.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
 		holder.pincode.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
 		holder.country.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
@@ -96,17 +97,16 @@ public class AddressListAdapter extends BaseAdapter{
 		final Address obj = getItem(position);
 		holder.profilename.setText(obj.getFirstname() + " " + obj.getLastname());
 	
-		holder.address1.setText(obj.getStreet());
+		holder.address1.setText(obj.getStreet()+",");
+//		holder.name.setText(obj.getFirstname() + " " + obj.getLastname());
+//		holder.phone.setText(obj.getTelephone());
+		holder.city.setText(obj.getCity()+",");
 		if(obj.getRegion()!=null || !obj.getRegion().equals(""))
-		holder.state.setText(obj.getRegion());
+			holder.state.setText(obj.getRegion()+",");
 		else
-		holder.state.setText(obj.getState());
-		
-		holder.name.setText(obj.getFirstname() + " " + obj.getLastname());
-		holder.phone.setText(obj.getTelephone());
-		holder.city.setText(obj.getCity());
+			holder.state.setText(obj.getState()+",");
+		holder.country.setText("India"+",");
 		holder.pincode.setText(obj.getPostcode());
-		holder.country.setText("India");
 		
 		holder.rl_editaddress.setOnClickListener(new OnClickListener() {
 			
@@ -126,7 +126,8 @@ public class AddressListAdapter extends BaseAdapter{
 	}
 	
 	private class ViewHolder {
-		TextView profilename, address1, state, city, pincode, name, phone, country;
+		TextView profilename, address1, state, city, pincode, country;
+//		TextView name,phone;
 		ImageView delete_address;
 //		ImageView edit_address,
 //		TextView edit_address;

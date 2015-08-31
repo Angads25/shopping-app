@@ -60,13 +60,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:padding="8dp">
-
+        android:layout_marginTop="4dp"
+        android:paddingTop="4dp">
+<!-- android:padding="8dp"
+android:layout_marginTop="10dp"
+this padding when totalitem will need to show on top-->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView
@@ -99,6 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView
@@ -141,13 +145,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:padding="8dp">
-
+        android:layout_marginBottom="4dp"
+        >
+<!-- android:padding="8dp"
+need this in relative layout when price details need to be shown below -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView

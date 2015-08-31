@@ -146,8 +146,9 @@ public class SearchTabs extends BaseActivity{
 
 			View headerView = findViewById(R.id.header);
 			initHeader(headerView, true, searchString);
-			showSearchView(true);
-			edtSearch.setText(searchString);
+//			showSearchView(true);
+//			edtSearch.setText(searchString);
+
 //			View headerView = findViewById(R.id.header);
 //			initHeader(headerView, true, header.replaceAll("/", " >> "));
 //			TextView textView = (TextView) headerView.findViewById(R.id.screenName);
@@ -292,8 +293,8 @@ public class SearchTabs extends BaseActivity{
 		try {
 			initHeader(findViewById(R.id.header), true, searchString);
 //			initHeader(findViewById(R.id.header), true, null);
-			showSearchView(true);
-			edtSearch.setText(searchString);
+//			showSearchView(true);
+//			edtSearch.setText(searchString);
 			if (martHeader != null) {
 				martHeader.setVisibility(View.GONE);
 			}

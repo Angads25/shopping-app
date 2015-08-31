@@ -170,7 +170,7 @@ public class ReviewOrderAndPay extends BaseActivity
 //			tvEnterCode.setText("Applied Code");
 				etCouponCode.setEnabled(false);
 				etCouponCode.setText(orderReviewBean.getCouponCode());
-//				tvCouponDiscount.setText();
+//				tvCouponDiscount.setText(orderReviewBean.getCouponDiscount());
 //			tvMiddleLineCoupon.setBackgroundDrawable(getResources().getDrawable(R.color.gray_1));
 			} else {
 				llFirstPage.setVisibility(View.VISIBLE);
@@ -1117,7 +1117,10 @@ class Coupon extends AsyncTask<String, String, String>
 							}
 							savee = savee+(Float.parseFloat(jsoncartObject.getString("you_save")));
 						}
-												
+
+
+//						Float.parseFloat(jsoncartObject.getString("you_save")
+//						orderReviewBean1.setCouponDiscount(String.valueOf(Float.parseFloat(jsoncartObject.getString("you_save"))));
 						orderReviewBean1.setCouponCode(jsoncartObject.getString("coupon_code"));
 						orderReviewBean1.setCouponSubtotalWithDiscount(jsoncartObject.getString("subtotal_with_discount"));
 						orderReviewBean1.setSubTotal(jsoncartObject.getString("subtotal"));

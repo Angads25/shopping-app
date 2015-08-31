@@ -159,10 +159,10 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                             return;
                         }
                         if(date.equals(""))
-            			{
-            				UtilityMethods.customToast("Please select time slot", mContext);
-            				return;
-            			}
+                        {
+                            UtilityMethods.customToast("Please select time slot", mContext);
+                            return;
+                        }
                         Intent intent1 = new Intent(DeliveryDetails.this, ReviewOrderAndPay.class);
                         startActivity(intent1);
                     }catch(Exception e){
@@ -931,19 +931,19 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-		try{
-		if (requestCode!=requestNewAddress && resultCode==RESULT_OK) {
-			//New address added refresh list
+        try{
+            if (requestCode!=requestNewAddress && resultCode==RESULT_OK) {
+                //New address added refresh list
 //			showDialog();
 //			String url = UrlsConstants.CHECKOUT_ADDRESS_BOOK+MySharedPrefs.INSTANCE.getUserId();
 //			myApi.reqCheckOutAddress(url);
 //			finish();
-		}else{
-			UtilityMethods.customToast(Constants.ToastConstant.ERROR_MSG, mContext);
-		}
-		}catch (Exception e){
-			new GrocermaxBaseException("ChooseAddress","onActivityResult",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
-		}
+            }else{
+                UtilityMethods.customToast(Constants.ToastConstant.ERROR_MSG, mContext);
+            }
+        }catch (Exception e){
+            new GrocermaxBaseException("ChooseAddress","onActivityResult",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+        }
     }
 
     @Override

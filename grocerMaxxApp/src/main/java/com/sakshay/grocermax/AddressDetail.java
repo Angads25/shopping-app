@@ -92,6 +92,7 @@ public class AddressDetail extends BaseActivity{
 		try{
 			Intent intent = new Intent(mContext, CreateNewAddress.class);
 			intent.putExtra("address", address);
+
 			startActivityForResult(intent, requestNewAddress);
 		}catch(Exception e){
 			new GrocermaxBaseException("AddressDetail","goToAddress",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
