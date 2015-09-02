@@ -73,8 +73,6 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.s_home_screen);
 
-
-		
 		addActionsInFilter(MyReceiverActions.PRODUCT_LIST_FROM_HOME);
 		 
 		tvSelctionCat = new TextView(this);

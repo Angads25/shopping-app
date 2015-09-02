@@ -24,6 +24,7 @@
             android:id="@+id/iv_back"
             android:layout_width="25dp"
             android:layout_height="25dp"
+            android:visibility="gone"
             android:src="@drawable/left_carat" />
 
         <TextView
@@ -35,6 +36,7 @@
             android:text="Delivery details"
             android:textAllCaps="true"
             android:textColor="@color/pallete_black"
+            android:visibility="gone"
             android:textSize="@dimen/text_size_14" />
 
         <LinearLayout
@@ -57,7 +59,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="5dp"
-                android:background="@drawable/progress_grey"
+                android:background="@drawable/progress_green"
                 />
         </LinearLayout>
     </RelativeLayout>
@@ -84,9 +86,9 @@
                 android:textAllCaps="true"
                 android:textColor="@color/pallete_black"
                 android:textSize="@dimen/text_size_14" />
-
+            <!--        android:id="@+id/tv_selected_date"         -->
             <TextView
-                android:id="@+id/tv_selected_date"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
@@ -158,8 +160,9 @@
                 android:textColor="@color/pallete_black"
                 android:textSize="@dimen/text_size_14" />
 
+            <!--           android:id="@+id/tv_selected_time"     -->
             <TextView
-                android:id="@+id/tv_selected_time"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
@@ -322,7 +325,70 @@
 
     </TableLayout>
 </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp" >
+
+        <TextView
+            android:id="@+id/txtDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
+            android:text="Your delivery slot:"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/text_size_14" />
+
+        <TextView
+            android:id="@+id/tv_selected_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/txtDate"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+
+            android:textSize="@dimen/text_size_14" />
+
+        <TextView
+            android:id="@+id/txt_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="Time on:"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/txtDate"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/text_size_14" />
+
+        <TextView
+            android:id="@+id/tv_selected_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/txt_time"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/txtDate"
+
+            android:textSize="@dimen/text_size_14" />
+
+        </RelativeLayout>
+
     </LinearLayout>
+
+    </LinearLayout>
+
+
+
 
 
     <Button

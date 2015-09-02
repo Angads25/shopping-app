@@ -49,7 +49,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	OrderReviewBean orderReviewBean;
 	CartAdapter mAdapter;
 	int position = -1;
-	TextView txt_subTotal,txt_shipping,txt_grand_total,txt_discount;
+	TextView txt_subTotal,txt_shipping,txt_grand_total,txt_discount,txt_yousaved;
 	public TextView tv_subTotal,tv_discount;
 	public TextView tv_grandTotal,tv_shipping;
 	//	TextView tv_yousave;
@@ -125,10 +125,12 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 
 			txt_subTotal = (TextView) findViewById(R.id.txt_subtotal);
 			txt_shipping = (TextView) findViewById(R.id.txt_shipping);
+			txt_yousaved = (TextView) findViewById(R.id.txt_yousaved);
 			txt_grand_total = (TextView) findViewById(R.id.txt_grand_total);
 			txt_discount = (TextView) findViewById(R.id.txt_discount);
 			textView1 = (TextView) findViewById(R.id.textView1);
 			textViewCoupon = (TextView) findViewById(R.id.textViewcoupon);
+
 
 			txt_subTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			txt_shipping.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
@@ -194,12 +196,14 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			else
 				ll_discount.setVisibility(View.VISIBLE);*/
 					tv_shipping.setText("Rs." + Float.parseFloat(orderReviewBean.getShipping_ammount()));
-			/*if(Float.parseFloat(orderReviewBean.getShipping_ammount())==0)
+
+			if(Float.parseFloat(orderReviewBean.getShipping_ammount())==0)
 			{
 				ll_shipping.setVisibility(View.GONE);
 			}
 			else
-				ll_shipping.setVisibility(View.VISIBLE);*/
+				ll_shipping.setVisibility(View.VISIBLE);
+
 					//tv_discount.setText("-"+String.format("%.2f",discount));
 					tv_grandTotal.setText("Rs." + String.format("%.2f", Float.parseFloat(cartBean.getGrandTotal())));
 

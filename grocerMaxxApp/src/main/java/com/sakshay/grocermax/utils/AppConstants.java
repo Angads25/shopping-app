@@ -61,7 +61,7 @@ public class AppConstants {
 
 		public static final String SHIPPING_ADDRESS_EMPTY = "Please select shipping address";
 		public static final String BILLING_ADDRESS_EMPTY = "Please select billing address";
-		
+		public static final String APPROPRIATE_QUERY = "Please enter appropriate search";
 		
 		public static final String PRODUCT_DELETED = "Product deleted successfully";
 		public static final String NO_ACCOUNT_ADDR = "Your account dont have any address.Please create an address from address book";

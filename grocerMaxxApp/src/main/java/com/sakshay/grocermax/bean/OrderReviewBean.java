@@ -45,12 +45,12 @@ public class OrderReviewBean implements Serializable{
 	@Expose
 	private String you_save;
 
-	public String getCouponDiscount(){
-		return  you_save;
-	}
-	public void setCouponDiscount(String you_save){
-		this.you_save = you_save;
-	}
+//	public String getCouponDiscount(){
+//		return  you_save;
+//	}
+//	public void setCouponDiscount(String you_save){
+//		this.you_save = you_save;
+//	}
 
 	public String getCouponCode(){
 		return coupon_code;

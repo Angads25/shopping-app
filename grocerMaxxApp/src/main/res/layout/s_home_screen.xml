@@ -16,6 +16,7 @@
         android:background="@color/white"
         android:id="@+id/fl_hotOffersContainer"
         android:elevation="10dp"
+        android:visibility="gone"
         >
         <ImageView
             android:layout_width="match_parent"
@@ -23,7 +24,6 @@
             android:id="@+id/iv_hotOffersPlaceHolder"
             android:src="@drawable/hotoffers"
             android:scaleType="centerCrop"
-
             />
     </FrameLayout>
 

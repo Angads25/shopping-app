@@ -186,28 +186,28 @@ public class MyApi {
 	
 	public void reqAddToCart(String url) {
 		Intent reqIntent = new Intent(m_context, ConnectionService.class);
-		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.ADD_TO_CART);
+		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.VIEW_CART);
 		reqIntent.putExtra(ConnectionService.URL, url);
 		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
-		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.ADD_TO_CART);
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.VIEW_CART);
 		m_context.startService(reqIntent);
 	}
-	
+
 	public void reqAddToCartNewProduct(String url) {
 		Intent reqIntent = new Intent(m_context, ConnectionService.class);
-		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.ADD_TO_CART_NEW_PRODUCT);
+		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.VIEW_CART);
 		reqIntent.putExtra(ConnectionService.URL, url);
 		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
-		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.ADD_TO_CART);
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.VIEW_CART);
 		m_context.startService(reqIntent);
 	}
 
 	public void reqAddToCartGuest(String url) {
 		Intent reqIntent = new Intent(m_context, ConnectionService.class);
-		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.ADD_TO_CART_GUEST);
+		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.VIEW_CART);
 		reqIntent.putExtra(ConnectionService.URL, url);
 		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
-		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.ADD_TO_CART);
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.VIEW_CART);
 		m_context.startService(reqIntent);
 	}
 	

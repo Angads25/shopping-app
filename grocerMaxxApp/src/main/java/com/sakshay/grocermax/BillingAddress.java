@@ -25,6 +25,7 @@ import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants;
+import com.sakshay.grocermax.utils.CustomFonts;
 import com.sakshay.grocermax.utils.UrlsConstants;
 import com.sakshay.grocermax.utils.UtilityMethods;
 
@@ -513,6 +514,7 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
             mList.setAdapter(billingAdapter);
 
             btnCheckoutBillingAddr = (Button) findViewById(R.id.btn_checkout_billing_addr);
+            btnCheckoutBillingAddr.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
             btnCheckoutBillingAddr.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -551,6 +553,7 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
             });
 
             TextView tvAddNewAddress = (TextView) findViewById(R.id.add_new_address);
+            tvAddNewAddress.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
             tvAddNewAddress.setOnClickListener(new View.OnClickListener() {
 
                 @Override

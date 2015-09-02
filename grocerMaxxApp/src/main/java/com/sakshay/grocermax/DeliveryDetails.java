@@ -16,15 +16,22 @@ import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.Address;
 import com.sakshay.grocermax.bean.CheckoutAddressBean;
 import com.sakshay.grocermax.bean.DateObject;
+import com.sakshay.grocermax.bean.OrderReviewBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
+import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants;
 import com.sakshay.grocermax.utils.UtilityMethods;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
+import java.util.Formatter;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 /**
@@ -163,6 +170,10 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                             UtilityMethods.customToast("Please select time slot", mContext);
                             return;
                         }
+                        OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
+                        orderReviewBean.setDate(date);
+                        orderReviewBean.setTimeSlot(time);
+                        MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean);
                         Intent intent1 = new Intent(DeliveryDetails.this, ReviewOrderAndPay.class);
                         startActivity(intent1);
                     }catch(Exception e){
@@ -177,14 +188,75 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                     if(selectedDatePosition == 0){
 
                     }else{
-                        selectedDatePosition--;
-                        tvCurrentDate.setText(date_list.get(selectedDatePosition));
-                        tvSelectedDate.setText(date_list.get(selectedDatePosition));
-                        date = date_list.get(selectedDatePosition);
+                        try {
+                            selectedDatePosition--;
+//                        tvCurrentDate.setText(date_list.get(selectedDatePosition));
+//                        tvSelectedDate.setText(date_list.get(selectedDatePosition));
+                            date = date_list.get(selectedDatePosition);
 
-                        time = "";
-                        tvSelectedTime.setText("");
-                        setTimeSlotting(date);
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                            DateFormat formatter3 = null;
+                            Date convertedDate = null;
+
+                            // Creating SimpleDateFormat with yyyyMMdd format e.g."20110914"
+//    String yyyyMMdd = "2015-08-30";
+                            String yyyyMMdd = date;
+                            formatter3 = new SimpleDateFormat("yyyy-MM-dd");
+                            convertedDate = (Date) formatter.parse(yyyyMMdd);
+                            System.out.println("Date from yyyyMMdd String in Java : " + convertedDate);    //Wed Sep 14 00:00:00 GMT+05:45 2011
+
+                            String changedate = String.valueOf(convertedDate);
+//                        String dateStr = "Mon Jun 18 00:00:00 IST 2012";
+                            DateFormat formatter1 = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+                            Date date1 = (Date) formatter1.parse(changedate);
+//                        Date date1 = (Date)formatter1.parse(date_list.get(i));
+                            Calendar cal = Calendar.getInstance();
+                            cal.setTime(date1);
+//    String formatedDate = cal.get(Calendar.DATE) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.YEAR)
+//            + "/" + cal.get(Calendar.DAY_OF_MONTH) + "/" + cal.get(Calendar.DAY_OF_WEEK_IN_MONTH) +
+//            "/" + cal.get(Calendar.DAY_OF_WEEK);       //0-sunday ,1-monday,2-tuesday,3-wednesday,4-thursday,5-friday,6-saturday
+//    System.out.println("formatedDate : " + formatedDate);
+                            String strDay="";
+                            int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+                            if(dayOfWeek == 1){
+                                strDay = "Sunday";
+                            }else if(dayOfWeek == 2){
+                                strDay = "Monday";
+                            }else if(dayOfWeek == 3){
+                                strDay = "Tuesday";
+                            }else if(dayOfWeek == 4){
+                                strDay = "Wednesday";
+                            }else if(dayOfWeek == 5){
+                                strDay = "Thursday";
+                            }else if(dayOfWeek == 6){
+                                strDay = "Friday";
+                            }else if(dayOfWeek == 7){
+                                strDay = "Saturday";
+                            }
+
+
+                            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy");
+                            Calendar calendar = new GregorianCalendar(cal.get(Calendar.YEAR),(cal.get(Calendar.MONTH)),cal.get(Calendar.DATE));
+//    System.out.println("Date : " + sdf.format(calendar.getTime()));
+                            String strFinalDate = strDay+", "+sdf.format(calendar.getTime());
+//     cal.get(Calendar.DAY_OF_WEEK),     sunday
+//cal.get(Calendar.DATE)             30
+                            //cal.get(Calendar.YEAR)             2015
+                            tvCurrentDate.setText(strFinalDate);
+                            tvSelectedDate.setText(strFinalDate);
+                            time = "";
+                            tvSelectedTime.setText("");
+                            setTimeSlotting(date);
+                            // cal.get(Calendar.DAY_OF_WEEK),     sunday
+                            //(cal.get(Calendar.MONTH) + 1)      0-january,12-december
+                            //cal.get(Calendar.DATE)             30
+                            //cal.get(Calendar.YEAR)             2015
+//Mon,June 16 2015
+                        }catch(Exception e){
+
+                        }
+
+
 
 //                        tvFirstTime.setTextColor(getResources().getColor(R.color.light_Gray));
 //                        tvSecondTime.setTextColor(getResources().getColor(R.color.light_Gray));
@@ -215,14 +287,73 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                     if (selectedDatePosition == date_list.size() - 1) {
                         //no more date on right side
                     } else {
-                        selectedDatePosition++;
-                        tvCurrentDate.setText(date_list.get(selectedDatePosition));
-                        tvSelectedDate.setText(date_list.get(selectedDatePosition));
-                        date = date_list.get(selectedDatePosition);
+                        try{
+                            selectedDatePosition++;
+//                        tvCurrentDate.setText(date_list.get(selectedDatePosition));
+//                        tvSelectedDate.setText(date_list.get(selectedDatePosition));
+                            date = date_list.get(selectedDatePosition);
 
-                        time = "";
-                        tvSelectedTime.setText("");
-                        setTimeSlotting(date);
+
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                            DateFormat formatter3 = null;
+                            Date convertedDate = null;
+
+                            // Creating SimpleDateFormat with yyyyMMdd format e.g."20110914"
+//    String yyyyMMdd = "2015-08-30";
+                            String yyyyMMdd = date;
+                            formatter3 = new SimpleDateFormat("yyyy-MM-dd");
+                            convertedDate = (Date) formatter.parse(yyyyMMdd);
+                            System.out.println("Date from yyyyMMdd String in Java : " + convertedDate);    //Wed Sep 14 00:00:00 GMT+05:45 2011
+
+                            String changedate = String.valueOf(convertedDate);
+//                        String dateStr = "Mon Jun 18 00:00:00 IST 2012";
+                            DateFormat formatter1 = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+                            Date date1 = (Date) formatter1.parse(changedate);
+//                        Date date1 = (Date)formatter1.parse(date_list.get(i));
+                            Calendar cal = Calendar.getInstance();
+                            cal.setTime(date1);
+//    String formatedDate = cal.get(Calendar.DATE) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.YEAR)
+//            + "/" + cal.get(Calendar.DAY_OF_MONTH) + "/" + cal.get(Calendar.DAY_OF_WEEK_IN_MONTH) +
+//            "/" + cal.get(Calendar.DAY_OF_WEEK);       //0-sunday ,1-monday,2-tuesday,3-wednesday,4-thursday,5-friday,6-saturday
+//    System.out.println("formatedDate : " + formatedDate);
+                            String strDay="";
+                            int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+                            if(dayOfWeek == 1){
+                                strDay = "Sunday";
+                            }else if(dayOfWeek == 2){
+                                strDay = "Monday";
+                            }else if(dayOfWeek == 3){
+                                strDay = "Tuesday";
+                            }else if(dayOfWeek == 4){
+                                strDay = "Wednesday";
+                            }else if(dayOfWeek == 5){
+                                strDay = "Thursday";
+                            }else if(dayOfWeek == 6){
+                                strDay = "Friday";
+                            }else if(dayOfWeek == 7){
+                                strDay = "Saturday";
+                            }
+
+                            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy");
+                            Calendar calendar = new GregorianCalendar(cal.get(Calendar.YEAR),(cal.get(Calendar.MONTH)),cal.get(Calendar.DATE));
+//    System.out.println("Date : " + sdf.format(calendar.getTime()));
+                            String strFinalDate = strDay+", "+sdf.format(calendar.getTime());
+//     cal.get(Calendar.DAY_OF_WEEK),     sunday
+//cal.get(Calendar.DATE)             30
+                            //cal.get(Calendar.YEAR)             2015
+                            tvCurrentDate.setText(strFinalDate);
+                            tvSelectedDate.setText(strFinalDate);
+                            time = "";
+                            tvSelectedTime.setText("");
+                            setTimeSlotting(date);
+                            // cal.get(Calendar.DAY_OF_WEEK),     sunday
+                            //(cal.get(Calendar.MONTH) + 1)      0-january,12-december
+                            //cal.get(Calendar.DATE)             30
+                            //cal.get(Calendar.YEAR)             2015
+//Mon,June 16 2015
+                        }catch(Exception e){
+
+                        }
 
 //                        tvFirstTime.setTextColor(getResources().getColor(R.color.light_Gray));
 //                        tvSecondTime.setTextColor(getResources().getColor(R.color.light_Gray));
@@ -302,6 +433,7 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                 for (int i = 0; i < date_list.size(); i++) {
                     DateObject dateObject = new DateObject();
                     try {
+
                         dateObject.setDateTime(formatter.parse(date_list.get(i)));   //will contain sun aug 30 00:00:00  GMT +15:30 2015
                     } catch (ParseException e) {
                         e.printStackTrace();
@@ -315,11 +447,139 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                     date_list.add(formatter.format(datArrayList.get(i).getDateTime()));                //will contain 25-08-2015 in sorted format
                 }
                 date = date_list.get(0);                                          //will contain first starting date
-                setTimeSlotting(date);
-                if(date_list.size() > 0){
-                    tvSelectedDate.setText(date_list.get(0));
-                    tvCurrentDate.setText(date_list.get(0));
+
+
+                //////////////// used for both cases 1)when any time slots available for starting date 2)when no time slots available for starting date /////////////
+                ArrayList<String> alTotal = address_obj.getDate_timeSlot().get(date);
+                ArrayList<String> alTime = new ArrayList<String>();
+                ArrayList<String> alAvailable = new ArrayList<String>();
+                for(int i=0;i<alTotal.size()/2;i++){
+                    alTime.add(i,alTotal.get(i));
                 }
+                int index=0;
+                for(int i=alTotal.size()/2;i<alTotal.size();i++){
+                    alAvailable.add(index,alTotal.get(i));
+                    index++;
+                }
+                if(alAvailable.get(0).equalsIgnoreCase("0") && alAvailable.get(0).equalsIgnoreCase("0") && alAvailable.get(0).equalsIgnoreCase("0") && alAvailable.get(0).equalsIgnoreCase("0")){
+                    date = date_list.get(1);
+                    setTimeSlotting(date);
+                    if(date_list.size() > 1){
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                        DateFormat formatter3 = null;
+                        Date convertedDate = null;
+
+                        // Creating SimpleDateFormat with yyyyMMdd format e.g."20110914"
+//    String yyyyMMdd = "2015-08-30";
+                        String yyyyMMdd = date;
+                        formatter3 = new SimpleDateFormat("yyyy-MM-dd");
+                        convertedDate = (Date) format.parse(yyyyMMdd);
+                        System.out.println("Date from yyyyMMdd String in Java : " + convertedDate);    //Wed Sep 14 00:00:00 GMT+05:45 2011
+
+                        String changedate = String.valueOf(convertedDate);
+//                        String dateStr = "Mon Jun 18 00:00:00 IST 2012";
+                        DateFormat formatter1 = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+                        Date date1 = (Date) formatter1.parse(changedate);
+//                        Date date1 = (Date)formatter1.parse(date_list.get(i));
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(date1);
+//    String formatedDate = cal.get(Calendar.DATE) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.YEAR)
+//            + "/" + cal.get(Calendar.DAY_OF_MONTH) + "/" + cal.get(Calendar.DAY_OF_WEEK_IN_MONTH) +
+//            "/" + cal.get(Calendar.DAY_OF_WEEK);       //0-sunday ,1-monday,2-tuesday,3-wednesday,4-thursday,5-friday,6-saturday
+//    System.out.println("formatedDate : " + formatedDate);
+                        String strDay="";
+                        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+                        if(dayOfWeek == 1){
+                            strDay = "Sunday";
+                        }else if(dayOfWeek == 2){
+                            strDay = "Monday";
+                        }else if(dayOfWeek == 3){
+                            strDay = "Tuesday";
+                        }else if(dayOfWeek == 4){
+                            strDay = "Wednesday";
+                        }else if(dayOfWeek == 5){
+                            strDay = "Thursday";
+                        }else if(dayOfWeek == 6){
+                            strDay = "Friday";
+                        }else  if(dayOfWeek == 7){
+                            strDay = "Saturday";
+                        }
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy");
+                        Calendar calendar = new GregorianCalendar(cal.get(Calendar.YEAR),(cal.get(Calendar.MONTH)),cal.get(Calendar.DATE));
+//    System.out.println("Date : " + sdf.format(calendar.getTime()));
+                        String strFinalDate = strDay+", "+sdf.format(calendar.getTime());
+//     cal.get(Calendar.DAY_OF_WEEK),     sunday
+//cal.get(Calendar.DATE)             30
+                        //cal.get(Calendar.YEAR)             2015
+                        tvCurrentDate.setText(strFinalDate);
+                        tvSelectedDate.setText(strFinalDate);
+
+
+
+//                        tvSelectedDate.setText(date_list.get(1));
+//                        tvCurrentDate.setText(date_list.get(1));
+                        selectedDatePosition = 1;
+                    }
+                }else{
+                    setTimeSlotting(date);
+                    if(date_list.size() > 0){
+                        SimpleDateFormat formatt = new SimpleDateFormat("yyyy-MM-dd");
+                        DateFormat formatter3 = null;
+                        Date convertedDate = null;
+
+                        // Creating SimpleDateFormat with yyyyMMdd format e.g."20110914"
+//    String yyyyMMdd = "2015-08-30";
+                        String yyyyMMdd = date;
+                        formatter3 = new SimpleDateFormat("yyyy-MM-dd");
+                        convertedDate = (Date) formatt.parse(yyyyMMdd);
+                        System.out.println("Date from yyyyMMdd String in Java : " + convertedDate);    //Wed Sep 14 00:00:00 GMT+05:45 2011
+
+                        String changedate = String.valueOf(convertedDate);
+//                        String dateStr = "Mon Jun 18 00:00:00 IST 2012";
+                        DateFormat formatter1 = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+                        Date date1 = (Date) formatter1.parse(changedate);
+//                        Date date1 = (Date)formatter1.parse(date_list.get(i));
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(date1);
+//    String formatedDate = cal.get(Calendar.DATE) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.YEAR)
+//            + "/" + cal.get(Calendar.DAY_OF_MONTH) + "/" + cal.get(Calendar.DAY_OF_WEEK_IN_MONTH) +
+//            "/" + cal.get(Calendar.DAY_OF_WEEK);       //0-sunday ,1-monday,2-tuesday,3-wednesday,4-thursday,5-friday,6-saturday
+//    System.out.println("formatedDate : " + formatedDate);
+                        String strDay="";
+                        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+                        if(dayOfWeek == 1){
+                            strDay = "Sunday";
+                        }else if(dayOfWeek == 2){
+                            strDay = "Monday";
+                        }else if(dayOfWeek == 3){
+                            strDay = "Tuesday";
+                        }else if(dayOfWeek == 4){
+                            strDay = "Wednesday";
+                        }else if(dayOfWeek == 5){
+                            strDay = "Thursday";
+                        }else if(dayOfWeek == 6){
+                            strDay = "Friday";
+                        }else if(dayOfWeek == 7){
+                            strDay = "Saturday";
+                        }
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy");
+                        Calendar calendar = new GregorianCalendar(cal.get(Calendar.YEAR),(cal.get(Calendar.MONTH)),cal.get(Calendar.DATE));
+//    System.out.println("Date : " + sdf.format(calendar.getTime()));
+                        String strFinalDate = strDay+", "+sdf.format(calendar.getTime());
+//     cal.get(Calendar.DAY_OF_WEEK),     sunday
+//cal.get(Calendar.DATE)             30
+                        //cal.get(Calendar.YEAR)             2015
+                        tvCurrentDate.setText(strFinalDate);
+                        tvSelectedDate.setText(strFinalDate);
+
+//                        tvSelectedDate.setText(date_list.get(0));
+//                        tvCurrentDate.setText(date_list.get(0));
+                        selectedDatePosition = 0;
+                    }
+                }
+                //////////////// used for both cases 1)when any time slots available for starting date 2)when no time slots available for starting date /////////////
 
             }
 
@@ -345,6 +605,8 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                 alAvailable.add(index,alTotal.get(i));
                 index++;
             }
+
+
 
 
 //            ArrayList<String> alTime1111 = address_obj.getDate_timeAvailableSlot().get(date);

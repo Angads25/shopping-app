@@ -414,6 +414,12 @@ public abstract class BaseActivity extends FragmentActivity {
 			search_key = edtSearch.getText().toString().trim();
 			if (!search_key.equals("")) {
 				UtilityMethods.hideKeyBoard(BaseActivity.this);
+
+				if(search_key.length() < 3){
+					UtilityMethods.customToast(ToastConstant.APPROPRIATE_QUERY,mContext);
+					return;
+				}
+
 				showDialog();
 
 //			String url = UrlsConstants.SEARCH_PRODUCT + search_key + "&page=1";
@@ -1196,7 +1202,7 @@ public abstract class BaseActivity extends FragmentActivity {
  					CartDetailBean cartBean = (CartDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
 					if(cartBean.getItems().size()>0)
 					{
-						
+						UtilityMethods.deleteLocalCart(BaseActivity.this);                   //new 1/9/2015
 						UtilityMethods.deleteCloneCart(BaseActivity.this);
 						for(int i=0;i<cartBean.getItems().size();i++)
 						{

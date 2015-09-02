@@ -63,7 +63,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="5dp"
-                android:background="@drawable/progress_grey"
+                android:background="@drawable/progress_green"
                 />
 
         </LinearLayout>
@@ -584,5 +584,6 @@
         android:textColor="@color/white"
         android:textAllCaps="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp"
         android:background="@color/pallete_blue"/>
 </RelativeLayout>

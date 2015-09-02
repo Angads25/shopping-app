@@ -430,7 +430,7 @@ public class EditProfile extends BaseActivity{
 					}
 				}
 			});
-			initHeader(findViewById(R.id.header), true, "Edit my information");
+			initHeader(findViewById(R.id.header), true, "Edit Profile");
 			showDialog();
 			String url = UrlsConstants.USER_DETAIL_URL + MySharedPrefs.INSTANCE.getUserId();
 			myApi.reqUserDetails1(url);
@@ -475,7 +475,7 @@ public class EditProfile extends BaseActivity{
 		// TODO Auto-generated method stub
 		super.onResume();
 		try{
-			initHeader(findViewById(R.id.header), true, "Edit my information");
+			initHeader(findViewById(R.id.header), true, "Edit Profile");
 		}catch(Exception e){
 			new GrocermaxBaseException("EditProfile","onResume",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}

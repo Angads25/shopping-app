@@ -127,7 +127,6 @@ public class ReviewOrderAndPay extends BaseActivity
 			tvCouponDiscount = (TextView) findViewById(R.id.tv_coupon_discount);
 			tvTotal = (TextView) findViewById(R.id.tv_total);
 
-
 			txtItemCount.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			txtSubTotal.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 			txtShippingCharges.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
@@ -170,7 +169,7 @@ public class ReviewOrderAndPay extends BaseActivity
 //			tvEnterCode.setText("Applied Code");
 				etCouponCode.setEnabled(false);
 				etCouponCode.setText(orderReviewBean.getCouponCode());
-//				tvCouponDiscount.setText(orderReviewBean.getCouponDiscount());
+				tvCouponDiscount.setText("Rs."+MySharedPrefs.INSTANCE.getCouponAmount());
 //			tvMiddleLineCoupon.setBackgroundDrawable(getResources().getDrawable(R.color.gray_1));
 			} else {
 				llFirstPage.setVisibility(View.VISIBLE);
@@ -759,7 +758,7 @@ public class ReviewOrderAndPay extends BaseActivity
                         JSONObject response = new JSONObject(EntityUtils.toString(httpclient.execute(httppost).getEntity()));*/
                     	
                     	HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
-                    	HttpGet httpGet = new HttpGet(UrlsConstants.GET_MOBILE_HASH+"txnid="+orderid+"&amount="+String.valueOf(finalAmount)+"&email="+MySharedPrefs.INSTANCE.getUserEmail()+"&fname=ISHAN");
+                    	HttpGet httpGet = new HttpGet(UrlsConstants.GET_MOBILE_HASH+"txnid="+orderid+"&amount="+String.valueOf(finalAmount)+"&email="+MySharedPrefs.INSTANCE.getUserEmail()+"&fname="+MySharedPrefs.INSTANCE.getFirstName());
             			//System.out.println("genrate hash service = "+UrlsConstants.GET_MOBILE_HASH+"txnid="+orderid+"&amount="+String.valueOf(total)+"&email="+MySharedPrefs.INSTANCE.getUserEmail()+"&fname="+"ISHAN");
                     	httpGet.setHeader("Content-Type", "application/json");
             			HttpResponse response1 = null;
@@ -1126,11 +1125,12 @@ class Coupon extends AsyncTask<String, String, String>
 						orderReviewBean1.setSubTotal(jsoncartObject.getString("subtotal"));
 						orderReviewBean1.setShipping_ammount(jsoncartObject.getString("ShippingCharge"));
 						orderReviewBean1.setSaving(String.valueOf(savee));
-						orderReviewBean1.setDiscount_amount("-"+jsoncartObject.getString("you_save"));
+						orderReviewBean1.setDiscount_amount("-" + jsoncartObject.getString("you_save"));
 						orderReviewBean1.setGrandTotal(jsoncartObject.getString("grand_total"));
 						MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean1);
 						MySharedPrefs.INSTANCE.putisCouponApply("true");
 						MySharedPrefs.INSTANCE.putCouponAmount(jsoncartObject.getString("you_save"));
+						((ReviewOrderAndPay)context).tvCouponDiscount.setText("Rs."+MySharedPrefs.INSTANCE.getCouponAmount());
 						
 						((ReviewOrderAndPay)context).tvSubTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(orderReviewBean1.getSubTotal())));
 						((ReviewOrderAndPay)context).tvShippingCharges.setText("Rs."+Float.parseFloat(orderReviewBean1.getShipping_ammount()));
@@ -1183,7 +1183,8 @@ class Coupon extends AsyncTask<String, String, String>
 					orderReviewBean2.setCouponSubtotalWithDiscount(String.valueOf(couponwithdiscount));
 					MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean2);
 					MySharedPrefs.INSTANCE.putisCouponApply("false");
-					MySharedPrefs.INSTANCE.putCouponAmount("0");
+					MySharedPrefs.INSTANCE.putCouponAmount("Rs. 0");
+					((ReviewOrderAndPay)context).tvCouponDiscount.setText("Rs.0.00");
 					
 				 	((ReviewOrderAndPay)context).tvSubTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(String.valueOf(Float.parseFloat(orderReviewBean2.getSubTotal())))));
 					((ReviewOrderAndPay)context).tvShippingCharges.setText("Rs."+Float.parseFloat(orderReviewBean2.getShipping_ammount()));

@@ -325,12 +325,17 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 		String USER_MNAME = "";
 		String USER_LNAME = "";
 
-		
 		String USER_NAME = "";
 
 		USER_FNAME = user.getFirstName();
 		USER_MNAME = user.getMiddleName();
 		USER_LNAME = user.getLastName();
+
+		try{
+			MySharedPrefs.INSTANCE.putFirstName(USER_FNAME);
+			MySharedPrefs.INSTANCE.putLastName(USER_LNAME);
+		}catch(Exception e){}
+
 		try {
 			USER_EMAIL = user.getProperty("email").toString();
 		} catch (Exception e) {
@@ -496,9 +501,33 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 
 				if (userDataBean.getFlag().equalsIgnoreCase("1")) {          //successfull login
 					MySharedPrefs.INSTANCE.putUserId(userDataBean.getUserID());
-					MySharedPrefs.INSTANCE.putFirstName(userDataBean.getFirstName());
-					MySharedPrefs.INSTANCE.putLastName(userDataBean.getLastName());
+					if(MySharedPrefs.INSTANCE.getFirstName() != null){
+						MySharedPrefs.INSTANCE.putFirstName(userDataBean.getFirstName());
+					}
+					if(MySharedPrefs.INSTANCE.getLastName() != null){
+						MySharedPrefs.INSTANCE.putLastName(userDataBean.getLastName());
+					}
+
 					MySharedPrefs.INSTANCE.putMobileNo(userDataBean.getMobile());
+//					boolean bbbb = MySharedPrefs.INSTANCE.isUserDataSet();
+//					String id = MySharedPrefs.INSTANCE.getFacebookId();
+//					if(MySharedPrefs.INSTANCE.getFacebookId() != null){
+//						System.out.print("");
+//					}else{
+//						System.out.print("");
+//					}
+
+//					MySharedPrefs.INSTANCE.putGoogleId(USER_ID);
+//					String id1 = MySharedPrefs.INSTANCE.getGoogleId();
+//					if(MySharedPrefs.INSTANCE.getGoogleId() != null){
+//						System.out.print("");
+//					}else{
+//						System.out.print("");
+//					}
+//					if(!MySharedPrefs.INSTANCE.isUserDataSet()) {                            //if true then no need to enter in it b/c from server first and last name not coming,So already saved when data getting from facebook api.
+//						MySharedPrefs.INSTANCE.putFirstName(userDataBean.getFirstName());
+//						MySharedPrefs.INSTANCE.putLastName(userDataBean.getLastName());
+//					}
 
 					BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon);  //login icon
 					if (USER_EMAIL.equals("")) {

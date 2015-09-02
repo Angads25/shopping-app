@@ -93,6 +93,20 @@ public class CreateNewAddress extends BaseActivity{
 			addActionsInFilter(MyReceiverActions.EDIT_ADDRESS);                           //just return message address updated successfully with flag 1 in success case.
 			addActionsInFilter(MyReceiverActions.EDIT_ADDRESS_BOOK);
 
+			TextView txtAddressName = (TextView) findViewById(R.id.txt_address_name);
+			TextView txtCity = (TextView) findViewById(R.id.txt_city);
+			TextView txtFlatNo = (TextView) findViewById(R.id.txt_flat_no);
+			TextView txtLocation = (TextView) findViewById(R.id.txt_location);
+			TextView txtClosestLandmark = (TextView) findViewById(R.id.txt_closest_landmark);
+			TextView txtPinCode = (TextView) findViewById(R.id.txt_pincode);
+
+			txtAddressName.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			txtCity.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			txtFlatNo.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			txtLocation.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			txtClosestLandmark.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			txtPinCode.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+
 			tvFirstNameLeft = (TextView) findViewById(R.id.left_line_first_name_new_addr);
 			tvFirstNameMiddle = (TextView) findViewById(R.id.middle_line_first_name_new_addr);
 			tvFirstNameRight = (TextView) findViewById(R.id.right_line_first_name_new_addr);

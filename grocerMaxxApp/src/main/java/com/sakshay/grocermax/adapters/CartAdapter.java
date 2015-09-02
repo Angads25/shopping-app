@@ -365,7 +365,11 @@ public class CartAdapter extends BaseAdapter{
 
 			@Override
 			public void onClick(View v) {
-				deleteLocal(v,position,holder);
+				try {
+					deleteLocal(v, position, holder);
+				}catch(Exception e){
+					System.out.println(e.getMessage());
+				}
 			}
 		});
 
