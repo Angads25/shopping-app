@@ -177,7 +177,7 @@ public abstract class BaseActivity extends FragmentActivity {
 
 			} else {
 //				BaseActivity.icon_header_user.setEnabled(true);
-				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_logout);  //logout icon
+//				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_logout);  //logout icon
 				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_2);  //logout icon
 			}
 
@@ -1198,7 +1198,10 @@ public abstract class BaseActivity extends FragmentActivity {
 				
 				else if (intent.getAction().equals(
 						MyReceiverActions.VIEW_CART)) {
-					
+
+
+					cart_count_txt.setText(String.valueOf(MySharedPrefs.INSTANCE.getTotalItem()));               //added latest
+
  					CartDetailBean cartBean = (CartDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
 					if(cartBean.getItems().size()>0)
 					{

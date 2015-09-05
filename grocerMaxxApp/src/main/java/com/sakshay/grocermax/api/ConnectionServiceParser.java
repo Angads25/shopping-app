@@ -102,6 +102,10 @@ public class ConnectionServiceParser {
 			throws JSONException {
 
 		CartProductList.strShippingChargeLimit = new JSONObject(jsonString).getString("shippingChargeLimit").toString();      //500
+
+		MySharedPrefs.INSTANCE.putQuoteId(new JSONObject(jsonString).getString("QuoteId").toString());                            //added latest
+		MySharedPrefs.INSTANCE.putTotalItem(new JSONObject(jsonString).getString("TotalItem").toString());                        //added latest
+
 		jsonString=new JSONObject(jsonString).getJSONObject("CartDetail").toString();
 		OrderReviewBean orderReviewBean=new OrderReviewBean();
 		orderReviewBean.setTax_ammount(new JSONObject(jsonString).getJSONObject("shipping_address").optString("tax_amount"));
@@ -132,6 +136,10 @@ public class ConnectionServiceParser {
 		try
 		{
 			UpdateCartbg.getInstance().bLocally = false;
+
+//			MySharedPrefs.INSTANCE.putQuoteId(new JSONObject(jsonString).getString("QuoteId").toString());                            //added
+//			MySharedPrefs.INSTANCE.putTotalItem(new JSONObject(jsonString).getString("TotalItem").toString());                        //added
+
 			jsonString=new JSONObject(jsonString).getJSONObject("CartDetail").toString();
 			
 	//		OrderReviewBean orderReviewBean=new OrderReviewBean();

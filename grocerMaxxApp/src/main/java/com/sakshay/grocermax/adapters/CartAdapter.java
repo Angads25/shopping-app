@@ -466,6 +466,12 @@ public class CartAdapter extends BaseAdapter{
 				UtilityMethods.customToast(Constants.ToastConstant.VIEW_CART_EMPTY, activity);
 			}
 
+			if(String.valueOf(sub_totalPriceYouPay).equals("0") ||
+					String.valueOf(sub_totalPriceYouPay).equals("0.0") ||
+					String.valueOf(sub_totalPriceYouPay).equals("0.00")){
+				CartProductList.getInstance().finish();
+			}
+
 		}else{
 			UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, activity);
 		}

@@ -87,7 +87,9 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
         rlSignOut.setOnClickListener(this);
 
         if (MySharedPrefs.INSTANCE.getLoginStatus()) {
-            tvUserName.setText(MySharedPrefs.INSTANCE.getFirstName()+" "+MySharedPrefs.INSTANCE.getLastName());
+            if(MySharedPrefs.INSTANCE.getFirstName() != null) {
+                tvUserName.setText(MySharedPrefs.INSTANCE.getFirstName() + " " + MySharedPrefs.INSTANCE.getLastName());
+            }
             tvUserEmail.setText(MySharedPrefs.INSTANCE.getUserEmail());
             tvUserMobileNo.setText(MySharedPrefs.INSTANCE.getMobileNo());
 //            tvUserName.setTextColor(Color.WHITE);

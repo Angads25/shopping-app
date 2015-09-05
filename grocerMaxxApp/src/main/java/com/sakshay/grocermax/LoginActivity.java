@@ -625,6 +625,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(response.getTotalItem()));
 			} else if (bundle.getString("ACTION").equals(MyReceiverActions.VIEW_CART_GO_HOME_SCREEN)) {
 				CartDetailBean cartBean = (CartDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
+
+
 //			if(cartBean.getFlag().equals("1"))
 //			{
 				if (cartBean.getItems().size() > 0) {
