@@ -26,29 +26,28 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>     <!-- for flurry analytics -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- for flurry analytics -->
 
     <uses-feature
         android:name="android.hardware.TELEPHONY"
         android:required="false" />
 
-    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="com.example.gcm.permission.C2D_MESSAGE" />
 
     <application
-        android:name="com.sakshay.grocermax.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:largeHeap="true">
-
+        android:largeHeap="true"
+        android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name="com.sakshay.grocermax.SplashScreen"
+            android:name=".SplashScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -58,27 +57,32 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.sakshay.grocermax.HomeScreen"
+            android:name=".HomeScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.DeliveryDetails"
+            android:name=".LocationActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.UserHeaderProfile"
+            android:name=".DeliveryDetails"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.BillingAddress"
+            android:name=".UserHeaderProfile"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.ShippingAddress"
+            android:name=".BillingAddress"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".ShippingAddress"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
@@ -88,93 +92,93 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.LoginActivity"
+            android:name=".LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.CategoryTabs"
+            android:name=".CategoryTabs"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/StyledIndicators"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.AddressDetail"
+            android:name=".AddressDetail"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.UserProfile"
+            android:name=".UserProfile"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.OrderHistory"
+            android:name=".OrderHistory"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.EditProfile"
+            android:name=".EditProfile"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.OrderDetail"
+            android:name=".OrderDetail"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.DashBoardScreen"
+            android:name=".DashBoardScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.ProductDetailScreen"
+            android:name=".ProductDetailScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.BrowseActivity"
+            android:name=".BrowseActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.CategoryList"
+            android:name=".CategoryList"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.ProductListScreen"
+            android:name=".ProductListScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.Registration"
+            android:name=".Registration"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.ChooseAddress"
+            android:name=".ChooseAddress"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.CreateNewAddress"
+            android:name=".CreateNewAddress"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.CartProductList"
+            android:name=".CartProductList"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.ReviewOrderAndPay"
+            android:name=".ReviewOrderAndPay"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.OffersPromoCode"
+            android:name=".OffersPromoCode"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
@@ -182,50 +186,43 @@
             android:name="com.payu.sdk.ProcessPaymentActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" 
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name="com.payu.sdk.PaymentOptionsActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden"
             android:theme="@style/AppTheme"
-             />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.sakshay.grocermax.PayTMActivity"
+            android:name=".PayTMActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        
         <activity
-            android:name="com.sakshay.grocermax.MobiKwikWallet"
+            android:name=".MobiKwikWallet"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        
-        
-        
         <activity
-            android:name="com.sakshay.grocermax.SearchTabs"
+            android:name=".SearchTabs"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/StyledIndicators"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        
         <activity
             android:name="com.paytm.pgsdk.PaytmPGActivity"
             android:configChanges="keyboardHidden|orientation|keyboard"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sakshay.grocermax.GooglePlus"
+            android:name=".GooglePlus"
             android:screenOrientation="portrait" />
-        
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        
 
-        <service android:name="com.sakshay.grocermax.api.ConnectionService" />
+        <service android:name=".api.ConnectionService" />
 
         <meta-data
             android:name="payu_merchant_id"
@@ -243,11 +240,7 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationName"
             android:value="@string/facebook_app_name" />
- 
-        
-        
-        
-        
+
         <activity
             android:name="com.paymentsdk.android.PaymentSDKRequestHandler"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -351,7 +344,6 @@
             android:windowSoftInputMode="stateHidden" >
         </activity>
 
-
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
@@ -364,12 +356,13 @@
         </receiver>
 
         <service
-            android:name="com.sakshay.grocermax.GCM.GCMIntentService"
+            android:name=".GCM.GCMIntentService"
             android:exported="true" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
+
 
     </application>
 

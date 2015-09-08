@@ -30,6 +30,9 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
 import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
+import com.sakshay.grocermax.bean.BaseResponseBean;
+import com.sakshay.grocermax.bean.LocationDetail;
+import com.sakshay.grocermax.bean.LocationListBean;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants.ToastConstant;
@@ -51,6 +54,7 @@ public class SplashScreen extends BaseActivity
 		super.onCreate(savedInstanceState);
 		super.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.splash_screen);
+		addActionsInFilter(MyReceiverActions.LOCATION);
 		
 		try {
             PackageInfo info = getPackageManager().getPackageInfo(
@@ -130,8 +134,10 @@ public class SplashScreen extends BaseActivity
 	@Override
 	public void onResume() {
 		super.onResume();
-		String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;
-		myApi.reqCategorySubCategoryList(url);
+		String url  = UrlsConstants.GET_LOCATION;
+		myApi.reqLocation(url);
+//		String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;
+//		myApi.reqCategorySubCategoryList(url);
 	}
 
 	public void onBackPressed() {
@@ -152,20 +158,38 @@ public class SplashScreen extends BaseActivity
 
 	@Override
 	void OnResponse(Bundle bundle) {
-		String jsonResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);
-		//UtilityMethods.write("response",jsonResponse,SplashScreen.this);
-		ArrayList<CategorySubcategoryBean> category = UtilityMethods.getCategorySubCategory(jsonResponse);
-		if (!jsonResponse.trim().equals("") && category.size() > 0) {
-			UtilityMethods.writeCategoryResponse(SplashScreen.this, AppConstants.categoriesFile, jsonResponse);
-			Intent call = new Intent(SplashScreen.this, HomeScreen.class);
-			Bundle call_bundle = new Bundle();
-			call_bundle.putSerializable("Categories", category);
-			call.putExtras(call_bundle);
-			startActivity(call);
-			finish();
-		} else {
-			UtilityMethods.customToast(ToastConstant.DATA_NOT_FOUND, mContext);
+		String action = bundle.getString("ACTION");
+		if (action.equals(MyReceiverActions.LOCATION)) {
+//			LocationListBean locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
+			LocationListBean locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
+			if(locationBean.getFlag().equals("1")) {
+				Intent call = new Intent(SplashScreen.this, LocationActivity.class);
+				Bundle call_bundle = new Bundle();
+				call_bundle.putSerializable("Location", locationBean);
+				call.putExtras(call_bundle);
+				startActivity(call);
+				finish();
+			}else{
+				UtilityMethods.customToast(AppConstants.ToastConstant.DATA_NOT_FOUND, mContext);
+			}
+
 		}
+
+
+//		String jsonResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);
+//		//UtilityMethods.write("response",jsonResponse,SplashScreen.this);
+//		ArrayList<CategorySubcategoryBean> category = UtilityMethods.getCategorySubCategory(jsonResponse);
+//		if (!jsonResponse.trim().equals("") && category.size() > 0) {
+//			UtilityMethods.writeCategoryResponse(SplashScreen.this, AppConstants.categoriesFile, jsonResponse);
+//			Intent call = new Intent(SplashScreen.this, HomeScreen.class);
+//			Bundle call_bundle = new Bundle();
+//			call_bundle.putSerializable("Categories", category);
+//			call.putExtras(call_bundle);
+//			startActivity(call);
+//			finish();
+//		} else {
+//			UtilityMethods.customToast(ToastConstant.DATA_NOT_FOUND, mContext);
+//		}
 
 	}
 	

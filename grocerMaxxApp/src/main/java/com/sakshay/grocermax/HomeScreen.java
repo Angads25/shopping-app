@@ -98,6 +98,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		backImage[9] = R.drawable.non_veg_large;
 		*/
 		//TODO, abhishek 4 images being repeated here...what goes where is accoring to your logic please replace
+
 		backImage[0] = R.drawable.beverages_large;
 		backImage[1] = R.drawable.dairy_large;
 		backImage[2] = R.drawable.frozen_large;

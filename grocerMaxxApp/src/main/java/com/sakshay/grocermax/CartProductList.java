@@ -101,6 +101,8 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			addActionsInFilter(MyReceiverActions.CART_DETAIL_AFTER_LOGIN);
 			addActionsInFilter(MyReceiverActions.VIEW_CART_GO_HOME_SCREEN);
 
+			addActionsInFilter(MyReceiverActions.VIEW_CART);                          //uses when on local update SLIM APPLICATION ERROR comes then call VIEWCART just to update cart
+
 //		addActionsInFilter(MyReceiverActions.VIEW_CART);
 			addActionsInFilter(MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
 
@@ -452,6 +454,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				}
 			} else if (action.equals(MyReceiverActions.CART_DETAIL_AFTER_LOGIN)) {
 				dismissDialog();
+
 				CartDetailBean cartBean = (CartDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
 				UtilityMethods.deleteCloneCart(this);
 				for (int i = 0; i < cartBean.getItems().size(); i++) {
@@ -470,24 +473,63 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				CartDetailBean cartBean = (CartDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
 			} else if (action.equals(MyReceiverActions.VIEW_CART_UPDATE_LOCALLY)) {
 				dismissDialog();
+
+				sbDeleteProdId = new StringBuilder();                                //b/c whenever come there means deleteid already contained should be removed.
+
 				CartDetailBean cartBean = (CartDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
 //				   if(cartBean.getFlag().equalsIgnoreCase(Constants.SERVER_SUCCESS)) {
-				UtilityMethods.deleteCloneCart(this);
-				for (int i = 0; i < cartBean.getItems().size(); i++) {
-					UtilityMethods.writeCloneCart(this, Constants.localCloneFile, cartBean.getItems().get(i));
+				if(cartBean != null) {                                                         //uses null condition b/c sometimes result coming from server SLIM APPLICATION ERROR
+					UtilityMethods.deleteCloneCart(this);
+					for (int i = 0; i < cartBean.getItems().size(); i++) {
+						UtilityMethods.writeCloneCart(this, Constants.localCloneFile, cartBean.getItems().get(i));
+					}
+
+					if (MySharedPrefs.INSTANCE.getTotalItem() != null) {
+	//				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(bean.getTotalItem()));
+						MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int) Float.parseFloat(cartBean.getItems_qty())));
+						BaseActivity.cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
+					}
+					cartList.clear();
+					cartList = cartBean.getItems();
+					setCartList(cartBean);
+				}else{
+					showDialog();
+					String url = UrlsConstants.VIEW_CART_URL+ MySharedPrefs.INSTANCE.getUserId()+"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId();
+					myApi.reqViewCart(url);
 				}
-				if (MySharedPrefs.INSTANCE.getTotalItem() != null) {
-//				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(bean.getTotalItem()));
-					MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int) Float.parseFloat(cartBean.getItems_qty())));
-					BaseActivity.cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
-				}
-				cartList.clear();
-				cartList = cartBean.getItems();
-				setCartList(cartBean);
 //			   }else{
 //				   finish();
 //			   }
 			}
+			else if (action.equals(
+					MyReceiverActions.VIEW_CART)) {
+				dismissDialog();
+				cart_count_txt.setText(String.valueOf(MySharedPrefs.INSTANCE.getTotalItem()));
+				CartDetailBean cartBean = (CartDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
+				if(cartBean.getItems().size()>0)
+				{
+					UtilityMethods.deleteLocalCart(CartProductList.this);                   //new 1/9/2015
+//						UtilityMethods.deleteCloneCart(BaseActivity.this);
+					for(int i=0;i<cartBean.getItems().size();i++)
+					{
+						UtilityMethods.writeCloneCart(CartProductList.this, Constants.localCloneFile, cartBean.getItems().get(i));
+					}
+					bIsEdit = false;                //used b/c finish call and then onDestroy call and update will call but when user hits viewcart then no need of calling update service from onDestroy()
+					sbDeleteProdId = null;          //used b/c finish call and then onDestroy call and update will call but when user hits viewcart then no need of calling update service from onDestroy()
+					finish();
+					Intent i = new Intent(mContext, CartProductList.class);
+					Bundle bundle_cart = new Bundle();
+					bundle_cart.putParcelableArrayList("cartList", cartBean.getItems());
+					bundle_cart.putSerializable("cartBean", cartBean);
+					i.putExtras(bundle_cart);
+					startActivity(i);
+				}
+				else
+				{
+					UtilityMethods.customToast(AppConstants.ToastConstant.CART_EMPTY, mContext);
+				}
+			}
+
 		}catch(NullPointerException e){
 			new GrocermaxBaseException("CartProductList", "OnResponse", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
 		}catch(Exception e){
@@ -675,11 +717,11 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					"&productid=" + sbDeleteProdId +
 					"&quote_id="+ strQuoteId +"&updateid="+ URLEncoder.encode(products.toString(), "UTF-8");
 
-			System.out.println("==URL'S HERE=="+url);
+//			System.out.println("==URL'S HERE=="+url);
 			if(UtilityMethods.isInternetAvailable(this)){
 				UpdateCartbg.getInstance().bLocally = true;
-//				myApi.reqEditCart(url,MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
-				myApi.reqEditCart(url);
+				myApi.reqEditCartBackToCart(url, MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
+//				myApi.reqEditCart(url);
 			}
 //			String	url = UrlsConstants.UPDATE_CART_URL
 //						+ MySharedPrefs.INSTANCE.getUserId() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="

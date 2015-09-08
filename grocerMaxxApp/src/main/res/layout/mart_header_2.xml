@@ -97,6 +97,8 @@
                     android:contentDescription="@string/image_content_desc" />
             </LinearLayout>
 
+
+
             <!--<ImageView
                 android:id="@+id/icon_header_search"
                 android:layout_width="20dp"

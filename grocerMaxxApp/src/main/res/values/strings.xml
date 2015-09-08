@@ -48,5 +48,9 @@
      <string name="facebook_app_name">GrocerMax</string>
     <string name="makeitdefaultaddress">Make it my default billing address</string>
     <string name="makeitmydefaultshipping">Make it my default shipping address</string>
+    <string name="title_activity_location">LocationActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

@@ -388,8 +388,10 @@ public class UtilityMethods {
 				int flagPos = -1;
 				for (int i = 0; i < list.size(); i++) {
 					if (list.get(i).getItem_id().equals(prod.getItem_id())) {
-						flagPos = i;
-						break;
+						if(list.get(i).getNoDiscount().equals("1")) {          //not offer                            [0 - means offer AND 1 - means not offer]
+							flagPos = i;
+							break;
+						}
 					}
 
 				}

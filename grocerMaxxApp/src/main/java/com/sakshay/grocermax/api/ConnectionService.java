@@ -402,6 +402,12 @@ public class ConnectionService extends IntentService {
 							(Serializable) ConnectionServiceParser
 									.parseSimpleResponse(response));
 					break;
+				case MyParserType.LOCATION:
+
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseLocationResponse(response));
+					break;
 				case MyParserType.VIEW_CART:
 
 					bundle.putSerializable(RESPONSE,

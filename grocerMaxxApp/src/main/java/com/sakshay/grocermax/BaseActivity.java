@@ -951,7 +951,7 @@ public abstract class BaseActivity extends FragmentActivity {
 						MySharedPrefs.INSTANCE.clearUserInfo();
 						MySharedPrefs.INSTANCE.putTotalItem("0");
 						cart_count_txt.setText("0");
-						BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_logout);
+						BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_2);
 						UtilityMethods.deleteCloneCart(BaseActivity.this);
 
 						////Fb logout/////////
@@ -1206,7 +1206,7 @@ public abstract class BaseActivity extends FragmentActivity {
 					if(cartBean.getItems().size()>0)
 					{
 						UtilityMethods.deleteLocalCart(BaseActivity.this);                   //new 1/9/2015
-						UtilityMethods.deleteCloneCart(BaseActivity.this);
+//						UtilityMethods.deleteCloneCart(BaseActivity.this);
 						for(int i=0;i<cartBean.getItems().size();i++)
 						{
 							UtilityMethods.writeCloneCart(BaseActivity.this, Constants.localCloneFile, cartBean.getItems().get(i));

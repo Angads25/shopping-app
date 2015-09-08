@@ -36,9 +36,18 @@
                 android:gravity="center_horizontal"
                 android:text="Where do you want us to deliver your groceries"/>
 
+            <LinearLayout
+                android:id="@+id/location_main_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+            </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginLeft="-30dp"
                 android:layout_marginTop="20dp" >
 
@@ -50,6 +59,7 @@
                     android:src="@drawable/select_location" />
 
                 <TextView
+                    android:id="@+id/tv1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
@@ -63,6 +73,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="-30dp"
                 android:orientation="horizontal">
@@ -75,6 +86,7 @@
                     android:src="@drawable/select_location" />
 
                 <TextView
+                    android:id="@+id/tv2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
@@ -88,6 +100,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="-30dp"
                 android:orientation="horizontal">
@@ -101,6 +114,7 @@
                     android:src="@drawable/select_location" />
 
                 <TextView
+                    android:id="@+id/tv3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
@@ -120,6 +134,17 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.5"></LinearLayout>
 
+
+        <TextView
+            android:id="@+id/location_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_profile_border"
+            android:gravity="center_horizontal"
+            android:padding="14dp"
+            android:text="SAVE"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_16" />
 
 
     </LinearLayout>

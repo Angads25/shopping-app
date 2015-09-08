@@ -9,7 +9,6 @@ import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.sakshay.grocermax.CartProductList;
-import com.sakshay.grocermax.OffersPromoCode;
 import com.sakshay.grocermax.UpdateCartbg;
 import com.sakshay.grocermax.bean.Address;
 import com.sakshay.grocermax.bean.AddressList;
@@ -19,10 +18,11 @@ import com.sakshay.grocermax.bean.CartDetailBean;
 import com.sakshay.grocermax.bean.CategoryListBean;
 import com.sakshay.grocermax.bean.CheckoutAddressBean;
 import com.sakshay.grocermax.bean.FinalCheckoutBean;
+import com.sakshay.grocermax.bean.LocationDetail;
+import com.sakshay.grocermax.bean.LocationListBean;
 import com.sakshay.grocermax.bean.LoginResponse;
 import com.sakshay.grocermax.bean.OrderHistoryBean;
 import com.sakshay.grocermax.bean.OrderReviewBean;
-import com.sakshay.grocermax.bean.OrderedProductList;
 import com.sakshay.grocermax.bean.PersonalInfo;
 import com.sakshay.grocermax.bean.ProductDetailsListBean;
 import com.sakshay.grocermax.bean.ProductListBean;
@@ -56,6 +56,7 @@ public class ConnectionServiceParser {
 		int EDIT_PROFILE = 119;
 		int GET_SET_ORDERSTATUS = 120;
 		int VIEW_CART_UPDATE_LOCALLY = 121;
+		int LOCATION = 122;
 	}
 
 	public static BaseResponseBean parseSimpleResponse(String jsonString)
@@ -73,6 +74,17 @@ public class ConnectionServiceParser {
 		Gson gson = new Gson();
 		LoginResponse bean = gson.fromJson(jsonString, LoginResponse.class);
 		return bean;
+	}
+
+	public static LocationListBean parseLocationResponse(String jsonString)
+			throws JSONException {
+
+//		JSONObject jsonObject = new JSONObject();
+//		jsonString = new JSONObject(jsonString).getJSONArray("location").toString();
+		Gson gson = new Gson();
+		LocationListBean locationBean = gson.fromJson(jsonString, LocationListBean.class);
+//		LocationDetail locationBean = gson.fromJson(jsonString, LocationDetail.class);
+		return locationBean;
 	}
 
 	public static CategoryListBean parseCategoryResponse(String jsonString)

@@ -76,6 +76,6 @@ public interface MyReceiverActions {
 	String VIEW_CART_UPDATE_LOCALLY = PKG_NAME + ".cart_update_locally";
 	
 	String PRODUCT_LIST_FROM_HOME = PKG_NAME + ".product_list_from_home";
-	
-	
+
+	String LOCATION = PKG_NAME + ".location";                                //carrying store location URLS and id's
 }

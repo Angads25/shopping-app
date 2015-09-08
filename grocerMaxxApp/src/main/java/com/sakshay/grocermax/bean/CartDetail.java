@@ -25,7 +25,10 @@ public class CartDetail extends BaseResponseBean implements Serializable,Parcela
 	private String price;
 	@Expose
 	private String product_thumbnail;
-	
+
+	@Expose
+	private String no_discount;
+
 	@Expose
 	private String mrp;
 	
@@ -43,6 +46,11 @@ public class CartDetail extends BaseResponseBean implements Serializable,Parcela
 	}
 	public void setBrand(String brand){
 		this.p_brand = brand;
+	}
+
+	public String getNoDiscount(){return no_discount;}
+	public void setNoDiscount(String discount){
+		this.no_discount = discount;
 	}
 	
 	public String getProductName(){
@@ -138,6 +146,7 @@ public class CartDetail extends BaseResponseBean implements Serializable,Parcela
 		sku = in.readString();
 		qty = in.readInt();
 		mrp = in.readString();
+		no_discount = in.readString();
 		product_thumbnail = in.readString();
     }
 
@@ -158,6 +167,7 @@ public class CartDetail extends BaseResponseBean implements Serializable,Parcela
         dest.writeString(sku);
         dest.writeInt(qty);
         dest.writeString(mrp);
+		dest.writeString(no_discount);
         dest.writeString(product_thumbnail);
     }
 
