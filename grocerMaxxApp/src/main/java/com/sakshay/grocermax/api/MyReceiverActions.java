@@ -45,6 +45,8 @@ public interface MyReceiverActions {
 	String DELETE_FROM_CART = PKG_NAME + ".delete_from_cart";
 
 	String VIEW_CART = PKG_NAME + ".view_cart";
+
+	String VIEW_CART_ERROR_ON_CART = PKG_NAME + ".view_cart_error_on_cart";    //when Slim Application Error occurred ,in that case handle by calling view cart again.
 	
 	String VIEW_CART_GO_HOME_SCREEN = PKG_NAME + ".view_cart_go_home_screen";       //come from home screen and login call view cart just to sync clone cart with server,so products quantity should display in product listing. 
 

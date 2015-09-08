@@ -101,7 +101,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			addActionsInFilter(MyReceiverActions.CART_DETAIL_AFTER_LOGIN);
 			addActionsInFilter(MyReceiverActions.VIEW_CART_GO_HOME_SCREEN);
 
-			addActionsInFilter(MyReceiverActions.VIEW_CART);                          //uses when on local update SLIM APPLICATION ERROR comes then call VIEWCART just to update cart
+			addActionsInFilter(MyReceiverActions.VIEW_CART_ERROR_ON_CART);                          //uses when on local update SLIM APPLICATION ERROR comes then call VIEWCART just to update cart
 
 //		addActionsInFilter(MyReceiverActions.VIEW_CART);
 			addActionsInFilter(MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
@@ -495,14 +495,14 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				}else{
 					showDialog();
 					String url = UrlsConstants.VIEW_CART_URL+ MySharedPrefs.INSTANCE.getUserId()+"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId();
-					myApi.reqViewCart(url);
+					myApi.reqViewCartSlipErrorApp(url);
 				}
 //			   }else{
 //				   finish();
 //			   }
 			}
 			else if (action.equals(
-					MyReceiverActions.VIEW_CART)) {
+					MyReceiverActions.VIEW_CART_ERROR_ON_CART)) {
 				dismissDialog();
 				cart_count_txt.setText(String.valueOf(MySharedPrefs.INSTANCE.getTotalItem()));
 				CartDetailBean cartBean = (CartDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
@@ -514,15 +514,24 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					{
 						UtilityMethods.writeCloneCart(CartProductList.this, Constants.localCloneFile, cartBean.getItems().get(i));
 					}
-					bIsEdit = false;                //used b/c finish call and then onDestroy call and update will call but when user hits viewcart then no need of calling update service from onDestroy()
-					sbDeleteProdId = null;          //used b/c finish call and then onDestroy call and update will call but when user hits viewcart then no need of calling update service from onDestroy()
-					finish();
-					Intent i = new Intent(mContext, CartProductList.class);
-					Bundle bundle_cart = new Bundle();
-					bundle_cart.putParcelableArrayList("cartList", cartBean.getItems());
-					bundle_cart.putSerializable("cartBean", cartBean);
-					i.putExtras(bundle_cart);
-					startActivity(i);
+					if (MySharedPrefs.INSTANCE.getTotalItem() != null) {
+						//				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(bean.getTotalItem()));
+						MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int) Float.parseFloat(cartBean.getItems_qty())));
+						BaseActivity.cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
+					}
+					cartList.clear();
+					cartList = cartBean.getItems();
+					setCartList(cartBean);
+
+//					bIsEdit = false;                //used b/c finish call and then onDestroy call and update will call but when user hits viewcart then no need of calling update service from onDestroy()
+//					sbDeleteProdId = null;          //used b/c finish call and then onDestroy call and update will call but when user hits viewcart then no need of calling update service from onDestroy()
+//					finish();
+//					Intent i = new Intent(mContext, CartProductList.class);
+//					Bundle bundle_cart = new Bundle();
+//					bundle_cart.putParcelableArrayList("cartList", cartBean.getItems());
+//					bundle_cart.putSerializable("cartBean", cartBean);
+//					i.putExtras(bundle_cart);
+//					startActivity(i);
 				}
 				else
 				{

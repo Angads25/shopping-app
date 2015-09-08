@@ -247,6 +247,15 @@ public class MyApi {
 		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.VIEW_CART);
 		m_context.startService(reqIntent);
 	}
+
+	public void reqViewCartSlipErrorApp(String url) {
+		Intent reqIntent = new Intent(m_context, ConnectionService.class);
+		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.VIEW_CART_ERROR_ON_CART);
+		reqIntent.putExtra(ConnectionService.URL, url);
+		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.VIEW_CART);
+		m_context.startService(reqIntent);
+	}
 	
 	public void reqViewCartGoHomeScreen(String url) {
 		Intent reqIntent = new Intent(m_context, ConnectionService.class);

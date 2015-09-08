@@ -9,7 +9,7 @@
 //import android.util.Log;
 //import com.google.android.gms.common.ConnectionResult;
 //import com.google.android.gms.common.GooglePlayServicesUtil;
-////import com.google.android.gms.gcm.GoogleCloudMessaging;
+//import com.google.android.gms.*;
 //
 //public class GCMClientManager {
 //	// Constants
@@ -20,6 +20,7 @@
 //	private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 //
 //	// Member variables
+//
 //	private GoogleCloudMessaging gcm;
 //	private String regid;
 //	private String projectNumber;

@@ -173,23 +173,40 @@ public class SearchTabs extends BaseActivity{
 				super(fm);
 			}
 
+
 			@Override
 			public Fragment getItem ( int position){
-				return SearchProductFragments.newInstance(SearchLoader.jsonObjectTop[position % SearchLoader.jsonObjectTop.length]);
+				try{
+					return SearchProductFragments.newInstance(SearchLoader.jsonObjectTop[position % SearchLoader.jsonObjectTop.length]);
+				}catch(Exception e){
+					new GrocermaxBaseException("SearchTabs","getItem",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+				}
+				return new Fragment();       //default if error occured
 			}
 
 			@Override
 			public CharSequence getPageTitle ( int position){
-				if (SearchLoader.listCategory.get(position % SearchLoader.jsonObjectTop.length).get(SearchLoader.TAG_CAT_NAME) != null) {
-					return SearchLoader.listCategory.get(position % SearchLoader.jsonObjectTop.length).get(SearchLoader.TAG_CAT_NAME).toUpperCase();
-				} else {
-					return SearchLoader.listCategory.get(position % SearchLoader.jsonObjectTop.length).get(SearchLoader.TAG_CAT_NAME);
+				CharSequence ch = "default";            //default if error occured
+				try {
+					if (SearchLoader.listCategory.get(position % SearchLoader.jsonObjectTop.length).get(SearchLoader.TAG_CAT_NAME) != null) {
+						return SearchLoader.listCategory.get(position % SearchLoader.jsonObjectTop.length).get(SearchLoader.TAG_CAT_NAME).toUpperCase();
+					} else {
+						return SearchLoader.listCategory.get(position % SearchLoader.jsonObjectTop.length).get(SearchLoader.TAG_CAT_NAME);
+					}
+				}catch(Exception e){
+					new GrocermaxBaseException("SearchTabs","getPageTitle",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 				}
+				return ch;                      //default if error occured
 			}
 
 			@Override
 			public int getCount () {
-				return SearchLoader.jsonObjectTop.length;
+				try {
+					return SearchLoader.jsonObjectTop.length;
+				}catch(Exception e){
+					new GrocermaxBaseException("SearchTabs","getCount",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+				}
+				return 0;                                                 //default if error occured
 			}
         
     }
