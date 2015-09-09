@@ -21,8 +21,7 @@
          <RelativeLayout 
              android:id="@+id/rl_addr_name"
              android:layout_width="match_parent"
-             android:layout_height="30dp"   
-              >
+             android:layout_height="30dp" >
              
          <TextView 
              android:id="@+id/text_header"
@@ -33,7 +32,7 @@
              android:textColor="@color/light_Gray"
              android:layout_toLeftOf="@+id/editaddress"
              android:layout_alignParentLeft="true"
-             android:textSize="@dimen/text_size_12"  />
+             android:textSize="@dimen/text_size_12" />
          
          <ImageView
 		    android:id="@+id/editaddress"
@@ -191,6 +190,7 @@
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:text="India"
+                     android:visibility="gone"
                      android:textColor="@color/pallete_black"
                      android:textSize="@dimen/text_size_14" />
 
@@ -199,6 +199,7 @@
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:text="100064"
+                     android:visibility="gone"
                      android:textColor="@color/pallete_black"
                      android:textSize="@dimen/text_size_14" />
 
@@ -207,6 +208,7 @@
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:text="100064"
+                     android:visibility="gone"
                      android:textColor="@color/pallete_black"
                      android:textSize="@dimen/text_size_14" />
 
@@ -215,6 +217,7 @@
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:text="100064"
+                     android:visibility="gone"
                      android:textColor="@color/pallete_black"
                      android:textSize="@dimen/text_size_14" />
          </LinearLayout>

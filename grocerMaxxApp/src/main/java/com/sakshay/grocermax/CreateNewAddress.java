@@ -394,9 +394,9 @@ public class CreateNewAddress extends BaseActivity{
 //		});
 
 			if (address == null){
-				initHeader(findViewById(R.id.header), true, "CREATE NEW ADDRESS");
+				initHeader(findViewById(R.id.header), true, "Create New Address");
 			}else{
-				initHeader(findViewById(R.id.header), true, "UPDATE ADDRESS");
+				initHeader(findViewById(R.id.header), true, "Update Address");
 			}
 
 			findViewById(R.id.footer).setVisibility(View.GONE);

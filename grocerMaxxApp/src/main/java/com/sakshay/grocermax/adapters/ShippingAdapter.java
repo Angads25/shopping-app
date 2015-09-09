@@ -102,20 +102,23 @@ public class ShippingAdapter extends BaseAdapter{
         holder.txtHeader.setTypeface(CustomFonts.getInstance().getRobotoBold(mContext));
 
         final Address obj = getItem(position);
+
         holder.profilename.setText(obj.getFirstname() + " " + obj.getLastname());
 
-        holder.address1.setText(obj.getStreet()+",");
-//        holder.name.setText(obj.getFirstname() + " " + obj.getLastname());
-//        holder.phone.setText(obj.getTelephone());
-        holder.city.setText(obj.getCity()+",");
-        if(obj.getRegion()!=null || !obj.getRegion().equals(""))
-            holder.state.setText(obj.getRegion()+",");
-        else
-            holder.state.setText(obj.getState()+",");
-        holder.country.setText("India"+",");
-        holder.pincode.setText(obj.getPostcode());
+        if(obj.getRegion()!=null || !obj.getRegion().equals("")) {
+            holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() + obj.getStreet() + "," + obj.getCity() + ","+obj.getRegion()+","+"India"+","+obj.getPostcode());
+        }else{
+            holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() + obj.getStreet() + "," + obj.getCity() + ","+obj.getState()+","+"India"+","+obj.getPostcode());
+        }
 
-
+//        holder.address1.setText(obj.getStreet()+",");
+//        holder.city.setText(obj.getCity()+",");
+//        if(obj.getRegion()!=null || !obj.getRegion().equals(""))
+//            holder.state.setText(obj.getRegion()+",");
+//        else
+//            holder.state.setText(obj.getState()+",");
+//        holder.country.setText("India"+",");
+//        holder.pincode.setText(obj.getPostcode());
 
         holder.edit_address.setOnClickListener(new View.OnClickListener() {
 
