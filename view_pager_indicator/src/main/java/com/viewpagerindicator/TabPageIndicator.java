@@ -17,6 +17,7 @@
 package com.viewpagerindicator;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -156,6 +157,9 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
         tabView.setFocusable(true);
         tabView.setOnClickListener(mTabClickListener);
         tabView.setText(text);
+        Typeface font = Typeface.createFromAsset(getContext().getAssets(),
+                "Roboto-Regular.ttf");
+        tabView.setTypeface(font);
 
         if (iconResId != 0) {
             tabView.setCompoundDrawablesWithIntrinsicBounds(iconResId, 0, 0, 0);

@@ -419,7 +419,9 @@ public abstract class BaseActivity extends FragmentActivity {
 					UtilityMethods.customToast(ToastConstant.APPROPRIATE_QUERY,mContext);
 					return;
 				}
-
+				if (UtilityMethods.getCurrentClassName(BaseActivity.this).equals(getApplicationContext().getPackageName() + ".CartProductList")){
+					finish();
+				}
 				showDialog();
 
 //			String url = UrlsConstants.SEARCH_PRODUCT + search_key + "&page=1";
