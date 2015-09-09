@@ -111,12 +111,12 @@ public class CartAdapter extends BaseAdapter{
 		}
 
 		holder.prod_brand_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
-		holder.prod_name.setTypeface(CustomFonts.getInstance().getRobotoBold(activity));
-		holder.prod_gmorml.setTypeface(CustomFonts.getInstance().getRobotoLight(activity));
+		holder.prod_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
+		holder.prod_gmorml.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 //		holder.prod_old_price.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 		holder.prod_mul_quantity.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 //		holder.tvMultiply.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
-		holder.price.setTypeface(CustomFonts.getInstance().getRobotoBold(activity));
+		holder.price.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 //		holder.quantity.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 		holder.tv_quantity.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 
@@ -203,7 +203,7 @@ public class CartAdapter extends BaseAdapter{
 //
 
 		String str = String.format("%.2f", total).toString();
-		Typeface font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Bold.ttf");
+		Typeface font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Regular.ttf");
 		Typeface font1 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
 		SpannableStringBuilder SS = new SpannableStringBuilder("`"+str);
 		SS.setSpan (new CustomTypefaceSpan("", font1), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -217,7 +217,7 @@ public class CartAdapter extends BaseAdapter{
 //		holder.prod_old_price.setText("`" + String.format("%.2f", total));
 
 		String strmrp = String.format("%.2f", Float.parseFloat(mrp)).toString();
-		font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Bold.ttf");
+		font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Regular.ttf");
 		font1 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
 		SpannableStringBuilder SSmrp = new SpannableStringBuilder("`"+strmrp.toString());
 		SSmrp.setSpan (new CustomTypefaceSpan("", font1), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);

@@ -223,14 +223,15 @@
             android:layout_above="@+id/rl_editaddress"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/register_address_text_unselected_color"
+            android:layout_marginTop="5dp"
+            android:background="@color/lighter_gray"
           ></View>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/rl_editaddress"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="8dp">
 
             <TextView
                 android:id="@+id/edit_address"

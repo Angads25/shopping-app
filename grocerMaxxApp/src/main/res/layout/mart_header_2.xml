@@ -47,22 +47,23 @@
                 android:id="@+id/ll_placeholder_logoIcon_appBar"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="4">
+                android:layout_weight="4"
+                android:gravity="center"
+                >
 
                 <ImageView
                     android:id="@+id/icon_header_back"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/carat_left_white"
-                    android:layout_gravity="center"
                     />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
                     android:text="Path"
-                    android:layout_marginTop="5dp"
-                    android:textSize="28sp"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/mart_header_text_size"
                     android:singleLine="true"
                     android:ems="3"
                     android:textColor="@color/white"

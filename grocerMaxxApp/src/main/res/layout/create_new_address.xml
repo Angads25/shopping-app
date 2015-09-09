@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main_lay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,10 +11,12 @@
         layout="@layout/mart_header_2" />
 
     <LinearLayout
+        android:id="@+id/create_address_heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:padding="8dp">
+        android:layout_below="@+id/header"
+        android:padding="8dp"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/txt_create_address"
@@ -27,19 +29,24 @@
 
     </LinearLayout>
 
-
     <ScrollView
+        android:id="@+id/sv_create_address_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_below="@+id/create_address_heading"
+        android:layout_above="@+id/button_create_address"
         android:background="@color/white"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="8dp"
+
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
 
             <RelativeLayout
                 android:id="@+id/rl_first_name"
@@ -190,7 +197,7 @@
                     <EditText
                         android:id="@+id/edit_address_name_new_addr"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="35dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
                         android:background="@null"
@@ -198,16 +205,16 @@
                         android:singleLine="true"
                         android:textColorHint="@color/register_address_text_unselected_color"
                         android:textSize="@dimen/text_size_14" />
+
                     <TextView
                         android:id="@+id/middle_line_address_name_new_addr"
                         android:layout_width="match_parent"
-                        android:layout_marginTop="5dp"
                         android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
                         android:background="@color/register_address_line_color"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
 
                 </LinearLayout>
-
 
 
                 <TextView
@@ -216,8 +223,8 @@
                     android:layout_height="5dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="38dp"
-                    android:visibility="gone"
-                    android:background="@color/register_address_line_color" />
+                    android:background="@color/register_address_line_color"
+                    android:visibility="gone" />
 
             </RelativeLayout>
 
@@ -238,10 +245,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
                     android:layout_marginTop="10dp"
-                    >
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/txt_city"
@@ -266,13 +272,12 @@
                     <TextView
                         android:id="@+id/middle_line_address_name_new_addr"
                         android:layout_width="match_parent"
-                        android:layout_marginTop="5dp"
                         android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
                         android:background="@color/register_address_line_color"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
 
                 </LinearLayout>
-
 
 
                 <TextView
@@ -419,10 +424,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
                     android:layout_marginTop="10dp"
-                    >
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
                     <TextView
                         android:id="@+id/txt_flat_no"
                         android:layout_width="match_parent"
@@ -430,6 +435,7 @@
                         android:text="Flat No."
                         android:textColor="@color/pallete_black"
                         android:textSize="@dimen/text_size_12" />
+
                     <EditText
                         android:id="@+id/edit_flat_new_addr"
                         android:layout_width="match_parent"
@@ -444,13 +450,12 @@
                     <TextView
                         android:id="@+id/middle_line_address_name_new_addr"
                         android:layout_width="match_parent"
-                        android:layout_marginTop="5dp"
                         android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
                         android:background="@color/register_address_line_color"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
 
                 </LinearLayout>
-
 
 
                 <TextView
@@ -468,8 +473,8 @@
                 android:id="@+id/location_new_addr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/left_line_location_new_addr"
@@ -482,8 +487,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/txt_location"
@@ -507,10 +511,10 @@
                     <TextView
                         android:id="@+id/middle_line_address_name_new_addr"
                         android:layout_width="match_parent"
-                        android:layout_marginTop="5dp"
                         android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
                         android:background="@color/register_address_line_color"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
 
                 </LinearLayout>
 
@@ -543,8 +547,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/txt_closest_landmark"
@@ -553,6 +556,7 @@
                         android:text="Closest landmark"
                         android:textColor="@color/pallete_black"
                         android:textSize="@dimen/text_size_12" />
+
                     <EditText
                         android:id="@+id/edit_landmark_new_addr"
                         android:layout_width="match_parent"
@@ -567,13 +571,12 @@
                     <TextView
                         android:id="@+id/middle_line_address_name_new_addr"
                         android:layout_width="match_parent"
-                        android:layout_marginTop="5dp"
                         android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
                         android:background="@color/register_address_line_color"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
 
                 </LinearLayout>
-
 
 
                 <TextView
@@ -587,13 +590,12 @@
             </RelativeLayout>
 
 
-
             <RelativeLayout
                 android:id="@+id/pincode_new_addr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/left_line_pincode_new_addr"
@@ -606,8 +608,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
+
                     <TextView
                         android:id="@+id/txt_pincode"
                         android:layout_width="match_parent"
@@ -615,6 +617,7 @@
                         android:text="Pincode"
                         android:textColor="@color/pallete_black"
                         android:textSize="@dimen/text_size_12" />
+
                     <EditText
                         android:id="@+id/edit_pincode_new_addr"
                         android:layout_width="match_parent"
@@ -634,10 +637,10 @@
                     <TextView
                         android:id="@+id/middle_line_address_name_new_addr"
                         android:layout_width="match_parent"
-                        android:layout_marginTop="5dp"
                         android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
                         android:background="@color/register_address_line_color"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
 
                 </LinearLayout>
 
@@ -679,8 +682,8 @@
                 android:id="@+id/cb_shipping"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/cb_iv_shipping"
@@ -699,7 +702,6 @@
                     android:textSize="@dimen/text_size_14" />
 
             </LinearLayout>
-
 
             <CheckBox
                 android:id="@+id/check_default"
@@ -725,26 +727,21 @@
         </LinearLayout>
     </ScrollView>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/button_create_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/create_address_btn_border"
-            android:textAllCaps="true"
-            android:text="Save"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_16" />
-
-    </RelativeLayout>
+    <Button
+        android:id="@+id/button_create_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/create_address_btn_border"
+        android:text="Save"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_16" />
 
     <include
         android:id="@+id/footer"
         layout="@layout/mart_footer"
         android:visibility="gone" />
 
-</LinearLayout>
+</RelativeLayout>

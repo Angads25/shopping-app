@@ -3,6 +3,7 @@
     android:dither="true"
     android:src="@drawable/background_doodle"
     android:tileMode="repeat"
-    android:alpha="0.1"
-    android:gravity="clip_horizontal"/>
+    android:alpha="0.08"
+    android:gravity="clip_horizontal"
+    />
 

@@ -109,7 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentRight="true"
-                android:background="@color/light_Gray"></View>
+                android:background="@color/lighter_gray"></View>
 
 
             <RelativeLayout
@@ -141,7 +141,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentRight="true"
-                android:background="@color/light_Gray"></View>
+                android:background="@color/lighter_gray"></View>
 
             <RelativeLayout
                 android:id="@+id/rl_myaddresses"
@@ -171,7 +171,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentRight="true"
-                android:background="@color/light_Gray"></View>
+                android:background="@color/lighter_gray"></View>
 
             <RelativeLayout
                 android:id="@+id/rl_editprofile"
@@ -200,7 +200,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentRight="true"
-                android:background="@color/light_Gray"></View>
+                android:background="@color/lighter_gray"></View>
 
             <RelativeLayout
                 android:id="@+id/rl_viewprofile"
@@ -231,7 +231,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentRight="true"
-                android:background="@color/light_Gray"
+                android:background="@color/lighter_gray"
                 android:visibility="gone"></View>
 
             <RelativeLayout
@@ -262,7 +262,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentRight="true"
-                android:background="@color/light_Gray"></View>
+                android:background="@color/lighter_gray"></View>
 
             <RelativeLayout
                 android:id="@+id/rl_callus"
@@ -292,7 +292,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentRight="true"
-                android:background="@color/light_Gray"></View>
+                android:background="@color/lighter_gray"></View>
 
             <RelativeLayout
                 android:id="@+id/rl_writetous"
@@ -323,7 +323,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentRight="true"
-                android:background="@color/light_Gray"></View>
+                android:background="@color/lighter_gray"></View>
 
             <RelativeLayout
                 android:id="@+id/rl_signout"
@@ -353,7 +353,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentRight="true"
-                android:background="@color/light_Gray"></View>
+                android:background="@color/lighter_gray"></View>
 
 
         </LinearLayout>

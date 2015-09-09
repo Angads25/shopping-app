@@ -68,7 +68,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/lv_shipping_addresses"
         android:layout_below="@+id/rl_header_checkoutscreen_1"
-        android:layout_above="@+id/rl_add_new_address">
+        android:layout_above="@+id/rl_add_new_address"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:padding="6dp"
+        >
 
     </ListView>
 
@@ -78,6 +82,7 @@
         android:id="@+id/rl_add_new_address"
         android:background="@color/white"
         android:padding="8dp"
+        android:layout_margin="8dp"
         android:layout_above="@+id/rl_use_shipping_asbilling_address"
         android:layout_marginBottom="30dp"
         android:layout_marginTop="10dp"
@@ -110,7 +115,8 @@
         android:layout_above="@+id/btn_checkout_shipping_addr"
         android:layout_marginBottom="10dp"
         android:visibility="gone"
-        android:elevation="2dp">
+        android:elevation="2dp"
+        android:layout_margin="8dp">
 
         <TextView
             android:layout_width="wrap_content"

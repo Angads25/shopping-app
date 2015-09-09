@@ -134,7 +134,7 @@ public class ProductListAdapter extends BaseAdapter {
 		final Product obj = getItem(position);
 
 		holder.prod_brand.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
-		holder.prod_name.setTypeface(CustomFonts.getInstance().getRobotoBold(activity));
+		holder.prod_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 		holder.prod_gram_or_ml.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 
 
@@ -169,7 +169,7 @@ public class ProductListAdapter extends BaseAdapter {
 
 
 			Typeface font1 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
-			Typeface font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Light.ttf");
+			Typeface font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Regular.ttf");
 			SpannableStringBuilder SS = new SpannableStringBuilder("`"+obj.getPrice().toString());
 			SS.setSpan (new CustomTypefaceSpan("", font1), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 			SS.setSpan (new CustomTypefaceSpan("", font2), 1, obj.getPrice().toString().length()-(obj.getPrice().toString().length()-1),Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
@@ -186,7 +186,7 @@ public class ProductListAdapter extends BaseAdapter {
 //		holder.sale_price.setText("`"+ obj.getSalePrice().toString());
 //		holder.sale_price.setText("Rs. " + obj.getSalePrice());
 
-			font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Bold.ttf");
+			font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Regular.ttf");
 			font1 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
 			SS = new SpannableStringBuilder("`"+obj.getSalePrice().toString());
 			SS.setSpan (new CustomTypefaceSpan("", font1), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);

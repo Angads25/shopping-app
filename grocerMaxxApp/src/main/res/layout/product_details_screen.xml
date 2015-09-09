@@ -114,7 +114,7 @@
                         android:text="Almonds"
                         android:textAllCaps="true"
                         android:textColor="@color/primaryColor"
-                        android:textSize="@dimen/text_size_14" />
+                        android:textSize="@dimen/text_size_12" />
 
                     <TextView
                         android:id="@+id/product_desc_name"
@@ -327,7 +327,7 @@
 -->
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="40dp"
+                            android:layout_height="@dimen/plus_minus_buttons"
                             android:orientation="horizontal"
                             android:background="@drawable/shape_grey_border"
                             android:layout_marginRight="5dp"
@@ -342,7 +342,7 @@
                                 android:layout_toLeftOf="@+id/view2"
                                 android:src="@drawable/minus_icon_pl"
                                 android:visibility="visible"
-                                android:padding="5dp"
+                                android:padding="8dp"
                                 android:background="@drawable/shape_grey_border_withfillcolor_without_right"
                                 />
 
@@ -357,7 +357,7 @@
                             <TextView
                                 android:id="@+id/quantity"
                                 android:layout_width="35dp"
-                                android:layout_height="40dp"
+                                android:layout_height="match_parent"
                                 android:layout_centerHorizontal="true"
                                 android:layout_gravity="center_vertical"
                                 android:layout_toLeftOf="@+id/view3"
@@ -365,7 +365,6 @@
                                 android:text="1"
                                 android:textColor="@color/pallete_black"
                                 android:textSize="@dimen/text_size_16"
-                                android:background="@drawable/shape_grey_border_withoutroundcorners"
                                 />
 
                             <View
@@ -378,7 +377,7 @@
 
                             <ImageView
                                 android:id="@+id/increase_quantity"
-                                android:padding="5dp"
+                                android:padding="8dp"
                                 android:layout_width="30dp"
                                 android:layout_height="match_parent"
                                 android:layout_alignParentBottom="true"
@@ -394,27 +393,42 @@
                     </LinearLayout>
 
                     <Button
-                        android:id="@+id/add_cart"
-                        android:layout_width="55dp"
-                        android:layout_height="35dp"
-                        android:layout_alignParentBottom="true"
-
-                        android:layout_gravity="right"
-                        android:layout_marginTop="10dp"
-                        android:gravity="right"
+                        android:id="@+id/add_cart_prod_list"
+                        android:layout_width="60dp"
+                        android:layout_height="@dimen/plus_minus_buttons"
+                        android:text="Add"
+                        android:textAllCaps="true"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_16"
+                        android:background="@drawable/blue_rounded"
                         android:layout_alignParentRight="true"
-                        android:background="@drawable/add_to_cart_btn" />
+                        android:layout_alignParentEnd="true" />
 
 
                 </RelativeLayout>
 
 
+                <TextView
+                    android:id="@+id/tv_offers_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_below="@+id/rl_prod_list_cart"
+                    android:background="#f9f3e4"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:padding="5dp"
+                    android:text="MCIVITIES COOKIES BUY 2,GET 1 FREE"
+                    android:textColor="#ff4121"
+                    android:visibility="visible"
+                    android:textSize="@dimen/text_size_13" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
+                    android:paddingTop="5dp"
                     android:visibility="gone"
                     android:weightSum="1.5">
 
@@ -505,7 +519,7 @@
                 android:layout_height="1dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@color/m_color_333333" />
 
             <TextView
@@ -528,20 +542,6 @@
                 android:paddingRight="10dp"
                 android:textColor="#a2a2a2"
                 android:textSize="@dimen/product_detail_desc_detail_text" />
-
-            <TextView
-                android:id="@+id/tv_offers_details"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_below="@+id/rl_prod_list_cart"
-                android:background="#f9f3e4"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="MCIVITIES COOKIES BUY 2,GET 1 FREE"
-                android:textColor="#ff4121"
-                android:visibility="gone"
-                android:textSize="@dimen/text_size_13" />
 
         </LinearLayout>
     </ScrollView>

@@ -106,10 +106,10 @@ public class ProductDetailScreen extends BaseActivity implements
 
 			iv_cart = (ImageView) findViewById(R.id.iv_cart);
 
-			quantity_2.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+			quantity_2.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
 			prod_desc_brand.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
-			prod_desc_name.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-			prod_desc_gmorml.setTypeface(CustomFonts.getInstance().getRobotoLight(this));
+			prod_desc_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
+			prod_desc_gmorml.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
 
 			decrease_quantity = (ImageView) findViewById(R.id.decrease_quantity);
 			increase_quantity = (ImageView) findViewById(R.id.increase_quantity);
@@ -145,7 +145,7 @@ public class ProductDetailScreen extends BaseActivity implements
 //		tvCancelPrice.setTypeface(face);
 //		tvCancelPrice.setText("`"+ productDetail.getProductPrice());
 
-			Typeface font2 = Typeface.createFromAsset(MyApplication.getInstance().getAssets(), "Roboto-Bold.ttf");
+			Typeface font2 = Typeface.createFromAsset(MyApplication.getInstance().getAssets(), "Roboto-Regular.ttf");
 			Typeface font1 = Typeface.createFromAsset(MyApplication.getInstance().getAssets(), "Rupee.ttf");
 			SpannableStringBuilder SS = new SpannableStringBuilder("`" + productDetail.getProductPrice());
 			SS.setSpan(new CustomTypefaceSpan("", font1), 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -155,7 +155,7 @@ public class ProductDetailScreen extends BaseActivity implements
 			tvCancelPrice.setText(SS);
 
 			font1 = Typeface.createFromAsset(MyApplication.getInstance().getAssets(), "Rupee.ttf");
-			font2 = Typeface.createFromAsset(MyApplication.getInstance().getAssets(), "Roboto-Bold.ttf");
+			font2 = Typeface.createFromAsset(MyApplication.getInstance().getAssets(), "Roboto-Regular.ttf");
 			SS = new SpannableStringBuilder("`" + productDetail.getSale_price());
 			SS.setSpan(new CustomTypefaceSpan("", font1), 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 //        SS.setSpan (new CustomTypefaceSpan("", font2), 1, productDetail.getSale_price().length()-(productDetail.getSale_price().length()-1),Spanned.SPAN_EXCLUSIVE_INCLUSIVE);

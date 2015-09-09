@@ -69,7 +69,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/lv_billing_addresses"
         android:layout_below="@+id/rl_header_checkoutscreen_1"
-        android:layout_above="@+id/rl_add_new_address">
+        android:layout_above="@+id/rl_add_new_address"
+        android:padding="6dp">
 
     </ListView>
 
@@ -81,7 +82,7 @@
         android:padding="8dp"
         android:layout_above="@+id/btn_checkout_billing_addr"
         android:layout_marginBottom="30dp"
-        android:layout_marginTop="10dp"
+        android:layout_margin="8dp"
         android:elevation="2dp">
 
         <TextView

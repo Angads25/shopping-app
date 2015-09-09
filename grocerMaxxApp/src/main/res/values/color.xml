@@ -140,8 +140,17 @@
     <color name="primaryColor">#ee2d09</color>
     <color name="primaryColorDark">#b22603</color>
     <color name="accentColor">#ffa800</color>
-    <color name="pallete_black">#121212</color>
+
+    <!-- it was 1d1d1d before, but since everywhere we were changing-->
+    <color name="pallete_black">#2d2d2d</color>
+
     <color name="pallete_grey">#bebebe</color>
     <color name="pallete_blue">#0e69e5</color>
+
+
+    <color name="lighter_gray">#e4e4e4</color>
+    <color name="small_heading_text">#7d7d76</color>
+    <color name="small_sublist_text">#2d2d2d</color>
+
 
 </resources>

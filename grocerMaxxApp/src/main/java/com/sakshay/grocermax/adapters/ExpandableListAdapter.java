@@ -87,6 +87,10 @@ public class ExpandableListAdapter extends AnimatedExpandableListAdapter{
 		View view = (View) v.findViewById(R.id.line_parent);
 //		view.setVisibility(View.VISIBLE);
 
+		if(isExpanded)
+			v.setPadding(0,0,0,-15);
+		else v.setPadding(0,0,0,0);
+
 //		cat_name.setText(catObj.get(groupPosition).getChildren().get(childPosition).getCategory());
 
 //		if(catObj.get(position).getChildren().get(groupPosition).getChildren().get(i).getChildren().size()>0){
@@ -132,7 +136,7 @@ public class ExpandableListAdapter extends AnimatedExpandableListAdapter{
 //			view.setVisibility(View.VISIBLE);
 //		}
 		
-		cat_name.setPadding(0, 10, 0, 10);
+		//cat_name.setPadding(0, 10, 0, 10);
 		
 //		cat_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(con),R.style.CategoryParentView);
 		cat_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(con));
@@ -172,7 +176,7 @@ public class ExpandableListAdapter extends AnimatedExpandableListAdapter{
 		//cat_image.setVisibility(View.VISIBLE);
 		cat_image.setVisibility(View.GONE);
 
-		cat_name.setPadding(0, 5, 0, 5);
+		//cat_name.setPadding(0, 5, 0, 5);
 		
 //		if(isLastChild){
 //			viewLine.setVisibility(View.VISIBLE);

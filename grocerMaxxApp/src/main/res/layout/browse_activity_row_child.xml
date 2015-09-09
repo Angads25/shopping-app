@@ -5,7 +5,8 @@
     android:orientation="vertical"
     android:background="@color/transparent"
     android:paddingLeft="10dp"
-    android:paddingRight="10dp" >
+    android:paddingRight="10dp"
+    >
     
     <RelativeLayout 
         android:layout_width="match_parent"
@@ -38,8 +39,8 @@
             android:layout_marginLeft="30dp"
             android:layout_centerVertical="true"
             android:background="@color/transparent"
-            android:textColor="@color/pallete_grey"
-            android:textSize="@dimen/text_size_14" />
+            android:textColor="@color/small_heading_text"
+            android:textSize="@dimen/text_size_16" />
 
         <!-- TODO , please remove this as child needs no arrow-->
         <ImageView 
