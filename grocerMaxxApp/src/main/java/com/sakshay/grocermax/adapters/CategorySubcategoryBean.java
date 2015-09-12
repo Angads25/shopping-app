@@ -1,11 +1,13 @@
 package com.sakshay.grocermax.adapters;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class CategorySubcategoryBean implements Serializable {
 
-	String Category, CategoryId, breadcrumb;
+	String Category, CategoryId, breadcrumb, isActive;
 
 	ArrayList<CategorySubcategoryBean> category = new ArrayList<CategorySubcategoryBean>();
 
@@ -39,6 +41,14 @@ public class CategorySubcategoryBean implements Serializable {
 
 	public void setBreadcrumb(String breadcrumb) {
 		this.breadcrumb = breadcrumb;
+	}
+
+	public String getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(String isActive) {
+		this.isActive = isActive;
 	}
 
 }

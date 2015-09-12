@@ -3,6 +3,8 @@ package com.sakshay.grocermax.exception;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.paymentsdk.android.MyApp;
+import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.MyApplication;
 import com.sakshay.grocermax.utils.MyHttpUtils;
 import com.sakshay.grocermax.utils.UtilityMethods;
@@ -48,7 +50,13 @@ public class GrocermaxBaseException extends Exception {
 
     public GrocermaxBaseException(String strClassName, String strMethodName,String strMessage,String strErrorCode,String strServerResponse) {
         super();
-           //    new SearchLoader(this).execute(url);
+        String strUrl = "http://staging.grocermax.com/webservice/new_services/errorlog?error=";
+
+//        new AppCrash(MyApplication.getInstance(),strClassName,strMethodName,strMessage,strErrorCode,strServerResponse).execute(strUrl);
+
+
+//        new AppCrash()
+//               new SearchLoader(this).execute(url);
 //        UtilityMethods.customToast("message", MyApplication.getInstance());
     }
 }
@@ -59,13 +67,15 @@ class AppCrash extends AsyncTask<String, String, String>
     String strClassName;
     String strMethodName;
     String strMessage;
-    String strLineNo;
-    public AppCrash(Context mContext,String strClassName,String strMethodName,String strMessage,String strLineNo){
+//    String strErrorCode;
+    String strServerResponse;
+    public AppCrash(Context mContext,String strClassName,String strMethodName,String strMessage,String strErrorCode,String strServerResponse){
         context = mContext;
         this.strClassName = strClassName;
         this.strMethodName = strMethodName;
         this.strMessage = strMessage;
-        this.strLineNo = strLineNo;
+//        this.strErrorCode = strErrorCode;
+        this.strServerResponse = strServerResponse;
     }
 
     @Override
@@ -79,6 +89,7 @@ class AppCrash extends AsyncTask<String, String, String>
         // TODO Auto-generated method stub
         HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
         String strExceptionReport = params[0];
+        strExceptionReport += "CLASSNAME:"+strClassName+",METHODNAME:"+strMethodName+",APPERROR:"+strMessage+",SERVERRESPONSE:"+strServerResponse;
         if(strExceptionReport.contains("?")) {
             strExceptionReport += "&version=1.0";
         }else{

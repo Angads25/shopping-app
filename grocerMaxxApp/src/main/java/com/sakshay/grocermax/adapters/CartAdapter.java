@@ -246,6 +246,7 @@ public class CartAdapter extends BaseAdapter{
 //					int size2 = CartProductList.cartList.size();
 
 //					if(cart_products.size() > 0 && CartProductList.cartList.size() > 0){
+
 					if(cart_products.get(position).getItem_id().equalsIgnoreCase(CartProductList.cartList.get(position).getItem_id())){  //manage clone cart when added or deleted to show update quantity on product listing and description
 //						cart_products.get(position).setQty(CartProductList.cartList.get(position).getQty());  //plus
 						cart_products.get(position).setQty(value1);  //plus

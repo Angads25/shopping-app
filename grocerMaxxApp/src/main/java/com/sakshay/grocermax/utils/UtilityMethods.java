@@ -387,8 +387,10 @@ public class UtilityMethods {
 			} else {
 				int flagPos = -1;
 				for (int i = 0; i < list.size(); i++) {
+					String str = list.get(i).getNoDiscount();
+					String str1 = prod.getNoDiscount();
 					if (list.get(i).getItem_id().equals(prod.getItem_id())) {
-						if(list.get(i).getNoDiscount().equals("1")) {          //not offer                            [0 - means offer AND 1 - means not offer]
+						if (list.get(i).getNoDiscount().equals("1")) {          //not offer                            [0 - means offer AND 1 - means not offer]
 							flagPos = i;
 							break;
 						}
@@ -741,6 +743,8 @@ public class UtilityMethods {
 					CategorySubcategoryBean categorySubOb = new CategorySubcategoryBean();
 					categorySubOb.setCategory(""
 							+ jsonName.getString(ListConstant.TAG_NAME));
+					categorySubOb.setIsActive(""
+							+ jsonName.getString(ListConstant.TAG_IS_ACTIVE));
 					categorySubOb.setCategoryId(""
 							+ jsonName.getString(ListConstant.TAG_CATEGORYID));
 					categorySubOb.setBreadcrumb(""

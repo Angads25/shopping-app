@@ -23,12 +23,12 @@ public class UrlsConstants {
 //	public final static String NEW_BASE_URL = "http://dev.grocermax.com/webservice/new_services/";
 
 	//staging
-//	public final static String BASE_URL = "http://staging.grocermax.com/webservice/";
-//	public final static String NEW_BASE_URL = "http://staging.grocermax.com/webservice/new_services/";
+	public final static String BASE_URL = "http://staging.grocermax.com/webservice/";
+	public final static String NEW_BASE_URL = "http://staging.grocermax.com/webservice/new_services/";
 
    // live url
-	public final static String BASE_URL = "http://grocermax.com/webservice/";
-	public final static String NEW_BASE_URL = "http://grocermax.com/webservice/new_services/";
+//	public final static String BASE_URL = "http://grocermax.com/webservice/";
+//	public final static String NEW_BASE_URL = "http://grocermax.com/webservice/new_services/";
 
 	/*public final static String CATEGORY_LISTING_URL = BASE_URL
 			+ "category.php?parentid=";*/
@@ -68,8 +68,11 @@ public class UrlsConstants {
 	
 	/*public final static String REGESTRATION_URL = BASE_URL
 			+ "registeration.php?";*/
-	  public final static String REGESTRATION_URL = NEW_BASE_URL
-				+ "createuser?";
+	  public final static String REGESTRATION_URL_OTP = NEW_BASE_URL                               //use when first time hits the registeration service and getting otp
+				+ "createuser?otp=0&";
+
+	public final static String REGESTRATION_URL = NEW_BASE_URL                                    //use when first time hits the registeration service and after match otp by user and coming from server
+			+ "createuser?otp=1&";
 
 	public final static String EDIT_USER_URL = BASE_URL
 			+ "editprofile.php?UserID=";// 166&fname=Suman&uemail=suman.tripath333i@sakshay.in
@@ -162,6 +165,8 @@ public class UrlsConstants {
 	
 	public final static String SET_ORDER_STATUS = NEW_BASE_URL
 			+ "setstatus?status=canceled&orderid=";
+
+
 	
 	public final static String GET_MOBILE_HASH = NEW_BASE_URL
 			+ "getmobilehash?";

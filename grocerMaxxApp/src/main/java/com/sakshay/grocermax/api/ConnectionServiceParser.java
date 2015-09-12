@@ -21,6 +21,7 @@ import com.sakshay.grocermax.bean.FinalCheckoutBean;
 import com.sakshay.grocermax.bean.LocationDetail;
 import com.sakshay.grocermax.bean.LocationListBean;
 import com.sakshay.grocermax.bean.LoginResponse;
+import com.sakshay.grocermax.bean.OTPResponse;
 import com.sakshay.grocermax.bean.OrderHistoryBean;
 import com.sakshay.grocermax.bean.OrderReviewBean;
 import com.sakshay.grocermax.bean.PersonalInfo;
@@ -57,6 +58,8 @@ public class ConnectionServiceParser {
 		int GET_SET_ORDERSTATUS = 120;
 		int VIEW_CART_UPDATE_LOCALLY = 121;
 		int LOCATION = 122;
+		int OTP_SUCCESSFULL = 123;
+
 	}
 
 	public static BaseResponseBean parseSimpleResponse(String jsonString)
@@ -65,6 +68,14 @@ public class ConnectionServiceParser {
 		//BaseResponseBean responseBean = gson.fromJson(jsonString,BaseResponseBean.class);
 		LoginResponse responseBean = gson.fromJson(jsonString,LoginResponse.class);
 		return responseBean;
+	}
+
+	public static OTPResponse parseOTPResponse(String jsonString)
+			throws JSONException {
+		Gson gson = new Gson();
+		//BaseResponseBean responseBean = gson.fromJson(jsonString,BaseResponseBean.class);
+		OTPResponse otpresponseBean = gson.fromJson(jsonString,OTPResponse.class);
+		return otpresponseBean;
 	}
 
 	public static LoginResponse parseLoginResponse(String jsonString)

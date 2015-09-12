@@ -599,14 +599,21 @@ public class ReviewOrderAndPay extends BaseActivity
 //					UtilityMethods.customToast(ToastConstant.SELECT_PAYMENT_MODE, mContext);
 //					return;
 //				}else
-					if (!bCash && !bOnline) {
-						UtilityMethods.customToast(ToastConstant.SELECT_PAYMENT_MODE, mContext);
-						return;
-					} else if (bOnline) {
+					if(bPayTM){
+						payment_mode="payucheckout_shared";
+					}
+//					if (!bCash && !bOnline) {
+//						UtilityMethods.customToast(ToastConstant.SELECT_PAYMENT_MODE, mContext);
+//						return;
+//					}
+					else if (bOnline) {
 						payment_mode = "payucheckout_shared";
 					} else if (bCash) {
 						payment_mode = "cashondelivery";
 					}
+
+
+
 //				else if(bPayTM){
 //					payment_mode="paytm";
 //				}
@@ -848,6 +855,23 @@ public class ReviewOrderAndPay extends BaseActivity
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		try{
+			if(requestCode==123)                  //uses when coming from OneTimePassword screen after to register successfully this will finish and go back to loginactivity and loginactivity also uses same funct
+			{
+				if(resultCode==RESULT_OK) {
+					dismissDialog();
+					MySharedPrefs.INSTANCE.putTotalItem("0");
+					MySharedPrefs.INSTANCE.clearQuote();
+					Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
+					Bundle call_bundle = new Bundle();
+					call_bundle.putString("orderid", order_id);
+					call_bundle.putString("status", "success");
+					intent.putExtras(call_bundle);
+					startActivity(intent);
+					finish();
+					setResult(RESULT_OK);
+					finish();
+				}
+			}
         if (requestCode == PayU.RESULT) {
             if(resultCode == RESULT_OK) {
                 //success
@@ -893,34 +917,38 @@ public class ReviewOrderAndPay extends BaseActivity
 		try{
 		if (bundle.getString("ACTION").equals(MyReceiverActions.FINAL_CHECKOUT)) {
 		finalCheckoutBean= (FinalCheckoutBean) bundle.getSerializable(ConnectionService.RESPONSE);
-		if (finalCheckoutBean.getFlag().equalsIgnoreCase("1")) {
-			UtilityMethods.deleteCloneCart(this);
-			if(payment_mode.equals("cashondelivery"))
-			{
-				MySharedPrefs.INSTANCE.putTotalItem("0");
-				MySharedPrefs.INSTANCE.clearQuote();
-				UtilityMethods.customToast(finalCheckoutBean.getResult(), ReviewOrderAndPay.this);
-				Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
-				Bundle call_bundle = new Bundle();
-				call_bundle.putString("orderid", finalCheckoutBean.getOrderId());
-				call_bundle.putString("status", "success");
-				intent.putExtras(call_bundle);
-				startActivity(intent);
-				finish();
-			}else if(payment_mode.equalsIgnoreCase("payucheckout_shared")){
-				order_id=finalCheckoutBean.getOrderId();
-				order_db_id=finalCheckoutBean.getOrderDBID();
-				makePayment(finalCheckoutBean.getOrderId());   //just call in case of payu.
-			}else if(payment_mode.equalsIgnoreCase("paytm")){
-				order_id=finalCheckoutBean.getOrderId();
-				order_db_id=finalCheckoutBean.getOrderDBID();
-				payTM(order_id);
-			}else if(payment_mode.equalsIgnoreCase("mobikwik")){
-				order_id=finalCheckoutBean.getOrderId();
-				order_db_id=finalCheckoutBean.getOrderDBID();
-				payMobiKwikWallet(order_id);
-			}
-		}
+
+			order_id=finalCheckoutBean.getOrderId();
+			order_db_id=finalCheckoutBean.getOrderDBID();
+			payTM(order_id);
+//		if (finalCheckoutBean.getFlag().equalsIgnoreCase("1")) {
+//			UtilityMethods.deleteCloneCart(this);
+//			if(payment_mode.equals("cashondelivery"))
+//			{
+//				MySharedPrefs.INSTANCE.putTotalItem("0");
+//				MySharedPrefs.INSTANCE.clearQuote();
+//				UtilityMethods.customToast(finalCheckoutBean.getResult(), ReviewOrderAndPay.this);
+//				Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
+//				Bundle call_bundle = new Bundle();
+//				call_bundle.putString("orderid", finalCheckoutBean.getOrderId());
+//				call_bundle.putString("status", "success");
+//				intent.putExtras(call_bundle);
+//				startActivity(intent);
+//				finish();
+//			}else if(payment_mode.equalsIgnoreCase("payucheckout_shared")){
+//				order_id=finalCheckoutBean.getOrderId();
+//				order_db_id=finalCheckoutBean.getOrderDBID();
+//				makePayment(finalCheckoutBean.getOrderId());   //just call in case of payu.
+//			}else if(payment_mode.equalsIgnoreCase("paytm_cc")){
+//				order_id=finalCheckoutBean.getOrderId();
+//				order_db_id=finalCheckoutBean.getOrderDBID();
+//				payTM(order_id);
+//			}else if(payment_mode.equalsIgnoreCase("wallet")){     //mobikwik
+//				order_id=finalCheckoutBean.getOrderId();
+//				order_db_id=finalCheckoutBean.getOrderDBID();
+//				payMobiKwikWallet(order_id);
+//			}
+//		}
 	}
 		
 //		if (bundle.getString("ACTION").equals(MyReceiverActions.GET_ORDER_STATUS)) {
@@ -949,7 +977,7 @@ public class ReviewOrderAndPay extends BaseActivity
 //				// TODO: handle exception
 //			}
 //		}
-		if (bundle.getString("ACTION").equals(MyReceiverActions.SET_ORDER_STATUS)) {
+		if (bundle.getString("ACTION").equals(MyReceiverActions.SET_ORDER_STATUS)) {                     //FAILURE
 			String response= (String) bundle.getSerializable(ConnectionService.RESPONSE);
 
 				JSONObject resJsonObject=new JSONObject(response);
@@ -1019,6 +1047,7 @@ public class ReviewOrderAndPay extends BaseActivity
 		Intent intent = new Intent(this,PayTMActivity.class);
 		intent.putExtra("amount", String.valueOf(total));
 		intent.putExtra("order_id", orderid);
+		intent.putExtra("order_db_id",order_db_id);
 		startActivity(intent);
 	}
 	

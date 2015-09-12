@@ -7,6 +7,7 @@ public class ListSublistConstants {
 		public static String TAG_CATEGORYID = "category_id";
 		public static String TAG_BREADCRUMB = "Breadcrumb";
 		public static String TAG_CHILDREN = "children";
+		public static String TAG_IS_ACTIVE = "is_active";
 	}
 
 }

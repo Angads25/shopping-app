@@ -52,7 +52,7 @@ public class HomeListAdapter extends BaseAdapter{
 			holder = new ViewHolder();
 			holder.cat_name = (TextView) convertView.findViewById(R.id.item_name);
 			holder.cat_image = (ImageView) convertView.findViewById(R.id.image);
-			
+
 			holder.cat_image.setVisibility(View.GONE);
 			convertView.setTag(holder);
 		}else {
@@ -60,6 +60,8 @@ public class HomeListAdapter extends BaseAdapter{
 		}
 		
 		CategorySubcategoryBean obj = getItem(position);
+
+
 		holder.cat_name.setText(obj.getCategory());
 		return convertView;
 	}

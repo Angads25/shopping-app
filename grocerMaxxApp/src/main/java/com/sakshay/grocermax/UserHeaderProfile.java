@@ -109,7 +109,7 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
         }
 
         initHeader(findViewById(R.id.app_bar_header), true, "My Profile");
-        initFooter(findViewById(R.id.footer), 4, 3);
+//        initFooter(findViewById(R.id.footer), 4, 3);
     }
 
     @Override

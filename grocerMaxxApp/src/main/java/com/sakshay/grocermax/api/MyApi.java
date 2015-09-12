@@ -57,6 +57,19 @@ public class MyApi {
 		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.REGISTRATION);
 		m_context.startService(reqIntent);
 	}
+
+	/**This is used to get otp while register.
+	 * @param url
+	 * @param valuePairs
+	 */
+	public void reqUserRegistrationOTP(String url) {
+		Intent reqIntent = new Intent(m_context, ConnectionService.class);
+		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.OTP);
+		reqIntent.putExtra(ConnectionService.URL, url);
+		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.OTP_SUCCESSFULL);
+		m_context.startService(reqIntent);
+	}
 	
 	/**This is used to get register.
 	 * @param url

@@ -347,6 +347,11 @@ public class ConnectionService extends IntentService {
 							(Serializable) ConnectionServiceParser
 									.parseSimpleResponse(response));
 					break;
+				case MyParserType.OTP_SUCCESSFULL:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseOTPResponse(response));
+					break;
 				case MyParserType.FORGOT_PWD:
 					bundle.putSerializable(RESPONSE,
 							(Serializable) ConnectionServiceParser

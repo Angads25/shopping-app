@@ -80,4 +80,6 @@ public interface MyReceiverActions {
 	String PRODUCT_LIST_FROM_HOME = PKG_NAME + ".product_list_from_home";
 
 	String LOCATION = PKG_NAME + ".location";                                //carrying store location URLS and id's
+
+	String OTP = PKG_NAME + ".otp";
 }

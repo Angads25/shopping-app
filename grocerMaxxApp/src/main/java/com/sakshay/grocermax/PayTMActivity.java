@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
@@ -15,10 +16,16 @@ import com.paytm.pgsdk.PaytmMerchant;
 import com.paytm.pgsdk.PaytmOrder;
 import com.paytm.pgsdk.PaytmPGService;
 import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
+import com.sakshay.grocermax.api.ConnectionService;
+import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
+import com.sakshay.grocermax.utils.UrlsConstants;
+import com.sakshay.grocermax.utils.UtilityMethods;
 
-public class PayTMActivity extends Activity 
+import org.json.JSONObject;
+
+public class PayTMActivity extends BaseActivity
 {
 	public static String THEME = "merchant";
 	public static String WEBSITE = "Retailwap";
@@ -30,7 +37,7 @@ public class PayTMActivity extends Activity
 	EasyTracker tracker;
 	private int randomInt = 0;
 	private PaytmPGService Service = null;
-	String amount,order_id;
+	String amount,order_id,order_db_id;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,8 +47,11 @@ public class PayTMActivity extends Activity
 		try {
 			amount = getIntent().getStringExtra("amount");
 			order_id = getIntent().getStringExtra("order_id");
+			order_db_id  = getIntent().getStringExtra("order_db_id");
 			//	Random randomGenerator = new Random();
 			//randomInt = randomGenerator.nextInt(1000);
+
+			addActionsInFilter(MyReceiverActions.SET_ORDER_STATUS);
 
 			randomInt = getRandomReferenceNumber();
 
@@ -102,13 +112,23 @@ public class PayTMActivity extends Activity
 					String strTXNdate = inResponse.getString("TXNDATE");
 					String strIsCheckSumValid = inResponse.getString("IS_CHECKSUM_VALID");
 
-					finish();
+//					finish();
 
 					System.out.println("==success==" + strTXNid + "=" + strBankTXNid + "=" + strOrderId + "=" + strTXNamount + "="
 							+ strStatus + "=" + strTXNtype + "=" + strCurrency + "=" + strGatewayName + "=" + strResponseCode + "=" + strResponseMsg + "="
 							+ strBankName + "=" + strMID + "=" + strPaymentMode + "=" + strRefundAmount + "=" + strTXNdate + "=" + strIsCheckSumValid + "===");
 
-
+					MySharedPrefs.INSTANCE.putTotalItem("0");
+					MySharedPrefs.INSTANCE.clearQuote();
+//					UtilityMethods.customToast(finalCheckoutBean.getResult(), PayTMActivity.this);
+					Intent intent = new Intent(PayTMActivity.this, CODConfirmation.class);
+					Bundle call_bundle = new Bundle();
+					call_bundle.putString("orderid", order_id);
+					call_bundle.putString("status", "success");
+					intent.putExtras(call_bundle);
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
+					finish();
 				}
 
 				@Override
@@ -129,7 +149,7 @@ public class PayTMActivity extends Activity
 					String strResponseCode = inResponse.getString("RESPCODE");
 					String strResponseMsg = inResponse.getString("RESPMSG");
 					String strBankName = inResponse.getString("BANKNAME");
-					String strMID = inResponse.getString("MID");
+					String strMID = inResponse.getString("MID");                         //grocer28494183264317
 					String strPaymentMode = inResponse.getString("PAYMENTMODE");
 					String strRefundAmount = inResponse.getString("REFUNDAMT");
 					String strTXNdate = inResponse.getString("TXNDATE");
@@ -139,7 +159,9 @@ public class PayTMActivity extends Activity
 							+ strStatus + "=" + strTXNtype + "=" + strCurrency + "=" + strGatewayName + "=" + strResponseCode + "=" + strResponseMsg + "="
 							+ strBankName + "=" + strMID + "=" + strPaymentMode + "=" + strRefundAmount + "=" + strTXNdate + "=" + strIsCheckSumValid + "===");
 
-					finish();
+//					finish();
+					showDialog();
+					myApi.reqSetOrderStatus(UrlsConstants.SET_ORDER_STATUS + order_db_id);
 				}
 
 
@@ -173,6 +195,30 @@ public class PayTMActivity extends Activity
 			new GrocermaxBaseException("PayTMActivity","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 
+	}
+
+	@Override
+	void OnResponse(Bundle bundle) {
+		if (bundle.getString("ACTION").equals(MyReceiverActions.SET_ORDER_STATUS)) {                     //FAILURE
+			String response= (String) bundle.getSerializable(ConnectionService.RESPONSE);
+			try {
+				JSONObject resJsonObject = new JSONObject(response);
+				if (resJsonObject.getInt("flag") == 1) {
+					dismissDialog();
+					MySharedPrefs.INSTANCE.putTotalItem("0");
+					MySharedPrefs.INSTANCE.clearQuote();
+					Intent intent = new Intent(PayTMActivity.this, CODConfirmation.class);
+					Bundle call_bundle = new Bundle();
+					call_bundle.putString("orderid", order_id);
+					call_bundle.putString("status", "fail");
+			//					call_bundle.putString("status", "success");
+					intent.putExtras(call_bundle);
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
+					finish();
+				}
+			}catch(Exception e){}
+		}
 	}
 
 	public static int getRandomReferenceNumber() {

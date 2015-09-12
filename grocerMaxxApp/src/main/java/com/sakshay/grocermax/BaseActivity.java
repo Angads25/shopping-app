@@ -145,6 +145,18 @@ public abstract class BaseActivity extends FragmentActivity {
 					}
 				}
 			});
+
+//			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//
+//			if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+//				if(!keyboardVisibility)
+//					imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+//			}else{
+//				if(keyboardVisibility)
+//					imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+//			}
+
+
 		    icon_header_back = (ImageView) view.findViewById(R.id.icon_header_back);
 			tvHeaderName = (TextView) view.findViewById(R.id.tv_appbar_breadcrumb);
 			icon_header_user = (ImageButton) view.findViewById(R.id.icon_header_user);
@@ -174,7 +186,6 @@ public abstract class BaseActivity extends FragmentActivity {
 //				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon);  //login icon
 //				BaseActivity.icon_header_user.setImageResource(R.drawable.profile);  //login icon
 				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_1);  //login icon
-
 			} else {
 //				BaseActivity.icon_header_user.setEnabled(true);
 //				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_logout);  //logout icon
@@ -607,7 +618,7 @@ public abstract class BaseActivity extends FragmentActivity {
 
 	protected void initFooter(View view, int selected, int disable) {
 		try {
-			view.setVisibility(View.GONE);
+//			view.setVisibility(View.GONE);
 		/*
 		 * footerButton = new TextView[5]; footerButton[0] =
 		 * (TextView)view.findViewById(R.id.shop); footerButton[1] =
@@ -626,7 +637,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		 * footerButton[i].setOnClickListener(footerClick); }
 		 */
 		}catch(Exception e){
-			new GrocermaxBaseException("BaseActivity", "initFooter", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+			new GrocermaxBaseException("BaseActivity", "initFooter", String.valueOf(e), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 	}
 
@@ -1208,12 +1219,12 @@ public abstract class BaseActivity extends FragmentActivity {
 					if(cartBean.getItems().size()>0)
 					{
 						UtilityMethods.deleteLocalCart(BaseActivity.this);                   //new 1/9/2015
-//						UtilityMethods.deleteCloneCart(BaseActivity.this);
+						UtilityMethods.deleteCloneCart(BaseActivity.this);
 						for(int i=0;i<cartBean.getItems().size();i++)
 						{
 							UtilityMethods.writeCloneCart(BaseActivity.this, Constants.localCloneFile, cartBean.getItems().get(i));
 						}			
-						
+
 						Intent i = new Intent(mContext, CartProductList.class);
 						Bundle bundle_cart = new Bundle();
 						bundle_cart.putParcelableArrayList("cartList",cartBean.getItems());

@@ -128,9 +128,8 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		expandableListView.setOnGroupExpandListener(new OnGroupExpandListener() {
 			@Override
 			public void onGroupExpand(int groupPosition) {
-				for(int i=0;i<expandableListView.getExpandableListAdapter().getGroupCount();i++)
-				{
-					if(i!=groupPosition)
+				for (int i = 0; i < expandableListView.getExpandableListAdapter().getGroupCount(); i++) {
+					if (i != groupPosition)
 						expandableListView.collapseGroup(i);
 				}
 			}
@@ -138,7 +137,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		
 		expandableListView.setOnGroupClickListener(new OnGroupClickListener() {
 			@Override
-			public boolean onGroupClick(ExpandableListView parent, View v,int groupPosition, long id) {
+			public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 				// TODO Auto-generated method stub
 
 //				if(viewtemp != null){                          //from blue
@@ -159,77 +158,69 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 //				
 //				viewtemp = viewe;        
 //				tvtemp = cat_names;       //to blue
-				
-				
-				if(group_click==0)
-				{
-					
+
+
+				if (group_click == 0) {
+
 					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-					if(android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT){
-						if(!keyboardVisibility)
+					if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+						if (!keyboardVisibility)
 							imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
 
-					}else{
-						if(keyboardVisibility)
+					} else {
+						if (keyboardVisibility)
 							imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
 					}
 
 
-					boolean expandStatus=false;
-				second_level=catObj.get(position).getChildren().get(groupPosition).getCategory();
-				MySharedPrefs.INSTANCE.putBradecrum(first_level+">>"+second_level);
-				for(int i=0;i<catObj.get(position).getChildren().get(groupPosition).getChildren().size();i++)
-				{
-					if(catObj.get(position).getChildren().get(groupPosition).getChildren().get(i).getChildren().size()>0)
-					{
-						expandStatus=true;
-						break;
+					boolean expandStatus = false;
+					second_level = catObj.get(position).getChildren().get(groupPosition).getCategory();
+					MySharedPrefs.INSTANCE.putBradecrum(first_level + ">>" + second_level);
+					for (int i = 0; i < catObj.get(position).getChildren().get(groupPosition).getChildren().size(); i++) {
+						if (catObj.get(position).getChildren().get(groupPosition).getChildren().get(i).getChildren().size() > 0) {
+							expandStatus = true;
+							break;
+						}
 					}
-				}
-				if(expandStatus==false)
-				{
-					group_click=1;
-					
-					for(int i=0;i<expandableListView.getExpandableListAdapter().getGroupCount();i++)
-				    {
-				       expandableListView.collapseGroup(i);
-				    }
-					
-					Intent call = new Intent(HomeScreen.this, CategoryTabs.class);
-					Bundle call_bundle = new Bundle();
-					ArrayList<CategorySubcategoryBean> list=catObj.get(position).getChildren().get(groupPosition).getChildren();
-					
-					if(list.size() > 0){
-						if(!list.get(0).getCategory().equals("All"))
-						{
-							CategorySubcategoryBean carBean=new CategorySubcategoryBean();
+					if (expandStatus == false) {
+						group_click = 1;
+
+						for (int i = 0; i < expandableListView.getExpandableListAdapter().getGroupCount(); i++) {
+							expandableListView.collapseGroup(i);
+						}
+
+						Intent call = new Intent(HomeScreen.this, CategoryTabs.class);
+						Bundle call_bundle = new Bundle();
+						ArrayList<CategorySubcategoryBean> list = catObj.get(position).getChildren().get(groupPosition).getChildren();
+
+						if (list.size() > 0) {
+							if (!list.get(0).getCategory().equals("All")) {
+								CategorySubcategoryBean carBean = new CategorySubcategoryBean();
+								carBean.setCategory("All");
+								carBean.setCategoryId(catObj.get(position).getChildren().get(groupPosition).getCategoryId());
+								list.add(0, carBean);
+							}
+						} else {
+							CategorySubcategoryBean carBean = new CategorySubcategoryBean();
 							carBean.setCategory("All");
 							carBean.setCategoryId(catObj.get(position).getChildren().get(groupPosition).getCategoryId());
-							list.add(0,carBean);
+							list.add(carBean);
 						}
-					}else{
-						CategorySubcategoryBean carBean=new CategorySubcategoryBean();
-						carBean.setCategory("All");
-						carBean.setCategoryId(catObj.get(position).getChildren().get(groupPosition).getCategoryId());
-						list.add(carBean);
-					}
-					call_bundle.putSerializable("Categories", list);
-					call_bundle.putSerializable("Header", catObj.get(position).getChildren().get(groupPosition).getBreadcrumb());
-					call.putExtras(call_bundle);
-					startActivity(call);
-					return true;
-				}
-				else
-				{
+						call_bundle.putSerializable("Categories", list);
+						call_bundle.putSerializable("Header", catObj.get(position).getChildren().get(groupPosition).getBreadcrumb());
+						call.putExtras(call_bundle);
+						startActivity(call);
+						return true;
+					} else {
 					/* if (expandableListView.isGroupExpanded(groupPosition)) {
 						 expandableListView.collapseGroupWithAnimation(groupPosition);
 		                } else {
 		                	expandableListView.expandGroupWithAnimation(groupPosition);
 		                }*/
+						//expandableListView.expandGroupWithAnimation(groupPosition);
+						return false;
+					}
 					//expandableListView.expandGroupWithAnimation(groupPosition);
-					return false;
-				}
-				//expandableListView.expandGroupWithAnimation(groupPosition);
 				}
 				return true;
 			}
@@ -365,20 +356,22 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 	 }
 	
 	private int getImageResource(String name){
-		name = name.replaceAll(" ", "_");
-		name = name.replaceAll("-", "_");
-		name = name.toLowerCase();
-		if (name.contains("fruits")) {
-			name = "fruits";
-		}else if (name.contains("dairy")) {
-			name = "dairy";
-		}
-
 		int resId = 0;
-		resId = getResources().getIdentifier("cat_"+name, "drawable", HomeScreen.this.getApplicationInfo().packageName);
-		if (resId == 0) {
-			resId = getResources().getIdentifier("cat_staples", "drawable", HomeScreen.this.getApplicationInfo().packageName);
-		}
+		try {
+			name = name.replaceAll(" ", "_");
+			name = name.replaceAll("-", "_");
+			name = name.toLowerCase();
+			if (name.contains("fruits")) {
+				name = "fruits";
+			} else if (name.contains("dairy")) {
+				name = "dairy";
+			}
+
+			resId = getResources().getIdentifier("cat_" + name, "drawable", HomeScreen.this.getApplicationInfo().packageName);
+			if (resId == 0) {
+				resId = getResources().getIdentifier("cat_staples", "drawable", HomeScreen.this.getApplicationInfo().packageName);
+			}
+		}catch(Exception e){}
 		return resId;
 	}
 
@@ -388,10 +381,9 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 			
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-			if(android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT){
+			if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
 				if(!keyboardVisibility)
 				imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
-
 			}else{
 				if(keyboardVisibility)
 					imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
@@ -404,9 +396,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 					expandableListView.collapseGroup(i);
 				}
 			}
-			
 			tvSelctionCat.setTextColor(getResources().getColor(R.color.white));         //unselected text color bluish for previously selected in main category
-
 			catSelectedLL[position].setVisibility(View.INVISIBLE);                     //unselected previous main category selected
 //			linearMainCat[position].setBackgroundColor(getResources().getColor(R.color.main_cat_unselected));    //selected background set blue in main category
 			position = (Integer) view.getTag();

@@ -141,6 +141,12 @@ public class ExpandableListAdapter extends AnimatedExpandableListAdapter{
 //		cat_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(con),R.style.CategoryParentView);
 		cat_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(con));
 
+		if(catObj.get(groupPosition).getIsActive().equals("0")){
+			v.setVisibility(View.GONE);                           //disable for e.g. Dry Fruits Deleted
+		}else{
+			v.setVisibility(View.VISIBLE);
+		}
+
 		cat_name.setText(catObj.get(groupPosition).getCategory());
 		
 		return v;

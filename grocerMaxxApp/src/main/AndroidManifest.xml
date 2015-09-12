@@ -363,7 +363,10 @@
             </intent-filter>
         </service>
 
-
+        <activity
+            android:name=".OneTimePassword"
+            android:label="@string/title_activity_one_time_password" >
+        </activity>
     </application>
 
 </manifest>

@@ -42,6 +42,7 @@ import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.bean.CartDetail;
 import com.sakshay.grocermax.bean.CartDetailBean;
 import com.sakshay.grocermax.bean.LoginResponse;
+import com.sakshay.grocermax.bean.OTPResponse;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
@@ -81,7 +82,8 @@ public class Registration extends BaseActivity implements
 	private boolean mIntentInProgress;
 	public static GoogleApiClient mGoogleApiClient;
 
-
+	String params;               //used when navigate to OTP screen
+	String strEmail;            //used when navigate to OTP screen
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -114,9 +116,10 @@ public class Registration extends BaseActivity implements
 			//tvHeaderRegister.setTypeface(CustomFonts.getInstance().getRobotoBlack(this));
 			addActionsInFilter(MyReceiverActions.REGISTER_USER);
 			addActionsInFilter(MyReceiverActions.ADD_TO_CART);
-
 			addActionsInFilter(MyReceiverActions.LOGIN);
 			addActionsInFilter(MyReceiverActions.VIEW_CART_GO_HOME_SCREEN);
+			addActionsInFilter(MyReceiverActions.OTP);
+
 			//TODO abhi, now that lots of views are gone please rewire registration screen
 			displayRegistrationView();
 		}
@@ -391,16 +394,20 @@ public class Registration extends BaseActivity implements
 					}
 					if (UtilityMethods.isInternetAvailable(mContext)) {
 						showDialog();
-						String url = UrlsConstants.REGESTRATION_URL;
+//						String url = UrlsConstants.REGESTRATION_URL;
+						String url = UrlsConstants.REGESTRATION_URL_OTP;
 
+						strEmail = _email_id;
 						//String params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password;
-						String params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password;
+						params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password;
 						if (MySharedPrefs.INSTANCE.getQuoteId() == null || MySharedPrefs.INSTANCE.getQuoteId().equals(""))
 							params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password + "&quote_id=no";
 						else
 							params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
 						url += params;
-						myApi.reqUserRegistration(url);
+//						myApi.reqUserRegistration(url);
+						myApi.reqUserRegistrationOTP(url);
+
 					
 
 /*HashMap<String, String> map = new HashMap<String, String>();
@@ -507,65 +514,85 @@ public class Registration extends BaseActivity implements
 					UtilityMethods.customToast(ToastConstant.LOGIN_FAIL, mContext);
 				}
 			}
+		else if (bundle.getString("ACTION").equals(MyReceiverActions.OTP)) {
+				dismissDialog();
+				OTPResponse otpDataBean = (OTPResponse) bundle.getSerializable(ConnectionService.RESPONSE);
+				if(otpDataBean.getFlag().equals("1")) {
+					Intent intent = new Intent(this, OneTimePassword.class);
+					Bundle call_bundle = new Bundle();
+					call_bundle.putSerializable("Otp", otpDataBean);
+					call_bundle.putString("USER_REGISTER_DATA", params);
+					call_bundle.putString("USER_EMAIL", strEmail);
+					intent.putExtras(call_bundle);
+//					startActivity(intent);
+					startActivityForResult(intent, 123);
+				}else{
+					UtilityMethods.customToast(otpDataBean.getResult(), mContext);
+				}
+			}
 		else if (bundle.getString("ACTION").equals(MyReceiverActions.REGISTER_USER)) {
 			LoginResponse userDataBean= (LoginResponse) bundle.getSerializable(ConnectionService.RESPONSE);
-			if (userDataBean.getFlag().equalsIgnoreCase("1")) {
-				UtilityMethods.customToast(ToastConstant.REGISTER_SUCCESSFULL, mContext);
-				//finish();
-				MySharedPrefs.INSTANCE.putUserId(userDataBean.getUserID());
-				if(MySharedPrefs.INSTANCE.getFacebookEmail()==null)
-				MySharedPrefs.INSTANCE.putUserEmail(((EditText)findViewById(R.id.et_register_email)).getText().toString().trim());
-				else
-				MySharedPrefs.INSTANCE.putUserEmail(MySharedPrefs.INSTANCE.getFacebookEmail());	
-				MySharedPrefs.INSTANCE.putLoginStatus(true);
-				
-				
-				ArrayList<CartDetail> cart_products = UtilityMethods.readLocalCart(Registration.this, AppConstants.localCartFile);
-				if(cart_products != null && cart_products.size() >= 0)
-				{
-					try
-					{
-						JSONArray products = new JSONArray();
-						for(int i=0; i<cart_products.size(); i++)
-						{
-							JSONObject prod_obj = new JSONObject();
-							prod_obj.put("productid", cart_products.get(i).getItem_id());
-							prod_obj.put("quantity",cart_products.get(i).getQty());
-							products.put(prod_obj);
-						}
-						showDialog();
-						String url;
-						if(MySharedPrefs.INSTANCE.getQuoteId()==null||MySharedPrefs.INSTANCE.getQuoteId().equals(""))
-						{
-							System.out.println("without quote json="+products.toString());
-							url = UrlsConstants.ADD_TO_CART_URL
-									+ userDataBean.getUserID() +"&products="
-									+ URLEncoder.encode(products.toString(), "UTF-8");
-						}
-						else
-						{
-							System.out.println("with quote json="+products.toString());
-							url = UrlsConstants.ADD_TO_CART_URL
-									+ userDataBean.getUserID() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
-									+ URLEncoder.encode(products.toString(), "UTF-8");
-						}
-						//String url = UrlsConstants.ADD_TO_CART_URL + userDataBean.getUserID() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+ "&products="+ URLEncoder.encode(products.toString(), "UTF-8");
-						myApi.reqAddToCart(url);
-					}
-					catch(Exception e)
-					{
-						e.printStackTrace();
-					}
-				}
-				else
-				{
-					setResult(RESULT_OK);
-					finish();
-				}
-			}
-			else{
-				UtilityMethods.customToast( userDataBean.getResult(), mContext);
-			}
+
+			LoginResponse userDataBean1= (LoginResponse) bundle.getSerializable(ConnectionService.RESPONSE);
+
+
+//			if (userDataBean.getFlag().equalsIgnoreCase("1")) {
+//				UtilityMethods.customToast(ToastConstant.REGISTER_SUCCESSFULL, mContext);
+//				//finish();
+//				MySharedPrefs.INSTANCE.putUserId(userDataBean.getUserID());
+//				if(MySharedPrefs.INSTANCE.getFacebookEmail()==null)
+//				MySharedPrefs.INSTANCE.putUserEmail(((EditText)findViewById(R.id.et_register_email)).getText().toString().trim());
+//				else
+//				MySharedPrefs.INSTANCE.putUserEmail(MySharedPrefs.INSTANCE.getFacebookEmail());
+//				MySharedPrefs.INSTANCE.putLoginStatus(true);
+//
+//
+//				ArrayList<CartDetail> cart_products = UtilityMethods.readLocalCart(Registration.this, AppConstants.localCartFile);
+//				if(cart_products != null && cart_products.size() >= 0)
+//				{
+//					try
+//					{
+//						JSONArray products = new JSONArray();
+//						for(int i=0; i<cart_products.size(); i++)
+//						{
+//							JSONObject prod_obj = new JSONObject();
+//							prod_obj.put("productid", cart_products.get(i).getItem_id());
+//							prod_obj.put("quantity",cart_products.get(i).getQty());
+//							products.put(prod_obj);
+//						}
+//						showDialog();
+//						String url;
+//						if(MySharedPrefs.INSTANCE.getQuoteId()==null||MySharedPrefs.INSTANCE.getQuoteId().equals(""))
+//						{
+//							System.out.println("without quote json="+products.toString());
+//							url = UrlsConstants.ADD_TO_CART_URL
+//									+ userDataBean.getUserID() +"&products="
+//									+ URLEncoder.encode(products.toString(), "UTF-8");
+//						}
+//						else
+//						{
+//							System.out.println("with quote json="+products.toString());
+//							url = UrlsConstants.ADD_TO_CART_URL
+//									+ userDataBean.getUserID() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
+//									+ URLEncoder.encode(products.toString(), "UTF-8");
+//						}
+//						//String url = UrlsConstants.ADD_TO_CART_URL + userDataBean.getUserID() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+ "&products="+ URLEncoder.encode(products.toString(), "UTF-8");
+//						myApi.reqAddToCart(url);
+//					}
+//					catch(Exception e)
+//					{
+//						e.printStackTrace();
+//					}
+//				}
+//				else
+//				{
+//					setResult(RESULT_OK);
+//					finish();
+//				}
+//			}
+//			else{
+//				UtilityMethods.customToast( userDataBean.getResult(), mContext);
+//			}
 		}else if (bundle.getString("ACTION").equals(MyReceiverActions.FORGOT_PWD)) {
 			BaseResponseBean userDataBean= (BaseResponseBean) bundle.getSerializable(ConnectionService.RESPONSE);
 			if (userDataBean.getFlag().equalsIgnoreCase("1")) {
@@ -736,9 +763,10 @@ public class Registration extends BaseActivity implements
 					new GrocermaxBaseException("Registeration","onActivityResult",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 				}
 		}
-		if(requestCode==111)
+		if(requestCode==123)                  //uses when coming from OneTimePassword screen after to register successfully this will finish and go back to loginactivity and loginactivity also uses same funct
 		{
 			if(resultCode==RESULT_OK)
+				setResult(RESULT_OK);
 				finish();
 		}
 
