@@ -231,9 +231,9 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 //			SearchTabs.getInstance().finish();
 //		}
 
-		if (UtilityMethods.getCurrentClassName(context).equals(context.getPackageName() + ".SearchTabs")) {
-			((SearchTabs)context).finish();
-		}
+//		if (UtilityMethods.getCurrentClassName(context).equals(context.getPackageName() + ".SearchTabs")) {
+//			((SearchTabs)context).finish();
+//		}
 
     	Intent call = new Intent(context, SearchTabs.class);
 		call.putExtra("SEARCHSTRING", searchKey);

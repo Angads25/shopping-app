@@ -60,6 +60,9 @@ import com.sakshay.grocermax.utils.UtilityMethods;
 public class Registration extends BaseActivity implements
 		GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 	String SCREEN_NAME = "Registration";
+	public static boolean fbORgoogle = false;              //uses b/c putUserDataSet sets true when login with FB or GOOGLE but when uses after to get response from LOGIN in onResponse() returns false always.
+	public static String facebookName = null;
+	public static String googleName = null;
 //	ForgotPasswordTask forgotPasswordTask = null;
 //	RegistrationTask registrationTask = null;
 	boolean clickMale = false;
@@ -408,6 +411,7 @@ public class Registration extends BaseActivity implements
 //						myApi.reqUserRegistration(url);
 						myApi.reqUserRegistrationOTP(url);
 
+						MySharedPrefs.INSTANCE.putMobileNo(_mobile_no);                           //14/09/15
 					
 
 /*HashMap<String, String> map = new HashMap<String, String>();
@@ -442,9 +446,17 @@ public class Registration extends BaseActivity implements
 				LoginResponse userDataBean = (LoginResponse) bundle.getSerializable(ConnectionService.RESPONSE);
 
 				if (userDataBean.getFlag().equalsIgnoreCase("1")) {          //successful login
+
 					MySharedPrefs.INSTANCE.putUserId(userDataBean.getUserID());
-					MySharedPrefs.INSTANCE.putFirstName(userDataBean.getFirstName());
-					MySharedPrefs.INSTANCE.putLastName(userDataBean.getLastName());
+//					if(MySharedPrefs.INSTANCE.isUserDataSet()){                        //when login through FACEBOOK and GOOGLE.
+					if(fbORgoogle){                                                    //when login through FACEBOOK and GOOGLE.
+                               //already saved name during to call saveUserData()
+					}else{                                                             //Simple login
+						MySharedPrefs.INSTANCE.putFirstName(userDataBean.getFirstName());
+						MySharedPrefs.INSTANCE.putLastName(userDataBean.getLastName());
+
+					}
+
 					MySharedPrefs.INSTANCE.putMobileNo(userDataBean.getMobile());
 
 					BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon);  //login icon
@@ -852,7 +864,6 @@ public class Registration extends BaseActivity implements
 		String USER_MNAME = "";
 		String USER_LNAME = "";
 
-
 		String USER_NAME = "";
 
 		USER_FNAME = user.getFirstName();
@@ -873,6 +884,8 @@ public class Registration extends BaseActivity implements
 		if (USER_LNAME != null && USER_LNAME.length() > 0)
 			USER_NAME = USER_NAME + " " + USER_LNAME;
 
+		facebookName = USER_NAME;
+
 		if (USER_NAME != null && USER_NAME.length() > 0)
 			MySharedPrefs.INSTANCE.putFacebookName(USER_FNAME);
 
@@ -883,6 +896,7 @@ public class Registration extends BaseActivity implements
 			MySharedPrefs.INSTANCE.putFacebookEmail(USER_EMAIL);
 
 		MySharedPrefs.INSTANCE.putUserDataSet(true);
+		fbORgoogle = true;
 
 		if (UtilityMethods.isInternetAvailable(mContext)) {
 			showDialog();
@@ -894,10 +908,25 @@ public class Registration extends BaseActivity implements
 				QUOTE_ID_AFTER_FB=MySharedPrefs.INSTANCE.getQuoteId();
 				url = UrlsConstants.FB_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getFacebookEmail() + "&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&fname=" + USER_FNAME+"&lname="+USER_LNAME+"&number=0000000000";
 			}
-
 			myApi.reqLogin(url);
 
-		} else {
+//			if (UtilityMethods.isInternetAvailable(mContext)) {
+//				showDialog();
+////						String url = UrlsConstants.REGESTRATION_URL;
+//				String url = UrlsConstants.REGESTRATION_URL_OTP;
+//				strEmail = USER_EMAIL;
+//				//String params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password;
+//				params = "fname=" + USER_FNAME + "&lname=" + USER_LNAME + "&uemail=" + USER_EMAIL + "&number=" + _mobile_no + "&password=" + _password;
+//				if (MySharedPrefs.INSTANCE.getQuoteId() == null || MySharedPrefs.INSTANCE.getQuoteId().equals(""))
+//					params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password + "&quote_id=no";
+//				else
+//					params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
+//				url += params;
+////						myApi.reqUserRegistration(url);
+//				myApi.reqUserRegistrationOTP(url);
+//				MySharedPrefs.INSTANCE.putMobileNo(_mobile_no);
+
+			} else {
 			UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
 		}
 	}
@@ -1184,12 +1213,8 @@ public class Registration extends BaseActivity implements
 //		String USER_FNAME = "";
 //		String USER_MNAME = "";
 //		String USER_LNAME = "";
-
 		USER_EMAIL = "";
 		String USER_NAME = "";
-
-
-
 		USER_NAME = currentPerson.getDisplayName();
 
 //		USER_FNAME = currentPerson.getName();
@@ -1213,6 +1238,8 @@ public class Registration extends BaseActivity implements
 		if (USER_NAME != null && USER_NAME.length() > 0)
 			MySharedPrefs.INSTANCE.putGoogleName(USER_NAME);
 
+		googleName = USER_NAME;
+
 		if (USER_ID != null && USER_ID.length() > 0)
 			MySharedPrefs.INSTANCE.putGoogleId(USER_ID);
 
@@ -1220,6 +1247,7 @@ public class Registration extends BaseActivity implements
 			MySharedPrefs.INSTANCE.putGoogleEmail(USER_EMAIL);
 
 		MySharedPrefs.INSTANCE.putUserDataSet(true);
+		fbORgoogle = true;
 
 		if (UtilityMethods.isInternetAvailable(mContext)) {
 			showDialog();

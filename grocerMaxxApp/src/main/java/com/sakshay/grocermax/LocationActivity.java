@@ -126,6 +126,11 @@ public class LocationActivity extends BaseActivity {
         public void onClick(View view) {
 
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if(android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+                keyboardVisibility = true;
+            }else{
+                keyboardVisibility = false;
+            }
 
             if(android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT){
                 if(!keyboardVisibility)
@@ -145,13 +150,9 @@ public class LocationActivity extends BaseActivity {
 //            }
 //            tvSelctionCat.setTextColor(getResources().getColor(R.color.white));         //unselected text color bluish for previously selected in main category
 //            catSelectedLL[position].setVisibility(View.INVISIBLE);                     //unselected previous main category selected
-
 //            tvSelctionLoc.setTextColor(getResources().getColor(R.color.white));
-
-
 //            ivSelectionLoc.setImageResource(R.drawable.unselect_location);
             ivLocation[position].setImageResource(R.drawable.unselect_location);
-
             position = (Integer) view.getTag();
 
 //            TextView tvSelectedLocation = (TextView) view.findViewById(R.id.tv_location);                           //get view of currently selected main category

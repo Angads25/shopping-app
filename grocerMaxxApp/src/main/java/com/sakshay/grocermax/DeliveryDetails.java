@@ -3,6 +3,7 @@ package com.sakshay.grocermax;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -585,6 +586,9 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
 
             initHeader(findViewById(R.id.app_bar_header), true, "Delivery Details");
             initFooter(findViewById(R.id.footer), 4, 3);
+            icon_header_search.setVisibility(View.GONE);
+            icon_header_cart.setVisibility(View.GONE);
+            cart_count_txt.setVisibility(View.GONE);
         }catch(Exception e){
             new GrocermaxBaseException("ChooseAddress","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
         }
@@ -628,40 +632,48 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
 
                 if(alAvailable.get(0).equalsIgnoreCase("0")){
                     tvFirstSlotFull.setText("SLOT FULL");
+                    tvFirstSlotFull.setVisibility(View.VISIBLE);
                     tvFirstSlotFull.setTextColor(getResources().getColor(R.color.primaryColor));
                     rlFirstTimeSlot.setEnabled(false);
                 }else{
                     tvFirstSlotFull.setText("");
+                    tvFirstSlotFull.setVisibility(View.INVISIBLE);
                     tvFirstSlotFull.setTextColor(getResources().getColor(R.color.white));
                     rlFirstTimeSlot.setEnabled(true);
                 }
 
                 if(alAvailable.get(1).equalsIgnoreCase("0")){
                     tvSecondSlotFull.setText("SLOT FULL");
+                    tvSecondSlotFull.setVisibility(View.VISIBLE);
                     tvSecondSlotFull.setTextColor(getResources().getColor(R.color.primaryColor));
                     rlSecondTimeSlot.setEnabled(false);
                 }else{
                     tvSecondSlotFull.setText("");
+                    tvSecondSlotFull.setVisibility(View.INVISIBLE);
                     tvSecondSlotFull.setTextColor(getResources().getColor(R.color.white));
                     rlSecondTimeSlot.setEnabled(true);
                 }
 
                 if(alAvailable.get(2).equalsIgnoreCase("0")){
                     tvThirdSlorFull.setText("SLOT FULL");
+                    tvThirdSlorFull.setVisibility(View.VISIBLE);
                     tvThirdSlorFull.setTextColor(getResources().getColor(R.color.primaryColor));
                     rlThirdTimeSlot.setEnabled(false);
                 }else{
                     tvThirdSlorFull.setText("");
+                    tvThirdSlorFull.setVisibility(View.INVISIBLE);
                     tvThirdSlorFull.setTextColor(getResources().getColor(R.color.white));
                     rlThirdTimeSlot.setEnabled(true);
                 }
 
                 if(alAvailable.get(3).equalsIgnoreCase("0")){
                     tvFourthSlotFull.setText("SLOT FULL");
+                    tvFourthSlotFull.setVisibility(View.VISIBLE);
                     tvFourthSlotFull.setTextColor(getResources().getColor(R.color.primaryColor));
                     rlFourthTimeSlot.setEnabled(false);
                 }else{
                     tvFourthSlotFull.setText("");
+                    tvFourthSlotFull.setVisibility(View.INVISIBLE);
                     tvFourthSlotFull.setTextColor(getResources().getColor(R.color.white));
                     rlFourthTimeSlot.setEnabled(true);
                 }

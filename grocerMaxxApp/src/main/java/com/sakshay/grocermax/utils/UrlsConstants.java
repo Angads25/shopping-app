@@ -12,7 +12,8 @@ public class UrlsConstants {
 	// public final static String BASE_URL =
 	// "http://54.174.241.173/webservice/";	
 
-	public static final String imagePic = "http://3.bp.blogspot.com/-NBE-2uL3Vjo/UnjtecEkx0I/AAAAAAAAJTU/20EvZblLCLQ/s640/1831359.jpg";
+//	public static final String imagePic = "http://3.bp.blogspot.com/-NBE-2uL3Vjo/UnjtecEkx0I/AAAAAAAAJTU/20EvZblLCLQ/s640/1831359.jpg";
+	public static final String imagePic = "https://i.vimeocdn.com/portrait/1049808_300x300.jpg";
 	
 	// uat url
 //	public final static String BASE_URL = "http://uat.grocermax.com/webservice/";

@@ -24,9 +24,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.sakshay.grocermax.GCM.GCMClientManager;
 import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
 import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
@@ -35,6 +37,7 @@ import com.sakshay.grocermax.bean.LocationDetail;
 import com.sakshay.grocermax.bean.LocationListBean;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
+import com.sakshay.grocermax.utils.Constants;
 import com.sakshay.grocermax.utils.Constants.ToastConstant;
 import com.sakshay.grocermax.utils.UrlsConstants;
 import com.sakshay.grocermax.utils.UtilityMethods;
@@ -48,6 +51,9 @@ public class SplashScreen extends BaseActivity
 	private TextView txvMessage;
 	EasyTracker tracker;
 	private Button btnGoShoping;
+
+	private GCMClientManager pushClientManager;
+	private String DeviceRegistrationId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -153,6 +159,7 @@ public class SplashScreen extends BaseActivity
 			intent = new Intent(SplashScreen.this, HomeScreen.class);
 			startActivity(intent);
 			finish();*/
+//			registerGCM();
 		}
 	};
 
@@ -168,8 +175,10 @@ public class SplashScreen extends BaseActivity
 				call_bundle.putSerializable("Location", locationBean);
 				call.putExtras(call_bundle);
 				startActivity(call);
-				finish();
+				registerGCM();
+					finish();
 			}else{
+				registerGCM();
 				UtilityMethods.customToast(AppConstants.ToastConstant.DATA_NOT_FOUND, mContext);
 			}
 
@@ -213,9 +222,28 @@ public class SplashScreen extends BaseActivity
 	    	FlurryAgent.onEndSession(this);
     	}catch(Exception e){}
     }
-	
-	
-	
-	
-	
-}
+
+	public void registerGCM() {
+		pushClientManager = new GCMClientManager(this, Constants.GCM_SENDER_KEY);
+		pushClientManager.registerIfNeeded(new GCMClientManager.RegistrationCompletedHandler() {
+			@Override
+			public void onSuccess(String registrationId,
+								  boolean isNewRegistration) {
+				DeviceRegistrationId = registrationId;
+//				new PreferenceHelper(HoverSplashActivity.this)
+//						.putDeviceToken(registrationId);,
+//				Toast.makeText(SplashScreen.this,"RegistrationScreen"+DeviceRegistrationId,Toast.LENGTH_LONG).show();
+			}
+
+			@Override
+			public void onFailure(String ex) {
+				super.onFailure(ex);
+				//Show Toast here.
+			}
+		});
+
+	}
+
+
+
+	}

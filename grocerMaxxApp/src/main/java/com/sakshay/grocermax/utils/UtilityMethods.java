@@ -390,9 +390,16 @@ public class UtilityMethods {
 					String str = list.get(i).getNoDiscount();
 					String str1 = prod.getNoDiscount();
 					if (list.get(i).getItem_id().equals(prod.getItem_id())) {
-						if (list.get(i).getNoDiscount().equals("1")) {          //not offer                            [0 - means offer AND 1 - means not offer]
-							flagPos = i;
-							break;
+						if(list.get(i).getNoDiscount() != null){
+							if (list.get(i).getNoDiscount().equals("1")) {          //not offer                            [0 - means offer AND 1 - means not offer]
+								flagPos = i;
+								break;
+							}
+						}else {
+//							if (list.get(i).getNoDiscount().equals("1")) {          //not offer                            [0 - means offer AND 1 - means not offer]
+								flagPos = i;
+								break;
+//							}
 						}
 					}
 

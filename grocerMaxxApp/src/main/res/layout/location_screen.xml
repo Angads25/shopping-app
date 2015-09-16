@@ -142,7 +142,7 @@
             android:background="@drawable/edit_profile_border"
             android:gravity="center_horizontal"
             android:padding="14dp"
-            android:text="SAVE"
+            android:text="CONTINUE SHOPPING"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_16" />
 

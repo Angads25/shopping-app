@@ -55,6 +55,7 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -107,6 +108,7 @@ public abstract class BaseActivity extends FragmentActivity {
 
 	private String search_key;
 	public static boolean keyboardVisibility=false;
+	EasyTracker tracker;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -432,6 +434,9 @@ public abstract class BaseActivity extends FragmentActivity {
 				}
 				if (UtilityMethods.getCurrentClassName(BaseActivity.this).equals(getApplicationContext().getPackageName() + ".CartProductList")){
 					finish();
+				}
+				if (UtilityMethods.getCurrentClassName(this).equals(getPackageName() + ".SearchTabs")) {
+					((SearchTabs)this).finish();
 				}
 				showDialog();
 

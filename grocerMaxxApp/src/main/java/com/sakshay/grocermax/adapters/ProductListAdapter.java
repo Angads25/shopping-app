@@ -137,7 +137,6 @@ public class ProductListAdapter extends BaseAdapter {
 		holder.prod_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 		holder.prod_gram_or_ml.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 
-
 		if(!obj.getName().equals("No product found for this category"))
 		{
 			holder.prod_name.setText(obj.getName());

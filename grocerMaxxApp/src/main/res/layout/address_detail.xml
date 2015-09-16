@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Name"
+                android:text=""
                 android:textColor="@color/light_Gray"
                 android:layout_toLeftOf="@+id/editaddress"
                 android:layout_alignParentLeft="true"
@@ -45,16 +45,26 @@
                 android:src="@drawable/edit_address"
                 android:visibility="gone"/>
 
+            <LinearLayout
+                android:id="@+id/ll_delete_address"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:layout_alignParentRight="true">
+
             <ImageView
                 android:id="@+id/deleteAddress"
-                android:layout_width="15dp"
-                android:layout_height="20dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_alignParentRight="true"
                 android:src="@drawable/delete_icon"
                 android:layout_centerVertical="true"
                 android:visibility="visible"/>
+
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/iv_cb_checkout"
@@ -183,8 +193,9 @@
                 android:id="@+id/address1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Gurgaon"
+                android:text=""
                 android:textColor="@color/pallete_black"
+                android:layout_marginRight="30dp"
                 android:textSize="@dimen/text_size_14" />
 
             <TextView
@@ -192,6 +203,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="India"
+                android:visibility="gone"
                 android:textColor="@color/pallete_black"
                 android:textSize="@dimen/text_size_14" />
 
@@ -200,6 +212,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="100064"
+                android:visibility="gone"
                 android:textColor="@color/pallete_black"
                 android:textSize="@dimen/text_size_14" />
 
@@ -208,6 +221,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="100064"
+                android:visibility="gone"
                 android:textColor="@color/pallete_black"
                 android:textSize="@dimen/text_size_14" />
 
@@ -216,6 +230,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="100064"
+                android:visibility="gone"
                 android:textColor="@color/pallete_black"
                 android:textSize="@dimen/text_size_14" />
         </LinearLayout>

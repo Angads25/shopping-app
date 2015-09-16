@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -351,6 +352,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 		if (USER_LNAME != null && USER_LNAME.length() > 0)
 			USER_NAME = USER_NAME + " " + USER_LNAME;
 
+		Registration.facebookName = USER_NAME;
+
 		if (USER_NAME != null && USER_NAME.length() > 0)
 			MySharedPrefs.INSTANCE.putFacebookName(USER_FNAME);
 
@@ -361,6 +364,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 			MySharedPrefs.INSTANCE.putFacebookEmail(USER_EMAIL);
 
 		MySharedPrefs.INSTANCE.putUserDataSet(true);
+		Registration.fbORgoogle = true;
 		
 		if (UtilityMethods.isInternetAvailable(mContext)) {
 			showDialog();
@@ -417,6 +421,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 		if(requestCode==111)
 		{
 			if(resultCode==RESULT_OK)
+				setResult(RESULT_OK);
 				finish();
 		}
 		
@@ -567,6 +572,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 							}
 							//String url = UrlsConstants.ADD_TO_CART_URL + userDataBean.getUserID() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+ "&products="+ URLEncoder.encode(products.toString(), "UTF-8");
 							myApi.reqAddToCart(url);
+//								finishAffinity();
+
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -587,8 +594,10 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 //							myApi.reqViewCartGoHomeScreen(url);
 //						}
 //					}else{                                   //if user has no total item that mean he will redirect to home screen or product listing or product description screen.
-						setResult(RESULT_OK);
-						finish();
+
+
+							setResult(RESULT_OK);
+							finish();
 //					}
 					}
 
@@ -842,7 +851,10 @@ implements ConnectionCallbacks, OnConnectionFailedListener
                 
                 String personName = currentPerson.getDisplayName();
                 String personPhotoUrl = currentPerson.getImage().getUrl();
-                String email = Plus.AccountApi.getAccountName(mGoogleApiClient);                
+                String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
+
+
+
 //                UtilityMethods.customToast(personName+email, this);
 //                UtilityMethods.customToast(personPhotoUrl, this);
                 
@@ -935,9 +947,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 		String USER_NAME = "";
 		
 		
-
 		USER_NAME = currentPerson.getDisplayName();
-		
+		Registration.googleName = USER_NAME;
 //		USER_FNAME = currentPerson.getName();
 //		USER_MNAME = user.getMiddleName();
 //		USER_LNAME = user.getLastName();
@@ -966,6 +977,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 			MySharedPrefs.INSTANCE.putGoogleEmail(USER_EMAIL);
 
 		MySharedPrefs.INSTANCE.putUserDataSet(true);
+		Registration.fbORgoogle = true;
 		
 		if (UtilityMethods.isInternetAvailable(mContext)) {
 			showDialog();

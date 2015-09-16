@@ -206,6 +206,7 @@
                     android:background="@color/white"
                     android:orientation="vertical"
                     android:visibility="gone"
+                    android:weightSum="3"
                     android:padding="8dp">
 
                     <RelativeLayout
@@ -213,13 +214,7 @@
                         android:layout_height="wrap_content"
                         android:visibility="visible">
 
-                        //TODO wha?
-                        <TextView
-                            android:id="@+id/left_line_old_pwd"
-                            android:layout_width="1dp"
-                            android:layout_height="5dp"
-                            android:layout_marginTop="38dp"
-                            android:background="@color/register_address_line_color" />
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -238,14 +233,17 @@
                                 android:id="@+id/old_password"
                                 android:layout_width="match_parent"
                                 android:layout_height="35dp"
-                                android:layout_weight="1"
                                 android:background="@null"
                                 android:hint="******"
                                 android:password="true"
                                 android:singleLine="true"
-
                                 android:textColorHint="@color/register_address_text_unselected_color"
-                                android:textSize="@dimen/text_size_14" />
+                                android:textSize="@dimen/text_size_15" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/register_address_text_unselected_color"></View>
 
                         </LinearLayout>
 
@@ -254,6 +252,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginTop="42dp"
+                            android:visibility="gone"
                             android:layout_toRightOf="@+id/tv"
                             android:background="@color/register_address_line_color" />
 
@@ -262,6 +261,7 @@
                             android:layout_width="1dp"
                             android:layout_height="5dp"
                             android:layout_alignParentRight="true"
+                            android:visibility="gone"
                             android:layout_marginTop="38dp"
                             android:background="@color/register_address_line_color" />
 
@@ -277,6 +277,7 @@
                             android:layout_width="1dp"
                             android:layout_height="5dp"
                             android:layout_marginTop="38dp"
+                            android:visibility="gone"
                             android:background="@color/register_address_line_color" />
 
                         <LinearLayout
@@ -296,11 +297,17 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="35dp"
                                 android:background="@null"
-                                android:hint="Should be 8 characters long"
+                                android:hint="Should be 6 characters long"
+                                android:layout_weight="1"
                                 android:password="true"
                                 android:singleLine="true"
                                 android:textColorHint="@color/register_address_text_unselected_color"
                                 android:textSize="@dimen/text_size_14" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/register_address_text_unselected_color"></View>
 
                         </LinearLayout>
 
@@ -309,6 +316,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginTop="42dp"
+                            android:visibility="gone"
                             android:layout_toRightOf="@+id/tv"
                             android:background="@color/register_address_line_color" />
 
@@ -317,6 +325,7 @@
                             android:layout_width="1dp"
                             android:layout_height="5dp"
                             android:layout_alignParentRight="true"
+                            android:visibility="gone"
                             android:layout_marginTop="38dp"
                             android:background="@color/register_address_line_color" />
 
@@ -332,6 +341,7 @@
                             android:layout_width="1dp"
                             android:layout_height="5dp"
                             android:layout_marginTop="38dp"
+                            android:visibility="gone"
                             android:background="@color/register_address_line_color" />
 
                         <LinearLayout
@@ -352,10 +362,16 @@
                                 android:layout_height="35dp"
                                 android:background="@null"
                                 android:hint="required"
+                                android:layout_weight="1"
                                 android:password="true"
                                 android:singleLine="true"
                                 android:textColorHint="@color/register_address_text_unselected_color"
                                 android:textSize="@dimen/text_size_14" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/register_address_text_unselected_color"></View>
 
                         </LinearLayout>
 
@@ -364,6 +380,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginTop="42dp"
+                            android:visibility="gone"
                             android:layout_toRightOf="@+id/tv"
                             android:background="@color/register_address_line_color" />
 

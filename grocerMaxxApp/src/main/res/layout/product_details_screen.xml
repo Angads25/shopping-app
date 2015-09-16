@@ -393,7 +393,7 @@
                     </LinearLayout>
 
                     <Button
-                        android:id="@+id/add_cart_prod_list"
+                        android:id="@+id/add_cart"
                         android:layout_width="60dp"
                         android:layout_height="@dimen/plus_minus_buttons"
                         android:text="Add"

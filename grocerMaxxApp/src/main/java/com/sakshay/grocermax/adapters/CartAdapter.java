@@ -27,6 +27,7 @@ import com.sakshay.grocermax.UpdateCartbg;
 import com.sakshay.grocermax.bean.CartDetail;
 import com.sakshay.grocermax.bean.OrderReviewBean;
 import com.sakshay.grocermax.bean.OrderedProductList;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants;
@@ -41,23 +42,30 @@ public class CartAdapter extends BaseAdapter{
 	int positionIndex = 0;                       //delete and add product of clone cart after confirm deletion in CartProductList onResponse()
 	//ArrayList<CartDetail> cartBean;
 
-
-
 	public CartAdapter(Activity activity) {
-		((BaseActivity)activity).initImageLoaderM();
-		this.activity = activity;
+		try {
+			((BaseActivity) activity).initImageLoaderM();
+			this.activity = activity;
 
-		//this.cartBean = cartBean;
-		this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			//this.cartBean = cartBean;
+			this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		}catch(Exception e){
+			new GrocermaxBaseException("CartAdapter", "CartAdapter", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+		}
 	}
 
 	@Override
 	public int getCount() {
+		try{
 		if(CartProductList.cartList != null)
 			return CartProductList.cartList.size();
 		else {
 			return 0;
 		}
+		}catch(Exception e){
+			new GrocermaxBaseException("CartAdapter", "CartAdapter", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+		}
+		return 0;
 	}
 
 	@Override
@@ -73,6 +81,7 @@ public class CartAdapter extends BaseAdapter{
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
+		try{
 		final ViewHolder holder;
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.row_for_cart, parent, false);
@@ -248,9 +257,10 @@ public class CartAdapter extends BaseAdapter{
 //					if(cart_products.size() > 0 && CartProductList.cartList.size() > 0){
 
 					if(cart_products.get(position).getItem_id().equalsIgnoreCase(CartProductList.cartList.get(position).getItem_id())){  //manage clone cart when added or deleted to show update quantity on product listing and description
-//						cart_products.get(position).setQty(CartProductList.cartList.get(position).getQty());  //plus
 						cart_products.get(position).setQty(value1);  //plus
 					}
+
+
 //					}
 
 					CartProductList.cartList.get(position).setQty(value1);
@@ -313,10 +323,13 @@ public class CartAdapter extends BaseAdapter{
 					{
 						ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart(activity, Constants.localCloneFile);
 //						if(cart_products.size() > 0 && CartProductList.cartList.size() > 0){
+
+
 						if(cart_products.get(position).getItem_id().equalsIgnoreCase(CartProductList.cartList.get(position).getItem_id())){  //manage clone cart when added or deleted to show update quantity on product listing and description
-							//						cart_products.get(position).setQty(CartProductList.cartList.get(position).getQty());  //minus
 							cart_products.get(position).setQty(value1);  //minus
 						}
+
+
 //						}
 
 						CartProductList.cartList.get(position).setQty(value1);
@@ -382,12 +395,14 @@ public class CartAdapter extends BaseAdapter{
 				deleteLocal(v, position,holder);
 			}
 		});
+		}catch(Exception e){
+			new GrocermaxBaseException("CartAdapter", "getView", e.getMessage(), GrocermaxBaseException.EXCEPTION, String.valueOf(CartProductList.cartList.get(position)));
+		}
 
 		return convertView;
 	}
 
 	private class ViewHolder {
-
 		TextView prod_brand_name, quantity, price,tv_quantity;
 		TextView prod_name,prod_gmorml;
 		TextView prod_old_price;
@@ -405,12 +420,17 @@ public class CartAdapter extends BaseAdapter{
 
 	public void updateList(ArrayList<CartDetail> cartBean)
 	{
-		CartProductList.cartList = cartBean;
-		notifyDataSetChanged();
+		try {
+			CartProductList.cartList = cartBean;
+			notifyDataSetChanged();
+		}catch(Exception e){
+			new GrocermaxBaseException("CartAdapter", "updateList", e.getMessage(), GrocermaxBaseException.EXCEPTION, "no detail");
+		}
 	}
 
 	private void deleteLocal(View v,int position,ViewHolder holder)
 	{
+		try{
 		String userId = MySharedPrefs.INSTANCE.getUserId();
 		if(UtilityMethods.isInternetAvailable(activity)){
 			if(CartProductList.getInstance().place_order != null && CartProductList.getInstance().update_cart != null) {
@@ -433,6 +453,7 @@ public class CartAdapter extends BaseAdapter{
 			}
 
 			ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart(activity, Constants.localCloneFile);
+
 			if(cart_products.get(position).getItem_id().equalsIgnoreCase(CartProductList.cartList.get(position).getItem_id())){  //manage clone cart when added or deleted to show update quantity on product listing and description
 				UtilityMethods.deleteCloneCartItem(activity, cart_products.get(position).getItem_id());  //delete particular item from clone cart locally to update quantity on product listing and description
 			}
@@ -475,6 +496,9 @@ public class CartAdapter extends BaseAdapter{
 
 		}else{
 			UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, activity);
+		}
+		}catch(Exception e){
+			new GrocermaxBaseException("CartAdapter", "deleteLocal", e.getMessage(), GrocermaxBaseException.EXCEPTION, "no detail");
 		}
 	}
 

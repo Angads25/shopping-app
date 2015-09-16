@@ -515,8 +515,8 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
             shippingAdapter = new ShippingAdapter(ShippingAddress.this, addressList,bIsSelect);
             mList.setAdapter(shippingAdapter);
 
-            TextView tvAddNewAddress = (TextView) findViewById(R.id.add_new_address_shipping);
-            tvAddNewAddress.setOnClickListener(new View.OnClickListener() {
+            RelativeLayout rlAddNewAddress = (RelativeLayout) findViewById(R.id.rl_add_new_address);
+            rlAddNewAddress.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {                                                  //calling for adding new address.
@@ -712,6 +712,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                         orderReviewBean.setShipping(shipping_json_obj);
                         MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean);
 
+
                         Intent intent = new Intent(ShippingAddress.this, BillingAddress.class);
                         intent.putExtra("addressBean", address_obj);
                         startActivity(intent);
@@ -722,8 +723,12 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                 }
             });
 
-            initHeader(findViewById(R.id.app_bar_header), true, "Shipping Address");
+            initHeader(findViewById(R.id.app_bar_header), true, "Select Shipping Address");
             initFooter(findViewById(R.id.footer), 4, 3);
+            icon_header_search.setVisibility(View.GONE);
+            icon_header_cart.setVisibility(View.GONE);
+            cart_count_txt.setVisibility(View.GONE);
+
         }catch(Exception e){
             new GrocermaxBaseException("ShippingAddress"," btnSelectDeliveryDetails.setOnClickListener",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
         }
@@ -1431,7 +1436,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        initHeader(findViewById(R.id.app_bar_header), true, "Shipping Address");
+        initHeader(findViewById(R.id.app_bar_header), true, "Select Shipping Address");
     }
 
 

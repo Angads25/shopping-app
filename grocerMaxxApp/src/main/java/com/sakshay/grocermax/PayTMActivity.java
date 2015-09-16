@@ -77,10 +77,10 @@ public class PayTMActivity extends BaseActivity
 			paramMap.put("CHANNEL_ID", PAYTM_CHANNEL_ID);
 			paramMap.put("INDUSTRY_TYPE_ID", INDUSTRY_TYPE_ID);
 			paramMap.put("WEBSITE", WEBSITE);
-			paramMap.put("TXN_AMOUNT", "1");//amount
+			paramMap.put("TXN_AMOUNT", amount);//amount
 			paramMap.put("THEME", THEME);
 			paramMap.put("EMAIL", MySharedPrefs.INSTANCE.getUserEmail());
-			paramMap.put("MOBILE_NO", "9911500574");
+			paramMap.put("MOBILE_NO", MySharedPrefs.INSTANCE.getMobileNo());
 
 			PaytmOrder Order = new PaytmOrder(paramMap);
 

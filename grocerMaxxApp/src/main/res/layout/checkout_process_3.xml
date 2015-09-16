@@ -218,6 +218,7 @@
                         android:id="@+id/rl_mobikwik"
                         android:background="@color/white"
                         android:padding="8dp"
+                        android:visibility="gone"
                         android:layout_above="@+id/btn_select_delivery_details"
                         >
                         //TODO, replace this with imageView with mobikwik image

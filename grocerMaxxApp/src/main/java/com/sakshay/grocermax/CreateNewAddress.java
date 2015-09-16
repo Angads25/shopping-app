@@ -608,6 +608,9 @@ public class CreateNewAddress extends BaseActivity{
 			String countrycode = "IN";
 			String phone = edit_contact.getText().toString();
 
+//			house no ,location - addressline1
+//					address2 - landmark
+
 			String url_param = "fname=" + fname + "&lname=" + lname + "&addressline1=" + addressline1 + "&addressline2=" + "" + "&city=" + city + "&state=" + state + "&pin=" + pin + "&countrycode=" + countrycode + "&phone=" + phone;
 			url_param = url_param.replaceAll(" ", "%20");
 			showDialog();

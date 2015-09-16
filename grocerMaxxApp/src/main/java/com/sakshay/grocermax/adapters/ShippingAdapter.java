@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sakshay.grocermax.AddressDetail;
@@ -64,10 +66,12 @@ public class ShippingAdapter extends BaseAdapter{
 
 //			convertView.findViewById(R.id.layout_address_info).setBackgroundColor(mContext.getResources().getColor(R.color.grey_bg));
 
-            holder.edit_address = (TextView) convertView
-                    .findViewById(R.id.edit_address);
+            holder.edit_address = (RelativeLayout) convertView
+                    .findViewById(R.id.rl_editaddress);
             holder.ivCbCheckOut = (ImageView) convertView
                     .findViewById(R.id.iv_cb_checkout);
+            holder.llCbCheckout  = (LinearLayout) convertView
+                    .findViewById(R.id.ll_cb_checkout);
 
 
 //            holder.delete_address = (ImageView) convertView.findViewById(R.id.deleteAddress);
@@ -145,9 +149,9 @@ public class ShippingAdapter extends BaseAdapter{
         }else{
             holder.ivCbCheckOut.setImageResource(R.drawable.chkbox_unselected);
         }
-        holder.ivCbCheckOut.setTag(position);
+        holder.llCbCheckout.setTag(position);
 
-        holder.ivCbCheckOut.setOnClickListener(new View.OnClickListener() {
+        holder.llCbCheckout.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -173,8 +177,9 @@ public class ShippingAdapter extends BaseAdapter{
     private class ViewHolder {
         TextView profilename, address1, state, city, pincode, country;
 //        TextView name,phone;
-        TextView edit_address;
+        RelativeLayout edit_address;
         ImageView ivCbCheckOut;
+        LinearLayout llCbCheckout;
         //        ,delete_address;
         TextView txtHeader;
     }

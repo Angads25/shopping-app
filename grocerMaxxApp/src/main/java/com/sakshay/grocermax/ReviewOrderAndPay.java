@@ -71,7 +71,7 @@ public class ReviewOrderAndPay extends BaseActivity
 	String payment_mode;
 	float total;
 	Intent intent;
-	ProgressDialog mProgressDialog;
+//	ProgressDialog mProgressDialog;
 	String txnId;
 	TextView txtItemCount,txtSubTotal,txtShippingCharges,txtYouSaved,txtTotal,txtCouponDiscount;
 	TextView tvItemCount,tvSubTotal,tvShippingCharges,tvYouSaved,tvTotal,tvCouponDiscount;
@@ -88,7 +88,7 @@ public class ReviewOrderAndPay extends BaseActivity
 //		setContentView(R.layout.review_order_and_pay);
 //			setContentView(R.layout.delete);
 			setContentView(R.layout.checkout_process_3);
-			mProgressDialog = new ProgressDialog(ReviewOrderAndPay.this);
+//			mProgressDialog = new ProgressDialog(ReviewOrderAndPay.this);
 //		String str = MySharedPrefs.INSTANCE.getCouponApply();
 
 			addActionsInFilter(MyReceiverActions.FINAL_CHECKOUT);
@@ -593,20 +593,25 @@ public class ReviewOrderAndPay extends BaseActivity
 				@Override
 				public void onClick(View arg0) {
 					orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
-					total = Float.parseFloat(orderReviewBean.getGrandTotal()) + Float.parseFloat(orderReviewBean.getShipping_ammount())
-							+ Float.parseFloat(orderReviewBean.getDiscount_amount());
-//				if(!bCash && !bOnline && !bPayTM && !bMobiKwik){
-//					UtilityMethods.customToast(ToastConstant.SELECT_PAYMENT_MODE, mContext);
-//					return;
-//				}else
-					if(bPayTM){
-						payment_mode="payucheckout_shared";
-					}
+//					float str1 = Float.parseFloat(orderReviewBean.getGrandTotal());
+//					float str2 = Float.parseFloat(orderReviewBean.getShipping_ammount());
+//					float str3 = Float.parseFloat(orderReviewBean.getDiscount_amount());
+					total = Float.parseFloat(orderReviewBean.getGrandTotal());
+//					+ Float.parseFloat(orderReviewBean.getShipping_ammount())		+ Float.parseFloat(orderReviewBean.getDiscount_amount());
+				if(!bCash && !bOnline && !bPayTM ){             //!bMobiKwik
+					UtilityMethods.customToast(ToastConstant.SELECT_PAYMENT_MODE, mContext);
+					return;
+				}else
+
 //					if (!bCash && !bOnline) {
 //						UtilityMethods.customToast(ToastConstant.SELECT_PAYMENT_MODE, mContext);
 //						return;
 //					}
-					else if (bOnline) {
+
+
+					if(bPayTM){
+						payment_mode="paytm_cc";
+					}else if (bOnline) {
 						payment_mode = "payucheckout_shared";
 					} else if (bCash) {
 						payment_mode = "cashondelivery";
@@ -650,7 +655,12 @@ public class ReviewOrderAndPay extends BaseActivity
 		 * Float.parseFloat(tax.getText().toString());
 		 */
 
-		total = Float.parseFloat(orderReviewBean.getGrandTotal()) + Float.parseFloat(orderReviewBean.getShipping_ammount()) + Float.parseFloat(orderReviewBean.getDiscount_amount());
+//			float str1 = Float.parseFloat(orderReviewBean.getGrandTotal());
+//			float str2 = Float.parseFloat(orderReviewBean.getShipping_ammount());
+//			float str3 = Float.parseFloat(orderReviewBean.getDiscount_amount());
+
+		total = Float.parseFloat(orderReviewBean.getGrandTotal());
+//			+ Float.parseFloat(orderReviewBean.getShipping_ammount()) + Float.parseFloat(orderReviewBean.getDiscount_amount());
 
 
 //		tvSubTotal.setText("Rs. "+String.format("%.2f",Float.parseFloat(orderReviewBean.getGrandTotal())));
@@ -664,6 +674,9 @@ public class ReviewOrderAndPay extends BaseActivity
 
 			initHeader(findViewById(R.id.app_bar_header), true, "Payment Method");
 			initFooter(findViewById(R.id.footer), 4, 3);
+			icon_header_search.setVisibility(View.GONE);
+			icon_header_cart.setVisibility(View.GONE);
+			cart_count_txt.setVisibility(View.GONE);
 		}catch(Exception e){
 			new GrocermaxBaseException("ReviewOrderAndPay","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
@@ -798,29 +811,29 @@ public class ReviewOrderAndPay extends BaseActivity
                             }
 
                         }
-                        if(mProgressDialog != null && mProgressDialog.isShowing())
-                            mProgressDialog.dismiss();
+//                        if(mProgressDialog != null && mProgressDialog.isShowing())
+//                            mProgressDialog.dismiss();
 
                         PayU.getInstance(ReviewOrderAndPay.this).startPaymentProcess(finalAmount, params);
 //                            PayU.getInstance(MainActivity.this).startPaymentProcess(finalAmount, params, new PayU.PaymentMode[]{PayU.PaymentMode.CC, PayU.PaymentMode.NB});
 
                     } catch (UnsupportedEncodingException e) {
-                        if(mProgressDialog != null && mProgressDialog.isShowing())
-                            mProgressDialog.dismiss();
+//                        if(mProgressDialog != null && mProgressDialog.isShowing())
+//                            mProgressDialog.dismiss();
 						new GrocermaxBaseException("ReviewOrderAndPay","doInBackground",e.getMessage(), GrocermaxBaseException.UnsupportedEncodingException,"nodetail");
 //                        Toast.makeText(ReviewOrderAndPay.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     } catch (ClientProtocolException e) {
-                        if(mProgressDialog != null && mProgressDialog.isShowing())
-                            mProgressDialog.dismiss();
+//                        if(mProgressDialog != null && mProgressDialog.isShowing())
+//                            mProgressDialog.dismiss();
 						new GrocermaxBaseException("ReviewOrderAndPay","doInBackground",e.getMessage(), GrocermaxBaseException.CLIENT_PROTOCOL_EXCEPTION,"nodetail");
 //                        Toast.makeText(ReviewOrderAndPay.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     } catch (JSONException e) {
-                        if(mProgressDialog != null && mProgressDialog.isShowing())
-                            mProgressDialog.dismiss();
+//                        if(mProgressDialog != null && mProgressDialog.isShowing())
+//                            mProgressDialog.dismiss();
 						new GrocermaxBaseException("ReviewOrderAndPay","doInBackground",e.getMessage(), GrocermaxBaseException.JSON_EXCEPTION,"nodetail");
                     } catch (IOException e) {
-                        if(mProgressDialog != null && mProgressDialog.isShowing())
-                            mProgressDialog.dismiss();
+//                        if(mProgressDialog != null && mProgressDialog.isShowing())
+//                            mProgressDialog.dismiss();
 						new GrocermaxBaseException("ReviewOrderAndPay","doInBackground",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
                     } /*catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
@@ -917,38 +930,34 @@ public class ReviewOrderAndPay extends BaseActivity
 		try{
 		if (bundle.getString("ACTION").equals(MyReceiverActions.FINAL_CHECKOUT)) {
 		finalCheckoutBean= (FinalCheckoutBean) bundle.getSerializable(ConnectionService.RESPONSE);
-
-			order_id=finalCheckoutBean.getOrderId();
-			order_db_id=finalCheckoutBean.getOrderDBID();
-			payTM(order_id);
-//		if (finalCheckoutBean.getFlag().equalsIgnoreCase("1")) {
-//			UtilityMethods.deleteCloneCart(this);
-//			if(payment_mode.equals("cashondelivery"))
-//			{
-//				MySharedPrefs.INSTANCE.putTotalItem("0");
-//				MySharedPrefs.INSTANCE.clearQuote();
-//				UtilityMethods.customToast(finalCheckoutBean.getResult(), ReviewOrderAndPay.this);
-//				Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
-//				Bundle call_bundle = new Bundle();
-//				call_bundle.putString("orderid", finalCheckoutBean.getOrderId());
-//				call_bundle.putString("status", "success");
-//				intent.putExtras(call_bundle);
-//				startActivity(intent);
-//				finish();
-//			}else if(payment_mode.equalsIgnoreCase("payucheckout_shared")){
-//				order_id=finalCheckoutBean.getOrderId();
-//				order_db_id=finalCheckoutBean.getOrderDBID();
-//				makePayment(finalCheckoutBean.getOrderId());   //just call in case of payu.
-//			}else if(payment_mode.equalsIgnoreCase("paytm_cc")){
-//				order_id=finalCheckoutBean.getOrderId();
-//				order_db_id=finalCheckoutBean.getOrderDBID();
-//				payTM(order_id);
-//			}else if(payment_mode.equalsIgnoreCase("wallet")){     //mobikwik
-//				order_id=finalCheckoutBean.getOrderId();
-//				order_db_id=finalCheckoutBean.getOrderDBID();
-//				payMobiKwikWallet(order_id);
-//			}
-//		}
+		if (finalCheckoutBean.getFlag().equalsIgnoreCase("1")) {
+			UtilityMethods.deleteCloneCart(this);
+			if(payment_mode.equals("cashondelivery"))
+			{
+				MySharedPrefs.INSTANCE.putTotalItem("0");
+				MySharedPrefs.INSTANCE.clearQuote();
+				UtilityMethods.customToast(finalCheckoutBean.getResult(), ReviewOrderAndPay.this);
+				Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
+				Bundle call_bundle = new Bundle();
+				call_bundle.putString("orderid", finalCheckoutBean.getOrderId());
+				call_bundle.putString("status", "success");
+				intent.putExtras(call_bundle);
+				startActivity(intent);
+				finish();
+			}else if(payment_mode.equalsIgnoreCase("payucheckout_shared")){
+				order_id=finalCheckoutBean.getOrderId();
+				order_db_id=finalCheckoutBean.getOrderDBID();
+				makePayment(finalCheckoutBean.getOrderId());   //just call in case of payu.
+			}else if(payment_mode.equalsIgnoreCase("paytm_cc")){
+				order_id=finalCheckoutBean.getOrderId();
+				order_db_id=finalCheckoutBean.getOrderDBID();
+				payTM(order_id);
+			}else if(payment_mode.equalsIgnoreCase("wallet")){     //mobikwik
+				order_id=finalCheckoutBean.getOrderId();
+				order_db_id=finalCheckoutBean.getOrderDBID();
+				payMobiKwikWallet(order_id);
+			}
+		}
 	}
 		
 //		if (bundle.getString("ACTION").equals(MyReceiverActions.GET_ORDER_STATUS)) {

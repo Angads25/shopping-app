@@ -520,8 +520,8 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
                 @Override
                 public void onClick(View v) {                                                  //calling for adding new address.
                     // TODO Auto-generated method stub
-                    try{
-                        if(selectedPosition == -1){        //mean not pressed any of the address in the list
+                    try {
+                        if (selectedPosition == -1) {        //mean not pressed any of the address in the list
                             UtilityMethods.customToast(AppConstants.ToastConstant.BILLING_ADDRESS_EMPTY, mContext);
                             return;
                         }
@@ -537,35 +537,38 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
                         billing_json_obj.put("country_id", "IN");
                         billing_json_obj.put("telephone", billing_add.getTelephone());
                         billing_json_obj.put("addressline1", billing_add.getStreet());
-                        billing_json_obj.put("addressline2","");
-                        billing_json_obj.put("default_billing","0");
-                        billing_json_obj.put("default_shipping","0");
+                        billing_json_obj.put("addressline2", "");
+                        billing_json_obj.put("default_billing", "0");
+                        billing_json_obj.put("default_shipping", "0");
                         orderReviewBean.setBilling(billing_json_obj);
                         MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean);
 
                         Intent intent1 = new Intent(BillingAddress.this, DeliveryDetails.class);
                         intent1.putExtra("addressBean", address_obj);
                         startActivity(intent1);
-                    }catch(Exception e){
-                        new GrocermaxBaseException("BillingAddress","onCreate",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+                    } catch (Exception e) {
+                        new GrocermaxBaseException("BillingAddress", "onCreate", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
                     }
                 }
             });
 
             TextView tvAddNewAddress = (TextView) findViewById(R.id.add_new_address);
             tvAddNewAddress.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-            tvAddNewAddress.setOnClickListener(new View.OnClickListener() {
+
+            RelativeLayout rlAddNewAddress = (RelativeLayout)findViewById(R.id.rl_add_new_address);
+
+            rlAddNewAddress.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {                                                  //calling for adding new address.
                     // TODO Auto-generated method stub
-                    try{
+                    try {
                         Intent intent = new Intent(mContext, CreateNewAddress.class);
-                        intent.putExtra("shippingorbillingaddress","shipping");
-                        intent.putExtra("editindex","-1");                                    //means adding the address not editing.
+                        intent.putExtra("shippingorbillingaddress", "shipping");
+                        intent.putExtra("editindex", "-1");                                    //means adding the address not editing.
                         startActivityForResult(intent, requestNewAddress);
-                    }catch(Exception e){
-                        new GrocermaxBaseException("AddressDetail","goToAddress",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+                    } catch (Exception e) {
+                        new GrocermaxBaseException("AddressDetail", "goToAddress", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
                     }
                 }
             });
@@ -722,8 +725,11 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
 //
 //			}
 
-            initHeader(findViewById(R.id.app_bar_header), true, "BillingAddress");
+            initHeader(findViewById(R.id.app_bar_header), true, "Select Billing Address");
             initFooter(findViewById(R.id.footer), 4, 3);
+            icon_header_search.setVisibility(View.GONE);
+            icon_header_cart.setVisibility(View.GONE);
+            cart_count_txt.setVisibility(View.GONE);
         }catch(Exception e){
             new GrocermaxBaseException("ChooseAddress","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
         }
@@ -1431,7 +1437,7 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        initHeader(findViewById(R.id.app_bar_header), true, "BillingAddress");
+        initHeader(findViewById(R.id.app_bar_header), true, "Select Billing Address");
     }
 
 

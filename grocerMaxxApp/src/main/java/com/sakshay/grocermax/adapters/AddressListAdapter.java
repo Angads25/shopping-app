@@ -9,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -63,6 +64,7 @@ public class AddressListAdapter extends BaseAdapter{
 //			holder.edit_address = (TextView) convertView.findViewById(R.id.edit_address);
 			holder.rl_editaddress = (RelativeLayout) convertView.findViewById(R.id.rl_editaddress);
 			holder.delete_address = (ImageView) convertView.findViewById(R.id.deleteAddress);
+			holder.llDeleteAddress = (LinearLayout) convertView.findViewById(R.id.ll_delete_address);
 			holder.profilename = (TextView) convertView
 					.findViewById(R.id.text_header);
 
@@ -96,17 +98,21 @@ public class AddressListAdapter extends BaseAdapter{
 		
 		final Address obj = getItem(position);
 		holder.profilename.setText(obj.getFirstname() + " " + obj.getLastname());
-	
-		holder.address1.setText(obj.getStreet()+",");
-//		holder.name.setText(obj.getFirstname() + " " + obj.getLastname());
-//		holder.phone.setText(obj.getTelephone());
-		holder.city.setText(obj.getCity()+",");
-		if(obj.getRegion()!=null || !obj.getRegion().equals(""))
-			holder.state.setText(obj.getRegion()+",");
-		else
-			holder.state.setText(obj.getState()+",");
-		holder.country.setText("India"+",");
-		holder.pincode.setText(obj.getPostcode());
+
+		if(obj.getRegion()!=null || !obj.getRegion().equals("")) {
+			holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() + obj.getStreet() + "," + obj.getCity() + ","+obj.getRegion()+","+"India"+","+obj.getPostcode());
+		}else{
+			holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() + obj.getStreet() + "," + obj.getCity() + ","+obj.getState()+","+"India"+","+obj.getPostcode());
+		}
+
+//		holder.address1.setText(obj.getStreet()+",");
+//		holder.city.setText(obj.getCity()+",");
+//		if(obj.getRegion()!=null || !obj.getRegion().equals(""))
+//			holder.state.setText(obj.getRegion()+",");
+//		else
+//			holder.state.setText(obj.getState()+",");
+//		holder.country.setText("India"+",");
+//		holder.pincode.setText(obj.getPostcode());
 		
 		holder.rl_editaddress.setOnClickListener(new OnClickListener() {
 			
@@ -115,7 +121,7 @@ public class AddressListAdapter extends BaseAdapter{
 				((AddressDetail)mContext).goToAddress(obj);
 			}
 		});
-       holder.delete_address.setOnClickListener(new OnClickListener() {
+       holder.llDeleteAddress.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				
@@ -129,6 +135,7 @@ public class AddressListAdapter extends BaseAdapter{
 		TextView profilename, address1, state, city, pincode, country;
 //		TextView name,phone;
 		ImageView delete_address;
+		LinearLayout llDeleteAddress;
 //		ImageView edit_address,
 //		TextView edit_address;
 		RelativeLayout rl_editaddress;

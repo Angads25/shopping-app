@@ -51,7 +51,7 @@ public class CategoryTabs extends BaseActivity {
 	Context mContext = this;
 	public static int clickStatus=0;
 	public static ArrayList<ProductListFragments.CallAPI> asyncTasks=new ArrayList<ProductListFragments.CallAPI>();
-	EasyTracker tracker;
+//	EasyTracker tracker;
 	
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

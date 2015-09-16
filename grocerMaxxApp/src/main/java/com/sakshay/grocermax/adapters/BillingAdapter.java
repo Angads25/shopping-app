@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sakshay.grocermax.AddressDetail;
@@ -65,10 +67,12 @@ public class BillingAdapter extends BaseAdapter{
 
 //			convertView.findViewById(R.id.layout_address_info).setBackgroundColor(mContext.getResources().getColor(R.color.grey_bg));
 
-            holder.edit_address = (TextView) convertView
-                    .findViewById(R.id.edit_address);
+            holder.edit_address = (RelativeLayout) convertView
+                    .findViewById(R.id.rl_editaddress);
             holder.ivCbCheckoutBilling = (ImageView) convertView
                     .findViewById(R.id.iv_cb_checkout);
+            holder.llCbCheckout  = (LinearLayout) convertView
+                    .findViewById(R.id.ll_cb_checkout);
 //            holder.delete_address = (ImageView) convertView.findViewById(R.id.deleteAddress);
             holder.profilename = (TextView) convertView
                     .findViewById(R.id.text_header);
@@ -131,9 +135,9 @@ public class BillingAdapter extends BaseAdapter{
         }else{
             holder.ivCbCheckoutBilling.setImageResource(R.drawable.chkbox_unselected);
         }
-        holder.ivCbCheckoutBilling.setTag(position);
+        holder.llCbCheckout.setTag(position);
 
-        holder.ivCbCheckoutBilling.setOnClickListener(new View.OnClickListener() {
+        holder.llCbCheckout.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -162,8 +166,9 @@ public class BillingAdapter extends BaseAdapter{
     private class ViewHolder {
         TextView profilename, address1, state, city, pincode, country;
 //        TextView name,phone;
-        TextView edit_address;
+        RelativeLayout edit_address;
         ImageView ivCbCheckoutBilling;
+        LinearLayout llCbCheckout;
 //        ,delete_address;
         TextView txtHeader;
     }

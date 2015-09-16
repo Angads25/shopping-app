@@ -39,12 +39,12 @@ public class EditProfile extends BaseActivity{
 	EasyTracker tracker;
 	private TextView tvHeader;
 	
-	private TextView leftLineFirstName,middleLineFirstName,rightLineFirstName,
-				     leftLineLastName,middleLineLastName,rightLineLastName,
-				     leftLineMobileName,middleLineMobileName,rightLineMobileName,
-				     leftLineoldPwd,middleLineOldPwd,rightLineOldPwd,
-				     leftLineNewPwd,middleLineNewPwd,rightLineNewPwd,
-				     leftLineConfirmPwd,middleLineConfirmPwd,rightLineConfirmPwd;
+//	private TextView leftLineFirstName,middleLineFirstName,rightLineFirstName,
+//				     leftLineLastName,middleLineLastName,rightLineLastName,
+//				     leftLineMobileName,middleLineMobileName,rightLineMobileName,
+//				     leftLineoldPwd,middleLineOldPwd,rightLineOldPwd,
+//				     leftLineNewPwd,middleLineNewPwd,rightLineNewPwd,
+//				     leftLineConfirmPwd,middleLineConfirmPwd,rightLineConfirmPwd;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +77,9 @@ public class EditProfile extends BaseActivity{
 			ivCBChangePwd = (ImageView) findViewById(R.id.cb_iv_change_pwd);
 			tvCBChangePwd = (TextView) findViewById(R.id.cb_tv_change_pwd);
 
-			leftLineFirstName = (TextView) findViewById(R.id.left_line_first_name);
-			middleLineFirstName = (TextView) findViewById(R.id.middle_line_first_name);
-			rightLineFirstName = (TextView) findViewById(R.id.right_line_first_name);
+//			leftLineFirstName = (TextView) findViewById(R.id.left_line_first_name);
+//			middleLineFirstName = (TextView) findViewById(R.id.middle_line_first_name);
+//			rightLineFirstName = (TextView) findViewById(R.id.right_line_first_name);
 
 			//leftLineLastName = (TextView) findViewById(R.id.left_line_last_name);
 			//middleLineLastName = (TextView) findViewById(R.id.middle_line_last_name);
@@ -89,17 +89,17 @@ public class EditProfile extends BaseActivity{
 			//middleLineMobileName = (TextView) findViewById(R.id.middle_line_mobile_name);
 			//rightLineMobileName = (TextView) findViewById(R.id.right_line_mobile_name);
 
-			leftLineoldPwd = (TextView) findViewById(R.id.left_line_old_pwd);
-			middleLineOldPwd = (TextView) findViewById(R.id.middle_line_old_pwd);
-			rightLineOldPwd = (TextView) findViewById(R.id.right_line_old_pwd);
+//			leftLineoldPwd = (TextView) findViewById(R.id.left_line_old_pwd);
+//			middleLineOldPwd = (TextView) findViewById(R.id.middle_line_old_pwd);
+//			rightLineOldPwd = (TextView) findViewById(R.id.right_line_old_pwd);
 
-			leftLineNewPwd = (TextView) findViewById(R.id.left_line_new_pwd);
-			middleLineNewPwd = (TextView) findViewById(R.id.middle_line_new_pwd);
-			rightLineNewPwd = (TextView) findViewById(R.id.right_line_new_pwd);
+//			leftLineNewPwd = (TextView) findViewById(R.id.left_line_new_pwd);
+//			middleLineNewPwd = (TextView) findViewById(R.id.middle_line_new_pwd);
+//			rightLineNewPwd = (TextView) findViewById(R.id.right_line_new_pwd);
 
-			leftLineConfirmPwd = (TextView) findViewById(R.id.left_line_confirm_pwd);
-			middleLineConfirmPwd = (TextView) findViewById(R.id.middle_line_confirm_pwd);
-			rightLineConfirmPwd = (TextView) findViewById(R.id.right_line_confirm_pwd);
+//			leftLineConfirmPwd = (TextView) findViewById(R.id.left_line_confirm_pwd);
+//			middleLineConfirmPwd = (TextView) findViewById(R.id.middle_line_confirm_pwd);
+//			rightLineConfirmPwd = (TextView) findViewById(R.id.right_line_confirm_pwd);
 
 
 //			fname.setOnFocusChangeListener(new View.OnFocusChangeListener() {

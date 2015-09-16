@@ -47,7 +47,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 //	private ImageView []arrowImageArray;              //show selected right side arrow of main category         
 	private ImageView []catImageArray;                    //main category images
 	private LinearLayout []linearMainCat;
-	EasyTracker tracker;
+//	EasyTracker tracker;
 	int backImage[] = new int[10];
 	
 //	AnimatedExpandableListView expandableListView;          
@@ -171,7 +171,6 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 						if (keyboardVisibility)
 							imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
 					}
-
 
 					boolean expandStatus = false;
 					second_level = catObj.get(position).getChildren().get(groupPosition).getCategory();
@@ -381,7 +380,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 			
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-			if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+			if(android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT){
 				if(!keyboardVisibility)
 				imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
 			}else{

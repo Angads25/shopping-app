@@ -86,17 +86,70 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
         rlWriteToUs.setOnClickListener(this);
         rlSignOut.setOnClickListener(this);
 
-        if (MySharedPrefs.INSTANCE.getLoginStatus()) {
-            if(MySharedPrefs.INSTANCE.getFirstName() != null) {
-                tvUserName.setText(MySharedPrefs.INSTANCE.getFirstName() + " " + MySharedPrefs.INSTANCE.getLastName());
-            }
+//        boolean str1 =  MySharedPrefs.INSTANCE.getLoginStatus();
+//        String str2 =  MySharedPrefs.INSTANCE.getFacebookName();
+//        String str3 = MySharedPrefs.INSTANCE.getGoogleName();
+//        String str4 = MySharedPrefs.INSTANCE.getFirstName();
+//        String str5 = MySharedPrefs.INSTANCE.getLastName();
+//        String str6 =  MySharedPrefs.INSTANCE.getFirstName();
+//        String str7 =  MySharedPrefs.INSTANCE.getLastName();
+
+        if (MySharedPrefs.INSTANCE.getLoginStatus()){
+//        if(MySharedPrefs.INSTANCE.getFacebookName() != null){
+//            if(Registration.facebookName != null) {
+                if(Registration.facebookName != null) {
+                    tvUserName.setText(Registration.facebookName);
+                    if (MySharedPrefs.INSTANCE.getFacebookName() == null) {
+                        MySharedPrefs.INSTANCE.putFacebookName(Registration.facebookName);
+                    }
+                }else if(MySharedPrefs.INSTANCE.getFacebookName() != null){
+                    tvUserName.setText(MySharedPrefs.INSTANCE.getFacebookName());
+                    if (MySharedPrefs.INSTANCE.getFacebookName() == null) {
+                        MySharedPrefs.INSTANCE.putFacebookName(Registration.facebookName);
+                    }
+                }else if(Registration.googleName != null) {
+                    tvUserName.setText(Registration.googleName);
+                    if (MySharedPrefs.INSTANCE.getGoogleName() == null) {
+                        MySharedPrefs.INSTANCE.putGoogleName(Registration.googleName);
+                    }
+                }else if(MySharedPrefs.INSTANCE.getGoogleName() != null) {
+                    tvUserName.setText(MySharedPrefs.INSTANCE.getGoogleName());
+                    if (MySharedPrefs.INSTANCE.getGoogleName() == null) {
+                        MySharedPrefs.INSTANCE.putGoogleName(Registration.googleName);
+                    }
+                }else if (MySharedPrefs.INSTANCE.getFirstName() != null && MySharedPrefs.INSTANCE.getLastName() != null) {
+                    tvUserName.setText(MySharedPrefs.INSTANCE.getFirstName() + " " + MySharedPrefs.INSTANCE.getLastName());
+                }else if(MySharedPrefs.INSTANCE.getFirstName() != null){
+                    tvUserName.setText(MySharedPrefs.INSTANCE.getFirstName());
+                }
+
+//        }else if(MySharedPrefs.INSTANCE.getGoogleName() != null){
+//            }else if(Registration.googleName != null){
+//                    tvUserName.setText(Registration.googleName);
+//                if (MySharedPrefs.INSTANCE.getGoogleName() == null) {
+//                    MySharedPrefs.INSTANCE.putGoogleName(Registration.googleName);
+//                }
+//        }else {
+//                if (MySharedPrefs.INSTANCE.getFirstName() != null && MySharedPrefs.INSTANCE.getLastName() != null) {
+//                    tvUserName.setText(MySharedPrefs.INSTANCE.getFirstName() + " " + MySharedPrefs.INSTANCE.getLastName());
+//                }else if(MySharedPrefs.INSTANCE.getFirstName() != null){
+//                    tvUserName.setText(MySharedPrefs.INSTANCE.getFirstName());
+//                }
+//            }
+
+//        if (MySharedPrefs.INSTANCE.getLoginStatus()) {
+//            if(MySharedPrefs.INSTANCE.getFirstName() != null) {
+//                tvUserName.setText(MySharedPrefs.INSTANCE.getFirstName() + " " + MySharedPrefs.INSTANCE.getLastName());
+//            }
+
             tvUserEmail.setText(MySharedPrefs.INSTANCE.getUserEmail());
+
             tvUserMobileNo.setText(MySharedPrefs.INSTANCE.getMobileNo());
-//            tvUserName.setTextColor(Color.WHITE);
-            tvLogin.setText(MySharedPrefs.INSTANCE.getUserEmail());
-            tvLogin.setTextColor(Color.WHITE);
-            rlLogin.setBackgroundColor(getResources().getColor(
-                    R.color.app_header));
+//            tvLogin.setText(MySharedPrefs.INSTANCE.getUserEmail());
+            rlLogin.setVisibility(View.GONE);
+//            tvLogin.setTextColor(Color.WHITE);
+//            rlLogin.setBackgroundColor(getResources().getColor(
+//                    R.color.app_header));
             ivLoginCarat.setVisibility(View.GONE);
 
         } else {
@@ -106,9 +159,9 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
             tvUserName.setTextAppearance(this, R.style.normal_textsize);
             rlSignOut.setVisibility(View.GONE);
             viewSignOut.setVisibility(View.GONE);
-        }
+            }
 
-        initHeader(findViewById(R.id.app_bar_header), true, "My Profile");
+            initHeader(findViewById(R.id.app_bar_header), true, "My Profile");
 //        initFooter(findViewById(R.id.footer), 4, 3);
     }
 
@@ -234,9 +287,14 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 555){
+            if(resultCode==RESULT_OK)
+                finish();
+            }else {
 //        if (resultCode == LOGIN_SIGNUP) {
-            Intent intent = new Intent(this,HomeScreen.class);
+            Intent intent = new Intent(this, HomeScreen.class);
             startActivity(intent);
+        }
 //        }
 
     }
