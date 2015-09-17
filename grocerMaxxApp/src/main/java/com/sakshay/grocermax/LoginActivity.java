@@ -310,7 +310,6 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 
 				myApi.reqLogin(url);
 
-				
 			} else {
 				Toast.makeText(mContext, ToastConstant.msgNoInternet ,Toast.LENGTH_LONG).show();
 			}

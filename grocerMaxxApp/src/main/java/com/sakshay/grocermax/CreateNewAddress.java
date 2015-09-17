@@ -5,14 +5,19 @@ import org.json.JSONObject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.sakshay.grocermax.api.BillingStateCityLoader;
 import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.Address;
@@ -31,7 +36,13 @@ USER can update address from MyAddresses ,their checkbox of shipping and billing
 USER can update address from checkout screen ,their checkbox of shipping and billing address will not be visible(as it make shipping or billing from which screen of checkout user has come).
 */
 public class CreateNewAddress extends BaseActivity{
+
+	EditText tvFirstName,tvLastName,tvHouseNo,tvLocation,tvLandMark,tvCity,tvState,tvPinCode,tvPhone;
+	private Spinner spinner_shipping;
 	private Button button_create_address;
+	RelativeLayout rlState,rlStateSpinner;
+	int spinnerIndexSelected = 0;
+	String strSelectedSpinnerState = "";
 //	private Button button_cancel;
 	private Button button_cancel;
 	
@@ -51,11 +62,11 @@ public class CreateNewAddress extends BaseActivity{
 	EasyTracker tracker;
 	Address address = null;
 	TextView txtHeaderAddres;
-	TextView tvFirstNameLeft,tvFirstNameMiddle,tvFirstNameRight,
-			 tvLastNameLeft,tvLastNameMiddle,tvLastNameRight,
-			 tvAddressLeft,tvAddressMiddle,tvAddressRight,
-			 tvContactLeft,tvContactMiddle,tvContactRight,
-			 tvPinCodeLeft,tvPinCodeMiddle,tvPinCodeRight;
+//	TextView tvFirstNameLeft,tvFirstNameMiddle,tvFirstNameRight,
+//			 tvLastNameLeft,tvLastNameMiddle,tvLastNameRight,
+//			 tvAddressLeft,tvAddressMiddle,tvAddressRight,
+//			 tvContactLeft,tvContactMiddle,tvContactRight,
+//			 tvPinCodeLeft,tvPinCodeMiddle,tvPinCodeRight;
 	String strShippingorBilling = "";      //becomes non empty when coming from shipping address OR billing address screen.
 	String editIndex;                          //-1 when adding the address on Checkout AND integer value when editing the address
 
@@ -93,39 +104,35 @@ public class CreateNewAddress extends BaseActivity{
 			addActionsInFilter(MyReceiverActions.EDIT_ADDRESS);                           //just return message address updated successfully with flag 1 in success case.
 			addActionsInFilter(MyReceiverActions.EDIT_ADDRESS_BOOK);
 
-			TextView txtAddressName = (TextView) findViewById(R.id.txt_address_name);
-			TextView txtCity = (TextView) findViewById(R.id.txt_city);
-			TextView txtFlatNo = (TextView) findViewById(R.id.txt_flat_no);
-			TextView txtLocation = (TextView) findViewById(R.id.txt_location);
-			TextView txtClosestLandmark = (TextView) findViewById(R.id.txt_closest_landmark);
-			TextView txtPinCode = (TextView) findViewById(R.id.txt_pincode);
+//			TextView txtAddressName = (TextView) findViewById(R.id.txt_address_name);
+//			TextView txtCity = (TextView) findViewById(R.id.txt_city);
+//			TextView txtFlatNo = (TextView) findViewById(R.id.txt_flat_no);
+//			TextView txtLocation = (TextView) findViewById(R.id.txt_location);
+//			TextView txtClosestLandmark = (TextView) findViewById(R.id.txt_closest_landmark);
+//			TextView txtPinCode = (TextView) findViewById(R.id.txt_pincode);
+//
+//			txtAddressName.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+//			txtCity.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+//			txtFlatNo.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+//			txtLocation.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+//			txtClosestLandmark.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+//			txtPinCode.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 
-			txtAddressName.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-			txtCity.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-			txtFlatNo.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-			txtLocation.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-			txtClosestLandmark.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-			txtPinCode.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-
-			tvFirstNameLeft = (TextView) findViewById(R.id.left_line_first_name_new_addr);
-			tvFirstNameMiddle = (TextView) findViewById(R.id.middle_line_first_name_new_addr);
-			tvFirstNameRight = (TextView) findViewById(R.id.right_line_first_name_new_addr);
-
-			tvLastNameLeft = (TextView) findViewById(R.id.left_line_last_name_new_addr);
-			tvLastNameMiddle = (TextView) findViewById(R.id.middle_line_last_name_new_addr);
-			tvLastNameRight = (TextView) findViewById(R.id.right_line_last_name_new_addr);
-
-			tvAddressLeft = (TextView) findViewById(R.id.left_line_address_name_new_addr);
-			tvAddressMiddle = (TextView) findViewById(R.id.middle_line_address_name_new_addr);
-			tvAddressRight = (TextView) findViewById(R.id.right_line_address_name_new_addr);
-
-			tvContactLeft = (TextView) findViewById(R.id.left_line_mobileno_new_addr);
-			tvContactMiddle = (TextView) findViewById(R.id.middle_line_mobileno_new_addr);
-			tvContactRight = (TextView) findViewById(R.id.right_line_mobileno_new_addr);
-
-			tvPinCodeLeft = (TextView) findViewById(R.id.left_line_pincode_new_addr);
-			//tvPinCodeMiddle = (TextView) findViewById(R.id.middle_line_pincode_new_addr);
-			tvPinCodeRight = (TextView) findViewById(R.id.left_line_pincode_new_addr);
+//			tvFirstNameLeft = (TextView) findViewById(R.id.left_line_first_name_new_addr);
+//			tvFirstNameMiddle = (TextView) findViewById(R.id.middle_line_first_name_new_addr);
+//			tvFirstNameRight = (TextView) findViewById(R.id.right_line_first_name_new_addr);
+//			tvLastNameLeft = (TextView) findViewById(R.id.left_line_last_name_new_addr);
+//			tvLastNameMiddle = (TextView) findViewById(R.id.middle_line_last_name_new_addr);
+//			tvLastNameRight = (TextView) findViewById(R.id.right_line_last_name_new_addr);
+//			tvAddressLeft = (TextView) findViewById(R.id.left_line_address_name_new_addr);
+//			tvAddressMiddle = (TextView) findViewById(R.id.middle_line_address_name_new_addr);
+//			tvAddressRight = (TextView) findViewById(R.id.right_line_address_name_new_addr);
+//			tvContactLeft = (TextView) findViewById(R.id.left_line_mobileno_new_addr);
+//			tvContactMiddle = (TextView) findViewById(R.id.middle_line_mobileno_new_addr);
+//			tvContactRight = (TextView) findViewById(R.id.right_line_mobileno_new_addr);
+//			tvPinCodeLeft = (TextView) findViewById(R.id.left_line_pincode_new_addr);
+//			//tvPinCodeMiddle = (TextView) findViewById(R.id.middle_line_pincode_new_addr);
+//			tvPinCodeRight = (TextView) findViewById(R.id.left_line_pincode_new_addr);
 
 			button_create_address = (Button) findViewById(R.id.button_create_address);
 //		button_cancel = (Button) findViewById(R.id.button_cancel);
@@ -150,14 +157,13 @@ public class CreateNewAddress extends BaseActivity{
 			check_default_billing = (CheckBox) findViewById(R.id.check_default);
 			check_default_shipping = (CheckBox) findViewById(R.id.check_default_shipping);
 
-			edit_pin = (EditText) findViewById(R.id.edit_pincode_new_addr);
-			text_city = (EditText) findViewById(R.id.edit_city_new_addr);            /////////////
-			edit_last_name = (EditText) findViewById(R.id.edit_last_name_new_addr);
-			edit_first_name = (EditText) findViewById(R.id.edit_first_name_new_addr);
-			text_state = (EditText) findViewById(R.id.edit_state_new_addr);
-			edit_address1 = (EditText) findViewById(R.id.edit_address_name_new_addr);       /////////
-//		edit_address2 = (EditText) findViewById(R.id.edit_address2);    ////////////
-			edit_contact = (EditText) findViewById(R.id.edit_mobileno_new_addr);
+//			edit_pin = (EditText) findViewById(R.id.edit_pincode_new_addr);
+//			text_city = (EditText) findViewById(R.id.edit_city_new_addr);            /////////////
+//			edit_last_name = (EditText) findViewById(R.id.edit_last_name_new_addr);
+//			edit_first_name = (EditText) findViewById(R.id.edit_first_name_new_addr);
+//			text_state = (EditText) findViewById(R.id.edit_state_new_addr);
+//			edit_address1 = (EditText) findViewById(R.id.edit_address_name_new_addr);       /////////
+//			edit_contact = (EditText) findViewById(R.id.edit_mobileno_new_addr);
 
 			txtHeaderAddres = (TextView) findViewById(R.id.txt_create_address);
 
@@ -324,13 +330,13 @@ public class CreateNewAddress extends BaseActivity{
 //		TextView tvLandmark = (TextView) findViewById(R.id.edit_landmark_new_addr);
 //		TextView tvPincode = (TextView) findViewById(R.id.edit_pincode_new_addr);     //
 
-			edit_pin.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
-			text_city.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
-			edit_last_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
-			edit_first_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
-			text_state.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
-			edit_address1.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
-			edit_contact.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
+//			edit_pin.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
+//			text_city.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
+//			edit_last_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
+//			edit_first_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
+//			text_state.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
+//			edit_address1.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
+//			edit_contact.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
 
 			check_default_billing.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
 			check_default_shipping.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
@@ -341,39 +347,154 @@ public class CreateNewAddress extends BaseActivity{
 			button_create_address.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			txtHeaderAddres.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 
+			if(strShippingorBilling.equalsIgnoreCase("shipping") || strShippingorBilling.equalsIgnoreCase("billing")){
+
+				if(!strShippingorBilling.equals("")){
+				if(strShippingorBilling.equalsIgnoreCase("billing")){                            //billing edit OR add case
+					TextView txtLocation = (TextView)findViewById(R.id.txt_location);
+					txtLocation.setText("Street Address / Locality");
+				}else{                                                                           //shipping edit OR add case
+					TextView txtLocation = (TextView)findViewById(R.id.txt_location);
+					txtLocation.setText("Location");
+				}
+				}
+				}else{                                                                           //create new address case
+					TextView txtLocation = (TextView)findViewById(R.id.txt_location);
+					txtLocation.setText("Location");
+				}
+
+			if(strShippingorBilling.equalsIgnoreCase("billing")) {
+				if(BillingStateCityLoader.alState.size() > 0) {
+					strSelectedSpinnerState = BillingStateCityLoader.alState.get(0);
+				}
+			}
+
+
+			tvFirstName = (EditText) findViewById(R.id.edit_first_name);
+			 tvLastName = (EditText) findViewById(R.id.edit_last_name);
+			 tvHouseNo = (EditText) findViewById(R.id.edit_house_no);
+			 tvLocation = (EditText) findViewById(R.id.edit_location);
+			 tvLandMark = (EditText) findViewById(R.id.edit_landmark);
+			 tvCity = (EditText) findViewById(R.id.edit_city);
+
+			 tvPinCode = (EditText) findViewById(R.id.edit_pincode);
+			 tvPhone = (EditText) findViewById(R.id.edit_phone);
+
+			 tvState = (EditText) findViewById(R.id.edit_state);
+			 rlStateSpinner = (RelativeLayout) findViewById(R.id.rl_state_spinner);
+			 rlState = (RelativeLayout) findViewById(R.id.rl_state);
+			 if(strShippingorBilling.equalsIgnoreCase("billing")) {
+				 rlStateSpinner.setVisibility(View.VISIBLE);
+				 rlState.setVisibility(View.GONE);
+				 spinner_shipping = (Spinner) findViewById(R.id.spinner_shipping);
+				 ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+						 R.layout.spinner_textview, BillingStateCityLoader.alState);
+				 spinner_shipping.setAdapter(dataAdapter);
+ 				 spinner_shipping.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+					@Override
+					public void onItemSelected(AdapterView<?> parent, View view,
+											   int position, long id) {
+
+						spinnerIndexSelected = position;
+						strSelectedSpinnerState = BillingStateCityLoader.alState.get(spinnerIndexSelected);
+						//parent.getItemAtPosition(position);      //selected item
+						//position
+
+					}
+
+					@Override
+					public void onNothingSelected(AdapterView<?> arg0) {
+					}
+				});
+
+			 }else{
+				rlStateSpinner.setVisibility(View.GONE);
+				rlState.setVisibility(View.VISIBLE);
+			 }
+
 			if (address == null)       //new address
 			{
-				text_city.setText("Gurgaon");
-				text_city.setEnabled(false);
+//				tvCity.setText("Gurgaon");
+				tvFirstName.setText(MySharedPrefs.INSTANCE.getFirstName());
+				tvLastName.setText(MySharedPrefs.INSTANCE.getLastName());
 
-				text_state.setText("Haryana");
-				text_state.setEnabled(false);
+				tvCity.setText(LocationActivity.strSelectedCity);
+				tvCity.setEnabled(false);
+				tvState.setText(LocationActivity.strSelectedState);
+				tvState.setEnabled(false);
+//				tvState.setText("Haryana");
+
+				tvPhone.setText(MySharedPrefs.INSTANCE.getMobileNo());
+//				LocationActivity.strSelectedCity
+//						LocationActivity.strSelectedState
 				header = "Create New Address";
 				txtHeaderAddres.setText(header);
+
+
+//				text_city.setText("Gurgaon");
+//				text_city.setEnabled(false);
+//				text_state.setText("Haryana");
+//				text_state.setEnabled(false);
+//				header = "Create New Address";
+//				txtHeaderAddres.setText(header);
 			} else                  //update address
 			{
+
 				header = "Update Address";
 				txtHeaderAddres.setText(header);
-				edit_pin.setText(address.getPostcode());
-				text_city.setText(address.getCity());
-				text_city.setEnabled(true);
+				tvPinCode.setText(address.getPostcode());
+				tvCity.setText(address.getCity());
+				tvCity.setEnabled(true);                                                           //enable in billing address case.
+//				if (address.getRegion() != null || !address.getRegion().equals("")){
+//					tvState.setText(address.getRegion());}
+//				else{
+//				tvState.setText(address.getState());}
+				tvState.setText(address.getRegion());
+				tvState.setEnabled(false);
 
-				if (address.getRegion() != null || !address.getRegion().equals(""))
-					text_state.setText(address.getRegion());
-				else
-					text_state.setText(address.getState());
-
-//			text_state.setEnabled(true);
-				text_state.setEnabled(false);
+				if(strShippingorBilling.equalsIgnoreCase("shipping")){
+					if(tvCity.getText().toString().equalsIgnoreCase(LocationActivity.strSelectedCity)){
+						tvCity.setEnabled(false);
+					}else{
+						tvCity.setEnabled(true);
+					}
+					if(tvState.getText().toString().equalsIgnoreCase(LocationActivity.strSelectedState)){
+						tvState.setEnabled(false);
+						tvState.setEnabled(true);
+					}
+				}
 
 				String addr = address.getStreet();
-				edit_address1.setText(addr.split("\n")[0]);
-//			edit_address2.setText(addr.split("\n")[1]);
-				edit_contact.setText(address.getTelephone());
-				edit_first_name.setText(address.getFirstname());
-				edit_last_name.setText(address.getLastname());
-
+				tvHouseNo.setText(addr.split("\n")[0]);
+				tvLocation.setText(addr.split("\n")[1]);
+				tvLandMark.setText(addr.split("\n")[2]);
+//				edit_address1.setText(addr.split("\n")[0]);
+				tvPhone.setText(address.getTelephone());
+				tvFirstName.setText(address.getFirstname());
+				tvLastName.setText(address.getLastname());
 				button_create_address.setText("Update");
+
+//				header = "Update Address";
+//				txtHeaderAddres.setText(header);
+//				edit_pin.setText(address.getPostcode());
+//				text_city.setText(address.getCity());
+//				text_city.setEnabled(true);
+//
+//				if (address.getRegion() != null || !address.getRegion().equals(""))
+//					text_state.setText(address.getRegion());
+//				else
+//					text_state.setText(address.getState());
+//
+//				text_state.setEnabled(false);
+//
+//				String addr = address.getStreet();
+//				edit_address1.setText(addr.split("\n")[0]);
+////			edit_address2.setText(addr.split("\n")[1]);
+//				edit_contact.setText(address.getTelephone());
+//				edit_first_name.setText(address.getFirstname());
+//				edit_last_name.setText(address.getLastname());
+//
+//				button_create_address.setText("Update");
 			}
 
 			button_create_address.setOnClickListener(new View.OnClickListener() {
@@ -518,8 +639,7 @@ public class CreateNewAddress extends BaseActivity{
 					UtilityMethods.hideKeyBoard(CreateNewAddress.this);
 				}
 			});
-
-		}catch(Exception e){
+			}catch(Exception e){
 			new GrocermaxBaseException("CreateNewAddress","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
@@ -528,49 +648,112 @@ public class CreateNewAddress extends BaseActivity{
 	{
 		try {
 			//UNCOMMENT BELOW CODE
-			edit_first_name.setText("Abhi");
-			edit_last_name.setText("yadav");
-			edit_contact.setText("9999999999");
+//			edit_first_name.setText("Abhi");
+//			edit_last_name.setText("yadav");
+//			edit_contact.setText("9999999999");
 			//UNCOMMENT ABOVE CODE
 
-			if (edit_first_name.getText().toString().equals("")) {
+//			if (edit_first_name.getText().toString().equals("")) {
+//				UtilityMethods.customToast(ToastConstant.FNAME_BLANCK, mContext);
+//				return;
+//			}
+//			if (edit_last_name.getText().toString().equals("")) {
+//				UtilityMethods.customToast(ToastConstant.LNAME_BLANCK, mContext);
+//				return;
+//			}
+//			if (edit_contact.getText().toString().equals("")) {
+//				UtilityMethods.customToast(ToastConstant.MOB_BLANCK, mContext);
+//				return;
+//			}
+//			if (edit_contact.getText().toString().length() != 10) {
+//				UtilityMethods.customToast(ToastConstant.MOB_NUMBER_DIGIT, mContext);
+//				return;
+//			}
+//			if (edit_address1.getText().toString().equals("")) {
+//				UtilityMethods.customToast(ToastConstant.ADDR_BLANCK, mContext);
+//				return;
+//			}
+//			if (edit_pin.getText().toString().equals("")) {
+//				UtilityMethods.customToast(ToastConstant.PIN_BLANCK, mContext);
+//				return;
+//			}
+//			if (edit_pin.getText().toString().length() != 6) {
+//				UtilityMethods.customToast(ToastConstant.PIN_NUMBER_DIGIT, mContext);
+//				return;
+//			}
+
+
+			if (tvFirstName.getText().toString().equals("")) {
 				UtilityMethods.customToast(ToastConstant.FNAME_BLANCK, mContext);
 				return;
 			}
-			if (edit_last_name.getText().toString().equals("")) {
+			if (tvLastName.getText().toString().equals("")) {
 				UtilityMethods.customToast(ToastConstant.LNAME_BLANCK, mContext);
 				return;
 			}
-			if (edit_contact.getText().toString().equals("")) {
-				UtilityMethods.customToast(ToastConstant.MOB_BLANCK, mContext);
+			if (tvHouseNo.getText().toString().equals("")) {
+				UtilityMethods.customToast("House no can't be blank", mContext);
 				return;
 			}
-			if (edit_contact.getText().toString().length() != 10) {
-				UtilityMethods.customToast(ToastConstant.MOB_NUMBER_DIGIT, mContext);
+			if (tvLocation.getText().toString().equals("")) {
+				UtilityMethods.customToast("Location can't be blank", mContext);
 				return;
 			}
-			if (edit_address1.getText().toString().equals("")) {
-				UtilityMethods.customToast(ToastConstant.ADDR_BLANCK, mContext);
+			if (tvLandMark.getText().toString().equals("")) {
+				UtilityMethods.customToast("Landmark can't be blank", mContext);
 				return;
 			}
-			if (edit_pin.getText().toString().equals("")) {
-				UtilityMethods.customToast(ToastConstant.PIN_BLANCK, mContext);
+			if (tvCity.getText().toString().equals("")) {
+				UtilityMethods.customToast("City can't be blank", mContext);
 				return;
 			}
-			if (edit_pin.getText().toString().length() != 6) {
+
+			if(strShippingorBilling.equalsIgnoreCase("billing")) {
+				if (strSelectedSpinnerState.equals("")) {
+					UtilityMethods.customToast("State can't be blank", mContext);
+					return;
+				}
+			}else {
+				if (tvState.getText().toString().equals("")) {
+					UtilityMethods.customToast("State can't be blank", mContext);
+					return;
+				}
+			}
+
+
+			if (tvPinCode.getText().toString().length() != 6) {
 				UtilityMethods.customToast(ToastConstant.PIN_NUMBER_DIGIT, mContext);
 				return;
 			}
+			if (tvPhone.getText().toString().length() != 10) {
+				UtilityMethods.customToast(ToastConstant.MOB_NUMBER_DIGIT, mContext);
+				return;
+			}
+			if (tvPhone.getText().toString().equals("")) {
+				UtilityMethods.customToast(ToastConstant.MOB_BLANCK, mContext);
+				return;
+			}
+
 			JSONObject json_obj = new JSONObject();
 
-			json_obj.put("firstname", edit_first_name.getText().toString());
-			json_obj.put("lastname", edit_last_name.getText().toString());
-			json_obj.put("city", text_city.getText().toString());
-			json_obj.put("region", text_state.getText().toString());
-			json_obj.put("postcode", edit_pin.getText().toString());
+
+			json_obj.put("firstname", tvFirstName.getText().toString());
+			json_obj.put("lastname", tvLastName.getText().toString());
+			json_obj.put("city", tvCity.getText().toString());
+			json_obj.put("region", tvState.getText().toString());
+			json_obj.put("postcode", tvPinCode.getText().toString());
 			json_obj.put("country_id", "IN");
-			json_obj.put("telephone", edit_contact.getText().toString());
-			json_obj.put("street", edit_address1.getText().toString());
+			json_obj.put("telephone", tvPhone.getText().toString());
+			json_obj.put("street", tvHouseNo.getText().toString()+","+tvLocation.getText().toString());
+
+//			json_obj.put("firstname", edit_first_name.getText().toString());
+//			json_obj.put("lastname", edit_last_name.getText().toString());
+//			json_obj.put("city", text_city.getText().toString());
+//			json_obj.put("region", text_state.getText().toString());
+//			json_obj.put("postcode", edit_pin.getText().toString());
+//			json_obj.put("country_id", "IN");
+//			json_obj.put("telephone", edit_contact.getText().toString());
+//			json_obj.put("street", edit_address1.getText().toString());
 
 
 			int default_billing = 0;
@@ -593,25 +776,52 @@ public class CreateNewAddress extends BaseActivity{
 				}
 			}
 
-			if(default_billing == 0 && default_shipping == 0){
-				UtilityMethods.customToast(ToastConstant.MAKE_SHIPPING_BILLING,mContext);
-				return;
+//			if(default_billing == 0 && default_shipping == 0){
+//				UtilityMethods.customToast(ToastConstant.MAKE_SHIPPING_BILLING,mContext);
+//				return;
+//			}
+
+//			String fname = edit_first_name.getText().toString();
+//			String lname = edit_last_name.getText().toString();
+//			String addressline1 = edit_address1.getText().toString();
+////		String addressline2=edit_address2.getText().toString();
+//			String city = text_city.getText().toString();
+//			String state = text_state.getText().toString();
+//			String pin = edit_pin.getText().toString();
+//			String countrycode = "IN";
+//			String phone = edit_contact.getText().toString();
+
+			String fname = tvFirstName.getText().toString();
+			String lname = tvLastName.getText().toString();
+//			String addressline1 = edit_address1.getText().toString();
+//		String addressline2=edit_address2.getText().toString();
+			String city = tvCity.getText().toString();
+
+			String state = "";
+			if(strShippingorBilling.equalsIgnoreCase("billing")) {
+//				if (!strSelectedSpinnerState.equals("")) {
+					state = strSelectedSpinnerState;
+//				}
+			}else {
+				state = tvState.getText().toString();
 			}
 
-			String fname = edit_first_name.getText().toString();
-			String lname = edit_last_name.getText().toString();
-			String addressline1 = edit_address1.getText().toString();
-//		String addressline2=edit_address2.getText().toString();
-			String city = text_city.getText().toString();
-			String state = text_state.getText().toString();
-			String pin = edit_pin.getText().toString();
+
+			if(strShippingorBilling.equalsIgnoreCase("shipping")) {              //state relative layout should be hide
+
+			}
+
+
+			String pin = tvPinCode.getText().toString();
 			String countrycode = "IN";
-			String phone = edit_contact.getText().toString();
+			String phone = tvPhone.getText().toString();
 
-//			house no ,location - addressline1
-//					address2 - landmark
+			String addressLine1 = tvHouseNo.getText().toString();
+			String addressLine2 = tvLocation.getText().toString();
+			String addressLine3 = tvLandMark.getText().toString();
 
-			String url_param = "fname=" + fname + "&lname=" + lname + "&addressline1=" + addressline1 + "&addressline2=" + "" + "&city=" + city + "&state=" + state + "&pin=" + pin + "&countrycode=" + countrycode + "&phone=" + phone;
+//			String url_param = "fname=" + fname + "&lname=" + lname + "&addressline1=" + addressline1 + "&addressline2=" + "" + "&city=" + city + "&state=" + state + "&pin=" + pin + "&countrycode=" + countrycode + "&phone=" + phone;
+			String url_param = "fname=" + fname + "&lname=" + lname + "&addressline1=" + addressLine1 + "&addressline2=" + addressLine2 + "&addressline3=" + addressLine3+ "&city=" + city + "&state=" + state + "&pin=" + pin + "&countrycode=" + countrycode + "&phone=" + phone;
 			url_param = url_param.replaceAll(" ", "%20");
 			showDialog();
 
@@ -688,7 +898,8 @@ public class CreateNewAddress extends BaseActivity{
     	// TODO Auto-generated method stub
     	super.onStart();
     	try{
-	    	tracker.activityStart(this);
+//	    	tracker.activityStart(this);
+			EasyTracker.getInstance(this).activityStart(this);
 	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){

@@ -41,7 +41,7 @@
         <ImageView 
             android:id="@+id/img_arrow_parent"
             android:layout_width="14dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:layout_centerVertical="true"

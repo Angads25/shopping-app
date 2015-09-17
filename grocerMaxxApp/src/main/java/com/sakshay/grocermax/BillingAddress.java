@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.flurry.android.FlurryAgent;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.sakshay.grocermax.adapters.BillingAdapter;
+import com.sakshay.grocermax.api.BillingStateCityLoader;
 import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.Address;
@@ -52,7 +53,7 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
     private LinearLayout layout_billing = null;
     private Button btnSaveAddress;
     private Button button_place_order;
-    private int requestNewAddress = 111;
+    public static int requestNewAddress = 111;
     private ArrayList<Address> addressList;
     private ArrayList<String> profileNames;
     private CheckoutAddressBean address_obj;
@@ -108,14 +109,24 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
     public void goToAddress(Address address,int position)
     {
         try{
+        if(BillingStateCityLoader.alState == null || BillingStateCityLoader.alState.size() == 0){                //first time call this service for getting states
+            new BillingStateCityLoader(this,address,"billing",String.valueOf(position)).execute(UrlsConstants.GET_STATE);
+        }else {
             Intent intent = new Intent(mContext, CreateNewAddress.class);
             intent.putExtra("address", address);
-            intent.putExtra("shippingorbillingaddress","billing");
-            intent.putExtra("editindex",String.valueOf(position));                                    //means editing the address not adding.
+            intent.putExtra("shippingorbillingaddress", "billing");
+            intent.putExtra("editindex", String.valueOf(position));                                    //means editing the address not adding.
             startActivityForResult(intent, requestNewAddress);
-        }catch(Exception e){
-            new GrocermaxBaseException("AddressDetail","goToAddress",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
         }
+        }catch(Exception e){
+            new GrocermaxBaseException("BillingAddress","goToAddress",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+        }
+    }
+
+    public void StateCityBilling(){
+        showDialog();
+        String url = UrlsConstants.GET_STATE;
+        myApi.reqDeleteFromCart(url);
     }
 
     @Override
@@ -129,8 +140,17 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
 
             if (getIntent().getSerializableExtra("addressBean") != null) {
                 address_obj = (CheckoutAddressBean) getIntent().getSerializableExtra("addressBean");
-                addressList = address_obj.getAddress();
+//                addressList = address_obj.getAddress();
             }
+
+            addressList = new ArrayList<Address>();
+            for(int i=0;i<address_obj.getAddress().size();i++) {
+                if(address_obj.getAddress().get(i).getDefaultBilling().equals("true")) {
+                    addressList.add(address_obj.getAddress().get(i));
+                }
+            }
+
+
 
 //		/*addActionsInFilter(MyReceiverActions.FINAL_CHECKOUT);*/
 //			button_place_order = (Button) findViewById(R.id.button_place_order);
@@ -532,7 +552,8 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
                         billing_json_obj.put("fname", billing_add.getFirstname());
                         billing_json_obj.put("lname", billing_add.getLastname());
                         billing_json_obj.put("city", billing_add.getCity());
-                        billing_json_obj.put("region", billing_add.getState());
+//                        billing_json_obj.put("region", billing_add.getState());
+                        billing_json_obj.put("region", billing_add.getRegion());
                         billing_json_obj.put("postcode", billing_add.getPostcode());
                         billing_json_obj.put("country_id", "IN");
                         billing_json_obj.put("telephone", billing_add.getTelephone());
@@ -563,10 +584,15 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
                 public void onClick(View v) {                                                  //calling for adding new address.
                     // TODO Auto-generated method stub
                     try {
-                        Intent intent = new Intent(mContext, CreateNewAddress.class);
-                        intent.putExtra("shippingorbillingaddress", "shipping");
-                        intent.putExtra("editindex", "-1");                                    //means adding the address not editing.
-                        startActivityForResult(intent, requestNewAddress);
+                        if(BillingStateCityLoader.alState == null || BillingStateCityLoader.alState.size() == 0){                //first time call this service for getting states
+                            Address addres = null;
+                            new BillingStateCityLoader(BillingAddress.this,addres,"billing","-1").execute(UrlsConstants.GET_STATE);
+                        }else {
+                            Intent intent = new Intent(mContext, CreateNewAddress.class);
+                            intent.putExtra("shippingorbillingaddress", "shipping");
+                            intent.putExtra("editindex", "-1");                                    //means adding the address not editing.
+                            startActivityForResult(intent, requestNewAddress);
+                        }
                     } catch (Exception e) {
                         new GrocermaxBaseException("AddressDetail", "goToAddress", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
                     }
@@ -1334,17 +1360,24 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
                 startActivity(intent);
 
                 address_obj = bean;
-                addressList = address_obj.getAddress();
+//                addressList = address_obj.getAddress();
 
                 OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
                 JSONObject billing_json_obj = new JSONObject();
 
                 int index;
                 if(editIndex.equals("")){
+                    addressList = address_obj.getAddress();
                     index = addressList.size()-1;            //doesn't come in this case
                 }else if(editIndex.equals("-1")){
+                    addressList = address_obj.getAddress();
                     index = addressList.size()-1;            //when adding address
                 }else{
+                    for(int i=0;i<address_obj.getAddress().size();i++) {
+                        if(address_obj.getAddress().get(i).getDefaultBilling().equals("true")) {
+                            addressList.add(address_obj.getAddress().get(i));
+                        }
+                    }
                     index = Integer.valueOf(editIndex);      //when editing address
                 }
 
@@ -1352,7 +1385,8 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
                 billing_json_obj.put("fname", billing_add.getFirstname());
                 billing_json_obj.put("lname", billing_add.getLastname());
                 billing_json_obj.put("city", billing_add.getCity());
-                billing_json_obj.put("region", billing_add.getState());
+//                billing_json_obj.put("region", billing_add.getState());
+                billing_json_obj.put("region", billing_add.getRegion());
                 billing_json_obj.put("postcode", billing_add.getPostcode());
                 billing_json_obj.put("country_id", "IN");
                 billing_json_obj.put("telephone", billing_add.getTelephone());
@@ -1426,7 +1460,7 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
                 myApi.reqCheckOutAddress(url);
 //			finish();
             }else{
-                UtilityMethods.customToast(Constants.ToastConstant.ERROR_MSG, mContext);
+//                UtilityMethods.customToast(Constants.ToastConstant.ERROR_MSG, mContext);
             }
         }catch (Exception e){
             new GrocermaxBaseException("ChooseAddress","onActivityResult",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");

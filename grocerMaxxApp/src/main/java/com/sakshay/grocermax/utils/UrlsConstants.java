@@ -24,12 +24,12 @@ public class UrlsConstants {
 //	public final static String NEW_BASE_URL = "http://dev.grocermax.com/webservice/new_services/";
 
 	//staging
-	public final static String BASE_URL = "http://staging.grocermax.com/webservice/";
-	public final static String NEW_BASE_URL = "http://staging.grocermax.com/webservice/new_services/";
+//	public final static String BASE_URL = "http://staging.grocermax.com/webservice/";
+//	public final static String NEW_BASE_URL = "http://staging.grocermax.com/webservice/new_services/";
 
    // live url
-//	public final static String BASE_URL = "http://grocermax.com/webservice/";
-//	public final static String NEW_BASE_URL = "http://grocermax.com/webservice/new_services/";
+	public final static String BASE_URL = "http://grocermax.com/webservice/";
+	public final static String NEW_BASE_URL = "http://grocermax.com/webservice/new_services/";
 
 	/*public final static String CATEGORY_LISTING_URL = BASE_URL
 			+ "category.php?parentid=";*/
@@ -38,6 +38,11 @@ public class UrlsConstants {
 			+ "categorycollection.php";*/
 
 //	http://staging.grocermax.com/webservice/new_services/getlocation
+
+//	http://dev.grocermax.com/webservice/new_services/getstate
+	public final static String GET_STATE = NEW_BASE_URL                                   //FOR GETTING STATE OF BILLING
+		+ "getstate";
+
 	public final static String GET_LOCATION = NEW_BASE_URL
 		+ "getlocation";
 

@@ -111,12 +111,20 @@ public class BillingAdapter extends BaseAdapter{
 //        holder.name.setText(obj.getFirstname() + " " + obj.getLastname());
 //        holder.phone.setText(obj.getTelephone());
         holder.city.setText(obj.getCity()+",");
-        if(obj.getRegion()!=null || !obj.getRegion().equals(""))
-            holder.state.setText(obj.getRegion()+",");
-        else
-            holder.state.setText(obj.getState()+",");
-        holder.country.setText("India"+",");
-        holder.pincode.setText(obj.getPostcode());
+        if(obj.getRegion()!=null ) {
+            if (!obj.getRegion().equals("")) {
+                holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() + obj.getStreet() + "," + obj.getCity() + "," + obj.getRegion() + "," + "India" + "," + obj.getPostcode());
+            }
+//            else {
+//                holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() + obj.getStreet() + "," + obj.getCity() + "," + obj.getState() + "," + "India" + "," + obj.getPostcode());
+//            }
+        }
+//        else {
+//            holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() + obj.getStreet() + "," + obj.getCity() + "," + obj.getState() + "," + "India" + "," + obj.getPostcode());
+//        }
+
+//        holder.country.setText("India"+",");
+//        holder.pincode.setText(obj.getPostcode());
 
         holder.edit_address.setOnClickListener(new View.OnClickListener() {
 

@@ -59,7 +59,6 @@ public class ConnectionServiceParser {
 		int VIEW_CART_UPDATE_LOCALLY = 121;
 		int LOCATION = 122;
 		int OTP_SUCCESSFULL = 123;
-
 	}
 
 	public static BaseResponseBean parseSimpleResponse(String jsonString)

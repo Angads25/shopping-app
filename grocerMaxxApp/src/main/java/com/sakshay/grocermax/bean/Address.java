@@ -31,8 +31,8 @@ public class Address implements Serializable{
 	private String countryName;
 	@Expose
 	private String id;
-	@Expose
-	private String State;
+//	@Expose
+//	private String State;
 	@Expose
 	private String customer_address_id;
 	@Expose
@@ -44,11 +44,13 @@ public class Address implements Serializable{
 	@Expose
 	private String is_default_shipping;
 
-	public String getDefaultBilling() {
-		return is_default_billing;
-	}
+	public String getDefaultBilling() {return is_default_billing;  }
 
 	public void setDefaultBilling(String is_default_billing) {	this.is_default_billing = is_default_billing; }
+
+	public String getDefaultShipping() {return is_default_shipping;    }
+
+	public void setDefaultShipping(String is_default_shipping) {	this.is_default_shipping = is_default_shipping; }
 
 	public String getStreetAddress() {
 		return StreetAddress;
@@ -216,18 +218,18 @@ public class Address implements Serializable{
 	 * 
 	 * @return The state
 	 */
-	public String getState() {
-		return State;
-	}
+//	public String getState() {
+//		return State;
+//	}
 
 	/**
 	 * 
 	 * @param state
 	 *            The state
 	 */
-	public void setState(String state) {
-		this.State = state;
-	}
+//	public void setState(String state) {
+//		this.State = state;
+//	}
 
 	public String getCustomer_address_id() {
 		return customer_address_id;

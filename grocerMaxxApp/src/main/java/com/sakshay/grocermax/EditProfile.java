@@ -1,6 +1,9 @@
+
+
 package com.sakshay.grocermax;
 
 import android.R.bool;
+import com.sakshay.grocermax.BaseActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,6 +17,8 @@ import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.sakshay.grocermax.R;
+import com.sakshay.grocermax.UserProfile;
 import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.BaseResponseBean;

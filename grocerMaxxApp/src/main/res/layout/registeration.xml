@@ -236,7 +236,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="35dp"
                             android:background="@null"
-                            android:hint="optional"
+                            android:hint="required"
                             android:singleLine="true"
                             android:textColorHint="@color/register_address_text_unselected_color"
                             android:textSize="@dimen/text_size_15" />

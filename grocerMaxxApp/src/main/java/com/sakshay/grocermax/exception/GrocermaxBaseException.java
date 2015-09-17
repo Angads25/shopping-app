@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import com.paymentsdk.android.MyApp;
 import com.sakshay.grocermax.BaseActivity;
+import com.sakshay.grocermax.LocationActivity;
 import com.sakshay.grocermax.MyApplication;
 import com.sakshay.grocermax.utils.MyHttpUtils;
 import com.sakshay.grocermax.utils.UtilityMethods;
@@ -42,7 +43,6 @@ public class GrocermaxBaseException extends Exception {
     public static final String EXCEPTION =  "17";
     public static final String UnsupportedEncodingException =  "18";
 
-
 //    public GrocermaxBaseException(String strClassName, String strMethodName,String strMessage,String strErrorCode,String strLineNo) {
 //        super();
 //        //    new SearchLoader(this).execute(url);
@@ -51,6 +51,8 @@ public class GrocermaxBaseException extends Exception {
     public GrocermaxBaseException(String strClassName, String strMethodName,String strMessage,String strErrorCode,String strServerResponse) {
         super();
         String strUrl = "http://staging.grocermax.com/webservice/new_services/errorlog?error=";
+
+        UtilityMethods.customToast(strClassName+"=ERROR="+strMethodName, MyApplication.getInstance());
 
 //        new AppCrash(MyApplication.getInstance(),strClassName,strMethodName,strMessage,strErrorCode,strServerResponse).execute(strUrl);
 

@@ -12,10 +12,13 @@ import android.widget.TextView;
 
 import com.sakshay.grocermax.AddressDetail;
 import com.sakshay.grocermax.ChooseAddress;
+import com.sakshay.grocermax.LocationActivity;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.ShippingAddress;
 import com.sakshay.grocermax.bean.Address;
 import com.sakshay.grocermax.utils.CustomFonts;
+import com.sakshay.grocermax.utils.UrlsConstants;
+import com.sakshay.grocermax.utils.UtilityMethods;
 
 import java.util.ArrayList;
 
@@ -109,11 +112,19 @@ public class ShippingAdapter extends BaseAdapter{
 
         holder.profilename.setText(obj.getFirstname() + " " + obj.getLastname());
 
-        if(obj.getRegion()!=null || !obj.getRegion().equals("")) {
-            holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() + obj.getStreet() + "," + obj.getCity() + ","+obj.getRegion()+","+"India"+","+obj.getPostcode());
-        }else{
-            holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() + obj.getStreet() + "," + obj.getCity() + ","+obj.getState()+","+"India"+","+obj.getPostcode());
+        String str = obj.getRegion();
+
+        if(obj.getRegion()!=null ) {
+            if(!obj.getRegion().equals("")) {
+                holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() + obj.getStreet() + "," + obj.getCity() + "," + obj.getRegion() + "," + "India" + "," + obj.getPostcode());
+            }
+//            else{
+//                holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() + obj.getStreet() + "," + obj.getCity() + ","+obj.getState()+","+"India"+","+obj.getPostcode());
+//            }
         }
+//        else{
+//            holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() + obj.getStreet() + "," + obj.getCity() + ","+obj.getState()+","+"India"+","+obj.getPostcode());
+//        }
 
 //        holder.address1.setText(obj.getStreet()+",");
 //        holder.city.setText(obj.getCity()+",");
@@ -128,7 +139,11 @@ public class ShippingAdapter extends BaseAdapter{
 
             @Override
             public void onClick(View v) {
+                if(LocationActivity.strSelectedState.equalsIgnoreCase(obj.getRegion()) && LocationActivity.strSelectedCity.equalsIgnoreCase(obj.getCity()))
                 ((ShippingAddress)mContext).goToAddress(obj,position);
+                else{
+                    UtilityMethods.customToast("We deliver only in "+LocationActivity.strSelectedCity+","+LocationActivity.strSelectedState+".Kindly select add new address", mContext);
+                }
             }
         });
 //        holder.delete_address.setOnClickListener(new View.OnClickListener() {

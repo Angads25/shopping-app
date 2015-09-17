@@ -48,137 +48,15 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp">
 
-            <RelativeLayout
-                android:id="@+id/rl_first_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="10dp"
-                android:visibility="gone">
+            <!---        START         -->
 
-                <TextView
-                    android:id="@+id/left_line_first_name_new_addr"
-                    android:layout_width="1dp"
-                    android:layout_height="5dp"
-                    android:layout_marginTop="38dp"
-                    android:background="@color/register_address_selected_line_color" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="2dp"
-                    android:paddingTop="5dp">
-
-                    <EditText
-                        android:id="@+id/edit_first_name_new_addr"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:hint="FIRST NAME*"
-                        android:paddingTop="10dp"
-                        android:singleLine="true"
-                        android:textColorHint="@color/register_address_text_unselected_color"
-                        android:textSize="@dimen/text_size_12">
-
-                        <requestFocus />
-                    </EditText>
-
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/middle_line_first_name_new_addr"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="42dp"
-                    android:layout_toRightOf="@+id/tv"
-                    android:background="@color/register_address_selected_line_color" />
-
-                <TextView
-                    android:id="@+id/right_line_first_name_new_addr"
-                    android:layout_width="1dp"
-                    android:layout_height="5dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="38dp"
-                    android:background="@color/register_address_selected_line_color" />
-
-            </RelativeLayout>
 
 
             <RelativeLayout
-                android:id="@+id/rl_last_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="10dp"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/left_line_last_name_new_addr"
-                    android:layout_width="1dp"
-                    android:layout_height="5dp"
-                    android:layout_marginTop="38dp"
-                    android:background="@color/register_address_line_color" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="2dp"
-                    android:paddingTop="5dp">
-
-                    <EditText
-                        android:id="@+id/edit_last_name_new_addr"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:hint="LAST NAME"
-                        android:paddingTop="10dp"
-                        android:singleLine="true"
-                        android:textColorHint="@color/register_address_text_unselected_color"
-                        android:textSize="@dimen/text_size_12" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/middle_line_last_name_new_addr"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="42dp"
-                    android:layout_toRightOf="@+id/tv"
-                    android:background="@color/register_address_line_color" />
-
-                <TextView
-                    android:id="@+id/right_line_last_name_new_addr"
-                    android:layout_width="1dp"
-                    android:layout_height="5dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="38dp"
-                    android:background="@color/register_address_line_color" />
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:id="@+id/rl_address_name_addr"
+                android:id="@+id/rl_first_names"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible">
-
-                <TextView
-                    android:id="@+id/left_line_address_name_new_addr"
-                    android:layout_width="1dp"
-                    android:layout_height="5dp"
-                    android:layout_marginTop="38dp"
-                    android:background="@color/register_address_line_color"
-                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -187,15 +65,15 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/txt_address_name"
+                        android:id="@+id/txt_first_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Address name"
+                        android:text="First Name"
                         android:textColor="@color/pallete_black"
                         android:textSize="@dimen/text_size_12" />
 
                     <EditText
-                        android:id="@+id/edit_address_name_new_addr"
+                        android:id="@+id/edit_first_name"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:layout_marginTop="5dp"
@@ -207,7 +85,6 @@
                         android:textSize="@dimen/text_size_14" />
 
                     <TextView
-                        android:id="@+id/middle_line_address_name_new_addr"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="5dp"
@@ -216,230 +93,34 @@
 
                 </LinearLayout>
 
-
-                <TextView
-                    android:id="@+id/right_line_address_name_new_addr"
-                    android:layout_width="1dp"
-                    android:layout_height="5dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="38dp"
-                    android:background="@color/register_address_line_color"
-                    android:visibility="gone" />
-
             </RelativeLayout>
 
 
             <RelativeLayout
-                android:id="@+id/rl_city_new_addr"
+                android:id="@+id/rl_last_names"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible">
 
-                <TextView
-                    android:id="@+id/left_line_city_new_addr"
-                    android:layout_width="1dp"
-                    android:layout_height="5dp"
-                    android:layout_marginTop="38dp"
-                    android:background="@color/register_address_line_color" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/txt_city"
+                        android:id="@+id/txt_last_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="City"
+                        android:text="Last Name"
                         android:textColor="@color/pallete_black"
                         android:textSize="@dimen/text_size_12" />
 
                     <EditText
-                        android:id="@+id/edit_city_new_addr"
+                        android:id="@+id/edit_last_name"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:hint="required"
-                        android:singleLine="true"
-                        android:textColor="@color/pallete_black"
-                        android:textColorHint="@color/light_Gray"
-                        android:textSize="@dimen/text_size_14" />
-
-                    <TextView
-                        android:id="@+id/middle_line_address_name_new_addr"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
                         android:layout_marginTop="5dp"
-                        android:background="@color/register_address_line_color"
-                        android:visibility="visible" />
-
-                </LinearLayout>
-
-
-                <TextView
-                    android:id="@+id/right_line_city_new_addr"
-                    android:layout_width="2dp"
-                    android:layout_height="5dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="38dp"
-                    android:background="@color/register_address_line_color" />
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:id="@+id/rl_state"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="10dp"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/left_line_state_new_addr"
-                    android:layout_width="1dp"
-                    android:layout_height="5dp"
-                    android:layout_marginTop="38dp"
-                    android:background="@color/register_address_line_color" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="2dp"
-                    android:paddingTop="5dp">
-
-                    <EditText
-                        android:id="@+id/edit_state_new_addr"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:hint="Haryana"
-                        android:paddingTop="10dp"
-                        android:singleLine="true"
-                        android:textColor="@color/headmultiplepage"
-                        android:textColorHint="@color/headmultiplepage"
-                        android:textSize="@dimen/text_size_12" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/middle_line_state_new_addr"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="42dp"
-                    android:layout_toRightOf="@+id/tv"
-                    android:background="@color/register_address_line_color" />
-
-                <TextView
-                    android:id="@+id/right_line_state_new_addr"
-                    android:layout_width="1dp"
-                    android:layout_height="5dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="38dp"
-                    android:background="@color/register_address_line_color" />
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:id="@+id/rl_mobileno_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="10dp"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/left_line_mobileno_new_addr"
-                    android:layout_width="1dp"
-                    android:layout_height="5dp"
-                    android:layout_marginTop="38dp"
-                    android:background="@color/register_address_line_color" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="2dp"
-                    android:paddingTop="5dp">
-
-                    <EditText
-                        android:id="@+id/edit_mobileno_new_addr"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:hint="MOBILE NO*"
-                        android:maxLength="10"
-                        android:numeric="integer"
-                        android:paddingTop="10dp"
-                        android:singleLine="true"
-                        android:textColorHint="@color/register_address_text_unselected_color"
-                        android:textSize="@dimen/text_size_12" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/middle_line_mobileno_new_addr"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="42dp"
-                    android:layout_toRightOf="@+id/tv"
-                    android:background="@color/register_address_line_color" />
-
-                <TextView
-                    android:id="@+id/right_line_mobileno_new_addr"
-                    android:layout_width="1dp"
-                    android:layout_height="5dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="38dp"
-                    android:background="@color/register_address_line_color" />
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:id="@+id/flat_new_addr"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="visible">
-
-                <TextView
-                    android:id="@+id/left_line_flat_new_addr"
-                    android:layout_width="1dp"
-                    android:layout_height="5dp"
-                    android:layout_marginTop="38dp"
-                    android:background="@color/register_address_line_color" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/txt_flat_no"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Flat No."
-                        android:textColor="@color/pallete_black"
-                        android:textSize="@dimen/text_size_12" />
-
-                    <EditText
-                        android:id="@+id/edit_flat_new_addr"
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
                         android:layout_weight="1"
                         android:background="@null"
                         android:hint="required"
@@ -448,7 +129,6 @@
                         android:textSize="@dimen/text_size_14" />
 
                     <TextView
-                        android:id="@+id/middle_line_address_name_new_addr"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="5dp"
@@ -457,31 +137,58 @@
 
                 </LinearLayout>
 
+            </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/right_line_flat_new_addr"
-                    android:layout_width="1dp"
-                    android:layout_height="5dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="38dp"
-                    android:background="@color/register_address_line_color" />
+
+            <RelativeLayout
+                android:id="@+id/rl_house_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txt_house_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="House No"
+                        android:textColor="@color/pallete_black"
+                        android:textSize="@dimen/text_size_12" />
+
+                    <EditText
+                        android:id="@+id/edit_house_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="required"
+                        android:singleLine="true"
+                        android:textColorHint="@color/register_address_text_unselected_color"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/register_address_line_color"
+                        android:visibility="visible" />
+
+                </LinearLayout>
 
             </RelativeLayout>
 
 
             <RelativeLayout
-                android:id="@+id/location_new_addr"
+                android:id="@+id/rl_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:visibility="visible">
-
-                <TextView
-                    android:id="@+id/left_line_location_new_addr"
-                    android:layout_width="1dp"
-                    android:layout_height="5dp"
-                    android:layout_marginTop="38dp"
-                    android:background="@color/register_address_line_color" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -498,9 +205,10 @@
                         android:textSize="@dimen/text_size_12" />
 
                     <EditText
-                        android:id="@+id/edit_location_new_addr"
+                        android:id="@+id/edit_location"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
+                        android:layout_marginTop="5dp"
                         android:layout_weight="1"
                         android:background="@null"
                         android:hint="required"
@@ -509,7 +217,6 @@
                         android:textSize="@dimen/text_size_14" />
 
                     <TextView
-                        android:id="@+id/middle_line_address_name_new_addr"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="5dp"
@@ -518,30 +225,13 @@
 
                 </LinearLayout>
 
-
-                <TextView
-                    android:id="@+id/right_line_location_new_addr"
-                    android:layout_width="1dp"
-                    android:layout_height="5dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="38dp"
-                    android:background="@color/register_address_line_color" />
-
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/landmark_new_addr"
+                android:id="@+id/rl_landmark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:visibility="visible">
-
-                <TextView
-                    android:id="@+id/left_line_landmark_new_addr"
-                    android:layout_width="1dp"
-                    android:layout_height="5dp"
-                    android:layout_marginTop="38dp"
-                    android:background="@color/register_address_line_color" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -550,17 +240,18 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/txt_closest_landmark"
+                        android:id="@+id/txt_landmark"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Closest landmark"
+                        android:text="Landmark"
                         android:textColor="@color/pallete_black"
                         android:textSize="@dimen/text_size_12" />
 
                     <EditText
-                        android:id="@+id/edit_landmark_new_addr"
+                        android:id="@+id/edit_landmark"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
+                        android:layout_marginTop="5dp"
                         android:layout_weight="1"
                         android:background="@null"
                         android:hint="required"
@@ -569,7 +260,56 @@
                         android:textSize="@dimen/text_size_14" />
 
                     <TextView
-                        android:id="@+id/middle_line_address_name_new_addr"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/register_address_line_color"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+
+
+
+
+
+
+            <RelativeLayout
+                android:id="@+id/rl_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txt_city"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="City"
+                        android:textColor="@color/pallete_black"
+                        android:textSize="@dimen/text_size_12" />
+
+                    <EditText
+                        android:id="@+id/edit_city"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="required"
+                        android:singleLine="true"
+                        android:textColor="@color/pallete_black"
+                        android:textColorHint="@color/light_Gray"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="5dp"
@@ -580,8 +320,59 @@
 
 
                 <TextView
-                    android:id="@+id/right_line_landmark_new_addr"
-                    android:layout_width="1dp"
+                    android:layout_width="2dp"
+                    android:layout_height="5dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="38dp"
+                    android:background="@color/register_address_line_color" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txt_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="State"
+                        android:textColor="@color/pallete_black"
+                        android:textSize="@dimen/text_size_12" />
+
+                    <EditText
+                        android:id="@+id/edit_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="required"
+                        android:singleLine="true"
+                        android:textColor="@color/pallete_black"
+                        android:textColorHint="@color/light_Gray"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/register_address_line_color"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="2dp"
                     android:layout_height="5dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="38dp"
@@ -590,23 +381,65 @@
             </RelativeLayout>
 
 
+
+
             <RelativeLayout
-                android:id="@+id/pincode_new_addr"
+                android:id="@+id/rl_state_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:visibility="visible">
+                android:layout_height="60dp"
+                android:layout_marginTop="7dp" >
 
                 <TextView
-                    android:id="@+id/left_line_pincode_new_addr"
-                    android:layout_width="1dp"
-                    android:layout_height="5dp"
-                    android:layout_marginTop="38dp"
-                    android:background="@color/register_address_line_color" />
+                    android:id="@+id/txt_state_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="State"
+                    android:textColor="@color/pallete_black"
+                    android:textSize="@dimen/text_size_12" />
+
+
+                <Spinner
+                    android:id="@+id/spinner_shipping"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/txt_state_spinner"
+                    android:background="@drawable/spi"
+                    android:gravity="center_vertical"
+                    android:layout_toLeftOf="@+id/iv_spinner"
+                     />
+
+                <ImageView
+                    android:id="@+id/iv_spinner"
+                    android:layout_width="20dp"
+                    android:layout_height="30dp"
+                    android:paddingRight="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_below="@+id/txt_state_spinner"
+                    android:background="@drawable/spi"
+                    android:src="@drawable/drop_down" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/spinner_shipping"
+                    android:background="@color/register_address_line_color"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rl_pincode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
@@ -614,28 +447,80 @@
                         android:id="@+id/txt_pincode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Pincode"
+                        android:text="Pin Code"
                         android:textColor="@color/pallete_black"
                         android:textSize="@dimen/text_size_12" />
 
                     <EditText
-                        android:id="@+id/edit_pincode_new_addr"
+                        android:id="@+id/edit_pincode"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:ems="10"
                         android:hint="required"
-                        android:maxLength="6"
-                        android:numeric="integer"
                         android:singleLine="true"
-                        android:textColorHint="@color/register_address_text_unselected_color"
-                        android:textSize="@dimen/text_size_14">
-
-                    </EditText>
+                        android:numeric="integer"
+                        android:maxLength="6"
+                        android:textColor="@color/pallete_black"
+                        android:textColorHint="@color/light_Gray"
+                        android:textSize="@dimen/text_size_14" />
 
                     <TextView
-                        android:id="@+id/middle_line_address_name_new_addr"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/register_address_line_color"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="2dp"
+                    android:layout_height="5dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="38dp"
+                    android:background="@color/register_address_line_color" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rl_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txt_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Phone Number"
+                        android:textColor="@color/pallete_black"
+                        android:textSize="@dimen/text_size_12" />
+
+                    <EditText
+                        android:id="@+id/edit_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:maxLength="10"
+                        android:numeric="integer"
+                        android:hint="required"
+                        android:singleLine="true"
+                        android:textColor="@color/pallete_black"
+                        android:textColorHint="@color/light_Gray"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="5dp"
@@ -645,14 +530,15 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/right_line_pincode_new_addr"
-                    android:layout_width="1dp"
+                    android:layout_width="2dp"
                     android:layout_height="5dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="38dp"
                     android:background="@color/register_address_line_color" />
 
             </RelativeLayout>
+
+            <!--                       END                 -->
 
             <LinearLayout
                 android:id="@+id/cb_billing"

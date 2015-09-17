@@ -36,6 +36,8 @@ public class LocationActivity extends BaseActivity {
     private int position = 0;
     TextView tvSelctionLoc;           //previously selected color change to bluish
     ImageView ivSelectionLoc;
+    public static String strSelectedCity,strSelectedState;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +87,10 @@ public class LocationActivity extends BaseActivity {
                             ivLocation[i] = (ImageView) view.findViewById(R.id.iv_location);
                             tvLocation[i] = (TextView) view.findViewById(R.id.tv_location);
                             tvLocation[i].setText(locationList.getItems().get(i).getCityName());
+
+                            strSelectedCity = locationList.getItems().get(0).getCityName();    //selected default city
+                            strSelectedState= locationList.getItems().get(0).getStateName();   //selected default state
+
 //                            ivLocation[i].setImageResource(getImageResource(catObj.get(i).getCategory()));
 
                             if (i != 0) {
@@ -140,54 +146,13 @@ public class LocationActivity extends BaseActivity {
                 if(keyboardVisibility)
                     imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
             }
-
-//            for(int i=0;i<expandableListView.getExpandableListAdapter().getGroupCount();i++)
-//            {
-//                if(expandableListView.isGroupExpanded(i)){
-////					expandableListView.collapseGroupWithAnimation(i);
-//                    expandableListView.collapseGroup(i);
-//                }
-//            }
-//            tvSelctionCat.setTextColor(getResources().getColor(R.color.white));         //unselected text color bluish for previously selected in main category
-//            catSelectedLL[position].setVisibility(View.INVISIBLE);                     //unselected previous main category selected
-//            tvSelctionLoc.setTextColor(getResources().getColor(R.color.white));
-//            ivSelectionLoc.setImageResource(R.drawable.unselect_location);
             ivLocation[position].setImageResource(R.drawable.unselect_location);
             position = (Integer) view.getTag();
 
-//            TextView tvSelectedLocation = (TextView) view.findViewById(R.id.tv_location);                           //get view of currently selected main category
-//            ImageView ivSelectedLocation = (ImageView) view.findViewById(R.id.iv_location);                           //get view of currently selected main category
-//            ivSelectionLoc.setImageResource(R.drawable.select_location);
+            strSelectedCity  = locationList.getItems().get(position).getCityName();    //selected city
+            strSelectedState = locationList.getItems().get(position).getStateName();   //selected state
 
             ivLocation[position].setImageResource(R.drawable.select_location);
-
-
-
-//            cat_name.setTextColor(getResources().getColor(R.color.main_cat_text_selected));              //selected text color white of main category
-//            catSelectedLL[position] = (LinearLayout) view.findViewById(R.id.ll_cat_main_selected);
-//            catSelectedLL[position].setVisibility(View.VISIBLE);
-//            TODO, unselect others now
-
-//			LinearLayout catSelectedLL = (LinearLayout) view.findViewById(R.id.ll_cat_main_selected);
-//			catSelectedLL.setVisibility(View.VISIBLE);
-//            catSelectedLL[position].setVisibility(View.VISIBLE);                     //select current selected main category
-
-//            categoryTV.setText(catObj.get(position).getCategory());
-
-//			linearMainCat[position].setBackgroundColor(getResources().getColor(R.color.main_cat_selected));
-
-//            first_level=catObj.get(position).getCategory();
-//            mAdapter.refreshList(catObj.get(position).getChildren());
-//            exAdapter.refreshList(catObj.get(position).getChildren());
-//            hideAllImage();
-//			arrowImageArray[position].setVisibility(View.VISIBLE);
-            //catImageArray[position].setSelected(true);
-            //scroll_view.scrollTo(0, 0);
-
-//            tvSelctionCat = cat_name;                         //assign currently selected view to previously selected holder
-
-            //expandableListView.setBackgroundResource(backImage[position]);
-//            expandableListView.setCacheColorHint(android.R.color.transparent);
         }
     };
 

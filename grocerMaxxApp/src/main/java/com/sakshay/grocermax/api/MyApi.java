@@ -242,7 +242,6 @@ public class MyApi {
 		m_context.startService(reqIntent);
 	}
 	
-	
 	public void reqActiveOrder(String url) {
 		Intent reqIntent = new Intent(m_context, ConnectionService.class);
 		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.CATEGORY_LIST);

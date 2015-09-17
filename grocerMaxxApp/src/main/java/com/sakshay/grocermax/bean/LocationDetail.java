@@ -23,6 +23,12 @@ public class LocationDetail implements Serializable {
     @Expose
     private String api_url;
 
+    @Expose
+    private String default_name;
+
+    public void setStateName(String strState){this.default_name = strState; }
+
+    public String getStateName(){return default_name; }
 
     public String getId() {return id;}
 

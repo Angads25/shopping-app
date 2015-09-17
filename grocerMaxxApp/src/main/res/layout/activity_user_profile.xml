@@ -133,9 +133,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:src="@drawable/arrow_right"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentRight="true"/>
 
-                    />
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"

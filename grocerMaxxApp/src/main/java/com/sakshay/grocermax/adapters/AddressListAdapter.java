@@ -99,11 +99,19 @@ public class AddressListAdapter extends BaseAdapter{
 		final Address obj = getItem(position);
 		holder.profilename.setText(obj.getFirstname() + " " + obj.getLastname());
 
-		if(obj.getRegion()!=null || !obj.getRegion().equals("")) {
-			holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() + obj.getStreet() + "," + obj.getCity() + ","+obj.getRegion()+","+"India"+","+obj.getPostcode());
-		}else{
-			holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() + obj.getStreet() + "," + obj.getCity() + ","+obj.getState()+","+"India"+","+obj.getPostcode());
+		if(obj.getRegion()!=null) {
+			if(!obj.getRegion().equals("")) {
+				holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() + obj.getStreet() + "," + obj.getCity() + "," + obj.getRegion() + "," + "India" + "," + obj.getPostcode());
+			}
+//			else{
+//				holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() + obj.getStreet() + "," + obj.getCity() + ","+obj.getState()+","+"India"+","+obj.getPostcode());
+//			}
 		}
+//		else{
+//			holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() + obj.getStreet() + "," + obj.getCity() + ","+obj.getState()+","+"India"+","+obj.getPostcode());
+//		}
+
+
 
 //		holder.address1.setText(obj.getStreet()+",");
 //		holder.city.setText(obj.getCity()+",");
