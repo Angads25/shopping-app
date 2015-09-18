@@ -505,10 +505,10 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 
 				if (userDataBean.getFlag().equalsIgnoreCase("1")) {          //successfull login
 					MySharedPrefs.INSTANCE.putUserId(userDataBean.getUserID());
-					if(MySharedPrefs.INSTANCE.getFirstName() != null){
+					if(MySharedPrefs.INSTANCE.getFirstName() == null){//if(MySharedPrefs.INSTANCE.getFirstName() != null){    //changed 17/9/15
 						MySharedPrefs.INSTANCE.putFirstName(userDataBean.getFirstName());
 					}
-					if(MySharedPrefs.INSTANCE.getLastName() != null){
+					if(MySharedPrefs.INSTANCE.getLastName() == null){//if(MySharedPrefs.INSTANCE.getLastName() != null){      //changed 17/9/15
 						MySharedPrefs.INSTANCE.putLastName(userDataBean.getLastName());
 					}
 

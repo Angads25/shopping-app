@@ -16,8 +16,10 @@ import android.widget.TextView;
 import com.flurry.android.FlurryAgent;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.sakshay.grocermax.adapters.ShippingAdapter;
+import com.sakshay.grocermax.api.BillingStateCityLoader;
 import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
+import com.sakshay.grocermax.api.ShippingLocationLoader;
 import com.sakshay.grocermax.bean.Address;
 import com.sakshay.grocermax.bean.CheckoutAddressBean;
 import com.sakshay.grocermax.bean.OrderReviewBean;
@@ -105,15 +107,21 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
     boolean bIsSelect[];
     public int selectedPosition = -1;            //used in adapter for selected position of address in listview
     String editIndex = "";
+    ImageView ivShippingBilling;
+    boolean bShippingAsBilling = false;
 
     public void goToAddress(Address address,int position)
     {
         try{
-            Intent intent = new Intent(mContext, CreateNewAddress.class);
-            intent.putExtra("address", address);
-            intent.putExtra("shippingorbillingaddress","shipping");
-            intent.putExtra("editindex",String.valueOf(position));                                    //means editing the address not adding.
-            startActivityForResult(intent, requestNewAddress);
+            if(ShippingLocationLoader.alLocationShipping == null || ShippingLocationLoader.alLocationShipping.size() == 0){                //first time call this service for getting states
+                new ShippingLocationLoader(this,address,"shipping",String.valueOf(position)).execute(UrlsConstants.GET_LOCATION_SHIPPING+LocationActivity.strSelectedStateId);
+            }else {
+                Intent intent = new Intent(mContext, CreateNewAddress.class);
+                intent.putExtra("address", address);
+                intent.putExtra("shippingorbillingaddress","shipping");
+                intent.putExtra("editindex",String.valueOf(position));                                    //means editing the address not adding.
+                startActivityForResult(intent, requestNewAddress);
+            }
         }catch(Exception e){
             new GrocermaxBaseException("ShippingAddress","goToAddress",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
         }
@@ -513,31 +521,55 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
 //					profileNames.add(profile_name);
 //				}
 
-            bIsSelect = new boolean[addressList.size()];
-            for(int i=0;i<bIsSelect.length;i++) {
-                bIsSelect[i] = false;
-            }
-            ListView mList = (ListView) findViewById(R.id.lv_shipping_addresses);
-            ShippingAdapter shippingAdapter;
-            shippingAdapter = new ShippingAdapter(ShippingAddress.this, addressList,bIsSelect);
-            mList.setAdapter(shippingAdapter);
 
-            RelativeLayout rlAddNewAddress = (RelativeLayout) findViewById(R.id.rl_add_new_address);
-            rlAddNewAddress.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {                                                  //calling for adding new address.
-                    // TODO Auto-generated method stub
-                    try{
-                        Intent intent = new Intent(mContext, CreateNewAddress.class);
-                        intent.putExtra("shippingorbillingaddress","shipping");
-                        intent.putExtra("editindex","-1");                                    //means adding the address not editing.
-                        startActivityForResult(intent, requestNewAddress);
-                    }catch(Exception e){
-                        new GrocermaxBaseException("AddressDetail","goToAddress",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+            if(addressList.size() > 0) {
+                ivShippingBilling = (ImageView) findViewById(R.id.iv_same_shipping_billing);
+//            ivShippingBilling.setBackgroundResource(R.drawable.checkbox_unselect);
+                ivShippingBilling.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(bShippingAsBilling){
+                            bShippingAsBilling = false;
+                            ivShippingBilling.setImageResource(R.drawable.checkbox_unselect);
+                        }else{
+                            bShippingAsBilling = true;
+                            ivShippingBilling.setImageResource(R.drawable.checkbox_select);
+                        }
                     }
+                });
+
+                bIsSelect = new boolean[addressList.size()];
+                for (int i = 0; i < bIsSelect.length; i++) {
+                    bIsSelect[i] = false;
                 }
-            });
+                ListView mList = (ListView) findViewById(R.id.lv_shipping_addresses);
+                ShippingAdapter shippingAdapter;
+                shippingAdapter = new ShippingAdapter(ShippingAddress.this, addressList, bIsSelect);
+                mList.setAdapter(shippingAdapter);
+            }
+
+                RelativeLayout rlAddNewAddress = (RelativeLayout) findViewById(R.id.rl_add_new_address);
+                rlAddNewAddress.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {                                                  //calling for adding new address.
+                        // TODO Auto-generated method stub
+                        try {
+                            if (ShippingLocationLoader.alLocationShipping == null || ShippingLocationLoader.alLocationShipping.size() == 0) {                //first time call this service for getting states
+                                Address addres = null;
+                                new ShippingLocationLoader(ShippingAddress.this, addres, "shipping", "-1").execute(UrlsConstants.GET_LOCATION_SHIPPING + LocationActivity.strSelectedStateId);
+                            } else {
+                                Intent intent = new Intent(mContext, CreateNewAddress.class);
+                                intent.putExtra("shippingorbillingaddress", "shipping");
+                                intent.putExtra("editindex", "-1");                                    //means adding the address not editing.
+                                startActivityForResult(intent, requestNewAddress);
+                            }
+                        } catch (Exception e) {
+                            new GrocermaxBaseException("AddressDetail", "goToAddress", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+                        }
+                    }
+                });
+
 
 //				ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
 //						R.layout.spinner_textview, profileNames);
@@ -719,8 +751,6 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                         orderReviewBean.setShipping(shipping_json_obj);
                         MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean);
 
-
-
                         if(!ship_add.getCity().equalsIgnoreCase(LocationActivity.strSelectedCity)){
                             UtilityMethods.customToast("We deliver only in "+LocationActivity.strSelectedCity+","+LocationActivity.strSelectedState+".Kindly select add new address", mContext);
                             return;
@@ -730,10 +760,33 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                             return;
                         }
 
+                        if(bShippingAsBilling){
+                            OrderReviewBean orderReviewBean1 = MySharedPrefs.INSTANCE.getOrderReviewBean();
+                            JSONObject billing_json_obj = new JSONObject();
+                            Address billing_add = addressList.get(selectedPosition);
+                            billing_json_obj.put("fname", ship_add.getFirstname());
+                            billing_json_obj.put("lname", ship_add.getLastname());
+                            billing_json_obj.put("city", ship_add.getCity());
+//                        billing_json_obj.put("region", billing_add.getState());
+                            billing_json_obj.put("region", ship_add.getRegion());
+                            billing_json_obj.put("postcode", ship_add.getPostcode());
+                            billing_json_obj.put("country_id", "IN");
+                            billing_json_obj.put("telephone", ship_add.getTelephone());
+                            billing_json_obj.put("addressline1", ship_add.getStreet());
+                            billing_json_obj.put("addressline2", "");
+                            billing_json_obj.put("default_billing", "0");
+                            billing_json_obj.put("default_shipping", "0");
+                            orderReviewBean1.setBilling(billing_json_obj);
+                            MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean1);
 
-                        Intent intent = new Intent(ShippingAddress.this, BillingAddress.class);
-                        intent.putExtra("addressBean", address_obj);
-                        startActivity(intent);
+                            Intent intent1 = new Intent(ShippingAddress.this, DeliveryDetails.class);
+                            intent1.putExtra("addressBean", address_obj);
+                            startActivity(intent1);
+                        }else {
+                            Intent intent = new Intent(ShippingAddress.this, BillingAddress.class);
+                            intent.putExtra("addressBean", address_obj);
+                            startActivity(intent);
+                        }
                     }catch(Exception e){
                         new GrocermaxBaseException("ShippingAddress","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
                     }

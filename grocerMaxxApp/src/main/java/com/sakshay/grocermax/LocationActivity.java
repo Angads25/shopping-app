@@ -36,7 +36,7 @@ public class LocationActivity extends BaseActivity {
     private int position = 0;
     TextView tvSelctionLoc;           //previously selected color change to bluish
     ImageView ivSelectionLoc;
-    public static String strSelectedCity,strSelectedState;
+    public static String strSelectedCity,strSelectedState,strSelectedStateId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +89,8 @@ public class LocationActivity extends BaseActivity {
                             tvLocation[i].setText(locationList.getItems().get(i).getCityName());
 
                             strSelectedCity = locationList.getItems().get(0).getCityName();    //selected default city
-                            strSelectedState= locationList.getItems().get(0).getStateName();   //selected default state
+                            strSelectedState = locationList.getItems().get(0).getStateName();   //selected default state
+                            strSelectedStateId = locationList.getItems().get(0).getId();  //selected default id
 
 //                            ivLocation[i].setImageResource(getImageResource(catObj.get(i).getCategory()));
 
@@ -151,6 +152,7 @@ public class LocationActivity extends BaseActivity {
 
             strSelectedCity  = locationList.getItems().get(position).getCityName();    //selected city
             strSelectedState = locationList.getItems().get(position).getStateName();   //selected state
+            strSelectedStateId = locationList.getItems().get(position).getId();   //selected state id
 
             ivLocation[position].setImageResource(R.drawable.select_location);
         }

@@ -189,6 +189,8 @@ public class ReviewOrderAndPay extends BaseActivity
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					if (etCouponCode.getText().toString().length() > 0) {
+						if (keyboardVisibility)
+							UtilityMethods.hideKeyBoard(ReviewOrderAndPay.this);
 						new Coupon(mContext, "Apply").execute(strApplyCoupon + etCouponCode.getText().toString());
 					} else {
 						UtilityMethods.customToast(ToastConstant.SELECT_COUPON_CODE, mContext);

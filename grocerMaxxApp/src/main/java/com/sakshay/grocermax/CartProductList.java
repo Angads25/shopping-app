@@ -763,6 +763,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	private void callAddressApi()
 	{
 		try {
+
 			showDialog();
 			String url = UrlsConstants.CHECKOUT_ADDRESS_BOOK + MySharedPrefs.INSTANCE.getUserId();
 			myApi.reqCheckOutAddress(url);

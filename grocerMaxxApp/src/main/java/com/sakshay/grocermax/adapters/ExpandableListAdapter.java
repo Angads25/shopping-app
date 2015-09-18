@@ -87,23 +87,42 @@ public class ExpandableListAdapter extends AnimatedExpandableListAdapter{
 		View view = (View) v.findViewById(R.id.line_parent);
 //		view.setVisibility(View.VISIBLE);
 
-		if(isExpanded)
-			v.setPadding(0,0,0,-15);
-		else v.setPadding(0,0,0,0);
+		if(isExpanded){
+			v.setPadding(0, 0, 0, -15);
+			img_arrow.setImageResource(R.drawable.drop_down);
+		}
+		else{
+			v.setPadding(0, 0, 0, 0);
+			if(catObj.get(groupPosition).getChildren().size() > 0) {  //sub-sub category present
+//			for(int i=0;i<catObj.get(groupPosition).getChildren().size() ;i++){
+//
+//			}
+
+				img_arrow.setImageResource(R.drawable.arrow_right);
+				if (catObj.get(groupPosition).getChildren().get(0).getChildren().size() > 0) {  //sub-sub-sub category present
+					img_arrow.setVisibility(View.VISIBLE);
+				} else {
+					img_arrow.setVisibility(View.GONE);
+				}
+			}
+
+		}
 
 //		cat_name.setText(catObj.get(groupPosition).getChildren().get(childPosition).getCategory());
 
 //		if(catObj.get(position).getChildren().get(groupPosition).getChildren().get(i).getChildren().size()>0){
-		if(catObj.get(groupPosition).getChildren().size() > 0) {  //sub-sub category present
-//			for(int i=0;i<catObj.get(groupPosition).getChildren().size() ;i++){
-//
+
+
+//		if(catObj.get(groupPosition).getChildren().size() > 0) {  //sub-sub category present
+////			for(int i=0;i<catObj.get(groupPosition).getChildren().size() ;i++){
+////
+////			}
+//			if (catObj.get(groupPosition).getChildren().get(0).getChildren().size() > 0) {  //sub-sub-sub category present
+//				img_arrow.setVisibility(View.VISIBLE);
+//			} else {
+//				img_arrow.setVisibility(View.GONE);
 //			}
-			if (catObj.get(groupPosition).getChildren().get(0).getChildren().size() > 0) {  //sub-sub-sub category present
-				img_arrow.setVisibility(View.VISIBLE);
-			} else {
-				img_arrow.setVisibility(View.GONE);
-			}
-		}
+//		}
 
 //		cat_name.setText(catObj.get(groupPosition).getCategory());
 

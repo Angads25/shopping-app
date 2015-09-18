@@ -390,7 +390,9 @@
 
                         </LinearLayout>
 
+
                     </LinearLayout>
+
 
                     <Button
                         android:id="@+id/add_cart"
@@ -401,6 +403,7 @@
                         android:gravity="center"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_16"
+                        android:layout_alignParentBottom="true"
                         android:background="@drawable/blue_rounded"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true" />

@@ -17,6 +17,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.sakshay.grocermax.adapters.AddressListAdapter;
 import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
+import com.sakshay.grocermax.api.ShippingLocationLoader;
 import com.sakshay.grocermax.bean.Address;
 import com.sakshay.grocermax.bean.AddressList;
 import com.sakshay.grocermax.bean.BaseResponseBean;
@@ -90,10 +91,28 @@ public class AddressDetail extends BaseActivity{
 	public void goToAddress(Address address)
 	{
 		try{
-			Intent intent = new Intent(mContext, CreateNewAddress.class);
-			intent.putExtra("address", address);
+//			Intent intent = new Intent(mContext, CreateNewAddress.class);
+//			intent.putExtra("address", address);
+//			startActivityForResult(intent, requestNewAddress);
 
-			startActivityForResult(intent, requestNewAddress);
+			try {
+				if (ShippingLocationLoader.alLocationShipping == null || ShippingLocationLoader.alLocationShipping.size() == 0) {                //first time call this service for getting states
+					Address addres = null;
+					new ShippingLocationLoader(AddressDetail.this, addres, "profilenewaddress", "-1").execute(UrlsConstants.GET_LOCATION_SHIPPING + LocationActivity.strSelectedStateId);
+				} else {
+					Intent intent = new Intent(mContext, CreateNewAddress.class);
+					intent.putExtra("shippingorbillingaddress", "profilenewaddress");
+					intent.putExtra("editindex", "-1");                                    //means adding the address not editing.
+					startActivityForResult(intent, requestNewAddress);
+				}
+			} catch (Exception e) {
+				new GrocermaxBaseException("AddressDetail", "goToAddress", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+			}
+
+
+
+
+
 		}catch(Exception e){
 			new GrocermaxBaseException("AddressDetail","goToAddress",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}

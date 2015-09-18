@@ -94,10 +94,11 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/image_content_desc"
                     android:background="@drawable/selector_profile_icon_appbar"
-                    android:contentDescription="@string/image_content_desc" />
+                     />
             </LinearLayout>
-
+<!--android:background="@drawable/selector_profile_icon_appbar"-->
 
 
             <!--<ImageView

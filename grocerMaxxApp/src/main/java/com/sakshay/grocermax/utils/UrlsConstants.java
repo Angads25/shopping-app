@@ -34,6 +34,7 @@ public class UrlsConstants {
 	/*public final static String CATEGORY_LISTING_URL = BASE_URL
 			+ "category.php?parentid=";*/
 
+
 	/*public final static String CATEGORY_COLLECTION_LISTING_URL = BASE_URL
 			+ "categorycollection.php";*/
 
@@ -42,6 +43,9 @@ public class UrlsConstants {
 //	http://dev.grocermax.com/webservice/new_services/getstate
 	public final static String GET_STATE = NEW_BASE_URL                                   //FOR GETTING STATE OF BILLING
 		+ "getstate";
+
+	public final static String GET_LOCATION_SHIPPING = NEW_BASE_URL                                   //FOR GETTING STATE OF SHIPPING LOCATION
+			+ "getlocality?cityid=";
 
 	public final static String GET_LOCATION = NEW_BASE_URL
 		+ "getlocation";

@@ -20,6 +20,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.sakshay.grocermax.api.BillingStateCityLoader;
 import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
+import com.sakshay.grocermax.api.ShippingLocationLoader;
 import com.sakshay.grocermax.bean.Address;
 import com.sakshay.grocermax.bean.AddressList;
 import com.sakshay.grocermax.bean.BaseResponseBean;
@@ -38,13 +39,18 @@ USER can update address from checkout screen ,their checkbox of shipping and bil
 public class CreateNewAddress extends BaseActivity{
 
 	EditText tvFirstName,tvLastName,tvHouseNo,tvLocation,tvLandMark,tvCity,tvState,tvPinCode,tvPhone;
-	private Spinner spinner_shipping;
+	private Spinner spinner_billing;
+	private Spinner spinnerLocationShipping;
 	private Button button_create_address;
-	RelativeLayout rlState,rlStateSpinner;
-	int spinnerIndexSelected = 0;
-	String strSelectedSpinnerState = "";
+	private RelativeLayout rlStateSpinner,rlLocationSpinnerShipping;
+	RelativeLayout rlLocation;
+	int spinnerIndexSelected = 0;                                         //used for selected billing spinner
+	String strSelectedSpinnerState = "";                                  //used for selected billing spinner
+	int spinnerIndexLocationShipping = 0;		                          //used for selected shipping spinner
+	String strSelectedSpinnerLocationShipping = "";                       //used for selected shipping spinner
 //	private Button button_cancel;
 	private Button button_cancel;
+	RelativeLayout rlState;                            //hide in case of shipping
 	
 	private ImageView ivCBDefaultBilling,ivCBDefaultShipping;
 	private TextView tvCBDefaultBilling,tvCBDefaultShipping;
@@ -98,7 +104,7 @@ public class CreateNewAddress extends BaseActivity{
 				editIndex = getIntent().getStringExtra("editindex");
 			}
 
-
+			rlState = (RelativeLayout)findViewById(R.id.rl_state);
 
 			addActionsInFilter(MyReceiverActions.ADD_ADDRESS);
 			addActionsInFilter(MyReceiverActions.EDIT_ADDRESS);                           //just return message address updated successfully with flag 1 in success case.
@@ -368,9 +374,13 @@ public class CreateNewAddress extends BaseActivity{
 					strSelectedSpinnerState = BillingStateCityLoader.alState.get(0);
 				}
 			}
+			if(strShippingorBilling.equalsIgnoreCase("shipping")) {
+				if(ShippingLocationLoader.alLocationShipping.size() > 0) {
+					strSelectedSpinnerLocationShipping = ShippingLocationLoader.alLocationShipping.get(0);
+				}
+			}
 
-
-			tvFirstName = (EditText) findViewById(R.id.edit_first_name);
+			 tvFirstName = (EditText) findViewById(R.id.edit_first_name);
 			 tvLastName = (EditText) findViewById(R.id.edit_last_name);
 			 tvHouseNo = (EditText) findViewById(R.id.edit_house_no);
 			 tvLocation = (EditText) findViewById(R.id.edit_location);
@@ -380,17 +390,69 @@ public class CreateNewAddress extends BaseActivity{
 			 tvPinCode = (EditText) findViewById(R.id.edit_pincode);
 			 tvPhone = (EditText) findViewById(R.id.edit_phone);
 
+
+
+			 rlLocationSpinnerShipping = (RelativeLayout) findViewById(R.id.rl_location_spinner_shipping);
+			 rlLocation = (RelativeLayout) findViewById(R.id.rl_location);
+			 int indexTempLocation = 0;                                          //default index set for spinner so that selected state should be visible in spinner.
+			 if(strShippingorBilling.equalsIgnoreCase("shipping")) {
+				 rlLocationSpinnerShipping.setVisibility(View.VISIBLE);
+				 rlLocation.setVisibility(View.GONE);
+				 spinnerLocationShipping = (Spinner) findViewById(R.id.spinner_location_shipping);
+				 ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+						 R.layout.spinner_textview, ShippingLocationLoader.alLocationShipping);
+				 spinnerLocationShipping.setAdapter(dataAdapter);
+				 for(int i=0;i<ShippingLocationLoader.alLocationShipping.size();i++){
+					 if(LocationActivity.strSelectedState.equalsIgnoreCase(ShippingLocationLoader.alLocationShipping.get(i))){
+						 indexTempLocation = i;
+					 }
+				 }
+				 spinnerLocationShipping.setSelection(indexTempLocation);
+				 spinnerIndexLocationShipping = indexTempLocation;
+				 spinnerLocationShipping.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+					 @Override
+					 public void onItemSelected(AdapterView<?> parent, View view,
+												int position, long id) {
+
+						 spinnerIndexLocationShipping = position;
+						 strSelectedSpinnerLocationShipping = ShippingLocationLoader.alLocationShipping.get(spinnerIndexSelected);
+						 //parent.getItemAtPosition(position);      //selected item
+						 //position
+
+					 }
+
+					 @Override
+					 public void onNothingSelected(AdapterView<?> arg0) {
+					 }
+				 });
+
+			 }else{
+				 rlLocationSpinnerShipping.setVisibility(View.GONE);
+				 rlLocation.setVisibility(View.VISIBLE);
+			 }
+
+
+
+
 			 tvState = (EditText) findViewById(R.id.edit_state);
 			 rlStateSpinner = (RelativeLayout) findViewById(R.id.rl_state_spinner);
 			 rlState = (RelativeLayout) findViewById(R.id.rl_state);
+			 int indexTemp = 0;                                          //default index set for spinner so that selected state should be visible in spinner.
 			 if(strShippingorBilling.equalsIgnoreCase("billing")) {
 				 rlStateSpinner.setVisibility(View.VISIBLE);
 				 rlState.setVisibility(View.GONE);
-				 spinner_shipping = (Spinner) findViewById(R.id.spinner_shipping);
+				 spinner_billing = (Spinner) findViewById(R.id.spinner_billing);
 				 ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
 						 R.layout.spinner_textview, BillingStateCityLoader.alState);
-				 spinner_shipping.setAdapter(dataAdapter);
- 				 spinner_shipping.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+				 spinner_billing.setAdapter(dataAdapter);
+				 for(int i=0;i<BillingStateCityLoader.alState.size();i++){
+					 if(LocationActivity.strSelectedState.equalsIgnoreCase(BillingStateCityLoader.alState.get(i))){
+						indexTemp = i;
+					 }
+				 }
+				 spinner_billing.setSelection(indexTemp);
+				 spinnerIndexSelected = indexTemp;
+				 spinner_billing.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 					@Override
 					public void onItemSelected(AdapterView<?> parent, View view,
 											   int position, long id) {
@@ -422,6 +484,20 @@ public class CreateNewAddress extends BaseActivity{
 				tvCity.setEnabled(false);
 				tvState.setText(LocationActivity.strSelectedState);
 				tvState.setEnabled(false);
+
+				if(strShippingorBilling.equalsIgnoreCase("billing")) {  //drop down come in place of state
+					tvState.setEnabled(false);
+					rlState.setVisibility(View.GONE);
+					tvCity.setEnabled(true);
+					rlStateSpinner.setVisibility(View.VISIBLE);
+				}
+				if(strShippingorBilling.equalsIgnoreCase("shipping")){
+					tvState.setEnabled(false);
+					rlState.setVisibility(View.GONE);
+					tvCity.setEnabled(false);
+					rlStateSpinner.setVisibility(View.GONE);
+				}
+
 //				tvState.setText("Haryana");
 
 				tvPhone.setText(MySharedPrefs.INSTANCE.getMobileNo());
@@ -453,15 +529,16 @@ public class CreateNewAddress extends BaseActivity{
 				tvState.setEnabled(false);
 
 				if(strShippingorBilling.equalsIgnoreCase("shipping")){
-					if(tvCity.getText().toString().equalsIgnoreCase(LocationActivity.strSelectedCity)){
+//					if(tvCity.getText().toString().equalsIgnoreCase(LocationActivity.strSelectedCity)){
 						tvCity.setEnabled(false);
-					}else{
-						tvCity.setEnabled(true);
-					}
-					if(tvState.getText().toString().equalsIgnoreCase(LocationActivity.strSelectedState)){
+//					}
+//					if(tvState.getText().toString().equalsIgnoreCase(LocationActivity.strSelectedState)){
 						tvState.setEnabled(false);
-						tvState.setEnabled(true);
-					}
+						rlState.setVisibility(View.GONE);
+//					}
+				}else if(strShippingorBilling.equalsIgnoreCase("billing")){                                                //use spinner in case of billing
+					tvState.setEnabled(false);
+					rlState.setVisibility(View.GONE);
 				}
 
 				String addr = address.getStreet();
@@ -695,10 +772,20 @@ public class CreateNewAddress extends BaseActivity{
 				UtilityMethods.customToast("House no can't be blank", mContext);
 				return;
 			}
-			if (tvLocation.getText().toString().equals("")) {
-				UtilityMethods.customToast("Location can't be blank", mContext);
-				return;
+
+
+			if(strShippingorBilling.equalsIgnoreCase("shipping")) {
+				if (strSelectedSpinnerLocationShipping.equals("")) {
+					UtilityMethods.customToast("Location can't be blank", mContext);
+					return;
+				}
+			}else {
+				if (tvLocation.getText().toString().equals("")) {
+					UtilityMethods.customToast("Location can't be blank", mContext);
+					return;
+				}
 			}
+
 			if (tvLandMark.getText().toString().equals("")) {
 				UtilityMethods.customToast("Landmark can't be blank", mContext);
 				return;

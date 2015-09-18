@@ -589,7 +589,7 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
                             new BillingStateCityLoader(BillingAddress.this,addres,"billing","-1").execute(UrlsConstants.GET_STATE);
                         }else {
                             Intent intent = new Intent(mContext, CreateNewAddress.class);
-                            intent.putExtra("shippingorbillingaddress", "shipping");
+                            intent.putExtra("shippingorbillingaddress", "billing");
                             intent.putExtra("editindex", "-1");                                    //means adding the address not editing.
                             startActivityForResult(intent, requestNewAddress);
                         }

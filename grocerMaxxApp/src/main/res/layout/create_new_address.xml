@@ -227,6 +227,75 @@
 
             </RelativeLayout>
 
+
+
+
+
+
+
+
+
+
+
+            <RelativeLayout
+                android:id="@+id/rl_location_spinner_shipping"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="7dp" >
+
+                <TextView
+                    android:id="@+id/txt_location_spinner_shipping"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Location"
+                    android:textColor="@color/pallete_black"
+                    android:textSize="@dimen/text_size_12" />
+
+
+                <Spinner
+                    android:id="@+id/spinner_location_shipping"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/txt_location_spinner_shipping"
+                    android:background="@drawable/spi"
+                    android:gravity="center_vertical"
+                    android:layout_toLeftOf="@+id/iv_location_spinner_shipping"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_location_spinner_shipping"
+                    android:layout_width="20dp"
+                    android:layout_height="30dp"
+                    android:paddingRight="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_below="@+id/txt_location_spinner_shipping"
+                    android:background="@drawable/spi"
+                    android:src="@drawable/drop_down" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/spinner_location_shipping"
+                    android:background="@color/register_address_line_color"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <RelativeLayout
                 android:id="@+id/rl_landmark"
                 android:layout_width="match_parent"
@@ -399,7 +468,7 @@
 
 
                 <Spinner
-                    android:id="@+id/spinner_shipping"
+                    android:id="@+id/spinner_billing"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_below="@+id/txt_state_spinner"
@@ -423,7 +492,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="5dp"
-                    android:layout_below="@+id/spinner_shipping"
+                    android:layout_below="@+id/spinner_billing"
                     android:background="@color/register_address_line_color"
                     android:visibility="visible" />
 
