@@ -99,6 +99,13 @@ public class AddressListAdapter extends BaseAdapter{
 		final Address obj = getItem(position);
 		holder.profilename.setText(obj.getFirstname() + " " + obj.getLastname());
 
+		if(obj.getDefaultBilling().equalsIgnoreCase("true") && obj.getDefaultShipping().equalsIgnoreCase("true")){             //user can't be deleted.
+			holder.llDeleteAddress.setEnabled(false);
+			holder.llDeleteAddress.setVisibility(View.GONE);
+		}else{
+			holder.llDeleteAddress.setVisibility(View.VISIBLE);
+		}
+
 		if(obj.getRegion()!=null) {
 			if(!obj.getRegion().equals("")) {
 				holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() + obj.getStreet() + "," + obj.getCity() + "," + obj.getRegion() + "," + "India" + "," + obj.getPostcode());
@@ -126,7 +133,7 @@ public class AddressListAdapter extends BaseAdapter{
 			
 			@Override
 			public void onClick(View v) {
-				((AddressDetail)mContext).goToAddress(obj);
+				((AddressDetail)mContext).goToAddress(obj,position);
 			}
 		});
        holder.llDeleteAddress.setOnClickListener(new OnClickListener() {

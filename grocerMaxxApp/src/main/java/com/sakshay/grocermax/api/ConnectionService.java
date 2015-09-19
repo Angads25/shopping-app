@@ -25,6 +25,9 @@ import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -280,6 +283,13 @@ public class ConnectionService extends IntentService {
 				if (AppConstants.DEBUG) {
 					Log.i(TAG, "URL:::" + urlString);
 				}
+
+//				HttpParams httpParameters = new BasicHttpParams();
+//				int timeoutConnection = 3000;
+//				HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+//				int timeoutSocket = 5000;
+//				HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+
 				httpGet.setHeader("Content-Type", "application/json");
 				if (accessToken != null) {
 					httpGet.setHeader("AccessToken", "" + accessToken);

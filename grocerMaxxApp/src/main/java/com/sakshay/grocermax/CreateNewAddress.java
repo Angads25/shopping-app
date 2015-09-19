@@ -148,17 +148,17 @@ public class CreateNewAddress extends BaseActivity{
 			ivCBDefaultShipping = (ImageView) findViewById(R.id.cb_iv_shipping);
 			tvCBDefaultShipping = (TextView) findViewById(R.id.cb_tv_shipping);
 
-			if(strShippingorBilling.equalsIgnoreCase("shipping") || strShippingorBilling.equalsIgnoreCase("billing")){
-				ivCBDefaultBilling.setVisibility(View.GONE);
-				tvCBDefaultBilling.setVisibility(View.GONE);
-				ivCBDefaultShipping.setVisibility(View.GONE);
-				tvCBDefaultShipping.setVisibility(View.GONE);
-			}else{
-				ivCBDefaultBilling.setVisibility(View.VISIBLE);
-				tvCBDefaultBilling.setVisibility(View.VISIBLE);
-				ivCBDefaultShipping.setVisibility(View.VISIBLE);
-				tvCBDefaultShipping.setVisibility(View.VISIBLE);
-			}
+//			if(strShippingorBilling.equalsIgnoreCase("shipping") || strShippingorBilling.equalsIgnoreCase("billing")){
+//				ivCBDefaultBilling.setVisibility(View.GONE);
+//				tvCBDefaultBilling.setVisibility(View.GONE);
+//				ivCBDefaultShipping.setVisibility(View.GONE);
+//				tvCBDefaultShipping.setVisibility(View.GONE);
+//			}else{
+//				ivCBDefaultBilling.setVisibility(View.VISIBLE);
+//				tvCBDefaultBilling.setVisibility(View.VISIBLE);
+//				ivCBDefaultShipping.setVisibility(View.VISIBLE);
+//				tvCBDefaultShipping.setVisibility(View.VISIBLE);
+//			}
 
 			check_default_billing = (CheckBox) findViewById(R.id.check_default);
 			check_default_shipping = (CheckBox) findViewById(R.id.check_default_shipping);
@@ -353,13 +353,13 @@ public class CreateNewAddress extends BaseActivity{
 			button_create_address.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			txtHeaderAddres.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 
-			if(strShippingorBilling.equalsIgnoreCase("shipping") || strShippingorBilling.equalsIgnoreCase("billing")){
+			if(strShippingorBilling.equalsIgnoreCase("shipping") || strShippingorBilling.equalsIgnoreCase("billing") || strShippingorBilling.equalsIgnoreCase("profilenewaddress")){
 
 				if(!strShippingorBilling.equals("")){
 				if(strShippingorBilling.equalsIgnoreCase("billing")){                            //billing edit OR add case
 					TextView txtLocation = (TextView)findViewById(R.id.txt_location);
 					txtLocation.setText("Street Address / Locality");
-				}else{                                                                           //shipping edit OR add case
+				}else{                                                                           //shipping edit OR add case AND (from myprofile)addnewaddress or edit
 					TextView txtLocation = (TextView)findViewById(R.id.txt_location);
 					txtLocation.setText("Location");
 				}
@@ -374,7 +374,8 @@ public class CreateNewAddress extends BaseActivity{
 					strSelectedSpinnerState = BillingStateCityLoader.alState.get(0);
 				}
 			}
-			if(strShippingorBilling.equalsIgnoreCase("shipping")) {
+
+			if(strShippingorBilling.equalsIgnoreCase("shipping") || strShippingorBilling.equalsIgnoreCase("profilenewaddress")) {
 				if(ShippingLocationLoader.alLocationShipping.size() > 0) {
 					strSelectedSpinnerLocationShipping = ShippingLocationLoader.alLocationShipping.get(0);
 				}
@@ -390,32 +391,30 @@ public class CreateNewAddress extends BaseActivity{
 			 tvPinCode = (EditText) findViewById(R.id.edit_pincode);
 			 tvPhone = (EditText) findViewById(R.id.edit_phone);
 
-
-
 			 rlLocationSpinnerShipping = (RelativeLayout) findViewById(R.id.rl_location_spinner_shipping);
 			 rlLocation = (RelativeLayout) findViewById(R.id.rl_location);
-			 int indexTempLocation = 0;                                          //default index set for spinner so that selected state should be visible in spinner.
-			 if(strShippingorBilling.equalsIgnoreCase("shipping")) {
+//			 int indexTempLocation = 0;                                          //default index set for spinner so that selected state should be visible in spinner.
+			 if(strShippingorBilling.equalsIgnoreCase("shipping") || strShippingorBilling.equalsIgnoreCase("profilenewaddress")) {
 				 rlLocationSpinnerShipping.setVisibility(View.VISIBLE);
 				 rlLocation.setVisibility(View.GONE);
 				 spinnerLocationShipping = (Spinner) findViewById(R.id.spinner_location_shipping);
 				 ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
 						 R.layout.spinner_textview, ShippingLocationLoader.alLocationShipping);
 				 spinnerLocationShipping.setAdapter(dataAdapter);
-				 for(int i=0;i<ShippingLocationLoader.alLocationShipping.size();i++){
-					 if(LocationActivity.strSelectedState.equalsIgnoreCase(ShippingLocationLoader.alLocationShipping.get(i))){
-						 indexTempLocation = i;
-					 }
-				 }
-				 spinnerLocationShipping.setSelection(indexTempLocation);
-				 spinnerIndexLocationShipping = indexTempLocation;
+//				 for(int i=0;i<ShippingLocationLoader.alLocationShipping.size();i++){
+//					 if(LocationActivity.strSelectedState.equalsIgnoreCase(ShippingLocationLoader.alLocationShipping.get(i))){
+//						 indexTempLocation = i;
+//					 }
+//				 }
+//				 spinnerLocationShipping.setSelection(indexTempLocation);
+//				 spinnerIndexLocationShipping = indexTempLocation;
 				 spinnerLocationShipping.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 					 @Override
 					 public void onItemSelected(AdapterView<?> parent, View view,
 												int position, long id) {
 
 						 spinnerIndexLocationShipping = position;
-						 strSelectedSpinnerLocationShipping = ShippingLocationLoader.alLocationShipping.get(spinnerIndexSelected);
+						 strSelectedSpinnerLocationShipping = ShippingLocationLoader.alLocationShipping.get(spinnerIndexLocationShipping);
 						 //parent.getItemAtPosition(position);      //selected item
 						 //position
 
@@ -491,7 +490,7 @@ public class CreateNewAddress extends BaseActivity{
 					tvCity.setEnabled(true);
 					rlStateSpinner.setVisibility(View.VISIBLE);
 				}
-				if(strShippingorBilling.equalsIgnoreCase("shipping")){
+				if(strShippingorBilling.equalsIgnoreCase("shipping") || strShippingorBilling.equalsIgnoreCase("profilenewaddress")){
 					tvState.setEnabled(false);
 					rlState.setVisibility(View.GONE);
 					tvCity.setEnabled(false);
@@ -528,23 +527,38 @@ public class CreateNewAddress extends BaseActivity{
 				tvState.setText(address.getRegion());
 				tvState.setEnabled(false);
 
-				if(strShippingorBilling.equalsIgnoreCase("shipping")){
+				if(strShippingorBilling.equalsIgnoreCase("shipping") || strShippingorBilling.equalsIgnoreCase("profilenewaddress")){
 //					if(tvCity.getText().toString().equalsIgnoreCase(LocationActivity.strSelectedCity)){
 						tvCity.setEnabled(false);
 //					}
 //					if(tvState.getText().toString().equalsIgnoreCase(LocationActivity.strSelectedState)){
 						tvState.setEnabled(false);
 						rlState.setVisibility(View.GONE);
+
+					String addr = address.getStreet();
+					tvHouseNo.setText(addr.split("\n")[0]);
+//					tvLocation.setText(addr.split("\n")[1]);
+					tvLandMark.setText(addr.split("\n")[2]);
+
+					int indexTempLocation = 0;
+					for(int i=0;i<ShippingLocationLoader.alLocationShipping.size();i++){
+					 if(addr.split("\n")[1].equalsIgnoreCase(ShippingLocationLoader.alLocationShipping.get(i))){
+							 indexTempLocation = i;
+						 }
+				 	}
+				 	spinnerLocationShipping.setSelection(indexTempLocation);
+				 	spinnerIndexLocationShipping = indexTempLocation;
 //					}
 				}else if(strShippingorBilling.equalsIgnoreCase("billing")){                                                //use spinner in case of billing
 					tvState.setEnabled(false);
 					rlState.setVisibility(View.GONE);
+					String addr = address.getStreet();
+					tvHouseNo.setText(addr.split("\n")[0]);
+					tvLocation.setText(addr.split("\n")[1]);
+					tvLandMark.setText(addr.split("\n")[2]);
 				}
 
-				String addr = address.getStreet();
-				tvHouseNo.setText(addr.split("\n")[0]);
-				tvLocation.setText(addr.split("\n")[1]);
-				tvLandMark.setText(addr.split("\n")[2]);
+
 //				edit_address1.setText(addr.split("\n")[0]);
 				tvPhone.setText(address.getTelephone());
 				tvFirstName.setText(address.getFirstname());
@@ -774,7 +788,7 @@ public class CreateNewAddress extends BaseActivity{
 			}
 
 
-			if(strShippingorBilling.equalsIgnoreCase("shipping")) {
+			if(strShippingorBilling.equalsIgnoreCase("shipping") || strShippingorBilling.equalsIgnoreCase("profilenewaddress")) {
 				if (strSelectedSpinnerLocationShipping.equals("")) {
 					UtilityMethods.customToast("Location can't be blank", mContext);
 					return;
@@ -800,7 +814,7 @@ public class CreateNewAddress extends BaseActivity{
 					UtilityMethods.customToast("State can't be blank", mContext);
 					return;
 				}
-			}else {
+			}else {                                             //in shipping case and profilenewaddress case this will be gone
 				if (tvState.getText().toString().equals("")) {
 					UtilityMethods.customToast("State can't be blank", mContext);
 					return;
@@ -894,17 +908,18 @@ public class CreateNewAddress extends BaseActivity{
 			}
 
 
-			if(strShippingorBilling.equalsIgnoreCase("shipping")) {              //state relative layout should be hide
-
-			}
-
 
 			String pin = tvPinCode.getText().toString();
 			String countrycode = "IN";
 			String phone = tvPhone.getText().toString();
 
 			String addressLine1 = tvHouseNo.getText().toString();
-			String addressLine2 = tvLocation.getText().toString();
+			String addressLine2 = "";
+			if(strShippingorBilling.equalsIgnoreCase("shipping") || strShippingorBilling.equalsIgnoreCase("profilenewaddress")) {              //state relative layout should be hide
+				addressLine2 = strSelectedSpinnerLocationShipping;
+			}else {
+				addressLine2 = tvLocation.getText().toString();
+			}
 			String addressLine3 = tvLandMark.getText().toString();
 
 //			String url_param = "fname=" + fname + "&lname=" + lname + "&addressline1=" + addressline1 + "&addressline2=" + "" + "&city=" + city + "&state=" + state + "&pin=" + pin + "&countrycode=" + countrycode + "&phone=" + phone;

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 
+import com.sakshay.grocermax.AddressDetail;
 import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.BillingAddress;
 import com.sakshay.grocermax.CreateNewAddress;
@@ -33,13 +34,13 @@ public class ShippingLocationLoader extends AsyncTask<String, String, String> {
     Context context;
     private Activity activity;
     Address address;
-    String shipping;
+    String shippingORprofile;
     String editIndex;
     public static ArrayList<String> alLocationShipping = null;                //getting state for shipping address
-    public ShippingLocationLoader(Context context,Address address,String shipping,String editIndex){
+    public ShippingLocationLoader(Context context,Address address,String shippingprofile,String editIndex){
         this.context = context;
         this.address = address;
-        this.shipping = shipping;
+        this.shippingORprofile = shippingprofile;
         this.editIndex = editIndex;
     }
 
@@ -47,7 +48,12 @@ public class ShippingLocationLoader extends AsyncTask<String, String, String> {
     protected void onPreExecute() {
         super.onPreExecute();
         alLocationShipping = new ArrayList<String>();
-        ((ShippingAddress)context).showDialog();
+        if(shippingORprofile.equalsIgnoreCase("profilenewaddress"))
+        {
+            ((AddressDetail)context).showDialog();
+        }else{
+            ((ShippingAddress)context).showDialog();
+        }
     }
 
     @Override
@@ -68,14 +74,26 @@ public class ShippingLocationLoader extends AsyncTask<String, String, String> {
             HttpEntity resEntity = response.getEntity();
             return EntityUtils.toString(resEntity);
         } catch (ClientProtocolException e) {
-            ((BaseActivity)context).dismissDialog();
+            if(shippingORprofile.equalsIgnoreCase("profilenewaddress")){
+                ((AddressDetail)context).dismissDialog();
+            }else{
+                ((ShippingAddress)context).dismissDialog();
+            }
             new GrocermaxBaseException("BillingStateCityLoader","doInBackground",e.getMessage(),GrocermaxBaseException.CLIENT_PROTOCOL_EXCEPTION,strResult);
         } catch (IOException e) {
-            ((BaseActivity)context).dismissDialog();
+            if(shippingORprofile.equalsIgnoreCase("profilenewaddress")){
+                ((AddressDetail)context).dismissDialog();
+            }else{
+                ((ShippingAddress)context).dismissDialog();
+            }
             new GrocermaxBaseException("BillingStateCityLoader","doInBackground",e.getMessage(),GrocermaxBaseException.IO_EXCEPTION,strResult);
         }
         catch (Exception e){
-            ((BaseActivity)context).dismissDialog();
+            if(shippingORprofile.equalsIgnoreCase("profilenewaddress")){
+                ((AddressDetail)context).dismissDialog();
+            }else{
+                ((ShippingAddress)context).dismissDialog();
+            }
             new GrocermaxBaseException("BillingStateCityLoader","doInBackground",e.getMessage(),GrocermaxBaseException.EXCEPTION,strResult);
         }
         return null;
@@ -83,7 +101,12 @@ public class ShippingLocationLoader extends AsyncTask<String, String, String> {
 
     protected void onPostExecute(String result) {
         try{
-            ((ShippingAddress)context).dismissDialog();
+            if(shippingORprofile.equalsIgnoreCase("profilenewaddress")){
+                ((AddressDetail)context).dismissDialog();
+            }else{
+                ((ShippingAddress)context).dismissDialog();
+            }
+
             System.out.print("==Result=="+result);
             JSONObject jsonObject = new JSONObject(result);
 
@@ -95,21 +118,37 @@ public class ShippingLocationLoader extends AsyncTask<String, String, String> {
                 alLocationShipping.add(strState);
             }
 
-            if(alLocationShipping.size() > 0) {
-                if(address == null){                         //adding new address
-                    Intent intent = new Intent(context, CreateNewAddress.class);
-                    intent.putExtra("shippingorbillingaddress", shipping);
-                    intent.putExtra("editindex", "-1");                                    //means adding the address not editing.
-                    ((ShippingAddress) context).startActivityForResult(intent, BillingAddress.requestNewAddress);
-                }else{                                      //editing in existing address
-                    Intent intent = new Intent(context, CreateNewAddress.class);
-                    intent.putExtra("address", address);
-                    intent.putExtra("shippingorbillingaddress", shipping);
-                    intent.putExtra("editindex", editIndex);                                    //means editing the address not adding.
-                    ((ShippingAddress) context).startActivityForResult(intent, BillingAddress.requestNewAddress);
+            if(shippingORprofile.equalsIgnoreCase("profilenewaddress")){
+                if(alLocationShipping.size() > 0) {
+                    if(address == null){                         //adding new address
+                        Intent intent = new Intent(context, CreateNewAddress.class);
+                        intent.putExtra("shippingorbillingaddress", shippingORprofile);                    //profilenewaddress
+                        intent.putExtra("editindex", "-1");                                    //means adding the address not editing.
+                        ((AddressDetail) context).startActivityForResult(intent, BillingAddress.requestNewAddress);
+                    }else{                                      //editing in existing address
+                        Intent intent = new Intent(context, CreateNewAddress.class);
+                        intent.putExtra("address", address);
+                        intent.putExtra("shippingorbillingaddress", shippingORprofile);                  //profilenewaddress
+                        intent.putExtra("editindex", editIndex);                                    //means editing the address not adding.
+                        ((AddressDetail) context).startActivityForResult(intent, BillingAddress.requestNewAddress);
+                    }
+                }
+            }else{                                                     //shipping
+                if(alLocationShipping.size() > 0) {
+                    if(address == null){                         //adding new address
+                        Intent intent = new Intent(context, CreateNewAddress.class);
+                        intent.putExtra("shippingorbillingaddress", shippingORprofile);                 //profilenewaddress
+                        intent.putExtra("editindex", "-1");                                    //means adding the address not editing.
+                        ((ShippingAddress) context).startActivityForResult(intent, BillingAddress.requestNewAddress);
+                    }else{                                      //editing in existing address
+                        Intent intent = new Intent(context, CreateNewAddress.class);
+                        intent.putExtra("address", address);
+                        intent.putExtra("shippingorbillingaddress", shippingORprofile);                 //profilenewaddress
+                        intent.putExtra("editindex", editIndex);                                    //means editing the address not adding.
+                        ((ShippingAddress) context).startActivityForResult(intent, BillingAddress.requestNewAddress);
+                    }
                 }
             }
-
 
 //            if(jsonObject.getString("Result").equalsIgnoreCase("Categories Found")){
 //
@@ -121,13 +160,25 @@ public class ShippingLocationLoader extends AsyncTask<String, String, String> {
 //            }
 
         }catch(JSONException e){
-            ((BaseActivity)context).dismissDialog();
+            if(shippingORprofile.equalsIgnoreCase("profilenewaddress")){
+                ((AddressDetail)context).dismissDialog();
+            }else{
+                ((ShippingAddress)context).dismissDialog();
+            }
             new GrocermaxBaseException("BillingStateCityLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.JSON_EXCEPTION,result);
         }catch (NullPointerException e){
-            ((BaseActivity)context).dismissDialog();
+            if(shippingORprofile.equalsIgnoreCase("profilenewaddress")){
+                ((AddressDetail)context).dismissDialog();
+            }else{
+                ((ShippingAddress)context).dismissDialog();
+            }
             new GrocermaxBaseException("BillingStateCityLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.NULL_POINTER,result);
         }catch (Exception e){
-            ((BaseActivity)context).dismissDialog();
+            if(shippingORprofile.equalsIgnoreCase("profilenewaddress")){
+                ((AddressDetail)context).dismissDialog();
+            }else{
+                ((ShippingAddress)context).dismissDialog();
+            }
             new GrocermaxBaseException("BillingStateCityLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.EXCEPTION,result);
         }
     }

@@ -84,11 +84,22 @@ public class AddressDetail extends BaseActivity{
 			initHeader(findViewById(R.id.header), true, "My Addresses");
 		}catch(Exception e){
 			new GrocermaxBaseException("AddressDetail","onCreate",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
+	}
 
+	public void goToAddress(Address address,int position) {          //edit address
+		if (ShippingLocationLoader.alLocationShipping == null || ShippingLocationLoader.alLocationShipping.size() == 0) {                //first time call this service for getting states
+			new ShippingLocationLoader(AddressDetail.this, address, "profilenewaddress", String.valueOf(position)).execute(UrlsConstants.GET_LOCATION_SHIPPING + LocationActivity.strSelectedStateId);
+		} else {
+			Intent intent = new Intent(mContext, CreateNewAddress.class);
+			intent.putExtra("address", address);
+			intent.putExtra("shippingorbillingaddress", "profilenewaddress");
+			intent.putExtra("editindex", String.valueOf(position));                                    //means editing the address not adding.
+			startActivityForResult(intent, requestNewAddress);
 		}
 	}
 	
-	public void goToAddress(Address address)
+	public void goToAddress(Address address)        //add address
 	{
 		try{
 //			Intent intent = new Intent(mContext, CreateNewAddress.class);

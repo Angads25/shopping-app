@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.sakshay.grocermax.AnimatedExpandableListView.AnimatedExpandableListAdapter;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.utils.CustomFonts;
+
+import org.apache.http.protocol.HttpExpectationVerifier;
 //import com.payu.sdk.GetResponseTask;
 
 public class ExpandableListAdapter extends AnimatedExpandableListAdapter{
@@ -97,6 +99,13 @@ public class ExpandableListAdapter extends AnimatedExpandableListAdapter{
 //			for(int i=0;i<catObj.get(groupPosition).getChildren().size() ;i++){
 //
 //			}
+
+				try {
+					String str = catObj.get(groupPosition).getChildren().get(0).getCategory();
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+
 
 				img_arrow.setImageResource(R.drawable.arrow_right);
 				if (catObj.get(groupPosition).getChildren().get(0).getChildren().size() > 0) {  //sub-sub-sub category present
