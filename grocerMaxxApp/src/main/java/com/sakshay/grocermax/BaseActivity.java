@@ -295,6 +295,9 @@ public abstract class BaseActivity extends FragmentActivity {
 						if (keyboardVisibility)
 							UtilityMethods.hideKeyBoard(BaseActivity.this);
 //							showMoreOption(icon_header_user);
+						if(UtilityMethods.getCurrentClassName(BaseActivity.this).equals(getApplicationContext().getPackageName() + ".CartProductList")) {
+								finish();
+						 }
 							Intent intent2 = new Intent(mContext,UserHeaderProfile.class);
 							startActivity(intent2);
 						break;

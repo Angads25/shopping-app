@@ -664,12 +664,11 @@ implements ConnectionCallbacks, OnConnectionFailedListener
     	// TODO Auto-generated method stub
     	super.onStart();
     	try{
-	    	tracker.activityStart(this);
+			EasyTracker.getInstance(this).activityStart(this);
+//	    	tracker.activityStart(this);
 	    	FlurryAgent.onStartSession(context, getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){
-			new GrocermaxBaseException("LoginActivity","onStart",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
-		}
+    	}catch(Exception e){}
     }
     
     @Override
@@ -685,9 +684,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 	            mGoogleApiClient.disconnect();
 	        }
 		}
-    	}catch(Exception e){
-			new GrocermaxBaseException("LoginActivity","onStop",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
-		}
+    	}catch(Exception e){}
     }
 
 	/**************************************************  GOOGLE PLUS INTEGARTION *************************************************/

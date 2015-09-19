@@ -149,11 +149,11 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
     	// TODO Auto-generated method stub
     	super.onStart();
     	try{
-	    	tracker.activityStart(this);
+			EasyTracker.getInstance(this).activityStart(this);
+//	    	tracker.activityStart(this);
 	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){
-			new GrocermaxBaseException("CODConfirmation","onStart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
     }
     
@@ -165,7 +165,6 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 	    	tracker.activityStop(this);
 	    	FlurryAgent.onEndSession(this);
     	}catch(Exception e){
-			new GrocermaxBaseException("CODConfirmation","onStop",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
     }
 	

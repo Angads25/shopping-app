@@ -18,6 +18,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.flurry.android.FlurryAgent;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.gson.Gson;
 import com.sakshay.grocermax.adapters.ProductListAdapter;
 import com.sakshay.grocermax.bean.Product;
@@ -30,6 +32,18 @@ public class MobiKwikWallet extends BaseActivity{
 //	http://dev.grocermax.com/webservice/new_services/success.php?orderid=""&txnid=""&status=success
 //	String strSuccessUrl = "http://dev.grocermax.com/webservice/new_services/success.php?orderid=";
 //    String strFailureUrl = "http://dev.grocermax.com/webservice/new_services/success.php?orderid=";
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		try {
+			EasyTracker.getInstance(this).activityStart(this);
+//	    	tracker.activityStart(this);
+			FlurryAgent.onStartSession(this, getResources().getString(R.string.flurry_api_key));
+			FlurryAgent.onPageView();         //Use onPageView to report page view count.
+		}catch(Exception e){}
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -67,6 +81,16 @@ public class MobiKwikWallet extends BaseActivity{
 		}catch(Exception e){
 			new GrocermaxBaseException("MobiKwikWallet","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
+	}
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		try{
+			tracker.activityStop(this);
+			FlurryAgent.onEndSession(this);
+		}catch(Exception e){}
 	}
 
 	@Override

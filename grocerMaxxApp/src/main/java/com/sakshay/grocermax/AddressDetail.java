@@ -219,25 +219,22 @@ public class AddressDetail extends BaseActivity{
     protected void onStart() {
     	// TODO Auto-generated method stub
     	super.onStart();
-    	try{
-	    	tracker.activityStart(this);
-	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){
-			new GrocermaxBaseException("AddressDetail","OnStart",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
-		}
+		try {
+			EasyTracker.getInstance(this).activityStart(this);
+//	    	tracker.activityStart(this);
+			FlurryAgent.onStartSession(this, getResources().getString(R.string.flurry_api_key));
+			FlurryAgent.onPageView();         //Use onPageView to report page view count.
+		}catch(Exception e){}
     }
     
     @Override
     protected void onStop() {
     	// TODO Auto-generated method stub
-    	super.onStop();
-    	try{
+    		super.onStop();
+		try{
 	    	tracker.activityStop(this);
 	    	FlurryAgent.onEndSession(this);
-    	}catch(Exception e){
-			new GrocermaxBaseException("AddressDetail","OnStop",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
-		}
+		}catch(Exception e){}
     }
 
 }

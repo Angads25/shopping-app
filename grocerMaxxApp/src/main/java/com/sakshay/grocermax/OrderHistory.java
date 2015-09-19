@@ -94,11 +94,11 @@ public class OrderHistory extends BaseActivity{
     	// TODO Auto-generated method stub
     	super.onStart();
     	try{
-	    	tracker.activityStart(this);
+			EasyTracker.getInstance(this).activityStart(this);
+//	    	tracker.activityStart(this);
 	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){
-			new GrocermaxBaseException("OrderHistory","onStart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
     }
     
@@ -109,9 +109,7 @@ public class OrderHistory extends BaseActivity{
     	try{
 	    	tracker.activityStop(this);
 	    	FlurryAgent.onEndSession(this);
-    	}catch(Exception e){
-			new GrocermaxBaseException("OrderHistory","onStop",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
-		}
+    	}catch(Exception e){}
     }
 	
 	

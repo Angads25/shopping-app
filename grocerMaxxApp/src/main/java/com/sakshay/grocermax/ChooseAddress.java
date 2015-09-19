@@ -1634,7 +1634,7 @@ public class ChooseAddress extends BaseActivity implements OnClickListener{
 	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){
-			new GrocermaxBaseException("ChooseAddress","onStart",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+
 		}
     }
 
@@ -1646,7 +1646,7 @@ public class ChooseAddress extends BaseActivity implements OnClickListener{
 	    	tracker.activityStop(this);
 	    	FlurryAgent.onEndSession(this);
     	}catch(Exception e){
-			new GrocermaxBaseException("ChooseAddress","onStop",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+
 		}
     }
 

@@ -232,12 +232,11 @@ public class PayTMActivity extends BaseActivity
     	// TODO Auto-generated method stub
     	super.onStart();
     	try{
-	    	tracker.activityStart(this);
+			EasyTracker.getInstance(this).activityStart(this);
+//	    	tracker.activityStart(this);
 	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){
-			new GrocermaxBaseException("PayTMActivity","onStart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
-		}
+    	}catch(Exception e){}
     }
     
     @Override
@@ -247,9 +246,7 @@ public class PayTMActivity extends BaseActivity
     	try{
 	    	tracker.activityStop(this);
 	    	FlurryAgent.onEndSession(this);
-    	}catch(Exception e){
-			new GrocermaxBaseException("PayTMActivity","onStop",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
-		}
+    	}catch(Exception e){}
     }
 	
 }
