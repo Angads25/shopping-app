@@ -40,7 +40,8 @@ import com.sakshay.grocermax.utils.MyHttpUtils;
 import com.sakshay.grocermax.utils.UrlsConstants;
 import com.sakshay.grocermax.utils.UtilityMethods;
 
-public final class ProductListFragments extends Fragment implements OnScrollListener {
+public final class ProductListFragments extends Fragment implements OnScrollListener
+{
 	public static final String TAG = "ConnectionService";
 	int currentFirstVisibleItem = 0;
 	int currentVisibleItemCount = 10;
