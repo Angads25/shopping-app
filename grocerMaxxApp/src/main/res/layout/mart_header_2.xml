@@ -162,7 +162,6 @@
                     android:background="@drawable/selector_carticon_appbar"
                     android:contentDescription="@string/image_content_desc"
                     android:paddingBottom="-10dp"
-
                     android:paddingLeft="5dp"
                     android:paddingRight="0dp" />
 

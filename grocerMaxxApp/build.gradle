@@ -49,7 +49,7 @@ dependencies {
     //card view
     compile 'com.android.support:recyclerview-v7:21.0.+'
     //recycler view
-    //   compile 'com.viewpagerindicator:library:2.4.1@aar'// viewpager.Indicator
+//       compile 'com.viewpagerindicator:library:2.4.1@aar'// viewpager.Indicator
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     //better the above
 }

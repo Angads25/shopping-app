@@ -132,7 +132,7 @@ public class OrderHistoryAdapter extends BaseAdapter {
 		holder.order_date.setText(obj.getCreated_at().split(" ")[0]);
 		holder.order_no.setText(obj.getIncrement_id());
 		holder.amnt_paid.setText("Rs. "+String.format("%.2f",Float.parseFloat(obj.getGrand_total())));
-		holder.status.setText(obj.getStatus());
+		holder.status.setText(obj.getStatus().substring(0, 1).toUpperCase() + obj.getStatus().substring(1));
 		holder.no_of_items.setText("" + obj.getTotal_item_count());
 		
 		

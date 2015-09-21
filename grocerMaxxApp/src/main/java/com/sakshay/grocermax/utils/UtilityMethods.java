@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -50,17 +51,54 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.internal.Utility;
 import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.MyApplication;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
 import com.sakshay.grocermax.bean.CartDetail;
 import com.sakshay.grocermax.bean.CartDetailBean;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.utils.Constants.ToastConstant;
 import com.sakshay.grocermax.utils.ListSublistConstants.ListConstant;
 
 public class UtilityMethods {
-	
+
+	private static UtilityMethods instance;
+	public static UtilityMethods getInstance(){
+		if(instance == null){
+			instance = new UtilityMethods();
+		}
+		return instance;
+	}
+	public UtilityMethods(){
+		instance = this;
+	}
+
+
+	public void showDialog(Context context) {
+		try {
+			mProgressDialog = new ProgressDialog(context);
+			mProgressDialog.setMessage("Loading...");
+			mProgressDialog.show();
+			mProgressDialog.setCancelable(false);
+		}catch(Exception e){
+			new GrocermaxBaseException("UtilityMethods", "showDialog", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+		}
+	}
+	private ProgressDialog mProgressDialog;
+
+
+	public void dismissDialog() {
+		try{
+			if (mProgressDialog != null && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
+		}catch(Exception e){
+			new GrocermaxBaseException("UtilityMethods", "dismissDialog", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+		}
+	}
+
 	/**
 	 * For check internet COnnectivity
 	 */

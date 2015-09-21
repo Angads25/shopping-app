@@ -870,11 +870,13 @@ public class CreateNewAddress extends BaseActivity{
 			}else if(strShippingorBilling.equalsIgnoreCase("billing")){      //when user coming from checkout screen
 				default_billing = 1;
 			}else{
-				if (bBilling){
-					default_billing = 1;
-				}else if (bShipping) {
-					default_shipping = 1;
-				}
+				default_shipping = 0;
+				default_billing = 0;
+//				if (bBilling){
+//					default_billing = 1;
+//				}else if (bShipping) {
+//					default_shipping = 1;
+//				}
 			}
 
 //			if(default_billing == 0 && default_shipping == 0){
@@ -1004,9 +1006,7 @@ public class CreateNewAddress extends BaseActivity{
 			EasyTracker.getInstance(this).activityStart(this);
 	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){
-			new GrocermaxBaseException("CreateNewAddress","onStart",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
-		}
+    	}catch(Exception e){}
     }
     
     @Override
@@ -1016,9 +1016,7 @@ public class CreateNewAddress extends BaseActivity{
     	try{
 	    	tracker.activityStop(this);
 	    	FlurryAgent.onEndSession(this);
-    	}catch(Exception e){
-			new GrocermaxBaseException("CreateNewAddress","onStop",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
-		}
+    	}catch(Exception e){}
     }
 	
 	

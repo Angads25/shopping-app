@@ -8,11 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.flurry.android.FlurryAgent;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.CartDetail;
 import com.sakshay.grocermax.bean.LoginResponse;
 import com.sakshay.grocermax.bean.OTPResponse;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.UrlsConstants;
@@ -29,6 +32,18 @@ public class OneTimePassword extends BaseActivity {
     OTPResponse otpDataBean;
     String params;
     String strEmail;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        try {
+            EasyTracker.getInstance(this).activityStart(this);
+//	    	tracker.activityStart(this);
+            FlurryAgent.onStartSession(this, getResources().getString(R.string.flurry_api_key));
+            FlurryAgent.onPageView();         //Use onPageView to report page view count.
+        }catch(Exception e){}
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +89,16 @@ public class OneTimePassword extends BaseActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_one_time_password, menu);
         return true;
+    }
+
+    @Override
+    protected void onStop() {
+        // TODO Auto-generated method stub
+        super.onStop();
+        try{
+            tracker.activityStop(this);
+            FlurryAgent.onEndSession(this);
+        }catch(Exception e){}
     }
 
     @Override

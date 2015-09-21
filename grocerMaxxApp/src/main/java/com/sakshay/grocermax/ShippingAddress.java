@@ -144,7 +144,9 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
             addressList = new ArrayList<Address>();
 
             for(int i=0;i<address_obj.getAddress().size();i++) {
-                if(address_obj.getAddress().get(i).getDefaultShipping().equals("true")) {
+//                if(address_obj.getAddress().get(i).getDefaultShipping().equals("true")) {
+                if(address_obj.getAddress().get(i).getCity().equalsIgnoreCase(LocationActivity.strSelectedCity) &&
+                        address_obj.getAddress().get(i).getRegion().equalsIgnoreCase(LocationActivity.strSelectedState)){
                     addressList.add(address_obj.getAddress().get(i));
                 }
             }
@@ -1823,9 +1825,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
             tracker.activityStart(this);
             FlurryAgent.onStartSession(this, getResources().getString(R.string.flurry_api_key));
             FlurryAgent.onPageView();         //Use onPageView to report page view count.
-        }catch(Exception e){
-            new GrocermaxBaseException("ShippingAddress","onStart",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
-        }
+        }catch(Exception e){}
     }
 
     @Override
@@ -1835,9 +1835,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
         try{
             tracker.activityStop(this);
             FlurryAgent.onEndSession(this);
-        }catch(Exception e){
-            new GrocermaxBaseException("ShippingAddress","onStop",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
-        }
+        }catch(Exception e){}
     }
 
 }

@@ -15,10 +15,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.flurry.android.FlurryAgent;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
 import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.LocationListBean;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.UrlsConstants;
@@ -37,6 +40,15 @@ public class LocationActivity extends BaseActivity {
     TextView tvSelctionLoc;           //previously selected color change to bluish
     ImageView ivSelectionLoc;
     public static String strSelectedCity,strSelectedState,strSelectedStateId;
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        EasyTracker.getInstance(this).activityStart(this);
+////	    	tracker.activityStart(this);
+//        FlurryAgent.onStartSession(this, getResources().getString(R.string.flurry_api_key));
+//        FlurryAgent.onPageView();         //Use onPageView to report page view count.
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,6 +188,18 @@ public class LocationActivity extends BaseActivity {
 			UtilityMethods.customToast(AppConstants.ToastConstant.DATA_NOT_FOUND, mContext);
 		}
     }
+
+//    @Override
+//    protected void onStop() {
+//        // TODO Auto-generated method stub
+//        super.onStop();
+//        try{
+//            tracker.activityStop(this);
+//            FlurryAgent.onEndSession(this);
+//        }catch(Exception e){
+//            new GrocermaxBaseException("CreateNewAddress","onStop",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+//        }
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -1,6 +1,7 @@
 package com.sakshay.grocermax.api;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,8 +20,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 
 import com.sakshay.grocermax.BaseActivity;
+import com.sakshay.grocermax.CartProductList;
 import com.sakshay.grocermax.LoginActivity;
 import com.sakshay.grocermax.SearchTabs;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
@@ -67,7 +70,14 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 		this.activity = activity;
 	}
 
-    @Override
+	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+//		((BaseActivity)context).showDialog();
+		UtilityMethods.getInstance().showDialog(context);
+	}
+
+	@Override
     protected String doInBackground(String... params) {
 		String strResult = "";
     	HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
@@ -86,14 +96,14 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 //			strResult =  EntityUtils.toString(resEntity);
 			return EntityUtils.toString(resEntity);
 		} catch (ClientProtocolException e) {
-			((BaseActivity)context).dismissDialog();
+//			((BaseActivity)context).dismissDialog();
 			new GrocermaxBaseException("SearchLoader","doInBackground",e.getMessage(),GrocermaxBaseException.CLIENT_PROTOCOL_EXCEPTION,strResult);
 		} catch (IOException e) {
-			((BaseActivity)context).dismissDialog();
+//			((BaseActivity)context).dismissDialog();
 			new GrocermaxBaseException("SearchLoader","doInBackground",e.getMessage(),GrocermaxBaseException.IO_EXCEPTION,strResult);
 		}
 		catch (Exception e){
-			((BaseActivity)context).dismissDialog();
+//			((BaseActivity)context).dismissDialog();
 			new GrocermaxBaseException("SearchLoader","doInBackground",e.getMessage(),GrocermaxBaseException.EXCEPTION,strResult);
 		}
 		return null;
@@ -114,8 +124,10 @@ public class SearchLoader extends AsyncTask<String, String, String> {
     		if(jsonObject.getString("Result").equalsIgnoreCase("Categories Found")){
     			
     		}
+
     		if(jsonObject.getString("Result").equalsIgnoreCase("No Result Found")){
     			((BaseActivity)context).dismissDialog();
+				UtilityMethods.getInstance().dismissDialog();
     			UtilityMethods.customToast(jsonObject.getString("Result"), context);
     			return;	
     		}
@@ -221,11 +233,23 @@ public class SearchLoader extends AsyncTask<String, String, String> {
     		}
     	}
 
+			JSONArray jsonArray = new JSONArray();
     	for(int k=0;k<jsonArrMulProd.length;k++)
     	{
     		System.out.println("==Final Prod Array=="+jsonArrMulProd[k]);
-    		jsonObjectTop[k].put("Product",jsonArrMulProd[k]);
+    		jsonObjectTop[k].put("Product", jsonArrMulProd[k]);
+
+//			JSONObject prod_obj = new JSONObject();
+//			jsonArray.put(prod_obj);
+			jsonArray.put(jsonObjectTop[k]);
     	}
+
+//			System.out.println("==JsonArray=1="+jsonArray);
+//			System.out.println("==JsonArray=2="+jsonArray);
+
+
+
+
 
 //		if(SearchTabs.getInstance() != null) {
 //			SearchTabs.getInstance().finish();
@@ -235,22 +259,40 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 //			((SearchTabs)context).finish();
 //		}
 
+//			if (UtilityMethods.getCurrentClassName(context).equals(context.getApplicationContext().getPackageName() + ".CartProductList")) {
+//				((CartProductList)context).finish();
+//				}
+//				if (UtilityMethods.getCurrentClassName(context).equals(context.getPackageName() + ".SearchTabs")) {
+//					((SearchTabs)context).finish();
+//				}
+
     	Intent call = new Intent(context, SearchTabs.class);
 		call.putExtra("SEARCHSTRING", searchKey);
+//			Bundle bundle = new Bundle();
+//			bundle.putSerializable("searchdata",(Serializable)String.valueOf(jsonObjectTop));
+//			call.putExtras(bundle);
+
 
 //			call.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//If set, and the activity being launched is already running in the current task, then instead of launching a new instance of that activity, all of the other activities on top of it will be closed and this Intent will be delivered to the (now on top) old activity as a new Intent.
-			context.startActivity(call);
 
+
+		context.startActivity(call);
+//			((BaseActivity)context).dismissDialog();
+//			((BaseActivity)SearchTabs.context).showDialog();
+		UtilityMethods.getInstance().dismissDialog();
+		if (UtilityMethods.getCurrentClassName(context).equals(context.getPackageName() + ".SearchTabs")) {
+			((SearchTabs)context).finish();
+		}
 
 
 		}catch(JSONException e){
-			((BaseActivity)context).dismissDialog();
+//			((BaseActivity)context).dismissDialog();
 			new GrocermaxBaseException("SearchLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.JSON_EXCEPTION,result);
 		}catch (NullPointerException e){
-			((BaseActivity)context).dismissDialog();
+//			((BaseActivity)context).dismissDialog();
 			new GrocermaxBaseException("SearchLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.NULL_POINTER,result);
 		}catch (Exception e){
-			((BaseActivity)context).dismissDialog();
+//			((BaseActivity)context).dismissDialog();
 			new GrocermaxBaseException("SearchLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.EXCEPTION,result);
 		}
     }

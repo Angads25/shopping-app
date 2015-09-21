@@ -37,6 +37,7 @@ import com.sakshay.grocermax.utils.UrlsConstants;
 import com.sakshay.grocermax.utils.UtilityMethods;
 
 public class HomeScreen extends BaseActivity implements OnItemClickListener{
+
 	private ArrayList<CategorySubcategoryBean> catObj;
 	private HomeListAdapter mAdapter;
 	private int position = 0;
@@ -469,7 +470,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
     	try{
 //	    	tracker.activityStart(this);
 			EasyTracker.getInstance(this).activityStart(this);
-	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
+	    	FlurryAgent.onStartSession(this, getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){}
     }
@@ -483,12 +484,9 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 	    	FlurryAgent.onEndSession(this);
     	}catch(Exception e){}
     }
-	
-	
-	
-	
-	
-/* (non-Javadoc)
+
+
+	/* (non-Javadoc)
  * @see android.support.v4.app.FragmentActivity#onBackPressed()
  */
 

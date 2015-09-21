@@ -3,15 +3,22 @@ package com.sakshay.grocermax;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.Window;
@@ -30,6 +37,7 @@ import com.sakshay.grocermax.api.SearchLoader;
 import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.bean.Product;
 import com.sakshay.grocermax.bean.ProductDetailsListBean;
+import com.sakshay.grocermax.bean.UserDetailBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.Constants.ToastConstant;
@@ -53,6 +61,7 @@ public class SearchTabs extends BaseActivity{
 	private String header;
 //	private ArrayList<CategorySubcategoryBean> catObj;
 	public Product product;
+	public static Context context;
 //	TextView tv_bradcrum;
 //	LinearLayout ll_brad_crum;
 //	HorizontalScrollView hscrollview;
@@ -61,27 +70,51 @@ public class SearchTabs extends BaseActivity{
 //	public static ArrayList<ProductListFragments.CallAPI> asyncTasks=new ArrayList<ProductListFragments.CallAPI>();
 //	HorizontalScrollView horizontalScrollView;
 	EasyTracker tracker;
-	
+	public JSONObject json[];
+	public List<HashMap<String, String>> listCategoryHashMap;
+	int size;
+
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+		context = this;
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.s_category_tabs);
         try {
 			Intent intent = getIntent();
 			searchString = intent.getStringExtra("SEARCHSTRING");
+//			Bundle bundle = intent.getExtras();
+//			JSONObject[] strw = (JSONObject[])bundle.getSerializable("searchdata");
+
+			size = SearchLoader.jsonObjectTop.length;
 
 			addActionsInFilter(MyReceiverActions.PRODUCT_CONTENT_LIST);
 			addActionsInFilter(MyReceiverActions.ADD_TO_CART);
-			ProductListFragments p = new ProductListFragments();
+
+			json = SearchLoader.jsonObjectTop;
+			listCategoryHashMap = SearchLoader.listCategory;
+//			ProductListFragments p = new ProductListFragments();
 
 //		horizontalScrollView = (HorizontalScrollView) findViewById(R.id.hscrollview);
 //		horizontalScrollView.setVisibility(View.GONE);
 
 
-			Bundle bundle = getIntent().getExtras();
+//			Bundle bundle = getIntent().getExtras();
 			header = "";
+			Handler handler;
+			handler = new Handler();
+			handler.postDelayed(runningThread, 0000);
 
-			dismissDialog();
+//			Message msg = handler.obtainMessage();
+//			handler.sendMessage(msg);
+
+
+//			MakeFragments makeFragments = new MakeFragments();
+//			makeFragments.execute();
+
+
+//			UtilityMethods.getInstance().dismissDialog();
+
+
 //		if (bundle != null) {
 //			catObj = (ArrayList<CategorySubcategoryBean>) bundle.getSerializable("Categories");
 //			header = bundle.getString("Header");
@@ -132,20 +165,21 @@ public class SearchTabs extends BaseActivity{
 //			}
 //		});
 
-			FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
 
-			ViewPager pager = (ViewPager) findViewById(R.id.pager);
-			pager.setAdapter(adapter);
+			///////////////////start/////////////////////
+//			FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
+//			ViewPager pager = (ViewPager) findViewById(R.id.pager);
+//			pager.setAdapter(adapter);
+////        pager.setOffscreenPageLimit(catObj.size());
+//			pager.setOffscreenPageLimit(size);
+//			TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
+//			indicator.setViewPager(pager);
+//			View headerView = findViewById(R.id.header);
+//			initHeader(headerView, true, searchString);
+//			UtilityMethods.getInstance().dismissDialog();
+			/////////////////////end////////////////////////
 
-
-//        pager.setOffscreenPageLimit(catObj.size());
-			pager.setOffscreenPageLimit(SearchLoader.jsonObjectTop.length);
-
-			TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
-			indicator.setViewPager(pager);
-
-			View headerView = findViewById(R.id.header);
-			initHeader(headerView, true, searchString);
+//			dismissDialog();
 //			showSearchView(true);
 //			edtSearch.setText(searchString);
 
@@ -162,22 +196,73 @@ public class SearchTabs extends BaseActivity{
 //			});
 
 		}catch(Exception e){
+//			dismissDialog();
+			UtilityMethods.getInstance().dismissDialog();
 			new GrocermaxBaseException("SearchTabs","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 
     }
 
-	class GoogleMusicAdapter extends FragmentPagerAdapter {
+
+//	final Handler handler = new Handler(){
+//		@Override
+//		public void handleMessage(Message msg) {
+//
+//			FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
+//			ViewPager pager = (ViewPager) findViewById(R.id.pager);
+//			pager.setAdapter(adapter);
+////        pager.setOffscreenPageLimit(catObj.size());
+//			pager.setOffscreenPageLimit(size);
+//			TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
+//			indicator.setViewPager(pager);
+//
+//
+//			super.handleMessage(msg);
+//		}
+//	};
+
+
+	class MakeFragments extends AsyncTask{
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			showDialog();
+		}
+
+		@Override
+		protected Object doInBackground(Object[] params) {
+//			FragmentStatePagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
+			FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
+			ViewPager pager = (ViewPager) findViewById(R.id.pager);
+			pager.setAdapter(adapter);
+//        pager.setOffscreenPageLimit(catObj.size());
+			pager.setOffscreenPageLimit(size);
+			TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
+			indicator.setViewPager(pager);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Object o) {
+			super.onPostExecute(o);
+			dismissDialog();
+		}
+	}
+
+
+
+		class GoogleMusicAdapter extends FragmentPagerAdapter {
+//	class GoogleMusicAdapter extends FragmentStatePagerAdapter{
 
 			public GoogleMusicAdapter(FragmentManager fm) {
 				super(fm);
 			}
 
-
 			@Override
 			public Fragment getItem ( int position){
 				try{
-					return SearchProductFragments.newInstance(SearchLoader.jsonObjectTop[position % SearchLoader.jsonObjectTop.length]);
+//					return SearchProductFragments.newInstance(json[position % json.length]);
+					return SearchProductFragments.newInstance(String.valueOf(json[position % json.length]));
 				}catch(Exception e){
 					new GrocermaxBaseException("SearchTabs","getItem",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 				}
@@ -188,10 +273,10 @@ public class SearchTabs extends BaseActivity{
 			public CharSequence getPageTitle ( int position){
 				CharSequence ch = "default";            //default if error occured
 				try {
-					if (SearchLoader.listCategory.get(position % SearchLoader.jsonObjectTop.length).get(SearchLoader.TAG_CAT_NAME) != null) {
-						return SearchLoader.listCategory.get(position % SearchLoader.jsonObjectTop.length).get(SearchLoader.TAG_CAT_NAME).toUpperCase();
+					if (listCategoryHashMap.get(position % json.length).get(SearchLoader.TAG_CAT_NAME) != null) {
+						return listCategoryHashMap.get(position % json.length).get(SearchLoader.TAG_CAT_NAME).toUpperCase();
 					} else {
-						return SearchLoader.listCategory.get(position % SearchLoader.jsonObjectTop.length).get(SearchLoader.TAG_CAT_NAME);
+						return listCategoryHashMap.get(position % json.length).get(SearchLoader.TAG_CAT_NAME);
 					}
 				}catch(Exception e){
 					new GrocermaxBaseException("SearchTabs","getPageTitle",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
@@ -202,65 +287,66 @@ public class SearchTabs extends BaseActivity{
 			@Override
 			public int getCount () {
 				try {
-					return SearchLoader.jsonObjectTop.length;
+					return json.length;
 				}catch(Exception e){
 					new GrocermaxBaseException("SearchTabs","getCount",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 				}
 				return 0;                                                 //default if error occured
 			}
+
         
     }
 
-	public void addToCart(String product_id, String quantity) {
-    	showDialog();
-		try {
-			JSONArray products = new JSONArray();
-			JSONObject prod_obj = new JSONObject();
-			prod_obj.put("productid", product_id);
-			prod_obj.put("quantity", quantity);
-			products.put(prod_obj);
-			String url;
-			if(MySharedPrefs.INSTANCE.getQuoteId()==null||MySharedPrefs.INSTANCE.getQuoteId().equals(""))
-			{
-				url = UrlsConstants.ADD_TO_CART_URL
-						+ MySharedPrefs.INSTANCE.getUserId() +"&products="
-						+ URLEncoder.encode(products.toString(), "UTF-8");
-			}
-			else
-			{
-				url = UrlsConstants.ADD_TO_CART_URL
-						+ MySharedPrefs.INSTANCE.getUserId() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
-						+ URLEncoder.encode(products.toString(), "UTF-8");
-			}
-			
-			myApi.reqAddToCart(url);
-		}catch(NullPointerException e){
-			new GrocermaxBaseException("SearchTabs","addToCart",e.getMessage(), GrocermaxBaseException.NULL_POINTER,"nodetail");
-		}
-		catch (Exception e) {
-			new GrocermaxBaseException("SearchTabs","addToCart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
-		}
-
-	}
+//	public void addToCart(String product_id, String quantity) {
+//    	showDialog();
+//		try {
+//			JSONArray products = new JSONArray();
+//			JSONObject prod_obj = new JSONObject();
+//			prod_obj.put("productid", product_id);
+//			prod_obj.put("quantity", quantity);
+//			products.put(prod_obj);
+//			String url;
+//			if(MySharedPrefs.INSTANCE.getQuoteId()==null||MySharedPrefs.INSTANCE.getQuoteId().equals(""))
+//			{
+//				url = UrlsConstants.ADD_TO_CART_URL
+//						+ MySharedPrefs.INSTANCE.getUserId() +"&products="
+//						+ URLEncoder.encode(products.toString(), "UTF-8");
+//			}
+//			else
+//			{
+//				url = UrlsConstants.ADD_TO_CART_URL
+//						+ MySharedPrefs.INSTANCE.getUserId() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
+//						+ URLEncoder.encode(products.toString(), "UTF-8");
+//			}
+//
+//			myApi.reqAddToCart(url);
+//		}catch(NullPointerException e){
+//			new GrocermaxBaseException("SearchTabs","addToCart",e.getMessage(), GrocermaxBaseException.NULL_POINTER,"nodetail");
+//		}
+//		catch (Exception e) {
+//			new GrocermaxBaseException("SearchTabs","addToCart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+//		}
+//
+//	}
 	
-	public void addToCartGuest(String product_id, String quantity) {
-    	showDialog();
-		try {
-			JSONArray products = new JSONArray();
-			JSONObject prod_obj = new JSONObject();
-			prod_obj.put("productid", product_id);
-			prod_obj.put("quantity", quantity);
-			products.put(prod_obj);
-			String url;
-			
-			url = UrlsConstants.ADD_TO_CART_GUEST_URL+"quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
-					+ URLEncoder.encode(products.toString(), "UTF-8");
-			myApi.reqAddToCart(url);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public void addToCartGuest(String product_id, String quantity) {
+//    	showDialog();
+//		try {
+//			JSONArray products = new JSONArray();
+//			JSONObject prod_obj = new JSONObject();
+//			prod_obj.put("productid", product_id);
+//			prod_obj.put("quantity", quantity);
+//			products.put(prod_obj);
+//			String url;
+//
+//			url = UrlsConstants.ADD_TO_CART_GUEST_URL+"quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
+//					+ URLEncoder.encode(products.toString(), "UTF-8");
+//			myApi.reqAddToCart(url);
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 	@Override
 	void OnResponse(Bundle bundle) {
@@ -302,6 +388,27 @@ public class SearchTabs extends BaseActivity{
 			new GrocermaxBaseException("SearchTabs","OnResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
+
+	Runnable runningThread = new Runnable() {
+		public void run() {
+			showDialog();
+			// change UI elements here
+//			FragmentStatePagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
+			FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
+			ViewPager pager = (ViewPager) findViewById(R.id.pager);
+			pager.setAdapter(adapter);
+//        pager.setOffscreenPageLimit(catObj.size());
+
+			if(size > 3){
+				pager.setOffscreenPageLimit(3);
+			}else {
+				pager.setOffscreenPageLimit(size);
+			}
+			TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
+			indicator.setViewPager(pager);
+			dismissDialog();
+		}
+	};
 	
 	@Override
 	public void onResume() {
@@ -315,6 +422,19 @@ public class SearchTabs extends BaseActivity{
 			if (martHeader != null) {
 				martHeader.setVisibility(View.GONE);
 			}
+
+//			FragmentStatePagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
+////			FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
+//			ViewPager pager = (ViewPager) findViewById(R.id.pager);
+//			pager.setAdapter(adapter);
+////        pager.setOffscreenPageLimit(catObj.size());
+//			pager.setOffscreenPageLimit(size);
+//			TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
+//			indicator.setViewPager(pager);
+//			View headerView = findViewById(R.id.header);
+//			initHeader(headerView, true, searchString);
+
+
 		} catch (Exception e) {
 			new GrocermaxBaseException("SearchTabs","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
@@ -375,12 +495,24 @@ protected void onStart() {
 	// TODO Auto-generated method stub
 	super.onStart();
 	try{
-    	tracker.activityStart(this);
-    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-	}catch(Exception e){
-		new GrocermaxBaseException("SearchTabs","onStart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
-	}
+
+//		FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
+//		ViewPager pager = (ViewPager) findViewById(R.id.pager);
+//		pager.setAdapter(adapter);
+////        pager.setOffscreenPageLimit(catObj.size());
+//		pager.setOffscreenPageLimit(size);
+//		TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
+//		indicator.setViewPager(pager);
+//		View headerView = findViewById(R.id.header);
+//		initHeader(headerView, true, searchString);
+//		UtilityMethods.getInstance().dismissDialog();
+
+
+//		EasyTracker.getInstance(this).activityStart(this);
+////    	tracker.activityStart(this);
+//    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
+//    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
+	}catch(Exception e){}
 }
 
 @Override
@@ -388,11 +520,9 @@ protected void onStop() {
 	// TODO Auto-generated method stub
 	super.onStop();
 	try{
-    	tracker.activityStop(this);
-    	FlurryAgent.onEndSession(this);
-	}catch(Exception e){
-		new GrocermaxBaseException("SearchTabs","onStop",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
-	}
+//    	tracker.activityStop(this);
+//    	FlurryAgent.onEndSession(this);
+	}catch(Exception e){}
 }
 	
 }

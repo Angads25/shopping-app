@@ -393,9 +393,7 @@ protected void onStart() {
     	tracker.activityStart(this);
     	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
     	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-	}catch(Exception e){
-		new GrocermaxBaseException("CategoryTabs", "onStart", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
-	}
+	}catch(Exception e){}
 }
 
 @Override
@@ -405,9 +403,7 @@ protected void onStop() {
 	try{
     	tracker.activityStop(this);
     	FlurryAgent.onEndSession(this);
-	}catch(Exception e){
-		new GrocermaxBaseException("CategoryTabs", "onStop", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
-	}
+	}catch(Exception e){}
 }
 	
 }

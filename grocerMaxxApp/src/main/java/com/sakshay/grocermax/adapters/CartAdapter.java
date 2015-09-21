@@ -256,10 +256,11 @@ public class CartAdapter extends BaseAdapter{
 
 //					if(cart_products.size() > 0 && CartProductList.cartList.size() > 0){
 
-					if(cart_products.get(position).getItem_id().equalsIgnoreCase(CartProductList.cartList.get(position).getItem_id())){  //manage clone cart when added or deleted to show update quantity on product listing and description
-						cart_products.get(position).setQty(value1);  //plus
+					if(cart_products.size() > 0) {
+						if (cart_products.get(position).getItem_id().equalsIgnoreCase(CartProductList.cartList.get(position).getItem_id())) {  //manage clone cart when added or deleted to show update quantity on product listing and description
+							cart_products.get(position).setQty(value1);  //plus
+						}
 					}
-
 
 //					}
 
@@ -294,7 +295,6 @@ public class CartAdapter extends BaseAdapter{
 //  				    CartProductList.getInstance().tv_grandTotal.setText("Rs."+String.valueOf(totalPriceYouPay));
 					CartProductList.getInstance().tv_subTotal.setText("Rs." + String.valueOf(sub_totalPriceYouPay));
 
-
 					CartProductList.getInstance().updateHeaderQuantity("1", "plus");
 
 					v.setTag(value1);
@@ -325,16 +325,16 @@ public class CartAdapter extends BaseAdapter{
 //						if(cart_products.size() > 0 && CartProductList.cartList.size() > 0){
 
 
-						if(cart_products.get(position).getItem_id().equalsIgnoreCase(CartProductList.cartList.get(position).getItem_id())){  //manage clone cart when added or deleted to show update quantity on product listing and description
-							cart_products.get(position).setQty(value1);  //minus
+						if(cart_products.size()>0) {
+							if (cart_products.get(position).getItem_id().equalsIgnoreCase(CartProductList.cartList.get(position).getItem_id())) {  //manage clone cart when added or deleted to show update quantity on product listing and description
+								cart_products.get(position).setQty(value1);  //minus
+							}
 						}
-
 
 //						}
 
 						CartProductList.cartList.get(position).setQty(value1);
 						holder.tv_quantity.setText(String.valueOf(value1));
-
 
 						holder.prod_mul_quantity.setText(String.valueOf(value1));
 
@@ -454,8 +454,10 @@ public class CartAdapter extends BaseAdapter{
 
 			ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart(activity, Constants.localCloneFile);
 
-			if(cart_products.get(position).getItem_id().equalsIgnoreCase(CartProductList.cartList.get(position).getItem_id())){  //manage clone cart when added or deleted to show update quantity on product listing and description
-				UtilityMethods.deleteCloneCartItem(activity, cart_products.get(position).getItem_id());  //delete particular item from clone cart locally to update quantity on product listing and description
+			if(cart_products.size() > 0) {
+				if (cart_products.get(position).getItem_id().equalsIgnoreCase(CartProductList.cartList.get(position).getItem_id())) {  //manage clone cart when added or deleted to show update quantity on product listing and description
+					UtilityMethods.deleteCloneCartItem(activity, cart_products.get(position).getItem_id());  //delete particular item from clone cart locally to update quantity on product listing and description
+				}
 			}
 
 			int quantity = Integer.parseInt(holder.tv_quantity.getText().toString());
@@ -491,7 +493,8 @@ public class CartAdapter extends BaseAdapter{
 			if(String.valueOf(sub_totalPriceYouPay).equals("0") ||
 					String.valueOf(sub_totalPriceYouPay).equals("0.0") ||
 					String.valueOf(sub_totalPriceYouPay).equals("0.00")){
-				CartProductList.getInstance().finish();
+				((CartProductList) activity).finish();;
+//				CartProductList.getInstance().finish();
 			}
 
 		}else{

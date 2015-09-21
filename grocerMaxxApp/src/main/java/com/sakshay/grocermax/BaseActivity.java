@@ -85,6 +85,7 @@ import com.sakshay.grocermax.utils.UtilityMethods;
 public abstract class BaseActivity extends FragmentActivity {
 
 	protected Context mContext = this;
+	EditText etSearchBckup;  //when press on search icon and it came you to previous screen.
 	public static Activity activity;
 	public DisplayImageOptions baseImageoptions;
 	private static SearchLoader searchLoader = null;
@@ -115,6 +116,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		activity = this;
 		try {
+			etSearchBckup = new EditText(this);
 			addActionsInFilter(MyReceiverActions.CHECKOUT);
 			addActionsInFilter(MyReceiverActions.USER_DETAILS);
 			addActionsInFilter(MyReceiverActions.ORDER_HISTORY);
@@ -245,6 +247,8 @@ public abstract class BaseActivity extends FragmentActivity {
 
 	}
 
+
+
 	public void setCartCount()
 	{
 		cart_count_txt.setText(""+AppConstants.cart_count);
@@ -275,6 +279,18 @@ public abstract class BaseActivity extends FragmentActivity {
 						break;
 					case R.id.icon_header_search:
 						showSearchView(true);
+//						etSearchBckup = edtSearch;
+//						if (UtilityMethods.getCurrentClassName(mContext).equals(getPackageName() + ".SearchTabs")) {
+//							finish();
+//						}
+//						if(etSearchBckup != null) {
+//							etSearchBckup.setCursorVisible(true);
+//							etSearchBckup.setFocusable(true);
+//							etSearchBckup.requestFocus();
+//							etSearchBckup.getText().clear();
+//						}
+//						InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//						imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 						break;
 					case R.id.icon_header_user:
 						if (keyboardVisibility)
@@ -288,6 +304,9 @@ public abstract class BaseActivity extends FragmentActivity {
                         }
 								startActivity(intent2);
 
+						if(UtilityMethods.getCurrentClassName(BaseActivity.this).equals(getApplicationContext().getPackageName() + ".CartProductList")) {
+								finish();
+						 }
 						break;
 					case R.id.nom_producte:
 //				ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart(BaseActivity.this, Constants.localCloneFile);
@@ -306,7 +325,6 @@ public abstract class BaseActivity extends FragmentActivity {
 						break;
 					case R.id.imgSearchCloseIcon:
 						showSearchView(false);
-
 						break;
 					default:
 
@@ -378,6 +396,7 @@ public abstract class BaseActivity extends FragmentActivity {
 			edtSearch.setCursorVisible(true);
 			edtSearch.setFocusable(true);
 			edtSearch.requestFocus();
+
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 			imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 		} else {
@@ -394,14 +413,23 @@ public abstract class BaseActivity extends FragmentActivity {
 			edtSearch.getText().clear();
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-			if(android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT){
-				if(!keyboardVisibility)
-					imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+			imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 
-			}else{
-				if(keyboardVisibility)
-					imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
-			}
+
+//				if(android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+//					keyboardVisibility = true;
+//					}else{
+//						keyboardVisibility = false;
+//					}
+//					if(android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT){
+//						if(!keyboardVisibility)
+//							imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+//					}else{
+//						if(keyboardVisibility)
+//							imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+//				}
+//				imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+
 
 		}
 		}catch(Exception e) {
@@ -423,15 +451,18 @@ public abstract class BaseActivity extends FragmentActivity {
 					UtilityMethods.customToast(ToastConstant.APPROPRIATE_QUERY,mContext);
 					return;
 				}
-				if (UtilityMethods.getCurrentClassName(BaseActivity.this).equals(getApplicationContext().getPackageName() + ".CartProductList")){
-					finish();
-				}
-				if (UtilityMethods.getCurrentClassName(this).equals(getPackageName() + ".SearchTabs")) {
-					((SearchTabs)this).finish();
-				}
-				showDialog();
+//				showDialog();
+//				if (UtilityMethods.getCurrentClassName(BaseActivity.this).equals(getApplicationContext().getPackageName() + ".CartProductList")){
+//					finish();
+//				}
+//				if (UtilityMethods.getCurrentClassName(this).equals(getPackageName() + ".SearchTabs")) {
+//					((SearchTabs) this).finish();
+//					 finish();
+//				}
+
 
 //			String url = UrlsConstants.SEARCH_PRODUCT + search_key + "&page=1";
+
 				String url = UrlsConstants.SEARCH_PRODUCT + search_key;
 //			myApi.reqSearchProductList(url);
 				url = url.replace(" ", "%20");
@@ -441,14 +472,16 @@ public abstract class BaseActivity extends FragmentActivity {
 //
 //				}
 
-				if(BaseActivity.searchLoader != null){
-					if(!BaseActivity.searchLoader.isCancelled()){
-						BaseActivity.searchLoader.cancel(true);
-					}
-				}
+//				if(BaseActivity.searchLoader != null){
+//					if(!BaseActivity.searchLoader.isCancelled()){
+//						BaseActivity.searchLoader.cancel(true);
+//					}
+//				}
 
-				BaseActivity.searchLoader = new SearchLoader(this,search_key);
-				BaseActivity.searchLoader.execute(url);
+//				BaseActivity.searchLoader = new SearchLoader(this,search_key);
+//				BaseActivity.searchLoader.execute(url);
+				SearchLoader searchLoader  = new SearchLoader(this,search_key);
+				searchLoader.execute(url);
 
 
 				Log.i("SEARCH_REQUEST", "URL::" + url);
