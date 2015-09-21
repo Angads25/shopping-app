@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -160,7 +161,8 @@ public class PayTMActivity extends BaseActivity
 							+ strBankName + "=" + strMID + "=" + strPaymentMode + "=" + strRefundAmount + "=" + strTXNdate + "=" + strIsCheckSumValid + "===");
 
 //					finish();
-					showDialog();
+                    Toast.makeText(getApplicationContext(),"Sorry, Payment Failed",Toast.LENGTH_SHORT).show();
+                    showDialog();
 					myApi.reqSetOrderStatus(UrlsConstants.SET_ORDER_STATUS + order_db_id);
 				}
 

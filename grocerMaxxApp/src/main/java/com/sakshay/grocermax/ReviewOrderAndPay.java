@@ -189,6 +189,8 @@ public class ReviewOrderAndPay extends BaseActivity
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					if (etCouponCode.getText().toString().length() > 0) {
+                        // need to change the keyboardVisibility here
+                        getKeyBoardVisibility();
 						if (keyboardVisibility)
 							UtilityMethods.hideKeyBoard(ReviewOrderAndPay.this);
 						new Coupon(mContext, "Apply").execute(strApplyCoupon + etCouponCode.getText().toString());

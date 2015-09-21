@@ -633,10 +633,12 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                 if(alAvailable.get(0).equalsIgnoreCase("0")){
                     tvFirstSlotFull.setText("SLOT FULL");
                     tvFirstSlotFull.setVisibility(View.VISIBLE);
+                    tvFirstTime.setVisibility(View.INVISIBLE);
                     tvFirstSlotFull.setTextColor(getResources().getColor(R.color.primaryColor));
                     rlFirstTimeSlot.setEnabled(false);
                 }else{
                     tvFirstSlotFull.setText("");
+                    tvFirstTime.setVisibility(View.VISIBLE);
                     tvFirstSlotFull.setVisibility(View.INVISIBLE);
                     tvFirstSlotFull.setTextColor(getResources().getColor(R.color.white));
                     rlFirstTimeSlot.setEnabled(true);
@@ -644,12 +646,14 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
 
                 if(alAvailable.get(1).equalsIgnoreCase("0")){
                     tvSecondSlotFull.setText("SLOT FULL");
+                    tvSecondTime.setVisibility(View.INVISIBLE);
                     tvSecondSlotFull.setVisibility(View.VISIBLE);
                     tvSecondSlotFull.setTextColor(getResources().getColor(R.color.primaryColor));
                     rlSecondTimeSlot.setEnabled(false);
                 }else{
                     tvSecondSlotFull.setText("");
                     tvSecondSlotFull.setVisibility(View.INVISIBLE);
+                    tvSecondTime.setVisibility(View.VISIBLE);
                     tvSecondSlotFull.setTextColor(getResources().getColor(R.color.white));
                     rlSecondTimeSlot.setEnabled(true);
                 }
@@ -657,11 +661,13 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                 if(alAvailable.get(2).equalsIgnoreCase("0")){
                     tvThirdSlorFull.setText("SLOT FULL");
                     tvThirdSlorFull.setVisibility(View.VISIBLE);
+                    tvThirdTime.setVisibility(View.INVISIBLE);
                     tvThirdSlorFull.setTextColor(getResources().getColor(R.color.primaryColor));
                     rlThirdTimeSlot.setEnabled(false);
                 }else{
                     tvThirdSlorFull.setText("");
                     tvThirdSlorFull.setVisibility(View.INVISIBLE);
+                    tvThirdTime.setVisibility(View.VISIBLE);
                     tvThirdSlorFull.setTextColor(getResources().getColor(R.color.white));
                     rlThirdTimeSlot.setEnabled(true);
                 }
@@ -669,11 +675,13 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                 if(alAvailable.get(3).equalsIgnoreCase("0")){
                     tvFourthSlotFull.setText("SLOT FULL");
                     tvFourthSlotFull.setVisibility(View.VISIBLE);
+                    tvFourthTime.setVisibility(View.INVISIBLE);
                     tvFourthSlotFull.setTextColor(getResources().getColor(R.color.primaryColor));
                     rlFourthTimeSlot.setEnabled(false);
                 }else{
                     tvFourthSlotFull.setText("");
                     tvFourthSlotFull.setVisibility(View.INVISIBLE);
+                    tvFourthTime.setVisibility(View.VISIBLE);
                     tvFourthSlotFull.setTextColor(getResources().getColor(R.color.white));
                     rlFourthTimeSlot.setEnabled(true);
                 }
