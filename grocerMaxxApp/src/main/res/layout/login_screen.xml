@@ -84,7 +84,7 @@
                     android:layout_height="match_parent"
                     android:layout_toRightOf="@+id/facebook_icon"
                     android:gravity="center"
-                    android:text="Connect with facebook"
+                    android:text="Login with facebook"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_16" />
 
@@ -126,7 +126,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/google_curve"
                     android:gravity="center"
-                    android:text="Connect with Google"
+                    android:text="Login with Google"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_16" />
 
@@ -294,6 +294,7 @@
                 android:layout_height="1dp"
                 android:layout_marginLeft="6dp"
                 android:layout_marginRight="6dp"
+                android:layout_marginTop="8dp"
                 android:background="@color/gray_1" />
 
             <!--<TextView

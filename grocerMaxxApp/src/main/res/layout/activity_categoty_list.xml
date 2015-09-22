@@ -8,9 +8,7 @@
 
     <include
         android:id="@+id/header"
-        layout="@layout/mart_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        layout="@layout/mart_header_2" />
 
     <HorizontalScrollView
         android:layout_width="fill_parent"
@@ -180,7 +178,7 @@ need this in relative layout when price details need to be shown below -->
         android:visibility="visible">
 
         <LinearLayout
-            android:id="@+id/ll_total"
+
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -218,7 +216,7 @@ need this in relative layout when price details need to be shown below -->
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_discount"
+
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="5dp"
@@ -491,7 +489,7 @@ need this in relative layout when price details need to be shown below -->
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/cart_place_order"
-            android:text="Checkout"
+            android:text="Proceed to Checkout"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_16"

@@ -15,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -812,6 +813,14 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		}catch(Exception e){
 			new GrocermaxBaseException("CartProductList", "onResume", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
+
+        try {
+            initHeader(findViewById(R.id.header), false, "Your Cart");
+            ((ImageView)findViewById(R.id.icon_header_cart)).setVisibility(View.INVISIBLE);
+            ((TextView)findViewById(R.id.nom_producte)).setVisibility(View.INVISIBLE);
+        }catch(Exception e){
+            new GrocermaxBaseException("OrderHistory","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+        }
 	}
 
 

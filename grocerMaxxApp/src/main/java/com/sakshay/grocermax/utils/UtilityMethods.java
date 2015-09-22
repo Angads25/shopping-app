@@ -303,7 +303,10 @@ public class UtilityMethods {
 		shareIntent.setType("message/rfc822");
 		context.startActivity(Intent.createChooser(shareIntent,
 				"Invite friends..."));
-	}
+
+    // NEED TO RESTRICT THE USER FOR THE MENTIONED APPS
+
+    }
 
 	@SuppressWarnings("unchecked")
 	public static ArrayList<CartDetail> readLocalCart(Activity activity,

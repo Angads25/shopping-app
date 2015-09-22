@@ -133,22 +133,7 @@ public abstract class BaseActivity extends FragmentActivity {
 
 	protected void initHeader(View view, boolean showSearch, String name) {
 		try {
-			KeyboardStatusDetector keyStatus = new KeyboardStatusDetector();
-			keyStatus.registerActivity(BaseActivity.this);
-			keyStatus.setVisibilityListener(null);
-			keyStatus.setVisibilityListener(new KeyboardVisibilityListener() {
-
-				@Override
-				public void onVisibilityChanged(boolean keyboardVisible) {
-					if (keyboardVisible) {
-						System.out.println("Visible");
-						keyboardVisibility = true;
-					} else {
-						System.out.println("Hide");
-						keyboardVisibility = false;
-					}
-				}
-			});
+			getKeyBoardVisibility();
 
 //			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 //
@@ -311,11 +296,17 @@ public abstract class BaseActivity extends FragmentActivity {
 						if (keyboardVisibility)
 							UtilityMethods.hideKeyBoard(BaseActivity.this);
 //							showMoreOption(icon_header_user);
+                        Intent intent2 = null;
+                        if (MySharedPrefs.INSTANCE.getLoginStatus()) {
+                            intent2 = new Intent(mContext, UserHeaderProfile.class);
+                        }else{
+                            intent2 = new Intent(mContext, LoginActivity.class);
+                        }
+								startActivity(intent2);
+
 						if(UtilityMethods.getCurrentClassName(BaseActivity.this).equals(getApplicationContext().getPackageName() + ".CartProductList")) {
 								finish();
 						 }
-							Intent intent2 = new Intent(mContext,UserHeaderProfile.class);
-							startActivity(intent2);
 						break;
 					case R.id.nom_producte:
 //				ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart(BaseActivity.this, Constants.localCloneFile);
@@ -1427,5 +1418,26 @@ public abstract class BaseActivity extends FragmentActivity {
 	         }
 	     }
 	};
+
+
+    public void getKeyBoardVisibility()
+    {
+        KeyboardStatusDetector keyStatus = new KeyboardStatusDetector();
+        keyStatus.registerActivity(BaseActivity.this);
+        keyStatus.setVisibilityListener(null);
+        keyStatus.setVisibilityListener(new KeyboardVisibilityListener() {
+
+            @Override
+            public void onVisibilityChanged(boolean keyboardVisible) {
+                if (keyboardVisible) {
+                    System.out.println("Visible");
+                    keyboardVisibility = true;
+                } else {
+                    System.out.println("Hide");
+                    keyboardVisibility = false;
+                }
+            }
+        });
+    }
 
 }

@@ -308,7 +308,9 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
         // TODO Auto-generated method stub
         super.onResume();
         try {
-            initHeader(findViewById(R.id.app_bar_header), true, "My Profile");
+            initHeader(findViewById(R.id.app_bar_header), false, "My Profile");
+            ((ImageView)findViewById(R.id.icon_header_cart)).setVisibility(View.INVISIBLE);
+            ((TextView)findViewById(R.id.nom_producte)).setVisibility(View.INVISIBLE);
         }catch(Exception e){
             new GrocermaxBaseException("CreateNewAddress","onResume",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
         }
