@@ -81,6 +81,10 @@ public class AddressListAdapter extends BaseAdapter{
 					.findViewById(R.id.country);
 			holder.txtHeader = (TextView) convertView
 					.findViewById(R.id.text_header);
+
+			holder.llHeader  = (LinearLayout) convertView.findViewById(R.id.ll_address_header);
+			holder.tvHeader = (TextView) convertView.findViewById(R.id.tv_address_header);
+
 			convertView.setTag(holder);
 		}else {
 			holder = (ViewHolder) convertView.getTag();
@@ -97,6 +101,17 @@ public class AddressListAdapter extends BaseAdapter{
 		holder.txtHeader.setTypeface(CustomFonts.getInstance().getRobotoBold(mContext));
 		
 		final Address obj = getItem(position);
+
+		if(position == 0){
+			holder.tvHeader.setVisibility(View.VISIBLE);
+			holder.tvHeader.setText("Shipping Address");
+			holder.llHeader.setVisibility(View.VISIBLE);
+		}else{
+			holder.tvHeader.setVisibility(View.GONE);
+			holder.llHeader.setVisibility(View.GONE);
+		}
+
+
 		holder.profilename.setText(obj.getFirstname() + " " + obj.getLastname());
 
 		if(obj.getDefaultBilling().equalsIgnoreCase("true") && obj.getDefaultShipping().equalsIgnoreCase("true")){             //user can't be deleted.
@@ -153,6 +168,8 @@ public class AddressListAdapter extends BaseAdapter{
 		LinearLayout llDeleteAddress;
 //		ImageView edit_address,
 //		TextView edit_address;
+		LinearLayout llHeader;
+		TextView tvHeader;
 		RelativeLayout rl_editaddress;
 		TextView txtHeader;
 	}

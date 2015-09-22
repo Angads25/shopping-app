@@ -1,5 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_lay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ececec"
+    android:layout_gravity="center"
+    android:orientation="vertical" >
+
+
+    <LinearLayout
+        android:id="@+id/ll_address_header"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_address_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Billing Address"
+            android:textColor="@color/pallete_black"
+            android:textSize="@dimen/text_size_16" />
+
+    </LinearLayout>
+
+
+<android.support.v7.widget.CardView
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
@@ -10,11 +41,13 @@
     card_view:cardElevation="2dp"
     card_view:cardUseCompatPadding="true">
 
+
     <RelativeLayout
         android:id="@+id/layout_address_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible"
+        android:layout_below="@+id/ll_address_header"
         android:padding="8dp"
         >
 
@@ -268,4 +301,11 @@
         </RelativeLayout>
     </RelativeLayout>
 
+
+
+
+
 </android.support.v7.widget.CardView>
+
+
+    </LinearLayout>

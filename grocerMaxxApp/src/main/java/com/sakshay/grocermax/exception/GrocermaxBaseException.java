@@ -53,9 +53,7 @@ public class GrocermaxBaseException extends Exception {
         String strUrl = "http://staging.grocermax.com/webservice/new_services/errorlog?error=";
 
 //          UtilityMethods.customToast(strClassName+"=ERROR="+strMethodName, MyApplication.getInstance());
-
-//        new AppCrash(MyApplication.getInstance(),strClassName,strMethodName,strMessage,strErrorCode,strServerResponse).execute(strUrl);
-
+        new AppCrash(MyApplication.getInstance(),strClassName,strMethodName,strMessage,strErrorCode,strServerResponse).execute(strUrl);
 //        new AppCrash()
 //               new SearchLoader(this).execute(url);
 //        UtilityMethods.customToast("message", MyApplication.getInstance());

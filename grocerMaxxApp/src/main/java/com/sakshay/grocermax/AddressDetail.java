@@ -6,10 +6,15 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
@@ -31,6 +36,7 @@ public class AddressDetail extends BaseActivity{
 
 	AddressList address_bean;
 	ArrayList<Address> mAddressList;
+	Address address;
 	ListView mList;
 	AddressListAdapter mAdapter;
 	private int requestNewAddress = 111;
@@ -53,6 +59,7 @@ public class AddressDetail extends BaseActivity{
 				mAddressList = address_bean.getAddress();
 			}
 
+
 			if (mAddressList != null && mAddressList.size() > 0) {
 				if (mAddressList.size() == 1 && mAddressList.get(0).getFirstname().equals("")) {
 					TextView msg = (TextView) findViewById(R.id.msg);
@@ -60,6 +67,85 @@ public class AddressDetail extends BaseActivity{
 					msg.setText("You dont have any address saved. Please add a new address");
 				} else {
 					mList = (ListView) findViewById(R.id.address_list);
+
+					boolean bIsBilling = false;
+					int indexBilling = 0;
+					for(int i=0;i<mAddressList.size();i++){
+						if(mAddressList.get(i).getDefaultBilling().equalsIgnoreCase("true")){
+							address = mAddressList.get(i);
+							bIsBilling = true;
+//							RelativeLayout rl = header.findViewById(R.id.rl_editaddress);
+							break;
+						}
+					}
+
+					if(bIsBilling){
+						mAddressList.remove(indexBilling);
+						LayoutInflater inflater = getLayoutInflater();
+//						ViewGroup header = (ViewGroup) inflater.inflate(R.layout.address_detail, mList,
+//								false);
+						View header = inflater.inflate(R.layout.address_detail, mList, false);
+
+						RelativeLayout rlAddress = (RelativeLayout) header.findViewById(R.id.rl_editaddress);
+						ImageView deleteAddress = (ImageView) header.findViewById(R.id.deleteAddress);
+						LinearLayout llDeleteAddress = (LinearLayout) header.findViewById(R.id.ll_delete_address);
+						LinearLayout llHeader = (LinearLayout) header.findViewById(R.id.ll_address_header);
+						TextView tvHeader = (TextView) header.findViewById(R.id.tv_address_header);
+
+						TextView profilename = (TextView) header.findViewById(R.id.text_header);
+						TextView address1 = (TextView) header.findViewById(R.id.address1);
+						TextView state = (TextView) header.findViewById(R.id.state);
+						TextView city = (TextView) header.findViewById(R.id.city);
+						TextView pincode = (TextView) header.findViewById(R.id.pincode);
+						TextView country = (TextView) header.findViewById(R.id.country);
+						TextView txtHeader = (TextView) header.findViewById(R.id.text_header);
+
+						profilename.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
+						address1.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
+						state.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
+						city.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
+						pincode.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
+						country.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
+						txtHeader.setTypeface(CustomFonts.getInstance().getRobotoBold(mContext));
+
+						llHeader.setVisibility(View.VISIBLE);
+						tvHeader.setText("Billing Address");
+
+						profilename.setText(address.getFirstname() + " " + address.getLastname());
+
+						if(address.getDefaultBilling().equalsIgnoreCase("true") && address.getDefaultShipping().equalsIgnoreCase("true")){             //user can't be deleted.
+							llDeleteAddress.setEnabled(false);
+							llDeleteAddress.setVisibility(View.GONE);
+						}else{
+							llDeleteAddress.setVisibility(View.VISIBLE);
+						}
+
+						if(address.getRegion()!=null) {
+							if(!address.getRegion().equals("")) {
+								address1.setText(address.getFirstname() + " " + address.getLastname() + address.getStreet() + "," + address.getCity() + "," + address.getRegion() + "," + "India" + "," + address.getPostcode());
+							}
+						}
+
+
+
+//						rlAddress.setOnClickListener(new OnClickListener() {
+//
+//							@Override
+//							public void onClick(View v) {
+//								((AddressDetail)mContext).goToAddress(obj,position);
+//							}
+//						});
+//						llDeleteAddress.setOnClickListener(new OnClickListener() {
+//							@Override
+//							public void onClick(View v) {
+//
+//								((AddressDetail)mContext).deleteAddress(obj,position);
+//							}
+//						});
+
+						mList.addHeaderView(header, null, false);
+					}
+
 					mAdapter = new AddressListAdapter(AddressDetail.this, mAddressList);
 					mList.setAdapter(mAdapter);
 				}
