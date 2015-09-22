@@ -532,10 +532,10 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                     public void onClick(View v) {
                         if(bShippingAsBilling){
                             bShippingAsBilling = false;
-                            ivShippingBilling.setImageResource(R.drawable.checkbox_unselect);
+                            ivShippingBilling.setImageResource(R.drawable.chkbox_unselected);
                         }else{
                             bShippingAsBilling = true;
-                            ivShippingBilling.setImageResource(R.drawable.checkbox_select);
+                            ivShippingBilling.setImageResource(R.drawable.chkbox_selected);
                         }
                     }
                 });
@@ -1401,9 +1401,9 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                 CheckoutAddressBean bean = (CheckoutAddressBean) bundle.getSerializable(ConnectionService.RESPONSE);
 			/*if(bean.getAddress().size()>0)
 			{*/
-                Intent intent = new Intent(ShippingAddress.this, ShippingAddress.class);
-                intent.putExtra("addressBean", bean);
-                startActivity(intent);
+//                Intent intent = new Intent(ShippingAddress.this, ShippingAddress.class);
+//                intent.putExtra("addressBean", bean);
+//                startActivity(intent);
 
                 address_obj = bean;
 //                addressList = address_obj.getAddress();
@@ -1454,11 +1454,15 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                     UtilityMethods.customToast("We deliver only in "+LocationActivity.strSelectedCity+","+LocationActivity.strSelectedState+".Kindly select add new address", mContext);
                     return;
                 }
-
-                Intent intent1 = new Intent(ShippingAddress.this, BillingAddress.class);
-                intent1.putExtra("addressBean", bean);
-                startActivity(intent1);
                 finish();
+
+                Intent intent = new Intent(ShippingAddress.this, ShippingAddress.class);
+                intent.putExtra("addressBean", bean);
+                startActivity(intent);
+//                Intent intent1 = new Intent(ShippingAddress.this, BillingAddress.class);
+//                intent1.putExtra("addressBean", bean);
+//                startActivity(intent1);
+//                finish();
 			/*}else{
 				Toast.makeText(CartProductList.this,ToastConstant.NO_ACCOUNT_ADDR,0).show();
 			}*/

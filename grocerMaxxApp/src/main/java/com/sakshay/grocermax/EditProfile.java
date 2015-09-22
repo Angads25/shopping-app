@@ -320,10 +320,10 @@ public class EditProfile extends BaseActivity{
 
 					if (bChangePwd) {
 						ll_pwd.setVisibility(View.VISIBLE);
-						ivCBChangePwd.setImageResource(R.drawable.checkbox_select);
+						ivCBChangePwd.setImageResource(R.drawable.chkbox_selected);
 					} else {
 						ll_pwd.setVisibility(View.GONE);
-						ivCBChangePwd.setImageResource(R.drawable.checkbox_unselect);
+						ivCBChangePwd.setImageResource(R.drawable.chkbox_unselected);
 					}
 
 				}
@@ -343,10 +343,10 @@ public class EditProfile extends BaseActivity{
 
 					if (bChangePwd) {
 						ll_pwd.setVisibility(View.VISIBLE);
-						ivCBChangePwd.setImageResource(R.drawable.checkbox_select);
+						ivCBChangePwd.setImageResource(R.drawable.chkbox_selected);
 					} else {
 						ll_pwd.setVisibility(View.GONE);
-						ivCBChangePwd.setImageResource(R.drawable.checkbox_unselect);
+						ivCBChangePwd.setImageResource(R.drawable.chkbox_unselected);
 					}
 
 				}
