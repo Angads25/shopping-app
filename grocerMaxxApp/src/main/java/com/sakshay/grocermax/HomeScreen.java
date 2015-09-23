@@ -30,6 +30,7 @@ import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
 import com.sakshay.grocermax.adapters.ExpandableListAdapter;
 import com.sakshay.grocermax.adapters.HomeListAdapter;
 import com.sakshay.grocermax.api.MyReceiverActions;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.CustomFonts;
@@ -73,6 +74,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.s_home_screen);
+		try{
 
 		addActionsInFilter(MyReceiverActions.PRODUCT_LIST_FROM_HOME);
 		 
@@ -331,13 +333,16 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		icon_header_logo_with_search.setEnabled(false);
 		icon_header_logo_without_search.setClickable(false);
 		icon_header_logo_without_search.setEnabled(false);
+		}catch(Exception e){
+			new GrocermaxBaseException("HomeScreen","onCreate",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 	 @Override
 	 public void onWindowFocusChanged(boolean hasFocus) {
 	  super.onWindowFocusChanged(hasFocus);
-	  
+		try{
 	  Drawable drawable_groupIndicator = 
 //	   getResources().getDrawable(R.drawable.arrow_cb);            //temp commented
 			  getResources().getDrawable(R.drawable.close_icon);  //temp done
@@ -353,6 +358,9 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 	    expandableListView.getWidth()-drawable_width, 
 	    expandableListView.getWidth());
 	  }
+		}catch(Exception e){
+			new GrocermaxBaseException("HomeScreen","onWindowFocusChanged",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	 }
 	
 	private int getImageResource(String name){
@@ -371,14 +379,17 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 			if (resId == 0) {
 				resId = getResources().getIdentifier("cat_staples", "drawable", HomeScreen.this.getApplicationInfo().packageName);
 			}
-		}catch(Exception e){}
+		}
+		catch(Exception e){
+			new GrocermaxBaseException("HomeScreen","getImageResource",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return resId;
 	}
 
 	OnClickListener listener = new OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			
+			try{
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
 			if(android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT){
@@ -427,12 +438,20 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 			
 			//expandableListView.setBackgroundResource(backImage[position]);
 			expandableListView.setCacheColorHint(android.R.color.transparent);
+			}catch(Exception e){
+				new GrocermaxBaseException("HomeScreen","listener",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+			}
 		}
 	};
+
 	private void hideAllImage() {
+		try{
 		for (int i = 0; i < catImageArray.length; i++) {
 //			arrowImageArray[i].setVisibility(View.INVISIBLE);
 			catImageArray[i].setSelected(false);
+		  }
+		}catch(Exception e){
+			new GrocermaxBaseException("HomeScreen","hideAllImage",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
 	@Override
@@ -442,12 +461,16 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 	}
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		Intent call = new Intent(HomeScreen.this, CategoryTabs.class);
-		Bundle call_bundle = new Bundle();
-		call_bundle.putSerializable("Categories", catObj.get(position).getChildren().get(arg2).getChildren());
-		call_bundle.putSerializable("Header", catObj.get(position).getChildren().get(arg2).getBreadcrumb());
-		call.putExtras(call_bundle);
-		startActivity(call);
+		try{
+			Intent call = new Intent(HomeScreen.this, CategoryTabs.class);
+			Bundle call_bundle = new Bundle();
+			call_bundle.putSerializable("Categories", catObj.get(position).getChildren().get(arg2).getChildren());
+			call_bundle.putSerializable("Header", catObj.get(position).getChildren().get(arg2).getBreadcrumb());
+			call.putExtras(call_bundle);
+			startActivity(call);
+		}catch(Exception e){
+			new GrocermaxBaseException("HomeScreen","onItemClick",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	
 	@Override
@@ -458,9 +481,13 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		{
 				expandableListView.collapseGroup(i);
 		}*/
-		child_click=0;
-		group_click=0;
-		initHeader(findViewById(R.id.header), true, null);
+		try{
+			child_click=0;
+			group_click=0;
+			initHeader(findViewById(R.id.header), true, null);
+		}catch(Exception e){
+			new GrocermaxBaseException("HomeScreen","onResume",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 	
 	@Override

@@ -590,7 +590,7 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
             icon_header_cart.setVisibility(View.GONE);
             cart_count_txt.setVisibility(View.GONE);
         }catch(Exception e){
-            new GrocermaxBaseException("ChooseAddress","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+            new GrocermaxBaseException("DeliveryDetails","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
         }
     }
 
@@ -781,7 +781,7 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
 //                rlFourthTimeSlot.setEnabled(false);
 //            }
         }catch(Exception e){
-            new GrocermaxBaseException("ChooseAddress","setTimeSlotting",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+            new GrocermaxBaseException("DeliveryDetails","setTimeSlotting",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
         }
     }
 
@@ -1224,7 +1224,7 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                 UtilityMethods.customToast(Constants.ToastConstant.ERROR_MSG, mContext);
             }
         }catch (Exception e){
-            new GrocermaxBaseException("ChooseAddress","onActivityResult",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+            new GrocermaxBaseException("DeliveryDetails","onActivityResult",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
         }
     }
 
@@ -1286,6 +1286,7 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
 //	}
 
     private void firstTimeSlot(){
+        try{
 //        ArrayList<String> alTime = address_obj.getDate_timeSlot().get(date);
 //        time = alTime.get(0);
 //        tvSelectedTime.setText(time);
@@ -1319,9 +1320,13 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
         rlSecondTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
         rlThirdTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
         rlFourthTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
+        }catch(Exception e){
+            new GrocermaxBaseException("DeliveryDetails","firstTimeSlot",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+        }
     }
 
     private void secondTimeSlot(){
+        try{
 //        ArrayList<String> alTime = address_obj.getDate_timeSlot().get(date);
 //        time = alTime.get(1);
 //        tvSelectedTime.setText(time);
@@ -1356,9 +1361,13 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
         rlSecondTimeSlot.setBackgroundColor(getResources().getColor(R.color.gray_1));
         rlThirdTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
         rlFourthTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
+        }catch(Exception e){
+            new GrocermaxBaseException("DeliveryDetails","secondTimeSlot",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+        }
     }
 
     private void thirdTimeSlot(){
+        try{
 //        ArrayList<String> alTime = address_obj.getDate_timeSlot().get(date);
 //        time = alTime.get(2);
 //        tvSelectedTime.setText(time);
@@ -1393,9 +1402,13 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
         rlSecondTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
         rlThirdTimeSlot.setBackgroundColor(getResources().getColor(R.color.gray_1));
         rlFourthTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
+        }catch(Exception e){
+            new GrocermaxBaseException("DeliveryDetails","thirdTimeSlot",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+        }
     }
 
     private void fourthTimeSlot(){
+        try{
 //        ArrayList<String> alTime = address_obj.getDate_timeSlot().get(date);
 //        time = alTime.get(3);
 //        tvSelectedTime.setText(time);
@@ -1430,7 +1443,9 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
         rlSecondTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
         rlThirdTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
         rlFourthTimeSlot.setBackgroundColor(getResources().getColor(R.color.gray_1));
-
+        }catch(Exception e){
+            new GrocermaxBaseException("DeliveryDetails","fourthTimeSlot",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+        }
     }
 
     @Override

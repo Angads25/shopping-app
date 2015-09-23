@@ -14,9 +14,11 @@
         android:id="@+id/ll_address_header"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/white"
+        android:background="#ececec"
         android:orientation="vertical"
-        android:padding="8dp"
+        android:paddingTop="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:visibility="visible">
 
         <TextView
@@ -36,7 +38,9 @@
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:layout_gravity="center"
-    android:layout_margin="8dp"
+
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
     card_view:cardCornerRadius="4dp"
     card_view:cardElevation="2dp"
     card_view:cardUseCompatPadding="true">

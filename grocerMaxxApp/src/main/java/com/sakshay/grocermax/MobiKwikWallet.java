@@ -41,7 +41,9 @@ public class MobiKwikWallet extends BaseActivity{
 //	    	tracker.activityStart(this);
 			FlurryAgent.onStartSession(this, getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
-		}catch(Exception e){}
+		}catch(Exception e){
+			new GrocermaxBaseException("MobiKwikWallet","onStart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 
 	@Override
@@ -129,8 +131,8 @@ public class MobiKwikWallet extends BaseActivity{
 
 			return null;
         }
-     
-        
+
+
     } 
 	
 }

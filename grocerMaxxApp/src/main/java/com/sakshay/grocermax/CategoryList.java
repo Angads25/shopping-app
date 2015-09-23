@@ -23,6 +23,7 @@ import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.Category;
 import com.sakshay.grocermax.bean.CategoryListBean;
 import com.sakshay.grocermax.bean.ProductListBean;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.UrlsConstants;
@@ -41,7 +42,7 @@ public class CategoryList extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+	try{
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
 			catObj = (ArrayList<CategorySubcategoryBean>) bundle
@@ -75,12 +76,16 @@ public class CategoryList extends BaseActivity {
 
 		initHeader(findViewById(R.id.header), true, header);
 		initFooter(findViewById(R.id.footer), 0, 3);
+	}catch(Exception e){
+		new GrocermaxBaseException("CategoryList","onCreate",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+	}
+
 	}
 
 	@Override
 	void OnResponse(Bundle bundle) {
 		String action = bundle.getString("ACTION");
-
+		try{
 		if (action.equals(MyReceiverActions.CATEGORY_LIST)) {
 			CategoryListBean bean = (CategoryListBean) bundle
 					.getSerializable(ConnectionService.RESPONSE);
@@ -118,6 +123,9 @@ public class CategoryList extends BaseActivity {
 				UtilityMethods.customToast(productListBean.getResult(), mContext);
 			}
 		}
+		}catch(Exception e){
+			new GrocermaxBaseException("CategoryList","onResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 
 	public void getCategoryView(final Activity activity,
@@ -125,6 +133,7 @@ public class CategoryList extends BaseActivity {
 			final LinearLayout mLayout, final boolean isExpanded,
 			final int level) {
 		// int categoryLevelCount = 0;
+	try{
 		View categoryView = null;
 		if (category != null) {
 			for (int i = 0; i < category.size(); i++) {
@@ -323,12 +332,19 @@ public class CategoryList extends BaseActivity {
 				mLayout.addView(categoryView);
 			}
 		}
+	  }catch(Exception e){
+		new GrocermaxBaseException("CategoryList","getCategoryView",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+	  }
 	}
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		initHeader(findViewById(R.id.header), true, null);
+		try{
+			initHeader(findViewById(R.id.header), true, null);
+		}catch(Exception e){
+			new GrocermaxBaseException("CategoryList","onResume()",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 
 	@Override

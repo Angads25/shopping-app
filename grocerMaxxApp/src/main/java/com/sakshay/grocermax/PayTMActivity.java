@@ -219,14 +219,21 @@ public class PayTMActivity extends BaseActivity
 					startActivity(intent);
 					finish();
 				}
-			}catch(Exception e){}
+			}catch(Exception e){
+				new GrocermaxBaseException("PayTMActivity","OnResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+			}
 		}
 	}
 
 	public static int getRandomReferenceNumber() {
-        Random rnd = new Random();
-        int n = 100000 + rnd.nextInt(9000000);
-        return n;
+		try{
+        	Random rnd = new Random();
+        	int n = 100000 + rnd.nextInt(9000000);
+        	return n;
+		}catch(Exception e){
+			new GrocermaxBaseException("PayTMActivity","getRandomReferenceNumber",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
+		return  0;
 	}
 	
 	@Override

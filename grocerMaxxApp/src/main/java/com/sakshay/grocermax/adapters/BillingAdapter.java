@@ -16,7 +16,11 @@ import com.sakshay.grocermax.ChooseAddress;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.ShippingAddress;
 import com.sakshay.grocermax.bean.Address;
+import com.sakshay.grocermax.bean.OrderReviewBean;
+import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.CustomFonts;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -149,8 +153,10 @@ public class BillingAdapter extends BaseAdapter{
 
             @Override
             public void onClick(View v) {
-                ((BillingAddress)mContext).selectedPosition = (Integer)v.getTag();
-                notifyDataSetChanged();
+                try {
+                    ((BillingAddress) mContext).selectedPosition = (Integer) v.getTag();
+                    notifyDataSetChanged();
+                }catch(Exception e){}
 //                if(bIsSelect[position] == true){
 //                    bIsSelect[position] = false;
 //                    holder.ivCbCheckoutBilling.setImageResource(R.drawable.uncheck_pay);

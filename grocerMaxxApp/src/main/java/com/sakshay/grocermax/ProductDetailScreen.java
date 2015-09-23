@@ -425,20 +425,24 @@ public class ProductDetailScreen extends BaseActivity implements
 	}
 
 	private void setSpanText(String fString, String sString, TextView textView) {
-		Spannable word = new SpannableString(fString);
-		word.setSpan(
-				new ForegroundColorSpan(getResources().getColor(
-						R.color.orange_text)), 0, word.length(),
-				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		try{
+			Spannable word = new SpannableString(fString);
+			word.setSpan(
+					new ForegroundColorSpan(getResources().getColor(
+							R.color.orange_text)), 0, word.length(),
+					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-		textView.setText(word);
-		Spannable wordTwo = new SpannableString(sString);
+			textView.setText(word);
+			Spannable wordTwo = new SpannableString(sString);
 
-		wordTwo.setSpan(
-				new ForegroundColorSpan(getResources().getColor(
-						R.color.text_grey)), 0, wordTwo.length(),
-				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		textView.append(wordTwo);
+			wordTwo.setSpan(
+					new ForegroundColorSpan(getResources().getColor(
+							R.color.text_grey)), 0, wordTwo.length(),
+					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			textView.append(wordTwo);
+		}catch(Exception e){
+			new GrocermaxBaseException("ProductDetailScreen","setSpanText",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
 	}
 
 	@Override

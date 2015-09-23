@@ -353,10 +353,11 @@ public class CreateNewAddress extends BaseActivity{
 			button_create_address.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			txtHeaderAddres.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 
-			if(strShippingorBilling.equalsIgnoreCase("shipping") || strShippingorBilling.equalsIgnoreCase("billing") || strShippingorBilling.equalsIgnoreCase("profilenewaddress")){
+			if(strShippingorBilling.equalsIgnoreCase("shipping") || strShippingorBilling.equalsIgnoreCase("billing") ||
+					strShippingorBilling.equalsIgnoreCase("profilenewaddress") || strShippingorBilling.equalsIgnoreCase("profilenewaddressbilling")){
 
 				if(!strShippingorBilling.equals("")){
-				if(strShippingorBilling.equalsIgnoreCase("billing")){                            //billing edit OR add case
+				if(strShippingorBilling.equalsIgnoreCase("billing") || strShippingorBilling.equalsIgnoreCase("profilenewaddressbilling")){     //billing edit OR add case(in checkout) AND MyAddress billing case.
 					TextView txtLocation = (TextView)findViewById(R.id.txt_location);
 					txtLocation.setText("Street Address / Locality");
 				}else{                                                                           //shipping edit OR add case AND (from myprofile)addnewaddress or edit
@@ -369,13 +370,13 @@ public class CreateNewAddress extends BaseActivity{
 					txtLocation.setText("Location");
 				}
 
-			if(strShippingorBilling.equalsIgnoreCase("billing")) {
+			if(strShippingorBilling.equalsIgnoreCase("billing")  || strShippingorBilling.equalsIgnoreCase("profilenewaddressbilling")) {  //billing edit OR add case(in checkout) AND MyAddress billing case.
 				if(BillingStateCityLoader.alState.size() > 0) {
 					strSelectedSpinnerState = BillingStateCityLoader.alState.get(0);
 				}
 			}
 
-			if(strShippingorBilling.equalsIgnoreCase("shipping") || strShippingorBilling.equalsIgnoreCase("profilenewaddress")) {
+			if(strShippingorBilling.equalsIgnoreCase("shipping") || strShippingorBilling.equalsIgnoreCase("profilenewaddress")) {    //shipping edit OR add case(in checkout) AND MyAddress shipping case.
 				if(ShippingLocationLoader.alLocationShipping.size() > 0) {
 					strSelectedSpinnerLocationShipping = ShippingLocationLoader.alLocationShipping.get(0);
 				}
@@ -437,7 +438,7 @@ public class CreateNewAddress extends BaseActivity{
 			 rlStateSpinner = (RelativeLayout) findViewById(R.id.rl_state_spinner);
 			 rlState = (RelativeLayout) findViewById(R.id.rl_state);
 			 int indexTemp = 0;                                          //default index set for spinner so that selected state should be visible in spinner.
-			 if(strShippingorBilling.equalsIgnoreCase("billing")) {
+			 if(strShippingorBilling.equalsIgnoreCase("billing") || strShippingorBilling.equalsIgnoreCase("profilenewaddressbilling")) {
 				 rlStateSpinner.setVisibility(View.VISIBLE);
 				 rlState.setVisibility(View.GONE);
 				 spinner_billing = (Spinner) findViewById(R.id.spinner_billing);
@@ -460,7 +461,6 @@ public class CreateNewAddress extends BaseActivity{
 						strSelectedSpinnerState = BillingStateCityLoader.alState.get(spinnerIndexSelected);
 						//parent.getItemAtPosition(position);      //selected item
 						//position
-
 					}
 
 					@Override
@@ -549,7 +549,7 @@ public class CreateNewAddress extends BaseActivity{
 				 	spinnerLocationShipping.setSelection(indexTempLocation);
 				 	spinnerIndexLocationShipping = indexTempLocation;
 //					}
-				}else if(strShippingorBilling.equalsIgnoreCase("billing")){                                                //use spinner in case of billing
+				}else if(strShippingorBilling.equalsIgnoreCase("billing") || strShippingorBilling.equalsIgnoreCase("profilenewaddressbilling")){                                                //use spinner in case of billing
 					tvState.setEnabled(false);
 					rlState.setVisibility(View.GONE);
 					String addr = address.getStreet();
@@ -809,7 +809,7 @@ public class CreateNewAddress extends BaseActivity{
 				return;
 			}
 
-			if(strShippingorBilling.equalsIgnoreCase("billing")) {
+			if(strShippingorBilling.equalsIgnoreCase("billing") || strShippingorBilling.equalsIgnoreCase("profilenewaddressbilling")) {
 				if (strSelectedSpinnerState.equals("")) {
 					UtilityMethods.customToast("State can't be blank", mContext);
 					return;
@@ -865,9 +865,9 @@ public class CreateNewAddress extends BaseActivity{
 //		if(check_default_shipping.isChecked())
 //			default_shipping = 1;
 
-			if(strShippingorBilling.equalsIgnoreCase("shipping")){            //when user coming from checkout screen
+			if(strShippingorBilling.equalsIgnoreCase("shipping") || strShippingorBilling.equalsIgnoreCase("profilenewaddress")){            //shipping checkout screen AND Myprofile shipping
 				default_shipping = 1;
-			}else if(strShippingorBilling.equalsIgnoreCase("billing")){      //when user coming from checkout screen
+			}else if(strShippingorBilling.equalsIgnoreCase("billing") || strShippingorBilling.equalsIgnoreCase("profilenewaddressbilling") ){      //billing checkout screen AND MyProfile billing
 				default_billing = 1;
 			}else{
 				default_shipping = 0;
@@ -901,7 +901,7 @@ public class CreateNewAddress extends BaseActivity{
 			String city = tvCity.getText().toString();
 
 			String state = "";
-			if(strShippingorBilling.equalsIgnoreCase("billing")) {
+			if(strShippingorBilling.equalsIgnoreCase("billing") || strShippingorBilling.equalsIgnoreCase("profilenewaddressbilling")) {
 //				if (!strSelectedSpinnerState.equals("")) {
 					state = strSelectedSpinnerState;
 //				}

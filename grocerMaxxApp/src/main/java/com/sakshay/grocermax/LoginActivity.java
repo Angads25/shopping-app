@@ -191,16 +191,20 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 
 			button_skip.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 		}catch(Exception e){
-			new GrocermaxBaseException("LoginActivity","OnResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+			new GrocermaxBaseException("LoginActivity","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
 		}
 	}
 	
 	public void gotoHome(View v)
 	{
-		Intent intent = new Intent(LoginActivity.this, HomeScreen.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(intent);
-		finish();
+		try{
+			Intent intent = new Intent(LoginActivity.this, HomeScreen.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			finish();
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","gotoHome",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
 	}
 	
 	
@@ -239,11 +243,13 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 	 * Function to open Registration and Forgot Password Screen
 	 * */
 	private void replaceScreen(String whichAction) {
-
-		Intent intent = new Intent(this, Registration.class);
-		intent.putExtra("whichScreen", whichAction);
-		startActivityForResult(intent,111);
-
+		try{
+			Intent intent = new Intent(this, Registration.class);
+			intent.putExtra("whichScreen", whichAction);
+			startActivityForResult(intent,111);
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","gotoHome",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
 	}
 	
 	/**
@@ -273,6 +279,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 	
 	private void logIn()
 	{
+		try{
 		String userN = username.getText().toString().trim();
 		String pwd = password.getText().toString().trim();
 		if(userN.length() == 0)
@@ -314,12 +321,16 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 				Toast.makeText(mContext, ToastConstant.msgNoInternet ,Toast.LENGTH_LONG).show();
 			}
 		}
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","logIn",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
 	}
 	
 	/**
 	 * for saving facebook data
 	 * */
 	private void saveUserData(GraphUser user) {
+		try{
 		String USER_ID = "";
 		String USER_FNAME = "";
 		String USER_MNAME = "";
@@ -381,6 +392,9 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 		} else {
 			UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
 		}
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","saveUserData",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
 	}
 
 	/**
@@ -393,7 +407,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //		64206 requestCode
-
+		super.onActivityResult(requestCode, resultCode, data);
+		try{
 		switch (requestCode) {
 		case RC_SIGN_IN:
 			try{
@@ -429,8 +444,10 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 //		}else{
 //			
 //		}
-		
-		super.onActivityResult(requestCode, resultCode, data);
+
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","onActivityResult",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
 
 	}
 	
@@ -486,13 +503,16 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 	}
 
 	private static Session openActiveSession(Activity activity, boolean allowLoginUI, Session.StatusCallback callback, List<String> permissions) {
-		Session.OpenRequest openRequest = new Session.OpenRequest(activity).setPermissions(permissions).setCallback(callback);
-		Session session = new Session.Builder(activity).build();
-
-		if (SessionState.CREATED_TOKEN_LOADED.equals(session.getState()) || allowLoginUI) {
-			Session.setActiveSession(session);
-			session.openForRead(openRequest);
-			return session;
+		try{
+			Session.OpenRequest openRequest = new Session.OpenRequest(activity).setPermissions(permissions).setCallback(callback);
+			Session session = new Session.Builder(activity).build();
+			if (SessionState.CREATED_TOKEN_LOADED.equals(session.getState()) || allowLoginUI) {
+				Session.setActiveSession(session);
+				session.openForRead(openRequest);
+				return session;
+			}
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","openActiveSession",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
 		}
 		return null;
 	}
@@ -823,6 +843,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 	
 	private void resolveSignInError() {
 //		Toast.makeText(context,"88888", Toast.LENGTH_SHORT).show();
+		try{
 		if(mConnectionResult != null){
 	        if (mConnectionResult.hasResolution()) {
 	            try {
@@ -833,6 +854,9 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 	                mGoogleApiClient.connect();
 	            }
 	        }
+		}
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","resolveSignInError",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
 		}
 //		else{
 //		}
@@ -897,21 +921,26 @@ implements ConnectionCallbacks, OnConnectionFailedListener
             }
         } catch (Exception e) {
             e.printStackTrace();
+			new GrocermaxBaseException("LoginActivity","getProfileInformation",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
         }
     }
 	
     public static void googlePlusLogout() {
-    	if(mGoogleApiClient != null){
-        if (mGoogleApiClient.isConnected()) {
-            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-            mGoogleApiClient.disconnect();
-            mGoogleApiClient.connect();
-            if(tv_google_btn != null){
-            	tv_google_btn.setText("Connect with Google");
-            }
-//            updateProfile(false);
-         }
-    	}
+		try{
+			if(mGoogleApiClient != null){
+			if (mGoogleApiClient.isConnected()) {
+				Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+				mGoogleApiClient.disconnect();
+				mGoogleApiClient.connect();
+				if(tv_google_btn != null){
+					tv_google_btn.setText("Connect with Google");
+				}
+	//            updateProfile(false);
+			 }
+			}
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","googlePlusLogout",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
     }
    
 //    public static void googlePlusLogoutLocally() {
@@ -934,6 +963,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 	 * for saving google plus data
 	 * */
 	private void saveGoogleUserData(Person currentPerson) {
+	 try{
 		String USER_ID = "";
 //		String USER_FNAME = "";
 //		String USER_MNAME = "";
@@ -996,8 +1026,11 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 //			Toast.makeText(mContext, ToastConstant.msgNoInternet ,Toast.LENGTH_LONG).show();
 			UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
 		}
+		}catch(Exception e){
+			new GrocermaxBaseException("LoginActivity","saveGoogleUserData",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
 	}
-    
+
     /**************************************************  GOOGLE PLUS INTEGARTION *************************************************/
 	
 }

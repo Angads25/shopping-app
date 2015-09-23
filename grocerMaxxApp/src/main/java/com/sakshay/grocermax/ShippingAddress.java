@@ -735,23 +735,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                             return;
                         }
 
-                        OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
-                        JSONObject shipping_json_obj = new JSONObject();
-
                         Address ship_add = addressList.get(selectedPosition);
-                        shipping_json_obj.put("fname", ship_add.getFirstname());
-                        shipping_json_obj.put("lname", ship_add.getLastname());
-                        shipping_json_obj.put("city", ship_add.getCity());
-                        shipping_json_obj.put("region", ship_add.getRegion());
-                        shipping_json_obj.put("postcode", ship_add.getPostcode());
-                        shipping_json_obj.put("country_id", "IN");
-                        shipping_json_obj.put("telephone", ship_add.getTelephone());
-                        shipping_json_obj.put("addressline1", ship_add.getStreet());
-                        shipping_json_obj.put("addressline2","");
-                        shipping_json_obj.put("default_billing","0");
-                        shipping_json_obj.put("default_shipping", "0");
-                        orderReviewBean.setShipping(shipping_json_obj);
-                        MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean);
 
                         if(!ship_add.getCity().equalsIgnoreCase(LocationActivity.strSelectedCity)){
                             UtilityMethods.customToast("We deliver only in "+LocationActivity.strSelectedCity+","+LocationActivity.strSelectedState+".Kindly select add new address", mContext);
@@ -763,6 +747,30 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                         }
 
                         if(bShippingAsBilling){
+                            OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
+                            JSONObject shipping_json_obj = new JSONObject();
+
+                            shipping_json_obj.put("fname", ship_add.getFirstname());
+                            shipping_json_obj.put("lname", ship_add.getLastname());
+                            shipping_json_obj.put("city", ship_add.getCity());
+                            shipping_json_obj.put("region", ship_add.getRegion());
+                            shipping_json_obj.put("postcode", ship_add.getPostcode());
+                            shipping_json_obj.put("country_id", "IN");
+                            shipping_json_obj.put("telephone", ship_add.getTelephone());
+
+
+//                            String addr = ship_add.getStreet();
+//                            shipping_json_obj.put("addressline1", addr.split("\n")[0]);
+//                            shipping_json_obj.put("addressline2", addr.split("\n")[1]);
+//                            shipping_json_obj.put("addressline3", addr.split("\n")[2]);
+                        shipping_json_obj.put("addressline1", ship_add.getStreet());
+                        shipping_json_obj.put("addressline2","");
+                            shipping_json_obj.put("default_billing","0");
+                            shipping_json_obj.put("default_shipping", "0");
+                            orderReviewBean.setShipping(shipping_json_obj);
+                            MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean);
+
+
                             OrderReviewBean orderReviewBean1 = MySharedPrefs.INSTANCE.getOrderReviewBean();
                             JSONObject billing_json_obj = new JSONObject();
                             Address billing_add = addressList.get(selectedPosition);
@@ -774,6 +782,11 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                             billing_json_obj.put("postcode", ship_add.getPostcode());
                             billing_json_obj.put("country_id", "IN");
                             billing_json_obj.put("telephone", ship_add.getTelephone());
+
+//                            String addr1 = ship_add.getStreet();
+//                            shipping_json_obj.put("addressline1", addr.split("\n")[0]);
+//                            shipping_json_obj.put("addressline2", addr.split("\n")[1]);
+//                            shipping_json_obj.put("addressline3", addr.split("\n")[2]);
                             billing_json_obj.put("addressline1", ship_add.getStreet());
                             billing_json_obj.put("addressline2", "");
                             billing_json_obj.put("default_billing", "0");
@@ -785,6 +798,28 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                             intent1.putExtra("addressBean", address_obj);
                             startActivity(intent1);
                         }else {
+                            OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
+                            JSONObject shipping_json_obj = new JSONObject();
+
+                            shipping_json_obj.put("fname", ship_add.getFirstname());
+                            shipping_json_obj.put("lname", ship_add.getLastname());
+                            shipping_json_obj.put("city", ship_add.getCity());
+                            shipping_json_obj.put("region", ship_add.getRegion());
+                            shipping_json_obj.put("postcode", ship_add.getPostcode());
+                            shipping_json_obj.put("country_id", "IN");
+                            shipping_json_obj.put("telephone", ship_add.getTelephone());
+
+//                            String addr = ship_add.getStreet();
+//                            shipping_json_obj.put("addressline1", addr.split("\n")[0]);
+//                            shipping_json_obj.put("addressline2", addr.split("\n")[1]);
+//                            shipping_json_obj.put("addressline3", addr.split("\n")[2]);
+                        shipping_json_obj.put("addressline1", ship_add.getStreet());
+                        shipping_json_obj.put("addressline2","");
+                            shipping_json_obj.put("default_billing","0");
+                            shipping_json_obj.put("default_shipping", "0");
+                            orderReviewBean.setShipping(shipping_json_obj);
+                            MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean);
+
                             Intent intent = new Intent(ShippingAddress.this, BillingAddress.class);
                             intent.putExtra("addressBean", address_obj);
                             startActivity(intent);

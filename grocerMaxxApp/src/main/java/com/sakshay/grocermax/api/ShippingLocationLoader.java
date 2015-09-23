@@ -124,13 +124,13 @@ public class ShippingLocationLoader extends AsyncTask<String, String, String> {
                         Intent intent = new Intent(context, CreateNewAddress.class);
                         intent.putExtra("shippingorbillingaddress", shippingORprofile);                    //profilenewaddress
                         intent.putExtra("editindex", "-1");                                    //means adding the address not editing.
-                        ((AddressDetail) context).startActivityForResult(intent, BillingAddress.requestNewAddress);
+                        ((AddressDetail) context).startActivityForResult(intent, AddressDetail.requestNewAddress);
                     }else{                                      //editing in existing address
                         Intent intent = new Intent(context, CreateNewAddress.class);
                         intent.putExtra("address", address);
                         intent.putExtra("shippingorbillingaddress", shippingORprofile);                  //profilenewaddress
                         intent.putExtra("editindex", editIndex);                                    //means editing the address not adding.
-                        ((AddressDetail) context).startActivityForResult(intent, BillingAddress.requestNewAddress);
+                        ((AddressDetail) context).startActivityForResult(intent, AddressDetail.requestNewAddress);
                     }
                 }
             }else{                                                     //shipping

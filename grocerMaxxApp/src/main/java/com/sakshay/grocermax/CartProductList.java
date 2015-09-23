@@ -327,7 +327,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		try{
 		if(qty>0)
 		{
-			try {
 				JSONArray products = new JSONArray();
 				JSONObject prod_obj = new JSONObject();
 				prod_obj.put("productid", item_id);
@@ -339,11 +338,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 						+ MySharedPrefs.INSTANCE.getUserId() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
 						+ URLEncoder.encode(products.toString(), "UTF-8");
 				myApi.reqViewCartAfterDelete(url,MyReceiverActions.CART_DETAIL_AFTER_DELETE);
-
-
-			} catch (Exception e) {
-				new GrocermaxBaseException("CartProductList", "changeQuantity", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
-			}
 		}
 		}catch(NullPointerException e){
 			new GrocermaxBaseException("CartProductList", "changeQuantity", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
@@ -764,7 +758,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	private void callAddressApi()
 	{
 		try {
-
 			showDialog();
 			String url = UrlsConstants.CHECKOUT_ADDRESS_BOOK + MySharedPrefs.INSTANCE.getUserId();
 			myApi.reqCheckOutAddress(url);

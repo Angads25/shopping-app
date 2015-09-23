@@ -53,6 +53,7 @@ public class LocationActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try{
         setContentView(R.layout.location_screen);
         addActionsInFilter(MyReceiverActions.CATEGORY_LIST);
 
@@ -130,7 +131,9 @@ public class LocationActivity extends BaseActivity {
                 System.out.println(e.getMessage());
             }
         }
-
+        }catch(Exception e){
+            new GrocermaxBaseException("LocationActivity","onCreate",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+        }
     }
 
     @Override
@@ -143,35 +146,39 @@ public class LocationActivity extends BaseActivity {
     View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
+        try {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            if(android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+            if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
                 keyboardVisibility = true;
-            }else{
+            } else {
                 keyboardVisibility = false;
             }
 
-            if(android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT){
-                if(!keyboardVisibility)
+            if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+                if (!keyboardVisibility)
                     imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
 
-            }else{
-                if(keyboardVisibility)
+            } else {
+                if (keyboardVisibility)
                     imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
             }
             ivLocation[position].setImageResource(R.drawable.unselect_location);
             position = (Integer) view.getTag();
 
-            strSelectedCity  = locationList.getItems().get(position).getCityName();    //selected city
+            strSelectedCity = locationList.getItems().get(position).getCityName();    //selected city
             strSelectedState = locationList.getItems().get(position).getStateName();   //selected state
             strSelectedStateId = locationList.getItems().get(position).getId();   //selected state id
 
             ivLocation[position].setImageResource(R.drawable.select_location);
+        }catch(Exception e){
+            new GrocermaxBaseException("LocationActivity","listener",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+        }
         }
     };
 
     @Override
     void OnResponse(Bundle bundle) {
+        try{
         dismissDialog();
         String jsonResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);
 		//UtilityMethods.write("response",jsonResponse,SplashScreen.this);
@@ -187,6 +194,9 @@ public class LocationActivity extends BaseActivity {
 		} else {
 			UtilityMethods.customToast(AppConstants.ToastConstant.DATA_NOT_FOUND, mContext);
 		}
+        }catch(Exception e){
+            new GrocermaxBaseException("LocationActivity","onResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+        }
     }
 
 //    @Override

@@ -225,6 +225,7 @@ public class ProductListScreen extends BaseActivity implements OnScrollListener 
 			myApi.reqAddToCart(url);
 		} catch (Exception e) {
 			e.printStackTrace();
+			new GrocermaxBaseException("ProductListScreen","addToCart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 
 	}
@@ -246,22 +247,32 @@ public class ProductListScreen extends BaseActivity implements OnScrollListener 
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+			new GrocermaxBaseException("ProductListScreen","addToCartGuest",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
 
 	public void onScroll(AbsListView view, int firstVisibleItem,
 			int visibleItemCount, int totalItemCount) {
+		try{
 		this.currentFirstVisibleItem = firstVisibleItem;
 		this.currentVisibleItemCount = visibleItemCount;
 		this.totalItemCount = totalItemCount;
+		}catch(Exception e){
+			new GrocermaxBaseException("ProductListScreen","onScroll",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
 	}
 
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
-		this.currentScrollState = scrollState;
-		this.isScrollCompleted();
+		try{
+			this.currentScrollState = scrollState;
+			this.isScrollCompleted();
+		}catch(Exception e){
+			new GrocermaxBaseException("ProductListScreen","onScrollStateChanged",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
 	}
 
 	private void isScrollCompleted() {
+		try{
 		if (this.currentVisibleItemCount + this.currentFirstVisibleItem >= totalItemCount
 				&& this.currentScrollState == SCROLL_STATE_IDLE) {
 			/***
@@ -273,9 +284,13 @@ public class ProductListScreen extends BaseActivity implements OnScrollListener 
 				loadMoreData();
 			}
 		}
+		}catch(Exception e){
+			new GrocermaxBaseException("ProductListScreen","isScrollCompleted",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
 	}
 
 	private void loadMoreData() {
+		try{
 		if (UtilityMethods.isInternetAvailable(mContext)) {
 			if (hasMoreItem) {
 				// mList.addFooterView(footerView);
@@ -300,6 +315,9 @@ public class ProductListScreen extends BaseActivity implements OnScrollListener 
 			UtilityMethods.customToast(ToastConstant.msgNoInternet, this);
 
 		}
+		}catch(Exception e){
+			new GrocermaxBaseException("ProductListScreen","loadMoreData",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
 	}
 	
 	@Override
@@ -307,8 +325,8 @@ public class ProductListScreen extends BaseActivity implements OnScrollListener 
 		// TODO Auto-generated method stub
 		super.onResume();
 		try{
-		initHeader(findViewById(R.id.header), true, null);
-		clickStatus=0;
+			initHeader(findViewById(R.id.header), true, null);
+			clickStatus=0;
 		}catch(Exception e){
 			new GrocermaxBaseException("ProductListScreen","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
@@ -335,9 +353,5 @@ public class ProductListScreen extends BaseActivity implements OnScrollListener 
 	    	FlurryAgent.onEndSession(this);
     	}catch(Exception e){}
     }
-	
-	
-	
-	
-	
+
 }

@@ -124,9 +124,13 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
     }
 
     public void StateCityBilling(){
+        try{
         showDialog();
         String url = UrlsConstants.GET_STATE;
         myApi.reqDeleteFromCart(url);
+        }catch(Exception e){
+            new GrocermaxBaseException("BillingAddress","StateCityBilling",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+        }
     }
 
     @Override
@@ -325,6 +329,7 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
 //			textDate.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 //			textTimeSlot.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 //			textShipping.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+
 //			textBilling.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 //
 //
@@ -757,7 +762,7 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
             icon_header_cart.setVisibility(View.GONE);
             cart_count_txt.setVisibility(View.GONE);
         }catch(Exception e){
-            new GrocermaxBaseException("ChooseAddress","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+            new GrocermaxBaseException("BillingAddress","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
         }
     }
 
@@ -1355,9 +1360,9 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
                 CheckoutAddressBean bean = (CheckoutAddressBean) bundle.getSerializable(ConnectionService.RESPONSE);
 			/*if(bean.getAddress().size()>0)
 			{*/
-                Intent intent = new Intent(BillingAddress.this, BillingAddress.class);
-                intent.putExtra("addressBean", bean);
-                startActivity(intent);
+//                Intent intent = new Intent(BillingAddress.this, BillingAddress.class);
+//                intent.putExtra("addressBean", bean);
+//                startActivity(intent);
 
                 address_obj = bean;
 //                addressList = address_obj.getAddress();
@@ -1393,14 +1398,19 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
                 billing_json_obj.put("addressline1", billing_add.getStreet());
                 billing_json_obj.put("addressline2","");
                 billing_json_obj.put("default_billing","0");
-                billing_json_obj.put("default_shipping","0");
+                billing_json_obj.put("default_shipping", "0");
                 orderReviewBean.setBilling(billing_json_obj);
                 MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean);
 
-                Intent intent1 = new Intent(BillingAddress.this, DeliveryDetails.class);
+                finish();
+
+                Intent intent1 = new Intent(BillingAddress.this, BillingAddress.class);
                 intent1.putExtra("addressBean", bean);
                 startActivity(intent1);
-                finish();
+//                Intent intent1 = new Intent(BillingAddress.this, DeliveryDetails.class);
+//                intent1.putExtra("addressBean", bean);
+//                startActivity(intent1);
+
 			/*}else{
 				Toast.makeText(CartProductList.this,ToastConstant.NO_ACCOUNT_ADDR,0).show();
 			}*/
@@ -1463,7 +1473,7 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
 //                UtilityMethods.customToast(Constants.ToastConstant.ERROR_MSG, mContext);
             }
         }catch (Exception e){
-            new GrocermaxBaseException("ChooseAddress","onActivityResult",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+            new GrocermaxBaseException("BillingAddress","onActivityResult",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
         }
     }
 

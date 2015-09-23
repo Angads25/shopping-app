@@ -247,10 +247,6 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 //			System.out.println("==JsonArray=1="+jsonArray);
 //			System.out.println("==JsonArray=2="+jsonArray);
 
-
-
-
-
 //		if(SearchTabs.getInstance() != null) {
 //			SearchTabs.getInstance().finish();
 //		}
@@ -272,9 +268,7 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 //			bundle.putSerializable("searchdata",(Serializable)String.valueOf(jsonObjectTop));
 //			call.putExtras(bundle);
 
-
 //			call.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//If set, and the activity being launched is already running in the current task, then instead of launching a new instance of that activity, all of the other activities on top of it will be closed and this Intent will be delivered to the (now on top) old activity as a new Intent.
-
 
 		context.startActivity(call);
 //			((BaseActivity)context).dismissDialog();
@@ -283,7 +277,6 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 		if (UtilityMethods.getCurrentClassName(context).equals(context.getPackageName() + ".SearchTabs")) {
 			((SearchTabs)context).finish();
 		}
-
 
 		}catch(JSONException e){
 //			((BaseActivity)context).dismissDialog();

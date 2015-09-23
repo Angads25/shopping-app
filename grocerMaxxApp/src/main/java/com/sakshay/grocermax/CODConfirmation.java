@@ -124,7 +124,7 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 		// TODO Auto-generated method stub
 		super.onResume();
 		try{
-		initHeader(findViewById(R.id.header), true, null);
+			initHeader(findViewById(R.id.header), true, null);
 		}catch(Exception e){
 			new GrocermaxBaseException("CODConfirmation","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}

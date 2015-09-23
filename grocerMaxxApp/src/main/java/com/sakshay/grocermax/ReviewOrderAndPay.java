@@ -54,11 +54,11 @@ import com.sakshay.grocermax.utils.UtilityMethods;
 
 public class ReviewOrderAndPay extends BaseActivity
 {
-//	ListView mList;
+	//	ListView mList;
 	private Button button_pay;
 	private FinalCheckoutBean finalCheckoutBean;
 	TextView billing_amt, shipping_amt, tax, grand_total;
-//	TableRow tr_shipping,tr_discount;
+	//	TableRow tr_shipping,tr_discount;
 //	LinearLayout review_footer;
 //	RadioGroup radioGroup;
 //	private RadioButton radioTransactionButton;
@@ -71,7 +71,7 @@ public class ReviewOrderAndPay extends BaseActivity
 	String payment_mode;
 	float total;
 	Intent intent;
-//	ProgressDialog mProgressDialog;
+	//	ProgressDialog mProgressDialog;
 	String txnId;
 	TextView txtItemCount,txtSubTotal,txtShippingCharges,txtYouSaved,txtTotal,txtCouponDiscount;
 	TextView tvItemCount,tvSubTotal,tvShippingCharges,tvYouSaved,tvTotal,tvCouponDiscount;
@@ -189,8 +189,8 @@ public class ReviewOrderAndPay extends BaseActivity
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					if (etCouponCode.getText().toString().length() > 0) {
-                        // need to change the keyboardVisibility here
-                        getKeyBoardVisibility();
+						// need to change the keyboardVisibility here
+						getKeyBoardVisibility();
 						if (keyboardVisibility)
 							UtilityMethods.hideKeyBoard(ReviewOrderAndPay.this);
 						new Coupon(mContext, "Apply").execute(strApplyCoupon + etCouponCode.getText().toString());
@@ -602,10 +602,10 @@ public class ReviewOrderAndPay extends BaseActivity
 //					float str3 = Float.parseFloat(orderReviewBean.getDiscount_amount());
 					total = Float.parseFloat(orderReviewBean.getGrandTotal());
 //					+ Float.parseFloat(orderReviewBean.getShipping_ammount())		+ Float.parseFloat(orderReviewBean.getDiscount_amount());
-				if(!bCash && !bOnline && !bPayTM ){             //!bMobiKwik
-					UtilityMethods.customToast(ToastConstant.SELECT_PAYMENT_MODE, mContext);
-					return;
-				}else
+					if(!bCash && !bOnline && !bPayTM ){             //!bMobiKwik
+						UtilityMethods.customToast(ToastConstant.SELECT_PAYMENT_MODE, mContext);
+						return;
+					}else
 
 //					if (!bCash && !bOnline) {
 //						UtilityMethods.customToast(ToastConstant.SELECT_PAYMENT_MODE, mContext);
@@ -613,13 +613,13 @@ public class ReviewOrderAndPay extends BaseActivity
 //					}
 
 
-					if(bPayTM){
-						payment_mode="paytm_cc";
-					}else if (bOnline) {
-						payment_mode = "payucheckout_shared";
-					} else if (bCash) {
-						payment_mode = "cashondelivery";
-					}
+						if(bPayTM){
+							payment_mode="paytm_cc";
+						}else if (bOnline) {
+							payment_mode = "payucheckout_shared";
+						} else if (bCash) {
+							payment_mode = "cashondelivery";
+						}
 
 
 
@@ -647,7 +647,7 @@ public class ReviewOrderAndPay extends BaseActivity
 
 				}
 			});
-				
+
 		/*if(Float.parseFloat(orderReviewBean.getShipping_ammount())==0)
 		tr_shipping.setVisibility(View.GONE);
 		if(Float.parseFloat(orderReviewBean.getDiscount_amount())==0)
@@ -663,7 +663,7 @@ public class ReviewOrderAndPay extends BaseActivity
 //			float str2 = Float.parseFloat(orderReviewBean.getShipping_ammount());
 //			float str3 = Float.parseFloat(orderReviewBean.getDiscount_amount());
 
-		total = Float.parseFloat(orderReviewBean.getGrandTotal());
+			total = Float.parseFloat(orderReviewBean.getGrandTotal());
 //			+ Float.parseFloat(orderReviewBean.getShipping_ammount()) + Float.parseFloat(orderReviewBean.getDiscount_amount());
 
 
@@ -695,31 +695,31 @@ public class ReviewOrderAndPay extends BaseActivity
 	Payment.Builder builder = new Payment().new Builder();
 
 	private void makePayment(final String orderid) {
-		
-		
+
+
 		if(!bOnline && !bCash && !bPayTM){
 			UtilityMethods.customToast(ToastConstant.SELECT_PAYMENT_MODE, mContext);
 			return;
 		}
-		else if(bOnline){          
-            final HashMap<String, String> params = new HashMap<String, String>();
-            double amount = total;
-            
-            params.put("amount",String.valueOf(total));
-            params.put("surl",UrlsConstants.CHANGE_ORDER_STATUS+"success.php?orderid="+orderid);
-            params.put("furl",UrlsConstants.CHANGE_ORDER_STATUS+"fail.php?orderid="+orderid);
-            params.put("user_credentials","yPnUG6:test");
-            params.put("key","yPnUG6");
-            params.put("txnid",orderid);
-            params.put("firstname",MySharedPrefs.INSTANCE.getFirstName()+" "+MySharedPrefs.INSTANCE.getLastName());
-            params.put("email",MySharedPrefs.INSTANCE.getUserEmail());
+		else if(bOnline){
+			final HashMap<String, String> params = new HashMap<String, String>();
+			double amount = total;
+
+			params.put("amount",String.valueOf(total));
+			params.put("surl",UrlsConstants.CHANGE_ORDER_STATUS+"success.php?orderid="+orderid);
+			params.put("furl",UrlsConstants.CHANGE_ORDER_STATUS+"fail.php?orderid="+orderid);
+			params.put("user_credentials","yPnUG6:test");
+			params.put("key","yPnUG6");
+			params.put("txnid",orderid);
+			params.put("firstname",MySharedPrefs.INSTANCE.getFirstName()+" "+MySharedPrefs.INSTANCE.getLastName());
+			params.put("email",MySharedPrefs.INSTANCE.getUserEmail());
 //            params.put("phone", "9999999999");
 			params.put("phone",MySharedPrefs.INSTANCE.getMobileNo());
-            params.put("productinfo","GrocerMax Product Info");
-            
-            params.remove("amount");
-            final double finalAmount = amount;
-            
+			params.put("productinfo","GrocerMax Product Info");
+
+			params.remove("amount");
+			final double finalAmount = amount;
+
            /* String txnId = orderid;
 			String merchant_key =  "yPnUG6";
 			String amout = String.valueOf(total);
@@ -729,7 +729,7 @@ public class ReviewOrderAndPay extends BaseActivity
 			String u_fname = "USER_FNAME";
 			String u_email = MySharedPrefs.INSTANCE.getUserEmail();
 
-            
+
 
             final double finalAmount = amount;
             StringBuilder checkSumStr = new StringBuilder();
@@ -765,11 +765,11 @@ public class ReviewOrderAndPay extends BaseActivity
 		    PayU.paymentHash = hash;
 
 		    PayU.getInstance(ReviewOrderAndPay.this).startPaymentProcess(finalAmount, params);*/
-            
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... voids) {
-                    try {
+
+			new AsyncTask<Void, Void, Void>() {
+				@Override
+				protected Void doInBackground(Void... voids) {
+					try {
                        /* HttpClient httpclient = new DefaultHttpClient();
 
                         HttpPost httppost = new HttpPost("http://uat.grocermax.com/webservice/new_services/getmobilehash");
@@ -780,94 +780,94 @@ public class ReviewOrderAndPay extends BaseActivity
 
                         httppost.setEntity(new UrlEncodedFormEntity(postParams));
                         JSONObject response = new JSONObject(EntityUtils.toString(httpclient.execute(httppost).getEntity()));*/
-                    	
-                    	HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
-                    	HttpGet httpGet = new HttpGet(UrlsConstants.GET_MOBILE_HASH+"txnid="+orderid+"&amount="+String.valueOf(finalAmount)+"&email="+MySharedPrefs.INSTANCE.getUserEmail()+"&fname="+MySharedPrefs.INSTANCE.getFirstName());
-            			//System.out.println("genrate hash service = "+UrlsConstants.GET_MOBILE_HASH+"txnid="+orderid+"&amount="+String.valueOf(total)+"&email="+MySharedPrefs.INSTANCE.getUserEmail()+"&fname="+"ISHAN");
-                    	httpGet.setHeader("Content-Type", "application/json");
-            			HttpResponse response1 = null;
+
+						HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
+						HttpGet httpGet = new HttpGet(UrlsConstants.GET_MOBILE_HASH+"txnid="+orderid+"&amount="+String.valueOf(finalAmount)+"&email="+MySharedPrefs.INSTANCE.getUserEmail()+"&fname="+MySharedPrefs.INSTANCE.getFirstName());
+						//System.out.println("genrate hash service = "+UrlsConstants.GET_MOBILE_HASH+"txnid="+orderid+"&amount="+String.valueOf(total)+"&email="+MySharedPrefs.INSTANCE.getUserEmail()+"&fname="+"ISHAN");
+						httpGet.setHeader("Content-Type", "application/json");
+						HttpResponse response1 = null;
             			/*try {*/
-            				response1 = client.execute(httpGet);
-            				HttpEntity resEntity = response1.getEntity();
-            				JSONObject response = new JSONObject(EntityUtils.toString(resEntity));
+						response1 = client.execute(httpGet);
+						HttpEntity resEntity = response1.getEntity();
+						JSONObject response = new JSONObject(EntityUtils.toString(resEntity));
             			/*} catch (ClientProtocolException e) {
             				e.printStackTrace();
             			} catch (IOException e) {
             				e.printStackTrace();
             			}*/
-                    	
-                    	
 
 
-                        // set the hash values here.
 
-                        if (response.has("Result")) {
-                            PayU.merchantCodesHash = response.getJSONObject("Result").getString("merchantCodesHash");
-                            PayU.paymentHash = response.getJSONObject("Result").getString("paymentHash");
-                            PayU.vasHash = response.getJSONObject("Result").getString("mobileSdk");
-                            PayU.ibiboCodeHash = response.getJSONObject("Result").getString("detailsForMobileSdk");
 
-                            if (response.getJSONObject("Result").has("deleteHash")) {
-                                PayU.deleteCardHash = response.getJSONObject("Result").getString("deleteHash");
-                                PayU.getUserCardHash = response.getJSONObject("Result").getString("getUserCardHash");
-                                PayU.editUserCardHash = response.getJSONObject("Result").getString("editUserCardHash");
-                                PayU.saveUserCardHash = response.getJSONObject("Result").getString("saveUserCardHash");
-                            }
+						// set the hash values here.
 
-                        }
+						if (response.has("Result")) {
+							PayU.merchantCodesHash = response.getJSONObject("Result").getString("merchantCodesHash");
+							PayU.paymentHash = response.getJSONObject("Result").getString("paymentHash");
+							PayU.vasHash = response.getJSONObject("Result").getString("mobileSdk");
+							PayU.ibiboCodeHash = response.getJSONObject("Result").getString("detailsForMobileSdk");
+
+							if (response.getJSONObject("Result").has("deleteHash")) {
+								PayU.deleteCardHash = response.getJSONObject("Result").getString("deleteHash");
+								PayU.getUserCardHash = response.getJSONObject("Result").getString("getUserCardHash");
+								PayU.editUserCardHash = response.getJSONObject("Result").getString("editUserCardHash");
+								PayU.saveUserCardHash = response.getJSONObject("Result").getString("saveUserCardHash");
+							}
+
+						}
 //                        if(mProgressDialog != null && mProgressDialog.isShowing())
 //                            mProgressDialog.dismiss();
 
-                        PayU.getInstance(ReviewOrderAndPay.this).startPaymentProcess(finalAmount, params);
+						PayU.getInstance(ReviewOrderAndPay.this).startPaymentProcess(finalAmount, params);
 //                            PayU.getInstance(MainActivity.this).startPaymentProcess(finalAmount, params, new PayU.PaymentMode[]{PayU.PaymentMode.CC, PayU.PaymentMode.NB});
 
-                    } catch (UnsupportedEncodingException e) {
+					} catch (UnsupportedEncodingException e) {
 //                        if(mProgressDialog != null && mProgressDialog.isShowing())
 //                            mProgressDialog.dismiss();
 						new GrocermaxBaseException("ReviewOrderAndPay","doInBackground",e.getMessage(), GrocermaxBaseException.UnsupportedEncodingException,"nodetail");
 //                        Toast.makeText(ReviewOrderAndPay.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                    } catch (ClientProtocolException e) {
+					} catch (ClientProtocolException e) {
 //                        if(mProgressDialog != null && mProgressDialog.isShowing())
 //                            mProgressDialog.dismiss();
 						new GrocermaxBaseException("ReviewOrderAndPay","doInBackground",e.getMessage(), GrocermaxBaseException.CLIENT_PROTOCOL_EXCEPTION,"nodetail");
 //                        Toast.makeText(ReviewOrderAndPay.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                    } catch (JSONException e) {
+					} catch (JSONException e) {
 //                        if(mProgressDialog != null && mProgressDialog.isShowing())
 //                            mProgressDialog.dismiss();
 						new GrocermaxBaseException("ReviewOrderAndPay","doInBackground",e.getMessage(), GrocermaxBaseException.JSON_EXCEPTION,"nodetail");
-                    } catch (IOException e) {
+					} catch (IOException e) {
 //                        if(mProgressDialog != null && mProgressDialog.isShowing())
 //                            mProgressDialog.dismiss();
 						new GrocermaxBaseException("ReviewOrderAndPay","doInBackground",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
-                    } /*catch (PackageManager.NameNotFoundException e) {
+					} /*catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
 
                         if(mProgressDialog != null && mProgressDialog.isShowing())
                             mProgressDialog.dismiss();
                     }*/
-                    return null;
-                }
-                }.execute();
-        
-			
+					return null;
+				}
+			}.execute();
+
+
 		}
 		else
 		{
 			//new CODConfirm().execute();
 		}
-		
+
 	}
 	private String bytesToHexString(byte[] bytes) {
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < bytes.length; i++) {
-            String hex = Integer.toHexString(0xFF & bytes[i]);
-            if (hex.length() == 1) {
-                sb.append('0');
-            }
-            sb.append(hex);
-        }
-        return sb.toString();
-    }
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < bytes.length; i++) {
+			String hex = Integer.toHexString(0xFF & bytes[i]);
+			if (hex.length() == 1) {
+				sb.append('0');
+			}
+			sb.append(hex);
+		}
+		return sb.toString();
+	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -889,81 +889,81 @@ public class ReviewOrderAndPay extends BaseActivity
 					finish();
 				}
 			}
-        if (requestCode == PayU.RESULT) {
-            if(resultCode == RESULT_OK) {
-                //success
-                if(data != null )                     //success
-                {
-                  //  Toast.makeText(this, "Success" + data.getStringExtra("result"), Toast.LENGTH_LONG).show();
-                    dismissDialog();
-					MySharedPrefs.INSTANCE.putTotalItem("0");
-					MySharedPrefs.INSTANCE.clearQuote();
+			if (requestCode == PayU.RESULT) {
+				if(resultCode == RESULT_OK) {
+					//success
+					if(data != null )                     //success
+					{
+						//  Toast.makeText(this, "Success" + data.getStringExtra("result"), Toast.LENGTH_LONG).show();
+						dismissDialog();
+						MySharedPrefs.INSTANCE.putTotalItem("0");
+						MySharedPrefs.INSTANCE.clearQuote();
 					/*Intent intent = new Intent(ReviewOrderAndPay.this, HomeScreen.class);
 
 					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
 					finish();*/
-					Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
-					Bundle call_bundle = new Bundle();
-					call_bundle.putString("orderid", order_id);
-					call_bundle.putString("status", "success");
-					intent.putExtras(call_bundle);
-					startActivity(intent);
-					finish();
-                }
-            }
-            if (resultCode == RESULT_CANCELED) {          //unsuccess
-                //failed
+						Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
+						Bundle call_bundle = new Bundle();
+						call_bundle.putString("orderid", order_id);
+						call_bundle.putString("status", "success");
+						intent.putExtras(call_bundle);
+						startActivity(intent);
+						finish();
+					}
+				}
+				if (resultCode == RESULT_CANCELED) {          //unsuccess
+					//failed
 //                if(data != null)
 //                {
-                   // Toast.makeText(this, "Failed-ishan" + data.getStringExtra("result"), Toast.LENGTH_LONG).show();
-                    showDialog();
+					// Toast.makeText(this, "Failed-ishan" + data.getStringExtra("result"), Toast.LENGTH_LONG).show();
+					showDialog();
 					myApi.reqSetOrderStatus(UrlsConstants.SET_ORDER_STATUS+order_db_id);
 //                }
-            }
-        }
+				}
+			}
 		}catch(Exception e){
 			new GrocermaxBaseException("ReviewOrderAndPay","onActivityResult",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
-    }
-	
+	}
+
 
 	@Override
 	void OnResponse(Bundle bundle) {
 		// TODO Auto-generated method stub
 		try{
-		if (bundle.getString("ACTION").equals(MyReceiverActions.FINAL_CHECKOUT)) {
-		finalCheckoutBean= (FinalCheckoutBean) bundle.getSerializable(ConnectionService.RESPONSE);
-		if (finalCheckoutBean.getFlag().equalsIgnoreCase("1")) {
-			UtilityMethods.deleteCloneCart(this);
-			if(payment_mode.equals("cashondelivery"))
-			{
-				MySharedPrefs.INSTANCE.putTotalItem("0");
-				MySharedPrefs.INSTANCE.clearQuote();
-				UtilityMethods.customToast(finalCheckoutBean.getResult(), ReviewOrderAndPay.this);
-				Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
-				Bundle call_bundle = new Bundle();
-				call_bundle.putString("orderid", finalCheckoutBean.getOrderId());
-				call_bundle.putString("status", "success");
-				intent.putExtras(call_bundle);
-				startActivity(intent);
-				finish();
-			}else if(payment_mode.equalsIgnoreCase("payucheckout_shared")){
-				order_id=finalCheckoutBean.getOrderId();
-				order_db_id=finalCheckoutBean.getOrderDBID();
-				makePayment(finalCheckoutBean.getOrderId());   //just call in case of payu.
-			}else if(payment_mode.equalsIgnoreCase("paytm_cc")){
-				order_id=finalCheckoutBean.getOrderId();
-				order_db_id=finalCheckoutBean.getOrderDBID();
-				payTM(order_id);
-			}else if(payment_mode.equalsIgnoreCase("wallet")){     //mobikwik
-				order_id=finalCheckoutBean.getOrderId();
-				order_db_id=finalCheckoutBean.getOrderDBID();
-				payMobiKwikWallet(order_id);
+			if (bundle.getString("ACTION").equals(MyReceiverActions.FINAL_CHECKOUT)) {
+				finalCheckoutBean= (FinalCheckoutBean) bundle.getSerializable(ConnectionService.RESPONSE);
+				if (finalCheckoutBean.getFlag().equalsIgnoreCase("1")) {
+					UtilityMethods.deleteCloneCart(this);
+					if(payment_mode.equals("cashondelivery"))
+					{
+						MySharedPrefs.INSTANCE.putTotalItem("0");
+						MySharedPrefs.INSTANCE.clearQuote();
+						UtilityMethods.customToast(finalCheckoutBean.getResult(), ReviewOrderAndPay.this);
+						Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
+						Bundle call_bundle = new Bundle();
+						call_bundle.putString("orderid", finalCheckoutBean.getOrderId());
+						call_bundle.putString("status", "success");
+						intent.putExtras(call_bundle);
+						startActivity(intent);
+						finish();
+					}else if(payment_mode.equalsIgnoreCase("payucheckout_shared")){
+						order_id=finalCheckoutBean.getOrderId();
+						order_db_id=finalCheckoutBean.getOrderDBID();
+						makePayment(finalCheckoutBean.getOrderId());   //just call in case of payu.
+					}else if(payment_mode.equalsIgnoreCase("paytm_cc")){
+						order_id=finalCheckoutBean.getOrderId();
+						order_db_id=finalCheckoutBean.getOrderDBID();
+						payTM(order_id);
+					}else if(payment_mode.equalsIgnoreCase("wallet")){     //mobikwik
+						order_id=finalCheckoutBean.getOrderId();
+						order_db_id=finalCheckoutBean.getOrderDBID();
+						payMobiKwikWallet(order_id);
+					}
+				}
 			}
-		}
-	}
-		
+
 //		if (bundle.getString("ACTION").equals(MyReceiverActions.GET_ORDER_STATUS)) {
 //			String response= (String) bundle.getSerializable(ConnectionService.RESPONSE);
 //			try {
@@ -990,8 +990,8 @@ public class ReviewOrderAndPay extends BaseActivity
 //				// TODO: handle exception
 //			}
 //		}
-		if (bundle.getString("ACTION").equals(MyReceiverActions.SET_ORDER_STATUS)) {                     //FAILURE
-			String response= (String) bundle.getSerializable(ConnectionService.RESPONSE);
+			if (bundle.getString("ACTION").equals(MyReceiverActions.SET_ORDER_STATUS)) {                     //FAILURE
+				String response= (String) bundle.getSerializable(ConnectionService.RESPONSE);
 
 				JSONObject resJsonObject=new JSONObject(response);
 				if(resJsonObject.getInt("flag")==1)
@@ -1009,15 +1009,15 @@ public class ReviewOrderAndPay extends BaseActivity
 					startActivity(intent);
 					finish();
 				}
+			}
+		}catch(Exception e){
+			new GrocermaxBaseException("ReviewOrderAndPay","onResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
-	}catch(Exception e){
-	new GrocermaxBaseException("ReviewOrderAndPay","onResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
-}
-		
+
 	}
-	
-	
-	
+
+
+
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
@@ -1028,39 +1028,39 @@ public class ReviewOrderAndPay extends BaseActivity
 			new GrocermaxBaseException("ReviewOrderAndPay","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
-	
-	
+
+
 	@Override
-    protected void onStart() {
-    	// TODO Auto-generated method stub
-    	super.onStart();
-    	try{
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		try{
 			EasyTracker.getInstance(this).activityStart(this);
 //	    	tracker.activityStart(this);
-	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){}
-    }
-    
-    @Override
-    protected void onStop() {
-    	// TODO Auto-generated method stub
-    	super.onStop();
-    	try{
-	    	tracker.activityStop(this);
-	    	FlurryAgent.onEndSession(this);
-    	}catch(Exception e){}
-    }
-	
-	
-    private void payTM(String orderid){
+			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
+			FlurryAgent.onPageView();         //Use onPageView to report page view count.
+		}catch(Exception e){}
+	}
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		try{
+			tracker.activityStop(this);
+			FlurryAgent.onEndSession(this);
+		}catch(Exception e){}
+	}
+
+
+	private void payTM(String orderid){
 		Intent intent = new Intent(this,PayTMActivity.class);
 		intent.putExtra("amount", String.valueOf(total));
 		intent.putExtra("order_id", orderid);
 		intent.putExtra("order_db_id",order_db_id);
 		startActivity(intent);
 	}
-	
+
 	private void payMobiKwikWallet(String orderid){
 		Intent walletIntent = new Intent("MobikwikSDK");
 		walletIntent.setPackage(getPackageName());
@@ -1071,15 +1071,15 @@ public class ReviewOrderAndPay extends BaseActivity
 		walletIntent.putExtra("cell", "9911500574");                                     //
 		walletIntent.putExtra("email", "abhi0124abhi@gmail.com");                                //
 		walletIntent.putExtra("paymentOption", "mw");                           //mobi kwik wallet
-		
+
 		PackageManager packageManager = getPackageManager();
 		List<ResolveInfo> activities = packageManager.queryIntentActivities(walletIntent, 0);
 		boolean isIntentSafe = activities.size() > 0;
 		System.out.println("isIntentSafe " + activities.size());
-		
+
 		startActivity(walletIntent);
-	}	
-	
+	}
+
 }
 
 
@@ -1088,12 +1088,12 @@ class Coupon extends AsyncTask<String, String, String>
 	Context context;
 	String strApplyorRemove;
 	String strGrandTotal,strShippingCharge;
-//	strCouponCode,strSubTotal,strSubTotalDiscount,strYouSave;
+	//	strCouponCode,strSubTotal,strSubTotalDiscount,strYouSave;
 	public Coupon(Context mContext,String strapplyorremove){
 		context = mContext;
 		strApplyorRemove = strapplyorremove;
 	}
-	
+
 	@Override
 	protected void onPreExecute() {
 		// TODO Auto-generated method stub
@@ -1106,7 +1106,7 @@ class Coupon extends AsyncTask<String, String, String>
 		// TODO Auto-generated method stub
 //		strApplyorRemove = params[1];
 		HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
-    	HttpGet httpGet = new HttpGet(params[0]);
+		HttpGet httpGet = new HttpGet(params[0]);
 		httpGet.setHeader("Content-Type", "application/json");
 		HttpResponse response = null;
 		try {
@@ -1123,10 +1123,10 @@ class Coupon extends AsyncTask<String, String, String>
 			((BaseActivity)context).dismissDialog();
 			new GrocermaxBaseException("ReviewOrderAndPay","doInBackground",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
-		
+
 		return null;
 	}
-	
+
 	@Override
 	protected void onPostExecute(String result) {
 		// TODO Auto-generated method stub
@@ -1136,14 +1136,14 @@ class Coupon extends AsyncTask<String, String, String>
 			String strResult = jsonObject.getString("Result");
 			String strFlag = jsonObject.getString("flag");
 //			JSONArray jsonArray = jsonObject.getJSONArray("CartDetails");
-			
+
 			UtilityMethods.customToast(strResult, context);
 			if(strApplyorRemove.equalsIgnoreCase("Apply"))
 			{
 				if(strFlag.equalsIgnoreCase("1")){  											//success
-					
+
 					JSONObject jsoncartObject = jsonObject.getJSONObject("CartDetails");
-					if(jsoncartObject.length() > 0){					
+					if(jsoncartObject.length() > 0){
 						float savee = 0;
 						OrderReviewBean orderReviewBean1 = MySharedPrefs.INSTANCE.getOrderReviewBean();
 						List<CartDetail> cartList = orderReviewBean1.getProduct();
@@ -1170,19 +1170,19 @@ class Coupon extends AsyncTask<String, String, String>
 						MySharedPrefs.INSTANCE.putisCouponApply("true");
 						MySharedPrefs.INSTANCE.putCouponAmount(jsoncartObject.getString("you_save"));
 						((ReviewOrderAndPay)context).tvCouponDiscount.setText("Rs."+MySharedPrefs.INSTANCE.getCouponAmount());
-						
+
 						((ReviewOrderAndPay)context).tvSubTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(orderReviewBean1.getSubTotal())));
 						((ReviewOrderAndPay)context).tvShippingCharges.setText("Rs."+Float.parseFloat(orderReviewBean1.getShipping_ammount()));
 						((ReviewOrderAndPay)context).tvYouSaved.setText("Rs."+String.format("%.2f",savee));
 						((ReviewOrderAndPay)context).tvTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(orderReviewBean1.getGrandTotal())));
 						((ReviewOrderAndPay)context).tvItemCount.setText("Rs."+String.format("%.2f",Float.parseFloat(orderReviewBean1.getGrandTotal())));
-						
+
 						((ReviewOrderAndPay)context).llFirstPage.setVisibility(View.GONE);
 						((ReviewOrderAndPay)context).llSecondPage.setVisibility(View.VISIBLE);
 //						((ReviewOrderAndPay)context).tvEnterCode.setText("Applied Code");
 						((ReviewOrderAndPay)context).etCouponCode.setEnabled(false);
 //						((ReviewOrderAndPay)context).tvMiddleLineCoupon.setBackgroundDrawable(((OffersPromoCode)context).getResources().getDrawable(R.color.gray_1));
-						
+
 					}
 				}else if(strFlag.equalsIgnoreCase("0")){  										//failure
 					((ReviewOrderAndPay)context).llFirstPage.setVisibility(View.VISIBLE);
@@ -1195,7 +1195,7 @@ class Coupon extends AsyncTask<String, String, String>
 				if(strFlag.equalsIgnoreCase("1")){  											//Remove success
 
 					JSONObject jsoncartObject = jsonObject.getJSONObject("CartDetails");
-					
+
 					float savee2 = 0;
 					OrderReviewBean orderReviewBean2 = MySharedPrefs.INSTANCE.getOrderReviewBean();
 					List<CartDetail> cartList = orderReviewBean2.getProduct();
@@ -1209,10 +1209,10 @@ class Coupon extends AsyncTask<String, String, String>
 					}
 
 					Float totalremove = Float.parseFloat(orderReviewBean2.getGrandTotal()) +
-						 	   Float.parseFloat(MySharedPrefs.INSTANCE.getCouponAmount());
+							Float.parseFloat(MySharedPrefs.INSTANCE.getCouponAmount());
 					Float couponwithdiscount = Float.parseFloat(orderReviewBean2.getCouponSubtotalWithDsicount()) +
-					 	   Float.parseFloat(MySharedPrefs.INSTANCE.getCouponAmount());
-					
+							Float.parseFloat(MySharedPrefs.INSTANCE.getCouponAmount());
+
 					orderReviewBean2.setSubTotal(String.valueOf(Float.parseFloat(orderReviewBean2.getSubTotal())));
 					orderReviewBean2.setShipping_ammount(jsoncartObject.getString("ShippingCharge"));
 					orderReviewBean2.setSaving(String.valueOf(savee2));
@@ -1224,13 +1224,13 @@ class Coupon extends AsyncTask<String, String, String>
 					MySharedPrefs.INSTANCE.putisCouponApply("false");
 					MySharedPrefs.INSTANCE.putCouponAmount("Rs. 0");
 					((ReviewOrderAndPay)context).tvCouponDiscount.setText("Rs.0.00");
-					
-				 	((ReviewOrderAndPay)context).tvSubTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(String.valueOf(Float.parseFloat(orderReviewBean2.getSubTotal())))));
+
+					((ReviewOrderAndPay)context).tvSubTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(String.valueOf(Float.parseFloat(orderReviewBean2.getSubTotal())))));
 					((ReviewOrderAndPay)context).tvShippingCharges.setText("Rs."+Float.parseFloat(orderReviewBean2.getShipping_ammount()));
 					((ReviewOrderAndPay)context).tvYouSaved.setText("Rs."+String.format("%.2f",savee2));
 					((ReviewOrderAndPay)context).tvTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(String.valueOf(totalremove))));
 					((ReviewOrderAndPay)context).tvItemCount.setText("Rs."+String.format("%.2f",Float.parseFloat(String.valueOf(totalremove))));
-					 
+
 					((ReviewOrderAndPay)context).llFirstPage.setVisibility(View.VISIBLE);
 					((ReviewOrderAndPay)context).llSecondPage.setVisibility(View.GONE);
 //					((ReviewOrderAndPay)context).tvEnterCode.setText("Enter Code");
@@ -1250,7 +1250,7 @@ class Coupon extends AsyncTask<String, String, String>
 		}
 		((BaseActivity)context).dismissDialog();
 	}
-	
+
 }
 
 
