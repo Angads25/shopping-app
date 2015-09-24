@@ -34,8 +34,13 @@ import android.widget.Toast;
 import com.facebook.internal.Utility;
 import com.flurry.android.FlurryAgent;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.payu.sdk.Constants;
+import com.payu.sdk.Params;
 import com.payu.sdk.PayU;
 import com.payu.sdk.Payment;
+import com.payu.sdk.ProcessPaymentActivity;
+import com.payu.sdk.exceptions.HashException;
+import com.payu.sdk.exceptions.MissingParameterException;
 import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.CartDetail;
@@ -81,6 +86,62 @@ public class ReviewOrderAndPay extends BaseActivity
 	String strRemoveCoupon;
 	Button llFirstPage;
 	Button llSecondPage;
+
+
+	public void payumoneyMakePayment(String orderid,double total) throws PackageManager.NameNotFoundException, MissingParameterException, HashException {
+		// oops handle it here.
+
+		Payment.Builder builder = new Payment().new Builder();
+		Params requiredParams = new Params();
+//		builder.set(PayU.PRODUCT_INFO, defaultParam.getString(PayU.PRODUCT_INFO));
+		builder.set(PayU.PRODUCT_INFO, "GrocerMax Product Info");
+		builder.set(PayU.AMOUNT, String.valueOf(total));
+		builder.set(PayU.TXNID, orderid);
+		builder.set(PayU.EMAIL, MySharedPrefs.INSTANCE.getUserEmail());
+		builder.set(PayU.FIRSTNAME, MySharedPrefs.INSTANCE.getFirstName() + " " + MySharedPrefs.INSTANCE.getLastName());
+		builder.set("user_credentials", "yPnUG6:test");
+//		builder.set(PayU.SURL, defaultParam.getString(PayU.SURL));
+//		builder.set(PayU.FURL, defaultParam.getString(PayU.FURL));
+		builder.set(PayU.SURL, "https://payu.herokuapp.com/success");
+		builder.set(PayU.FURL, "https://payu.herokuapp.com/failure");
+		builder.set(PayU.MODE, String.valueOf(PayU.PaymentMode.PAYU_MONEY));
+
+
+		requiredParams.put(PayU.AMOUNT, builder.get(PayU.AMOUNT));
+		requiredParams.put(PayU.PRODUCT_INFO, builder.get(PayU.PRODUCT_INFO));
+		requiredParams.put(PayU.TXNID, builder.get(PayU.TXNID));
+		requiredParams.put(PayU.SURL, builder.get(PayU.SURL));
+
+		requiredParams.put(PayU.EMAIL, MySharedPrefs.INSTANCE.getUserEmail());
+		requiredParams.put(PayU.FIRSTNAME, MySharedPrefs.INSTANCE.getFirstName() + " " + MySharedPrefs.INSTANCE.getLastName());
+		requiredParams.put("user_credentials", "yPnUG6:test");
+		requiredParams.put(PayU.SURL, builder.get(PayU.SURL));
+		requiredParams.put(PayU.FURL, builder.get(PayU.FURL));
+		requiredParams.put(PayU.MODE,builder.get(PayU.MODE));
+
+//		builder.set(PayU.MODE, String.valueOf(PayU.PaymentMode.PAYU_MONEY));
+//		for(String key : getIntent().getExtras().keySet()) {
+//			builder.set(key, String.valueOf(getIntent().getExtras().get(key)));
+//			requiredParams.put(key, builder.get(key));
+//		}
+
+		Bundle bundle = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA).metaData;
+		requiredParams.put(PayU.MERCHANT_KEY, bundle.getString("payu_merchant_id"));
+
+
+		Payment payment = builder.create();
+
+		String postData = PayU.getInstance(ReviewOrderAndPay.this).createPayment(payment, requiredParams);
+
+		Intent intent = new Intent(this, ProcessPaymentActivity.class);
+		intent.putExtra(Constants.POST_DATA, postData);
+
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+		startActivityForResult(intent, PayU.RESULT);
+
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -694,8 +755,11 @@ public class ReviewOrderAndPay extends BaseActivity
 	Payment payment;
 	Payment.Builder builder = new Payment().new Builder();
 
-	private void makePayment(final String orderid) {
 
+	String orderid;
+	double finalAmount;
+	private void makePayment(final String orderid) {
+		this.orderid = orderid;
 
 		if(!bOnline && !bCash && !bPayTM){
 			UtilityMethods.customToast(ToastConstant.SELECT_PAYMENT_MODE, mContext);
@@ -715,10 +779,12 @@ public class ReviewOrderAndPay extends BaseActivity
 			params.put("email",MySharedPrefs.INSTANCE.getUserEmail());
 //            params.put("phone", "9999999999");
 			params.put("phone",MySharedPrefs.INSTANCE.getMobileNo());
-			params.put("productinfo","GrocerMax Product Info");
+			params.put("productinfo", "GrocerMax Product Info");
 
 			params.remove("amount");
 			final double finalAmount = amount;
+
+			this.finalAmount = finalAmount;
 
            /* String txnId = orderid;
 			String merchant_key =  "yPnUG6";
@@ -817,8 +883,19 @@ public class ReviewOrderAndPay extends BaseActivity
 						}
 //                        if(mProgressDialog != null && mProgressDialog.isShowing())
 //                            mProgressDialog.dismiss();
+						try {
+							payumoneyMakePayment(orderid, finalAmount);
+						}catch (PackageManager.NameNotFoundException e){
+						}catch(MissingParameterException we){
+						}catch(HashException erw){}
 
-						PayU.getInstance(ReviewOrderAndPay.this).startPaymentProcess(finalAmount, params);
+//						PackageManager.NameNotFoundException, MissingParameterException, HashException
+
+
+//                        PayU.getInstance(ReviewOrderAndPay.this).startPaymentProcess(finalAmount, params);
+
+
+
 //                            PayU.getInstance(MainActivity.this).startPaymentProcess(finalAmount, params, new PayU.PaymentMode[]{PayU.PaymentMode.CC, PayU.PaymentMode.NB});
 
 					} catch (UnsupportedEncodingException e) {
@@ -889,39 +966,47 @@ public class ReviewOrderAndPay extends BaseActivity
 					finish();
 				}
 			}
+
 			if (requestCode == PayU.RESULT) {
 				if(resultCode == RESULT_OK) {
-					//success
-					if(data != null )                     //success
-					{
-						//  Toast.makeText(this, "Success" + data.getStringExtra("result"), Toast.LENGTH_LONG).show();
-						dismissDialog();
-						MySharedPrefs.INSTANCE.putTotalItem("0");
-						MySharedPrefs.INSTANCE.clearQuote();
-					/*Intent intent = new Intent(ReviewOrderAndPay.this, HomeScreen.class);
-
-					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(intent);
-					finish();*/
-						Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
-						Bundle call_bundle = new Bundle();
-						call_bundle.putString("orderid", order_id);
-						call_bundle.putString("status", "success");
-						intent.putExtras(call_bundle);
-						startActivity(intent);
-						finish();
-					}
-				}
-				if (resultCode == RESULT_CANCELED) {          //unsuccess
-					//failed
-//                if(data != null)
-//                {
-					// Toast.makeText(this, "Failed-ishan" + data.getStringExtra("result"), Toast.LENGTH_LONG).show();
-					showDialog();
-					myApi.reqSetOrderStatus(UrlsConstants.SET_ORDER_STATUS+order_db_id);
-//                }
+					System.out.println("====DATA===="+data);
 				}
 			}
+
+
+//        if (requestCode == PayU.RESULT) {
+//            if(resultCode == RESULT_OK) {
+//                //success
+//                if(data != null )                     //success
+//                {
+//                  //  Toast.makeText(this, "Success" + data.getStringExtra("result"), Toast.LENGTH_LONG).show();
+//                    dismissDialog();
+//					MySharedPrefs.INSTANCE.putTotalItem("0");
+//					MySharedPrefs.INSTANCE.clearQuote();
+//					/*Intent intent = new Intent(ReviewOrderAndPay.this, HomeScreen.class);
+//
+//					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//					startActivity(intent);
+//					finish();*/
+//					Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
+//					Bundle call_bundle = new Bundle();
+//					call_bundle.putString("orderid", order_id);
+//					call_bundle.putString("status", "success");
+//					intent.putExtras(call_bundle);
+//					startActivity(intent);
+//					finish();
+//                }
+//            }
+//            if (resultCode == RESULT_CANCELED) {          //unsuccess
+//                //failed
+////                if(data != null)
+////                {
+//                   // Toast.makeText(this, "Failed-ishan" + data.getStringExtra("result"), Toast.LENGTH_LONG).show();
+//                    showDialog();
+//					myApi.reqSetOrderStatus(UrlsConstants.SET_ORDER_STATUS+order_db_id);
+////                }
+//            }
+//        }
 		}catch(Exception e){
 			new GrocermaxBaseException("ReviewOrderAndPay","onActivityResult",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
@@ -1083,8 +1168,7 @@ public class ReviewOrderAndPay extends BaseActivity
 }
 
 
-class Coupon extends AsyncTask<String, String, String>
-{
+class Coupon extends AsyncTask<String, String, String> {
 	Context context;
 	String strApplyorRemove;
 	String strGrandTotal,strShippingCharge;
@@ -1250,6 +1334,10 @@ class Coupon extends AsyncTask<String, String, String>
 		}
 		((BaseActivity)context).dismissDialog();
 	}
+
+
+
+
 
 }
 
