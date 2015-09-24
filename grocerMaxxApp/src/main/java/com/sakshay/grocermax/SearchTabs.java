@@ -540,7 +540,6 @@ protected void onStart() {
 //		initHeader(headerView, true, searchString);
 //		UtilityMethods.getInstance().dismissDialog();
 
-
 //		EasyTracker.getInstance(this).activityStart(this);
 ////    	tracker.activityStart(this);
 //    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
