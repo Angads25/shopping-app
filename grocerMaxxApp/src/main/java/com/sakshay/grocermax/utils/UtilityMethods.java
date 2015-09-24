@@ -64,40 +64,40 @@ import com.sakshay.grocermax.utils.ListSublistConstants.ListConstant;
 
 public class UtilityMethods {
 
-	private static UtilityMethods instance;
-	public static UtilityMethods getInstance(){
-		if(instance == null){
-			instance = new UtilityMethods();
-		}
-		return instance;
-	}
-	public UtilityMethods(){
-		instance = this;
-	}
-
-
-	public void showDialog(Context context) {
-		try {
-			mProgressDialog = new ProgressDialog(context);
-			mProgressDialog.setMessage("Loading...");
-			mProgressDialog.show();
-			mProgressDialog.setCancelable(false);
-		}catch(Exception e){
-			new GrocermaxBaseException("UtilityMethods", "showDialog", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
-		}
-	}
-	private ProgressDialog mProgressDialog;
-
-
-	public void dismissDialog() {
-		try{
-			if (mProgressDialog != null && mProgressDialog.isShowing()) {
-				mProgressDialog.dismiss();
-			}
-		}catch(Exception e){
-			new GrocermaxBaseException("UtilityMethods", "dismissDialog", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
-		}
-	}
+//	private static UtilityMethods instance;
+//	public static UtilityMethods getInstance(){
+//		if(instance == null){
+//			instance = new UtilityMethods();
+//		}
+//		return instance;
+//	}
+//	public UtilityMethods(){
+//		instance = this;
+//	}
+//
+//
+//	public void showDialog(Context context) {
+//		try {
+//			mProgressDialog = new ProgressDialog(context);
+//			mProgressDialog.setMessage("Loading...");
+//			mProgressDialog.show();
+//			mProgressDialog.setCancelable(false);
+//		}catch(Exception e){
+//			new GrocermaxBaseException("UtilityMethods", "showDialog", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+//		}
+//	}
+//	private ProgressDialog mProgressDialog;
+//
+//
+//	public void dismissDialog() {
+//		try{
+//			if (mProgressDialog != null && mProgressDialog.isShowing()) {
+//				mProgressDialog.dismiss();
+//			}
+//		}catch(Exception e){
+//			new GrocermaxBaseException("UtilityMethods", "dismissDialog", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+//		}
+//	}
 
 	/**
 	 * For check internet COnnectivity

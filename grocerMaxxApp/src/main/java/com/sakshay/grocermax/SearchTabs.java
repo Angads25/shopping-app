@@ -110,11 +110,11 @@ public class SearchTabs extends BaseActivity{
 			if(pager!=null)
 				indicator.setViewPager(pager);
 
-			if (size > 2) {
-				pager.setOffscreenPageLimit(2);
-			} else {
-				pager.setOffscreenPageLimit(size);
-			}
+//			if (size > 2) {
+//				pager.setOffscreenPageLimit(2);
+//			} else {
+//				pager.setOffscreenPageLimit(size);
+//			}
 
 
 //			Handler handler;
@@ -213,8 +213,8 @@ public class SearchTabs extends BaseActivity{
 //			});
 
 		}catch(Exception e){
-//			dismissDialog();
-			UtilityMethods.getInstance().dismissDialog();
+			dismissDialog();
+//			UtilityMethods.getInstance().dismissDialog();
 			new GrocermaxBaseException("SearchTabs","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 
