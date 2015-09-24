@@ -72,6 +72,7 @@ import com.sakshay.grocermax.bean.CartDetail;
 import com.sakshay.grocermax.bean.CartDetailBean;
 import com.sakshay.grocermax.bean.OrderHistoryBean;
 import com.sakshay.grocermax.bean.ProductListBean;
+import com.sakshay.grocermax.bean.SearchListBean;
 import com.sakshay.grocermax.bean.UserDetailBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
@@ -124,6 +125,8 @@ public abstract class BaseActivity extends FragmentActivity {
 			addActionsInFilter(MyReceiverActions.ADD_TO_CART_NEW_PRODUCT);           //add new product to cart when user has already product in cart
 			addActionsInFilter(MyReceiverActions.ADDRESS_BOOK);
 			addActionsInFilter(MyReceiverActions.ADD_TO_CART_GUEST);
+
+//			addActionsInFilter(MyReceiverActions.SEARCH_BY_CATEGORY);           //search by category
 
 			myApi = new MyApi(mContext);
 		}catch(Exception e){
@@ -451,43 +454,13 @@ public abstract class BaseActivity extends FragmentActivity {
 					UtilityMethods.customToast(ToastConstant.APPROPRIATE_QUERY,mContext);
 					return;
 				}
-//				showDialog();
-//				if (UtilityMethods.getCurrentClassName(BaseActivity.this).equals(getApplicationContext().getPackageName() + ".CartProductList")){
-//					finish();
-//				}
-//				if (UtilityMethods.getCurrentClassName(this).equals(getPackageName() + ".SearchTabs")) {
-//					((SearchTabs) this).finish();
-//					 finish();
-//				}
-
-
-//			String url = UrlsConstants.SEARCH_PRODUCT + search_key + "&page=1";
-
 				String url = UrlsConstants.SEARCH_PRODUCT + search_key;
-//			myApi.reqSearchProductList(url);
 				url = url.replace(" ", "%20");
-//				new SearchLoader(this,search_key).execute(url);
-
-//				if (UtilityMethods.getCurrentClassName(this).equals(getApplicationContext().getPackageName() + ".SearchTabs")) {
-//
-//				}
-
-//				if(BaseActivity.searchLoader != null){
-//					if(!BaseActivity.searchLoader.isCancelled()){
-//						BaseActivity.searchLoader.cancel(true);
-//					}
-//				}
-
-//				BaseActivity.searchLoader = new SearchLoader(this,search_key);
-//				BaseActivity.searchLoader.execute(url);
 				SearchLoader searchLoader  = new SearchLoader(this,search_key);
 				searchLoader.execute(url);
 
-
 				Log.i("SEARCH_REQUEST", "URL::" + url);
 			} else {
-//			Toast.makeText(mContext,ToastConstant.ENTER_TEXT,
-//					Toast.LENGTH_LONG).show();
 				UtilityMethods.customToast(ToastConstant.ENTER_TEXT, mContext);
 			}
 		}catch(Exception e){
@@ -1346,9 +1319,15 @@ public abstract class BaseActivity extends FragmentActivity {
 					}else {
 						UtilityMethods.customToast(ToastConstant.ERROR_MSG, mContext);
 					}
-				
-					
-				}else {
+
+
+				}
+//				else if(intent.getAction().equals(MyReceiverActions.SEARCH_BY_CATEGORY)){
+//
+//					SearchListBean searchListBean = (SearchListBean) bundle
+//							.getSerializable(ConnectionService.RESPONSE);
+//				}
+				else {
 					bundle.putString("ACTION", intent.getAction());
 					OnResponse(bundle);
 				}

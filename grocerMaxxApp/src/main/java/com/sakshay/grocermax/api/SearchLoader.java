@@ -241,7 +241,9 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 
 //			JSONObject prod_obj = new JSONObject();
 //			jsonArray.put(prod_obj);
-			jsonArray.put(jsonObjectTop[k]);
+
+//			jsonArray.put(jsonObjectTop[k]);
+//			jsonArray.put("Product",jsonObjectTop[k]);
     	}
 
 //			System.out.println("==JsonArray=1="+jsonArray);

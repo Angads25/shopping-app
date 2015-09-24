@@ -179,7 +179,8 @@ public class UrlsConstants {
 	public final static String SET_ORDER_STATUS = NEW_BASE_URL
 			+ "setstatus?status=canceled&orderid=";
 
-
+	public final static String SET_PAYTM_ORDER_STATUS_SUCCESS = NEW_BASE_URL
+			+ "setstatus?status=success&orderid=";
 	
 	public final static String GET_MOBILE_HASH = NEW_BASE_URL
 			+ "getmobilehash?";

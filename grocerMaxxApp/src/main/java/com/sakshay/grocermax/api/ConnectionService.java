@@ -347,6 +347,11 @@ public class ConnectionService extends IntentService {
 //		try {
 
 			switch (type) {
+//				case MyParserType.SEARCH_BY_CATEGORY:
+//					bundle.putSerializable(RESPONSE,
+//							(Serializable) ConnectionServiceParser
+//									.parseSearchResponse(response));
+//					break;
 				case MyParserType.LOGIN:
 					bundle.putSerializable(RESPONSE,
 							(Serializable) ConnectionServiceParser
@@ -477,6 +482,10 @@ public class ConnectionService extends IntentService {
 				case MyParserType.GET_SET_ORDERSTATUS:
 					bundle.putSerializable(RESPONSE, (Serializable) response);
 					break;
+				case MyParserType.SET_PAYTM_ORDER_STATUS_SUCCESS:                            //paytm success
+					bundle.putSerializable(RESPONSE, (Serializable) response);
+					break;
+
 			}
 
 //		}
