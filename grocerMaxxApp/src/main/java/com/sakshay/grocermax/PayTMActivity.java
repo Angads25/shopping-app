@@ -213,9 +213,12 @@ public class PayTMActivity extends BaseActivity
 					finish();
 				}
 		}else if(bundle.getString("ACTION").equals(MyReceiverActions.SET_PAYTM_ORDER_STATUS_SUCCESS)) {                     //PAYTM SUCCESS
+			String response= (String) bundle.getSerializable(ConnectionService.RESPONSE);
+			JSONObject resJsonObject = new JSONObject(response);
+			if (resJsonObject.getInt("flag") == 1) {
 				MySharedPrefs.INSTANCE.putTotalItem("0");
 				MySharedPrefs.INSTANCE.clearQuote();
-	//					UtilityMethods.customToast(finalCheckoutBean.getResult(), PayTMActivity.this);
+				//					UtilityMethods.customToast(finalCheckoutBean.getResult(), PayTMActivity.this);
 				Intent intent = new Intent(PayTMActivity.this, CODConfirmation.class);
 				Bundle call_bundle = new Bundle();
 				call_bundle.putString("orderid", order_id);
@@ -224,6 +227,7 @@ public class PayTMActivity extends BaseActivity
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				finish();
+			}
 		}
 		}catch(Exception e){
 			new GrocermaxBaseException("PayTMActivity","OnResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
