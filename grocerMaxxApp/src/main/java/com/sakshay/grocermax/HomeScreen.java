@@ -30,6 +30,7 @@ import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
 import com.sakshay.grocermax.adapters.ExpandableListAdapter;
 import com.sakshay.grocermax.adapters.HomeListAdapter;
 import com.sakshay.grocermax.api.MyReceiverActions;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.CustomFonts;
@@ -269,6 +270,8 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 				}
 				}
 				return true;
+
+
 			}
 		});
 		
@@ -331,6 +334,16 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		icon_header_logo_with_search.setEnabled(false);
 		icon_header_logo_without_search.setClickable(false);
 		icon_header_logo_without_search.setEnabled(false);
+
+		TextView txvHotOffer = (TextView)findViewById(R.id.btnHotOffer);
+
+		txvHotOffer.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(HomeScreen.this, HotOffersActivity.class));
+			}
+		});
+
 	}
 	
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -436,7 +449,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		}
 	}
 	@Override
-	void OnResponse(Bundle bundle) {
+	public void OnResponse(Bundle bundle) {
 		// TODO Auto-generated method stub
 		
 	}

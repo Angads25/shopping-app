@@ -16,7 +16,7 @@
 	<dimen name="text_size_13">13sp</dimen>
 	<dimen name="divider_height">4dp</dimen>
 	<dimen name="text_size_8">80sp</dimen>
-	
+	<dimen name="ten_dp">10dp</dimen>
 	<dimen name="content_regular">18sp</dimen>
 	<dimen name="content_medium">16sp</dimen>
 	<dimen name="content_small">12sp</dimen>

@@ -171,7 +171,7 @@ public class LocationActivity extends BaseActivity {
     };
 
     @Override
-    void OnResponse(Bundle bundle) {
+    public void OnResponse(Bundle bundle) {
         dismissDialog();
         String jsonResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);
 		//UtilityMethods.write("response",jsonResponse,SplashScreen.this);

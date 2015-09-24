@@ -175,7 +175,7 @@ public class OrderDetail extends BaseActivity{
 	}
 
 	@Override
-	void OnResponse(Bundle bundle) {
+	public void OnResponse(Bundle bundle) {
 		dismissDialog();
 		if (bundle.getString("ACTION").equals(MyReceiverActions.ORDER_DETAIL)) {
 			try

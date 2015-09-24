@@ -102,7 +102,7 @@ public class OneTimePassword extends BaseActivity {
     }
 
     @Override
-    void OnResponse(Bundle bundle) {
+    public void OnResponse(Bundle bundle) {
         if (bundle.getString("ACTION").equals(MyReceiverActions.REGISTER_USER)) {
             dismissDialog();
             LoginResponse userDataBean = (LoginResponse) bundle.getSerializable(ConnectionService.RESPONSE);

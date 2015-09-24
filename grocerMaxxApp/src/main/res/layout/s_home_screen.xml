@@ -2,29 +2,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/primaryColorDark"
-    tools:context=".HomeScreen" >
+    android:orientation="vertical"
+    tools:context=".HomeScreen">
 
     <include
         android:id="@+id/header"
         layout="@layout/mart_header" />
 
     <FrameLayout
+        android:id="@+id/fl_hotOffersContainer"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@color/white"
-        android:id="@+id/fl_hotOffersContainer"
         android:elevation="10dp"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
+
         <ImageView
+            android:id="@+id/iv_hotOffersPlaceHolder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/iv_hotOffersPlaceHolder"
-            android:src="@drawable/hotoffers"
             android:scaleType="centerCrop"
-            />
+            android:src="@drawable/hotoffers" />
     </FrameLayout>
 
     <LinearLayout
@@ -32,8 +31,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:weightSum="5"
-        >
+        android:weightSum="5">
 
         <ScrollView
             android:id="@+id/scroll_view"
@@ -43,43 +41,41 @@
             android:background="@color/white"
             android:fadingEdge="none"
             android:orientation="vertical"
-            android:scrollbars="none" >
+            android:scrollbars="none">
 
             <LinearLayout
                 android:id="@+id/cat_main_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
-            </LinearLayout>
+                android:orientation="vertical"></LinearLayout>
 
         </ScrollView>
-
 
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:orientation="vertical"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:orientation="vertical">
 
             <!-- TODO wire this with category header of selected scrollview, its text color and size.-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:background="@color/lighter_gray">
+
                 <TextView
-                    android:layout_marginLeft="@dimen/margin_left_for_text"
+                    android:id="@+id/tv_homescreen_category_heading"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:text="CATEGORY"
-                    android:padding="5dp"
-                    android:textColor="@color/small_heading_text"
-                    android:textSize="@dimen/text_size_16"
                     android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/margin_left_for_text"
+                    android:padding="5dp"
+                    android:text="CATEGORY"
                     android:textAllCaps="true"
-                    android:id="@+id/tv_homescreen_category_heading"/>
+                    android:textColor="@color/small_heading_text"
+                    android:textSize="@dimen/text_size_16" />
 
             </LinearLayout>
 
@@ -99,21 +95,19 @@
                   android:cacheColorHint="#00000000"/>
             -->
 
-			<ExpandableListView 
-			    android:id="@+id/lvExp"
+            <ExpandableListView
+                android:id="@+id/lvExp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:dividerHeight="-2dp"
-                android:cacheColorHint="#00000000"
-                android:listSelector="@android:color/transparent"
                 android:background="@drawable/background_doodle_repeat"
-                >
-				
-			</ExpandableListView>
-			
-			
+                android:cacheColorHint="#00000000"
+                android:dividerHeight="-2dp"
+                android:listSelector="@android:color/transparent">
 
-			<!--
+            </ExpandableListView>
+
+
+            <!--
             <com.sakshay.grocermax.AnimatedExpandableListView
                 android:id="@+id/lvExp"
                 android:layout_width="match_parent"
@@ -123,6 +117,15 @@
             
             -->
         </LinearLayout>
-    </LinearLayout>
 
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/btnHotOffer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hot Offer"
+        android:textColor="@android:color/white"
+        android:layout_gravity="center_horizontal"
+        android:padding="10dp"/>
 </LinearLayout>

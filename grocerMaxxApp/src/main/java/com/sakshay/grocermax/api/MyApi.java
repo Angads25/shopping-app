@@ -17,6 +17,7 @@ public class MyApi {
 
 	public MyApi(Context context) {
 		m_context = context;
+		System.out.println("My Api");
 	}
 
 	/**
@@ -143,6 +144,14 @@ public class MyApi {
 		reqIntent.putExtra(ConnectionService.URL, url);
 		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
 		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.CATEGORY_SUBCATEGORY_LIST);
+		m_context.startService(reqIntent);
+	}
+	public void reqOfferByDealType(String url) {
+		Intent reqIntent = new Intent(m_context, ConnectionService.class);
+		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.OFFER_BY_DEALTYPE);
+		reqIntent.putExtra(ConnectionService.URL, url);
+		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.OFFER_BY_DEALTYPE);
 		m_context.startService(reqIntent);
 	}
 
@@ -277,7 +286,16 @@ public class MyApi {
 		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.VIEW_CART);
 		m_context.startService(reqIntent);
 	}
-	
+
+	public void reqGetShopByCategories(String url) {
+		Intent reqIntent = new Intent(m_context, ConnectionService.class);
+		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.GET_SHOP_BY_CATEGORIES);
+		reqIntent.putExtra(ConnectionService.URL, url);
+		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.SHOP_BY_CATEGORY_LIST);
+		m_context.startService(reqIntent);
+	}
+
 	public void reqViewCartAfterDelete(String url,String action) {
 		Intent reqIntent = new Intent(m_context, ConnectionService.class);
 //		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.CART_DETAIL_AFTER_DELETE);

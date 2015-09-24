@@ -162,7 +162,7 @@ public class AddressDetail extends BaseActivity{
 	}
 	
 	@Override
-	void OnResponse(Bundle bundle) {
+	public void OnResponse(Bundle bundle) {
 		BaseResponseBean baseResponseBean = null;
 		try {
 			if (bundle.getString("ACTION").equals(MyReceiverActions.DELETE_ADDRESS)) {

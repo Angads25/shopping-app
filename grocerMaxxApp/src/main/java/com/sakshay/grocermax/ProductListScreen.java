@@ -139,7 +139,7 @@ public class ProductListScreen extends BaseActivity implements OnScrollListener 
 	}
 
 	@Override
-	void OnResponse(Bundle bundle) {
+	public void OnResponse(Bundle bundle) {
 		try{
 		String action = bundle.getString("ACTION");
 		if (action.equals(MyReceiverActions.PRODUCT_CONTENT_LIST)) {

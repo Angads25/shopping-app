@@ -200,7 +200,7 @@ public class PayTMActivity extends BaseActivity
 	}
 
 	@Override
-	void OnResponse(Bundle bundle) {
+	public void OnResponse(Bundle bundle) {
 		if (bundle.getString("ACTION").equals(MyReceiverActions.SET_ORDER_STATUS)) {                     //FAILURE
 			String response= (String) bundle.getSerializable(ConnectionService.RESPONSE);
 			try {

@@ -1169,7 +1169,7 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
 //	}
 
     @Override
-    void OnResponse(Bundle bundle) {
+    public void OnResponse(Bundle bundle) {
 //		try {
 //			String action = bundle.getString("ACTION");
 //			if (action.equals(MyReceiverActions.ADD_ADDRESS)) {

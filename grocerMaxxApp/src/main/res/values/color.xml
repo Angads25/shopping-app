@@ -2,7 +2,12 @@
 <resources>
     <color name="app_background">#ececec</color>
     <color name="app_header">#e5390e</color>
-    
+    <color name="drawer_item_text">#fff</color>
+    <color name="ternary">#000</color>
+    <color name="PrimaryColor">#2196F3</color>
+    <color name="grey">#d7d6db</color>
+    <color name="PrimaryDarkColor">#1976D2</color>
+    <color name="yellow">#e9f25d</color>
     <color name="app_color">#EC6523</color>
     <color name="m_color_525252">#525252</color>
     <color name="m_color_7ff943">#7ff943</color>

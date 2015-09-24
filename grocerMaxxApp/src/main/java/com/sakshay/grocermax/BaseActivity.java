@@ -117,6 +117,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		activity = this;
 		try {
 			etSearchBckup = new EditText(this);
+
 			addActionsInFilter(MyReceiverActions.CHECKOUT);
 			addActionsInFilter(MyReceiverActions.USER_DETAILS);
 			addActionsInFilter(MyReceiverActions.ORDER_HISTORY);
@@ -124,6 +125,8 @@ public abstract class BaseActivity extends FragmentActivity {
 			addActionsInFilter(MyReceiverActions.ADD_TO_CART_NEW_PRODUCT);           //add new product to cart when user has already product in cart
 			addActionsInFilter(MyReceiverActions.ADDRESS_BOOK);
 			addActionsInFilter(MyReceiverActions.ADD_TO_CART_GUEST);
+			addActionsInFilter(MyReceiverActions.GET_SHOP_BY_CATEGORIES);
+			addActionsInFilter(MyReceiverActions.OFFER_BY_DEALTYPE);
 
 			myApi = new MyApi(mContext);
 		}catch(Exception e){
@@ -1371,7 +1374,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 	};
 
-	abstract void OnResponse(Bundle bundle);
+	public abstract void OnResponse(Bundle bundle);
 
 	public void initImageLoaderM() {
 		try {

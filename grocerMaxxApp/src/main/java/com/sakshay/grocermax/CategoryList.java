@@ -78,7 +78,7 @@ public class CategoryList extends BaseActivity {
 	}
 
 	@Override
-	void OnResponse(Bundle bundle) {
+	public void OnResponse(Bundle bundle) {
 		String action = bundle.getString("ACTION");
 
 		if (action.equals(MyReceiverActions.CATEGORY_LIST)) {

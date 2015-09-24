@@ -45,7 +45,7 @@ public class Constants {
 	
 	public static final String customer_care = "tel:+91 8010500700";
 
-	
+	public static final String SHOP_BY_CATEGORY_MODEL = "shopbycategorymodel";
 	
 	public static final String categoriesFile = "categories.txt";
 	
@@ -125,8 +125,10 @@ public class Constants {
 		public static final String BILL_PINCODE = "Please enter pincode in billing address";
 		public static final String BILL_PHONE_VALID = "Phone number should be of 10 digit in billing address";
 		public static final String BILL_PINCODE_VALID = "Pincode should be of 6 digit in billing address";
-		
-		
+
+
+
+
 	}
 
 }
