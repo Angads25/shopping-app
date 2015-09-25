@@ -922,8 +922,9 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				bIsEdit = false;
 			}
 		}catch(Exception e){
-			new GrocermaxBaseException("CartProductList", "onDestroy", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+			new GrocermaxBaseException("CartProductList", "onDestroy", e.toString(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
+
 	}
 
 //    public String getHeaderUpdateQuantity(){

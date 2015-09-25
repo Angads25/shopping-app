@@ -459,6 +459,17 @@ public class EditProfile extends BaseActivity{
 					if (UserProfile.textPhoneNo != null) {
 						UserProfile.textPhoneNo.setText(contact.getText());
 					}
+
+//					UserHeaderProfile.tvUserName = "";
+//					MySharedPrefs.INSTANCE.getMobileNo()
+					Registration.facebookName = fname.getText() + " " + lname.getText();    //just for displaying update on MyProfile screen.
+					if(fname.getText().toString().length() > 0 && fname != null) {
+						MySharedPrefs.INSTANCE.putFirstName(fname.getText().toString());
+						MySharedPrefs.INSTANCE.putLastName(lname.getText().toString());
+					}
+					if(contact.getText().toString().length() > 0 && contact != null) {
+						MySharedPrefs.INSTANCE.putMobileNo(contact.getText().toString());
+					}
 					finish();
 				} else {
 					UtilityMethods.customToast(userDataBean.getResult(), mContext);
@@ -469,6 +480,7 @@ public class EditProfile extends BaseActivity{
 				fname.setText(userDataBean.getPersonalInfo().getFirstname());
 				lname.setText(userDataBean.getPersonalInfo().getLastname());
 				contact.setText(userDataBean.getPersonalInfo().getMobile());
+
 			}
 		}catch(Exception e){
 			new GrocermaxBaseException("EditProfile","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");

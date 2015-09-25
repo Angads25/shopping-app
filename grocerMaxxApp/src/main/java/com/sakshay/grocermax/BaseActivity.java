@@ -52,6 +52,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
@@ -84,7 +85,7 @@ import com.sakshay.grocermax.utils.UtilityMethods;
 //import android.widget.Toast;
 
 public abstract class BaseActivity extends FragmentActivity {
-
+	public static boolean bBack = false;
 	protected Context mContext = this;
 	EditText etSearchBckup;  //when press on search icon and it came you to previous screen.
 	public static Activity activity;
@@ -414,26 +415,9 @@ public abstract class BaseActivity extends FragmentActivity {
 			icon_header_search.setVisibility(View.VISIBLE);
 			llSearchLayout.setVisibility(View.GONE);
 			edtSearch.getText().clear();
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-			imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-
-
-//				if(android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-//					keyboardVisibility = true;
-//					}else{
-//						keyboardVisibility = false;
-//					}
-//					if(android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT){
-//						if(!keyboardVisibility)
-//							imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
-//					}else{
-//						if(keyboardVisibility)
-//							imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
-//				}
-//				imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
-
-
+//			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//			imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 		}
 		}catch(Exception e) {
 			new GrocermaxBaseException("BaseActivity", "showSearchView", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
@@ -1127,8 +1111,8 @@ public abstract class BaseActivity extends FragmentActivity {
 	}
 
 	private void registerReceiver() {
-		try{
-		if (!isRegister) {
+		try {
+			if (!isRegister) {
 			LocalBroadcastManager.getInstance(mContext).registerReceiver(
 					receiver, intentFilter);
 			isRegister = true;
@@ -1403,20 +1387,32 @@ public abstract class BaseActivity extends FragmentActivity {
     {
         KeyboardStatusDetector keyStatus = new KeyboardStatusDetector();
         keyStatus.registerActivity(BaseActivity.this);
-        keyStatus.setVisibilityListener(null);
-        keyStatus.setVisibilityListener(new KeyboardVisibilityListener() {
+		keyStatus.setVisibilityListener(null);
+		keyStatus.setVisibilityListener(new KeyboardVisibilityListener() {
 
-            @Override
-            public void onVisibilityChanged(boolean keyboardVisible) {
-                if (keyboardVisible) {
-                    System.out.println("Visible");
-                    keyboardVisibility = true;
-                } else {
-                    System.out.println("Hide");
+			@Override
+			public void onVisibilityChanged(boolean keyboardVisible) {
+				if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+					keyboardVisible = true;
+				} else {
+					keyboardVisible = false;
+				}
+
+				if (keyboardVisible) {
+					System.out.println("Visible");
+					keyboardVisibility = true;
+				} else {
+					System.out.println("Hide");
                     keyboardVisibility = false;
                 }
             }
         });
     }
 
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+
+		bBack = true;
+	}
 }

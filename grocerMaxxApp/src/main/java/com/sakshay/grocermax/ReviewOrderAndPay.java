@@ -1105,11 +1105,13 @@ class Coupon extends AsyncTask<String, String, String>
 	protected String doInBackground(String... params) {
 		// TODO Auto-generated method stub
 //		strApplyorRemove = params[1];
+		try {
 		HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
+		params[0] = params[0].replace(" ", "%20");
 		HttpGet httpGet = new HttpGet(params[0]);
 		httpGet.setHeader("Content-Type", "application/json");
 		HttpResponse response = null;
-		try {
+
 			response = client.execute(httpGet);
 			HttpEntity resEntity = response.getEntity();
 			return EntityUtils.toString(resEntity);

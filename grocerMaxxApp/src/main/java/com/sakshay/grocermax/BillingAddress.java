@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -761,6 +762,8 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
             icon_header_search.setVisibility(View.GONE);
             icon_header_cart.setVisibility(View.GONE);
             cart_count_txt.setVisibility(View.GONE);
+            LinearLayout llIcon = (LinearLayout)findViewById(R.id.ll_placeholder_logoIcon_appBar);
+            llIcon.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 7f));
         }catch(Exception e){
             new GrocermaxBaseException("BillingAddress","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
         }
@@ -1482,6 +1485,8 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
         // TODO Auto-generated method stub
         super.onResume();
         initHeader(findViewById(R.id.app_bar_header), true, "Select Billing Address");
+        LinearLayout llIcon = (LinearLayout)findViewById(R.id.ll_placeholder_logoIcon_appBar);
+        llIcon.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 7f));
     }
 
 

@@ -170,8 +170,9 @@
         <activity
             android:name=".CartProductList"
             android:label="@string/app_name"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+             />
         <activity
             android:name=".ReviewOrderAndPay"
             android:label="@string/app_name"

@@ -591,6 +591,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 							}
 							//String url = UrlsConstants.ADD_TO_CART_URL + userDataBean.getUserID() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+ "&products="+ URLEncoder.encode(products.toString(), "UTF-8");
 							myApi.reqAddToCart(url);
+							finish();                                         //added
 //								finishAffinity();
 
 						} catch (Exception e) {
@@ -735,9 +736,9 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 //		        mGoogleApiClient.connect();
 //			}catch(Exception e){}
 				if (UtilityMethods.isInternetAvailable(mContext)) {
-					if (tv_google_btn.getText().toString().equalsIgnoreCase("Connect with Google")) {
+					if (tv_google_btn.getText().toString().equalsIgnoreCase("Login with Google")) {
 						googleLoginWithEmailPermission();
-					} else if (tv_google_btn.getText().toString().equalsIgnoreCase("LOGOUT WITH GOOGLE")) {
+					} else if (tv_google_btn.getText().toString().equalsIgnoreCase("Logout with Google")) {
 //					googlePlusLogoutLocally();
 						googlePlusLogout();
 					}
@@ -865,7 +866,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
     private void getProfileInformation() {
         try {
             if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
-            	tv_google_btn.setText("LOGOUT WITH GOOGLE");
+            	tv_google_btn.setText("Logout with Google");
                 Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
                 saveGoogleUserData(currentPerson);
                 
@@ -933,7 +934,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 				mGoogleApiClient.disconnect();
 				mGoogleApiClient.connect();
 				if(tv_google_btn != null){
-					tv_google_btn.setText("Connect with Google");
+					tv_google_btn.setText("Logout with Google");
 				}
 	//            updateProfile(false);
 			 }
@@ -951,7 +952,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 //            mGoogleApiClient.connect();
 //            
 //            if(tv_google_btn != null){
-//            	tv_google_btn.setText("Connect with Google");
+//            	tv_google_btn.setText("Login with Google");
 //            }
 ////            updateProfile(false);
 //         }

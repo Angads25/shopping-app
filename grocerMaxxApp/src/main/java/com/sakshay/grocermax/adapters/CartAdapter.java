@@ -7,12 +7,14 @@ import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.hardware.Camera.Size;
+import android.os.Build;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -238,8 +240,24 @@ public class CartAdapter extends BaseAdapter{
 		holder.increase_quantity.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(BaseActivity.keyboardVisibility)
-					UtilityMethods.hideKeyBoard(activity);
+
+//				if(BaseActivity.keyboardVisibility)
+//					UtilityMethods.hideKeyBoard(activity);
+				InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+				if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+					BaseActivity.keyboardVisibility = true;
+				} else {
+					BaseActivity.keyboardVisibility = false;
+				}
+				if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+					if (!BaseActivity.keyboardVisibility)
+						imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+
+				} else {
+					if (BaseActivity.keyboardVisibility)
+						imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+				}
+
 				if(UtilityMethods.isInternetAvailable(activity)){
 					if(CartProductList.getInstance().place_order != null && CartProductList.getInstance().update_cart != null) {
 						CartProductList.getInstance().place_order.setVisibility(View.GONE);
@@ -309,8 +327,24 @@ public class CartAdapter extends BaseAdapter{
 			@Override
 			public void onClick(View v) {
 				positionIndex = position;                                             //latest
-				if(BaseActivity.keyboardVisibility)
-					UtilityMethods.hideKeyBoard(activity);
+//				if(BaseActivity.keyboardVisibility)
+//					UtilityMethods.hideKeyBoard(activity);
+
+				InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+				if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+					BaseActivity.keyboardVisibility = true;
+				} else {
+					BaseActivity.keyboardVisibility = false;
+				}
+				if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+					if (!BaseActivity.keyboardVisibility)
+						imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+
+				} else {
+					if (BaseActivity.keyboardVisibility)
+						imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+				}
+
 				if(UtilityMethods.isInternetAvailable(activity)){
 					if(CartProductList.getInstance().place_order != null && CartProductList.getInstance().update_cart != null) {
 						CartProductList.getInstance().place_order.setVisibility(View.GONE);
