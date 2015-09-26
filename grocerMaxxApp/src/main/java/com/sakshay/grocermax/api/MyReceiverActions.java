@@ -42,8 +42,11 @@ public interface MyReceiverActions {
     String ADD_TO_CART_GUEST = PKG_NAME + ".add_to_cart_guest";
 
     String GET_SHOP_BY_CATEGORIES = PKG_NAME + ".get_shop_by_categories";
+    String GET_SHOP_BY_DEALS = PKG_NAME + ".get_shop_by_deals";
 
     String OFFER_BY_DEALTYPE = PKG_NAME + ".offer_by_deal_type";
+    String DEAL_BY_DEALTYPE = PKG_NAME + ".deal_by_deal_type";
+    String PRODUCT_LISTING_BY_DEALTYPE = PKG_NAME + ".product_listing_by_deal_type";
 
     String DELETE_FROM_CART = PKG_NAME + ".delete_from_cart";
 

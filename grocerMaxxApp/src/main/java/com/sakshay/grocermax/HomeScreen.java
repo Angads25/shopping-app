@@ -30,6 +30,7 @@ import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
 import com.sakshay.grocermax.adapters.ExpandableListAdapter;
 import com.sakshay.grocermax.adapters.HomeListAdapter;
 import com.sakshay.grocermax.api.MyReceiverActions;
+import com.sakshay.grocermax.bean.OfferByDealTypeModel;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
@@ -439,7 +440,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 			tvSelctionCat = cat_name;                         //assign currently selected view to previously selected holder           
 			
 			//expandableListView.setBackgroundResource(backImage[position]);
-			expandableListView.setCacheColorHint(android.R.color.transparent);
+			expandableListView.setCacheColorHint(getResources().getColor(android.R.color.transparent));
 		}
 	};
 	private void hideAllImage() {
@@ -475,7 +476,8 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		group_click=0;
 		initHeader(findViewById(R.id.header), true, null);
 	}
-	
+
+
 	@Override
     protected void onStart() {
     	// TODO Auto-generated method stub

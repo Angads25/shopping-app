@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.ShopByCategoryBean;
+import com.sakshay.grocermax.bean.ShopByDealsBean;
 import com.sakshay.grocermax.hotoffers.adapter.ShopByCategoryListAdapter;
 import com.sakshay.grocermax.hotoffers.adapter.ShopByDealsListAdapter;
 import com.sakshay.grocermax.utils.Constants;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
  */
 public class HomeFragment extends Fragment {
     ViewPager scrollView;
-    RecyclerView recyclerView1,recyclerView2;
+    RecyclerView recyclerView1, recyclerView2;
     ArrayList<String> arrayList = new ArrayList<>();
     private static final int NUM_PAGES = 3;
 
@@ -38,14 +39,21 @@ public class HomeFragment extends Fragment {
         addArrayData();
         Bundle bundle = this.getArguments();
         ShopByCategoryBean shopByCategoryBean = (ShopByCategoryBean) bundle.get(Constants.SHOP_BY_CATEGORY_MODEL);
-        System.out.println("RESPONSE HOME"+shopByCategoryBean.getArrayList().size());
+        ShopByDealsBean shopByDealsBean = (ShopByDealsBean) bundle.get(Constants.SHOP_BY_DEALS_MODEL);
+        try {
+
+            System.out.println("RESPONSE HOME" + shopByCategoryBean.getArrayList().size());
+            System.out.println("RESPONSE HOME" + shopByDealsBean.getArrayList().size());
+        } catch (Exception e) {
+
+        }
         View view = inflater.inflate(R.layout.home_fragment, container, false);
 
         mPager = (ViewPager) view.findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
-        recyclerView1 = (RecyclerView)view.findViewById(R.id.recyclerView1);
+        recyclerView1 = (RecyclerView) view.findViewById(R.id.recyclerView1);
 
         ShopByCategoryListAdapter shopByCategoryListAdapter1 = new ShopByCategoryListAdapter(getActivity(), this);
         shopByCategoryListAdapter1.setListData(shopByCategoryBean.getArrayList());
@@ -54,9 +62,9 @@ public class HomeFragment extends Fragment {
         llm.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView1.setLayoutManager(llm);
 
-        recyclerView2 = (RecyclerView)view.findViewById(R.id.recyclerView2);
+        recyclerView2 = (RecyclerView) view.findViewById(R.id.recyclerView2);
         ShopByDealsListAdapter shopByDealsListAdapter = new ShopByDealsListAdapter(getActivity(), this);
-        shopByDealsListAdapter.setListData(arrayList);
+        shopByDealsListAdapter.setListData(shopByDealsBean.getArrayList());
         recyclerView2.setAdapter(shopByDealsListAdapter);
 
         LinearLayoutManager llm1 = new LinearLayoutManager(getActivity());

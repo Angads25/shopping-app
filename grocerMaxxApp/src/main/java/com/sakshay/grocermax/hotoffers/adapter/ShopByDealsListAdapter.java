@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.ShopByCategoryModel;
+import com.sakshay.grocermax.bean.ShopByDealModel;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.hotoffers.fragment.ItemDetailFragment;
 
@@ -21,14 +22,14 @@ public class ShopByDealsListAdapter extends RecyclerView.Adapter<ShopByDealsList
 
     private Activity context;
     private Fragment fragment;
-    private ArrayList<String> data;
+    private ArrayList<ShopByDealModel> data;
     public ShopByDealsListAdapter(Activity activity, Fragment fragment) {
 //        this.context = context;
         this.context = activity;
         this.fragment = fragment;
     }
 
-    public void setListData(ArrayList<String> data) {
+    public void setListData(ArrayList<ShopByDealModel> data) {
 
         this.data = data;
 //        if(data!=null)
@@ -62,13 +63,11 @@ public class ShopByDealsListAdapter extends RecyclerView.Adapter<ShopByDealsList
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-//        holder.footer.setText(data.get(position).getOffercount());
+        holder.footer.setText(data.get(position).getDealType());
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ItemDetailFragment fragment = new ItemDetailFragment();
-                //fragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.explode));
-                ((HotOffersActivity)context).changeFragment(fragment);
+                ((HotOffersActivity)context).hitForShopByDeals(data.get(position).getId());
             }
         });
 

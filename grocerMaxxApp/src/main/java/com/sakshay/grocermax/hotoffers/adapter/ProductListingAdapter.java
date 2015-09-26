@@ -10,24 +10,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.sakshay.grocermax.R;
-import com.sakshay.grocermax.bean.OfferByDealTypeModel;
+import com.sakshay.grocermax.bean.DealProductListingModel;
+import com.sakshay.grocermax.bean.OfferByDealTypeSubModel;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 
 import java.util.ArrayList;
 
-public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.ViewHolder> {
+public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAdapter.ViewHolder> {
 
     private Activity context;
     private Fragment fragment;
-    private ArrayList<OfferByDealTypeModel> data;
-    public DetailListAdapter(Activity activity, Fragment fragment) {
+    private ArrayList<DealProductListingModel> data;
+    public ProductListingAdapter(Activity activity, Fragment fragment) {
 //        this.context = context;
         this.context = activity;
         this.fragment = fragment;
     }
 
-    public void setListData(ArrayList<OfferByDealTypeModel> data) {
+    public void setListData(ArrayList<DealProductListingModel> data) {
 
         this.data = data;
 //        if(data!=null)
@@ -60,13 +61,10 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        holder.footer.setText(data.get(position).getId());
+        holder.footer.setText(data.get(position).getName());
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ItemDetailFragment fragment = new ItemDetailFragment();
-//                fragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.explode));
-//                ((MainActivity)context).changeFragment(fragment,holder.parentLayout);
             }
         });
 

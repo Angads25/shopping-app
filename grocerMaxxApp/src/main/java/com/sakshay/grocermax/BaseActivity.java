@@ -127,6 +127,8 @@ public abstract class BaseActivity extends FragmentActivity {
 			addActionsInFilter(MyReceiverActions.ADD_TO_CART_GUEST);
 			addActionsInFilter(MyReceiverActions.GET_SHOP_BY_CATEGORIES);
 			addActionsInFilter(MyReceiverActions.OFFER_BY_DEALTYPE);
+			addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);
+			addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
 
 			myApi = new MyApi(mContext);
 		}catch(Exception e){

@@ -1,28 +1,22 @@
 package com.sakshay.grocermax.hotoffers.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-
-import com.sakshay.grocermax.HomeScreen;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.DealByDealTypeBean;
+import com.sakshay.grocermax.bean.DealByDealTypeModel;
 import com.sakshay.grocermax.bean.OfferByDealTypeBean;
 import com.sakshay.grocermax.bean.OfferByDealTypeModel;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.hotoffers.MyPagerSlidingTabStrip;
-import com.sakshay.grocermax.hotoffers.adapter.DetailListAdapter;
 import com.sakshay.grocermax.utils.Constants;
 import com.sakshay.grocermax.utils.Worker;
 
@@ -32,7 +26,7 @@ import java.util.List;
 /**
  * Created by nawab.hussain on 9/15/2015.
  */
-public class ItemDetailFragment extends Fragment {
+public class ShopByDealItemDetailFragment extends Fragment {
     ArrayList<String> arrayList = new ArrayList<>();
     private static final int NUM_PAGES = 3;
     private String viewId;
@@ -41,7 +35,7 @@ public class ItemDetailFragment extends Fragment {
     private List<String> keyList = new ArrayList<>();
     private ScreenSlidePagerAdapter mPagerAdapter;
     private MyPagerSlidingTabStrip tabs;
-    private OfferByDealTypeBean offerByDealTypeBean = new OfferByDealTypeBean();
+    // private OfferByDealTypeBean offerByDealTypeBean = new OfferByDealTypeBean();
     private DealByDealTypeBean dealByDealTypeBean = new DealByDealTypeBean();
     private boolean is_shop_by_deal = false;
     private String key;
@@ -57,10 +51,9 @@ public class ItemDetailFragment extends Fragment {
         try {
             is_shop_by_deal = data.getBoolean(Constants.SHOP_BY_DEAL);
             if (is_shop_by_deal) {
-            } else {
-                offerByDealTypeBean = (OfferByDealTypeBean) data.getSerializable(Constants.OFFER_BY_DEAL);
-                if (offerByDealTypeBean.getDealcategorylisting().size() > 0) {
-                    for (String key : offerByDealTypeBean.getDealcategorylisting().keySet()) {
+                dealByDealTypeBean = (DealByDealTypeBean) data.getSerializable(Constants.DEAL_BY_DEAL);
+                if (dealByDealTypeBean.getDealcategorylisting().size() > 0) {
+                    for (String key : dealByDealTypeBean.getDealcategorylisting().keySet()) {
                         keyList.add(key);
                     }
 
@@ -87,8 +80,8 @@ public class ItemDetailFragment extends Fragment {
 
             @Override
             public void onPageSelected(int i) {
-
             }
+
 
             @Override
             public void onPageScrollStateChanged(int i) {
@@ -100,6 +93,9 @@ public class ItemDetailFragment extends Fragment {
     }
 
 
+    public void setViewId(String id) {
+        viewId = id;
+    }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
@@ -113,14 +109,14 @@ public class ItemDetailFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            ItemDetailGrid fragment = new ItemDetailGrid();
-            fragment.setData(offerByDealTypeBean.getDealcategorylisting().get(keyList.get(position)));
+            ShopByDealItemDetailGrid fragment = new ShopByDealItemDetailGrid();
+            fragment.setData(dealByDealTypeBean.getDealcategorylisting().get(keyList.get(position)));
             return fragment;
         }
 
         @Override
         public int getCount() {
-            return offerByDealTypeBean.getDealcategorylisting().size();
+            return dealByDealTypeBean.getDealcategorylisting().size();
         }
 
     }

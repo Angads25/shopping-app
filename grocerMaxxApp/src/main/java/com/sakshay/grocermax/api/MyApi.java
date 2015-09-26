@@ -154,6 +154,22 @@ public class MyApi {
 		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.OFFER_BY_DEALTYPE);
 		m_context.startService(reqIntent);
 	}
+	public void reqDealByDealType(String url) {
+		Intent reqIntent = new Intent(m_context, ConnectionService.class);
+		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.DEAL_BY_DEALTYPE);
+		reqIntent.putExtra(ConnectionService.URL, url);
+		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.DEAL_BY_DEAL_TYPE);
+		m_context.startService(reqIntent);
+	}
+public void reqProductListingByDealType(String url) {
+		Intent reqIntent = new Intent(m_context, ConnectionService.class);
+		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
+		reqIntent.putExtra(ConnectionService.URL, url);
+		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.PRODUCT_LISTING_BY_DEALTYPE);
+		m_context.startService(reqIntent);
+	}
 
 	public void reqLocation(String url) {
 		Intent reqIntent = new Intent(m_context, ConnectionService.class);
@@ -293,6 +309,14 @@ public class MyApi {
 		reqIntent.putExtra(ConnectionService.URL, url);
 		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
 		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.SHOP_BY_CATEGORY_LIST);
+		m_context.startService(reqIntent);
+	}
+	public void reqGetShopByDeals(String url) {
+		Intent reqIntent = new Intent(m_context, ConnectionService.class);
+		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.GET_SHOP_BY_DEALS);
+		reqIntent.putExtra(ConnectionService.URL, url);
+		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.SHOP_BY_DEALS_LIST);
 		m_context.startService(reqIntent);
 	}
 
