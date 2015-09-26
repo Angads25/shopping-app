@@ -71,6 +71,7 @@ import com.sakshay.grocermax.bean.AddressList;
 import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.bean.CartDetail;
 import com.sakshay.grocermax.bean.CartDetailBean;
+import com.sakshay.grocermax.bean.DealListBean;
 import com.sakshay.grocermax.bean.OrderHistoryBean;
 import com.sakshay.grocermax.bean.ProductListBean;
 import com.sakshay.grocermax.bean.SearchListBean;
@@ -126,6 +127,8 @@ public abstract class BaseActivity extends FragmentActivity {
 			addActionsInFilter(MyReceiverActions.ADD_TO_CART_NEW_PRODUCT);           //add new product to cart when user has already product in cart
 			addActionsInFilter(MyReceiverActions.ADDRESS_BOOK);
 			addActionsInFilter(MyReceiverActions.ADD_TO_CART_GUEST);
+
+			addActionsInFilter(MyReceiverActions.DEAL_PRODUCT_LIST);
 
 //			addActionsInFilter(MyReceiverActions.SEARCH_BY_CATEGORY);           //search by category
 
@@ -313,14 +316,15 @@ public abstract class BaseActivity extends FragmentActivity {
 						 }
 						break;
 					case R.id.nom_producte:
-//				ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart(BaseActivity.this, Constants.localCloneFile);
-//				Toast.makeText(BaseActivity.this, "==total count=="+cart_products.size(), Toast.LENGTH_SHORT).show();
-//				SyncCartData();
-						goToCart();
+//						goToCart();
+						showDialog();
+						myApi.reqDealProductList(UrlsConstants.GET_DEAL_LISTING);
+
 						break;
 					case R.id.icon_header_cart:
-//				SyncCartData();
-						goToCart();
+//						goToCart();
+						showDialog();
+						myApi.reqDealProductList(UrlsConstants.GET_DEAL_LISTING);
 						break;
 					case R.id.imgSearchIcon:
 						// UtilityMethods.hideKeyboard(BaseActivity.this);
@@ -1198,7 +1202,6 @@ public abstract class BaseActivity extends FragmentActivity {
 				else if (intent.getAction().equals(
 						MyReceiverActions.VIEW_CART)) {
 
-
 					cart_count_txt.setText(String.valueOf(MySharedPrefs.INSTANCE.getTotalItem()));               //added latest
 
  					CartDetailBean cartBean = (CartDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
@@ -1231,7 +1234,34 @@ public abstract class BaseActivity extends FragmentActivity {
 					Intent i = new Intent(mContext, AddressDetail.class);
 					i.putExtra("AddressList", bean);
 					startActivity(i);
-				} else if (intent.getAction().equals(
+				}else if (intent.getAction().equals(
+						MyReceiverActions.DEAL_PRODUCT_LIST)) {
+					DealListBean dealListBean = (DealListBean) bundle
+							.getSerializable(ConnectionService.RESPONSE);
+					if(dealListBean == null){
+						UtilityMethods.customToast(ToastConstant.NO_PRODUCT, mContext);
+						return;
+					}
+//					if (dealListBean.getFlag().equalsIgnoreCase("1")) {
+						Intent call = new Intent(mContext,
+								DealListScreen.class);
+						Bundle call_bundle = new Bundle();
+						call_bundle.putSerializable("ProductList",
+								dealListBean);
+						call_bundle.putSerializable("Header", "HEADING");
+						// call_bundle.putString("cat_id",
+						// category.getCategoryId());
+						call.putExtras(call_bundle);
+						startActivity(call);
+
+//					} else {
+//						UtilityMethods.customToast(dealListBean.getResult(), mContext);
+//					}
+
+
+				}
+
+				else if (intent.getAction().equals(
 						MyReceiverActions.SEARCH_PRODUCT_LIST)) {
 
 					ProductListBean productListBean = (ProductListBean) bundle

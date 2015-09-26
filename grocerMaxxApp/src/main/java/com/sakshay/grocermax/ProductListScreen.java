@@ -2,7 +2,6 @@ package com.sakshay.grocermax;
 
 import java.net.URLEncoder;
 import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import android.content.Intent;
@@ -16,13 +15,13 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.flurry.android.FlurryAgent;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.sakshay.grocermax.adapters.ProductListAdapter;
 import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.BaseResponseBean;
+import com.sakshay.grocermax.bean.DealListBean;
 import com.sakshay.grocermax.bean.Product;
 import com.sakshay.grocermax.bean.ProductDetailsListBean;
 import com.sakshay.grocermax.bean.ProductListBean;
@@ -44,7 +43,7 @@ public class ProductListScreen extends BaseActivity implements OnScrollListener 
 	private String header;
 	private ListView mList;
 	ProductListAdapter mAdapter;
-	private ProductListBean productListBean;
+	private DealListBean productListBean;
 	private Product product;
 	public int pageNo = 1;
 	String cat_id = "";
@@ -61,7 +60,7 @@ public class ProductListScreen extends BaseActivity implements OnScrollListener 
 		try {
 			Bundle bundle = getIntent().getExtras();
 			if (bundle != null) {
-				productListBean = (ProductListBean) bundle
+				productListBean = (DealListBean) bundle
 						.getSerializable("ProductList");
 
 					header = bundle.getString("Header");
@@ -171,7 +170,7 @@ public class ProductListScreen extends BaseActivity implements OnScrollListener 
 			}
 		} else if (action.equals(MyReceiverActions.PRODUCT_LIST)) {
 			isLoading = false;
-			ProductListBean productListBean = (ProductListBean) bundle
+			DealListBean productListBean = (DealListBean) bundle
 					.getSerializable(ConnectionService.RESPONSE);
 			if (productListBean.getFlag().equalsIgnoreCase("1")) {
 				if (productListBean.getProduct().size() < itemPerPage) {

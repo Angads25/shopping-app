@@ -67,6 +67,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
+            android:name=".DealListScreen"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
             android:name=".DeliveryDetails"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
@@ -170,9 +175,8 @@
         <activity
             android:name=".CartProductList"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustResize|stateHidden"
             android:screenOrientation="portrait"
-             />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".ReviewOrderAndPay"
             android:label="@string/app_name"
@@ -368,6 +372,7 @@
             android:name=".OneTimePassword"
             android:label="@string/title_activity_one_time_password" >
         </activity>
+
     </application>
 
 </manifest>

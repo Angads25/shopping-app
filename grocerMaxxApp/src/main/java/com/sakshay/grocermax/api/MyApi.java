@@ -183,6 +183,18 @@ public class MyApi {
 		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.SEARCH_PRODUCT_LIST);
 		m_context.startService(reqIntent);
 	}
+
+	public void reqDealProductList(String url) {
+		Intent reqIntent = new Intent(m_context, ConnectionService.class);
+		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.DEAL_PRODUCT_LIST);
+		reqIntent.putExtra(ConnectionService.URL, url);
+		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.DEAL_PRODUCT_LIST);
+		m_context.startService(reqIntent);
+	}
+
+
+
 	public void reqProductListFromHomeScreen(String url) {
 		Intent reqIntent = new Intent(m_context, ConnectionService.class);
 		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.PRODUCT_LIST_FROM_HOME);
