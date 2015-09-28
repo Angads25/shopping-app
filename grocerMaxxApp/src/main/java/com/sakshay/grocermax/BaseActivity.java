@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -28,6 +29,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -317,14 +319,11 @@ public abstract class BaseActivity extends FragmentActivity {
 						break;
 					case R.id.nom_producte:
 //						goToCart();
-						showDialog();
-						myApi.reqDealProductList(UrlsConstants.GET_DEAL_LISTING);
-
+						viewCart();
 						break;
 					case R.id.icon_header_cart:
 //						goToCart();
-						showDialog();
-						myApi.reqDealProductList(UrlsConstants.GET_DEAL_LISTING);
+						viewCart();
 						break;
 					case R.id.imgSearchIcon:
 						// UtilityMethods.hideKeyboard(BaseActivity.this);
@@ -419,7 +418,6 @@ public abstract class BaseActivity extends FragmentActivity {
 			icon_header_search.setVisibility(View.VISIBLE);
 			llSearchLayout.setVisibility(View.GONE);
 			edtSearch.getText().clear();
-
 //			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 //			imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 		}
@@ -1065,7 +1063,7 @@ public abstract class BaseActivity extends FragmentActivity {
 
 	private ProgressDialog mProgressDialog;
 	private IntentFilter intentFilter = new IntentFilter();
-	protected MyApi myApi;
+	protected static MyApi myApi;
 	private boolean isRegister = false;
 
 	public void showDialog() {
@@ -1445,4 +1443,72 @@ public abstract class BaseActivity extends FragmentActivity {
 
 		bBack = true;
 	}
+
+	public static void syncStack() {
+		try {
+
+			ArrayList<CartDetail> cart_products = UtilityMethods.readLocalCart(activity, Constants.StackCartFile);
+			UtilityMethods.deleteStackCart(activity);
+			if (cart_products.size() > 0) {
+				for (Iterator<CartDetail> iterator = cart_products.iterator(); iterator.hasNext(); ) {
+					CartDetail cartDetail = iterator.next();
+					if (UtilityMethods.isInternetAvailable(activity)) {
+//                        iterator.remove();
+						Log.e("inside Iterator", "Adding to Cart:" + cartDetail.getName());
+						addToCart(cartDetail);
+					} else {
+						addToStack(cartDetail);
+					}
+				}
+			}
+
+		} catch (Exception ex) {
+		}
+	}
+
+	public static void addToStack(CartDetail cartDetail) {
+		Log.e("inside Iterator", "Adding back:" + cartDetail.getQty());
+//		UtilityMethods.writeStackCart(activity, Constants.StackCartFile, cartDetail);
+		UtilityMethods.customToast(Constants.ToastConstant.INTERNET_NOT_AVAILABLE, activity);
+	}
+
+	public static void addToCart(CartDetail cartProduct) {
+		try {
+			JSONArray products = new JSONArray();
+			JSONObject prod_obj = new JSONObject();
+			prod_obj.put("productid", cartProduct.getItem_id());
+			prod_obj.put("quantity", cartProduct.getQty());
+			products.put(prod_obj);
+			UpdateCart updateCart = new UpdateCart(myApi, products);
+			updateCart.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	private void viewCart() {
+		ArrayList<CartDetail> cart_products = UtilityMethods.readLocalCart(activity, Constants.StackCartFile);
+		if(cart_products.size()<=0) {
+			openCart();
+		}else
+		{
+//			syncStack();
+			openCart();
+		}
+	}
+
+	private void openCart()
+	{
+		if (cart_count_txt.getText().toString().equals("0")) {
+			UtilityMethods.customToast(ToastConstant.CART_EMPTY, mContext);
+		} else {
+			showDialog();
+			String url = UrlsConstants.VIEW_CART_URL + MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
+			myApi.reqViewCart(url);
+		//	UpdateCart updateCart = new UpdateCart(myApi,url);
+		//	updateCart.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		}
+	}
+
+
 }

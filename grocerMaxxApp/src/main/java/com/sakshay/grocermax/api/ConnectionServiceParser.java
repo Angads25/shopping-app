@@ -308,29 +308,29 @@ public class ConnectionServiceParser {
 	public static CartDetailBean parseViewCartResponse(String jsonString)
 			throws JSONException {
 
-		CartProductList.strShippingChargeLimit = new JSONObject(jsonString).getString("shippingChargeLimit").toString();      //500
+		String cartDetailString = "";
+//		CartProductList.strShippingChargeLimit = new JSONObject(jsonString).getString("shippingChargeLimit").toString();      //500
+//		MySharedPrefs.INSTANCE.putQuoteId(new JSONObject(jsonString).getString("QuoteId").toString());                            //added latest
+//		MySharedPrefs.INSTANCE.putTotalItem(new JSONObject(jsonString).getString("TotalItem").toString());                        //added latest
+		cartDetailString=new JSONObject(jsonString).getJSONObject("CartDetail").toString();
 
-		MySharedPrefs.INSTANCE.putQuoteId(new JSONObject(jsonString).getString("QuoteId").toString());                            //added latest
-		MySharedPrefs.INSTANCE.putTotalItem(new JSONObject(jsonString).getString("TotalItem").toString());                        //added latest
-
-		jsonString=new JSONObject(jsonString).getJSONObject("CartDetail").toString();
 		OrderReviewBean orderReviewBean=new OrderReviewBean();
-		orderReviewBean.setTax_ammount(new JSONObject(jsonString).getJSONObject("shipping_address").optString("tax_amount"));
-		orderReviewBean.setShipping_ammount(new JSONObject(jsonString).getJSONObject("shipping_address").optString("shipping_amount"));
-		orderReviewBean.setGrandTotal(new JSONObject(jsonString).getString("grand_total"));
+		orderReviewBean.setTax_ammount(new JSONObject(cartDetailString).getJSONObject("shipping_address").optString("tax_amount"));
+		orderReviewBean.setShipping_ammount(new JSONObject(cartDetailString).getJSONObject("shipping_address").optString("shipping_amount"));
+		orderReviewBean.setGrandTotal(new JSONObject(cartDetailString).getString("grand_total"));
 //		orderReviewBean.setGrandTotal(new JSONObject(jsonString).getString("grand_total"));
-		orderReviewBean.setSubTotal(new JSONObject(jsonString).getString("subtotal"));
-		orderReviewBean.setCouponCode(new JSONObject(jsonString).getString("coupon_code"));
-		orderReviewBean.setCouponSubtotalWithDiscount(new JSONObject(jsonString).getString("subtotal_with_discount"));
+		orderReviewBean.setSubTotal(new JSONObject(cartDetailString).getString("subtotal"));
+		orderReviewBean.setCouponCode(new JSONObject(cartDetailString).getString("coupon_code"));
+		orderReviewBean.setCouponSubtotalWithDiscount(new JSONObject(cartDetailString).getString("subtotal_with_discount"));
 		
 //		CartProductList.getInstance().strCouponCode = new JSONObject(jsonString).getString("coupon_code");
 //		CartProductList.getInstance().strSubTotal = new JSONObject(jsonString).getString("subtotal"); 
 //		CartProductList.getInstance().strSubtotalWithDiscount = new JSONObject(jsonString).getString("subtotal_with_discount");
 		
-		orderReviewBean.setDiscount_amount(new JSONObject(jsonString).getJSONObject("shipping_address").optString("discount_amount"));
+		orderReviewBean.setDiscount_amount(new JSONObject(cartDetailString).getJSONObject("shipping_address").optString("discount_amount"));
 		MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean);
 			
-		Gson gson = new Gson();
+		Gson gson = new Gson();jsonString=new JSONObject(jsonString).getJSONObject("CartDetail").toString();
 		CartDetailBean cartBean = gson.fromJson(jsonString,CartDetailBean.class);
 		return cartBean;
 	}

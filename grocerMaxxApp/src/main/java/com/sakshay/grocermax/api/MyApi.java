@@ -451,4 +451,23 @@ public void reqSetOrderStatusPaytmSuccess(String url) {
 }
 
 
+	public void reqBackGroundAddToCartGuest(String url) {
+		Intent reqIntent = new Intent(m_context, ConnectionCartService.class);
+		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.ADD_TO_CART);
+		reqIntent.putExtra(ConnectionService.URL, url);
+		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.ADD_TO_CART);
+		m_context.startService(reqIntent);
+	}
+
+	public void reqBackgroundAddToCartNewProduct(String url) {
+		Intent reqIntent = new Intent(m_context, ConnectionCartService.class);
+		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.ADD_TO_CART);
+		reqIntent.putExtra(ConnectionService.URL, url);
+		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.ADD_TO_CART);
+		m_context.startService(reqIntent);
+	}
+
+
 }

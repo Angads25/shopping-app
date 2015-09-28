@@ -981,6 +981,36 @@ public class UtilityMethods {
 		        new Rect(0, 0, targetWidth, targetHeight), null);
 		    return targetBitmap;
 		}
-	    
-	 
+
+	public static boolean writeStackCart(Activity activity, String filename,
+										 CartDetail prod) {
+		boolean write = false;
+		try {
+			File mydir = activity.getDir("mydir", Context.MODE_PRIVATE);
+			String dir = mydir.getAbsolutePath();
+			File file = new File(dir, filename);
+
+			ArrayList<CartDetail> list = readLocalCart(activity, filename);
+			if (list == null) {
+				list = new ArrayList<CartDetail>();
+				list.add(prod);
+			} else {
+				list.add(prod);
+			}
+			write = writeArrayListToFile(file, list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return write;
+
+	}
+
+	public static void deleteStackCart(Activity activity) {
+		File mydir = activity.getDir("mydir", Context.MODE_PRIVATE);
+		String dir = mydir.getAbsolutePath();
+		File file = new File(dir, Constants.StackCartFile);
+		if (file.exists()) {
+			file.delete();
+		}
+	}
 }

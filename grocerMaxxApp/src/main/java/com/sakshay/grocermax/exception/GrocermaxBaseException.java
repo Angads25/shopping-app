@@ -57,7 +57,7 @@ public class GrocermaxBaseException extends Exception {
 
 //          UtilityMethods.customToast(strClassName+"=ERROR="+strMethodName, MyApplication.getInstance());
 //        new AppCrash(MyApplication.getInstance(),strClassName,strMethodName,strMessage,strErrorCode,strServerResponse).execute(strUrl);
-        new AppCrash(MyApplication.getInstance(),strClassName,strMethodName,strMessage,strErrorCode,strServerResponse).execute(UrlsConstants.ERROR_REPORT);
+//        new AppCrash(MyApplication.getInstance(),strClassName,strMethodName,strMessage,strErrorCode,strServerResponse).execute(UrlsConstants.ERROR_REPORT);
 //        new AppCrash()
 //               new SearchLoader(this).execute(url);
 //        UtilityMethods.customToast("message", MyApplication.getInstance());
