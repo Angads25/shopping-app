@@ -52,6 +52,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
@@ -70,8 +71,10 @@ import com.sakshay.grocermax.bean.AddressList;
 import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.bean.CartDetail;
 import com.sakshay.grocermax.bean.CartDetailBean;
+import com.sakshay.grocermax.bean.DealListBean;
 import com.sakshay.grocermax.bean.OrderHistoryBean;
 import com.sakshay.grocermax.bean.ProductListBean;
+import com.sakshay.grocermax.bean.SearchListBean;
 import com.sakshay.grocermax.bean.UserDetailBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
@@ -83,7 +86,7 @@ import com.sakshay.grocermax.utils.UtilityMethods;
 //import android.widget.Toast;
 
 public abstract class BaseActivity extends FragmentActivity {
-
+	public static boolean bBack = false;
 	protected Context mContext = this;
 	EditText etSearchBckup;  //when press on search icon and it came you to previous screen.
 	public static Activity activity;
@@ -124,6 +127,10 @@ public abstract class BaseActivity extends FragmentActivity {
 			addActionsInFilter(MyReceiverActions.ADD_TO_CART_NEW_PRODUCT);           //add new product to cart when user has already product in cart
 			addActionsInFilter(MyReceiverActions.ADDRESS_BOOK);
 			addActionsInFilter(MyReceiverActions.ADD_TO_CART_GUEST);
+
+			addActionsInFilter(MyReceiverActions.DEAL_PRODUCT_LIST);
+
+//			addActionsInFilter(MyReceiverActions.SEARCH_BY_CATEGORY);           //search by category
 
 			myApi = new MyApi(mContext);
 		}catch(Exception e){
@@ -309,14 +316,15 @@ public abstract class BaseActivity extends FragmentActivity {
 						 }
 						break;
 					case R.id.nom_producte:
-//				ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart(BaseActivity.this, Constants.localCloneFile);
-//				Toast.makeText(BaseActivity.this, "==total count=="+cart_products.size(), Toast.LENGTH_SHORT).show();
-//				SyncCartData();
-						goToCart();
+//						goToCart();
+						showDialog();
+						myApi.reqDealProductList(UrlsConstants.GET_DEAL_LISTING);
+
 						break;
 					case R.id.icon_header_cart:
-//				SyncCartData();
-						goToCart();
+//						goToCart();
+						showDialog();
+						myApi.reqDealProductList(UrlsConstants.GET_DEAL_LISTING);
 						break;
 					case R.id.imgSearchIcon:
 						// UtilityMethods.hideKeyboard(BaseActivity.this);
@@ -411,26 +419,9 @@ public abstract class BaseActivity extends FragmentActivity {
 			icon_header_search.setVisibility(View.VISIBLE);
 			llSearchLayout.setVisibility(View.GONE);
 			edtSearch.getText().clear();
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-			imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-
-
-//				if(android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-//					keyboardVisibility = true;
-//					}else{
-//						keyboardVisibility = false;
-//					}
-//					if(android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT){
-//						if(!keyboardVisibility)
-//							imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
-//					}else{
-//						if(keyboardVisibility)
-//							imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
-//				}
-//				imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
-
-
+//			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//			imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 		}
 		}catch(Exception e) {
 			new GrocermaxBaseException("BaseActivity", "showSearchView", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
@@ -451,43 +442,13 @@ public abstract class BaseActivity extends FragmentActivity {
 					UtilityMethods.customToast(ToastConstant.APPROPRIATE_QUERY,mContext);
 					return;
 				}
-//				showDialog();
-//				if (UtilityMethods.getCurrentClassName(BaseActivity.this).equals(getApplicationContext().getPackageName() + ".CartProductList")){
-//					finish();
-//				}
-//				if (UtilityMethods.getCurrentClassName(this).equals(getPackageName() + ".SearchTabs")) {
-//					((SearchTabs) this).finish();
-//					 finish();
-//				}
-
-
-//			String url = UrlsConstants.SEARCH_PRODUCT + search_key + "&page=1";
-
 				String url = UrlsConstants.SEARCH_PRODUCT + search_key;
-//			myApi.reqSearchProductList(url);
 				url = url.replace(" ", "%20");
-//				new SearchLoader(this,search_key).execute(url);
-
-//				if (UtilityMethods.getCurrentClassName(this).equals(getApplicationContext().getPackageName() + ".SearchTabs")) {
-//
-//				}
-
-//				if(BaseActivity.searchLoader != null){
-//					if(!BaseActivity.searchLoader.isCancelled()){
-//						BaseActivity.searchLoader.cancel(true);
-//					}
-//				}
-
-//				BaseActivity.searchLoader = new SearchLoader(this,search_key);
-//				BaseActivity.searchLoader.execute(url);
 				SearchLoader searchLoader  = new SearchLoader(this,search_key);
 				searchLoader.execute(url);
 
-
 				Log.i("SEARCH_REQUEST", "URL::" + url);
 			} else {
-//			Toast.makeText(mContext,ToastConstant.ENTER_TEXT,
-//					Toast.LENGTH_LONG).show();
 				UtilityMethods.customToast(ToastConstant.ENTER_TEXT, mContext);
 			}
 		}catch(Exception e){
@@ -1154,8 +1115,8 @@ public abstract class BaseActivity extends FragmentActivity {
 	}
 
 	private void registerReceiver() {
-		try{
-		if (!isRegister) {
+		try {
+			if (!isRegister) {
 			LocalBroadcastManager.getInstance(mContext).registerReceiver(
 					receiver, intentFilter);
 			isRegister = true;
@@ -1241,7 +1202,6 @@ public abstract class BaseActivity extends FragmentActivity {
 				else if (intent.getAction().equals(
 						MyReceiverActions.VIEW_CART)) {
 
-
 					cart_count_txt.setText(String.valueOf(MySharedPrefs.INSTANCE.getTotalItem()));               //added latest
 
  					CartDetailBean cartBean = (CartDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
@@ -1274,7 +1234,34 @@ public abstract class BaseActivity extends FragmentActivity {
 					Intent i = new Intent(mContext, AddressDetail.class);
 					i.putExtra("AddressList", bean);
 					startActivity(i);
-				} else if (intent.getAction().equals(
+				}else if (intent.getAction().equals(
+						MyReceiverActions.DEAL_PRODUCT_LIST)) {
+					DealListBean dealListBean = (DealListBean) bundle
+							.getSerializable(ConnectionService.RESPONSE);
+					if(dealListBean == null){
+						UtilityMethods.customToast(ToastConstant.NO_PRODUCT, mContext);
+						return;
+					}
+//					if (dealListBean.getFlag().equalsIgnoreCase("1")) {
+						Intent call = new Intent(mContext,
+								DealListScreen.class);
+						Bundle call_bundle = new Bundle();
+						call_bundle.putSerializable("ProductList",
+								dealListBean);
+						call_bundle.putSerializable("Header", "HEADING");
+						// call_bundle.putString("cat_id",
+						// category.getCategoryId());
+						call.putExtras(call_bundle);
+						startActivity(call);
+
+//					} else {
+//						UtilityMethods.customToast(dealListBean.getResult(), mContext);
+//					}
+
+
+				}
+
+				else if (intent.getAction().equals(
 						MyReceiverActions.SEARCH_PRODUCT_LIST)) {
 
 					ProductListBean productListBean = (ProductListBean) bundle
@@ -1346,9 +1333,15 @@ public abstract class BaseActivity extends FragmentActivity {
 					}else {
 						UtilityMethods.customToast(ToastConstant.ERROR_MSG, mContext);
 					}
-				
-					
-				}else {
+
+
+				}
+//				else if(intent.getAction().equals(MyReceiverActions.SEARCH_BY_CATEGORY)){
+//
+//					SearchListBean searchListBean = (SearchListBean) bundle
+//							.getSerializable(ConnectionService.RESPONSE);
+//				}
+				else {
 					bundle.putString("ACTION", intent.getAction());
 					OnResponse(bundle);
 				}
@@ -1424,20 +1417,32 @@ public abstract class BaseActivity extends FragmentActivity {
     {
         KeyboardStatusDetector keyStatus = new KeyboardStatusDetector();
         keyStatus.registerActivity(BaseActivity.this);
-        keyStatus.setVisibilityListener(null);
-        keyStatus.setVisibilityListener(new KeyboardVisibilityListener() {
+		keyStatus.setVisibilityListener(null);
+		keyStatus.setVisibilityListener(new KeyboardVisibilityListener() {
 
-            @Override
-            public void onVisibilityChanged(boolean keyboardVisible) {
-                if (keyboardVisible) {
-                    System.out.println("Visible");
-                    keyboardVisibility = true;
-                } else {
-                    System.out.println("Hide");
+			@Override
+			public void onVisibilityChanged(boolean keyboardVisible) {
+				if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+					keyboardVisible = true;
+				} else {
+					keyboardVisible = false;
+				}
+
+				if (keyboardVisible) {
+					System.out.println("Visible");
+					keyboardVisibility = true;
+				} else {
+					System.out.println("Hide");
                     keyboardVisibility = false;
                 }
             }
         });
     }
 
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+
+		bBack = true;
+	}
 }

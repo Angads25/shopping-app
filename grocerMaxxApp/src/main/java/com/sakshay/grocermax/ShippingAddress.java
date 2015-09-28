@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -730,23 +731,23 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                 public void onClick(View arg0) {
                     try {
 
-                        if(selectedPosition == -1){        //mean not pressed any of the address in the list
+                        if (selectedPosition == -1) {        //mean not pressed any of the address in the list
                             UtilityMethods.customToast(AppConstants.ToastConstant.SHIPPING_ADDRESS_EMPTY, mContext);
                             return;
                         }
 
                         Address ship_add = addressList.get(selectedPosition);
 
-                        if(!ship_add.getCity().equalsIgnoreCase(LocationActivity.strSelectedCity)){
-                            UtilityMethods.customToast("We deliver only in "+LocationActivity.strSelectedCity+","+LocationActivity.strSelectedState+".Kindly select add new address", mContext);
+                        if (!ship_add.getCity().equalsIgnoreCase(LocationActivity.strSelectedCity)) {
+                            UtilityMethods.customToast("We deliver only in " + LocationActivity.strSelectedCity + "," + LocationActivity.strSelectedState + ".Kindly select add new address", mContext);
                             return;
                         }
-                        if(!ship_add.getRegion().equalsIgnoreCase(LocationActivity.strSelectedState)){
-                            UtilityMethods.customToast("We deliver only in "+LocationActivity.strSelectedCity+","+LocationActivity.strSelectedState+".Kindly select add new address", mContext);
+                        if (!ship_add.getRegion().equalsIgnoreCase(LocationActivity.strSelectedState)) {
+                            UtilityMethods.customToast("We deliver only in " + LocationActivity.strSelectedCity + "," + LocationActivity.strSelectedState + ".Kindly select add new address", mContext);
                             return;
                         }
 
-                        if(bShippingAsBilling){
+                        if (bShippingAsBilling) {
                             OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
                             JSONObject shipping_json_obj = new JSONObject();
 
@@ -763,9 +764,9 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
 //                            shipping_json_obj.put("addressline1", addr.split("\n")[0]);
 //                            shipping_json_obj.put("addressline2", addr.split("\n")[1]);
 //                            shipping_json_obj.put("addressline3", addr.split("\n")[2]);
-                        shipping_json_obj.put("addressline1", ship_add.getStreet());
-                        shipping_json_obj.put("addressline2","");
-                            shipping_json_obj.put("default_billing","0");
+                            shipping_json_obj.put("addressline1", ship_add.getStreet());
+                            shipping_json_obj.put("addressline2", "");
+                            shipping_json_obj.put("default_billing", "0");
                             shipping_json_obj.put("default_shipping", "0");
                             orderReviewBean.setShipping(shipping_json_obj);
                             MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean);
@@ -797,7 +798,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                             Intent intent1 = new Intent(ShippingAddress.this, DeliveryDetails.class);
                             intent1.putExtra("addressBean", address_obj);
                             startActivity(intent1);
-                        }else {
+                        } else {
                             OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
                             JSONObject shipping_json_obj = new JSONObject();
 
@@ -813,9 +814,9 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
 //                            shipping_json_obj.put("addressline1", addr.split("\n")[0]);
 //                            shipping_json_obj.put("addressline2", addr.split("\n")[1]);
 //                            shipping_json_obj.put("addressline3", addr.split("\n")[2]);
-                        shipping_json_obj.put("addressline1", ship_add.getStreet());
-                        shipping_json_obj.put("addressline2","");
-                            shipping_json_obj.put("default_billing","0");
+                            shipping_json_obj.put("addressline1", ship_add.getStreet());
+                            shipping_json_obj.put("addressline2", "");
+                            shipping_json_obj.put("default_billing", "0");
                             shipping_json_obj.put("default_shipping", "0");
                             orderReviewBean.setShipping(shipping_json_obj);
                             MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean);
@@ -824,8 +825,8 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                             intent.putExtra("addressBean", address_obj);
                             startActivity(intent);
                         }
-                    }catch(Exception e){
-                        new GrocermaxBaseException("ShippingAddress","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+                    } catch (Exception e) {
+                        new GrocermaxBaseException("ShippingAddress", "onCreate", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
                     }
 //                    callreviewOrderApi();
                 }
@@ -836,7 +837,8 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
             icon_header_search.setVisibility(View.GONE);
             icon_header_cart.setVisibility(View.GONE);
             cart_count_txt.setVisibility(View.GONE);
-
+            LinearLayout llIcon = (LinearLayout)findViewById(R.id.ll_placeholder_logoIcon_appBar);
+            llIcon.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 7f));
         }catch(Exception e){
             new GrocermaxBaseException("ShippingAddress"," btnSelectDeliveryDetails.setOnClickListener",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
         }
@@ -1569,6 +1571,8 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
         // TODO Auto-generated method stub
         super.onResume();
         initHeader(findViewById(R.id.app_bar_header), true, "Select Shipping Address");
+        LinearLayout llIcon = (LinearLayout)findViewById(R.id.ll_placeholder_logoIcon_appBar);
+        llIcon.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT,7f));
     }
 
 

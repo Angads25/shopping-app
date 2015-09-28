@@ -40,7 +40,8 @@ public class BillingStateCityLoader extends AsyncTask<String, String, String> {
     Address address;
     String billing;
     String editIndex;
-    public static ArrayList<String> alState = null;                //getting state for billing address
+    public static ArrayList<String> alState = null;                //getting state name for billing address
+    public static ArrayList<String> alStateId = null;                //getting state id for billing address
     public BillingStateCityLoader(Context context,Address address,String billing,String editIndex){
         this.context = context;
         this.address = address;
@@ -52,6 +53,7 @@ public class BillingStateCityLoader extends AsyncTask<String, String, String> {
     protected void onPreExecute() {
         super.onPreExecute();
         alState = new ArrayList<String>();
+        alStateId = new ArrayList<String>();
         if(billing.equalsIgnoreCase("profilenewaddressbilling"))        //edit in billing address from My Profile
         {
             ((AddressDetail)context).showDialog();
@@ -122,11 +124,13 @@ public class BillingStateCityLoader extends AsyncTask<String, String, String> {
 
             for(int i=0;i<jsonArray.length();i++){
                 String strState = jsonArray.getJSONObject(i).getString("default_name");             //state name
+                String strStateId = jsonArray.getJSONObject(i).getString("region_id");             //state id
                 alState.add(strState);
+                alStateId.add(strStateId);
             }
 
             if(billing.equalsIgnoreCase("profilenewaddressbilling")){
-                if(alState.size() > 0) {                                                        //editing the billing address from MyProfile
+                if(alStateId.size() > 0) {                                                        //editing the billing address from MyProfile
                     Intent intent = new Intent(context, CreateNewAddress.class);
                     intent.putExtra("address", address);
                     intent.putExtra("shippingorbillingaddress", billing);
@@ -135,7 +139,7 @@ public class BillingStateCityLoader extends AsyncTask<String, String, String> {
                 }
             }
             else{
-                if(alState.size() > 0) {
+                if(alStateId.size() > 0) {
                     if(address == null){                         //adding new address
                         Intent intent = new Intent(context, CreateNewAddress.class);
                         intent.putExtra("shippingorbillingaddress", billing);

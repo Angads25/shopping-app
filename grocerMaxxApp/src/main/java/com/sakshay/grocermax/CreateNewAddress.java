@@ -371,8 +371,8 @@ public class CreateNewAddress extends BaseActivity{
 				}
 
 			if(strShippingorBilling.equalsIgnoreCase("billing")  || strShippingorBilling.equalsIgnoreCase("profilenewaddressbilling")) {  //billing edit OR add case(in checkout) AND MyAddress billing case.
-				if(BillingStateCityLoader.alState.size() > 0) {
-					strSelectedSpinnerState = BillingStateCityLoader.alState.get(0);
+				if(BillingStateCityLoader.alStateId.size() > 0) {
+					strSelectedSpinnerState = BillingStateCityLoader.alStateId.get(0);
 				}
 			}
 
@@ -458,7 +458,7 @@ public class CreateNewAddress extends BaseActivity{
 											   int position, long id) {
 
 						spinnerIndexSelected = position;
-						strSelectedSpinnerState = BillingStateCityLoader.alState.get(spinnerIndexSelected);
+						strSelectedSpinnerState = BillingStateCityLoader.alStateId.get(spinnerIndexSelected);
 						//parent.getItemAtPosition(position);      //selected item
 						//position
 					}
@@ -553,6 +553,7 @@ public class CreateNewAddress extends BaseActivity{
 					tvState.setEnabled(false);
 					rlState.setVisibility(View.GONE);
 					String addr = address.getStreet();
+
 					tvHouseNo.setText(addr.split("\n")[0]);
 					tvLocation.setText(addr.split("\n")[1]);
 					tvLandMark.setText(addr.split("\n")[2]);
@@ -903,10 +904,12 @@ public class CreateNewAddress extends BaseActivity{
 			String state = "";
 			if(strShippingorBilling.equalsIgnoreCase("billing") || strShippingorBilling.equalsIgnoreCase("profilenewaddressbilling")) {
 //				if (!strSelectedSpinnerState.equals("")) {
-					state = strSelectedSpinnerState;
+//					state = strSelectedSpinnerState;
+					state = BillingStateCityLoader.alStateId.get(spinnerIndexSelected);
 //				}
 			}else {
 				state = tvState.getText().toString();
+				state = LocationActivity.strSelectedStateId;
 			}
 
 

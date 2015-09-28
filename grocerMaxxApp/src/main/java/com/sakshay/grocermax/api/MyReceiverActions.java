@@ -15,7 +15,8 @@ public interface MyReceiverActions {
 	String REGISTER_USER = PKG_NAME + ".registerUser";
 
 	String FORGOT_PWD = PKG_NAME + ".forgotpwd";
-	
+
+	String SEARCH_BY_CATEGORY = PKG_NAME + ".searchbycategory";
 
 	String CART_DETAIL_AFTER_LOGIN = PKG_NAME + ".cart_detail_after_login";
 	
@@ -33,6 +34,8 @@ public interface MyReceiverActions {
 	String PRODUCT_LIST = PKG_NAME + ".productlist";
 
 	String SEARCH_PRODUCT_LIST = PKG_NAME + ".searchproductlist";
+
+	String DEAL_PRODUCT_LIST = PKG_NAME + ".dealproductlist";
 
 	String PRODUCT_CONTENT_LIST = PKG_NAME + ".proudct_content_list";
 
@@ -67,6 +70,8 @@ public interface MyReceiverActions {
 	String FINAL_CHECKOUT = PKG_NAME + ".final_checkout";
 	String GET_ORDER_STATUS = PKG_NAME + ".get_order_status";
 	String SET_ORDER_STATUS = PKG_NAME + ".set_order_status";
+
+	String SET_PAYTM_ORDER_STATUS_SUCCESS = PKG_NAME + ".set_order_status_paytm_success";
 
 	String CHECKOUT_ADDRESS = PKG_NAME + ".checkout_address";
 	

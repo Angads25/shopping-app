@@ -22,6 +22,18 @@ public class MyApi {
 	/**
 	 * This is used to login user
 	 */
+	public void reqSearchByCategory(String url) {
+		Intent reqIntent = new Intent(m_context, ConnectionService.class);
+		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.SEARCH_BY_CATEGORY);
+		reqIntent.putExtra(ConnectionService.URL, url);
+		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE,MyParserType.SEARCH_BY_CATEGORY);
+		m_context.startService(reqIntent);
+	}
+
+	/**
+	 * This is used to login user
+	 */
 	public void reqLogin(String url) {
 		Intent reqIntent = new Intent(m_context, ConnectionService.class);
 		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.LOGIN);
@@ -171,6 +183,18 @@ public class MyApi {
 		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.SEARCH_PRODUCT_LIST);
 		m_context.startService(reqIntent);
 	}
+
+	public void reqDealProductList(String url) {
+		Intent reqIntent = new Intent(m_context, ConnectionService.class);
+		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.DEAL_PRODUCT_LIST);
+		reqIntent.putExtra(ConnectionService.URL, url);
+		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.DEAL_PRODUCT_LIST);
+		m_context.startService(reqIntent);
+	}
+
+
+
 	public void reqProductListFromHomeScreen(String url) {
 		Intent reqIntent = new Intent(m_context, ConnectionService.class);
 		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.PRODUCT_LIST_FROM_HOME);
@@ -408,12 +432,21 @@ public void reqGetOrderStatus(String url) {
 	reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.GET_SET_ORDERSTATUS);
 	m_context.startService(reqIntent);
 }
-public void reqSetOrderStatus(String url) {
+public void reqSetOrderStatus(String url) {                                            //using in failed condition of payu and paytm
 	Intent reqIntent = new Intent(m_context, ConnectionService.class);
 	reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.SET_ORDER_STATUS);
 	reqIntent.putExtra(ConnectionService.URL, url);
 	reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
 	reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.GET_SET_ORDERSTATUS);
+	m_context.startService(reqIntent);
+}
+
+public void reqSetOrderStatusPaytmSuccess(String url) {
+	Intent reqIntent = new Intent(m_context, ConnectionService.class);
+	reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.SET_PAYTM_ORDER_STATUS_SUCCESS);
+	reqIntent.putExtra(ConnectionService.URL, url);
+	reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+	reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.SET_PAYTM_ORDER_STATUS_SUCCESS);
 	m_context.startService(reqIntent);
 }
 

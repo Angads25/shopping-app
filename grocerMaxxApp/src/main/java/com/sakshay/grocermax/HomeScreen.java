@@ -517,4 +517,12 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
  * @see android.support.v4.app.FragmentActivity#onBackPressed()
  */
 
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+
+		bBack = true;
+	}
+
 }
