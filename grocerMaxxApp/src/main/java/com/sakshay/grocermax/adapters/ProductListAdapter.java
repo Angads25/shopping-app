@@ -126,6 +126,8 @@ public class ProductListAdapter extends BaseAdapter {
                     .findViewById(R.id.img_added_product_count);
             holder.iv_offer_image = (ImageView) convertView
                     .findViewById(R.id.offer_image);
+            holder.tvNoProducts = (TextView) convertView
+                    .findViewById(R.id.tv_no_products);
 
             convertView.setTag(holder);
         } else {
@@ -139,11 +141,11 @@ public class ProductListAdapter extends BaseAdapter {
         holder.prod_gram_or_ml.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 
         if (!obj.getName().equals("No product found for this category")) {
+            holder.tvNoProducts.setVisibility(View.GONE);
             holder.prod_name.setText(obj.getName());
             if (AppConstants.DEBUG) {
                 Log.d("", "PRICE WITHOUT DISSCOUNT::" + obj.getSalePrice());
             }
-
 
             holder.prod_brand.setText(obj.getBrand());
             holder.prod_gram_or_ml.setText(obj.getGramsORml());
@@ -169,10 +171,12 @@ public class ProductListAdapter extends BaseAdapter {
 
             Typeface font1 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
             Typeface font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Regular.ttf");
-            SpannableStringBuilder SS = new SpannableStringBuilder("`" + obj.getPrice().toString());
-            SS.setSpan(new CustomTypefaceSpan("", font1), 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            SS.setSpan(new CustomTypefaceSpan("", font2), 1, obj.getPrice().toString().length() - (obj.getPrice().toString().length() - 1), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-            holder.amount.setText(SS);
+            if(obj.getPrice().toString() != null) {
+                SpannableStringBuilder SS = new SpannableStringBuilder("`" + obj.getPrice().toString());
+                SS.setSpan(new CustomTypefaceSpan("", font1), 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                SS.setSpan(new CustomTypefaceSpan("", font2), 1, obj.getPrice().toString().length() - (obj.getPrice().toString().length() - 1), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                holder.amount.setText(SS);
+            }
 
 //		Typeface type = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
 //        holder.amount.setText("`"+obj.getPrice().toString());
@@ -187,12 +191,13 @@ public class ProductListAdapter extends BaseAdapter {
 
             font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Regular.ttf");
             font1 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
-            SS = new SpannableStringBuilder("`" + obj.getSalePrice().toString());
-            SS.setSpan(new CustomTypefaceSpan("", font1), 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            if(obj.getSalePrice().toString() != null) {
+                SpannableStringBuilder SS = new SpannableStringBuilder("`" + obj.getSalePrice().toString());
+                SS.setSpan(new CustomTypefaceSpan("", font1), 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 //        SS.setSpan (new CustomTypefaceSpan("", font2), 1, obj.getSalePrice().toString().length()-(obj.getSalePrice().toString().length()-1),Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-            SS.setSpan(new CustomTypefaceSpan("", font2), 1, obj.getSalePrice().toString().length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-            holder.sale_price.setText(SS);
-
+                SS.setSpan(new CustomTypefaceSpan("", font2), 1, obj.getSalePrice().toString().length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                holder.sale_price.setText(SS);
+            }
 
             holder.quantity.setText("1");
 
@@ -469,7 +474,8 @@ public class ProductListAdapter extends BaseAdapter {
             }
 
         } else {
-            holder.prod_name.setText(obj.getName());
+//            holder.prod_name.setText(obj.getName());
+            holder.prod_name.setVisibility(View.GONE);
             holder.prod_image.setVisibility(View.GONE);
             holder.sale_price.setVisibility(View.GONE);
 
@@ -488,6 +494,7 @@ public class ProductListAdapter extends BaseAdapter {
             holder.prod_brand.setVisibility(View.GONE);
 //			holder.prod_name.setVisibility(View.GONE);
             holder.prod_gram_or_ml.setVisibility(View.GONE);
+            holder.tvNoProducts.setVisibility(View.VISIBLE);
         }
 
 
@@ -507,6 +514,7 @@ public class ProductListAdapter extends BaseAdapter {
         ImageView prod_image, increase_quantity, decrease_quantity;
         ImageView iv_offer_image;
         TextView tvOffers;
+        TextView tvNoProducts;
         //		TextView prod_out_of_stock,tvMultiply;
         RelativeLayout rlOutofStock;
         TextView tvVerticalBar;

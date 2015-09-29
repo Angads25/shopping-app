@@ -154,8 +154,8 @@ public class PayTMActivity extends BaseActivity
 							+ strBankName + "=" + strMID + "=" + strPaymentMode + "=" + strRefundAmount + "=" + strTXNdate + "=" + strIsCheckSumValid + "===");
 
 //					finish();
-                    Toast.makeText(getApplicationContext(),"Sorry, Payment Failed",Toast.LENGTH_SHORT).show();
-                    showDialog();
+					UtilityMethods.customToast("Sorry, Payment Failed",mContext);
+					showDialog();
 					myApi.reqSetOrderStatus(UrlsConstants.SET_ORDER_STATUS + order_db_id);
 				}
 

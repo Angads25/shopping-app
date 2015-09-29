@@ -120,8 +120,6 @@ public class ConnectionService extends IntentService {
 				Log.i(TAG, "URL::" + urlString);
 			}
 			
-			
-			
 //			Bundle bun = intent.getExtras();
 //			System.out.println("===bundle===="+bun);
 //			if(bun != null){
