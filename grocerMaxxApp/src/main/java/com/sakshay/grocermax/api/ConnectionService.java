@@ -129,7 +129,6 @@ public class ConnectionService extends IntentService {
 //					System.out.println("===jsonObject 11s===="+jsonObject);
 //				}
 //			}
-		    
 			
 			if(intent.getSerializableExtra(JSON_OBJECT) != null){
 				jsonObject = (JSONObject)intent
@@ -144,6 +143,10 @@ public class ConnectionService extends IntentService {
 						.getSerializableExtra(PAIRS);
 				if (AppConstants.DEBUG) {
 					Log.i(TAG, "HASHMAP::" + mHashMap);
+//					String str1 = mHashMap.get("first");
+//					String str2 = mHashMap.get("second");
+//					String str3 = mHashMap.get("third");
+//					String str4 = mHashMap.get("fourth");
 				}
 			}
 			if (intent.getSerializableExtra(JSON_STRING) != null) {

@@ -53,6 +53,14 @@ public class MyApi {
 		reqIntent.putExtra(ConnectionService.PAIRS, valuePairs);
 		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "POST");
 		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.LOGIN);
+
+//		HashMap<String, String> mHashMap = new HashMap<String,String>();
+//		mHashMap.put("first","calues first");
+//		mHashMap.put("second","ealues second");
+//		mHashMap.put("third","talues third");
+//		mHashMap.put("fourth","yalues fourth");
+//		reqIntent.putExtra(ConnectionService.PAIRS, mHashMap);
+
 		m_context.startService(reqIntent);
 	}
 
