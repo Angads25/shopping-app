@@ -500,7 +500,9 @@ public class CartAdapter extends BaseAdapter{
 
 			OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 
-			float sub_totalPriceYouPay = Float.parseFloat(CartProductList.getInstance().tv_subTotal.getText().toString().replace("Rs.", "")) - totalDeltedPrice;
+//			float sub_totalPriceYouPay = Float.parseFloat(CartProductList.getInstance().tv_subTotal.getText().toString().replace("Rs.", "")) - totalDeltedPrice;
+			float sub_totalPriceYouPay = Float.parseFloat(CartProductList.getInstance().tv_grandTotal.getText().toString().replace("Rs.", "")) - totalDeltedPrice;    //new
+
 //	        if(totalPriceYouPay >= Float.parseFloat(orderReviewBean.getShipping_ammount())){
 			if(sub_totalPriceYouPay >= Float.parseFloat(CartProductList.strShippingChargeLimit)){
 				CartProductList.getInstance().tv_shipping.setText("Rs.0.0");
@@ -511,7 +513,8 @@ public class CartAdapter extends BaseAdapter{
 			}
 
 //		    CartProductList.getInstance().tv_grandTotal.setText("Rs."+String.valueOf(totalPriceYouPay));
-			CartProductList.getInstance().tv_subTotal.setText("Rs."+String.valueOf(sub_totalPriceYouPay));
+//			CartProductList.getInstance().tv_subTotal.setText("Rs."+String.valueOf(sub_totalPriceYouPay));
+			CartProductList.getInstance().tv_grandTotal.setText("Rs."+String.format("%.2f", sub_totalPriceYouPay));
 
 			int value1=Integer.parseInt(holder.tv_quantity.getText().toString());
 			CartProductList.getInstance().updateHeaderQuantity(String.valueOf(value1),"minus");
@@ -527,6 +530,8 @@ public class CartAdapter extends BaseAdapter{
 			if(String.valueOf(sub_totalPriceYouPay).equals("0") ||
 					String.valueOf(sub_totalPriceYouPay).equals("0.0") ||
 					String.valueOf(sub_totalPriceYouPay).equals("0.00")){
+				((CartProductList) activity).cart_count_txt.setText("0");          //all item remove but offers remain in clone cart.so manually put 0.
+				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf("0"));          //all item remove but offers remain in clone cart.so manually put 0.
 				((CartProductList) activity).finish();
 				if(MySharedPrefs.INSTANCE.getQuoteId() != null){
 					MySharedPrefs.INSTANCE.putQuoteId(null);
