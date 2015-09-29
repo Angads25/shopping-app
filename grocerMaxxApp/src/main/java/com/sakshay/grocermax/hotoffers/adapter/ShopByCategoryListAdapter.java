@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.ShopByCategoryModel;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
@@ -26,13 +28,12 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
 //        this.context = context;
         this.context = activity;
         this.fragment = fragment;
+        ((BaseActivity) activity).initImageLoaderM();
     }
 
     public void setListData(ArrayList<ShopByCategoryModel> data) {
 
         this.data = data;
-//        if(data!=null)
-//        adminReservationList.clear();
 
     }
 
@@ -41,13 +42,13 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
 
         ImageView imageView;
         TextView footer;
-        CardView parentLayout;
+//        CardView parentLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.title);
+            imageView = (ImageView) itemView.findViewById(R.id.img);
             footer = (TextView) itemView.findViewById(R.id.footer);
-            parentLayout = (CardView) itemView.findViewById(R.id.layoutParent);
+//            parentLayout = (CardView) itemView.findViewById(R.id.layoutParent);
 
         }
     }
@@ -61,13 +62,22 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        ImageLoader.getInstance().displayImage(data.get(position).getImages(),
+                holder.imageView, ((BaseActivity) context).baseImageoptions);
 
-        holder.footer.setText(data.get(position).getOffercount());
-        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+        holder.footer.setText("Offer " +data.get(position).getOffercount() +" >");
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 //fragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.explode));
+//                ((HotOffersActivity)context).hitForShopByCategory(data.get(position).getCategory_id());
+            }
+        });
+
+        holder.footer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 ((HotOffersActivity)context).hitForShopByCategory(data.get(position).getCategory_id());
             }
         });

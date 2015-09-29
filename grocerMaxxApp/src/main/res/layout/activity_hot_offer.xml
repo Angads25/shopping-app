@@ -14,8 +14,8 @@
         android:orientation="vertical">
 
         <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar_layout" />
+            android:id="@+id/header"
+            layout="@layout/mart_header" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,6 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:visibility="gone"
                 android:background="@drawable/border"
                 android:gravity="center_vertical"
                 android:padding="5dp">

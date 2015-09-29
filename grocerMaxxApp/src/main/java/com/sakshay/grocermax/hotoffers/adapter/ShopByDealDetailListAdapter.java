@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.OfferByDealTypeModel;
 import com.sakshay.grocermax.bean.OfferByDealTypeSubModel;
@@ -44,7 +46,7 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
         TextView footer;
         public ViewHolder(View itemView) {
             super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.title);
+            imageView = (ImageView) itemView.findViewById(R.id.img);
             parentLayout = (CardView) itemView.findViewById(R.id.layoutParent);
             footer = (TextView) itemView.findViewById(R.id.footer);
 
@@ -60,8 +62,10 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        ImageLoader.getInstance().displayImage(data.get(position).getDeal_image(),
+                holder.imageView, ((BaseActivity) context).baseImageoptions);
 
-        holder.footer.setText(data.get(position).getId());
+        holder.footer.setText(data.get(position).getTitle() + "");
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

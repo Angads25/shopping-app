@@ -31,11 +31,13 @@ import com.sakshay.grocermax.hotoffers.fragment.HomeFragment;
 import com.sakshay.grocermax.hotoffers.fragment.ItemDetailFragment;
 import com.sakshay.grocermax.hotoffers.fragment.ShopByDealItemDetailFragment;
 import com.sakshay.grocermax.utils.Constants;
+import com.sakshay.grocermax.utils.UrlsConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -70,18 +72,21 @@ public class HotOffersActivity extends BaseActivity {
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.show();
 
-        myApi.reqGetShopByCategories("http://dev.grocermax.com/webservice/new_services/shopbycategory");
-        myApi.reqGetShopByDeals("http://dev.grocermax.com/webservice/new_services/shopbydealtype");
+        myApi.reqGetShopByCategories(UrlsConstants.SHOP_BY_CATEGORY_TYPE);
+        myApi.reqGetShopByDeals(UrlsConstants.SHOP_BY_DEAL_TYPE);
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initHeader(findViewById(R.id.header), true, null);
+    }
 
     @Override
     public void OnResponse(Bundle bundle) {
 
         try {
-
-
             String action = bundle.getString("ACTION");
 
             if (action.equals(MyReceiverActions.GET_SHOP_BY_CATEGORIES) || action.equals(MyReceiverActions.GET_SHOP_BY_DEALS)) {
@@ -108,7 +113,7 @@ public class HotOffersActivity extends BaseActivity {
 
                 if (shopByCategoryBean != null && shopByDealsBean != null) {
                     HomeFragment fragment = new HomeFragment();
-
+                    dismissDialog();
                     android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 //                fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.frame, fragment);
@@ -120,12 +125,11 @@ public class HotOffersActivity extends BaseActivity {
                 }
             } else if (action.equals(MyReceiverActions.OFFER_BY_DEALTYPE)) {
 
-
+                dismissDialog();
                 System.out.println("RESPONSE OFFER" + bundle.getString("json"));
                 JSONObject jsonObject = new JSONObject(bundle.getString("json"));
                 Gson gson = new Gson();
                 offerByDealTypeBean = gson.fromJson(jsonObject.toString(), OfferByDealTypeBean.class);
-                System.out.println("RESPONSE OFFER" + offerByDealTypeBean.getDealcategorylisting().get("all").size());
                 ItemDetailFragment fragment = new ItemDetailFragment();
                 Bundle data = new Bundle();
                 data.putBoolean(Constants.SHOP_BY_DEAL, false);
@@ -133,13 +137,13 @@ public class HotOffersActivity extends BaseActivity {
                 fragment.setArguments(data);
                 changeFragment(fragment);
             } else if (action.equals(MyReceiverActions.DEAL_BY_DEALTYPE)) {
-
+                dismissDialog();
                 System.out.println("RESPONSE OFFER" + bundle.getString("json"));
                 JSONObject jsonObject = new JSONObject(bundle.getString("json"));
                 Gson gson = new Gson();
-                parseJson(jsonObject);
-//                dealByDealTypeBean = gson.fromJson(jsonObject.toString(), DealByDealTypeBean.class);
-                System.out.println("RESPONSE DEAL" + dealByDealTypeBean.getDealcategorylisting().get("all").size());
+//                parseJson(jsonObject);
+                dealByDealTypeBean = gson.fromJson(jsonObject.toString(), DealByDealTypeBean.class);
+//                System.out.println("RESPONSE DEAL" + dealByDealTypeBean.getDealcategorylisting().get("all").size());
                 ShopByDealItemDetailFragment fragment = new ShopByDealItemDetailFragment();
                 Bundle data = new Bundle();
                 data.putBoolean(Constants.SHOP_BY_DEAL, true);
@@ -170,67 +174,73 @@ public class HotOffersActivity extends BaseActivity {
     public void parseJson(JSONObject jsonObject) {
 
         try {
-
-//            "id": "322",
-//                    "category_id": "2483",
-//                    "dealName": "20% off on mangat ram dal",
-//                    "img": "b.jpg"
-            dealByDealTypeBean = new DealByDealTypeBean();
-            dealByDealTypeBean.setResult(jsonObject.getString("Result"));
-            JSONObject jsonDealCategory = jsonObject.getJSONObject("dealcategory");
-            JSONArray jsonCategoryArray = jsonDealCategory.getJSONArray("category");
-            ArrayList<OfferByDealTypeSubModel> arrayList = new ArrayList<>();
-            HashMap<String, ArrayList<OfferByDealTypeSubModel>> map = new HashMap<>();
-            for (int i = 0; i < jsonCategoryArray.length(); i++) {
-                JSONObject jsonObject1 = jsonCategoryArray.getJSONObject(i);
-                JSONArray jsonDeal = jsonObject1.getJSONArray("deals");
-                for (int j = 0; j < jsonDeal.length(); j++) {
-                    JSONObject jsonObject2 = jsonDeal.getJSONObject(j);
-                    OfferByDealTypeSubModel offerByDealTypeSubModel = new OfferByDealTypeSubModel();
-                    offerByDealTypeSubModel.setId(jsonObject2.getString("id"));
-                    offerByDealTypeSubModel.setCategory_id(jsonObject2.getString("category_id"));
-                    offerByDealTypeSubModel.setDealName(jsonObject2.getString("dealName"));
-                    offerByDealTypeSubModel.setImg(jsonObject2.getString("img"));
-                    arrayList.add(offerByDealTypeSubModel);
-                }
-
-
-            }
-            map.put("category", arrayList);
-
-            JSONArray jsonAllCategoryArray = jsonDealCategory.getJSONArray("all");
-            ArrayList<OfferByDealTypeSubModel> allArrayList = new ArrayList<>();
-            for (int i = 0; i < jsonAllCategoryArray.length(); i++) {
-                JSONObject jsonObject1 = jsonAllCategoryArray.getJSONObject(i);
-                OfferByDealTypeSubModel offerByDealTypeSubModel = new OfferByDealTypeSubModel();
-                offerByDealTypeSubModel.setId(jsonObject1.getString("id"));
-                offerByDealTypeSubModel.setCategory_id(jsonObject1.getString("category_id"));
-                offerByDealTypeSubModel.setDealName(jsonObject1.getString("dealName"));
-                offerByDealTypeSubModel.setImg(jsonObject1.getString("img"));
-                allArrayList.add(offerByDealTypeSubModel);
-
-            }
-            map.put("all", allArrayList);
-            dealByDealTypeBean.setDealcategorylisting(map);
-
-            dealByDealTypeBean.setFlag(jsonObject.getString("flag"));
-        } catch (JSONException e) {
+//
+////            "id": "322",
+////                    "category_id": "2483",
+////                    "dealName": "20% off on mangat ram dal",
+////                    "img": "b.jpg"
+//            dealByDealTypeBean = new DealByDealTypeBean();
+//            dealByDealTypeBean.setResult(jsonObject.getString("Result"));
+//            JSONObject jsonDealCategory = jsonObject.getJSONObject("dealcategory");
+//            JSONArray jsonCategoryArray = jsonDealCategory.getJSONArray("category");
+//            ArrayList<OfferByDealTypeSubModel> arrayList = new ArrayList<>();
+//            HashMap<String, ArrayList<OfferByDealTypeSubModel>> map = new HashMap<>();
+//            for (int i = 0; i < jsonCategoryArray.length(); i++) {
+//                JSONObject jsonObject1 = jsonCategoryArray.getJSONObject(i);
+//                JSONArray jsonDeal = jsonObject1.getJSONArray("deals");
+//                for (int j = 0; j < jsonDeal.length(); j++) {
+//                    JSONObject jsonObject2 = jsonDeal.getJSONObject(j);
+//                    OfferByDealTypeSubModel offerByDealTypeSubModel = new OfferByDealTypeSubModel();
+//                    offerByDealTypeSubModel.setId(jsonObject2.getString("id"));
+//                    offerByDealTypeSubModel.setCategory_id(jsonObject2.getString("category_id"));
+//                    offerByDealTypeSubModel.setDealName(jsonObject2.getString("dealName"));
+//                    offerByDealTypeSubModel.setImg(jsonObject2.getString("img"));
+//                    arrayList.add(offerByDealTypeSubModel);
+//                }
+//
+//
+//            }
+//            map.put("category", arrayList);
+//
+//            JSONArray jsonAllCategoryArray = jsonDealCategory.getJSONArray("all");
+//            ArrayList<OfferByDealTypeSubModel> allArrayList = new ArrayList<>();
+//            for (int i = 0; i < jsonAllCategoryArray.length(); i++) {
+//                JSONObject jsonObject1 = jsonAllCategoryArray.getJSONObject(i);
+//                OfferByDealTypeSubModel offerByDealTypeSubModel = new OfferByDealTypeSubModel();
+//                offerByDealTypeSubModel.setId(jsonObject1.getString("id"));
+//                offerByDealTypeSubModel.setCategory_id(jsonObject1.getString("category_id"));
+//                offerByDealTypeSubModel.setDealName(jsonObject1.getString("dealName"));
+//                offerByDealTypeSubModel.setImg(jsonObject1.getString("img"));
+//                allArrayList.add(offerByDealTypeSubModel);
+//
+//            }
+//            map.put("all", allArrayList);
+//            dealByDealTypeBean.setDealcategorylisting(map);
+//
+//            dealByDealTypeBean.setFlag(jsonObject.getString("flag"));
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void hitForShopByCategory(String categoryId) {
         addActionsInFilter(MyReceiverActions.OFFER_BY_DEALTYPE);
-        myApi.reqOfferByDealType("http://dev.grocermax.com/webservice/new_services/offerbydealtype?cat_id=?" + categoryId);
+        String url = UrlsConstants.OFFER_BY_DEAL_TYPE;
+        showDialog();
+        myApi.reqOfferByDealType(url + categoryId);
     }
 
     public void hitForShopByDeals(String dealId) {
         addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);
-        myApi.reqDealByDealType("http://dev.grocermax.com/webservice/new_services/dealsbydealtype?deal_type_id=?" + dealId);
+        showDialog();
+        String url = UrlsConstants.DEAL_BY_DEAL_TYPE;
+        myApi.reqDealByDealType(url+ dealId);
     }
     public void hitForDealsByDeals(String dealId) {
         addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
-        myApi.reqProductListingByDealType("http://dev.grocermax.com/webservice/new_services/dealproductlisting?deal_id=" + dealId);
+        String url = UrlsConstants.PRODUCTLISTING_BY_DEAL_TYPE;
+        showDialog();
+        myApi.reqProductListingByDealType(url + dealId);
     }
 
     public void changeFragment(Fragment fragment) {

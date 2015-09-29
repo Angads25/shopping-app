@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.OfferByDealTypeBean;
 import com.sakshay.grocermax.bean.OfferByDealTypeModel;
+import com.sakshay.grocermax.bean.OfferByDealTypeSubModel;
 import com.sakshay.grocermax.hotoffers.adapter.DetailListAdapter;
 import com.sakshay.grocermax.utils.Worker;
 import com.sakshay.grocermax.utils.onPageChange;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 public class ItemDetailGrid extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<String> arrayList = new ArrayList<>();
-    private ArrayList<OfferByDealTypeModel> offerList = new ArrayList<>();
+    private ArrayList<OfferByDealTypeSubModel> offerList = new ArrayList<>();
     private static Worker workr;
     private static Fragment frag;
 
@@ -39,7 +40,7 @@ public class ItemDetailGrid extends Fragment {
 
         new Worker().setHandlerListener(new onPageChange() {
             @Override
-            public void getonPageChanged(ArrayList<OfferByDealTypeModel> arrayList) {
+            public void getonPageChanged(ArrayList<OfferByDealTypeSubModel> arrayList) {
                 offerList = arrayList;
             }
         });
@@ -55,7 +56,7 @@ public class ItemDetailGrid extends Fragment {
         return view;
     }
 
-    public void setData(ArrayList<OfferByDealTypeModel> arrayList) {
+    public void setData(ArrayList<OfferByDealTypeSubModel> arrayList) {
         this.offerList = arrayList;
     }
 

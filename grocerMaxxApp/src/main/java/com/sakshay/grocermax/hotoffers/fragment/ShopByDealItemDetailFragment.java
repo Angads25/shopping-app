@@ -15,12 +15,14 @@ import com.sakshay.grocermax.bean.DealByDealTypeBean;
 import com.sakshay.grocermax.bean.DealByDealTypeModel;
 import com.sakshay.grocermax.bean.OfferByDealTypeBean;
 import com.sakshay.grocermax.bean.OfferByDealTypeModel;
+import com.sakshay.grocermax.bean.OfferByDealTypeSubModel;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.hotoffers.MyPagerSlidingTabStrip;
 import com.sakshay.grocermax.utils.Constants;
 import com.sakshay.grocermax.utils.Worker;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -31,7 +33,6 @@ public class ShopByDealItemDetailFragment extends Fragment {
     private static final int NUM_PAGES = 3;
     private String viewId;
     ViewPager viewPager;
-    String[] array = {"All", "Staples", "Frozen"};
     private List<String> keyList = new ArrayList<>();
     private ScreenSlidePagerAdapter mPagerAdapter;
     private MyPagerSlidingTabStrip tabs;
@@ -40,7 +41,8 @@ public class ShopByDealItemDetailFragment extends Fragment {
     private boolean is_shop_by_deal = false;
     private String key;
     Worker worker;
-//    private ItemDetailGrid itemDetailGrid;
+    ArrayList<OfferByDealTypeSubModel> allData ;
+    HashMap<String,ArrayList<OfferByDealTypeSubModel>> dealcategory;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,13 +54,43 @@ public class ShopByDealItemDetailFragment extends Fragment {
             is_shop_by_deal = data.getBoolean(Constants.SHOP_BY_DEAL);
             if (is_shop_by_deal) {
                 dealByDealTypeBean = (DealByDealTypeBean) data.getSerializable(Constants.DEAL_BY_DEAL);
-                if (dealByDealTypeBean.getDealcategorylisting().size() > 0) {
-                    for (String key : dealByDealTypeBean.getDealcategorylisting().keySet()) {
-                        keyList.add(key);
-                    }
+                dealcategory = new HashMap<>();
+                if(dealByDealTypeBean.getDealcategory().getAll().size()>0)
+                {
+                    keyList.add(" All ");
+                    dealcategory.put(" All ",dealByDealTypeBean.getDealcategory().getAll());
 
-                    //System.out.println("Response" + offerByDealTypeBean.getDealcategorylisting().keySet());
                 }
+                if(dealByDealTypeBean.getDealcategory().getCategory().size()>0)
+                {
+                    for (OfferByDealTypeSubModel dataValue : dealByDealTypeBean.getDealcategory().getCategory()) {
+                                keyList.add(dataValue.getName());
+                                dealcategory.put(dataValue.getName(),dataValue.getDeals());
+                            }
+                }
+
+//                if (dealByDealTypeBean.getDealcategorylisting().size() > 0) {
+//                    for (String key : dealByDealTypeBean.getDealcategorylisting().keySet()) {
+//                        if(key.equalsIgnoreCase("all"))
+//                        {
+//                            keyList.add(key);
+//                            dealcategory = new HashMap<>();
+//                            dealcategory.put(key,dealByDealTypeBean.getDealcategorylisting().get(key));
+//
+//                        }else if(key.equalsIgnoreCase("category"))
+//                        {
+//                        ArrayList<OfferByDealTypeSubModel> catDeals = new ArrayList<>();
+//
+//                            catDeals = dealByDealTypeBean.getDealcategorylisting().get(key);
+//                            for (OfferByDealTypeSubModel dataValue : catDeals) {
+//                                keyList.add(dataValue.getName());
+//                                dealcategory.put(dataValue.getName(),dataValue.getDeals());
+//                            }
+//                        }
+//                    }
+//
+//                    //System.out.println("Response" + offerByDealTypeBean.getDealcategorylisting().keySet());
+//                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,13 +142,13 @@ public class ShopByDealItemDetailFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             ShopByDealItemDetailGrid fragment = new ShopByDealItemDetailGrid();
-            fragment.setData(dealByDealTypeBean.getDealcategorylisting().get(keyList.get(position)));
+            fragment.setData(dealcategory.get(keyList.get(position)));
             return fragment;
         }
 
         @Override
         public int getCount() {
-            return dealByDealTypeBean.getDealcategorylisting().size();
+            return dealcategory.size();
         }
 
     }

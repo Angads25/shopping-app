@@ -1,6 +1,7 @@
 package com.sakshay.grocermax.utils;
 
 import com.sakshay.grocermax.bean.OfferByDealTypeModel;
+import com.sakshay.grocermax.bean.OfferByDealTypeSubModel;
 
 import java.util.ArrayList;
 
@@ -9,14 +10,14 @@ import java.util.ArrayList;
  */
 public class Worker {
 //    onPageChange callback;
-    ArrayList<OfferByDealTypeModel> arrayList = new ArrayList<>();
+    ArrayList<OfferByDealTypeSubModel> arrayList = new ArrayList<>();
 
     onPageChange myHandler;
     public void setHandlerListener(onPageChange listener)
     {
         myHandler=listener;
     }
-    public void myEventFired( ArrayList<OfferByDealTypeModel> arrayList)
+    public void myEventFired( ArrayList<OfferByDealTypeSubModel> arrayList)
     {
         if(myHandler!=null)
             myHandler.getonPageChanged(arrayList);

@@ -11,7 +11,9 @@ public class OfferByDealTypeBean implements Serializable {
 
 
     String Result,flag;
-    HashMap<String,ArrayList<OfferByDealTypeModel>> dealcategorylisting;
+//    HashMap<String,ArrayList<OfferByDealTypeModel>> dealcategorylisting;
+
+    private DealCategory dealcategorylisting;
 
     public String getResult() {
         return Result;
@@ -29,11 +31,19 @@ public class OfferByDealTypeBean implements Serializable {
         this.flag = flag;
     }
 
-    public HashMap<String, ArrayList<OfferByDealTypeModel>> getDealcategorylisting() {
+    public DealCategory getDealcategorylisting() {
         return dealcategorylisting;
     }
 
-    public void setDealcategorylisting(HashMap<String, ArrayList<OfferByDealTypeModel>> dealcategorylisting) {
+    public void setDealcategorylisting(DealCategory dealcategorylisting) {
         this.dealcategorylisting = dealcategorylisting;
     }
+
+    //    public HashMap<String, ArrayList<OfferByDealTypeModel>> getDealcategorylisting() {
+//        return dealcategorylisting;
+//    }
+//
+//    public void setDealcategorylisting(HashMap<String, ArrayList<OfferByDealTypeModel>> dealcategorylisting) {
+//        this.dealcategorylisting = dealcategorylisting;
+//    }
 }

@@ -1,9 +1,12 @@
 package com.sakshay.grocermax.bean;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 /**
  * Created by nawab.hussain on 9/24/2015.
  */
-public class OfferByDealTypeModel {
+public class OfferByDealTypeModel implements Serializable{
     String id;
 
     public String getId() {
@@ -32,4 +35,22 @@ public class OfferByDealTypeModel {
 
     String dealType;
     String img;
+    String image;
+ArrayList<OfferByDealTypeSubModel> deals;
+
+    public ArrayList<OfferByDealTypeSubModel> getDeals() {
+        return deals;
+    }
+
+    public void setDeals(ArrayList<OfferByDealTypeSubModel> deals) {
+        this.deals = deals;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 }
