@@ -2,7 +2,16 @@ package com.sakshay.grocermax;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BlurMaskFilter;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.EmbossMaskFilter;
+import android.graphics.Paint;
+import android.os.Build;
 import android.os.Bundle;
+import android.renderscript.Allocation;
+import android.renderscript.RenderScript;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -611,8 +620,6 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
             }
 
 
-
-
 //            ArrayList<String> alTime1111 = address_obj.getDate_timeAvailableSlot().get(date);
 //            if(alTime.size()>0){
 //                tvSelectedTime.setText(alTime.get(0));
@@ -633,56 +640,70 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                 if(alAvailable.get(0).equalsIgnoreCase("0")){
                     tvFirstSlotFull.setText("SLOT FULL");
                     tvFirstSlotFull.setVisibility(View.VISIBLE);
-                    tvFirstTime.setVisibility(View.INVISIBLE);
+//                    tvFirstTime.setVisibility(View.INVISIBLE);
                     tvFirstSlotFull.setTextColor(getResources().getColor(R.color.primaryColor));
+                    BlurMaskFilter.Blur style = BlurMaskFilter.Blur.NORMAL;
+                    applyFilter(tvFirstTime, style);
                     rlFirstTimeSlot.setEnabled(false);
                 }else{
                     tvFirstSlotFull.setText("");
                     tvFirstTime.setVisibility(View.VISIBLE);
                     tvFirstSlotFull.setVisibility(View.INVISIBLE);
                     tvFirstSlotFull.setTextColor(getResources().getColor(R.color.white));
+                    applyFilterVisible(tvFirstTime, new float[]{0f, -1f, 0.5f}, 0.8f, 15f, 1f);
                     rlFirstTimeSlot.setEnabled(true);
                 }
 
                 if(alAvailable.get(1).equalsIgnoreCase("0")){
                     tvSecondSlotFull.setText("SLOT FULL");
-                    tvSecondTime.setVisibility(View.INVISIBLE);
+//                    tvSecondTime.setVisibility(View.INVISIBLE);
                     tvSecondSlotFull.setVisibility(View.VISIBLE);
                     tvSecondSlotFull.setTextColor(getResources().getColor(R.color.primaryColor));
+                    BlurMaskFilter.Blur style = BlurMaskFilter.Blur.NORMAL;
+                    applyFilter(tvSecondTime, style);
                     rlSecondTimeSlot.setEnabled(false);
                 }else{
                     tvSecondSlotFull.setText("");
                     tvSecondSlotFull.setVisibility(View.INVISIBLE);
                     tvSecondTime.setVisibility(View.VISIBLE);
                     tvSecondSlotFull.setTextColor(getResources().getColor(R.color.white));
+                    applyFilterVisible(tvSecondTime, new float[] { 0f, -1f, 0.5f }, 0.8f, 15f, 1f);
                     rlSecondTimeSlot.setEnabled(true);
                 }
 
                 if(alAvailable.get(2).equalsIgnoreCase("0")){
                     tvThirdSlorFull.setText("SLOT FULL");
                     tvThirdSlorFull.setVisibility(View.VISIBLE);
-                    tvThirdTime.setVisibility(View.INVISIBLE);
+//                    tvThirdTime.setVisibility(View.INVISIBLE);
                     tvThirdSlorFull.setTextColor(getResources().getColor(R.color.primaryColor));
+                    BlurMaskFilter.Blur style = BlurMaskFilter.Blur.NORMAL;
+                    applyFilter(tvThirdTime, style);
                     rlThirdTimeSlot.setEnabled(false);
                 }else{
                     tvThirdSlorFull.setText("");
                     tvThirdSlorFull.setVisibility(View.INVISIBLE);
                     tvThirdTime.setVisibility(View.VISIBLE);
                     tvThirdSlorFull.setTextColor(getResources().getColor(R.color.white));
+                    applyFilterVisible(tvThirdTime, new float[] { 0f, -1f, 0.5f }, 0.8f, 15f, 1f);
                     rlThirdTimeSlot.setEnabled(true);
                 }
 
                 if(alAvailable.get(3).equalsIgnoreCase("0")){
                     tvFourthSlotFull.setText("SLOT FULL");
                     tvFourthSlotFull.setVisibility(View.VISIBLE);
-                    tvFourthTime.setVisibility(View.INVISIBLE);
+//                    tvFourthTime.setVisibility(View.INVISIBLE);
+//                    int alpha = 255;
+//                    tvFourthSlotFull.setTextColor(Color.argb(alpha, 0, 0, 0));
                     tvFourthSlotFull.setTextColor(getResources().getColor(R.color.primaryColor));
+                    BlurMaskFilter.Blur style = BlurMaskFilter.Blur.NORMAL;
+                    applyFilter(tvFourthTime, style);
                     rlFourthTimeSlot.setEnabled(false);
                 }else{
                     tvFourthSlotFull.setText("");
                     tvFourthSlotFull.setVisibility(View.INVISIBLE);
                     tvFourthTime.setVisibility(View.VISIBLE);
                     tvFourthSlotFull.setTextColor(getResources().getColor(R.color.white));
+                    applyFilterVisible(tvFourthTime, new float[] { 0f, -1f, 0.5f }, 0.8f, 15f, 1f);
                     rlFourthTimeSlot.setEnabled(true);
                 }
 
@@ -785,6 +806,39 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
         }
     }
 
+    private void applyFilter(TextView textView, BlurMaskFilter.Blur style) {
+        if (Build.VERSION.SDK_INT >= 11) {
+            textView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+//        textView.setText(style.name());
+//        textView.setText("SLOT FULL");
+        float radius = textView.getTextSize() / 10;
+        BlurMaskFilter filter = new BlurMaskFilter(radius, style);
+        textView.getPaint().setMaskFilter(filter);
+    }
+
+    private void applyFilterVisible(
+            TextView textView, float[] direction, float ambient,
+            float specular, float blurRadius) {
+        if (Build.VERSION.SDK_INT >= 11) {
+            textView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+        EmbossMaskFilter filter = new EmbossMaskFilter(
+                direction, ambient, specular, blurRadius);
+        textView.getPaint().setMaskFilter(filter);
+    }
+
+//    private void applyFilterVisible(TextView textView, BlurMaskFilter.Blur style) {
+//        if (Build.VERSION.SDK_INT >= 11) {
+//            textView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+//        }
+////        textView.setText(style.name());
+////        textView.setText("SLOT FULL");
+////        float radius = textView.getTextSize() / 10;
+//        float radius = 0;
+//        BlurMaskFilter filter = new BlurMaskFilter(radius, style);
+//        textView.getPaint().setMaskFilter(filter);
+//    }
 
 //	private void callreviewOrderApi()
 //	{

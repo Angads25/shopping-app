@@ -60,8 +60,8 @@
 
                 <ImageView
                     android:id="@+id/cancel_image"
-                    android:layout_width="30dp"
-                    android:layout_height="35dp"
+                    android:layout_width="23dp"
+                    android:layout_height="27dp"
                     android:src="@drawable/delete_icon" />
 
             </LinearLayout>
