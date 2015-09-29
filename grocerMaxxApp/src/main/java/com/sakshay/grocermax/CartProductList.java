@@ -668,6 +668,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 //				myApi.reqEditCart(url,MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
 				myApi.reqEditCart(url);
 			}
+
 //			String	url = UrlsConstants.UPDATE_CART_URL
 //						+ MySharedPrefs.INSTANCE.getUserId() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
 //						+ URLEncoder.encode(products.toString(), "UTF-8");

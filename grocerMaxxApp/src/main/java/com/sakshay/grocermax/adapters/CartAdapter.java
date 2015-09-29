@@ -527,8 +527,10 @@ public class CartAdapter extends BaseAdapter{
 			if(String.valueOf(sub_totalPriceYouPay).equals("0") ||
 					String.valueOf(sub_totalPriceYouPay).equals("0.0") ||
 					String.valueOf(sub_totalPriceYouPay).equals("0.00")){
-				((CartProductList) activity).finish();;
-//				CartProductList.getInstance().finish();
+				((CartProductList) activity).finish();
+				if(MySharedPrefs.INSTANCE.getQuoteId() != null){
+					MySharedPrefs.INSTANCE.putQuoteId(null);
+				}
 			}
 
 		}else{
