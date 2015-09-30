@@ -329,6 +329,15 @@ public void reqProductListingByDealType(String url) {
 		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.VIEW_CART);
 		m_context.startService(reqIntent);
 	}
+
+    public void reqGetHomePageBanner(String url) {
+        Intent reqIntent = new Intent(m_context, ConnectionService.class);
+        reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.GET_BANNER);
+        reqIntent.putExtra(ConnectionService.URL, url);
+        reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+        reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.HOME_BANNER);
+        m_context.startService(reqIntent);
+    }
 	
 //	public void reqEditCart(String url) {
 //		Intent reqIntent = new Intent(m_context, ConnectionService.class);

@@ -194,6 +194,8 @@ public class UrlsConstants {
 
     public final static String SHOP_BY_CATEGORY_TYPE = NEW_BASE_URL + "shopbycategory";
 
+    public final static String GET_BANNER = NEW_BASE_URL + "homebanner";
+
 
 }
 

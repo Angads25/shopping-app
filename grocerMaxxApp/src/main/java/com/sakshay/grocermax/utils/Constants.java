@@ -47,6 +47,7 @@ public class Constants {
 
 	public static final String SHOP_BY_CATEGORY_MODEL = "shopbycategorymodel";
 	public static final String SHOP_BY_DEALS_MODEL = "shopbydealsmodel";
+    public static final String HOME_BANNER = "homeBannermodel";
 	public static final String OFFER_BY_DEAL = "offerbydeal";
 	public static final String DEAL_BY_DEAL = "dealbydeal";
 	public static final String PRODUCTLIST = "productList";

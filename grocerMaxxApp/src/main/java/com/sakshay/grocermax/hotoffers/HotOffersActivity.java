@@ -21,6 +21,7 @@ import com.sakshay.grocermax.api.MyApi;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.DealByDealTypeBean;
 import com.sakshay.grocermax.bean.DealProductListingBean;
+import com.sakshay.grocermax.bean.HomeBannerBean;
 import com.sakshay.grocermax.bean.OfferByDealTypeBean;
 import com.sakshay.grocermax.bean.OfferByDealTypeModel;
 import com.sakshay.grocermax.bean.OfferByDealTypeSubModel;
@@ -48,12 +49,14 @@ public class HotOffersActivity extends BaseActivity {
     public ShopByCategoryBean shopByCategoryBean;
     public OfferByDealTypeBean offerByDealTypeBean;
     public DealByDealTypeBean dealByDealTypeBean;
+    public HomeBannerBean homeBannerBean;
     private ImageView menuIcon;
     private android.support.v4.app.FragmentTransaction fragmentTransaction;
     private ArrayList<OfferByDealTypeModel> arrayList;
     private ShopByDealsBean shopByDealsBean;
     private DealProductListingBean dealProductListingBean;
     private ProgressDialog progress;
+    private String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,7 @@ public class HotOffersActivity extends BaseActivity {
         setContentView(R.layout.activity_hot_offer);
         addActionsInFilter(MyReceiverActions.GET_SHOP_BY_CATEGORIES);
         addActionsInFilter(MyReceiverActions.GET_SHOP_BY_DEALS);
+        addActionsInFilter(MyReceiverActions.GET_BANNER);
         menuIcon = (ImageView) findViewById(R.id.menuIcon);
 
         progress = new ProgressDialog(this);
@@ -74,6 +78,7 @@ public class HotOffersActivity extends BaseActivity {
 
         myApi.reqGetShopByCategories(UrlsConstants.SHOP_BY_CATEGORY_TYPE);
         myApi.reqGetShopByDeals(UrlsConstants.SHOP_BY_DEAL_TYPE);
+        myApi.reqGetHomePageBanner(UrlsConstants.GET_BANNER);
 
     }
 
@@ -89,7 +94,7 @@ public class HotOffersActivity extends BaseActivity {
         try {
             String action = bundle.getString("ACTION");
 
-            if (action.equals(MyReceiverActions.GET_SHOP_BY_CATEGORIES) || action.equals(MyReceiverActions.GET_SHOP_BY_DEALS)) {
+            if (action.equals(MyReceiverActions.GET_SHOP_BY_CATEGORIES) || action.equals(MyReceiverActions.GET_SHOP_BY_DEALS) || action.equals(MyReceiverActions.GET_BANNER)) {
                 if (action.equals(MyReceiverActions.GET_SHOP_BY_CATEGORIES)) {
 
                     System.out.println("RESPONSE" + bundle.getString("json"));
@@ -109,9 +114,15 @@ public class HotOffersActivity extends BaseActivity {
 
                     System.out.println("RESPONSE MODEL" + shopByDealsBean.getResult());
                     System.out.println("RESPONSE MODEL" + shopByDealsBean.getArrayList().size());
+                }else if(action.equals(MyReceiverActions.GET_BANNER))
+                {
+                    System.out.println("RESPONSE" + bundle.getString("json"));
+                    JSONObject jsonObject = new JSONObject(bundle.getString("json"));
+                    Gson gson = new Gson();
+                    homeBannerBean = gson.fromJson(jsonObject.toString(), HomeBannerBean.class);
                 }
 
-                if (shopByCategoryBean != null && shopByDealsBean != null) {
+                if (shopByCategoryBean != null && shopByDealsBean != null && homeBannerBean != null) {
                     HomeFragment fragment = new HomeFragment();
                     dismissDialog();
                     android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -120,6 +131,7 @@ public class HotOffersActivity extends BaseActivity {
                     Bundle data = new Bundle();
                     data.putSerializable(Constants.SHOP_BY_CATEGORY_MODEL, shopByCategoryBean);
                     data.putSerializable(Constants.SHOP_BY_DEALS_MODEL, shopByDealsBean);
+                    data.putSerializable(Constants.HOME_BANNER , homeBannerBean);
                     fragment.setArguments(data);
                     fragmentTransaction.commit();
                 }
@@ -171,58 +183,6 @@ public class HotOffersActivity extends BaseActivity {
         progress.dismiss();
     }
 
-    public void parseJson(JSONObject jsonObject) {
-
-        try {
-//
-////            "id": "322",
-////                    "category_id": "2483",
-////                    "dealName": "20% off on mangat ram dal",
-////                    "img": "b.jpg"
-//            dealByDealTypeBean = new DealByDealTypeBean();
-//            dealByDealTypeBean.setResult(jsonObject.getString("Result"));
-//            JSONObject jsonDealCategory = jsonObject.getJSONObject("dealcategory");
-//            JSONArray jsonCategoryArray = jsonDealCategory.getJSONArray("category");
-//            ArrayList<OfferByDealTypeSubModel> arrayList = new ArrayList<>();
-//            HashMap<String, ArrayList<OfferByDealTypeSubModel>> map = new HashMap<>();
-//            for (int i = 0; i < jsonCategoryArray.length(); i++) {
-//                JSONObject jsonObject1 = jsonCategoryArray.getJSONObject(i);
-//                JSONArray jsonDeal = jsonObject1.getJSONArray("deals");
-//                for (int j = 0; j < jsonDeal.length(); j++) {
-//                    JSONObject jsonObject2 = jsonDeal.getJSONObject(j);
-//                    OfferByDealTypeSubModel offerByDealTypeSubModel = new OfferByDealTypeSubModel();
-//                    offerByDealTypeSubModel.setId(jsonObject2.getString("id"));
-//                    offerByDealTypeSubModel.setCategory_id(jsonObject2.getString("category_id"));
-//                    offerByDealTypeSubModel.setDealName(jsonObject2.getString("dealName"));
-//                    offerByDealTypeSubModel.setImg(jsonObject2.getString("img"));
-//                    arrayList.add(offerByDealTypeSubModel);
-//                }
-//
-//
-//            }
-//            map.put("category", arrayList);
-//
-//            JSONArray jsonAllCategoryArray = jsonDealCategory.getJSONArray("all");
-//            ArrayList<OfferByDealTypeSubModel> allArrayList = new ArrayList<>();
-//            for (int i = 0; i < jsonAllCategoryArray.length(); i++) {
-//                JSONObject jsonObject1 = jsonAllCategoryArray.getJSONObject(i);
-//                OfferByDealTypeSubModel offerByDealTypeSubModel = new OfferByDealTypeSubModel();
-//                offerByDealTypeSubModel.setId(jsonObject1.getString("id"));
-//                offerByDealTypeSubModel.setCategory_id(jsonObject1.getString("category_id"));
-//                offerByDealTypeSubModel.setDealName(jsonObject1.getString("dealName"));
-//                offerByDealTypeSubModel.setImg(jsonObject1.getString("img"));
-//                allArrayList.add(offerByDealTypeSubModel);
-//
-//            }
-//            map.put("all", allArrayList);
-//            dealByDealTypeBean.setDealcategorylisting(map);
-//
-//            dealByDealTypeBean.setFlag(jsonObject.getString("flag"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public void hitForShopByCategory(String categoryId) {
         addActionsInFilter(MyReceiverActions.OFFER_BY_DEALTYPE);
         String url = UrlsConstants.OFFER_BY_DEAL_TYPE;
@@ -261,6 +221,17 @@ public class HotOffersActivity extends BaseActivity {
 
     public void setOfferData(ArrayList<OfferByDealTypeModel> arrayList) {
         this.arrayList = arrayList;
+    }
+
+
+    public void setData(String url)
+    {
+        this.url = url;
+    }
+
+    public String getData()
+    {
+        return url;
     }
 
     @Override

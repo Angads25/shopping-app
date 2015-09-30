@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sakshay.grocermax.R;
+import com.sakshay.grocermax.bean.HomeBannerBean;
 import com.sakshay.grocermax.bean.ShopByCategoryBean;
 import com.sakshay.grocermax.bean.ShopByDealsBean;
 import com.sakshay.grocermax.hotoffers.adapter.ShopByCategoryListAdapter;
@@ -32,16 +33,17 @@ public class HomeFragment extends Fragment {
 
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
-
+    private  HomeBannerBean homeBannerBean;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        addArrayData();
         Bundle bundle = this.getArguments();
         ShopByCategoryBean shopByCategoryBean = (ShopByCategoryBean) bundle.get(Constants.SHOP_BY_CATEGORY_MODEL);
         ShopByDealsBean shopByDealsBean = (ShopByDealsBean) bundle.get(Constants.SHOP_BY_DEALS_MODEL);
-        try {
+        homeBannerBean = (HomeBannerBean) bundle.get(Constants.HOME_BANNER);
 
+        try {
+            System.out.println("RESPONSE HOME" + homeBannerBean.getBanner().size());
             System.out.println("RESPONSE HOME" + shopByCategoryBean.getArrayList().size());
             System.out.println("RESPONSE HOME" + shopByDealsBean.getArrayList().size());
         } catch (Exception e) {
@@ -81,40 +83,15 @@ public class HomeFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            return new BannerFragment();
+            BannerFragment bannerFragment = new BannerFragment();
+            bannerFragment.setData(homeBannerBean.getBanner().get(position).getImageurl());
+            return bannerFragment;
         }
 
         @Override
         public int getCount() {
-            return NUM_PAGES;
+            return homeBannerBean.getBanner().size();
         }
     }
 
-    private void addArrayData() {
-
-        arrayList.add("Brightness");
-        arrayList.add("Contrast");
-        arrayList.add("Autofix");
-        arrayList.add("Black & White");
-        arrayList.add("Flip Vertical");
-        arrayList.add("Flip Horizontal");
-        arrayList.add("Fish Eye");
-        arrayList.add("Documentary");
-        arrayList.add("Tint");
-        arrayList.add("Vignette");
-        arrayList.add("Sharpen");
-        arrayList.add("Sepia");
-        arrayList.add("Temperature");
-        arrayList.add("Saturate");
-        arrayList.add("Rotate");
-        arrayList.add("Posterize");
-        arrayList.add("Negative");
-        arrayList.add("Lomoish");
-        arrayList.add("Grayscale");
-        arrayList.add("Grain");
-        arrayList.add("Negative");
-        arrayList.add("Fill Light");
-        arrayList.add("Duotone");
-        arrayList.add("Crossprocess");
-    }
 }

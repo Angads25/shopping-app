@@ -88,4 +88,7 @@ public interface MyReceiverActions {
     String LOCATION = PKG_NAME + ".location";                                //carrying store location URLS and id's
 
     String OTP = PKG_NAME + ".otp";
+
+    String GET_BANNER = PKG_NAME + ".get_banner";
+
 }
