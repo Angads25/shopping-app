@@ -418,12 +418,16 @@ public abstract class BaseActivity extends FragmentActivity {
 			icon_header_search.setVisibility(View.VISIBLE);
 			llSearchLayout.setVisibility(View.GONE);
 			edtSearch.getText().clear();
-//			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//			imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+			if(bBack){}
+			else if(!bBack) {
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+			}
 		}
 		}catch(Exception e) {
 			new GrocermaxBaseException("BaseActivity", "showSearchView", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
+		bBack = false;
 		// UtilityMethods.hideKeyboard(BaseActivity.this);
 		//UtilityMethods.hideKeyboardFromContext(BaseActivity.this);
 

@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -516,13 +518,5 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 	/* (non-Javadoc)
  * @see android.support.v4.app.FragmentActivity#onBackPressed()
  */
-
-
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-
-		bBack = true;
-	}
 
 }
