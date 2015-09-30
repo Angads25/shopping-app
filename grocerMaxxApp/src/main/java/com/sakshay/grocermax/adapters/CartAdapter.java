@@ -7,12 +7,14 @@ import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.hardware.Camera.Size;
+import android.os.Build;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -238,8 +240,24 @@ public class CartAdapter extends BaseAdapter{
 		holder.increase_quantity.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(BaseActivity.keyboardVisibility)
-					UtilityMethods.hideKeyBoard(activity);
+
+//				if(BaseActivity.keyboardVisibility)
+//					UtilityMethods.hideKeyBoard(activity);
+				InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+				if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+					BaseActivity.keyboardVisibility = true;
+				} else {
+					BaseActivity.keyboardVisibility = false;
+				}
+				if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+					if (!BaseActivity.keyboardVisibility)
+						imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+
+				} else {
+					if (BaseActivity.keyboardVisibility)
+						imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+				}
+
 				if(UtilityMethods.isInternetAvailable(activity)){
 					if(CartProductList.getInstance().place_order != null && CartProductList.getInstance().update_cart != null) {
 						CartProductList.getInstance().place_order.setVisibility(View.GONE);
@@ -309,8 +327,24 @@ public class CartAdapter extends BaseAdapter{
 			@Override
 			public void onClick(View v) {
 				positionIndex = position;                                             //latest
-				if(BaseActivity.keyboardVisibility)
-					UtilityMethods.hideKeyBoard(activity);
+//				if(BaseActivity.keyboardVisibility)
+//					UtilityMethods.hideKeyBoard(activity);
+
+				InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+				if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+					BaseActivity.keyboardVisibility = true;
+				} else {
+					BaseActivity.keyboardVisibility = false;
+				}
+				if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+					if (!BaseActivity.keyboardVisibility)
+						imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+
+				} else {
+					if (BaseActivity.keyboardVisibility)
+						imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+				}
+
 				if(UtilityMethods.isInternetAvailable(activity)){
 					if(CartProductList.getInstance().place_order != null && CartProductList.getInstance().update_cart != null) {
 						CartProductList.getInstance().place_order.setVisibility(View.GONE);
@@ -466,7 +500,9 @@ public class CartAdapter extends BaseAdapter{
 
 			OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 
-			float sub_totalPriceYouPay = Float.parseFloat(CartProductList.getInstance().tv_subTotal.getText().toString().replace("Rs.", "")) - totalDeltedPrice;
+//			float sub_totalPriceYouPay = Float.parseFloat(CartProductList.getInstance().tv_subTotal.getText().toString().replace("Rs.", "")) - totalDeltedPrice;
+			float sub_totalPriceYouPay = Float.parseFloat(CartProductList.getInstance().tv_grandTotal.getText().toString().replace("Rs.", "")) - totalDeltedPrice;    //new
+
 //	        if(totalPriceYouPay >= Float.parseFloat(orderReviewBean.getShipping_ammount())){
 			if(sub_totalPriceYouPay >= Float.parseFloat(CartProductList.strShippingChargeLimit)){
 				CartProductList.getInstance().tv_shipping.setText("Rs.0.0");
@@ -477,7 +513,8 @@ public class CartAdapter extends BaseAdapter{
 			}
 
 //		    CartProductList.getInstance().tv_grandTotal.setText("Rs."+String.valueOf(totalPriceYouPay));
-			CartProductList.getInstance().tv_subTotal.setText("Rs."+String.valueOf(sub_totalPriceYouPay));
+//			CartProductList.getInstance().tv_subTotal.setText("Rs."+String.valueOf(sub_totalPriceYouPay));
+			CartProductList.getInstance().tv_grandTotal.setText("Rs."+String.format("%.2f", sub_totalPriceYouPay));
 
 			int value1=Integer.parseInt(holder.tv_quantity.getText().toString());
 			CartProductList.getInstance().updateHeaderQuantity(String.valueOf(value1),"minus");
@@ -493,8 +530,12 @@ public class CartAdapter extends BaseAdapter{
 			if(String.valueOf(sub_totalPriceYouPay).equals("0") ||
 					String.valueOf(sub_totalPriceYouPay).equals("0.0") ||
 					String.valueOf(sub_totalPriceYouPay).equals("0.00")){
-				((CartProductList) activity).finish();;
-//				CartProductList.getInstance().finish();
+				((CartProductList) activity).cart_count_txt.setText("0");          //all item remove but offers remain in clone cart.so manually put 0.
+				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf("0"));          //all item remove but offers remain in clone cart.so manually put 0.
+				((CartProductList) activity).finish();
+				if(MySharedPrefs.INSTANCE.getQuoteId() != null){
+					MySharedPrefs.INSTANCE.putQuoteId(null);
+				}
 			}
 
 		}else{

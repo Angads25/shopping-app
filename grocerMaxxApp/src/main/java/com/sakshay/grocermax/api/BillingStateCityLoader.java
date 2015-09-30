@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 
+import com.sakshay.grocermax.AddressDetail;
 import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.BillingAddress;
 import com.sakshay.grocermax.CreateNewAddress;
 import com.sakshay.grocermax.SearchTabs;
+import com.sakshay.grocermax.ShippingAddress;
 import com.sakshay.grocermax.bean.Address;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.utils.MyHttpUtils;
@@ -38,7 +40,8 @@ public class BillingStateCityLoader extends AsyncTask<String, String, String> {
     Address address;
     String billing;
     String editIndex;
-    public static ArrayList<String> alState = null;                //getting state for billing address
+    public static ArrayList<String> alState = null;                //getting state name for billing address
+    public static ArrayList<String> alStateId = null;                //getting state id for billing address
     public BillingStateCityLoader(Context context,Address address,String billing,String editIndex){
         this.context = context;
         this.address = address;
@@ -50,7 +53,13 @@ public class BillingStateCityLoader extends AsyncTask<String, String, String> {
     protected void onPreExecute() {
         super.onPreExecute();
         alState = new ArrayList<String>();
-        ((BillingAddress)context).showDialog();
+        alStateId = new ArrayList<String>();
+        if(billing.equalsIgnoreCase("profilenewaddressbilling"))        //edit in billing address from My Profile
+        {
+            ((AddressDetail)context).showDialog();
+        }else{
+            ((BillingAddress)context).showDialog();
+        }
     }
 
     @Override
@@ -71,14 +80,29 @@ public class BillingStateCityLoader extends AsyncTask<String, String, String> {
             HttpEntity resEntity = response.getEntity();
             return EntityUtils.toString(resEntity);
         } catch (ClientProtocolException e) {
-            ((BaseActivity)context).dismissDialog();
+            if(billing.equalsIgnoreCase("profilenewaddressbilling"))        //edit in billing address from My Profile
+            {
+                ((AddressDetail)context).showDialog();
+            }else{
+                ((BillingAddress)context).showDialog();
+            }
             new GrocermaxBaseException("BillingStateCityLoader","doInBackground",e.getMessage(),GrocermaxBaseException.CLIENT_PROTOCOL_EXCEPTION,strResult);
         } catch (IOException e) {
-            ((BaseActivity)context).dismissDialog();
+            if(billing.equalsIgnoreCase("profilenewaddressbilling"))        //edit in billing address from My Profile
+            {
+                ((AddressDetail)context).showDialog();
+            }else{
+                ((BillingAddress)context).showDialog();
+            }
             new GrocermaxBaseException("BillingStateCityLoader","doInBackground",e.getMessage(),GrocermaxBaseException.IO_EXCEPTION,strResult);
         }
         catch (Exception e){
-            ((BaseActivity)context).dismissDialog();
+            if(billing.equalsIgnoreCase("profilenewaddressbilling"))        //edit in billing address from My Profile
+            {
+                ((AddressDetail)context).showDialog();
+            }else{
+                ((BillingAddress)context).showDialog();
+            }
             new GrocermaxBaseException("BillingStateCityLoader","doInBackground",e.getMessage(),GrocermaxBaseException.EXCEPTION,strResult);
         }
         return null;
@@ -86,7 +110,12 @@ public class BillingStateCityLoader extends AsyncTask<String, String, String> {
 
     protected void onPostExecute(String result) {
         try{
-            ((BillingAddress)context).dismissDialog();
+            if(billing.equalsIgnoreCase("profilenewaddressbilling"))        //edit in billing address from My Profile
+            {
+                ((AddressDetail)context).dismissDialog();
+            }else{
+                ((BillingAddress)context).dismissDialog();
+            }
             System.out.print("==Result=="+result);
             JSONObject jsonObject = new JSONObject(result);
 
@@ -95,21 +124,34 @@ public class BillingStateCityLoader extends AsyncTask<String, String, String> {
 
             for(int i=0;i<jsonArray.length();i++){
                 String strState = jsonArray.getJSONObject(i).getString("default_name");             //state name
+                String strStateId = jsonArray.getJSONObject(i).getString("region_id");             //state id
                 alState.add(strState);
+                alStateId.add(strStateId);
             }
 
-            if(alState.size() > 0) {
-                if(address == null){                         //adding new address
-                    Intent intent = new Intent(context, CreateNewAddress.class);
-                    intent.putExtra("shippingorbillingaddress", billing);
-                    intent.putExtra("editindex", "-1");                                    //means adding the address not editing.
-                    ((BillingAddress) context).startActivityForResult(intent, BillingAddress.requestNewAddress);
-                }else{                                      //editing in existing address
+            if(billing.equalsIgnoreCase("profilenewaddressbilling")){
+                if(alStateId.size() > 0) {                                                        //editing the billing address from MyProfile
                     Intent intent = new Intent(context, CreateNewAddress.class);
                     intent.putExtra("address", address);
                     intent.putExtra("shippingorbillingaddress", billing);
                     intent.putExtra("editindex", editIndex);                                    //means editing the address not adding.
-                    ((BillingAddress) context).startActivityForResult(intent, BillingAddress.requestNewAddress);
+                    ((AddressDetail) context).startActivityForResult(intent, AddressDetail.requestNewAddress);
+                }
+            }
+            else{
+                if(alStateId.size() > 0) {
+                    if(address == null){                         //adding new address
+                        Intent intent = new Intent(context, CreateNewAddress.class);
+                        intent.putExtra("shippingorbillingaddress", billing);
+                        intent.putExtra("editindex", "-1");                                    //means adding the address not editing.
+                        ((BillingAddress) context).startActivityForResult(intent, BillingAddress.requestNewAddress);
+                    }else{                                      //editing in existing address
+                        Intent intent = new Intent(context, CreateNewAddress.class);
+                        intent.putExtra("address", address);
+                        intent.putExtra("shippingorbillingaddress", billing);
+                        intent.putExtra("editindex", editIndex);                                    //means editing the address not adding.
+                        ((BillingAddress) context).startActivityForResult(intent, BillingAddress.requestNewAddress);
+                    }
                 }
             }
 
@@ -123,13 +165,28 @@ public class BillingStateCityLoader extends AsyncTask<String, String, String> {
 //            }
 
         }catch(JSONException e){
-            ((BaseActivity)context).dismissDialog();
+            if(billing.equalsIgnoreCase("profilenewaddressbilling"))        //edit in billing address from My Profile
+            {
+                ((AddressDetail)context).showDialog();
+            }else{
+                ((BillingAddress)context).showDialog();
+            }
             new GrocermaxBaseException("BillingStateCityLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.JSON_EXCEPTION,result);
         }catch (NullPointerException e){
-            ((BaseActivity)context).dismissDialog();
+            if(billing.equalsIgnoreCase("profilenewaddressbilling"))        //edit in billing address from My Profile
+            {
+                ((AddressDetail)context).showDialog();
+            }else{
+                ((BillingAddress)context).showDialog();
+            }
             new GrocermaxBaseException("BillingStateCityLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.NULL_POINTER,result);
         }catch (Exception e){
-            ((BaseActivity)context).dismissDialog();
+            if(billing.equalsIgnoreCase("profilenewaddressbilling"))        //edit in billing address from My Profile
+            {
+                ((AddressDetail)context).showDialog();
+            }else{
+                ((BillingAddress)context).showDialog();
+            }
             new GrocermaxBaseException("BillingStateCityLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.EXCEPTION,result);
         }
     }

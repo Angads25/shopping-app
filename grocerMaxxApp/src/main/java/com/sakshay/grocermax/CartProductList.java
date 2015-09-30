@@ -165,9 +165,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				initFooter(findViewById(R.id.footer), 1, -1);
 			}
 			icon_header_cart.setClickable(false);
-			icon_header_cart.setEnabled(false);
 			cart_count_txt.setClickable(false);
-			cart_count_txt.setEnabled(false);
 		}catch(Exception e){
 			new GrocermaxBaseException("CartProductList", "onCreate", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
@@ -327,7 +325,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		try{
 		if(qty>0)
 		{
-			try {
 				JSONArray products = new JSONArray();
 				JSONObject prod_obj = new JSONObject();
 				prod_obj.put("productid", item_id);
@@ -339,11 +336,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 						+ MySharedPrefs.INSTANCE.getUserId() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
 						+ URLEncoder.encode(products.toString(), "UTF-8");
 				myApi.reqViewCartAfterDelete(url,MyReceiverActions.CART_DETAIL_AFTER_DELETE);
-
-
-			} catch (Exception e) {
-				new GrocermaxBaseException("CartProductList", "changeQuantity", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
-			}
 		}
 		}catch(NullPointerException e){
 			new GrocermaxBaseException("CartProductList", "changeQuantity", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
@@ -676,6 +668,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 //				myApi.reqEditCart(url,MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
 				myApi.reqEditCart(url);
 			}
+
 //			String	url = UrlsConstants.UPDATE_CART_URL
 //						+ MySharedPrefs.INSTANCE.getUserId() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
 //						+ URLEncoder.encode(products.toString(), "UTF-8");
@@ -764,7 +757,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	private void callAddressApi()
 	{
 		try {
-
 			showDialog();
 			String url = UrlsConstants.CHECKOUT_ADDRESS_BOOK + MySharedPrefs.INSTANCE.getUserId();
 			myApi.reqCheckOutAddress(url);
@@ -816,8 +808,10 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 
         try {
             initHeader(findViewById(R.id.header), false, "Your Cart");
-            ((ImageView)findViewById(R.id.icon_header_cart)).setVisibility(View.INVISIBLE);
-            ((TextView)findViewById(R.id.nom_producte)).setVisibility(View.INVISIBLE);
+			icon_header_cart.setClickable(false);
+			cart_count_txt.setClickable(false);
+//            ((ImageView)findViewById(R.id.icon_header_cart)).setVisibility(View.INVISIBLE);
+//            ((TextView)findViewById(R.id.nom_producte)).setVisibility(View.INVISIBLE);
         }catch(Exception e){
             new GrocermaxBaseException("OrderHistory","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
         }
@@ -929,8 +923,9 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				bIsEdit = false;
 			}
 		}catch(Exception e){
-			new GrocermaxBaseException("CartProductList", "onDestroy", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+			new GrocermaxBaseException("CartProductList", "onDestroy", e.toString(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
+
 	}
 
 //    public String getHeaderUpdateQuantity(){
@@ -944,13 +939,17 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				int updated = Integer.parseInt(cart_count_txt.getText().toString()) + Integer.parseInt(strUpdateQuantity);
 				cart_count_txt.setText(String.valueOf(updated));
 				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(updated));  //it holds local value of cart b/c when pressed back in base activity it updates value.
-				initHeader(findViewById(R.id.header), true, null);
+//				initHeader(findViewById(R.id.header), true, null);
+				initHeader(findViewById(R.id.header), false, "Your Cart");
+
 			} else if (plusMinus.equalsIgnoreCase("minus")) {
 				if (plusMinus.equalsIgnoreCase("minus")) {
 					int updated = Integer.parseInt(cart_count_txt.getText().toString()) - Integer.parseInt(strUpdateQuantity);
 					cart_count_txt.setText(String.valueOf(updated));
 					MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(updated));  //it holds local value of cart b/c when pressed back in base activity it updates value.
-					initHeader(findViewById(R.id.header), true, null);
+//					initHeader(findViewById(R.id.header), true, null);
+					initHeader(findViewById(R.id.header), false, "Your Cart");
+
 				}
 			}
 		}catch(Exception e){

@@ -8,6 +8,7 @@ import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.LocationActivity;
 import com.sakshay.grocermax.MyApplication;
 import com.sakshay.grocermax.utils.MyHttpUtils;
+import com.sakshay.grocermax.utils.UrlsConstants;
 import com.sakshay.grocermax.utils.UtilityMethods;
 
 import org.apache.http.HttpEntity;
@@ -23,26 +24,26 @@ import java.io.UnsupportedEncodingException;
  * Created by Abhishek on 8/5/2015.
  */
 public class GrocermaxBaseException extends Exception {
-    public static final String ARRAY_OUT_OF_BOUND = "1";
-    public static final String NULL_POINTER =  "2";
-    public static final String NULL_RESPONSE =   "3";
-    public static final String REQUEST_URL_NULL =  "4";
-    public static final String REQUEST_NOT_FOUND =  "5";
-    public static final String WRONG_REQUEST_PARAM =  "6";
-    public static final String EMPTY_REQUEST_PARAM =  "7";
-    public static final String RESPONSE_NOT_IN_PROPER_FORMAT =  "8";
-    public static final String ASYNC_TASK_ALREADY_USED =  "9";
-    public static final String UNSUPPORTED_ENCODING =  "10";
-    public static final String CLIENT_PROTOCOL_EXCEPTION =  "11";
-    public static final String RESPONSE_NOT_FOUND =  "12";
-    public static final String FILE_NOT_CREATED =  "13";
-    public static final String REQUEST_NOT_IN_PROPER_FORMAT =  "14";
+    public static final String ARRAY_OUT_OF_BOUND = "ARRAY_OUT_OF_BOUND";
+    public static final String NULL_POINTER =  "NULL_POINTER";
+    public static final String NULL_RESPONSE =   "NULL_RESPONSE";
+    public static final String REQUEST_URL_NULL =  "REQUEST_URL_NULL";
+    public static final String REQUEST_NOT_FOUND =  "REQUEST_NOT_FOUND";
+    public static final String WRONG_REQUEST_PARAM =  "WRONG_REQUEST_PARAM";
+    public static final String EMPTY_REQUEST_PARAM =  "EMPTY_REQUEST_PARAM";
+    public static final String RESPONSE_NOT_IN_PROPER_FORMAT =  "RESPONSE_NOT_IN_PROPER_FORMAT";
+    public static final String ASYNC_TASK_ALREADY_USED =  "ASYNC_TASK_ALREADY_USED";
+    public static final String UNSUPPORTED_ENCODING =  "UNSUPPORTED_ENCODING";
+    public static final String CLIENT_PROTOCOL_EXCEPTION =  "CLIENT_PROTOCOL_EXCEPTION";
+    public static final String RESPONSE_NOT_FOUND =  "RESPONSE_NOT_FOUND";
+    public static final String FILE_NOT_CREATED =  "FILE_NOT_CREATED";
+    public static final String REQUEST_NOT_IN_PROPER_FORMAT =  "REQUEST_NOT_IN_PROPER_FORMAT";
 
-    public static final String IO_EXCEPTION =  "15";
-    public static final String JSON_EXCEPTION =  "16";
-    public static final String EXCEPTION =  "17";
-    public static final String UnsupportedEncodingException =  "18";
-
+    public static final String IO_EXCEPTION =  "IO_EXCEPTION";
+    public static final String JSON_EXCEPTION =  "JSON_EXCEPTION";
+    public static final String EXCEPTION =  "EXCEPTION";
+    public static final String UnsupportedEncodingException =  "UnsupportedEncodingException";
+    public static final String ILLEGALSTATEEXCEPTION =  "ILLEGALSTATEEXCEPTION";
 //    public GrocermaxBaseException(String strClassName, String strMethodName,String strMessage,String strErrorCode,String strLineNo) {
 //        super();
 //        //    new SearchLoader(this).execute(url);
@@ -50,12 +51,13 @@ public class GrocermaxBaseException extends Exception {
 
     public GrocermaxBaseException(String strClassName, String strMethodName,String strMessage,String strErrorCode,String strServerResponse) {
         super();
-        String strUrl = "http://staging.grocermax.com/webservice/new_services/errorlog?error=";
+//        String strUrl = "http://staging.grocermax.com/webservice/new_services/errorlog?error=";
+
+
 
 //          UtilityMethods.customToast(strClassName+"=ERROR="+strMethodName, MyApplication.getInstance());
-
 //        new AppCrash(MyApplication.getInstance(),strClassName,strMethodName,strMessage,strErrorCode,strServerResponse).execute(strUrl);
-
+//        new AppCrash(MyApplication.getInstance(),strClassName,strMethodName,strMessage,strErrorCode,strServerResponse).execute(UrlsConstants.ERROR_REPORT);
 //        new AppCrash()
 //               new SearchLoader(this).execute(url);
 //        UtilityMethods.customToast("message", MyApplication.getInstance());

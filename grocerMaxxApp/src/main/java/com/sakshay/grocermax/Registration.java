@@ -132,7 +132,7 @@ public class Registration extends BaseActivity implements
 	}
 
 	private void displayForgotPasswordView() {
-
+		try{
 		final EditText email_id = (EditText) findViewById(R.id.email_id);
 
 		TextView forgot_password = (TextView) findViewById(R.id.forgot_password);
@@ -164,7 +164,9 @@ public class Registration extends BaseActivity implements
 				}
 			}
 		});
-
+		}catch(Exception e){
+			new GrocermaxBaseException("Registration","displayForgotPasswordView",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
 	}
 
 	private void displayRegistrationView() {
