@@ -34,7 +34,7 @@ public interface MyReceiverActions {
     String PRODUCT_LIST = PKG_NAME + ".productlist";
 	String DEAL_PRODUCT_LIST = PKG_NAME + ".dealproductlist";
 
-	String PRODUCT_CONTENT_LIST = PKG_NAME + ".proudct_content_list";
+//	String PRODUCT_CONTENT_LIST = PKG_NAME + ".proudct_content_list";
 
     String SEARCH_PRODUCT_LIST = PKG_NAME + ".searchproductlist";
 
@@ -64,16 +64,16 @@ public interface MyReceiverActions {
     String CHECKOUT = PKG_NAME + ".checkout";
 	String SET_PAYTM_ORDER_STATUS_SUCCESS = PKG_NAME + ".set_order_status_paytm_success";
 
-	String CHECKOUT_ADDRESS = PKG_NAME + ".checkout_address";
-	
-	String DELETE_ADDRESS = PKG_NAME + ".delete_address";
-	
-	String CART_DETAIL_AFTER_DELETE = PKG_NAME + ".cart_detail_after_delete";
-	
-//	String CART_EDIT = PKG_NAME + ".cart_edit";
-	String VIEW_CART_UPDATE_LOCALLY = PKG_NAME + ".cart_update_locally";
-	
-	String PRODUCT_LIST_FROM_HOME = PKG_NAME + ".product_list_from_home";
+//	String CHECKOUT_ADDRESS = PKG_NAME + ".checkout_address";
+//
+//	String DELETE_ADDRESS = PKG_NAME + ".delete_address";
+//
+//	String CART_DETAIL_AFTER_DELETE = PKG_NAME + ".cart_detail_after_delete";
+//
+////	String CART_EDIT = PKG_NAME + ".cart_edit";
+//	String VIEW_CART_UPDATE_LOCALLY = PKG_NAME + ".cart_update_locally";
+//
+//	String PRODUCT_LIST_FROM_HOME = PKG_NAME + ".product_list_from_home";
 
     String ORDER_HISTORY = PKG_NAME + ".order_history";
     String ORDER_DETAIL = PKG_NAME + ".order_detail";
