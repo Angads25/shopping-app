@@ -49,6 +49,13 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
+//        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+//            @Override
+//            public void uncaughtException(Thread thread, Throwable ex) {
+//
+//            }
+//        });
+
         View viewSignOut = (View) findViewById(R.id.view_sign_out);
         ImageView ivLoginCarat = (ImageView) findViewById(R.id.iv_login_carrat);
 
@@ -223,6 +230,7 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                     if (userId != null && userId.trim().length() > 0) {
                         Intent intent = new Intent(mContext, EditProfile.class);
                         startActivity(intent);
+                        finish();                                                     //added 25_9
                     } else {
                         Intent intent = new Intent(mContext, LoginActivity.class);
                         startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);

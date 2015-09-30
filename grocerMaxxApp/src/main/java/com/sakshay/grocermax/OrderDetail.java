@@ -65,6 +65,7 @@ public class OrderDetail extends BaseActivity{
 	}
 	public void initViews()
 	{
+		try{
 //		TextView tvProductNameHeading = (TextView) findViewById(R.id.tv_name);
 //		TextView tvProductPriceHeading = (TextView) findViewById(R.id.tv_price);
 //		TextView tvProductQuantityHeading = (TextView) findViewById(R.id.tv_quantity);
@@ -153,33 +154,40 @@ public class OrderDetail extends BaseActivity{
 		textGrandTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 		tv_youpay.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 
-
+		}catch(Exception e){
+			new GrocermaxBaseException("OrderDetail","initViews",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
 //		line.setVisibility(View.GONE);
 	}
 	public void visibleViews()
 	{
-//		tvOrderId.setVisibility(View.VISIBLE);
-		tv_about_order.setVisibility(View.VISIBLE);
-		tv_shipping_method.setVisibility(View.VISIBLE);
-		tv_payment_mode.setVisibility(View.VISIBLE);
-		tv_delivery_date.setVisibility(View.VISIBLE);
-		tv_delivery_time.setVisibility(View.VISIBLE);
-		tv_shipping_address.setVisibility(View.VISIBLE);
-		tv_shipping.setVisibility(View.VISIBLE);
-		tvShippingCharges.setVisibility(View.VISIBLE);
-		tv_billing_address.setVisibility(View.VISIBLE);
-//		ll_header.setVisibility(View.VISIBLE);
-		ll_subtotal.setVisibility(View.VISIBLE);
-		ll_youpay.setVisibility(View.VISIBLE);
-		ll_shipping.setVisibility(View.VISIBLE);
+		try{
+	//		tvOrderId.setVisibility(View.VISIBLE);
+			tv_about_order.setVisibility(View.VISIBLE);
+			tv_shipping_method.setVisibility(View.VISIBLE);
+			tv_payment_mode.setVisibility(View.VISIBLE);
+			tv_delivery_date.setVisibility(View.VISIBLE);
+			tv_delivery_time.setVisibility(View.VISIBLE);
+			tv_shipping_address.setVisibility(View.VISIBLE);
+			tv_shipping.setVisibility(View.VISIBLE);
+			tvShippingCharges.setVisibility(View.VISIBLE);
+			tv_billing_address.setVisibility(View.VISIBLE);
+	//		ll_header.setVisibility(View.VISIBLE);
+			ll_subtotal.setVisibility(View.VISIBLE);
+			ll_youpay.setVisibility(View.VISIBLE);
+			ll_shipping.setVisibility(View.VISIBLE);
+		}catch(Exception e){
+			new GrocermaxBaseException("OrderDetail","visibleViews",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
 	}
 
 	@Override
 	public void OnResponse(Bundle bundle) {
 		dismissDialog();
-		if (bundle.getString("ACTION").equals(MyReceiverActions.ORDER_DETAIL)) {
-			try
-			{
+		try
+		{
+			if (bundle.getString("ACTION").equals(MyReceiverActions.ORDER_DETAIL)) {
+
 				String orderDetail= (String) bundle.getSerializable(ConnectionService.RESPONSE);
 				JSONObject orderDetailJson=new JSONObject(orderDetail);
 				if (orderDetailJson.getString("flag").equalsIgnoreCase("1")) {
@@ -241,79 +249,107 @@ public class OrderDetail extends BaseActivity{
 //					tvOrderId.setVisibility(View.VISIBLE);
 //					tvOrderId.setText("No order detail available");
 				}
-			}catch(Exception e)
-			{
-				new GrocermaxBaseException("OrderDetail","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
-			}
-
 		}
+		}catch(Exception e)
+		{
+			new GrocermaxBaseException("OrderDetail","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
+
 	}
+
 	public void setOrderInformation(String date)
 	{
+		try{
 //		String value="<font color='black'><b>Order Date : </b>"+date+"</font>";
 //		tv_about_order.setText(Html.fromHtml(value));
-		tv_about_order.setText(Html.fromHtml(date));
+			tv_about_order.setText(Html.fromHtml(date));
+		}catch(Exception e){
+			new GrocermaxBaseException("OrderDetail","setOrderInformation",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
 	}
 	public void setShippingMethod(String method)
 	{
+		try{
 //		String value="<font color='black'><b>Shipping Method : </b>"+method+"</font>";
 //		tv_shipping_method.setText(Html.fromHtml(value));
-		tv_shipping_method.setText(Html.fromHtml(method));
+			tv_shipping_method.setText(Html.fromHtml(method));
+		}catch(Exception e){
+			new GrocermaxBaseException("OrderDetail","setShippingMethod",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
 	}
 	public void setPaymentMethod(String method)
 	{
-		if(method.equalsIgnoreCase("cashondelivery"))
-		{
-//			String value="<font color='black'><b>Payment Method : </b>Cash On Delivery/Sodexo</font>";
-//			tv_payment_mode.setText(Html.fromHtml(value));
-			tv_payment_mode.setText(Html.fromHtml("Cash On Delivery/Sodexo"));
+		try{
+			if(method.equalsIgnoreCase("cashondelivery"))
+			{
+	//			String value="<font color='black'><b>Payment Method : </b>Cash On Delivery/Sodexo</font>";
+	//			tv_payment_mode.setText(Html.fromHtml(value));
+				tv_payment_mode.setText(Html.fromHtml("Cash On Delivery/Sodexo"));
+			}
+			else
+			{
+	//			String value="<font color='black'><b>Payment Method : </b>Credit Card/Debit Card/Net Banking</font>";
+	//			tv_payment_mode.setText(Html.fromHtml(value));
+				tv_payment_mode.setText(Html.fromHtml("Credit Card/Debit Card/Net Banking"));
+			}
+		}catch(Exception e){
+			new GrocermaxBaseException("OrderDetail","setPaymentMethod",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
 		}
-		else
-		{
-//			String value="<font color='black'><b>Payment Method : </b>Credit Card/Debit Card/Net Banking</font>";
-//			tv_payment_mode.setText(Html.fromHtml(value));
-			tv_payment_mode.setText(Html.fromHtml("Credit Card/Debit Card/Net Banking"));
-		}
-
 	}
 	public void setDeliveryDate(String date)
 	{
+		try{
 //		String value="<font color='black'><b>Delivery Date : </b>"+date+"</font>";
 //		tv_delivery_date.setText(Html.fromHtml(value));
 
-		tv_delivery_date.setText(Html.fromHtml(date));
+			tv_delivery_date.setText(Html.fromHtml(date));
 //		changeDateFormat(date);
+		}catch(Exception e){
+			new GrocermaxBaseException("OrderDetail","setDeliveryDate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
 	}
 
 	public void setDeliveryTime(String time)
 	{
+		try{
 //		String value="<font color='black'><b>Delivery Time : </b>"+time+"</font>";
 //		tv_delivery_time.setText(Html.fromHtml(value));
-		tv_delivery_time.setText(Html.fromHtml(time));
+			tv_delivery_time.setText(Html.fromHtml(time));
+		}catch(Exception e){
+			new GrocermaxBaseException("OrderDetail","setDeliveryTime",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
 	}
 
 	public void setAddress(String address,String name,String street,String city,String state,String phone,String pin,TextView tv)
 	{
+		try{
 //		String value="<font color='black'><b>"+address +"</b>"+name+","+street+","+city+""+state+","+pin+"India T:"+phone+"</font>";
 //		tv.setText(Html.fromHtml(value));
-		String value=name+","+street+","+city+""+state+","+pin+"India T:"+phone;
-		tv.setText(Html.fromHtml(value));
+			String value=name+","+street+","+city+""+state+","+pin+"India T:"+phone;
+			tv.setText(Html.fromHtml(value));
+		}catch(Exception e){
+			new GrocermaxBaseException("OrderDetail","setAddress",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
 	}
 
 	public void setProductData(List<OrderDetailItem> items){
-		this.items=items;
-		for(int i=0;i<items.size();i++)
-		{
-			String name=items.get(i).getName();
-			String qty=String.valueOf((int)Float.parseFloat(items.get(i).getQty_ordered()));
-			String price=String.format("%.2f",Float.parseFloat(items.get(i).getPrice()));
-			String subtotal=String.format("%.2f",Float.parseFloat(items.get(i).getRow_total()));
-			addView(name,qty,price,subtotal);
+		try{
+			this.items=items;
+			for(int i=0;i<items.size();i++)
+			{
+				String name=items.get(i).getName();
+				String qty=String.valueOf((int)Float.parseFloat(items.get(i).getQty_ordered()));
+				String price=String.format("%.2f",Float.parseFloat(items.get(i).getPrice()));
+				String subtotal=String.format("%.2f",Float.parseFloat(items.get(i).getRow_total()));
+				addView(name,qty,price,subtotal);
+			}
+		}catch(Exception e){
+			new GrocermaxBaseException("OrderDetail","setProductData",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
 		}
-
 	}
 
 	public void addView(String name,String qty,String price,String total){
+		try{
 		LinearLayout ll=new LinearLayout(this);
 		LinearLayout .LayoutParams layoutParams= new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,getdp(50));
 		ll.setLayoutParams(layoutParams);
@@ -361,14 +397,22 @@ public class OrderDetail extends BaseActivity{
 
 		ll_product.addView(ll);
 		ll_product.addView(divider_view);
+		}catch(Exception e){
+			new GrocermaxBaseException("OrderDetail","addView",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
 	}
 
 	public int getdp(int a)
 	{
-		int paddingPixel = a;
-		float density = this.getResources().getDisplayMetrics().density;
-		int paddingDp = (int)(paddingPixel * density);
-		return paddingDp;
+		try{
+			int paddingPixel = a;
+			float density = this.getResources().getDisplayMetrics().density;
+			int paddingDp = (int)(paddingPixel * density);
+			return paddingDp;
+		}catch(Exception e){
+			new GrocermaxBaseException("OrderDetail","getdp",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
+		return  0;
 	}
 
 	@Override

@@ -23,12 +23,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
-                <com.sakshay.grocermax.utils.RoundedImageView
+                <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_margin="10dp"
                     android:src="@drawable/shahid"
                     android:id="@+id/iv_userprofile_displaypic"/>
+
+                <!--
+                <com.sakshay.grocermax.utils.RoundedImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/shahid"
+                    android:id="@+id/iv_userprofile_displaypic"/>  -->
+
+
             </LinearLayout>
 
             <LinearLayout
@@ -37,7 +47,7 @@
                 android:orientation="vertical"
                 android:padding="8dp"
                 android:id="@+id/ll_userprofie_details"
-               >
+                >
 
                 <TextView
                     android:id="@+id/tv_userprofile_fullname"
@@ -312,9 +322,8 @@
                     android:layout_height="15dp"
                     android:layout_centerVertical="true"
                     android:src="@drawable/arrow_right"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentRight="true"/>
 
-                    />
             </RelativeLayout>
 
             <View

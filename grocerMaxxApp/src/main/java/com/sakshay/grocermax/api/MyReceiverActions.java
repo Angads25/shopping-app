@@ -13,7 +13,9 @@ public interface MyReceiverActions {
 
     String REGISTER_USER = PKG_NAME + ".registerUser";
 
-    String FORGOT_PWD = PKG_NAME + ".forgotpwd";
+	String FORGOT_PWD = PKG_NAME + ".forgotpwd";
+
+	String SEARCH_BY_CATEGORY = PKG_NAME + ".searchbycategory";
 
 
     String CART_DETAIL_AFTER_LOGIN = PKG_NAME + ".cart_detail_after_login";
@@ -30,6 +32,9 @@ public interface MyReceiverActions {
     String CATEGORY_SUB_CATEGORY_LIST = PKG_NAME + ".categorySubCategoryList";
 
     String PRODUCT_LIST = PKG_NAME + ".productlist";
+	String DEAL_PRODUCT_LIST = PKG_NAME + ".dealproductlist";
+
+	String PRODUCT_CONTENT_LIST = PKG_NAME + ".proudct_content_list";
 
     String SEARCH_PRODUCT_LIST = PKG_NAME + ".searchproductlist";
 
@@ -57,6 +62,18 @@ public interface MyReceiverActions {
     String VIEW_CART_GO_HOME_SCREEN = PKG_NAME + ".view_cart_go_home_screen";       //come from home screen and login call view cart just to sync clone cart with server,so products quantity should display in product listing.
 
     String CHECKOUT = PKG_NAME + ".checkout";
+	String SET_PAYTM_ORDER_STATUS_SUCCESS = PKG_NAME + ".set_order_status_paytm_success";
+
+	String CHECKOUT_ADDRESS = PKG_NAME + ".checkout_address";
+	
+	String DELETE_ADDRESS = PKG_NAME + ".delete_address";
+	
+	String CART_DETAIL_AFTER_DELETE = PKG_NAME + ".cart_detail_after_delete";
+	
+//	String CART_EDIT = PKG_NAME + ".cart_edit";
+	String VIEW_CART_UPDATE_LOCALLY = PKG_NAME + ".cart_update_locally";
+	
+	String PRODUCT_LIST_FROM_HOME = PKG_NAME + ".product_list_from_home";
 
     String ORDER_HISTORY = PKG_NAME + ".order_history";
     String ORDER_DETAIL = PKG_NAME + ".order_detail";

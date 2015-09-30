@@ -64,40 +64,40 @@ import com.sakshay.grocermax.utils.ListSublistConstants.ListConstant;
 
 public class UtilityMethods {
 
-	private static UtilityMethods instance;
-	public static UtilityMethods getInstance(){
-		if(instance == null){
-			instance = new UtilityMethods();
-		}
-		return instance;
-	}
-	public UtilityMethods(){
-		instance = this;
-	}
-
-
-	public void showDialog(Context context) {
-		try {
-			mProgressDialog = new ProgressDialog(context);
-			mProgressDialog.setMessage("Loading...");
-			mProgressDialog.show();
-			mProgressDialog.setCancelable(false);
-		}catch(Exception e){
-			new GrocermaxBaseException("UtilityMethods", "showDialog", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
-		}
-	}
-	private ProgressDialog mProgressDialog;
-
-
-	public void dismissDialog() {
-		try{
-			if (mProgressDialog != null && mProgressDialog.isShowing()) {
-				mProgressDialog.dismiss();
-			}
-		}catch(Exception e){
-			new GrocermaxBaseException("UtilityMethods", "dismissDialog", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
-		}
-	}
+//	private static UtilityMethods instance;
+//	public static UtilityMethods getInstance(){
+//		if(instance == null){
+//			instance = new UtilityMethods();
+//		}
+//		return instance;
+//	}
+//	public UtilityMethods(){
+//		instance = this;
+//	}
+//
+//
+//	public void showDialog(Context context) {
+//		try {
+//			mProgressDialog = new ProgressDialog(context);
+//			mProgressDialog.setMessage("Loading...");
+//			mProgressDialog.show();
+//			mProgressDialog.setCancelable(false);
+//		}catch(Exception e){
+//			new GrocermaxBaseException("UtilityMethods", "showDialog", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+//		}
+//	}
+//	private ProgressDialog mProgressDialog;
+//
+//
+//	public void dismissDialog() {
+//		try{
+//			if (mProgressDialog != null && mProgressDialog.isShowing()) {
+//				mProgressDialog.dismiss();
+//			}
+//		}catch(Exception e){
+//			new GrocermaxBaseException("UtilityMethods", "dismissDialog", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+//		}
+//	}
 
 	/**
 	 * For check internet COnnectivity
@@ -981,6 +981,36 @@ public class UtilityMethods {
 		        new Rect(0, 0, targetWidth, targetHeight), null);
 		    return targetBitmap;
 		}
-	    
-	 
+
+	public static boolean writeStackCart(Activity activity, String filename,
+										 CartDetail prod) {
+		boolean write = false;
+		try {
+			File mydir = activity.getDir("mydir", Context.MODE_PRIVATE);
+			String dir = mydir.getAbsolutePath();
+			File file = new File(dir, filename);
+
+			ArrayList<CartDetail> list = readLocalCart(activity, filename);
+			if (list == null) {
+				list = new ArrayList<CartDetail>();
+				list.add(prod);
+			} else {
+				list.add(prod);
+			}
+			write = writeArrayListToFile(file, list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return write;
+
+	}
+
+	public static void deleteStackCart(Activity activity) {
+		File mydir = activity.getDir("mydir", Context.MODE_PRIVATE);
+		String dir = mydir.getAbsolutePath();
+		File file = new File(dir, Constants.StackCartFile);
+		if (file.exists()) {
+			file.delete();
+		}
+	}
 }

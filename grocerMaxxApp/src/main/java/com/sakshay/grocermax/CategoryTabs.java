@@ -58,7 +58,6 @@ public class CategoryTabs extends BaseActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.s_category_tabs);
 		try {
-
 			addActionsInFilter(MyReceiverActions.PRODUCT_CONTENT_LIST);
 			addActionsInFilter(MyReceiverActions.ADD_TO_CART);
 			ProductListFragments p = new ProductListFragments();
@@ -199,25 +198,42 @@ public class CategoryTabs extends BaseActivity {
 
 
 	class GoogleMusicAdapter extends FragmentPagerAdapter {
+
         public GoogleMusicAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
         public Fragment getItem(int position) {
-            return ProductListFragments.newInstance(catObj.get(position % catObj.size()));
+			try{
+            	return ProductListFragments.newInstance(catObj.get(position % catObj.size()));
+			}catch(Exception e){
+				new GrocermaxBaseException("CategoryTabs","GoogleMusicAdapter",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+			}
+			return new Fragment();
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return catObj.get(position % catObj.size()).getCategory().toUpperCase();
+			try{
+            	return catObj.get(position % catObj.size()).getCategory().toUpperCase();
+			}catch(Exception e){
+				new GrocermaxBaseException("CategoryTabs","GoogleMusicAdapter",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+			}
+			return "";
         }
 
         @Override
         public int getCount() {
-          return catObj.size();
+			try{
+          		return catObj.size();
+			}catch(Exception e){
+				new GrocermaxBaseException("CategoryTabs","GoogleMusicAdapter",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+			}
+			return 0;
 
         }
+
     }
 
 	public void addToCart(String product_id, String quantity) {

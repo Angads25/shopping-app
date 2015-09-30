@@ -16,9 +16,13 @@ import com.sakshay.grocermax.LocationActivity;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.ShippingAddress;
 import com.sakshay.grocermax.bean.Address;
+import com.sakshay.grocermax.bean.OrderReviewBean;
+import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.CustomFonts;
 import com.sakshay.grocermax.utils.UrlsConstants;
 import com.sakshay.grocermax.utils.UtilityMethods;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -170,9 +174,10 @@ public class ShippingAdapter extends BaseAdapter{
 
             @Override
             public void onClick(View v) {
-
-                ((ShippingAddress)mContext).selectedPosition = (Integer)v.getTag();
+            try {
+                ((ShippingAddress) mContext).selectedPosition = (Integer) v.getTag();
                 notifyDataSetChanged();
+            }catch(Exception e){}
 
 //                TextView quantity = (TextView) v.getTag();
 //                if(bIsSelect[position] == true){

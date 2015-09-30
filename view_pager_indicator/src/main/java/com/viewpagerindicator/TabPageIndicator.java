@@ -27,6 +27,9 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.concurrent.ExecutionException;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -115,7 +118,11 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
 
         if (lockedExpanded && oldWidth != newWidth) {
             // Recenter the tab display if we're at a new (scrollable) size.
-            setCurrentItem(mSelectedTabIndex);
+            try {
+                setCurrentItem(mSelectedTabIndex);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 

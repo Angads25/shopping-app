@@ -2,7 +2,7 @@ package com.sakshay.grocermax.utils;
 
 /**
  * Class to Hold the Url AppConstants
- * */
+ */
 public class UrlsConstants {
 	// public final static String
 	// BASE_URL="http://www.beta.grocermax.com/webservice/";
@@ -12,9 +12,9 @@ public class UrlsConstants {
 	// public final static String BASE_URL =
 	// "http://54.174.241.173/webservice/";	
 
-//	public static final String imagePic = "http://3.bp.blogspot.com/-NBE-2uL3Vjo/UnjtecEkx0I/AAAAAAAAJTU/20EvZblLCLQ/s640/1831359.jpg";
+	//	public static final String imagePic = "http://3.bp.blogspot.com/-NBE-2uL3Vjo/UnjtecEkx0I/AAAAAAAAJTU/20EvZblLCLQ/s640/1831359.jpg";
 	public static final String imagePic = "https://i.vimeocdn.com/portrait/1049808_300x300.jpg";
-	
+
 	// uat url
 //	public final static String BASE_URL = "http://uat.grocermax.com/webservice/";
 //	public final static String NEW_BASE_URL = "http://uat.grocermax.com/webservice/new_services/";
@@ -24,11 +24,12 @@ public class UrlsConstants {
 //	public final static String NEW_BASE_URL = "http://dev.grocermax.com/webservice/new_services/";
 
 	//staging
-//	public final static String BASE_URL = "http://staging.grocermax.com/webservice/";
+	public final static String BASE_URL = "http://staging.grocermax.com/webservice/";
 	public final static String NEW_BASE_URL = "http://staging.grocermax.com/webservice/new_services/";
 
-   // live url
-	public final static String BASE_URL = "http://grocermax.com/webservice/";
+	// live url
+
+//	public final static String BASE_URL = "http://grocermax.com/webservice/";
 //	public final static String NEW_BASE_URL = "http://grocermax.com/webservice/new_services/";
 
 	/*public final static String CATEGORY_LISTING_URL = BASE_URL
@@ -41,14 +42,20 @@ public class UrlsConstants {
 //	http://staging.grocermax.com/webservice/new_services/getlocation
 
 //	http://dev.grocermax.com/webservice/new_services/getstate
+
+//	http://staging.grocermax.com/webservice/new_services/dealproductlisting
+
+	public final static String GET_DEAL_LISTING = NEW_BASE_URL                                   //FOR GETTING STATE OF BILLING
+			+ "dealproductlisting";
+
 	public final static String GET_STATE = NEW_BASE_URL                                   //FOR GETTING STATE OF BILLING
-		+ "getstate";
+			+ "getstate";
 
 	public final static String GET_LOCATION_SHIPPING = NEW_BASE_URL                                   //FOR GETTING STATE OF SHIPPING LOCATION
 			+ "getlocality?cityid=";
 
 	public final static String GET_LOCATION = NEW_BASE_URL
-		+ "getlocation";
+			+ "getlocation";
 
 	public final static String CATEGORY_COLLECTION_LISTING_URL = NEW_BASE_URL
 			+ "category";
@@ -68,18 +75,21 @@ public class UrlsConstants {
 
 	public final static String REMOVE_COUPON = NEW_BASE_URL
 			+ "removecoupon?userid=";
-	
+
+	public final static String ERROR_REPORT = NEW_BASE_URL
+			+ "errorlog?error=";
+
 	//public final static String LOGIN_URL = BASE_URL + "login.php?";// uemail=suman.ditm07@gmail.com&password=XHqvaHnW
-	  public final static String LOGIN_URL = NEW_BASE_URL + "login?";
-	  
-	  public final static String FB_LOGIN_URL = NEW_BASE_URL + "fbregister?";
-	  
-	  public final static String GOOGLE_LOGIN_URL = NEW_BASE_URL + "fbregister?";
-	
+	public final static String LOGIN_URL = NEW_BASE_URL + "login?";
+
+	public final static String FB_LOGIN_URL = NEW_BASE_URL + "fbregister?";
+
+	public final static String GOOGLE_LOGIN_URL = NEW_BASE_URL + "fbregister?";
+
 	/*public final static String REGESTRATION_URL = BASE_URL
 			+ "registeration.php?";*/
-	  public final static String REGESTRATION_URL_OTP = NEW_BASE_URL                               //use when first time hits the registeration service and getting otp
-				+ "createuser?otp=0&";
+	public final static String REGESTRATION_URL_OTP = NEW_BASE_URL                               //use when first time hits the registeration service and getting otp
+			+ "createuser?otp=0&";
 
 	public final static String REGESTRATION_URL = NEW_BASE_URL                                    //use when first time hits the registeration service and after match otp by user and coming from server
 			+ "createuser?otp=1&";
@@ -92,10 +102,10 @@ public class UrlsConstants {
 */
 	public final static String FORGET_PASSWORD_URL = NEW_BASE_URL
 			+ "forgotpassword?uemail=";
-	
+
 	public final static String CHANGE_PASSWORD_URL = NEW_BASE_URL
 			+ "changepassword?";// 278&password=happysuman&old_password=happy
-	
+
 	public final static String EDIT_PROFILE_URL = NEW_BASE_URL
 			+ "editprofile?";
 
@@ -109,22 +119,22 @@ public class UrlsConstants {
 */
 	public final static String ADD_TO_CART_URL = NEW_BASE_URL
 			+ "addtocart?cus_id=";
-	
+
 	public final static String ADD_TO_CART_GUEST_URL = NEW_BASE_URL
 			+ "addtocartgust?";
 	
 	/*public static final String DELETE_FROM_CART_URL = BASE_URL
 			+ "deleteitem.php?UserID=";*/
-	
+
 	public static final String DELETE_FROM_CART_URL = NEW_BASE_URL
 			+ "deleteitem?userid=";
 
 	/*public final static String VIEW_CART_URL = BASE_URL
 			+ "viewcart.php?UserID=";*/
-	
+
 	public final static String VIEW_CART_URL = NEW_BASE_URL
 			+ "cartdetail?userid=";
-	
+
 	public final static String UPDATE_CART_URL = NEW_BASE_URL
 			+ "updatecart?cus_id=";
 
@@ -132,7 +142,7 @@ public class UrlsConstants {
 			+ "orderhistory.php?email=";*/
 	public final static String ORDER_HISTORY_URL = NEW_BASE_URL
 			+ "orderhistory?email=";
-	
+
 	public final static String ORDER_DETAIL_URL = NEW_BASE_URL
 			+ "getorderdetail?orderid=";
 
@@ -148,7 +158,7 @@ public class UrlsConstants {
 			+ "changeaddress.php?new_billing=";*/
 	public final static String ADD_ADDRESS = NEW_BASE_URL
 			+ "addaddress?";
-	
+
 	public final static String DELETE_ADDRESS = NEW_BASE_URL
 			+ "deleteaddress?addressid=";
 
@@ -159,7 +169,7 @@ public class UrlsConstants {
 
 	public final static String FINAL_CHECKOUT = NEW_BASE_URL
 			+ "checkout?shipping=";
-	
+
 	/*public final static String SEARCH_PRODUCT = BASE_URL + "search.php?name=";*/
 	public final static String SEARCH_PRODUCT = NEW_BASE_URL + "search?keyword=";
 
@@ -169,15 +179,16 @@ public class UrlsConstants {
 			+ "getaddresswithtimeslot?userid=";
 
 	public static final String CHANGE_ORDER_STATUS = NEW_BASE_URL;
-	
+
 	public final static String GET_ORDER_STATUS = NEW_BASE_URL
 			+ "getstatus?orderid=";
-	
+
 	public final static String SET_ORDER_STATUS = NEW_BASE_URL
 			+ "setstatus?status=canceled&orderid=";
 
+	public final static String SET_PAYTM_ORDER_STATUS_SUCCESS = NEW_BASE_URL
+			+ "setstatus?status=success&orderid=";
 
-	
 	public final static String GET_MOBILE_HASH = NEW_BASE_URL
 			+ "getmobilehash?";
 

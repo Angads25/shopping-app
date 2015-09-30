@@ -135,8 +135,6 @@ public class OrderHistoryAdapter extends BaseAdapter {
 		holder.status.setText(obj.getStatus().substring(0, 1).toUpperCase() + obj.getStatus().substring(1));
 		holder.no_of_items.setText("" + obj.getTotal_item_count());
 		
-		
-		
 		return convertView;
 	}
 

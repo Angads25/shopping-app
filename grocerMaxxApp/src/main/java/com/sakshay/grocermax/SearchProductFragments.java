@@ -190,7 +190,7 @@ public final class SearchProductFragments extends Fragment implements OnScrollLi
 //			((BaseActivity)SearchTabs.context).dismissDialog();
 //			UtilityMethods.getInstance().dismissDialog();
 		} catch (Exception e) {
-			UtilityMethods.getInstance().dismissDialog();
+//			UtilityMethods.getInstance().dismissDialog();
 //			((BaseActivity)SearchTabs.context).dismissDialog();
 			new GrocermaxBaseException("SearchProductFragments","makeUI",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
