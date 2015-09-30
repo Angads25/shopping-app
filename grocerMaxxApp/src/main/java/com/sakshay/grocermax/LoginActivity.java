@@ -565,40 +565,40 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 					MySharedPrefs.INSTANCE.putLoginStatus(true);
 					MySharedPrefs.INSTANCE.putQuoteId(userDataBean.getQuoteId());/////////last change
 					MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(userDataBean.getTotalItem()));
-					ArrayList<CartDetail> cart_products = UtilityMethods.readLocalCart(LoginActivity.this, AppConstants.localCartFile);  //send to server if local cart has products for adding.
-					if (cart_products != null && cart_products.size() > 0)            //it will call when user has come from HOME | PRODUCT LISTING | DESCRIPTION only.
-					{
-						try {
-							JSONArray products = new JSONArray();
-							for (int i = 0; i < cart_products.size(); i++) {
-								JSONObject prod_obj = new JSONObject();
-								prod_obj.put("productid", cart_products.get(i).getItem_id());
-								prod_obj.put("quantity", cart_products.get(i).getQty());
-								products.put(prod_obj);
-							}
-							showDialog();
-							String url;
-							if (MySharedPrefs.INSTANCE.getQuoteId() == null || MySharedPrefs.INSTANCE.getQuoteId().equals("")) {
-								System.out.println("without quote json=" + products.toString());
-								url = UrlsConstants.ADD_TO_CART_URL
-										+ userDataBean.getUserID() + "&products="
-										+ URLEncoder.encode(products.toString(), "UTF-8");
-							} else {
-								System.out.println("with quote json=" + products.toString());
-								url = UrlsConstants.ADD_TO_CART_URL
-										+ userDataBean.getUserID() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId() + "&products="
-										+ URLEncoder.encode(products.toString(), "UTF-8");
-							}
-							//String url = UrlsConstants.ADD_TO_CART_URL + userDataBean.getUserID() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+ "&products="+ URLEncoder.encode(products.toString(), "UTF-8");
-							myApi.reqAddToCart(url);
-							finish();                                         //added
-//								finishAffinity();
-
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					} else          //SIMPLE LOGIN AND FACEBOOK CASE : user can come here by [direct login] OR [from product listing] and [home screen] OR [from view cart].
-					{             //quote id will not return from server in SIMPLE LOGIN case BUT quote id will return in case of FACEBOOK login.
+//					ArrayList<CartDetail> cart_products = UtilityMethods.readLocalCart(LoginActivity.this, AppConstants.localCartFile);  //send to server if local cart has products for adding.
+//					if (cart_products != null && cart_products.size() > 0)            //it will call when user has come from HOME | PRODUCT LISTING | DESCRIPTION only.
+//					{
+//						try {
+//							JSONArray products = new JSONArray();
+//							for (int i = 0; i < cart_products.size(); i++) {
+//								JSONObject prod_obj = new JSONObject();
+//								prod_obj.put("productid", cart_products.get(i).getItem_id());
+//								prod_obj.put("quantity", cart_products.get(i).getQty());
+//								products.put(prod_obj);
+//							}
+//							showDialog();
+//							String url;
+//							if (MySharedPrefs.INSTANCE.getQuoteId() == null || MySharedPrefs.INSTANCE.getQuoteId().equals("")) {
+//								System.out.println("without quote json=" + products.toString());
+//								url = UrlsConstants.ADD_TO_CART_URL
+//										+ userDataBean.getUserID() + "&products="
+//										+ URLEncoder.encode(products.toString(), "UTF-8");
+//							} else {
+//								System.out.println("with quote json=" + products.toString());
+//								url = UrlsConstants.ADD_TO_CART_URL
+//										+ userDataBean.getUserID() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId() + "&products="
+//										+ URLEncoder.encode(products.toString(), "UTF-8");
+//							}
+//							//String url = UrlsConstants.ADD_TO_CART_URL + userDataBean.getUserID() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+ "&products="+ URLEncoder.encode(products.toString(), "UTF-8");
+//							myApi.reqAddToCart(url);
+//							finish();                                         //added
+////								finishAffinity();
+//
+//						} catch (Exception e) {
+//							e.printStackTrace();
+//						}
+//					} else          //SIMPLE LOGIN AND FACEBOOK CASE : user can come here by [direct login] OR [from product listing] and [home screen] OR [from view cart].
+//					{             //quote id will not return from server in SIMPLE LOGIN case BUT quote id will return in case of FACEBOOK login.
 						//if calling from CartProductList then in BaseActivity startActivityForResult will call other wise simply finish will work .
 						int str = userDataBean.getTotalItem();
 						cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
@@ -619,7 +619,10 @@ implements ConnectionCallbacks, OnConnectionFailedListener
 							setResult(RESULT_OK);
 							finish();
 //					}
-					}
+
+
+
+//					}
 
 				} else {
 					UtilityMethods.customToast(ToastConstant.LOGIN_FAIL, mContext);

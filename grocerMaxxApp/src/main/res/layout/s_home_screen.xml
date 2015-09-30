@@ -16,8 +16,8 @@
         android:background="@color/white"
         android:id="@+id/fl_hotOffersContainer"
         android:elevation="10dp"
-        android:visibility="gone"
-        >
+        android:visibility="gone" >
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

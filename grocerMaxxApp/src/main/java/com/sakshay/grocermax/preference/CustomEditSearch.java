@@ -5,8 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.widget.EditText;
-import android.widget.Toast;
-
 import com.paymentsdk.android.MyApp;
 import com.sakshay.grocermax.HomeScreen;
 import com.sakshay.grocermax.MyApplication;
@@ -43,7 +41,6 @@ public class CustomEditSearch extends EditText {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
 //            if (mOnImeBack != null) mOnImeBack.onImeBack(this);
             HomeScreen.bBack = true;
-            Toast.makeText(MyApplication.getInstance(), "==back pressed=="+HomeScreen.bBack, Toast.LENGTH_SHORT).show();
         }
         return super.dispatchKeyEvent(event);
     }
