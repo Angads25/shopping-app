@@ -35,7 +35,6 @@ public class UrlsConstants {
 	/*public final static String CATEGORY_LISTING_URL = BASE_URL
 			+ "category.php?parentid=";*/
 
-
 	/*public final static String CATEGORY_COLLECTION_LISTING_URL = BASE_URL
 			+ "categorycollection.php";*/
 
