@@ -168,8 +168,7 @@ public class ConnectionService extends IntentService {
 			urlString = urlString.replace(" ", "%20");
 
 			HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
-			
-			
+
 //			nameValuePairs = new ArrayList<NameValuePair>(hashMap.size());
 //			HashMap<K, V> = new ArrayList<NameValuePair>(1);
 //			nameValuePairs.add(new BasicNameValuePair("sample", "test"));
