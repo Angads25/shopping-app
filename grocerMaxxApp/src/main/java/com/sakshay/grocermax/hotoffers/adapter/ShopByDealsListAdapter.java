@@ -76,6 +76,8 @@ public class ShopByDealsListAdapter extends RecyclerView.Adapter<ShopByDealsList
             @Override
             public void onClick(View v) {
                 ((HotOffersActivity)context).hitForShopByDeals(data.get(position).getId());
+                ShopByDealDetailListAdapter.strDealListDeatilHeading = data.get(position).getDealType();
+
             }
         });
 

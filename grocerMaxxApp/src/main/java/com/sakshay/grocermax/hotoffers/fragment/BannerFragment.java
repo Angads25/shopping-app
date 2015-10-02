@@ -17,8 +17,12 @@ import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.api.SearchLoader;
+import com.sakshay.grocermax.bean.HomeBannerBean;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.utils.UrlsConstants;
+
+import org.json.JSONObject;
 
 
 /**
@@ -33,6 +37,23 @@ public class BannerFragment extends Fragment {
     private static String name = "";
     Context context;
 
+//    public static BannerFragment newInstance(HomeBannerBean homeBannerBean) {
+//        try {
+////            JSONObject jsonObject = new JSONObject(str);
+//            BannerFragment fragment = new BannerFragment();
+////	    	fragment.cat_id = categorySubcategoryBean.getCategoryId();
+////	    	fragment.valuePairs = valuePairs;
+////		    fragment.jsonArray = jsonArray;
+////            fragment.jsonObject = jsonObject;
+//            return fragment;
+//        }catch(Exception e){
+//            new GrocermaxBaseException("SearchProductFragments","newInstance",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+//        }
+//
+//
+//        return null;
+//    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.banner, container, false);
@@ -44,9 +65,6 @@ public class BannerFragment extends Fragment {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
              ////////////// 1.search ///////////////////
 //                linkurl = "search?keyword=atta";
 //                String strAtta = "atta";

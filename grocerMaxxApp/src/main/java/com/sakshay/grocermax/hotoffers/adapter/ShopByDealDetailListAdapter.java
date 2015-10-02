@@ -29,6 +29,7 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
     private Fragment fragment;
     private ArrayList<OfferByDealTypeSubModel> data;
     private static  Activity activity;
+    public static String strDealListDeatilHeading;
     public ShopByDealDetailListAdapter(Activity activity, Fragment fragment) {
 //        this.context = context;
         this.context = activity;
@@ -40,6 +41,7 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
     public void setListData(ArrayList<OfferByDealTypeSubModel> data) {
 
         this.data = data;
+
 //        if(data!=null)
 //        adminReservationList.clear();
 
@@ -51,11 +53,13 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
         ImageView imageView;
         CardView parentLayout;
         TextView footer;
+        LinearLayout ll;
         public ViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.img);
             parentLayout = (CardView) itemView.findViewById(R.id.layoutParent);
             footer = (TextView) itemView.findViewById(R.id.footer);
+            ll = (LinearLayout) itemView.findViewById(R.id.ll_);
 
             Display display = activity.getWindowManager().getDefaultDisplay();
             Point size = new Point();
@@ -83,9 +87,15 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
         }
     }
 
+
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.option_list_item, parent, false);
+
+        ((BaseActivity) context).initHeader(context.findViewById(R.id.header_left), false, ShopByDealDetailListAdapter.strDealListDeatilHeading);
+        ((BaseActivity) context).findViewById(R.id.header_left).setVisibility(View.VISIBLE);
+        ((BaseActivity) context).findViewById(R.id.header).setVisibility(View.GONE);
 
         return new ViewHolder(root);
     }
@@ -95,6 +105,7 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
         ImageLoader.getInstance().displayImage(data.get(position).getDeal_image(),
                 holder.imageView, ((BaseActivity) context).baseImageoptions);
 
+        holder.ll.setVisibility(View.GONE);
         holder.footer.setText(data.get(position).getTitle() + "");
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {

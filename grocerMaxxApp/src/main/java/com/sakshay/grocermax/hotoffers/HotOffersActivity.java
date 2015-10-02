@@ -92,6 +92,8 @@ public class HotOffersActivity extends BaseActivity {
     public void onResume() {
         super.onResume();
         initHeader(findViewById(R.id.header), true, null);
+        findViewById(R.id.header).setVisibility(View.VISIBLE);
+        findViewById(R.id.header_left).setVisibility(View.GONE);
     }
 
     @Override

@@ -86,8 +86,15 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.option_list_item, parent, false);
+        LinearLayout ll = (LinearLayout)root.findViewById(R.id.ll_);
+        ll.setVisibility(View.GONE);
+
+        ((BaseActivity) context).initHeader(context.findViewById(R.id.header_left), false, ShopByCategoryListAdapter.strDealListCategoryHeading);
+        ((BaseActivity) context).findViewById(R.id.header_left).setVisibility(View.VISIBLE);
+        ((BaseActivity) context).findViewById(R.id.header).setVisibility(View.GONE);
 
         return new ViewHolder(root);
+
     }
 
     @Override
@@ -100,7 +107,7 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ((HotOffersActivity) context).hitForDealsByDeals(data.get(position).getId());
+                ((HotOffersActivity) context).hitForDealsByDeals(data.get(position).getId());
 
 
 

@@ -15,9 +15,18 @@
 
         <include
             android:id="@+id/header"
-            layout="@layout/mart_header" />
+            layout="@layout/mart_header"
+            android:visibility="gone"
+            />
+
+        <include
+            android:id="@+id/header_left"
+            layout="@layout/mart_header_2"
+            android:visibility="gone"
+            />
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_red_light"

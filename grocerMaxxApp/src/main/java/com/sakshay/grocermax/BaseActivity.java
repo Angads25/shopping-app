@@ -145,7 +145,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 	}
 
-	protected void initHeader(View view, boolean showSearch, String name) {
+	public void initHeader(View view, boolean showSearch, String name) {
 		try {
 			getKeyBoardVisibility();
 

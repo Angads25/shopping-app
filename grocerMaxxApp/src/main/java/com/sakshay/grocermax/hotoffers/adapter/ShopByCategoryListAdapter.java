@@ -26,6 +26,7 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
     private Fragment fragment;
     private ArrayList<ShopByCategoryModel> data;
     private static Activity activity;
+    public static String strDealListCategoryHeading;
     public ShopByCategoryListAdapter(Activity activity, Fragment fragment) {
 //        this.context = context;
         this.context = activity;
@@ -83,6 +84,7 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
             @Override
             public void onClick(View v) {
                 ((HotOffersActivity) context).hitForShopByCategory(data.get(position).getCategory_id());
+                ShopByCategoryListAdapter.strDealListCategoryHeading = data.get(position).getName();
                 //fragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.explode));
 //                ((HotOffersActivity)context).hitForShopByCategory(data.get(position).getCategory_id());
             }
@@ -92,6 +94,7 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
             @Override
             public void onClick(View v) {
                 ((HotOffersActivity)context).hitForShopByCategory(data.get(position).getCategory_id());
+                ShopByCategoryListAdapter.strDealListCategoryHeading = data.get(position).getName();
             }
         });
 

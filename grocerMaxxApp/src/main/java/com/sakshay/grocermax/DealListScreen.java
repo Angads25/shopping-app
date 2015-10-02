@@ -133,7 +133,8 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
             });
             mList.setOnScrollListener(this);
 
-            initHeader(findViewById(R.id.header), true, header);
+            initHeader(findViewById(R.id.header), false, header);
+
             initFooter(findViewById(R.id.footer), 0, -1);
         }catch(Exception e){
             new GrocermaxBaseException("DealListScreen","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
@@ -327,7 +328,7 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
         // TODO Auto-generated method stub
         super.onResume();
         try{
-            initHeader(findViewById(R.id.header), true, null);
+            initHeader(findViewById(R.id.header), false, header);
             clickStatus=0;
         }catch(Exception e){
             new GrocermaxBaseException("DealListScreen","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");

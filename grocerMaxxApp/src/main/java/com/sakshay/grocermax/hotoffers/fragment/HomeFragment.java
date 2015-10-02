@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sakshay.grocermax.ProductListFragments;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.HomeBannerBean;
 import com.sakshay.grocermax.bean.ShopByCategoryBean;
@@ -87,6 +88,7 @@ public class HomeFragment extends Fragment {
             bannerFragment.setData(homeBannerBean.getBanner().get(position).getImageurl());
             bannerFragment.setLinkUrl(homeBannerBean.getBanner().get(position).getLinkurl());
             bannerFragment.setName(homeBannerBean.getBanner().get(position).getName());
+//            return BannerFragment.newInstance(homeBannerBean.getBanner().get(position % homeBannerBean.getBanner().size()));
             return bannerFragment;
         }
 
