@@ -1,13 +1,17 @@
 package com.sakshay.grocermax.hotoffers.adapter;
 
 import android.app.Activity;
+import android.graphics.Point;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -24,10 +28,12 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
     private Activity context;
     private Fragment fragment;
     private ArrayList<OfferByDealTypeSubModel> data;
+    private  static Activity activity;
     public DetailListAdapter(Activity activity, Fragment fragment) {
 //        this.context = context;
         this.context = activity;
         this.fragment = fragment;
+        this.activity = activity;
     }
 
     public void setListData(ArrayList<OfferByDealTypeSubModel> data) {
@@ -49,6 +55,29 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
             imageView = (ImageView) itemView.findViewById(R.id.img);
             parentLayout = (CardView) itemView.findViewById(R.id.layoutParent);
             footer = (TextView) itemView.findViewById(R.id.footer);
+
+            Display display = activity.getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            int width,height;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {      //13
+                display.getSize(size);
+                width = size.x;
+                height = size.y;
+            }else{
+                width = display.getWidth();
+                height = display.getHeight();
+            }
+
+            // SET THE IMAGEVIEW DIMENSIONS
+            int dimens = (width/2)-20;
+            float density = activity.getResources().getDisplayMetrics().density;
+//            int finalDimens = (int)(dimens * density);
+            int finalDimens = (int)(dimens);
+            LinearLayout.LayoutParams imgvwDimens =
+                    new LinearLayout.LayoutParams(finalDimens, finalDimens);
+            imageView.setLayoutParams(imgvwDimens);
+// SET SCALETYPE
+//            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         }
     }

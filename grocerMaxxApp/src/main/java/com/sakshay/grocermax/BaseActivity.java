@@ -135,7 +135,7 @@ public abstract class BaseActivity extends FragmentActivity {
 			addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);
 			addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
 
-			addActionsInFilter(MyReceiverActions.DEAL_PRODUCT_LIST);
+//			addActionsInFilter(MyReceiverActions.DEAL_PRODUCT_LIST);
 
 //			addActionsInFilter(MyReceiverActions.SEARCH_BY_CATEGORY);           //search by category
 
@@ -1241,33 +1241,33 @@ public abstract class BaseActivity extends FragmentActivity {
 					Intent i = new Intent(mContext, AddressDetail.class);
 					i.putExtra("AddressList", bean);
 					startActivity(i);
-				}else if (intent.getAction().equals(
-						MyReceiverActions.DEAL_PRODUCT_LIST)) {
-					DealListBean dealListBean = (DealListBean) bundle
-							.getSerializable(ConnectionService.RESPONSE);
-					if(dealListBean == null){
-						UtilityMethods.customToast(ToastConstant.NO_PRODUCT, mContext);
-						return;
-					}
-//					if (dealListBean.getFlag().equalsIgnoreCase("1")) {
-						Intent call = new Intent(mContext,
-								DealListScreen.class);
-						Bundle call_bundle = new Bundle();
-						call_bundle.putSerializable("ProductList",
-								dealListBean);
-						call_bundle.putSerializable("Header", "HEADING");
-						// call_bundle.putString("cat_id",
-						// category.getCategoryId());
-						call.putExtras(call_bundle);
-						startActivity(call);
-
-//					} else {
-//						UtilityMethods.customToast(dealListBean.getResult(), mContext);
-//					}
-
-
 				}
-
+//				else if (intent.getAction().equals(
+//						MyReceiverActions.DEAL_PRODUCT_LIST)) {
+//					DealListBean dealListBean = (DealListBean) bundle
+//							.getSerializable(ConnectionService.RESPONSE);
+//					if(dealListBean == null){
+//						UtilityMethods.customToast(ToastConstant.NO_PRODUCT, mContext);
+//						return;
+//					}
+////					if (dealListBean.getFlag().equalsIgnoreCase("1")) {
+//						Intent call = new Intent(mContext,
+//								DealListScreen.class);
+//						Bundle call_bundle = new Bundle();
+//						call_bundle.putSerializable("ProductList",
+//								dealListBean);
+//						call_bundle.putSerializable("Header", "HEADING");
+//						// call_bundle.putString("cat_id",
+//						// category.getCategoryId());
+//						call.putExtras(call_bundle);
+//						startActivity(call);
+//
+////					} else {
+////						UtilityMethods.customToast(dealListBean.getResult(), mContext);
+////					}
+//
+//
+//				}
 				else if (intent.getAction().equals(
 						MyReceiverActions.SEARCH_PRODUCT_LIST)) {
 

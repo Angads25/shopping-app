@@ -59,7 +59,6 @@ public class ShopByDealItemDetailFragment extends Fragment {
                 {
                     keyList.add(" All ");
                     dealcategory.put(" All ",dealByDealTypeBean.getDealcategory().getAll());
-
                 }
                 if(dealByDealTypeBean.getDealcategory().getCategory().size()>0)
                 {

@@ -408,7 +408,12 @@ public class ConnectionService extends IntentService {
 							(Serializable) ConnectionServiceParser
 									.parseProductResponse(response));
 					break;
-				case MyParserType.DEAL_PRODUCT_LIST:
+//				case MyParserType.DEAL_PRODUCT_LIST:
+//					bundle.putSerializable(RESPONSE,
+//							(Serializable) ConnectionServiceParser
+//									.parseDeal(response));
+//					break;
+				case MyParserType.PRODUCT_LISTING_BY_DEALTYPE:
 					bundle.putSerializable(RESPONSE,
 							(Serializable) ConnectionServiceParser
 									.parseDeal(response));

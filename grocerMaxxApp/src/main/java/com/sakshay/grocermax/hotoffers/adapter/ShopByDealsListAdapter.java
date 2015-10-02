@@ -1,13 +1,17 @@
 package com.sakshay.grocermax.hotoffers.adapter;
 
 import android.app.Activity;
+import android.graphics.Point;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -67,6 +71,7 @@ public class ShopByDealsListAdapter extends RecyclerView.Adapter<ShopByDealsList
         ImageLoader.getInstance().displayImage(data.get(position).getImg(),
                 holder.imageView, ((BaseActivity) context).baseImageoptions);
         holder.footer.setText(data.get(position).getDealType());
+        holder.footer.setVisibility(View.GONE);
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

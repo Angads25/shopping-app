@@ -1,6 +1,7 @@
 package com.sakshay.grocermax.hotoffers;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -16,10 +17,13 @@ import android.widget.Toolbar;
 
 import com.google.gson.Gson;
 import com.sakshay.grocermax.BaseActivity;
+import com.sakshay.grocermax.DealListScreen;
 import com.sakshay.grocermax.R;
+import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyApi;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.DealByDealTypeBean;
+import com.sakshay.grocermax.bean.DealListBean;
 import com.sakshay.grocermax.bean.DealProductListingBean;
 import com.sakshay.grocermax.bean.HomeBannerBean;
 import com.sakshay.grocermax.bean.OfferByDealTypeBean;
@@ -31,8 +35,10 @@ import com.sakshay.grocermax.hotoffers.fragment.DealProductListingItemDetailGrid
 import com.sakshay.grocermax.hotoffers.fragment.HomeFragment;
 import com.sakshay.grocermax.hotoffers.fragment.ItemDetailFragment;
 import com.sakshay.grocermax.hotoffers.fragment.ShopByDealItemDetailFragment;
+import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants;
 import com.sakshay.grocermax.utils.UrlsConstants;
+import com.sakshay.grocermax.utils.UtilityMethods;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,6 +63,7 @@ public class HotOffersActivity extends BaseActivity {
     private DealProductListingBean dealProductListingBean;
     private ProgressDialog progress;
     private String url;
+    String strName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,16 +171,33 @@ public class HotOffersActivity extends BaseActivity {
                 changeFragment(fragment);
             }else if (action.equals(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE)) {
 
-                System.out.println("RESPONSE DEALLISTING" + bundle.getString("json"));
-                JSONObject jsonObject = new JSONObject(bundle.getString("json"));
-                Gson gson = new Gson();
-                dealProductListingBean = gson.fromJson(jsonObject.toString(), DealProductListingBean.class);
-                System.out.println("RESPONSE DEALLISTING" + dealProductListingBean.getProduct().size());
-                DealProductListingItemDetailGrid fragment = new DealProductListingItemDetailGrid();
-                Bundle data = new Bundle();
-                data.putSerializable(Constants.PRODUCTLIST, dealProductListingBean.getProduct());
-                fragment.setArguments(data);
-                changeFragment(fragment);
+                DealListBean dealListBean = (DealListBean) bundle
+                        .getSerializable(ConnectionService.RESPONSE);
+                if(dealListBean == null){
+                    UtilityMethods.customToast(AppConstants.ToastConstant.NO_PRODUCT, mContext);
+                    return;
+                }
+                Intent call = new Intent(mContext,
+                        DealListScreen.class);
+                Bundle call_bundle = new Bundle();
+                call_bundle.putSerializable("ProductList",
+                        dealListBean);
+                call_bundle.putSerializable("Header", strName);
+                // call_bundle.putString("cat_id",
+                // category.getCategoryId());
+                call.putExtras(call_bundle);
+                startActivity(call);
+
+//                System.out.println("RESPONSE DEALLISTING" + bundle.getString("json"));
+//                JSONObject jsonObject = new JSONObject(bundle.getString("json"));
+//                Gson gson = new Gson();
+//                dealProductListingBean = gson.fromJson(jsonObject.toString(), DealProductListingBean.class);
+//                System.out.println("RESPONSE DEALLISTING" + dealProductListingBean.getProduct().size());
+//                DealProductListingItemDetailGrid fragment = new DealProductListingItemDetailGrid();
+//                Bundle data = new Bundle();
+//                data.putSerializable(Constants.PRODUCTLIST, dealProductListingBean.getProduct());
+//                fragment.setArguments(data);
+//                changeFragment(fragment);
             }
 
         } catch (Exception e) {
@@ -196,11 +220,14 @@ public class HotOffersActivity extends BaseActivity {
         String url = UrlsConstants.DEAL_BY_DEAL_TYPE;
         myApi.reqDealByDealType(url+ dealId);
     }
-    public void hitForDealsByDeals(String dealId) {
+
+    public void hitForDealsByDeals(String dealId, String strName) {
         addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
         String url = UrlsConstants.PRODUCTLISTING_BY_DEAL_TYPE;
         showDialog();
         myApi.reqProductListingByDealType(url + dealId);
+        this.strName = strName;
+        System.out.println(dealId);
     }
 
     public void changeFragment(Fragment fragment) {
@@ -234,9 +261,9 @@ public class HotOffersActivity extends BaseActivity {
         return url;
     }
 
-    @Override
-    public void onBackPressed() {
-//        if(fragmentTransaction.getBackStackEntryCount())
-        super.onBackPressed();
-    }
+//    @Override
+//    public void onBackPressed() {
+////        if(fragmentTransaction.getBackStackEntryCount())
+//        super.onBackPressed();
+//    }
 }

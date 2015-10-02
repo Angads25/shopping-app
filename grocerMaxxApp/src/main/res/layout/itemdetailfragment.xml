@@ -11,12 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@+id/messageHeader"
-        android:background="#317fe2"
+        android:background="@color/primaryColor"
         app:pstsDividerColor="#fff"
         app:pstsIndicatorColor="#fff"
         app:pstsShouldExpand="true"
         app:pstsTabPaddingLeftRight="5dp"
         app:pstsUnderlineColor="#fff"/>
+    <!--        android:background="#317fe2" -->
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
