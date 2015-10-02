@@ -1072,7 +1072,7 @@ public abstract class BaseActivity extends FragmentActivity {
 
 	private ProgressDialog mProgressDialog;
 	private IntentFilter intentFilter = new IntentFilter();
-	protected static MyApi myApi;
+	public static MyApi myApi;
 	private boolean isRegister = false;
 
 	public void showDialog() {
@@ -1117,7 +1117,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 	}
 
-	protected void addActionsInFilter(String action) {
+	public void addActionsInFilter(String action) {
 		intentFilter.addAction(action);
 	}
 

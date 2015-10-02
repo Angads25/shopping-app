@@ -20,6 +20,7 @@ import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.OfferByDealTypeModel;
 import com.sakshay.grocermax.bean.OfferByDealTypeSubModel;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 
 import java.util.ArrayList;
 
@@ -99,6 +100,10 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                ((HotOffersActivity) context).hitForDealsByDeals(data.get(position).getId());
+
+
+
 //                ItemDetailFragment fragment = new ItemDetailFragment();
 //                fragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.explode));
 //                ((MainActivity)context).changeFragment(fragment,holder.parentLayout);

@@ -100,9 +100,10 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((HotOffersActivity)context).hitForDealsByDeals(data.get(position).getPromo_id());
+
 //                ItemDetailFragment fragment = new ItemDetailFragment();
 //                fragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.explode));
-                ((HotOffersActivity)context).hitForDealsByDeals(data.get(position).getPromo_id(), data.get(position).getDealName());
 //                ((HotOffersActivity)context).hitForDealsByDeals(data.get(position).getId());
             }
         });

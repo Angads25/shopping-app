@@ -20,6 +20,7 @@ public class OfferByDealTypeSubModel implements Serializable{
 
     String promo_id, title, deal_image;
 
+
     public String getPromo_id() {
         return promo_id;
     }

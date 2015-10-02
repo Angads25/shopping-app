@@ -76,7 +76,7 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
         ImageLoader.getInstance().displayImage(data.get(position).getImages(),
                 holder.imageView, ((BaseActivity) context).baseImageoptions);
 
-        holder.footer.setText("Offer " + data.get(position).getOffercount());
+        holder.footer.setText(data.get(position).getOffercount()+" Offer");
         holder.ivRightCarrot.setVisibility(View.VISIBLE);
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {

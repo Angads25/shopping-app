@@ -33,6 +33,7 @@ import com.sakshay.grocermax.bean.ProductListBean;
 import com.sakshay.grocermax.bean.SearchListBean;
 import com.sakshay.grocermax.bean.UserDetailBean;
 import com.sakshay.grocermax.preference.MySharedPrefs;
+import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.UtilityMethods;
 
 public class ConnectionServiceParser {
@@ -130,6 +131,8 @@ public class ConnectionServiceParser {
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject(jsonString);
 		String json = jsonObject.getString("Product");
+		JSONObject jsonObje = new JSONObject(json);
+		AppConstants.strTitleHotDeal = jsonObje.getString("dealtitle");
 		Gson gson = new Gson();
 		DealListBean dealListBean = gson.fromJson(json,DealListBean.class);
 		return dealListBean;

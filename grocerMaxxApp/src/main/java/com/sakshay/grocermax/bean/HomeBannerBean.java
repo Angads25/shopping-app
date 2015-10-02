@@ -7,6 +7,8 @@ import java.util.ArrayList;
  * Created by manish.verma on 30-09-2015.
  */
 public class HomeBannerBean implements Serializable{
+    private static final long serialVersionUID = 1L;
+
     public String Result, flag;
 
     public ArrayList<Banner> banner;
@@ -35,8 +37,8 @@ public class HomeBannerBean implements Serializable{
         this.flag = flag;
     }
 
-    public static class Banner {
-
+    public static class Banner implements Serializable{
+        private static final long serialVersionUID = 1L;
 
         public String name;
         public String linkurl;

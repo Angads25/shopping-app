@@ -173,6 +173,8 @@ public class UrlsConstants {
 	/*public final static String SEARCH_PRODUCT = BASE_URL + "search.php?name=";*/
 	public final static String SEARCH_PRODUCT = NEW_BASE_URL + "search?keyword=";
 
+	public final static String BANNER_SEARCH_PRODUCT = NEW_BASE_URL ;
+
 	/*public final static String CHECKOUT_ADDRESS_BOOK = BASE_URL
 			+ "addressdetail1.php?UserID=";*/
 	public final static String CHECKOUT_ADDRESS_BOOK = NEW_BASE_URL

@@ -63,7 +63,6 @@ public class HotOffersActivity extends BaseActivity {
     private DealProductListingBean dealProductListingBean;
     private ProgressDialog progress;
     private String url;
-    String strName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,7 +181,7 @@ public class HotOffersActivity extends BaseActivity {
                 Bundle call_bundle = new Bundle();
                 call_bundle.putSerializable("ProductList",
                         dealListBean);
-                call_bundle.putSerializable("Header", strName);
+                call_bundle.putSerializable("Header", AppConstants.strTitleHotDeal);
                 // call_bundle.putString("cat_id",
                 // category.getCategoryId());
                 call.putExtras(call_bundle);
@@ -218,15 +217,15 @@ public class HotOffersActivity extends BaseActivity {
         addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);
         showDialog();
         String url = UrlsConstants.DEAL_BY_DEAL_TYPE;
+        System.out.print("==my work=="+url);
         myApi.reqDealByDealType(url+ dealId);
     }
 
-    public void hitForDealsByDeals(String dealId, String strName) {
+    public void hitForDealsByDeals(String dealId) {
         addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
         String url = UrlsConstants.PRODUCTLISTING_BY_DEAL_TYPE;
         showDialog();
         myApi.reqProductListingByDealType(url + dealId);
-        this.strName = strName;
         System.out.println(dealId);
     }
 

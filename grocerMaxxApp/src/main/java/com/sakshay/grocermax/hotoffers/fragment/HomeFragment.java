@@ -85,6 +85,8 @@ public class HomeFragment extends Fragment {
         public Fragment getItem(int position) {
             BannerFragment bannerFragment = new BannerFragment();
             bannerFragment.setData(homeBannerBean.getBanner().get(position).getImageurl());
+            bannerFragment.setLinkUrl(homeBannerBean.getBanner().get(position).getLinkurl());
+            bannerFragment.setName(homeBannerBean.getBanner().get(position).getName());
             return bannerFragment;
         }
 
