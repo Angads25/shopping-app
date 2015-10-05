@@ -273,6 +273,15 @@ public class MyApi {
 		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.DELETE_FROM_CART);
 		m_context.startService(reqIntent);
 	}
+
+	public void reqAllProductsCategory(String url) {
+		Intent reqIntent = new Intent(m_context, ConnectionService.class);
+		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.ALL_PRODUCTS_CATEGORY);
+		reqIntent.putExtra(ConnectionService.URL, url);
+		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.ALL_PRODUCTS_CATEGORY);
+		m_context.startService(reqIntent);
+	}
 	
 	public void reqActiveOrder(String url) {
 		Intent reqIntent = new Intent(m_context, ConnectionService.class);

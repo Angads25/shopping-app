@@ -52,6 +52,7 @@ public class CategoryTabs extends BaseActivity {
 	public static int clickStatus=0;
 	public static ArrayList<ProductListFragments.CallAPI> asyncTasks=new ArrayList<ProductListFragments.CallAPI>();
 //	EasyTracker tracker;
+	String selectedCatId;
 	
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +67,8 @@ public class CategoryTabs extends BaseActivity {
 			if (bundle != null) {
 				catObj = (ArrayList<CategorySubcategoryBean>) bundle.getSerializable("Categories");
 				header = bundle.getString("Header");
+				selectedCatId = bundle.getString("selectedcatid");
+
 			/*for(int i=0;i<catObj.size();i++)
 			{
 				ProductListFragments.CallAPI callapi=new ProductListFragments().new CallAPI();

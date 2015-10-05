@@ -31,7 +31,10 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
 import com.sakshay.grocermax.adapters.ExpandableListAdapter;
 import com.sakshay.grocermax.adapters.HomeListAdapter;
+import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
+import com.sakshay.grocermax.bean.BaseResponseBean;
+import com.sakshay.grocermax.bean.CategoriesProducts;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
@@ -79,6 +82,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		try{
 
 		addActionsInFilter(MyReceiverActions.PRODUCT_LIST_FROM_HOME);
+		addActionsInFilter(MyReceiverActions.ALL_PRODUCTS_CATEGORY);
 		 
 		tvSelctionCat = new TextView(this);
 		 
@@ -179,6 +183,10 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 
 					boolean expandStatus = false;
 					second_level = catObj.get(position).getChildren().get(groupPosition).getCategory();
+
+					System.out.println(second_level + "====checking 11==" + catObj.get(position).getChildren().get(groupPosition).getCategoryId());
+
+
 					MySharedPrefs.INSTANCE.putBradecrum(first_level + ">>" + second_level);
 					for (int i = 0; i < catObj.get(position).getChildren().get(groupPosition).getChildren().size(); i++) {
 						if (catObj.get(position).getChildren().get(groupPosition).getChildren().get(i).getChildren().size() > 0) {
@@ -212,8 +220,14 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 						}
 						call_bundle.putSerializable("Categories", list);
 						call_bundle.putSerializable("Header", catObj.get(position).getChildren().get(groupPosition).getBreadcrumb());
+						call_bundle.putSerializable("selectedcatid", catObj.get(position).getChildren().get(groupPosition).getCategoryId());
 						call.putExtras(call_bundle);
 						startActivity(call);
+
+//						showDialog();
+//						String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(groupPosition).getCategoryId();
+//						myApi.reqAllProductsCategory(url);
+
 						return true;
 					} else {
 					/* if (expandableListView.isGroupExpanded(groupPosition)) {
@@ -238,6 +252,9 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 				{
 				child_click=1;
 				third_level=catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getCategory();
+
+				System.out.println(third_level + "====checking 22==" + catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getCategoryId());
+
 				MySharedPrefs.INSTANCE.putBradecrum(first_level+">>"+catObj.get(position).getChildren().get(groupPosition).getCategory()+">>"+third_level);
 				if(catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getChildren().size()>0)
 				{
@@ -459,8 +476,15 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 	@Override
 	void OnResponse(Bundle bundle) {
 		// TODO Auto-generated method stub
-		
+		String action = bundle.getString("ACTION");
+		if (action.equals(MyReceiverActions.ALL_PRODUCTS_CATEGORY)) {
+//			BaseResponseBean responseBean = (BaseResponseBean) bundle.getSerializable(ConnectionService.RESPONSE);
+			CategoriesProducts categoriesProducts = (CategoriesProducts) bundle.getSerializable(ConnectionService.RESPONSE);
+			CategoriesProducts categoriesProducts1 = (CategoriesProducts) bundle.getSerializable(ConnectionService.RESPONSE);
+
+		}
 	}
+
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		try{
@@ -513,6 +537,9 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 	    	FlurryAgent.onEndSession(this);
     	}catch(Exception e){}
     }
+
+
+
 
 
 	/* (non-Javadoc)

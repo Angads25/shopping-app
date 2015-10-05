@@ -17,6 +17,7 @@ import com.sakshay.grocermax.bean.AddressList;
 import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.bean.CartDetail;
 import com.sakshay.grocermax.bean.CartDetailBean;
+import com.sakshay.grocermax.bean.CategoriesProducts;
 import com.sakshay.grocermax.bean.CategoryListBean;
 import com.sakshay.grocermax.bean.CheckoutAddressBean;
 import com.sakshay.grocermax.bean.DealListBean;
@@ -67,6 +68,7 @@ public class ConnectionServiceParser {
 		int SEARCH_BY_CATEGORY = 124;
 		int SET_PAYTM_ORDER_STATUS_SUCCESS = 125;
 		int DEAL_PRODUCT_LIST = 126;
+		int ALL_PRODUCTS_CATEGORY = 127;
 	}
 
 	public static BaseResponseBean parseSimpleResponse(String jsonString)
@@ -104,6 +106,19 @@ public class ConnectionServiceParser {
 //		LocationDetail locationBean = gson.fromJson(jsonString, LocationDetail.class);
 		return locationBean;
 	}
+
+	public static CategoriesProducts parseAllProductsCategoriesResponse(String jsonString)
+			throws JSONException {
+
+//		JSONObject jsonObject = new JSONObject();
+//		jsonString = new JSONObject(jsonString).getJSONArray("location").toString();
+		Gson gson = new Gson();
+		CategoriesProducts categoriesProducts = gson.fromJson(jsonString, CategoriesProducts.class);
+//		LocationDetail locationBean = gson.fromJson(jsonString, LocationDetail.class);
+		return categoriesProducts;
+	}
+
+
 
 	public static CategoryListBean parseCategoryResponse(String jsonString)
 			throws JSONException {

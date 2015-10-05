@@ -87,13 +87,16 @@ public class ReviewOrderAndPay extends BaseActivity
 		try {
 //		setContentView(R.layout.review_order_and_pay);
 //			setContentView(R.layout.delete);
-			setContentView(R.layout.checkout_process_3);
+
 //			mProgressDialog = new ProgressDialog(ReviewOrderAndPay.this);
 //		String str = MySharedPrefs.INSTANCE.getCouponApply();
 
 			addActionsInFilter(MyReceiverActions.FINAL_CHECKOUT);
 			addActionsInFilter(MyReceiverActions.GET_ORDER_STATUS);
 			addActionsInFilter(MyReceiverActions.SET_ORDER_STATUS);
+
+			setContentView(R.layout.checkout_process_3);
+
 			orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 
 			TextView tv = (TextView) findViewById(R.id.tv_choose_to_pay);

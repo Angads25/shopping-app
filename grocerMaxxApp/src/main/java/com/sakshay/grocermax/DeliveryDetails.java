@@ -1078,6 +1078,8 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
 //				showDialog();
 //				String url = UrlsConstants.ADD_ADDRESS + url_param + "&userid=" + MySharedPrefs.INSTANCE.getUserId() + "&default_billing=0&default_shipping=1";
 //				myApi.reqAddAddress(url,MyReceiverActions.ADD_ADDRESS);
+
+
 //
 //			}else{
 //
