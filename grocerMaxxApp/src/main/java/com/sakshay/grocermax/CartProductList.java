@@ -2,6 +2,7 @@ package com.sakshay.grocermax;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -652,12 +653,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				}
 			}
 
-
-
-//			String url = UrlsConstants.NEW_BASE_URL+"deleteitem?userid="+ MySharedPrefs.INSTANCE.getUserId() +
-//					"&productid=" + sbDeleteProdId +
-//					"&quote_id="+ MySharedPrefs.INSTANCE.getQuoteId() +"&updateid="+ URLEncoder.encode(products.toString(), "UTF-8");
-
 			String url = UrlsConstants.NEW_BASE_URL+"deleteitem?userid="+ strUserIdtemp +
 					"&productid=" + sbDeleteProdId +
 					"&quote_id="+ strQuoteIdtemp +"&updateid="+ URLEncoder.encode(products.toString(), "UTF-8");
@@ -669,10 +664,19 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				myApi.reqEditCart(url);
 			}
 
-//			String	url = UrlsConstants.UPDATE_CART_URL
-//						+ MySharedPrefs.INSTANCE.getUserId() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
-//						+ URLEncoder.encode(products.toString(), "UTF-8");
-//			myApi.reqViewCartAfterDelete(url,MyReceiverActions.CART_DETAIL_AFTER_DELETE);
+			////////////////POST/////////////
+//			String strurl = UrlsConstants.NEW_BASE_URL;
+//			HashMap<String, String> hashMap = new HashMap<String,String>();
+//			hashMap.put("deleteitem?userid=",strUserIdtemp);
+//			hashMap.put("productid",String.valueOf(sbDeleteProdId));
+//			hashMap.put("quote_id",strQuoteIdtemp);
+//			hashMap.put("updateid",products.toString());
+//			System.out.println("==URL'S HERE=="+strurl);
+//			if(UtilityMethods.isInternetAvailable(this)){
+//				UpdateCartbg.getInstance().bLocally = true;
+//				myApi.reqEditCart(url, hashMap);
+//			}
+			////////////////POST/////////////
 
 		} catch (Exception e) {
 			new GrocermaxBaseException("CartProductList", "updateItemInCart", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
@@ -696,10 +700,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			}
 			showDialog();
 
-//			String url = UrlsConstants.NEW_BASE_URL+"deleteitem?userid="+ MySharedPrefs.INSTANCE.getUserId() +
-//					"&productid=" + UpdateCartbg.getInstance().alDeleteId +
-//					"&quote_id="+ MySharedPrefs.INSTANCE.getQuoteId() +"&updateid="+ URLEncoder.encode(products.toString(), "UTF-8");
-
 			String strUserId = "";
 			if(MySharedPrefs.INSTANCE.getUserId() != null && !MySharedPrefs.INSTANCE.getUserId().equals(""))
 			{
@@ -712,10 +712,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				strQuoteId = MySharedPrefs.INSTANCE.getQuoteId();
 			}
 
-//			String url = UrlsConstants.NEW_BASE_URL+"deleteitem?userid="+ MySharedPrefs.INSTANCE.getUserId() +
-//					"&productid=" + sbDeleteProdId +
-//					"&quote_id="+ MySharedPrefs.INSTANCE.getQuoteId() +"&updateid="+ URLEncoder.encode(products.toString(), "UTF-8");
-
 			String url = UrlsConstants.NEW_BASE_URL+"deleteitem?userid="+ strUserId +
 					"&productid=" + sbDeleteProdId +
 					"&quote_id="+ strQuoteId +"&updateid="+ URLEncoder.encode(products.toString(), "UTF-8");
@@ -724,12 +720,22 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			if(UtilityMethods.isInternetAvailable(this)){
 				UpdateCartbg.getInstance().bLocally = true;
 				myApi.reqEditCartBackToCart(url, MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
-//				myApi.reqEditCart(url);
 			}
-//			String	url = UrlsConstants.UPDATE_CART_URL
-//						+ MySharedPrefs.INSTANCE.getUserId() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
-//						+ URLEncoder.encode(products.toString(), "UTF-8");
-//			myApi.reqViewCartAfterDelete(url,MyReceiverActions.CART_DETAIL_AFTER_DELETE);
+
+			////////////////POST/////////////
+//			String strurl = UrlsConstants.NEW_BASE_URL;
+//			HashMap<String, String> hashMap = new HashMap<String,String>();
+//			hashMap.put("deleteitem?userid=",strUserIdtemp);
+//			hashMap.put("productid",String.valueOf(sbDeleteProdId));
+//			hashMap.put("quote_id",strQuoteIdtemp);
+//			hashMap.put("updateid",products.toString());
+//			System.out.println("==URL'S HERE=="+strurl);
+//			if(UtilityMethods.isInternetAvailable(this)){
+//				UpdateCartbg.getInstance().bLocally = true;
+////				myApi.reqEditCart(url,MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
+//				myApi.reqEditCartBackToCart(strurl, MyReceiverActions.VIEW_CART_UPDATE_LOCALLY,hashMap);
+//			}
+			////////////////POST/////////////
 
 		} catch (Exception e) {
 			new GrocermaxBaseException("CartProductList", "updateItemInCartBackToCart", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");

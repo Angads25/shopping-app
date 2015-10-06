@@ -477,7 +477,6 @@ public class CartAdapter extends BaseAdapter{
 			UpdateCartbg.getInstance().alDeleteId.add(CartProductList.cartList.get(position).getItem_id());  //saves deleted id for background hitting URL for edit
 //			}
 
-
 			if(CartProductList.getInstance().sbDeleteProdId != null) {
 				if (CartProductList.getInstance().sbDeleteProdId.length() > 0) {
 					CartProductList.getInstance().sbDeleteProdId.append("," + CartProductList.cartList.get(position).getItem_id());
@@ -514,29 +513,65 @@ public class CartAdapter extends BaseAdapter{
 
 //		    CartProductList.getInstance().tv_grandTotal.setText("Rs."+String.valueOf(totalPriceYouPay));
 //			CartProductList.getInstance().tv_subTotal.setText("Rs."+String.valueOf(sub_totalPriceYouPay));
-			CartProductList.getInstance().tv_grandTotal.setText("Rs."+String.format("%.2f", sub_totalPriceYouPay));
+			CartProductList.getInstance().tv_grandTotal.setText("Rs." + String.format("%.2f", sub_totalPriceYouPay));
 
 			int value1=Integer.parseInt(holder.tv_quantity.getText().toString());
-			CartProductList.getInstance().updateHeaderQuantity(String.valueOf(value1),"minus");
+			CartProductList.getInstance().updateHeaderQuantity(String.valueOf(value1), "minus");
 
 			CartProductList.cartList.remove(position);
+
+
+
+			boolean bMoveToHomeScreen = true;
 			if(CartProductList.cartList.size() > 0){
-				updateList(CartProductList.cartList);         //update list after delete particular item
+				for(int i=0;i<CartProductList.cartList.size();i++)
+				{
+					CartDetail cartvalue = CartProductList.cartList.get(i);
+					String pricee = cartvalue.getPrice().toString().replace(",", "");
+					if(Float.parseFloat(pricee) != 0){                 //for product not free item
+						bMoveToHomeScreen = false;
+					}
+				}
+				if(bMoveToHomeScreen){
+//					if(MySharedPrefs.INSTANCE.getQuoteId() != null){
+//						MySharedPrefs.INSTANCE.putQuoteId(null);
+//					}
+					UtilityMethods.customToast(Constants.ToastConstant.VIEW_CART_EMPTY, activity);
+					((CartProductList) activity).cart_count_txt.setText("0");          //all item remove but offers remain in clone cart.so manually put 0.
+					MySharedPrefs.INSTANCE.putTotalItem(String.valueOf("0"));
+					((CartProductList) activity).finish();
+				}else{
+					updateList(CartProductList.cartList);         //update list after delete particular item
+				}
+
 			}else{
-				CartProductList.getInstance().finish();
 				UtilityMethods.customToast(Constants.ToastConstant.VIEW_CART_EMPTY, activity);
+				((CartProductList) activity).cart_count_txt.setText("0");          //all item remove but offers remain in clone cart.so manually put 0.
+				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf("0"));
+				((CartProductList) activity).finish();
 			}
 
-			if(String.valueOf(sub_totalPriceYouPay).equals("0") ||
-					String.valueOf(sub_totalPriceYouPay).equals("0.0") ||
-					String.valueOf(sub_totalPriceYouPay).equals("0.00")){
-				((CartProductList) activity).cart_count_txt.setText("0");          //all item remove but offers remain in clone cart.so manually put 0.
-				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf("0"));          //all item remove but offers remain in clone cart.so manually put 0.
-				((CartProductList) activity).finish();
-				if(MySharedPrefs.INSTANCE.getQuoteId() != null){
-					MySharedPrefs.INSTANCE.putQuoteId(null);
-				}
-			}
+
+
+//			if(CartProductList.cartList.size() > 0){
+//				updateList(CartProductList.cartList);         //update list after delete particular item
+//			}else{
+//				CartProductList.getInstance().finish();
+//				UtilityMethods.customToast(Constants.ToastConstant.VIEW_CART_EMPTY, activity);
+//			}
+
+
+
+//			if(String.valueOf(sub_totalPriceYouPay).equals("0") ||
+//					String.valueOf(sub_totalPriceYouPay).equals("0.0") ||
+//					String.valueOf(sub_totalPriceYouPay).equals("0.00")){
+//				((CartProductList) activity).cart_count_txt.setText("0");          //all item remove but offers remain in clone cart.so manually put 0.
+//				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf("0"));          //all item remove but offers remain in clone cart.so manually put 0.
+//				((CartProductList) activity).finish();
+//				if(MySharedPrefs.INSTANCE.getQuoteId() != null){
+//					MySharedPrefs.INSTANCE.putQuoteId(null);
+//				}
+//			}
 
 		}else{
 			UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, activity);

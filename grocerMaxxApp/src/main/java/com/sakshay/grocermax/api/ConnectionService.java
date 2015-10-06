@@ -249,7 +249,7 @@ public class ConnectionService extends IntentService {
 
 			if (requestType.equalsIgnoreCase("POST")) {
 				HttpPost httpPost = new HttpPost(urlString);
-				httpPost.setHeader("Content-Type", "application/json");
+				//httpPost.setHeader("Content-Type", "application/json");
 				if (accessToken != null) {
 					httpPost.setHeader("AccessToken", "" + accessToken);
 				}
@@ -257,6 +257,7 @@ public class ConnectionService extends IntentService {
 				// httpPost.setHeader("Authorization", "Basic " +
 				// Base64.NO_WRAP));
 
+				System.out.println("==second parameters is=="+nameValuePairs);
 
 				if (nameValuePairs != null) {
 					httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));

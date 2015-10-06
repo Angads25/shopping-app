@@ -33,15 +33,19 @@ public class UrlsConstants {
 //	public final static String NEW_BASE_URL = "http://grocermax.com/webservice/new_services/";
 
 	///////////////////////////////////////NEW URL'S
+//	public final static String BASE_URL = "http://grocermax.com/gmx_api.php/";
+//	public final static String NEW_BASE_URL = "http://grocermax.com/gmx_api.php/";
+	///////////////////////////////////////NEW URL'S
 
-//	public final static String BASE_URL = "http://api.grocermax.com/";
-//	public final static String NEW_BASE_URL = "http://api.grocermax.com/";
+//	public final static String BASE_URL = "https://grocermax.com/api/";
+//	public final static String NEW_BASE_URL = "https://grocermax.com/api/";
+
+//	public final static String BASE_URL = "http://api.grocermax.com/gmx_api.php/";
+//	public final static String NEW_BASE_URL = "http://api.grocermax.com/gmx_api.php/";
 
 	// dev url
 //	public final static String BASE_URL = "http://dev.api.grocermax.com/";
 //	public final static String NEW_BASE_URL = "http://dev.api.grocermax.com/";
-
-
 
 	/*public final static String CATEGORY_LISTING_URL = BASE_URL
 			+ "category.php?parentid=";*/
@@ -54,6 +58,9 @@ public class UrlsConstants {
 //	http://dev.grocermax.com/webservice/new_services/getstate
 
 //	http://staging.grocermax.com/webservice/new_services/dealproductlisting
+
+//		public final static String LOGIN_URL = NEW_BASE_URL + "login?";
+	public final static String LOGIN_URL = NEW_BASE_URL + "loginnew";
 
 	public final static String GET_ALL_PRODUCTS_OF_CATEGORY = NEW_BASE_URL + "productlistall?cat_id=";
 
@@ -93,7 +100,8 @@ public class UrlsConstants {
 			+ "errorlog?error=";
 
 	//public final static String LOGIN_URL = BASE_URL + "login.php?";// uemail=suman.ditm07@gmail.com&password=XHqvaHnW
-	public final static String LOGIN_URL = NEW_BASE_URL + "login?";
+
+
 
 	public final static String FB_LOGIN_URL = NEW_BASE_URL + "fbregister?";
 

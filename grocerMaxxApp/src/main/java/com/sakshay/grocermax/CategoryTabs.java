@@ -2,6 +2,7 @@ package com.sakshay.grocermax;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,8 +31,10 @@ import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
 import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.BaseResponseBean;
+import com.sakshay.grocermax.bean.CategoriesProducts;
 import com.sakshay.grocermax.bean.Product;
 import com.sakshay.grocermax.bean.ProductDetailsListBean;
+import com.sakshay.grocermax.bean.Simple;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.Constants.ToastConstant;
@@ -42,7 +45,7 @@ import com.viewpagerindicator.TabPageIndicator;
 
 public class CategoryTabs extends BaseActivity {
 	private String header;
-	private ArrayList<CategorySubcategoryBean> catObj;
+	//	private ArrayList<CategorySubcategoryBean> catObj;
 	public Product product;
 	TextView tv_bradcrum;
 	LinearLayout ll_brad_crum;
@@ -51,13 +54,15 @@ public class CategoryTabs extends BaseActivity {
 	Context mContext = this;
 	public static int clickStatus=0;
 	public static ArrayList<ProductListFragments.CallAPI> asyncTasks=new ArrayList<ProductListFragments.CallAPI>();
-//	EasyTracker tracker;
+	//	EasyTracker tracker;
 	String selectedCatId;
-	
+	private ArrayList<CategoriesProducts> alCategory;
+
+
 	protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.s_category_tabs);
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.s_category_tabs);
 		try {
 			addActionsInFilter(MyReceiverActions.PRODUCT_CONTENT_LIST);
 			addActionsInFilter(MyReceiverActions.ADD_TO_CART);
@@ -65,9 +70,74 @@ public class CategoryTabs extends BaseActivity {
 
 			Bundle bundle = getIntent().getExtras();
 			if (bundle != null) {
-				catObj = (ArrayList<CategorySubcategoryBean>) bundle.getSerializable("Categories");
-				header = bundle.getString("Header");
-				selectedCatId = bundle.getString("selectedcatid");
+//				catObj = (ArrayList<CategorySubcategoryBean>) bundle.getSerializable("Categories");
+//				header = bundle.getString("Header");
+//				selectedCatId = bundle.getString("selectedcatid");
+
+				Simple responseBean = (Simple)bundle.getSerializable("PRODUCTDATA");
+
+				alCategory = new ArrayList<CategoriesProducts>();
+
+				List<Product> listAll = new ArrayList<Product>();                      //contain All products
+
+//				alCategory.add(categoriesproduct)
+
+				if (responseBean.getFlag().equalsIgnoreCase("1")) {
+					ArrayList<CategoriesProducts> hotproduct = responseBean.getHotproduct();
+					ArrayList<CategoriesProducts> productList = responseBean.getProductList();
+
+					if(hotproduct.size() > 0 ){
+						for(int i=0;i<hotproduct.size();i++) {
+							CategoriesProducts categoriesProducts = hotproduct.get(i);
+							alCategory.add(categoriesProducts);
+							for(int k=0;k<categoriesProducts.getItems().size();k++){
+								listAll.add(categoriesProducts.getItems().get(k));
+							}
+						}
+					}
+					if(productList.size() > 0){
+						for(int j=0;j<productList.size();j++) {
+							CategoriesProducts categoriesProducts = productList.get(j);
+							alCategory.add(categoriesProducts);
+							for(int k=0;k<categoriesProducts.getItems().size();k++){
+								listAll.add(categoriesProducts.getItems().get(k));
+							}
+						}
+					}
+
+					if(listAll.size() > 0) {
+						CategoriesProducts categoriesProducts = new CategoriesProducts();
+						categoriesProducts.setCategory_id(null);
+						categoriesProducts.setCategory_name("All");
+						categoriesProducts.setItems(listAll);
+						categoriesProducts.setFlag(null);
+						categoriesProducts.setMobile(null);
+						categoriesProducts.setResult(null);
+						categoriesProducts.setTotalItem(0);
+						alCategory.add(0,categoriesProducts);
+					}
+
+//				Simple responseBean = (Simple) bundle.getSerializable(ConnectionService.RESPONSE);
+//				ArrayList<CategoriesProducts> hotproduct = responseBean.getHotproduct();
+//				ArrayList<CategoriesProducts> productList = responseBean.getProductList();
+//				if(hotproduct.size() > 0 && productList.size() > 0){
+//					for(int i=0;i<hotproduct.size();i++){
+//						CategoriesProducts categoriesProducts = hotproduct.get(0);
+//						String strName = hotproduct.get(0).getCategory_name();
+//						List<Product> products = categoriesProducts.getItems();
+//						System.out.println(strName+"=="+i+"==HOT NAME=="+product.getName());
+//					}
+//					for(int j=0;j<productList.size();j++){
+//						CategoriesProducts categoriesProducts = productList.get(0);
+//						List<Product> products = categoriesProducts.getItems();
+//						String strName = hotproduct.get(0).getCategory_name();
+//						System.out.println(strName+"=="+j+"==PRODUCT NAME=="+product.getName());
+//					}
+				}
+
+
+//				ArrayList<CategoriesProducts> hotproduct = responseBean.getHotproduct();
+//				PRODUCTDATA
 
 			/*for(int i=0;i<catObj.size();i++)
 			{
@@ -126,17 +196,16 @@ public class CategoryTabs extends BaseActivity {
 				}
 			});
 
-
-
 			FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
 
 			ViewPager pager = (ViewPager) findViewById(R.id.pager);
 			pager.setAdapter(adapter);
-			pager.setOffscreenPageLimit(catObj.size());
+//			pager.setOffscreenPageLimit(catObj.size());
+			pager.setOffscreenPageLimit(alCategory.size());
+//			pager.setOffscreenPageLimit(2);
 
 			TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
 			indicator.setViewPager(pager);
-
 
 			View headerView = findViewById(R.id.header);
 //			initHeader(headerView, true, header.replaceAll("/", " >> "));
@@ -197,50 +266,56 @@ public class CategoryTabs extends BaseActivity {
 //				finish();
 //			}
 //		});
-    }
+	}
 
 
 	class GoogleMusicAdapter extends FragmentPagerAdapter {
 
-        public GoogleMusicAdapter(FragmentManager fm) {
-            super(fm);
-        }
+		public GoogleMusicAdapter(FragmentManager fm) {
+			super(fm);
+		}
 
-        @Override
-        public Fragment getItem(int position) {
+		@Override
+		public Fragment getItem(int position) {
 			try{
-            	return ProductListFragments.newInstance(catObj.get(position % catObj.size()));
+//            	return ProductListFragments.newInstance(catObj.get(position % catObj.size()));
+				return ProductListFragments.newInstance(alCategory.get(position % alCategory.size()));
 			}catch(Exception e){
 				new GrocermaxBaseException("CategoryTabs","GoogleMusicAdapter",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 			}
 			return new Fragment();
-        }
+		}
 
-        @Override
-        public CharSequence getPageTitle(int position) {
+		@Override
+		public CharSequence getPageTitle(int position) {
 			try{
-            	return catObj.get(position % catObj.size()).getCategory().toUpperCase();
+//            	return catObj.get(position % catObj.size()).getCategory().toUpperCase();
+//				String str = alCategory.get(position % alCategory.size()).getCategory_name().toUpperCase();;
+//				System.out.println("==Cat value is=="+str);
+
+				return alCategory.get(position % alCategory.size()).getCategory_name().toUpperCase();
 			}catch(Exception e){
 				new GrocermaxBaseException("CategoryTabs","GoogleMusicAdapter",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 			}
 			return "";
-        }
+		}
 
-        @Override
-        public int getCount() {
+		@Override
+		public int getCount() {
 			try{
-          		return catObj.size();
+//          		return catObj.size();
+				return alCategory.size();
 			}catch(Exception e){
 				new GrocermaxBaseException("CategoryTabs","GoogleMusicAdapter",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 			}
 			return 0;
 
-        }
+		}
 
-    }
+	}
 
 	public void addToCart(String product_id, String quantity) {
-    	showDialog();
+		showDialog();
 		try {
 			JSONArray products = new JSONArray();
 			JSONObject prod_obj = new JSONObject();
@@ -260,7 +335,7 @@ public class CategoryTabs extends BaseActivity {
 						+ MySharedPrefs.INSTANCE.getUserId() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
 						+ URLEncoder.encode(products.toString(), "UTF-8");
 			}
-			
+
 			myApi.reqAddToCart(url);
 		}catch(NullPointerException e){
 			new GrocermaxBaseException("CategoryTabs", "addToCart", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
@@ -269,9 +344,9 @@ public class CategoryTabs extends BaseActivity {
 		}
 
 	}
-	
+
 	public void addToCartGuest(String product_id, String quantity) {
-    	showDialog();
+		showDialog();
 		try {
 			JSONArray products = new JSONArray();
 			JSONObject prod_obj = new JSONObject();
@@ -279,54 +354,54 @@ public class CategoryTabs extends BaseActivity {
 			prod_obj.put("quantity", quantity);
 			products.put(prod_obj);
 			String url;
-			
+
 			url = UrlsConstants.ADD_TO_CART_GUEST_URL+"quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
 					+ URLEncoder.encode(products.toString(), "UTF-8");
 			myApi.reqAddToCart(url);
-			
+
 		}catch(NullPointerException e){
 			new GrocermaxBaseException("CategoryTabs", "addToCartGuest", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "product_id"+product_id+"quantity"+quantity);
 		}catch(Exception e){
 			new GrocermaxBaseException("CategoryTabs", "addToCartGuest", e.getMessage(), GrocermaxBaseException.EXCEPTION, "product_id"+product_id+"quantity"+quantity);
 		}
 	}
-	
+
 	@Override
 	void OnResponse(Bundle bundle) {
 		try{
-		String action = bundle.getString("ACTION");
-		if (action.equals(MyReceiverActions.PRODUCT_CONTENT_LIST)) {
-			ProductDetailsListBean contentListBean = (ProductDetailsListBean) bundle
-					.getSerializable(ConnectionService.RESPONSE);
-			if (contentListBean.getFlag().equalsIgnoreCase("1")) {
-				Intent call = new Intent(mContext, ProductDetailScreen.class);
-				Bundle call_bundle = new Bundle();
-				call_bundle.putSerializable("ProductContent", contentListBean.getProductDetail().get(0));
-				call_bundle.putSerializable("Product", product);
-				call_bundle.putString("BRAND", product.getBrand());
-				call_bundle.putString("NAME", product.getProductName());
-				call_bundle.putString("GRAMSORML", product.getGramsORml());
-				call_bundle.putString("PROMOTION", product.getPromotionLevel());
-				call.putExtras(call_bundle);
-				startActivity(call);
-			} else {
-				UtilityMethods.customToast(contentListBean.getResult(), mContext);
-			}
-		} else if (action.equals(MyReceiverActions.ADD_TO_CART)) {
-			if (action.equalsIgnoreCase(MyReceiverActions.ADD_TO_CART)) {
-				BaseResponseBean bean = (BaseResponseBean) bundle.getSerializable(ConnectionService.RESPONSE);
-				if (bean.getFlag().equalsIgnoreCase("1")) {
-					cart_count_txt.setText(String.valueOf(bean.getTotalItem()));
-					UtilityMethods.customToast(ToastConstant.PRODUCT_ADDED_CART, mContext);
-					MySharedPrefs.INSTANCE.putQuoteId(bean.getQuoteId());
-					MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(bean.getTotalItem()));
-				} else if(bean.getFlag().equalsIgnoreCase("0")){
-					UtilityMethods.customToast(bean.getResult(), mContext);
-				}else {
-					UtilityMethods.customToast(ToastConstant.ERROR_MSG, mContext);
+			String action = bundle.getString("ACTION");
+			if (action.equals(MyReceiverActions.PRODUCT_CONTENT_LIST)) {
+				ProductDetailsListBean contentListBean = (ProductDetailsListBean) bundle
+						.getSerializable(ConnectionService.RESPONSE);
+				if (contentListBean.getFlag().equalsIgnoreCase("1")) {
+					Intent call = new Intent(mContext, ProductDetailScreen.class);
+					Bundle call_bundle = new Bundle();
+					call_bundle.putSerializable("ProductContent", contentListBean.getProductDetail().get(0));
+					call_bundle.putSerializable("Product", product);
+					call_bundle.putString("BRAND", product.getBrand());
+					call_bundle.putString("NAME", product.getProductName());
+					call_bundle.putString("GRAMSORML", product.getGramsORml());
+					call_bundle.putString("PROMOTION", product.getPromotionLevel());
+					call.putExtras(call_bundle);
+					startActivity(call);
+				} else {
+					UtilityMethods.customToast(contentListBean.getResult(), mContext);
+				}
+			} else if (action.equals(MyReceiverActions.ADD_TO_CART)) {
+				if (action.equalsIgnoreCase(MyReceiverActions.ADD_TO_CART)) {
+					BaseResponseBean bean = (BaseResponseBean) bundle.getSerializable(ConnectionService.RESPONSE);
+					if (bean.getFlag().equalsIgnoreCase("1")) {
+						cart_count_txt.setText(String.valueOf(bean.getTotalItem()));
+						UtilityMethods.customToast(ToastConstant.PRODUCT_ADDED_CART, mContext);
+						MySharedPrefs.INSTANCE.putQuoteId(bean.getQuoteId());
+						MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(bean.getTotalItem()));
+					} else if(bean.getFlag().equalsIgnoreCase("0")){
+						UtilityMethods.customToast(bean.getResult(), mContext);
+					}else {
+						UtilityMethods.customToast(ToastConstant.ERROR_MSG, mContext);
+					}
 				}
 			}
-		}
 		}catch(NullPointerException e){
 			new GrocermaxBaseException("CategoryTabs", "OnResponse", e.getMessage(), GrocermaxBaseException.NULL_POINTER, String.valueOf(bundle));
 		}catch(Exception e){
@@ -354,7 +429,7 @@ public class CategoryTabs extends BaseActivity {
 			new GrocermaxBaseException("CategoryTabs", "onResume", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
@@ -369,60 +444,60 @@ public class CategoryTabs extends BaseActivity {
 			new GrocermaxBaseException("CategoryTabs", "onBackPressed", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 	}
-	
-public void addTextView(LinearLayout ll,String value)
-{
-	    TextView tv1=new TextView(this);
-	    LinearLayout .LayoutParams layoutParams1= new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.MATCH_PARENT);
-	    tv1.setLayoutParams(layoutParams1);
-	    tv1.setGravity(Gravity.CENTER_VERTICAL|Gravity.LEFT);
-	    tv1.setPadding(30,0,30,0);
-	    tv1.setTypeface(CustomFonts.getInstance().getRobotoLight(this));
+
+	public void addTextView(LinearLayout ll,String value)
+	{
+		TextView tv1=new TextView(this);
+		LinearLayout .LayoutParams layoutParams1= new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.MATCH_PARENT);
+		tv1.setLayoutParams(layoutParams1);
+		tv1.setGravity(Gravity.CENTER_VERTICAL|Gravity.LEFT);
+		tv1.setPadding(30,0,30,0);
+		tv1.setTypeface(CustomFonts.getInstance().getRobotoLight(this));
 //	    tv1.setTextColor(Color.GRAY);
-	    tv1.setTextColor(getResources().getColor(R.color.breadcrum_text_color));
-	    tv1.setTextSize(13);
+		tv1.setTextColor(getResources().getColor(R.color.breadcrum_text_color));
+		tv1.setTextSize(13);
 //	    tv1.setTypeface(null, Typeface.BOLD);
-	    tv1.setText(value);
-	    ll.addView(tv1);
-}
-public void addImageView(LinearLayout ll)
-{
-	ImageView img=new ImageView(this);
-	LinearLayout .LayoutParams layoutParams1= new LinearLayout.LayoutParams(20,20);
-	layoutParams1.gravity=Gravity.CENTER_VERTICAL;
-	
-	img.setLayoutParams(layoutParams1);
+		tv1.setText(value);
+		ll.addView(tv1);
+	}
+	public void addImageView(LinearLayout ll)
+	{
+		ImageView img=new ImageView(this);
+		LinearLayout .LayoutParams layoutParams1= new LinearLayout.LayoutParams(20,20);
+		layoutParams1.gravity=Gravity.CENTER_VERTICAL;
+
+		img.setLayoutParams(layoutParams1);
 //	img.setPadding(10, 0, 10, 0);
-    img.setImageResource(R.drawable.forward_icon);
-    ll.addView(img);
-}
-public int getdp(int a)
-{
-	int paddingPixel = a;
-	float density = this.getResources().getDisplayMetrics().density;
-	int paddingDp = (int)(paddingPixel * density);
-	return paddingDp;
-}
+		img.setImageResource(R.drawable.forward_icon);
+		ll.addView(img);
+	}
+	public int getdp(int a)
+	{
+		int paddingPixel = a;
+		float density = this.getResources().getDisplayMetrics().density;
+		int paddingDp = (int)(paddingPixel * density);
+		return paddingDp;
+	}
 
-@Override
-protected void onStart() {
-	// TODO Auto-generated method stub
-	super.onStart();
-	try{
-    	tracker.activityStart(this);
-    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-	}catch(Exception e){}
-}
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		try{
+			tracker.activityStart(this);
+			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
+			FlurryAgent.onPageView();         //Use onPageView to report page view count.
+		}catch(Exception e){}
+	}
 
-@Override
-protected void onStop() {
-	// TODO Auto-generated method stub
-	super.onStop();
-	try{
-    	tracker.activityStop(this);
-    	FlurryAgent.onEndSession(this);
-	}catch(Exception e){}
-}
-	
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		try{
+			tracker.activityStop(this);
+			FlurryAgent.onEndSession(this);
+		}catch(Exception e){}
+	}
+
 }

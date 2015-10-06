@@ -32,6 +32,7 @@ import com.sakshay.grocermax.bean.PersonalInfo;
 import com.sakshay.grocermax.bean.ProductDetailsListBean;
 import com.sakshay.grocermax.bean.ProductListBean;
 import com.sakshay.grocermax.bean.SearchListBean;
+import com.sakshay.grocermax.bean.Simple;
 import com.sakshay.grocermax.bean.UserDetailBean;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.UtilityMethods;
@@ -107,15 +108,16 @@ public class ConnectionServiceParser {
 		return locationBean;
 	}
 
-	public static CategoriesProducts parseAllProductsCategoriesResponse(String jsonString)
+	public static Simple parseAllProductsCategoriesResponse(String jsonString)
 			throws JSONException {
 
 //		JSONObject jsonObject = new JSONObject();
 //		jsonString = new JSONObject(jsonString).getJSONArray("location").toString();
 		Gson gson = new Gson();
-		CategoriesProducts categoriesProducts = gson.fromJson(jsonString, CategoriesProducts.class);
-//		LocationDetail locationBean = gson.fromJson(jsonString, LocationDetail.class);
-		return categoriesProducts;
+//		CategoriesProducts categoriesProducts = gson.fromJson(jsonString, CategoriesProducts.class);
+		Simple simple = gson.fromJson(jsonString,Simple.class);
+
+		return simple;
 	}
 
 
@@ -324,9 +326,14 @@ public class ConnectionServiceParser {
 			throws JSONException {
 
 		String cartDetailString = "";
-//		CartProductList.strShippingChargeLimit = new JSONObject(jsonString).getString("shippingChargeLimit").toString();      //500
-//		MySharedPrefs.INSTANCE.putQuoteId(new JSONObject(jsonString).getString("QuoteId").toString());                            //added latest
-//		MySharedPrefs.INSTANCE.putTotalItem(new JSONObject(jsonString).getString("TotalItem").toString());                        //added latest
+		CartProductList.strShippingChargeLimit = new JSONObject(jsonString).getString("shippingChargeLimit").toString();      //500
+
+		if(new JSONObject(jsonString).getString("QuoteId").toString() != null) {
+			MySharedPrefs.INSTANCE.clearQuote();
+			MySharedPrefs.INSTANCE.putQuoteId(new JSONObject(jsonString).getString("QuoteId").toString());                            //added latest
+		}
+
+		MySharedPrefs.INSTANCE.putTotalItem(new JSONObject(jsonString).getString("TotalItem").toString());                        //added latest
 		cartDetailString=new JSONObject(jsonString).getJSONObject("CartDetail").toString();
 
 		OrderReviewBean orderReviewBean=new OrderReviewBean();
@@ -359,9 +366,12 @@ public class ConnectionServiceParser {
 		{
 			UpdateCartbg.getInstance().bLocally = false;
 
-//			MySharedPrefs.INSTANCE.putQuoteId(new JSONObject(jsonString).getString("QuoteId").toString());                            //added
-//			MySharedPrefs.INSTANCE.putTotalItem(new JSONObject(jsonString).getString("TotalItem").toString());                        //added
+			if(new JSONObject(jsonString).getString("QuoteId").toString() != null) {
+				MySharedPrefs.INSTANCE.clearQuote();
+				MySharedPrefs.INSTANCE.putQuoteId(new JSONObject(jsonString).getString("QuoteId").toString());                            //added
+			}
 
+			MySharedPrefs.INSTANCE.putTotalItem(new JSONObject(jsonString).getString("TotalItem").toString());                        //added
 			jsonString=new JSONObject(jsonString).getJSONObject("CartDetail").toString();
 			
 	//		OrderReviewBean orderReviewBean=new OrderReviewBean();

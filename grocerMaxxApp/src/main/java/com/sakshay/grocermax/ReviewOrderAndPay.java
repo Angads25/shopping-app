@@ -640,9 +640,29 @@ public class ReviewOrderAndPay extends BaseActivity
 
 					String url;
 					try {
-						url = UrlsConstants.FINAL_CHECKOUT + URLEncoder.encode(shipping, "UTF-8") + "&billing=" + URLEncoder.encode(billing, "UTF-8") + "&userid=" + MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId() + "&timeslot=" + orderReviewBean.getTimeSlot() + "&date=" + orderReviewBean.getDate() + "&payment_method=" + payment_mode + "&shipping_method=tablerate_bestway";
+//						url = UrlsConstants.FINAL_CHECKOUT + URLEncoder.encode(shipping, "UTF-8") + "&billing=" + URLEncoder.encode(billing, "UTF-8") + "&userid=" + MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId() + "&timeslot=" + orderReviewBean.getTimeSlot() + "&date=" + orderReviewBean.getDate() + "&payment_method=" + payment_mode + "&shipping_method=tablerate_bestway";
+						url = UrlsConstants.FINAL_CHECKOUT + URLEncoder.encode(shipping, "UTF-8") + "&billing=" +
+								URLEncoder.encode(billing, "UTF-8") + "&userid=" + MySharedPrefs.INSTANCE.getUserId() +
+								"&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId() + "&timeslot=" + orderReviewBean.getTimeSlot() +
+								"&date=" + orderReviewBean.getDate() + "&payment_method=" + payment_mode + "&shipping_method=tablerate_bestway";
 						System.out.println("=URL OUTPUT==" + url);
 						myApi.reqFinalCheckout(url.replaceAll(" ", "%20"));
+
+						////////////////POST/////////////
+//						String strurl = UrlsConstants.FINAL_CHECKOUT;
+//						HashMap<String, String> hashMap = new HashMap<String,String>();
+//						hashMap.put("shipping",URLEncoder.encode(shipping, "UTF-8"));
+//						hashMap.put("billing",URLEncoder.encode(billing, "UTF-8"));
+//						hashMap.put("userid",MySharedPrefs.INSTANCE.getUserId());
+//						hashMap.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
+//						hashMap.put("timeslot",orderReviewBean.getTimeSlot());
+//						hashMap.put("date", orderReviewBean.getDate());
+//						hashMap.put("payment_method",payment_mode);
+//						hashMap.put("shipping_method","tablerate_bestway");
+//						myApi.reqFinalCheckout(strurl.replaceAll(" ", "%20"),hashMap);
+						////////////////POST/////////////
+
+
 					} catch (UnsupportedEncodingException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

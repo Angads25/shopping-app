@@ -431,11 +431,16 @@ public class ConnectionCartService  extends IntentService {
                 bundle.putSerializable(RESPONSE,
                         (Serializable) ConnectionServiceParser
                                 .parseSimpleResponse(response));
-              if(MySharedPrefs.INSTANCE.getQuoteId()==null)
-              {
-                  if(responseBean.getFlag().equalsIgnoreCase("1"))
-                  MySharedPrefs.INSTANCE.putQuoteId(responseBean.getQuoteId());
-              }
+//              if(MySharedPrefs.INSTANCE.getQuoteId()==null)
+//              {
+                  if(responseBean.getFlag().equalsIgnoreCase("1")) {
+                      if(responseBean.getQuoteId() != null) {
+                          MySharedPrefs.INSTANCE.clearQuote();
+                          MySharedPrefs.INSTANCE.putQuoteId(responseBean.getQuoteId());
+                          System.out.println("==new quote id cart service==" + MySharedPrefs.INSTANCE.getQuoteId());
+                      }
+                  }
+//              }
 
                 break;
             case ConnectionServiceParser.MyParserType.DELETE_FROM_CART:

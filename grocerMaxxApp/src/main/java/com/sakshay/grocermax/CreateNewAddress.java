@@ -32,6 +32,8 @@ import com.sakshay.grocermax.utils.UrlsConstants;
 import com.sakshay.grocermax.utils.UtilityMethods;
 
 import java.io.IOException;
+import java.util.HashMap;
+
 /*
 USER can update address from MyAddresses ,their checkbox of shipping and billing address will be visible.
 USER can update address from checkout screen ,their checkbox of shipping and billing address will not be visible(as it make shipping or billing from which screen of checkout user has come).
@@ -912,8 +914,6 @@ public class CreateNewAddress extends BaseActivity{
 				state = LocationActivity.strSelectedStateId;
 			}
 
-
-
 			String pin = tvPinCode.getText().toString();
 			String countrycode = "IN";
 			String phone = tvPhone.getText().toString();
@@ -935,7 +935,27 @@ public class CreateNewAddress extends BaseActivity{
 			if (address == null) {
 				//String url = UrlsConstants.ADD_ADDRESS + URLEncoder.encode(json_obj.toString(), "UTF-8") + "&UserID=" + MySharedPrefs.INSTANCE.getUserId() + "&default_billing=" + default_billing;
 				String url = UrlsConstants.ADD_ADDRESS + url_param + "&userid=" + MySharedPrefs.INSTANCE.getUserId() + "&default_billing=" + default_billing + "&default_shipping=" + default_shipping;
+				System.out.println("====URL new address===="+url);
 				myApi.reqAddAddress(url, MyReceiverActions.ADD_ADDRESS);
+
+				////////////////POST/////////////
+//				String strurl = UrlsConstants.ADD_ADDRESS;
+//				HashMap<String, String> hashMap = new HashMap<String,String>();
+//				hashMap.put("fname",fname);
+//				hashMap.put("lname",lname);
+//				hashMap.put("addressline1",addressLine1);
+//				hashMap.put("addressline2",addressLine2);
+//				hashMap.put("addressline3",addressLine3);
+//				hashMap.put("city",city);
+//				hashMap.put("state",state);
+//				hashMap.put("pin",pin);
+//				hashMap.put("countrycode",countrycode);
+//				hashMap.put("phone",phone);
+//				hashMap.put("userid",MySharedPrefs.INSTANCE.getUserId());
+//				hashMap.put("default_billing",String.valueOf(default_billing));
+//				hashMap.put("default_shipping",String.valueOf(default_shipping));
+//				myApi.reqAddAddress(strurl, MyReceiverActions.ADD_ADDRESS,hashMap);
+				////////////////POST/////////////
 			} else {
 				/*String params = "";
 				Iterator<String> itr = json_obj.keys();
@@ -946,6 +966,26 @@ public class CreateNewAddress extends BaseActivity{
 				String url = UrlsConstants.EDIT_ADDRESS + MySharedPrefs.INSTANCE.getUserId() + "&id=" + address.getid() + params + "&default_shipping=" + default_billing;;*/
 				String url = UrlsConstants.EDIT_ADDRESS + url_param + "&userid=" + MySharedPrefs.INSTANCE.getUserId() + "&addressid=" + address.getCustomer_address_id() + "&default_billing=" + default_billing + "&default_shipping=" + default_shipping;
 				myApi.reqEditAddress(url);
+
+				////////////////POST/////////////
+//			String strurl = UrlsConstants.EDIT_ADDRESS;
+//			HashMap<String, String> hashMap = new HashMap<String,String>();
+//			hashMap.put("fname",fname);
+//			hashMap.put("lname",lname);
+//			hashMap.put("addressline1",addressLine1);
+//			hashMap.put("addressline2",addressLine2);
+//			hashMap.put("addressline3",addressLine3);
+//			hashMap.put("city",city);
+//			hashMap.put("state",state);
+//			hashMap.put("pin",pin);
+//			hashMap.put("countrycode",countrycode);
+//			hashMap.put("phone",phone);
+//			hashMap.put("userid",MySharedPrefs.INSTANCE.getUserId());
+//			hashMap.put("addressid",address.getCustomer_address_id());
+//			hashMap.put("default_billing",String.valueOf(default_billing));
+//			hashMap.put("default_shipping",String.valueOf(default_shipping));
+//			myApi.reqEditAddress(strurl,hashMap);
+				////////////////POST/////////////
 			}
 		}
 //		catch(IOException e){

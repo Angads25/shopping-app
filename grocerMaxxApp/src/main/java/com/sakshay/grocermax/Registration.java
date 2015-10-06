@@ -3,6 +3,7 @@ package com.sakshay.grocermax;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -405,16 +406,47 @@ public class Registration extends BaseActivity implements
 						strEmail = _email_id;
 						//String params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password;
 						params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password;
-						if (MySharedPrefs.INSTANCE.getQuoteId() == null || MySharedPrefs.INSTANCE.getQuoteId().equals(""))
+						if (MySharedPrefs.INSTANCE.getQuoteId() == null || MySharedPrefs.INSTANCE.getQuoteId().equals("")) {
 							params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password + "&quote_id=no";
-						else
-							params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
-						url += params;
+							url += params;
 //						myApi.reqUserRegistration(url);
-						myApi.reqUserRegistrationOTP(url);
+							myApi.reqUserRegistrationOTP(url);
+							MySharedPrefs.INSTANCE.putMobileNo(_mobile_no);                           //14/09/15
 
-						MySharedPrefs.INSTANCE.putMobileNo(_mobile_no);                           //14/09/15
-					
+							////////////////POST/////////////
+//							String strurl = UrlsConstants.REGESTRATION_URL_OTP;
+//							HashMap<String, String> hashMap = new HashMap<String,String>();
+//							hashMap.put("fname",_fname);
+//							hashMap.put("lname",_lname);
+//							hashMap.put("uemail",_email_id);
+//							hashMap.put("number",_mobile_no);
+//							hashMap.put("password",_password);
+//							hashMap.put("quote_id","no");
+//							myApi.reqUserRegistrationOTP(strurl,hashMap);
+							////////////////POST/////////////
+						}else {
+							params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
+							url += params;
+//						myApi.reqUserRegistration(url);
+							myApi.reqUserRegistrationOTP(url);
+							MySharedPrefs.INSTANCE.putMobileNo(_mobile_no);                           //14/09/15
+
+							////////////////POST/////////////
+//							String strurl = UrlsConstants.REGESTRATION_URL_OTP;
+//							HashMap<String, String> hashMap = new HashMap<String,String>();
+//							hashMap.put("fname",_fname);
+//							hashMap.put("lname",_lname);
+//							hashMap.put("uemail",_email_id);
+//							hashMap.put("number",_mobile_no);
+//							hashMap.put("password",_password);
+//							hashMap.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
+//							myApi.reqUserRegistrationOTP(strurl, hashMap);
+							////////////////POST/////////////
+						}
+
+
+
+
 
 /*HashMap<String, String> map = new HashMap<String, String>();
 					
@@ -426,7 +458,6 @@ public class Registration extends BaseActivity implements
 
 
 					} else {
-//					Toast.makeText(mContext, ToastConstant.msgNoInternet ,Toast.LENGTH_LONG).show();
 						UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
 					}
 				}
@@ -456,7 +487,6 @@ public class Registration extends BaseActivity implements
 					}else{                                                             //Simple login
 						MySharedPrefs.INSTANCE.putFirstName(userDataBean.getFirstName());
 						MySharedPrefs.INSTANCE.putLastName(userDataBean.getLastName());
-
 					}
 
 					MySharedPrefs.INSTANCE.putMobileNo(userDataBean.getMobile());

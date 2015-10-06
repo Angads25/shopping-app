@@ -17,7 +17,6 @@ public class CategoriesProducts extends BaseResponseBean implements Serializable
     String category_id;
     String category_name;
 
-
     @Expose
     private List<Product> product = new ArrayList<Product>();
 

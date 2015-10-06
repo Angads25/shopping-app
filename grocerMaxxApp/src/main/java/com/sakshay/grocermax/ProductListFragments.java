@@ -10,6 +10,8 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,6 +33,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
 import com.sakshay.grocermax.adapters.ProductListAdapter;
+import com.sakshay.grocermax.bean.CategoriesProducts;
 import com.sakshay.grocermax.bean.Product;
 import com.sakshay.grocermax.bean.ProductListBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
@@ -55,6 +58,7 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 	private ProductListBean productListBean;
 	private int pageNo = 1;
 	private String cat_id = "";
+	private String cat_name = "";
 	private List<Product> product_list;
 	private CategoryTabs categoryTabs;
 	private View footerView;
@@ -62,40 +66,56 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 	private ProgressBar progressBar;
 	public static TextView tvGlobalUpdateProductList;        //will update product listing screen if on product description page quantity has been changed and user press back btn OR cross btn
 	public static ImageView imgAddedProductCount;           //will update product listing screen if on product description page quantity has been changed and user press back btn OR cross btn
-    public static ProductListFragments newInstance(CategorySubcategoryBean categorySubcategoryBean) {
-    	ProductListFragments fragment = new ProductListFragments();
-    	fragment.cat_id = categorySubcategoryBean.getCategoryId();
-        return fragment;
-    }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-    	super.onActivityCreated(savedInstanceState);
+	private CategoriesProducts category;
+
+//    public static ProductListFragments newInstance(CategorySubcategoryBean categorySubcategoryBean) {
+//    	ProductListFragments fragment = new ProductListFragments();
+//    	fragment.cat_id = categorySubcategoryBean.getCategoryId();
+//        return fragment;
+//    }
+
+	//	ArrayList<CategoriesProducts> alCategory = null;
+	public static ProductListFragments newInstance(CategoriesProducts categorie) {
+		ProductListFragments fragment = new ProductListFragments();
+//		fragment.cat_id = alCategory.getCategoryId();
+//		alCategory.get(0).getItems().get(0).get
+//		List<Product> product = alCategory.get(0).getItems();
+//		fragment.alCategory = alCategory.get(0).getItems();
+		fragment.cat_id = categorie.getCategory_id();
+		fragment.category = categorie;
+		fragment.cat_name = categorie.getCategory_name();
+		return fragment;
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 		try{
-    		categoryTabs = ((CategoryTabs)getActivity());
+			categoryTabs = ((CategoryTabs)getActivity());
 		}catch(Exception e){
 			new GrocermaxBaseException("ProductListFragments","onActivityCreated",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
 		}
-    }
-    
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        try {
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		try {
 			if ((savedInstanceState != null) && savedInstanceState.containsKey("ProductList")) {
 				productListBean = (ProductListBean) savedInstanceState
 						.getSerializable("ProductList");
 				cat_id = savedInstanceState.getString("cat_id");
 			}
-			}catch(Exception e){
-				new GrocermaxBaseException("ProductListFragments","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
-			}
-    }
+		}catch(Exception e){
+			new GrocermaxBaseException("ProductListFragments","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    	View view = inflater.inflate(R.layout.fragment_categoty_list, container, false);
-    	try{
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_categoty_list, container, false);
+		try{
 			main_lay = (LinearLayout) view.findViewById(R.id.main_lay);
 			progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
@@ -106,38 +126,121 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 			footerView = (LinearLayout) view.findViewById(R.id.load_more_progressBar);
 
 			mList.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,int position, long arg3) {
-               if(CategoryTabs.clickStatus==0)
-               {
-            	CategoryTabs.clickStatus=1;
-				if(productListBean!=null)
-				{
-				  MySharedPrefs.INSTANCE.putItemQuantity(productListBean.getProduct().get(position).getQuantity());
-				  categoryTabs.product = productListBean.getProduct().get(position);
-				  categoryTabs.showDialog();
-				  
-				  tvGlobalUpdateProductList = (TextView) view.findViewById(R.id.added_product_count);
-				  imgAddedProductCount = (ImageView) view.findViewById(R.id.img_added_product_count);
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,int position, long arg3) {
+					if(CategoryTabs.clickStatus==0)
+					{
+						CategoryTabs.clickStatus=1;
+						if(productListBean!=null)
+						{
+							MySharedPrefs.INSTANCE.putItemQuantity(productListBean.getProduct().get(position).getQuantity());
+							categoryTabs.product = productListBean.getProduct().get(position);
+							categoryTabs.showDialog();
 
-				  String url = UrlsConstants.PRODUCT_DETAIL_URL + categoryTabs.product.getProductid();
-				  categoryTabs.myApi.reqProductContentList(url);
+							tvGlobalUpdateProductList = (TextView) view.findViewById(R.id.added_product_count);
+							imgAddedProductCount = (ImageView) view.findViewById(R.id.img_added_product_count);
+
+							String url = UrlsConstants.PRODUCT_DETAIL_URL + categoryTabs.product.getProductid();
+							categoryTabs.myApi.reqProductContentList(url);
+						}
+					}
 				}
-               }
-			}
-		});
-		mList.setOnScrollListener(this);
+			});
+			mList.setOnScrollListener(this);
 
-		CallAPI callapi=new CallAPI();
-		CategoryTabs.asyncTasks.add(callapi);
-		callapi.execute(UrlsConstants.PRODUCT_LIST_URL + cat_id);
+//		CallAPI callapi=new CallAPI();
+//		CategoryTabs.asyncTasks.add(callapi);
+//		callapi.execute(UrlsConstants.PRODUCT_LIST_URL + cat_id);
+			makeUI();
 		}catch(Exception e){
 			new GrocermaxBaseException("ProductListFragments","onCreateView",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 
-        return view;
-    }
-    
+		return view;
+	}
+
+
+	private void makeUI(){
+		try{
+			main_lay.setVisibility(View.VISIBLE);
+			progressBar.setVisibility(View.GONE);
+			ProductListBean listBean = null;
+//			if (result!=null) {
+//				Log.i(TAG, "RESPONSE:::" + result);
+			JSONArray products = new JSONArray();
+			int size= category.getItems().size();
+			System.out.println("====size si=="+size);
+//			for(int i=0;i<category.getItems().size();i++)
+//			{
+//				Product pro = category.getItems().get(i);
+
+			listBean = new ProductListBean();
+
+			List<Product> lis = category.getItems();
+			listBean.setProduct(lis);
+
+//				JSONObject prod_obj = new JSONObject(category.getItems().get(i).toString());
+//				products.put(prod_obj);
+//			}
+
+//			Gson gson = new Gson();
+//			listBean = gson.fromJson(String.valueOf(products), ProductListBean.class);
+
+//			List<Product> listP = category.getItems();
+//			listP.size()
+//			listP.get(0).getBrand()
+
+//			listBean = gson.fromJson(category.getItems().toString(), ProductListBean.class);
+
+//				if (listBean!=null && listBean.getFlag().equalsIgnoreCase("1")) {
+			if (listBean!=null ) {
+//			if (category.getItems() != null ) {
+				if(cat_name.equalsIgnoreCase("All")){
+					hasMoreItem = false;
+				}else {
+					if (listBean.getProduct().size() < itemPerPage) {
+						hasMoreItem = false;
+					} else {
+						hasMoreItem = true;
+					}
+				}
+				footerView.setVisibility(View.GONE);
+				if (mAdapter != null) {
+
+					for(int i=0;i<listBean.getProduct().size();i++)                //new 10 records
+						listBean.getProduct().get(i).setQuantity("1");
+					product_list.addAll(listBean.getProduct());                    //added more records in product_list
+//					product_list.addAll(category.getItems());                    //added more records in product_list
+					productListBean.setProduct(product_list);
+					mAdapter.updateList(product_list);
+				}else{
+					productListBean = listBean;
+					product_list = productListBean.getProduct();
+//					product_list = category.getItems();
+//					mAdapter = new ProductListAdapter(categoryTabs, product_list);
+					mAdapter = new ProductListAdapter(getActivity(), product_list);
+
+					mList.setAdapter(mAdapter);
+				}
+			} else
+			{
+				product_list=new ArrayList<Product>();
+				Product product=new Product("No product found for this category");
+				product_list.add(product);
+//				mAdapter = new ProductListAdapter(categoryTabs, product_list);
+				mAdapter = new ProductListAdapter(getActivity(), product_list);
+
+				mList.setAdapter(mAdapter);
+
+			}
+//			}
+		}catch(Exception e){
+			e.printStackTrace();
+			new GrocermaxBaseException("ProductListFragments","onPostExecute",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
+	}
+
+
 	/*@TargetApi(Build.VERSION_CODES.HONEYCOMB) // API 11
     void startMyTask(AsyncTask<String, String, String> asyncTask,String params) {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
@@ -145,21 +248,21 @@ public final class ProductListFragments extends Fragment implements OnScrollList
         else
             asyncTask.execute(params);
     }*/
-    
-    public class CallAPI extends AsyncTask<String, String, String> {
-        @Override
-        protected String doInBackground(String... params) {
+
+	public class CallAPI extends AsyncTask<String, String, String> {
+		@Override
+		protected String doInBackground(String... params) {
 			try {
-        	HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
-			String strURL = params[0];
-			if(strURL.contains("?")) {
-				strURL += "&version=1.0";
-			}else{
-				strURL += "?version=1.0";
-			}
-        	HttpGet httpGet = new HttpGet(strURL);
-			httpGet.setHeader("Content-Type", "application/json");
-			HttpResponse response = null;
+				HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
+				String strURL = params[0];
+				if(strURL.contains("?")) {
+					strURL += "&version=1.0";
+				}else{
+					strURL += "?version=1.0";
+				}
+				HttpGet httpGet = new HttpGet(strURL);
+				httpGet.setHeader("Content-Type", "application/json");
+				HttpResponse response = null;
 
 				response = client.execute(httpGet);
 				HttpEntity resEntity = response.getEntity();
@@ -170,64 +273,71 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 				new GrocermaxBaseException("ProductListFragments","doInBackground",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 			}
 			return null;
-        }
-     
-        protected void onPostExecute(String result) {
-		  try{
-        	main_lay.setVisibility(View.VISIBLE);
-        	progressBar.setVisibility(View.GONE);
-        	ProductListBean listBean = null;
-        	if (result!=null) {
-        		Log.i(TAG, "RESPONSE:::" + result);
-        			Gson gson = new Gson();
-        			listBean = gson.fromJson(result, ProductListBean.class);
+		}
 
-        		if (listBean!=null && listBean.getFlag().equalsIgnoreCase("1")) {
-    				if (listBean.getProduct().size() < itemPerPage) {
-    					hasMoreItem = false;
-    				} else {
-    					hasMoreItem = true;
-    				}
-    				footerView.setVisibility(View.GONE);
-    				if (mAdapter != null) {
+		protected void onPostExecute(String result) {
+			try{
+				main_lay.setVisibility(View.VISIBLE);
+				progressBar.setVisibility(View.GONE);
+				ProductListBean listBean = null;
+				if (result!=null) {
+					Log.i(TAG, "RESPONSE:::" + result);
+					Gson gson = new Gson();
+					listBean = gson.fromJson(result, ProductListBean.class);
 
-    				    for(int i=0;i<listBean.getProduct().size();i++)                //new 10 records
-    				    	listBean.getProduct().get(i).setQuantity("1");          
-    					product_list.addAll(listBean.getProduct());                    //added more records in product_list                                      
-    					productListBean.setProduct(product_list);
-    					mAdapter.updateList(product_list);
-					}else{
-						productListBean = listBean;
-						product_list = productListBean.getProduct();
+					if (listBean!=null && listBean.getFlag().equalsIgnoreCase("1")) {
+
+
+						if(cat_name.equalsIgnoreCase("All")){
+							hasMoreItem = false;
+						}
+						else {
+							if (listBean.getProduct().size() < itemPerPage) {
+								hasMoreItem = false;
+							} else {
+								hasMoreItem = true;
+							}
+						}
+						footerView.setVisibility(View.GONE);
+						if (mAdapter != null) {
+
+							for(int i=0;i<listBean.getProduct().size();i++)                //new 10 records
+								listBean.getProduct().get(i).setQuantity("1");
+							product_list.addAll(listBean.getProduct());                    //added more records in product_list
+							productListBean.setProduct(product_list);
+							mAdapter.updateList(product_list);
+						}else{
+							productListBean = listBean;
+							product_list = productListBean.getProduct();
+							mAdapter = new ProductListAdapter(categoryTabs, product_list);
+							mList.setAdapter(mAdapter);
+						}
+					} else
+					{
+						product_list=new ArrayList<Product>();
+						Product product=new Product("No product found for this category");
+						product_list.add(product);
 						mAdapter = new ProductListAdapter(categoryTabs, product_list);
 						mList.setAdapter(mAdapter);
 					}
-	    			} else
-	    			{
-	    				product_list=new ArrayList<Product>();
-	    				Product product=new Product("No product found for this category");
-	    				product_list.add(product);
-	    				mAdapter = new ProductListAdapter(categoryTabs, product_list);
-						mList.setAdapter(mAdapter);
-	    			}
+				}
+			}catch(Exception e){
+				new GrocermaxBaseException("ProductListFragments","onPostExecute",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 			}
-		}catch(Exception e){
-			new GrocermaxBaseException("ProductListFragments","onPostExecute",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
-        }
 
-        
-    } 
-    
+
+	}
+
 	public void onScroll(AbsListView view, int firstVisibleItem,
-			int visibleItemCount, int totalItemCount) {
+						 int visibleItemCount, int totalItemCount) {
 		try {
 			this.currentFirstVisibleItem = firstVisibleItem;
 			this.currentVisibleItemCount = visibleItemCount;
 			this.totalItemCount = totalItemCount;
 		}catch(Exception e){
-		new GrocermaxBaseException("ProductListFragments","onScroll",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
-	}
+			new GrocermaxBaseException("ProductListFragments","onScroll",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -258,41 +368,41 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 
 	private void loadMoreData() {
 		try{
-		if (UtilityMethods.isInternetAvailable(categoryTabs.mContext)) {
-			if (hasMoreItem) {
-				// mList.addFooterView(footerView);
-				pageNo++;
-				String url;
-				footerView.setVisibility(View.VISIBLE);
+			if (UtilityMethods.isInternetAvailable(categoryTabs.mContext)) {
+				if (hasMoreItem) {
+					// mList.addFooterView(footerView);
+					pageNo++;
+					String url;
+					footerView.setVisibility(View.VISIBLE);
 					url = UrlsConstants.PRODUCT_LIST_URL + cat_id + "&page="
 							+ pageNo;
 
 					new CallAPI().execute(url);
 					//callApi.execute(url);
 					//startMyTask(callApi, url);
-			} else {
+				} else {
 //				Toast.makeText(categoryTabs.mContext, ToastConstant.listFull, Toast.LENGTH_SHORT).show();
-				UtilityMethods.customToast(ToastConstant.listFull, categoryTabs.mContext);
-			}
-		} else {
+					UtilityMethods.customToast(ToastConstant.listFull, categoryTabs.mContext);
+				}
+			} else {
 //			Toast.makeText(categoryTabs.mContext,ToastConstant.msgNoInternet,
 //					Toast.LENGTH_LONG).show();
-			UtilityMethods.customToast(ToastConstant.msgNoInternet, categoryTabs.mContext);
-		}
+				UtilityMethods.customToast(ToastConstant.msgNoInternet, categoryTabs.mContext);
+			}
 		}catch(Exception e){
 			new GrocermaxBaseException("ProductListFragments","loadMoreData",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
 		try {
 			outState.putSerializable("ProductList", productListBean);
 			outState.putString("cat_id", cat_id);
 		}catch(Exception e){
 			new GrocermaxBaseException("ProductListFragments","onSaveInstanceState",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
-    }
-    
+	}
+
 }

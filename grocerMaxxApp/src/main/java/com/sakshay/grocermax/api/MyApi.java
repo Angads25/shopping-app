@@ -42,7 +42,8 @@ public class MyApi {
 		reqIntent.putExtra(ConnectionService.PARSE_TYPE,MyParserType.LOGIN);
 		m_context.startService(reqIntent);
 	}
-	
+
+
 	/**
 	 * This is used to login user using json
 	 */
@@ -78,15 +79,26 @@ public class MyApi {
 		m_context.startService(reqIntent);
 	}
 
-	/**This is used to get otp while register.
-	 * @param url
-	 * @param valuePairs
-	 */
 	public void reqUserRegistrationOTP(String url) {
 		Intent reqIntent = new Intent(m_context, ConnectionService.class);
 		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.OTP);
 		reqIntent.putExtra(ConnectionService.URL, url);
 		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.OTP_SUCCESSFULL);
+		m_context.startService(reqIntent);
+	}
+
+
+	/**This is used to get otp while register.
+	 * @param url
+	 * @param valuePairs
+	 */
+	public void reqUserRegistrationOTP(String url, HashMap<String, String> valuePairs) {
+		Intent reqIntent = new Intent(m_context, ConnectionService.class);
+		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.OTP);
+		reqIntent.putExtra(ConnectionService.URL, url);
+		reqIntent.putExtra(ConnectionService.PAIRS, valuePairs);
+		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "POST");
 		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.OTP_SUCCESSFULL);
 		m_context.startService(reqIntent);
 	}
@@ -339,7 +351,18 @@ public class MyApi {
 //		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.VIEW_CART_UPDATE_LOCALLY);
 //		m_context.startService(reqIntent);
 //	}
-	
+
+
+	public void reqEditCart(String url, HashMap<String, String> valuePairs) {
+		Intent reqIntent = new Intent(m_context, ConnectionService.class);
+		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
+		reqIntent.putExtra(ConnectionService.URL, url);
+		reqIntent.putExtra(ConnectionService.PAIRS, valuePairs);
+		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "POST");
+		m_context.startService(reqIntent);
+	}
+
+
 //	public void reqEditCart(String url,JSONObject jsonObject) {
 	public void reqEditCart(String url) {
 		Intent reqIntent = new Intent(m_context, ConnectionService.class);
@@ -360,6 +383,17 @@ public class MyApi {
 //		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.VIEW_CART_UPDATE_LOCALLY);
 		m_context.startService(reqIntent);
 	}
+
+	public void reqEditCartBackToCart(String url ,String action,HashMap<String, String> valuePairs) {
+		Intent reqIntent = new Intent(m_context, ConnectionService.class);
+		reqIntent.putExtra(ConnectionService.ACTION, action);
+		reqIntent.putExtra(ConnectionService.URL, url);
+		reqIntent.putExtra(ConnectionService.PAIRS, valuePairs);
+		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "POST");
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.VIEW_CART_UPDATE_LOCALLY);
+		m_context.startService(reqIntent);
+	}
+
 
 	public void reqEditCartBackToCart(String url ,String action) {
 		Intent reqIntent = new Intent(m_context, ConnectionService.class);
@@ -395,7 +429,17 @@ public class MyApi {
 		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.ADDRESS_BOOK);
 		m_context.startService(reqIntent);
 	}
-	
+
+	public void reqEditAddress(String url, HashMap<String, String> valuePairs) {
+		Intent reqIntent = new Intent(m_context, ConnectionService.class);
+		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.EDIT_ADDRESS);
+		reqIntent.putExtra(ConnectionService.URL, url);
+		reqIntent.putExtra(ConnectionService.PAIRS, valuePairs);
+		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "POST");
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.ADD_ADDRESS);
+		m_context.startService(reqIntent);
+	}
+
 	public void reqEditAddress(String url) {
 		Intent reqIntent = new Intent(m_context, ConnectionService.class);
 		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.EDIT_ADDRESS);
@@ -404,7 +448,18 @@ public class MyApi {
 		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.ADD_ADDRESS);
 		m_context.startService(reqIntent);
 	}
-	
+
+	public void reqAddAddress(String url,String action,HashMap<String, String> valuePairs) {
+		Intent reqIntent = new Intent(m_context, ConnectionService.class);
+		reqIntent.putExtra(ConnectionService.ACTION, action);
+		reqIntent.putExtra(ConnectionService.URL, url);
+		reqIntent.putExtra(ConnectionService.PAIRS, valuePairs);
+		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "POST");
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.ADD_ADDRESS);
+		m_context.startService(reqIntent);
+	}
+
+
 	public void reqAddAddress(String url,String action) {
 		Intent reqIntent = new Intent(m_context, ConnectionService.class);
 		reqIntent.putExtra(ConnectionService.ACTION, action);
@@ -423,6 +478,15 @@ public class MyApi {
 		m_context.startService(reqIntent);
 	}
 
+	public void reqFinalCheckout(String url,HashMap<String, String> valuePairs) {
+		Intent reqIntent = new Intent(m_context, ConnectionService.class);
+		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.FINAL_CHECKOUT);
+		reqIntent.putExtra(ConnectionService.URL, url);
+		reqIntent.putExtra(ConnectionService.PAIRS, valuePairs);
+		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "POST");
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.FINAL_CHECKOUT);
+		m_context.startService(reqIntent);
+	}
 	
 	public void reqFinalCheckout(String url) {
 		Intent reqIntent = new Intent(m_context, ConnectionService.class);
@@ -432,6 +496,7 @@ public class MyApi {
 		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.FINAL_CHECKOUT);
 		m_context.startService(reqIntent);
 	}
+
 public void reqCheckOutAddress(String url) {
 		Intent reqIntent = new Intent(m_context, ConnectionService.class);
 		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.CHECKOUT_ADDRESS);

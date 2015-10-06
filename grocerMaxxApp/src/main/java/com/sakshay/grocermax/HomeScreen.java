@@ -35,6 +35,7 @@ import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.bean.CategoriesProducts;
+import com.sakshay.grocermax.bean.Simple;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
@@ -186,7 +187,6 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 
 					System.out.println(second_level + "====checking 11==" + catObj.get(position).getChildren().get(groupPosition).getCategoryId());
 
-
 					MySharedPrefs.INSTANCE.putBradecrum(first_level + ">>" + second_level);
 					for (int i = 0; i < catObj.get(position).getChildren().get(groupPosition).getChildren().size(); i++) {
 						if (catObj.get(position).getChildren().get(groupPosition).getChildren().get(i).getChildren().size() > 0) {
@@ -222,11 +222,11 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 						call_bundle.putSerializable("Header", catObj.get(position).getChildren().get(groupPosition).getBreadcrumb());
 						call_bundle.putSerializable("selectedcatid", catObj.get(position).getChildren().get(groupPosition).getCategoryId());
 						call.putExtras(call_bundle);
-						startActivity(call);
+//						startActivity(call);
 
-//						showDialog();
-//						String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(groupPosition).getCategoryId();
-//						myApi.reqAllProductsCategory(url);
+						showDialog();
+						String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(groupPosition).getCategoryId();
+						myApi.reqAllProductsCategory(url);
 
 						return true;
 					} else {
@@ -279,7 +279,10 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 					call_bundle.putSerializable("Categories",list);
 					call_bundle.putSerializable("Header", catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getBreadcrumb());
 					call.putExtras(call_bundle);
-					startActivity(call);
+//					startActivity(call);
+					showDialog();
+					String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(groupPosition).getCategoryId();
+					myApi.reqAllProductsCategory(url);
 				}
 				else
 				{
@@ -478,22 +481,41 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		// TODO Auto-generated method stub
 		String action = bundle.getString("ACTION");
 		if (action.equals(MyReceiverActions.ALL_PRODUCTS_CATEGORY)) {
-//			BaseResponseBean responseBean = (BaseResponseBean) bundle.getSerializable(ConnectionService.RESPONSE);
-			CategoriesProducts categoriesProducts = (CategoriesProducts) bundle.getSerializable(ConnectionService.RESPONSE);
-			CategoriesProducts categoriesProducts1 = (CategoriesProducts) bundle.getSerializable(ConnectionService.RESPONSE);
+			group_click = 0;
+			Simple responseBean = (Simple) bundle.getSerializable(ConnectionService.RESPONSE);
+			if (responseBean.getFlag().equalsIgnoreCase("1")) {
+				Intent call = new Intent(HomeScreen.this, CategoryTabs.class);
+				Bundle call_bundle = new Bundle();
+				call_bundle.putSerializable("PRODUCTDATA", responseBean);
+				call.putExtras(call_bundle);
+				startActivity(call);
 
+			}
+//			Simple simple1 = (Simple) bundle.getSerializable(ConnectionService.RESPONSE);
+//			if (responseBean.getResult().equalsIgnoreCase("1")) {
+//				ArrayList<CategoriesProducts> hotproduct = responseBean.getHotproduct();
+//				ArrayList<CategoriesProducts> productList = responseBean.getProductList();
+//				if(hotproduct.size() > 0 && productList.size() > 0){
+//
+//				}
+//			}
 		}
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		try{
-			Intent call = new Intent(HomeScreen.this, CategoryTabs.class);
-			Bundle call_bundle = new Bundle();
-			call_bundle.putSerializable("Categories", catObj.get(position).getChildren().get(arg2).getChildren());
-			call_bundle.putSerializable("Header", catObj.get(position).getChildren().get(arg2).getBreadcrumb());
-			call.putExtras(call_bundle);
-			startActivity(call);
+//			Intent call = new Intent(HomeScreen.this, CategoryTabs.class);
+//			Bundle call_bundle = new Bundle();
+//			call_bundle.putSerializable("Categories", catObj.get(position).getChildren().get(arg2).getChildren());
+//			call_bundle.putSerializable("Header", catObj.get(position).getChildren().get(arg2).getBreadcrumb());
+//			call.putExtras(call_bundle);
+//			startActivity(call);
+
+			showDialog();
+			String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(arg2).getCategoryId();
+			myApi.reqAllProductsCategory(url);
+
 		}catch(Exception e){
 			new GrocermaxBaseException("HomeScreen","onItemClick",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}

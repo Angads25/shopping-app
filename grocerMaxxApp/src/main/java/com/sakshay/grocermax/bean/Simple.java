@@ -10,6 +10,7 @@ public class Simple implements Serializable{
 
     ArrayList<CategoriesProducts> hotproduct;
     ArrayList<CategoriesProducts> ProductList;
+    String flag;
 
 
     public ArrayList<CategoriesProducts> getProductList() {
@@ -27,4 +28,13 @@ public class Simple implements Serializable{
     public void setHotproduct(ArrayList<CategoriesProducts> hotproduct) {
         this.hotproduct = hotproduct;
     }
+
+    public void setFlag(String flag){
+        this.flag = flag;
+    }
+
+    public String getFlag(){
+        return flag;
+    }
+
 }
