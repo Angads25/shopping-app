@@ -782,10 +782,10 @@ public class UtilityMethods {
 				try {
 					jsonChild = jsonName
 							.getJSONArray(ListConstant.TAG_CHILDREN);
+
 				} catch (Exception e) {
 					jsonChild = new JSONArray();
 				}
-
 				for (int j = 0; j < jsonChild.length(); j++) {
 					jsonName = jsonChild.getJSONObject(j);
 					CategorySubcategoryBean categorySubOb = new CategorySubcategoryBean();

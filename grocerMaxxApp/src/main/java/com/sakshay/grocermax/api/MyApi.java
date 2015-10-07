@@ -232,6 +232,7 @@ public void reqProductListingByDealType(String url) {
 		Intent reqIntent = new Intent(m_context, ConnectionService.class);
 		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.PRODUCT_LIST_FROM_HOME);
 		reqIntent.putExtra(ConnectionService.URL, url);
+		System.out.println("URL "+url);
 		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
 		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.PRODUCT_LIST);
 		m_context.startService(reqIntent);

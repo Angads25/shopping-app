@@ -7,48 +7,58 @@ import java.util.ArrayList;
 
 public class CategorySubcategoryBean implements Serializable {
 
-	String Category, CategoryId, breadcrumb, isActive;
+    String Category, CategoryId, breadcrumb, isActive;
 
-	ArrayList<CategorySubcategoryBean> category = new ArrayList<CategorySubcategoryBean>();
+    boolean isExapndable;
 
-	public void addCategory(CategorySubcategoryBean categoryItem) {
-		category.add(categoryItem);
-	}
+    ArrayList<CategorySubcategoryBean> category = new ArrayList<CategorySubcategoryBean>();
 
-	public ArrayList<CategorySubcategoryBean> getChildren() {
-		return category;
-	}
+    public void addCategory(CategorySubcategoryBean categoryItem) {
+        category.add(categoryItem);
+    }
 
-	public String getCategoryId() {
-		return CategoryId;
-	}
+    public boolean isExapndable() {
+        return isExapndable;
+    }
 
-	public void setCategoryId(String categoryId) {
-		CategoryId = categoryId;
-	}
+    public void setIsExapndable(boolean isExapndable) {
+        this.isExapndable = isExapndable;
+    }
 
-	public String getCategory() {
-		return Category;
-	}
+    public ArrayList<CategorySubcategoryBean> getChildren() {
+        return category;
+    }
 
-	public void setCategory(String category) {
-		Category = category;
-	}
-	
-	public String getBreadcrumb() {
-		return breadcrumb;
-	}
+    public String getCategoryId() {
+        return CategoryId;
+    }
 
-	public void setBreadcrumb(String breadcrumb) {
-		this.breadcrumb = breadcrumb;
-	}
+    public void setCategoryId(String categoryId) {
+        CategoryId = categoryId;
+    }
 
-	public String getIsActive() {
-		return isActive;
-	}
+    public String getCategory() {
+        return Category;
+    }
 
-	public void setIsActive(String isActive) {
-		this.isActive = isActive;
-	}
+    public void setCategory(String category) {
+        Category = category;
+    }
+
+    public String getBreadcrumb() {
+        return breadcrumb;
+    }
+
+    public void setBreadcrumb(String breadcrumb) {
+        this.breadcrumb = breadcrumb;
+    }
+
+    public String getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(String isActive) {
+        this.isActive = isActive;
+    }
 
 }

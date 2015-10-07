@@ -25,7 +25,8 @@ public class UrlsConstants {
 
 	//staging
 	public final static String BASE_URL = "http://staging.grocermax.com/webservice/";
-	public final static String NEW_BASE_URL = "http://staging.grocermax.com/webservice/new_services/";
+//	public final static String NEW_BASE_URL = "http://staging.grocermax.com/webservice/new_services/";
+	public final static String NEW_BASE_URL = "http://staging.grocermax.com/api/";
 
 	// live url
 

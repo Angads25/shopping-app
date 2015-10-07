@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.google.gson.Gson;
 import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.DealListScreen;
 import com.sakshay.grocermax.R;
+import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
 import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyApi;
 import com.sakshay.grocermax.api.MyReceiverActions;
@@ -34,6 +37,7 @@ import com.sakshay.grocermax.bean.ShopByDealsBean;
 import com.sakshay.grocermax.hotoffers.fragment.DealProductListingItemDetailGrid;
 import com.sakshay.grocermax.hotoffers.fragment.HomeFragment;
 import com.sakshay.grocermax.hotoffers.fragment.ItemDetailFragment;
+import com.sakshay.grocermax.hotoffers.fragment.MenuFragment;
 import com.sakshay.grocermax.hotoffers.fragment.ShopByDealItemDetailFragment;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants;
@@ -63,6 +67,9 @@ public class HotOffersActivity extends BaseActivity {
     private DealProductListingBean dealProductListingBean;
     private ProgressDialog progress;
     private String url;
+    private DrawerLayout drawerLayout;
+    private ArrayList<CategorySubcategoryBean> catObj;
+    private ArrayList<String> menuArray = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +81,7 @@ public class HotOffersActivity extends BaseActivity {
         addActionsInFilter(MyReceiverActions.GET_SHOP_BY_DEALS);
         addActionsInFilter(MyReceiverActions.GET_BANNER);
         menuIcon = (ImageView) findViewById(R.id.menuIcon);
-
+//        martHeader.setVisibility(View.VISIBLE);
         progress = new ProgressDialog(this);
         progress.setTitle(null);
         progress.setMessage("Please Wait");
@@ -86,6 +93,88 @@ public class HotOffersActivity extends BaseActivity {
         myApi.reqGetShopByDeals(UrlsConstants.SHOP_BY_DEAL_TYPE);
         myApi.reqGetHomePageBanner(UrlsConstants.GET_BANNER);
 
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            catObj = (ArrayList<CategorySubcategoryBean>) bundle.getSerializable("Categories");
+        } else {
+            String response = UtilityMethods.readCategoryResponse(this, AppConstants.categoriesFile);
+            catObj = UtilityMethods.getCategorySubCategory(response);
+        }
+        Bundle call_bundle = new Bundle();
+        call_bundle.putSerializable("Categories", catObj);
+
+        MenuFragment fragment = new MenuFragment();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.menu, fragment);
+        fragment.setArguments(call_bundle);
+        fragmentTransaction.commit();
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, null, R.string.open, R.string.close) {
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
+
+                super.onDrawerOpened(drawerView);
+            }
+        };
+
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
+        menuIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                    drawerLayout.closeDrawers();
+                } else {
+                    drawerLayout.openDrawer(Gravity.LEFT);
+                }
+            }
+        });
+
+        //Setting the actionbarToggle to drawer layout
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+
+        //calling sync state is necessay or else your hamburger icon wont show up
+        actionBarDrawerToggle.syncState();
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+//            getSupportFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    public void setMenu(ArrayList<CategorySubcategoryBean> arrayList,String name) {
+        Bundle call_bundle = new Bundle();
+        call_bundle.putSerializable("Categories", arrayList);
+
+        MenuFragment fragment = new MenuFragment();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.add(R.id.menu, fragment);
+//        fragment.setArguments(call_bundle);
+//        fragmentTransaction.commit();
+
+//        if (!fragmentPopped && manager.findFragmentByTag(fragmentTag) == null){ //fragment not in back stack, create it.
+//        FragmentTransaction ft = manager.beginTransaction();
+//        fragmentTransaction.add(R.id.menu, fragment);
+        fragmentTransaction.replace(R.id.menu, fragment, name);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragment.setArguments(call_bundle);
+        fragmentTransaction.addToBackStack(name);
+        fragmentTransaction.commit();
+//        }
     }
 
     @Override
@@ -122,8 +211,7 @@ public class HotOffersActivity extends BaseActivity {
 
                     System.out.println("RESPONSE MODEL" + shopByDealsBean.getResult());
                     System.out.println("RESPONSE MODEL" + shopByDealsBean.getArrayList().size());
-                }else if(action.equals(MyReceiverActions.GET_BANNER))
-                {
+                } else if (action.equals(MyReceiverActions.GET_BANNER)) {
                     System.out.println("RESPONSE" + bundle.getString("json"));
                     JSONObject jsonObject = new JSONObject(bundle.getString("json"));
                     Gson gson = new Gson();
@@ -139,7 +227,7 @@ public class HotOffersActivity extends BaseActivity {
                     Bundle data = new Bundle();
                     data.putSerializable(Constants.SHOP_BY_CATEGORY_MODEL, shopByCategoryBean);
                     data.putSerializable(Constants.SHOP_BY_DEALS_MODEL, shopByDealsBean);
-                    data.putSerializable(Constants.HOME_BANNER , homeBannerBean);
+                    data.putSerializable(Constants.HOME_BANNER, homeBannerBean);
                     fragment.setArguments(data);
                     fragmentTransaction.commit();
                 }
@@ -170,11 +258,11 @@ public class HotOffersActivity extends BaseActivity {
                 data.putSerializable(Constants.DEAL_BY_DEAL, dealByDealTypeBean);
                 fragment.setArguments(data);
                 changeFragment(fragment);
-            }else if (action.equals(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE)) {
+            } else if (action.equals(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE)) {
 
                 DealListBean dealListBean = (DealListBean) bundle
                         .getSerializable(ConnectionService.RESPONSE);
-                if(dealListBean == null){
+                if (dealListBean == null) {
                     UtilityMethods.customToast(AppConstants.ToastConstant.NO_PRODUCT, mContext);
                     return;
                 }
@@ -214,13 +302,15 @@ public class HotOffersActivity extends BaseActivity {
         showDialog();
         myApi.reqOfferByDealType(url + categoryId);
     }
-
+public DrawerLayout getDrawerLayout(){
+    return drawerLayout;
+}
     public void hitForShopByDeals(String dealId) {
         addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);
         showDialog();
         String url = UrlsConstants.DEAL_BY_DEAL_TYPE;
-        System.out.print("==my work=="+url);
-        myApi.reqDealByDealType(url+ dealId);
+        System.out.print("==my work==" + url);
+        myApi.reqDealByDealType(url + dealId);
     }
 
     public void hitForDealsByDeals(String dealId) {
@@ -252,13 +342,11 @@ public class HotOffersActivity extends BaseActivity {
     }
 
 
-    public void setData(String url)
-    {
+    public void setData(String url) {
         this.url = url;
     }
 
-    public String getData()
-    {
+    public String getData() {
         return url;
     }
 

@@ -22,6 +22,7 @@ import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.LocationListBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.UrlsConstants;
@@ -185,7 +186,7 @@ public class LocationActivity extends BaseActivity {
 		ArrayList<CategorySubcategoryBean> category = UtilityMethods.getCategorySubCategory(jsonResponse);
 		if (!jsonResponse.trim().equals("") && category.size() > 0) {
 			UtilityMethods.writeCategoryResponse(LocationActivity.this, AppConstants.categoriesFile, jsonResponse);
-			Intent call = new Intent(LocationActivity.this, HomeScreen.class);
+			Intent call = new Intent(LocationActivity.this, HotOffersActivity.class);
 			Bundle call_bundle = new Bundle();
 			call_bundle.putSerializable("Categories", category);
 			call.putExtras(call_bundle);
