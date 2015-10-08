@@ -79,6 +79,7 @@ import com.sakshay.grocermax.bean.ProductListBean;
 import com.sakshay.grocermax.bean.SearchListBean;
 import com.sakshay.grocermax.bean.UserDetailBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.AppConstants.ToastConstant;
@@ -280,13 +281,15 @@ public abstract class BaseActivity extends FragmentActivity {
 						finish();
 						break;
 					case R.id.icon_header_logo_with_search:
-						Intent intent = new Intent(mContext, HomeScreen.class);
+//						Intent intent = new Intent(mContext, HomeScreen.class);
+						Intent intent = new Intent(mContext, HotOffersActivity.class);
 						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(intent);
 						finish();
 						break;
 					case R.id.icon_header_logo_without_search:
-						Intent intent1 = new Intent(mContext, HomeScreen.class);
+//						Intent intent1 = new Intent(mContext, HomeScreen.class);
+						Intent intent1 = new Intent(mContext, HotOffersActivity.class);
 						intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(intent1);
 						finish();

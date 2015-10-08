@@ -67,7 +67,8 @@
                     android:singleLine="true"
                     android:ems="3"
                     android:textColor="@color/white"
-                    android:id="@+id/tv_appbar_breadcrumb"/>
+                    android:id="@+id/tv_appbar_breadcrumb"
+                    android:visibility="invisible"/>
 
             </LinearLayout>
 

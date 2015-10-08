@@ -30,7 +30,7 @@
             android:text="Category heading"
             android:background="@color/transparent"
             android:textColor="@color/small_sublist_text"
-            android:textSize="@dimen/text_size_20"
+            android:textSize="@dimen/sixteen_text"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_toLeftOf="@+id/img_arrow_parent"
@@ -46,7 +46,6 @@
             android:layout_marginRight="10dp"
             android:layout_centerVertical="true"
             android:visibility="visible"
-
             android:src="@drawable/arrow_right"/>
 
     </RelativeLayout>

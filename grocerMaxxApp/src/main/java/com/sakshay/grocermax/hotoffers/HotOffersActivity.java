@@ -102,7 +102,8 @@ public class HotOffersActivity extends BaseActivity {
         }
         Bundle call_bundle = new Bundle();
         call_bundle.putSerializable("Categories", catObj);
-
+        call_bundle.putString("Title", "Home");
+        call_bundle.putBoolean("isListView",true);
         MenuFragment fragment = new MenuFragment();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.menu, fragment);
@@ -159,7 +160,8 @@ public class HotOffersActivity extends BaseActivity {
     public void setMenu(ArrayList<CategorySubcategoryBean> arrayList,String name) {
         Bundle call_bundle = new Bundle();
         call_bundle.putSerializable("Categories", arrayList);
-
+        call_bundle.putString("Title",name);
+        call_bundle.putBoolean("isListView",false);
         MenuFragment fragment = new MenuFragment();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 //        fragmentTransaction.add(R.id.menu, fragment);

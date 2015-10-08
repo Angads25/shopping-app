@@ -4,5 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="eight">8dp</dimen>
     <dimen name="sixteen">16dp</dimen>
+    <dimen name="sixteen_text">16sp</dimen>
     <dimen name="date_picker_padding">24dp</dimen>
 </resources>

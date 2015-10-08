@@ -28,7 +28,7 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
             android:paddingTop="2dp"
-            android:visibility="visible"
+            android:visibility="gone"
             android:background="@color/transparent"
             android:src="@drawable/categories_arrow_icon" />
         
@@ -40,7 +40,7 @@
             android:layout_centerVertical="true"
             android:background="@color/transparent"
             android:textColor="@color/small_heading_text"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_14" />
 
         <!-- TODO , please remove this as child needs no arrow-->
         <ImageView 
