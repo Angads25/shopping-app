@@ -51,14 +51,17 @@ public class GrocermaxBaseException extends Exception {
 
     public GrocermaxBaseException(String strClassName, String strMethodName,String strMessage,String strErrorCode,String strServerResponse) {
         super();
-        String strUrl = UrlsConstants.NEW_BASE_URL+"errorlog?error=";
+        try {
+            String strUrl = UrlsConstants.NEW_BASE_URL + "errorlog?error=";
+            new AppCrash(MyApplication.getInstance(), strClassName, strMethodName, strMessage, strErrorCode, strServerResponse).execute(strUrl);
+
 //        String strUrl = "http://staging.grocermax.com/webservice/new_services/errorlog?error=";
 //          UtilityMethods.customToast(strClassName+"=ERROR="+strMethodName, MyApplication.getInstance());
-        new AppCrash(MyApplication.getInstance(),strClassName,strMethodName,strMessage,strErrorCode,strServerResponse).execute(strUrl);
 //        new AppCrash(MyApplication.getInstance(),strClassName,strMethodName,strMessage,strErrorCode,strServerResponse).execute(UrlsConstants.ERROR_REPORT);
 //        new AppCrash()
 //               new SearchLoader(this).execute(url);
 //        UtilityMethods.customToast("message", MyApplication.getInstance());
+        }catch(Exception e){}
     }
 }
 
@@ -71,12 +74,14 @@ class AppCrash extends AsyncTask<String, String, String>
 //    String strErrorCode;
     String strServerResponse;
     public AppCrash(Context mContext,String strClassName,String strMethodName,String strMessage,String strErrorCode,String strServerResponse){
-        context = mContext;
-        this.strClassName = strClassName;
-        this.strMethodName = strMethodName;
-        this.strMessage = strMessage;
+        try {
+            context = mContext;
+            this.strClassName = strClassName;
+            this.strMethodName = strMethodName;
+            this.strMessage = strMessage;
 //        this.strErrorCode = strErrorCode;
-        this.strServerResponse = strServerResponse;
+            this.strServerResponse = strServerResponse;
+        }catch(Exception e){}
     }
 
     @Override
@@ -88,23 +93,27 @@ class AppCrash extends AsyncTask<String, String, String>
     @Override
     protected String doInBackground(String... params) {
         // TODO Auto-generated method stub
-        HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
-        String strExceptionReport = params[0];
-        strExceptionReport += "CLASSNAME:"+strClassName+",METHODNAME:"+strMethodName+",APPERROR:"+strMessage+",SERVERRESPONSE:"+strServerResponse;
-        if(strExceptionReport.contains("?")) {
-            strExceptionReport += "&version=1.0";
-        }else{
-            strExceptionReport += "?version=1.0";
-        }
-        HttpGet httpGet = new HttpGet(strExceptionReport);                        //getting URL
-        httpGet.setHeader("Content-Type", "application/json");
-        HttpResponse response = null;
         try {
-            response = client.execute(httpGet);
-            HttpEntity resEntity = response.getEntity();
-            return EntityUtils.toString(resEntity);
-        } catch (IOException e) {}
-          catch(Exception e){}
+            HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
+            String strExceptionReport = params[0];
+            strExceptionReport += "CLASSNAME:" + strClassName + ",METHODNAME:" + strMethodName + ",APPERROR:" + strMessage + ",SERVERRESPONSE:" + strServerResponse;
+            if (strExceptionReport.contains("?")) {
+                strExceptionReport += "&version=1.0";
+            } else {
+                strExceptionReport += "?version=1.0";
+            }
+            HttpGet httpGet = new HttpGet(strExceptionReport);                        //getting URL
+            httpGet.setHeader("Content-Type", "application/json");
+            HttpResponse response = null;
+            try {
+                response = client.execute(httpGet);
+                HttpEntity resEntity = response.getEntity();
+                return EntityUtils.toString(resEntity);
+            } catch (IOException e) {
+            } catch (Exception e) {
+            }
+        }catch(Exception e){}
+
         return null;
     }
 

@@ -13,6 +13,7 @@ public class ScrollViewExt extends ScrollView {
     }
 
     public ScrollViewExt(Context context, AttributeSet attrs, int defStyle) {
+
         super(context, attrs, defStyle);
     }
 
@@ -21,18 +22,22 @@ public class ScrollViewExt extends ScrollView {
     }
 
     public void setScrollViewListener(ScrollViewListener scrollViewListener) {
-        this.scrollViewListener = scrollViewListener;
+        try {
+            this.scrollViewListener = scrollViewListener;
+        }catch(Exception e){
+            new GrocermaxBaseException("ScrollViewExt","setScrollViewListener",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+        }
     }
 
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        super.onScrollChanged(l, t, oldl, oldt);
         try {
+            super.onScrollChanged(l, t, oldl, oldt);
             if (scrollViewListener != null) {
                 scrollViewListener.onScrollChanged(this, l, t, oldl, oldt);
             }
         }catch(Exception e){
-            new GrocermaxBaseException("ReviewOrderAndPay","onScrollChanged",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+            new GrocermaxBaseException("ScrollViewExt","onScrollChanged",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
         }
     }
 }

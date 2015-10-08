@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.sakshay.grocermax.AnimatedExpandableListView.AnimatedExpandableListAdapter;
 import com.sakshay.grocermax.R;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.utils.CustomFonts;
 
 import org.apache.http.protocol.HttpExpectationVerifier;
@@ -78,6 +79,7 @@ public class ExpandableListAdapter extends AnimatedExpandableListAdapter{
 	public View getGroupView(int groupPosition, boolean isExpanded,View convertView, ViewGroup parent) {
 		//isExpanded TRUE when listview expanded on click of list view and FALSE when collapsing.
 		View v=convertView;
+		try{
 		if(convertView==null)
 		{
 			LayoutInflater inflater=(LayoutInflater)con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -176,7 +178,9 @@ public class ExpandableListAdapter extends AnimatedExpandableListAdapter{
 		}
 
 		cat_name.setText(catObj.get(groupPosition).getCategory());
-		
+		}catch(Exception e){
+			new GrocermaxBaseException("ExpandableListAdapter","getGroupView",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return v;
 	}
 
@@ -191,14 +195,19 @@ public class ExpandableListAdapter extends AnimatedExpandableListAdapter{
 	}
 	
 	public void refreshList(ArrayList<CategorySubcategoryBean> categoryList){
-		this.catObj = categoryList;
-		notifyDataSetChanged();
+		try{
+			this.catObj = categoryList;
+			notifyDataSetChanged();
+		}catch(Exception e){
+			new GrocermaxBaseException("ExpandableListAdapter","refreshList",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 
 	@Override
 	public View getRealChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
 		View v=convertView;
+		try{
 		if(convertView==null)
 		{
 			LayoutInflater inflater=(LayoutInflater)con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -221,7 +230,9 @@ public class ExpandableListAdapter extends AnimatedExpandableListAdapter{
 		
 //		cat_name.setTypeface(CustomFonts.getInstance().getRobotoBold(con),R.style.CategoryChildView);
 		cat_name.setTypeface(CustomFonts.getInstance().getRobotoBold(con));
-		
+		}catch(Exception e){
+			new GrocermaxBaseException("ExpandableListAdapter","getRealChildView",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return v;
 	}
 

@@ -15,6 +15,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.CartDetail;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 
 public class FinalCheckoutProductAdapter extends BaseAdapter{
 	
@@ -52,27 +53,30 @@ public class FinalCheckoutProductAdapter extends BaseAdapter{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;
-		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.final_checkout_product_row, parent, false);
-			holder = new ViewHolder();
-			holder.prod_name = (TextView) convertView.findViewById(R.id.product_name);
-			holder.amount = (TextView) convertView.findViewById(R.id.amount);
-			holder.quantity = (TextView) convertView.findViewById(R.id.quantity);
-			holder.prod_image = (ImageView) convertView.findViewById(R.id.product_image);
+		try{
+			if (convertView == null) {
+				convertView = inflater.inflate(R.layout.final_checkout_product_row, parent, false);
+				holder = new ViewHolder();
+				holder.prod_name = (TextView) convertView.findViewById(R.id.product_name);
+				holder.amount = (TextView) convertView.findViewById(R.id.amount);
+				holder.quantity = (TextView) convertView.findViewById(R.id.quantity);
+				holder.prod_image = (ImageView) convertView.findViewById(R.id.product_image);
 
-			convertView.setTag(holder);
-		}else {
-			holder = (ViewHolder) convertView.getTag();
+				convertView.setTag(holder);
+			}else {
+				holder = (ViewHolder) convertView.getTag();
+			}
+
+			final CartDetail obj = getItem(position);
+			holder.prod_name.setText(obj.getName());
+
+			holder.amount.setText("Rs. "+String.format("%.2f",Float.parseFloat(obj.getPrice().toString())));
+			holder.quantity.setText("Quantity: "+obj.getQty());
+
+			ImageLoader.getInstance().displayImage(obj.getProduct_thumbnail(),holder.prod_image, ((BaseActivity)activity).baseImageoptions);
+		}catch(Exception e){
+			new GrocermaxBaseException("AddressListAdapter","getView",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
-		
-		final CartDetail obj = getItem(position);
-		holder.prod_name.setText(obj.getName());
-		
-		holder.amount.setText("Rs. "+String.format("%.2f",Float.parseFloat(obj.getPrice().toString())));
-		holder.quantity.setText("Quantity: "+obj.getQty());
-
-		ImageLoader.getInstance().displayImage(obj.getProduct_thumbnail(),holder.prod_image, ((BaseActivity)activity).baseImageoptions);
-		
 		return convertView;
 	}
 	

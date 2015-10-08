@@ -125,21 +125,23 @@ public class ConnectionCartService  extends IntentService {
             accessToken = intent.getStringExtra(ACCESS_TOKEN);
             position = intent.getIntExtra("position",0);
             if (AppConstants.DEBUG) {
-                Log.i(TAG, "URL::" + urlString);
+//                Log.i(TAG, "URL::" + urlString);
             }
-            Log.e("manish1","URL:"+urlString);
-            String[] url = urlString.split("products=");
-             String actualUrl = url[1];
-            actualUrl = java.net.URLDecoder.decode(actualUrl, "UTF-8");
+//            Log.e("manish1","URL:"+urlString);
+//            String[] url = urlString.split("products=");
+//             String actualUrl = url[1];
+//            actualUrl = java.net.URLDecoder.decode(actualUrl, "UTF-8");
 
-            Gson gson = new Gson();
-            Log.e("manish","URL:"+actualUrl);
-            actualUrl = actualUrl.replace("[","");
-            actualUrl = actualUrl.replace("]","");
-            actualUrl = actualUrl.replace("productid","product_id");
-            actualUrl = actualUrl.replace("quantity","qty");
-            carDetail = gson.fromJson(actualUrl,CartDetail.class);
-          Log.e("PRADEEP","obj:"+carDetail.toString());
+//            Gson gson = new Gson();
+//            Log.e("manish","URL:"+actualUrl);
+//            actualUrl = actualUrl.replace("[","");
+//            actualUrl = actualUrl.replace("]","");
+//            actualUrl = actualUrl.replace("productid","product_id");
+//            actualUrl = actualUrl.replace("quantity","qty");
+//            carDetail = gson.fromJson(actualUrl,CartDetail.class);
+//            carDetail = gson.fromJson(urlString,CartDetail.class);
+
+//          Log.e("PRADEEP","obj:"+carDetail.toString());
 // Bundle bun = intent.getExtras();
 //			System.out.println("===bundle===="+bun);
 //			if(bun != null){
@@ -232,16 +234,18 @@ public class ConnectionCartService  extends IntentService {
             e.printStackTrace();
         }
         finally{
-            if(mAction.equals(MyReceiverActions.LOGIN) || mAction.equals(MyReceiverActions.ADD_TO_CART))
-            {
-                if(MySharedPrefs.INSTANCE.getFacebookId()!=null)
-                {
-                    Session session = getSession();
-                    if (!session.isClosed()) {
-                        MySharedPrefs.INSTANCE.clearAllData();
-                        session.closeAndClearTokenInformation();
+            try {
+                if (mAction.equals(MyReceiverActions.LOGIN) || mAction.equals(MyReceiverActions.ADD_TO_CART)) {
+                    if (MySharedPrefs.INSTANCE.getFacebookId() != null) {
+                        Session session = getSession();
+                        if (!session.isClosed()) {
+                            MySharedPrefs.INSTANCE.clearAllData();
+                            session.closeAndClearTokenInformation();
+                        }
                     }
                 }
+            }catch(Exception e){
+                new GrocermaxBaseException("ConnectionCartService","onHandleIntentFINALLYBLOCK",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
             }
         }
     }
@@ -362,7 +366,7 @@ public class ConnectionCartService  extends IntentService {
             throws SAXException, ParserConfigurationException, IOException,
             JSONException, RemoteException, OperationApplicationException {
 
-//		try {
+		try {
 
         switch (type) {
             case ConnectionServiceParser.MyParserType.LOGIN:
@@ -434,7 +438,7 @@ public class ConnectionCartService  extends IntentService {
 //              if(MySharedPrefs.INSTANCE.getQuoteId()==null)
 //              {
                   if(responseBean.getFlag().equalsIgnoreCase("1")) {
-                      if(responseBean.getQuoteId() != null) {
+                      if(responseBean.getQuoteId() != null && !responseBean.getQuoteId().equals("")) {
                           MySharedPrefs.INSTANCE.clearQuote();
                           MySharedPrefs.INSTANCE.putQuoteId(responseBean.getQuoteId());
                           System.out.println("==new quote id cart service==" + MySharedPrefs.INSTANCE.getQuoteId());
@@ -510,18 +514,18 @@ public class ConnectionCartService  extends IntentService {
                 break;
         }
 
-//		}
-//		catch (JSONException e) {
-//			bundle.putString(ERROR, JSON_EXCEPTION);
-//			Log.e(TAG, "ERROR::" + e.getMessage());
-//			new GrocermaxBaseException("ConnectionService","parseData",e.getMessage(),GrocermaxBaseException.JSON_EXCEPTION,response);
-//			e.printStackTrace();
-//		} catch (Exception e) {
-//			bundle.putString(ERROR, EXCEPTION);
-//			Log.e(TAG, "ERROR::" + "Unknow Error");
-//			new GrocermaxBaseException("ConnectionService","parseData",e.getMessage(),GrocermaxBaseException.EXCEPTION,response);
-//			e.printStackTrace();
-//		}
+		}
+		catch (JSONException e) {
+			bundle.putString(ERROR, JSON_EXCEPTION);
+			Log.e(TAG, "ERROR::" + e.getMessage());
+			new GrocermaxBaseException("ConnectionCartService","parseData",e.getMessage(),GrocermaxBaseException.JSON_EXCEPTION,response);
+			e.printStackTrace();
+		} catch (Exception e) {
+			bundle.putString(ERROR, EXCEPTION);
+			Log.e(TAG, "ERROR::" + "Unknow Error");
+			new GrocermaxBaseException("ConnectionCartService","parseData",e.getMessage(),GrocermaxBaseException.EXCEPTION,response);
+			e.printStackTrace();
+		}
     }
 
     private Session getSession() {

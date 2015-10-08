@@ -86,22 +86,42 @@ public class CategoryTabs extends BaseActivity {
 					ArrayList<CategoriesProducts> hotproduct = responseBean.getHotproduct();
 					ArrayList<CategoriesProducts> productList = responseBean.getProductList();
 
-					if(hotproduct.size() > 0 ){
-						for(int i=0;i<hotproduct.size();i++) {
-							CategoriesProducts categoriesProducts = hotproduct.get(i);
-							alCategory.add(categoriesProducts);
-							for(int k=0;k<categoriesProducts.getItems().size();k++){
-								listAll.add(categoriesProducts.getItems().get(k));
+					if(hotproduct != null) {
+						if (hotproduct.size() > 0) {
+							for (int i = 0; i < hotproduct.size(); i++) {
+								CategoriesProducts categoriesProducts = hotproduct.get(i);
+								if (categoriesProducts.getItems().size() > 0) {
+									alCategory.add(categoriesProducts);
+									for (int k = 0; k < categoriesProducts.getItems().size(); k++) {
+										Product pro = categoriesProducts.getItems().get(k);
+										listAll.add(categoriesProducts.getItems().get(k));
+									}
+								}
+//							alCategory.add(categoriesProducts);
+//							for(int k=0;k<categoriesProducts.getItems().size();k++){
+//								Product pro = categoriesProducts.getItems().get(k);
+//								listAll.add(categoriesProducts.getItems().get(k));
+//							}
 							}
 						}
 					}
-					if(productList.size() > 0){
-						for(int j=0;j<productList.size();j++) {
-							CategoriesProducts categoriesProducts = productList.get(j);
-							alCategory.add(categoriesProducts);
-							for(int k=0;k<categoriesProducts.getItems().size();k++){
-								listAll.add(categoriesProducts.getItems().get(k));
+
+					if(productList != null){
+						if(productList.size() > 0) {
+							for (int j = 0; j < productList.size(); j++) {
+								CategoriesProducts categoriesProducts = productList.get(j);
+								if (categoriesProducts.getItems().size() > 0) {
+									alCategory.add(categoriesProducts);
+									for (int k = 0; k < categoriesProducts.getItems().size(); k++) {
+										listAll.add(categoriesProducts.getItems().get(k));
+									}
+								}
+//							alCategory.add(categoriesProducts);
+//							for(int k=0;k<categoriesProducts.getItems().size();k++){
+//								listAll.add(categoriesProducts.getItems().get(k));
+//							}
 							}
+
 						}
 					}
 
@@ -205,7 +225,8 @@ public class CategoryTabs extends BaseActivity {
 //			pager.setOffscreenPageLimit(2);
 
 			TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
-			indicator.setViewPager(pager);
+			if(pager!=null)
+				indicator.setViewPager(pager);
 
 			View headerView = findViewById(R.id.header);
 //			initHeader(headerView, true, header.replaceAll("/", " >> "));
@@ -241,6 +262,7 @@ public class CategoryTabs extends BaseActivity {
 //			});
 
 		}catch(Exception e){
+			e.printStackTrace();
 			new GrocermaxBaseException("CategoryTabs", "onCreate", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 

@@ -120,8 +120,15 @@ public class PayTMActivity extends BaseActivity
 							+ strStatus + "=" + strTXNtype + "=" + strCurrency + "=" + strGatewayName + "=" + strResponseCode + "=" + strResponseMsg + "="
 							+ strBankName + "=" + strMID + "=" + strPaymentMode + "=" + strRefundAmount + "=" + strTXNdate + "=" + strIsCheckSumValid + "===");
 
+
+
 					showDialog();
 					myApi.reqSetOrderStatusPaytmSuccess(UrlsConstants.SET_PAYTM_ORDER_STATUS_SUCCESS + order_db_id);
+
+//					String url = UrlsConstants.SET_PAYTM_ORDER_STATUS_SUCCESS;
+//					JSONObject jsonObject = new JSONObject();
+//					jsonObject.put("",order_db_id);
+//					myApi.reqSetOrderStatusPaytmSuccess(url,jsonObject);
 
 				}
 
@@ -157,6 +164,13 @@ public class PayTMActivity extends BaseActivity
 					UtilityMethods.customToast("Sorry, Payment Failed",mContext);
 					showDialog();
 					myApi.reqSetOrderStatus(UrlsConstants.SET_ORDER_STATUS + order_db_id);
+
+//					String url = UrlsConstants.SET_ORDER_STATUS;
+//					JSONObject jsonObject = new JSONObject();
+//					jsonObject.put("",order_db_id);
+//					myApi.reqSetOrderStatusPaytmSuccess(url, jsonObject);
+
+
 				}
 
 

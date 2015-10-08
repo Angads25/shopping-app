@@ -67,7 +67,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 	String second_level="";
 	String third_level="";
 	int child_click=0;                       //child under group
-	int group_click=0;                       //top level group
+	int group_click=0;                       //top level group , set 1 when move on to next page
 	
 	TextView tvSelctionCat;           //previously selected color change to bluish
 	View viewtemp = null;
@@ -190,12 +190,12 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 					MySharedPrefs.INSTANCE.putBradecrum(first_level + ">>" + second_level);
 					for (int i = 0; i < catObj.get(position).getChildren().get(groupPosition).getChildren().size(); i++) {
 						if (catObj.get(position).getChildren().get(groupPosition).getChildren().get(i).getChildren().size() > 0) {
-							expandStatus = true;
+							expandStatus = true;                               //means any one has more child after expandable,so will not move on to next screen and expand itself.
 							break;
 						}
 					}
-					if (expandStatus == false) {
-						group_click = 1;
+					if (expandStatus == false) {                              //call dryfruits category on next page directly b/c dry fruits has no further categories -> categories.
+						group_click = 1;                                      //when move to next page
 
 						for (int i = 0; i < expandableListView.getExpandableListAdapter().getGroupCount(); i++) {
 							expandableListView.collapseGroup(i);
@@ -489,7 +489,8 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 				call_bundle.putSerializable("PRODUCTDATA", responseBean);
 				call.putExtras(call_bundle);
 				startActivity(call);
-
+			}else{
+				UtilityMethods.customToast(AppConstants.ToastConstant.NO_RESULT_FOUND,mContext);
 			}
 //			Simple simple1 = (Simple) bundle.getSerializable(ConnectionService.RESPONSE);
 //			if (responseBean.getResult().equalsIgnoreCase("1")) {

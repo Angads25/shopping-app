@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sakshay.grocermax.R;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 
 public class HomeListAdapter extends BaseAdapter{
 	
@@ -46,6 +47,7 @@ public class HomeListAdapter extends BaseAdapter{
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		try{
 		ViewHolder holder = null;
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.browse_activity_row, parent, false);
@@ -61,8 +63,10 @@ public class HomeListAdapter extends BaseAdapter{
 		
 		CategorySubcategoryBean obj = getItem(position);
 
-
 		holder.cat_name.setText(obj.getCategory());
+		}catch(Exception e){
+			new GrocermaxBaseException("HomeListAdapter","getView",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return convertView;
 	}
 	
@@ -72,8 +76,12 @@ public class HomeListAdapter extends BaseAdapter{
 	}
 	
 	public void refreshList(List<CategorySubcategoryBean> categoryList){
-		this.categoryList = categoryList;
-		notifyDataSetChanged();
+		try{
+			this.categoryList = categoryList;
+			notifyDataSetChanged();
+		}catch(Exception e){
+			new GrocermaxBaseException("HomeListAdapter","refreshList",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 }
 

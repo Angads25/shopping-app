@@ -50,6 +50,7 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.sakshay.grocermax.CartProductList;
 import com.sakshay.grocermax.api.ConnectionServiceParser.MyParserType;
+import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
@@ -68,6 +69,7 @@ public class ConnectionService extends IntentService {
 	public static final String URL = "url";
 	public static final String PAIRS = "pairs";
 	public static final String JSON_OBJECT = "json_object";              ////
+	public static final String JSON_ARRAY = "json_array";
 	public static final String JSON_STRING = "json_string";
 	public static final String PHOTO_PAIRS = "photoPairs";
 	public static final String ISRELOAD = "isreloaded";
@@ -86,6 +88,7 @@ public class ConnectionService extends IntentService {
 	private String urlString;
 	private HashMap<String, String> mHashMap;
 	private JSONObject jsonObject;
+	private JSONArray jsonArray;
 	private String jsonString;
 	private String accessToken;
 
@@ -119,7 +122,7 @@ public class ConnectionService extends IntentService {
 			if (AppConstants.DEBUG) {
 				Log.i(TAG, "URL::" + urlString);
 			}
-			
+
 //			Bundle bun = intent.getExtras();
 //			System.out.println("===bundle===="+bun);
 //			if(bun != null){
@@ -129,7 +132,7 @@ public class ConnectionService extends IntentService {
 //					System.out.println("===jsonObject 11s===="+jsonObject);
 //				}
 //			}
-			
+
 			if(intent.getSerializableExtra(JSON_OBJECT) != null){
 				jsonObject = (JSONObject)intent
 						.getSerializableExtra(JSON_OBJECT);
@@ -137,7 +140,16 @@ public class ConnectionService extends IntentService {
 					Log.i(TAG, "JSON_OBJECT::" + jsonObject);
 				}
 			}
-			
+
+
+			if(intent.getSerializableExtra(JSON_ARRAY) != null){
+				jsonArray = (JSONArray)intent
+						.getSerializableExtra(JSON_ARRAY);
+				if (AppConstants.DEBUG) {
+					Log.i(TAG, "JSON_ARRAY::" + jsonArray);
+				}
+			}
+
 			if (intent.getSerializableExtra(PAIRS) != null) {
 				mHashMap = (HashMap<String, String>) intent
 						.getSerializableExtra(PAIRS);
@@ -198,7 +210,7 @@ public class ConnectionService extends IntentService {
 			new GrocermaxBaseException("ConnectionService","onHandleIntent",e.getMessage(),GrocermaxBaseException.IO_EXCEPTION,response_str);
 			e.printStackTrace();
 		}
- 		catch (JSONException e) {
+		catch (JSONException e) {
 			bundle.putString(ERROR, JSON_EXCEPTION);
 			Log.e(TAG, "ERROR::" + e.getMessage());
 			new GrocermaxBaseException("ConnectionService","onHandleIntent",e.getMessage(),GrocermaxBaseException.JSON_EXCEPTION,response_str);
@@ -210,27 +222,32 @@ public class ConnectionService extends IntentService {
 			e.printStackTrace();
 		}
 		finally{
-			if(mAction.equals(MyReceiverActions.LOGIN) || mAction.equals(MyReceiverActions.ADD_TO_CART))
-			{
-				if(MySharedPrefs.INSTANCE.getFacebookId()!=null)
-				{
-				Session session = getSession();
-				if (!session.isClosed()) {
-					MySharedPrefs.INSTANCE.clearAllData();
-					session.closeAndClearTokenInformation();
+			try {
+				if (mAction.equals(MyReceiverActions.LOGIN) || mAction.equals(MyReceiverActions.ADD_TO_CART)) {
+					if (MySharedPrefs.INSTANCE.getFacebookId() != null) {
+						Session session = getSession();
+						if (!session.isClosed()) {
+							MySharedPrefs.INSTANCE.clearAllData();
+							session.closeAndClearTokenInformation();
+						}
+					}
 				}
-				}
-			}
+			}catch(Exception e){}
 		}
 
-		Intent broadcastIntent = new Intent(mAction);
-		broadcastIntent.putExtra(DATA, bundle);
-		LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
+		try {
+			Intent broadcastIntent = new Intent(mAction);
+			broadcastIntent.putExtra(DATA, bundle);
+			LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
+		}catch(Exception e){
+			e.printStackTrace();
+			new GrocermaxBaseException("ConnectionService","onHandleIntentLOCALBROADCAST",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 
 	private String processRequest(HashMap<String, String> hashMap,
-			String jsonString, String requestType, String urlString,
-			HttpClient client) throws ClientProtocolException, IOException,
+								  String jsonString, String requestType, String urlString,
+								  HttpClient client) throws ClientProtocolException, IOException,
 			SAXException, ParserConfigurationException {
 
 
@@ -259,16 +276,17 @@ public class ConnectionService extends IntentService {
 
 				System.out.println("==second parameters is=="+nameValuePairs);
 
-				if (nameValuePairs != null) {
-					httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-				} else if (jsonString != null) {
+
+				if (jsonString != null) {
 					httpPost.setEntity(new StringEntity(jsonString));
+				}else if (nameValuePairs != null) {
+					httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 				}
 
 //			if(CartProductList.getInstance().jsonObjectUpdate != null){
 //				httpPost.setEntity(new StringEntity(CartProductList.getInstance().jsonObjectUpdate.toString(), "UTF8"));
 //			}
-//			
+//
 //			System.out.println("==post="+httpPost);
 //			System.out.println("==json=="+CartProductList.getInstance().jsonObjectUpdate.toString());
 
@@ -300,52 +318,60 @@ public class ConnectionService extends IntentService {
 				// Base64.NO_WRAP));
 				response = client.execute(httpGet);
 			}
+
+			HttpEntity resEntity = response.getEntity();
+			return EntityUtils.toString(resEntity);
+
 		}catch (Exception e) {
 			new GrocermaxBaseException("ConnectionService","processRequest",e.getMessage(),GrocermaxBaseException.EXCEPTION,EntityUtils.toString(response.getEntity()));
 			e.printStackTrace();
 		}
 
-		HttpEntity resEntity = response.getEntity();
-		return EntityUtils.toString(resEntity);
+		return "";
 	}
 
 	private String processMultipartRequest(HashMap<String, String> photoUris,
-			HashMap<String, String> hashMap, HttpClient client, String urlString)
+										   HashMap<String, String> hashMap, HttpClient client, String urlString)
 			throws ParseException, IOException {
-
-		MultipartEntity multiPartEntity = new MultipartEntity(
-				HttpMultipartMode.BROWSER_COMPATIBLE);
-		if (photoUris != null) {
-			for (Map.Entry<String, String> entry : photoUris.entrySet()) {
-				String key = entry.getKey();
-				String value = entry.getValue();
-				Bitmap bm = BitmapFactory.decodeFile(value);
-				ByteArrayOutputStream bos = new ByteArrayOutputStream();
-				bm.compress(CompressFormat.JPEG, 75, bos);
-				multiPartEntity.addPart(key,
-						new ByteArrayBody(bos.toByteArray(), "minitime.jpg"));
+		try {
+			MultipartEntity multiPartEntity = new MultipartEntity(
+					HttpMultipartMode.BROWSER_COMPATIBLE);
+			if (photoUris != null) {
+				for (Map.Entry<String, String> entry : photoUris.entrySet()) {
+					String key = entry.getKey();
+					String value = entry.getValue();
+					Bitmap bm = BitmapFactory.decodeFile(value);
+					ByteArrayOutputStream bos = new ByteArrayOutputStream();
+					bm.compress(CompressFormat.JPEG, 75, bos);
+					multiPartEntity.addPart(key,
+							new ByteArrayBody(bos.toByteArray(), "minitime.jpg"));
+				}
 			}
-		}
 
-		if (hashMap != null) {
-			for (Map.Entry<String, String> entry : hashMap.entrySet()) {
-				String key = entry.getKey();
-				String value = entry.getValue();
-				multiPartEntity.addPart(key, new StringBody(value));
+
+			if (hashMap != null) {
+				for (Map.Entry<String, String> entry : hashMap.entrySet()) {
+					String key = entry.getKey();
+					String value = entry.getValue();
+					multiPartEntity.addPart(key, new StringBody(value));
+				}
 			}
+			HttpPost httpPost = new HttpPost(urlString);
+			httpPost.setEntity(multiPartEntity);
+			HttpResponse response = client.execute(httpPost);
+			HttpEntity resEntity = response.getEntity();
+			return EntityUtils.toString(resEntity);
+		}catch(Exception e){
+			new GrocermaxBaseException("ConnectionService","processMultipartRequest",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
-		HttpPost httpPost = new HttpPost(urlString);
-		httpPost.setEntity(multiPartEntity);
-		HttpResponse response = client.execute(httpPost);
-		HttpEntity resEntity = response.getEntity();
-		return EntityUtils.toString(resEntity);
+		return "";
 	}
 
 	private void parseData(String response, int type, Bundle bundle)
 			throws SAXException, ParserConfigurationException, IOException,
 			JSONException, RemoteException, OperationApplicationException {
 
-//		try {
+		try {
 
 			switch (type) {
 //				case MyParserType.SEARCH_BY_CATEGORY:
@@ -429,11 +455,33 @@ public class ConnectionService extends IntentService {
 							(Serializable) ConnectionServiceParser
 									.parseProductContentResponse(response));
 					break;
-				case MyParserType.ADD_TO_CART:
+//				case MyParserType.ADD_TO_CART:
+//					bundle.putSerializable(RESPONSE,
+//							(Serializable) ConnectionServiceParser
+//									.parseSimpleResponse(response));
+//					break;
+
+				case ConnectionServiceParser.MyParserType.ADD_TO_CART:
+					BaseResponseBean responseBean = ConnectionServiceParser
+							.parseSimpleResponse(response);
 					bundle.putSerializable(RESPONSE,
 							(Serializable) ConnectionServiceParser
 									.parseSimpleResponse(response));
+//              if(MySharedPrefs.INSTANCE.getQuoteId()==null)
+//              {
+					if(responseBean.getFlag().equalsIgnoreCase("1")) {
+						if(responseBean.getQuoteId() != null && !responseBean.getQuoteId().equals("")) {
+							MySharedPrefs.INSTANCE.clearQuote();
+							MySharedPrefs.INSTANCE.putQuoteId(responseBean.getQuoteId());
+							System.out.println("==new quote id cart service==" + MySharedPrefs.INSTANCE.getQuoteId());
+						}
+					}
+//              }
+
 					break;
+
+
+
 				case MyParserType.DELETE_FROM_CART:
 					bundle.putSerializable(RESPONSE,
 							(Serializable) ConnectionServiceParser
@@ -505,32 +553,33 @@ public class ConnectionService extends IntentService {
 
 			}
 
-//		}
-//		catch (JSONException e) {
-//			bundle.putString(ERROR, JSON_EXCEPTION);
-//			Log.e(TAG, "ERROR::" + e.getMessage());
-//			new GrocermaxBaseException("ConnectionService","parseData",e.getMessage(),GrocermaxBaseException.JSON_EXCEPTION,response);
-//			e.printStackTrace();
-//		} catch (Exception e) {
-//			bundle.putString(ERROR, EXCEPTION);
-//			Log.e(TAG, "ERROR::" + "Unknow Error");
-//			new GrocermaxBaseException("ConnectionService","parseData",e.getMessage(),GrocermaxBaseException.EXCEPTION,response);
-//			e.printStackTrace();
-//		}
+		}
+		catch (JSONException e) {
+			e.printStackTrace();
+			bundle.putString(ERROR, JSON_EXCEPTION);
+			Log.e(TAG, "ERROR::" + e.getMessage());
+			new GrocermaxBaseException("ConnectionService","parseData",e.getMessage(),GrocermaxBaseException.JSON_EXCEPTION,response);
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+			bundle.putString(ERROR, EXCEPTION);
+			Log.e(TAG, "ERROR::" + "Unknow Error");
+			new GrocermaxBaseException("ConnectionService","parseData",e.getMessage(),GrocermaxBaseException.EXCEPTION,response);
+		}
 	}
-	
+
 	private Session getSession() {
-		
-	    // return Session.openActiveSession(getApplicationContext(), false, callback);
+
+		// return Session.openActiveSession(getApplicationContext(), false, callback);
 		return Session.getActiveSession();
 	}
-	 
+
 	private Session.StatusCallback callback = new Session.StatusCallback() {
-	     public void call(Session session, SessionState state,
-	              Exception exception) {
-	         if (session.isOpened()) {
-	             //Do something
-	         }
-	     }
+		public void call(Session session, SessionState state,
+						 Exception exception) {
+			if (session.isOpened()) {
+				//Do something
+			}
+		}
 	};
 }

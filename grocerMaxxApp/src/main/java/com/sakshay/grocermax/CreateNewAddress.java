@@ -934,9 +934,29 @@ public class CreateNewAddress extends BaseActivity{
 
 			if (address == null) {
 				//String url = UrlsConstants.ADD_ADDRESS + URLEncoder.encode(json_obj.toString(), "UTF-8") + "&UserID=" + MySharedPrefs.INSTANCE.getUserId() + "&default_billing=" + default_billing;
-				String url = UrlsConstants.ADD_ADDRESS + url_param + "&userid=" + MySharedPrefs.INSTANCE.getUserId() + "&default_billing=" + default_billing + "&default_shipping=" + default_shipping;
-				System.out.println("====URL new address===="+url);
-				myApi.reqAddAddress(url, MyReceiverActions.ADD_ADDRESS);
+
+
+//				String url = UrlsConstants.ADD_ADDRESS + url_param + "&userid=" + MySharedPrefs.INSTANCE.getUserId() + "&default_billing=" + default_billing + "&default_shipping=" + default_shipping;
+//				System.out.println("====URL new address====" + url);
+//				myApi.reqAddAddress(url, MyReceiverActions.ADD_ADDRESS);
+
+				String url = UrlsConstants.ADD_ADDRESS;
+
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("fname",fname);
+				jsonObject.put("lname",lname);
+				jsonObject.put("addressline1",addressLine1);
+				jsonObject.put("addressline2",addressLine2);
+				jsonObject.put("addressline3",addressLine3);
+				jsonObject.put("city",city);
+				jsonObject.put("state",state);
+				jsonObject.put("pin",pin);
+				jsonObject.put("countrycode",countrycode);
+				jsonObject.put("phone",phone);
+				jsonObject.put("userid",MySharedPrefs.INSTANCE.getUserId());
+				jsonObject.put("default_billing",String.valueOf(default_billing));
+				jsonObject.put("default_shipping",String.valueOf(default_shipping));
+				myApi.reqAddAddress(url, MyReceiverActions.ADD_ADDRESS, jsonObject);
 
 				////////////////POST/////////////
 //				String strurl = UrlsConstants.ADD_ADDRESS;
@@ -964,8 +984,29 @@ public class CreateNewAddress extends BaseActivity{
 					params += "&" + key + "=" + json_obj.getString(key); 
 				}
 				String url = UrlsConstants.EDIT_ADDRESS + MySharedPrefs.INSTANCE.getUserId() + "&id=" + address.getid() + params + "&default_shipping=" + default_billing;;*/
-				String url = UrlsConstants.EDIT_ADDRESS + url_param + "&userid=" + MySharedPrefs.INSTANCE.getUserId() + "&addressid=" + address.getCustomer_address_id() + "&default_billing=" + default_billing + "&default_shipping=" + default_shipping;
-				myApi.reqEditAddress(url);
+
+
+//				String url = UrlsConstants.EDIT_ADDRESS + url_param + "&userid=" + MySharedPrefs.INSTANCE.getUserId() + "&addressid=" + address.getCustomer_address_id() + "&default_billing=" + default_billing + "&default_shipping=" + default_shipping;
+//				myApi.reqEditAddress(url);
+
+				String url = UrlsConstants.EDIT_ADDRESS;
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("fname",fname);
+				jsonObject.put("lname",lname);
+				jsonObject.put("addressline1",addressLine1);
+				jsonObject.put("addressline2",addressLine2);
+				jsonObject.put("addressline3",addressLine3);
+				jsonObject.put("city",city);
+				jsonObject.put("state",state);
+				jsonObject.put("pin",pin);
+				jsonObject.put("countrycode",countrycode);
+				jsonObject.put("phone",phone);
+				jsonObject.put("userid",MySharedPrefs.INSTANCE.getUserId());
+				jsonObject.put("addressid",address.getCustomer_address_id());
+				jsonObject.put("default_billing",String.valueOf(default_billing));
+				jsonObject.put("default_shipping", String.valueOf(default_shipping));
+				myApi.reqAddAddress(url, MyReceiverActions.ADD_ADDRESS, jsonObject);
+
 
 				////////////////POST/////////////
 //			String strurl = UrlsConstants.EDIT_ADDRESS;

@@ -24,8 +24,11 @@ public class UrlsConstants {
 //	public final static String NEW_BASE_URL = "http://dev.grocermax.com/webservice/new_services/";
 
 	//staging
-	public final static String BASE_URL = "http://staging.grocermax.com/webservice/";
-	public final static String NEW_BASE_URL = "http://staging.grocermax.com/webservice/new_services/";
+//	public final static String BASE_URL = "http://staging.grocermax.com/webservice/";
+//	public final static String NEW_BASE_URL = "http://staging.grocermax.com/webservice/new_services/";
+
+	public final static String BASE_URL = "http://staging.grocermax.com/api/";
+	public final static String NEW_BASE_URL = "http://staging.grocermax.com/api/";
 
 	// live url
 
@@ -59,8 +62,9 @@ public class UrlsConstants {
 
 //	http://staging.grocermax.com/webservice/new_services/dealproductlisting
 
-//		public final static String LOGIN_URL = NEW_BASE_URL + "login?";
-	public final static String LOGIN_URL = NEW_BASE_URL + "loginnew";
+	public final static String LOGIN_URL = NEW_BASE_URL + "login?";
+
+//	public final static String LOGIN_URL = NEW_BASE_URL + "loginnew";
 
 	public final static String GET_ALL_PRODUCTS_OF_CATEGORY = NEW_BASE_URL + "productlistall?cat_id=";
 
@@ -109,8 +113,11 @@ public class UrlsConstants {
 
 	/*public final static String REGESTRATION_URL = BASE_URL
 			+ "registeration.php?";*/
+
+//	public final static String REGESTRATION_URL_OTP = NEW_BASE_URL                               //use when first time hits the registeration service and getting otp
+//			+ "createuser?otp=0&";
 	public final static String REGESTRATION_URL_OTP = NEW_BASE_URL                               //use when first time hits the registeration service and getting otp
-			+ "createuser?otp=0&";
+		+ "createuser";
 
 	public final static String REGESTRATION_URL = NEW_BASE_URL                                    //use when first time hits the registeration service and after match otp by user and coming from server
 			+ "createuser?otp=1&";
@@ -121,8 +128,11 @@ public class UrlsConstants {
 	/*public final static String FORGET_PASSWORD_URL = BASE_URL
 			+ "forgotpassword.php?uemail=";// suman.tripathi@sakshay.in
 */
+//	public final static String FORGET_PASSWORD_URL = NEW_BASE_URL
+//			+ "forgotpassword?uemail=";
+
 	public final static String FORGET_PASSWORD_URL = NEW_BASE_URL
-			+ "forgotpassword?uemail=";
+			+ "forgotpassword";
 
 	public final static String CHANGE_PASSWORD_URL = NEW_BASE_URL
 			+ "changepassword?";// 278&password=happysuman&old_password=happy
@@ -177,6 +187,8 @@ public class UrlsConstants {
 
 	/*public final static String ADD_ADDRESS = BASE_URL
 			+ "changeaddress.php?new_billing=";*/
+
+
 	public final static String ADD_ADDRESS = NEW_BASE_URL
 			+ "addaddress?";
 
@@ -185,11 +197,14 @@ public class UrlsConstants {
 
 	/*public final static String EDIT_ADDRESS = BASE_URL
 			+ "editaddress.php?UserID=";*/
+
 	public final static String EDIT_ADDRESS = NEW_BASE_URL
 			+ "editaddress?";
 
+//	public final static String FINAL_CHECKOUT = NEW_BASE_URL
+//			+ "checkout?shipping=";
 	public final static String FINAL_CHECKOUT = NEW_BASE_URL
-			+ "checkout?shipping=";
+		+ "checkout";
 
 	/*public final static String SEARCH_PRODUCT = BASE_URL + "search.php?name=";*/
 	public final static String SEARCH_PRODUCT = NEW_BASE_URL + "search?keyword=";
@@ -204,8 +219,10 @@ public class UrlsConstants {
 	public final static String GET_ORDER_STATUS = NEW_BASE_URL
 			+ "getstatus?orderid=";
 
+//	public final static String SET_ORDER_STATUS = NEW_BASE_URL
+//			+ "setstatus?status=canceled&orderid=";
 	public final static String SET_ORDER_STATUS = NEW_BASE_URL
-			+ "setstatus?status=canceled&orderid=";
+			+ "setstatus";
 
 	public final static String SET_PAYTM_ORDER_STATUS_SUCCESS = NEW_BASE_URL
 			+ "setstatus?status=success&orderid=";

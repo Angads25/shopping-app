@@ -486,9 +486,10 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					cartList.clear();
 					cartList = cartBean.getItems();
 					setCartList(cartBean);
-				}else{
+				}else{                                                           //in case when update service got fail view cart will run [just for precaution].
 					showDialog();
 					String url = UrlsConstants.VIEW_CART_URL+ MySharedPrefs.INSTANCE.getUserId()+"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId();
+					System.out.println("==sometimes slim application error on update=="+url);
 					myApi.reqViewCartSlipErrorApp(url);
 				}
 //			   }else{
@@ -637,44 +638,87 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 //		}
 //	}
 
-	public void updateItemInCart()
-	{
+	public void updateItemInCart(){
 		try {
-			JSONArray products = new JSONArray();
-			for(int i=0;i<cartList.size();i++)
-			{
-				if(Float.parseFloat(cartList.get(i).getPrice())!=0)
-				{
-					JSONObject prod_obj = new JSONObject();
-					prod_obj.put("productid", cartList.get(i).getItem_id());
-					prod_obj.put("quantity", cartList.get(i).getQty());
-					System.out.println(cartList.get(i).getQty()+"==qty===item id=="+cartList.get(i).getItem_id());
-					products.put(prod_obj);
-				}
-			}
+//			JSONArray products = new JSONArray();
+//			for(int i=0;i<cartList.size();i++)
+//			{
+//				if(Float.parseFloat(cartList.get(i).getPrice())!=0)
+//				{
+//					JSONObject prod_obj = new JSONObject();
+//					prod_obj.put("productid", cartList.get(i).getItem_id());
+//					prod_obj.put("quantity", cartList.get(i).getQty());
+//					System.out.println(cartList.get(i).getQty()+"==qty===item id=="+cartList.get(i).getItem_id());
+//					products.put(prod_obj);
+//				}
+//			}
 
-			String url = UrlsConstants.NEW_BASE_URL+"deleteitem?userid="+ strUserIdtemp +
-					"&productid=" + sbDeleteProdId +
-					"&quote_id="+ strQuoteIdtemp +"&updateid="+ URLEncoder.encode(products.toString(), "UTF-8");
-
-			System.out.println("==URL'S HERE=="+url);
-			if(UtilityMethods.isInternetAvailable(this)){
-				UpdateCartbg.getInstance().bLocally = true;
-//				myApi.reqEditCart(url,MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
-				myApi.reqEditCart(url);
-			}
-
-			////////////////POST/////////////
-//			String strurl = UrlsConstants.NEW_BASE_URL;
-//			HashMap<String, String> hashMap = new HashMap<String,String>();
-//			hashMap.put("deleteitem?userid=",strUserIdtemp);
-//			hashMap.put("productid",String.valueOf(sbDeleteProdId));
-//			hashMap.put("quote_id",strQuoteIdtemp);
-//			hashMap.put("updateid",products.toString());
-//			System.out.println("==URL'S HERE=="+strurl);
+//			String url = UrlsConstants.NEW_BASE_URL+"deleteitem?userid="+ strUserIdtemp +
+//					"&productid=" + sbDeleteProdId +
+//					"&quote_id="+ strQuoteIdtemp +"&updateid="+ URLEncoder.encode(products.toString(), "UTF-8");
+//			System.out.println("==URL'S HERE=="+url);
 //			if(UtilityMethods.isInternetAvailable(this)){
 //				UpdateCartbg.getInstance().bLocally = true;
-//				myApi.reqEditCart(url, hashMap);
+//				myApi.reqEditCart(url,MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
+//				myApi.reqEditCart(url);
+//			}
+
+
+			try {
+				////////////////POST/////////////
+				String strurl = UrlsConstants.NEW_BASE_URL+"deleteitem";
+				JSONObject jsonObject = new JSONObject();
+				JSONArray jsonArray = new JSONArray();
+				if(sbDeleteProdId.length() > 0) {
+					String sd[] = sbDeleteProdId.toString().split(",");
+					for (int k = 0; k < sd.length; k++) {
+						String s1 = sd[k];
+						jsonArray.put(Integer.parseInt(s1));
+					}
+				}
+				jsonObject.put("userid", strUserIdtemp);
+				jsonObject.put("productid", jsonArray);
+				jsonObject.put("quote_id", strQuoteIdtemp);
+				JSONArray products1 = new JSONArray();
+				for(int i=0;i<cartList.size();i++)
+				{
+					if(Float.parseFloat(cartList.get(i).getPrice())!=0)
+					{
+						JSONObject prod_obj = new JSONObject();
+						prod_obj.put("productid", cartList.get(i).getItem_id());
+						prod_obj.put("quantity", cartList.get(i).getQty());
+						System.out.println(cartList.get(i).getQty()+"==qty===item id=="+cartList.get(i).getItem_id());
+						products1.put(prod_obj);
+					}
+				}
+				jsonObject.put("updateid", products1);
+
+				jsonObject.put("version", "1.0");
+				System.out.println("==delete and back to previous screen==" + strurl);
+				System.out.println("==delete and back json==" + jsonObject);
+				if (UtilityMethods.isInternetAvailable(this)) {
+					UpdateCartbg.getInstance().bLocally = true;
+//				myApi.reqEditCart(url,MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
+				myApi.reqEditCart(strurl, jsonObject);
+				}
+			}catch(Exception e){}
+
+			////////////////POST/////////////
+
+			try{
+			////////////////POST/////////////
+//				String strurl = UrlsConstants.NEW_BASE_URL;
+//				JSONObject jsonObject = new JSONObject();
+//				jsonObject.put("deleteitem?userid=",strUserIdtemp);
+//				jsonObject.put("productid",String.valueOf(sbDeleteProdId));
+//				jsonObject.put("quote_id",strQuoteIdtemp);
+//				jsonObject.put("updateid",products.toString());
+//				System.out.println("==URL'S HERE=="+strurl);
+//				if(UtilityMethods.isInternetAvailable(this)) {
+//					UpdateCartbg.getInstance().bLocally = true;
+//					myApi.reqEditCart(url, jsonObject);
+//				}
+			}catch(Exception e){}
 //			}
 			////////////////POST/////////////
 
@@ -686,20 +730,20 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	private void updateItemInCartBackToCart()
 	{
 		try {
-			JSONArray products = new JSONArray();
-			for(int i=0;i<cartList.size();i++)
-			{
-				if(Float.parseFloat(cartList.get(i).getPrice())!=0)
-				{
-					JSONObject prod_obj = new JSONObject();
-					prod_obj.put("productid", cartList.get(i).getItem_id());
-					prod_obj.put("quantity", cartList.get(i).getQty());
-					System.out.println(cartList.get(i).getQty()+"==qty===item id=="+cartList.get(i).getItem_id());
-					products.put(prod_obj);
-				}
-			}
-			showDialog();
+//			JSONArray products = new JSONArray();
+//			for(int i=0;i<cartList.size();i++)
+//			{
+//				if(Float.parseFloat(cartList.get(i).getPrice())!=0)
+//				{
+//					JSONObject prod_obj = new JSONObject();
+//					prod_obj.put("productid", cartList.get(i).getItem_id());
+//					prod_obj.put("quantity", cartList.get(i).getQty());
+//					System.out.println(cartList.get(i).getQty()+"==qty===item id=="+cartList.get(i).getItem_id());
+//					products.put(prod_obj);
+//				}
+//			}
 
+			showDialog();
 			String strUserId = "";
 			if(MySharedPrefs.INSTANCE.getUserId() != null && !MySharedPrefs.INSTANCE.getUserId().equals(""))
 			{
@@ -712,29 +756,57 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				strQuoteId = MySharedPrefs.INSTANCE.getQuoteId();
 			}
 
-			String url = UrlsConstants.NEW_BASE_URL+"deleteitem?userid="+ strUserId +
-					"&productid=" + sbDeleteProdId +
-					"&quote_id="+ strQuoteId +"&updateid="+ URLEncoder.encode(products.toString(), "UTF-8");
-
-//			System.out.println("==URL'S HERE=="+url);
-			if(UtilityMethods.isInternetAvailable(this)){
-				UpdateCartbg.getInstance().bLocally = true;
-				myApi.reqEditCartBackToCart(url, MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
-			}
-
-			////////////////POST/////////////
-//			String strurl = UrlsConstants.NEW_BASE_URL;
-//			HashMap<String, String> hashMap = new HashMap<String,String>();
-//			hashMap.put("deleteitem?userid=",strUserIdtemp);
-//			hashMap.put("productid",String.valueOf(sbDeleteProdId));
-//			hashMap.put("quote_id",strQuoteIdtemp);
-//			hashMap.put("updateid",products.toString());
-//			System.out.println("==URL'S HERE=="+strurl);
+//			String url = UrlsConstants.NEW_BASE_URL+"deleteitem?userid="+ strUserId +
+//					"&productid=" + sbDeleteProdId +
+//					"&quote_id="+ strQuoteId +"&updateid="+ URLEncoder.encode(products.toString(), "UTF-8");
 //			if(UtilityMethods.isInternetAvailable(this)){
 //				UpdateCartbg.getInstance().bLocally = true;
-////				myApi.reqEditCart(url,MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
-//				myApi.reqEditCartBackToCart(strurl, MyReceiverActions.VIEW_CART_UPDATE_LOCALLY,hashMap);
+//				myApi.reqEditCartBackToCart(url, MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
 //			}
+
+			try {
+				////////////////POST/////////////
+				String strurl = UrlsConstants.NEW_BASE_URL+"deleteitem";
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("userid", strUserId);
+
+				JSONArray jsonArray = new JSONArray();
+				if(sbDeleteProdId.length() > 0) {
+					String sd[] = sbDeleteProdId.toString().split(",");
+					for (int k = 0; k < sd.length; k++) {
+						String s1 = sd[k];
+						jsonArray.put(Integer.parseInt(s1));
+					}
+				}
+
+				jsonObject.put("productid", jsonArray);
+				jsonObject.put("quote_id", strQuoteId);
+				JSONArray products1 = new JSONArray();
+				for(int i=0;i<cartList.size();i++)
+				{
+					if(Float.parseFloat(cartList.get(i).getPrice())!=0)
+					{
+						JSONObject prod_obj = new JSONObject();
+						prod_obj.put("productid", cartList.get(i).getItem_id());
+						prod_obj.put("quantity", cartList.get(i).getQty());
+						System.out.println(cartList.get(i).getQty()+"==qty===item id=="+cartList.get(i).getItem_id());
+						products1.put(prod_obj);
+					}
+				}
+				jsonObject.put("updateid", products1);
+
+				jsonObject.put("version", "1.0");
+				System.out.println("==URL'S HERE==" + strurl);
+				System.out.println("==jsonobject HERE==" + jsonObject);
+				if (UtilityMethods.isInternetAvailable(this)) {
+					UpdateCartbg.getInstance().bLocally = true;
+//				myApi.reqEditCart(url,MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
+					myApi.reqEditCartBackToCart(strurl, MyReceiverActions.VIEW_CART_UPDATE_LOCALLY, jsonObject);
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+
 			////////////////POST/////////////
 
 		} catch (Exception e) {

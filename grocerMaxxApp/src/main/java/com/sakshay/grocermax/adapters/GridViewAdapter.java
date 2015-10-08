@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sakshay.grocermax.R;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 
 public class GridViewAdapter extends BaseAdapter {
     private Context mContext;
@@ -55,7 +56,8 @@ public class GridViewAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		
-		View grid;
+		View grid = null;
+        try{
         LayoutInflater inflater = (LayoutInflater) mContext
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -85,7 +87,10 @@ public class GridViewAdapter extends BaseAdapter {
 //        }else{
 //        	grid.setBackgroundResource(R.color.delivery_slot_unselected_color);
 //        }
-        
+
+        }catch(Exception e){
+            new GrocermaxBaseException("AddressListAdapter","getView",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+        }
         return grid;
 
 	}

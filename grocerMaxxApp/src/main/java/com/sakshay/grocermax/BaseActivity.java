@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
@@ -153,8 +154,6 @@ public abstract class BaseActivity extends FragmentActivity {
 //				if(keyboardVisibility)
 //					imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
 //			}
-
-
 		    icon_header_back = (ImageView) view.findViewById(R.id.icon_header_back);
 			tvHeaderName = (TextView) view.findViewById(R.id.tv_appbar_breadcrumb);
 			icon_header_user = (ImageButton) view.findViewById(R.id.icon_header_user);
@@ -249,7 +248,7 @@ public abstract class BaseActivity extends FragmentActivity {
 				}
 			});
 		}catch(Exception e){
-			new GrocermaxBaseException("BaseActivity","initHeader",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+
 		}
 
 
@@ -1480,10 +1479,20 @@ public abstract class BaseActivity extends FragmentActivity {
 		try {
 			JSONArray products = new JSONArray();
 			JSONObject prod_obj = new JSONObject();
+//			prod_obj.put("product_id", cartProduct.getItem_id());
+//			prod_obj.put("qty", cartProduct.getQty());
 			prod_obj.put("productid", cartProduct.getItem_id());
 			prod_obj.put("quantity", cartProduct.getQty());
+			prod_obj.put("version", "1.0");
 			products.put(prod_obj);
-			UpdateCart updateCart = new UpdateCart(myApi, products);
+
+			JSONObject json = new JSONObject();
+			json.put("products",products);
+
+			System.out.println("=products data=" + json);
+//			UpdateCart updateCart = new UpdateCart(myApi, prod_obj);
+
+			UpdateCart updateCart = new UpdateCart(myApi, json);
 			updateCart.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		} catch (Exception ex) {
 			ex.printStackTrace();

@@ -158,8 +158,15 @@ public class Registration extends BaseActivity implements
 				if (UtilityMethods.isInternetAvailable(mContext)) {
 					showDialog();
 
-					String url = UrlsConstants.FORGET_PASSWORD_URL + _email_id;
-					myApi.reqForgetPassword(url);
+					try {
+//						String url = UrlsConstants.FORGET_PASSWORD_URL + _email_id;
+						String url = UrlsConstants.FORGET_PASSWORD_URL;
+						JSONObject jsonObject = new JSONObject();
+						jsonObject.put("uemail", _email_id);
+						myApi.reqForgetPassword(url, jsonObject);
+
+//						myApi.reqForgetPassword(url);
+					}catch(Exception e){}
 				} else {
 					UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
 				}
@@ -405,13 +412,28 @@ public class Registration extends BaseActivity implements
 
 						strEmail = _email_id;
 						//String params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password;
+
 						params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password;
 						if (MySharedPrefs.INSTANCE.getQuoteId() == null || MySharedPrefs.INSTANCE.getQuoteId().equals("")) {
-							params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password + "&quote_id=no";
-							url += params;
+//							params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password + "&quote_id=no";
+//							url += params;
 //						myApi.reqUserRegistration(url);
-							myApi.reqUserRegistrationOTP(url);
+//							myApi.reqUserRegistrationOTP(url);
 							MySharedPrefs.INSTANCE.putMobileNo(_mobile_no);                           //14/09/15
+
+							try {
+								JSONObject jsonObject = new JSONObject();
+
+								jsonObject.put("fname", _fname);
+								jsonObject.put("lname", _lname);
+								jsonObject.put("uemail", _email_id);
+								jsonObject.put("number", _mobile_no);
+								jsonObject.put("password", _password);
+								jsonObject.put("quote_id", "no");
+								jsonObject.put("otp","0");
+								myApi.reqUserRegistrationOTP(url,jsonObject);
+
+							}catch(Exception e){}
 
 							////////////////POST/////////////
 //							String strurl = UrlsConstants.REGESTRATION_URL_OTP;
@@ -425,12 +447,26 @@ public class Registration extends BaseActivity implements
 //							myApi.reqUserRegistrationOTP(strurl,hashMap);
 							////////////////POST/////////////
 						}else {
-							params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
-							url += params;
+//							params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password +
+//									"&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
+//							url += params;
 //						myApi.reqUserRegistration(url);
-							myApi.reqUserRegistrationOTP(url);
+//							myApi.reqUserRegistrationOTP(url);
 							MySharedPrefs.INSTANCE.putMobileNo(_mobile_no);                           //14/09/15
 
+							try{
+								JSONObject jsonObject = new JSONObject();
+								jsonObject.put("fname", _fname);
+								jsonObject.put("lname", _lname);
+								jsonObject.put("uemail", _email_id);
+								jsonObject.put("number", _mobile_no);
+								jsonObject.put("password", _password);
+								jsonObject.put("quote_id", MySharedPrefs.INSTANCE.getQuoteId());
+								jsonObject.put("otp","0");
+								myApi.reqUserRegistrationOTP(url,jsonObject);
+							}catch(Exception e){
+
+							}
 							////////////////POST/////////////
 //							String strurl = UrlsConstants.REGESTRATION_URL_OTP;
 //							HashMap<String, String> hashMap = new HashMap<String,String>();
@@ -804,11 +840,16 @@ public class Registration extends BaseActivity implements
 					new GrocermaxBaseException("Registeration","onActivityResult",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 				}
 		}
-		if(requestCode==123)                  //uses when coming from OneTimePassword screen after to register successfully this will finish and go back to loginactivity and loginactivity also uses same funct
-		{
-			if(resultCode==RESULT_OK)
-				setResult(RESULT_OK);
-				finish();
+
+		try{
+			if(requestCode==123)                  //uses when coming from OneTimePassword screen after to register successfully this will finish and go back to loginactivity and loginactivity also uses same funct
+			{
+				if(resultCode==RESULT_OK)
+					setResult(RESULT_OK);
+					finish();
+			}
+		}catch(Exception e){
+			new GrocermaxBaseException("Registeration","requestCode123",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 
 //		if(requestCode == 64206){
@@ -888,6 +929,7 @@ public class Registration extends BaseActivity implements
 	 * for saving facebook data
 	 * */
 	private void saveUserData(GraphUser user) {
+		try {
 		String USER_ID = "";
 		String USER_FNAME = "";
 		String USER_MNAME = "";
@@ -898,11 +940,9 @@ public class Registration extends BaseActivity implements
 		USER_FNAME = user.getFirstName();
 		USER_MNAME = user.getMiddleName();
 		USER_LNAME = user.getLastName();
-		try {
-			USER_EMAIL = user.getProperty("email").toString();
-		} catch (Exception e) {
-			Log.e("ERROR", "Enable to get email");
-		}
+
+		USER_EMAIL = user.getProperty("email").toString();
+
 
 		USER_ID = user.getId();
 
@@ -930,14 +970,32 @@ public class Registration extends BaseActivity implements
 		if (UtilityMethods.isInternetAvailable(mContext)) {
 			showDialog();
 			String url;
+			JSONObject jsonObject = new JSONObject();
 			if(MySharedPrefs.INSTANCE.getQuoteId()==null||MySharedPrefs.INSTANCE.getQuoteId().equals(""))
 			{
-				url = UrlsConstants.FB_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getFacebookEmail() + "&quote_id=no&fname=" + USER_FNAME+"&lname="+USER_LNAME+"&number=0000000000";
+//				url = UrlsConstants.FB_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getFacebookEmail() + "&quote_id=no&fname=" + USER_FNAME+"&lname="+USER_LNAME+"&number=0000000000";
+				url = UrlsConstants.FB_LOGIN_URL;
+				jsonObject.put("uemail",MySharedPrefs.INSTANCE.getFacebookEmail());
+				jsonObject.put("quote_id","no");
+				jsonObject.put("fname",USER_FNAME);
+				jsonObject.put("lname", USER_LNAME);
+				jsonObject.put("number", 0000000000);
+				System.out.println("==jsonobject==" + jsonObject);
+
 			}else{
 				QUOTE_ID_AFTER_FB=MySharedPrefs.INSTANCE.getQuoteId();
-				url = UrlsConstants.FB_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getFacebookEmail() + "&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&fname=" + USER_FNAME+"&lname="+USER_LNAME+"&number=0000000000";
+//				url = UrlsConstants.FB_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getFacebookEmail() + "&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&fname=" + USER_FNAME+"&lname="+USER_LNAME+"&number=0000000000";
+
+				url = UrlsConstants.FB_LOGIN_URL;
+				jsonObject.put("uemail",MySharedPrefs.INSTANCE.getFacebookEmail());
+				jsonObject.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
+				jsonObject.put("fname",USER_FNAME);
+				jsonObject.put("lname", USER_LNAME);
+				jsonObject.put("number", 0000000000);
+				System.out.println("==jsonobject==" + jsonObject);
 			}
-			myApi.reqLogin(url);
+//			myApi.reqLogin(url);
+			myApi.reqLogin(url,jsonObject);
 
 //			if (UtilityMethods.isInternetAvailable(mContext)) {
 //				showDialog();
@@ -957,6 +1015,9 @@ public class Registration extends BaseActivity implements
 
 			} else {
 			UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
+		  }
+		} catch (Exception e) {
+			Log.e("ERROR", "Enable to get email");
 		}
 	}
 
@@ -1124,22 +1185,26 @@ public class Registration extends BaseActivity implements
 //				UtilityMethods.customToast("google plus login else", context);
 			}
 		}catch(Exception e){
-			new GrocermaxBaseException("LoginActivity","googlePlusLogin",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+			new GrocermaxBaseException("Registration","googlePlusLogin",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
 
 	private void resolveSignInError() {
 //		Toast.makeText(context,"88888", Toast.LENGTH_SHORT).show();
-		if(mConnectionResult != null){
-			if (mConnectionResult.hasResolution()) {
-				try {
-					mIntentInProgress = true;
-					mConnectionResult.startResolutionForResult(this, RC_SIGN_IN);
-				} catch (IntentSender.SendIntentException e) {
-					mIntentInProgress = false;
-					mGoogleApiClient.connect();
+		try {
+			if (mConnectionResult != null) {
+				if (mConnectionResult.hasResolution()) {
+					try {
+						mIntentInProgress = true;
+						mConnectionResult.startResolutionForResult(this, RC_SIGN_IN);
+					} catch (IntentSender.SendIntentException e) {
+						mIntentInProgress = false;
+						mGoogleApiClient.connect();
+					}
 				}
 			}
+		}catch(Exception e){
+			new GrocermaxBaseException("Registration","resolveSignInError",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 //		else{
 //		}
@@ -1201,20 +1266,26 @@ public class Registration extends BaseActivity implements
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			new GrocermaxBaseException("Registration","getProfileInformation",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
 
 	public static void googlePlusLogoutReg() {
-		if(mGoogleApiClient != null){
-			if (mGoogleApiClient.isConnected()) {
-				Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-				mGoogleApiClient.disconnect();
-				mGoogleApiClient.connect();
-				if(tv_google_btn != null){
-					tv_google_btn.setText("Join with Google");
+		try{
+			if(mGoogleApiClient != null){
+				if (mGoogleApiClient.isConnected()) {
+					Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+					mGoogleApiClient.disconnect();
+					mGoogleApiClient.connect();
+					if(tv_google_btn != null){
+						tv_google_btn.setText("Join with Google");
+					}
+	//            updateProfile(false);
 				}
-//            updateProfile(false);
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			new GrocermaxBaseException("Registration","googlePlusLogoutReg",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
 
@@ -1238,6 +1309,7 @@ public class Registration extends BaseActivity implements
 	 * for saving google plus data
 	 * */
 	private void saveGoogleUserData(Person currentPerson) {
+		try{
 		String USER_ID = "";
 //		String USER_FNAME = "";
 //		String USER_MNAME = "";
@@ -1284,20 +1356,40 @@ public class Registration extends BaseActivity implements
 //			String url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ USER_EMAIL + "&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
 
 			String url = "";
+			JSONObject jsonObject = new JSONObject();
 			if(MySharedPrefs.INSTANCE.getQuoteId()==null||MySharedPrefs.INSTANCE.getQuoteId().equals(""))
 			{
-				url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ USER_EMAIL + "&quote_id=no&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
+//				url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ USER_EMAIL + "&quote_id=no&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
+				url = UrlsConstants.GOOGLE_LOGIN_URL;
+				jsonObject.put("uemail",USER_EMAIL);
+				jsonObject.put("quote_id","no");
+				jsonObject.put("fname",USER_NAME);
+				jsonObject.put("lname", "");
+				jsonObject.put("number", 0000000000);
+				System.out.println("==jsonobject==" + jsonObject);
 			}else{
-				url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ USER_EMAIL + "&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
+				url = UrlsConstants.GOOGLE_LOGIN_URL;
+//				url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ USER_EMAIL + "&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
+				jsonObject.put("uemail",USER_EMAIL);
+				jsonObject.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
+				jsonObject.put("fname",USER_NAME);
+				jsonObject.put("lname", "");
+				jsonObject.put("number", 0000000000);
+				System.out.println("==jsonobject==" + jsonObject);
 			}
 
 //			String url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getGoogleEmail() + "&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
 //			String url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getGoogleEmail() + "&fname=" + USER_NAME+"&number=0000000000";
-			myApi.reqLogin(url);
+//			myApi.reqLogin(url);
+			myApi.reqLogin(url,jsonObject);
 
 		} else {
 //			Toast.makeText(mContext, ToastConstant.msgNoInternet ,Toast.LENGTH_LONG).show();
 			UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
+		}
+		} catch (Exception e) {
+			e.printStackTrace();
+			new GrocermaxBaseException("Registration","saveGoogleUserData",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
 

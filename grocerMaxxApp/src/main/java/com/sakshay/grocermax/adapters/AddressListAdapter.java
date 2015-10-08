@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.sakshay.grocermax.AddressDetail;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.Address;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.utils.CustomFonts;
 
 import org.w3c.dom.Text;
@@ -54,6 +55,7 @@ public class AddressListAdapter extends BaseAdapter{
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
+		try{
 		ViewHolder holder = null;
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.address_detail, parent, false);
@@ -158,6 +160,9 @@ public class AddressListAdapter extends BaseAdapter{
 				((AddressDetail)mContext).deleteAddress(obj,position);
 			}
 		});
+		}catch(Exception e){
+			new GrocermaxBaseException("AddressListAdapter","getView",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return convertView;
 	}
 	
@@ -176,8 +181,12 @@ public class AddressListAdapter extends BaseAdapter{
 	
 	public void updateList(ArrayList<Address> list)
 	{
-		addressList = list;
-		notifyDataSetChanged();
+		try{
+			addressList = list;
+			notifyDataSetChanged();
+		}catch(Exception e){
+			new GrocermaxBaseException("AddressListAdapter","updateList",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 }
 

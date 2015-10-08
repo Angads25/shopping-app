@@ -34,6 +34,7 @@ import com.sakshay.grocermax.bean.ProductListBean;
 import com.sakshay.grocermax.bean.SearchListBean;
 import com.sakshay.grocermax.bean.Simple;
 import com.sakshay.grocermax.bean.UserDetailBean;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.UtilityMethods;
 
@@ -74,83 +75,122 @@ public class ConnectionServiceParser {
 
 	public static BaseResponseBean parseSimpleResponse(String jsonString)
 			throws JSONException {
-		Gson gson = new Gson();
-		//BaseResponseBean responseBean = gson.fromJson(jsonString,BaseResponseBean.class);
-		LoginResponse responseBean = gson.fromJson(jsonString,LoginResponse.class);
+		LoginResponse responseBean = null;
+		try{
+			Gson gson = new Gson();
+			//BaseResponseBean responseBean = gson.fromJson(jsonString,BaseResponseBean.class);
+			responseBean = gson.fromJson(jsonString,LoginResponse.class);
+			if (responseBean.getQuoteId() != null && !responseBean.getQuoteId().equals("")) {
+				MySharedPrefs.INSTANCE.clearQuote();
+				MySharedPrefs.INSTANCE.putQuoteId(new JSONObject(jsonString).getString("QuoteId").toString());                            //added latest
+			}
+
+		}catch(Exception e){
+			new GrocermaxBaseException("ConnectionServiceParser","parseSimpleResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return responseBean;
 	}
 
 	public static OTPResponse parseOTPResponse(String jsonString)
 			throws JSONException {
-		Gson gson = new Gson();
-		//BaseResponseBean responseBean = gson.fromJson(jsonString,BaseResponseBean.class);
-		OTPResponse otpresponseBean = gson.fromJson(jsonString,OTPResponse.class);
+		OTPResponse otpresponseBean = null;
+		try{
+			Gson gson = new Gson();
+			//BaseResponseBean responseBean = gson.fromJson(jsonString,BaseResponseBean.class);
+			otpresponseBean = gson.fromJson(jsonString,OTPResponse.class);
+		}catch(Exception e){
+			new GrocermaxBaseException("ConnectionServiceParser","parseOTPResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return otpresponseBean;
 	}
 
 	public static LoginResponse parseLoginResponse(String jsonString)
 			throws JSONException {
+		LoginResponse bean = null;
+		try{
+			JSONObject jsonObject = new JSONObject();
+			Gson gson = new Gson();
+			bean = gson.fromJson(jsonString, LoginResponse.class);
 
-		JSONObject jsonObject = new JSONObject();
-		Gson gson = new Gson();
-		LoginResponse bean = gson.fromJson(jsonString, LoginResponse.class);
+		}catch(Exception e){
+			new GrocermaxBaseException("ConnectionServiceParser","parseLoginResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return bean;
 	}
 
 	public static LocationListBean parseLocationResponse(String jsonString)
 			throws JSONException {
-
-//		JSONObject jsonObject = new JSONObject();
-//		jsonString = new JSONObject(jsonString).getJSONArray("location").toString();
-		Gson gson = new Gson();
-		LocationListBean locationBean = gson.fromJson(jsonString, LocationListBean.class);
-//		LocationDetail locationBean = gson.fromJson(jsonString, LocationDetail.class);
+		LocationListBean locationBean = null;
+		try{
+			Gson gson = new Gson();
+			locationBean = gson.fromJson(jsonString, LocationListBean.class);
+		}catch(Exception e){
+			new GrocermaxBaseException("ConnectionServiceParser","parseLocationResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return locationBean;
 	}
 
 	public static Simple parseAllProductsCategoriesResponse(String jsonString)
 			throws JSONException {
-
-//		JSONObject jsonObject = new JSONObject();
-//		jsonString = new JSONObject(jsonString).getJSONArray("location").toString();
-		Gson gson = new Gson();
-//		CategoriesProducts categoriesProducts = gson.fromJson(jsonString, CategoriesProducts.class);
-		Simple simple = gson.fromJson(jsonString,Simple.class);
-
+		Simple simple = null;
+		try{
+			Gson gson = new Gson();
+			simple = gson.fromJson(jsonString,Simple.class);
+		}catch(Exception e){
+			new GrocermaxBaseException("ConnectionServiceParser","parseAllProductsCategoriesResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return simple;
 	}
 
-
-
 	public static CategoryListBean parseCategoryResponse(String jsonString)
 			throws JSONException {
-		Gson gson = new Gson();
-		CategoryListBean categoryBean = gson.fromJson(jsonString,
+		CategoryListBean categoryBean = null;
+		try{
+			Gson gson = new Gson();
+			categoryBean = gson.fromJson(jsonString,
 				CategoryListBean.class);
+		}catch(Exception e){
+			new GrocermaxBaseException("ConnectionServiceParser","parseCategoryResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return categoryBean;
 	}
 
 	public static ProductListBean parseProductResponse(String jsonString)
 			throws JSONException {
-		Gson gson = new Gson();
-		ProductListBean productListBean = gson.fromJson(jsonString,ProductListBean.class);
+		ProductListBean productListBean = null;
+		try{
+			Gson gson = new Gson();
+			productListBean = gson.fromJson(jsonString,ProductListBean.class);
+		}catch(Exception e){
+			new GrocermaxBaseException("ConnectionServiceParser","parseProductResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return productListBean;
 	}
 
 	public static DealListBean parseDeal(String jsonString)
 			throws JSONException {
-		JSONObject jsonObject = new JSONObject(jsonString);
-		String json = jsonObject.getString("Product");
-		Gson gson = new Gson();
-		DealListBean dealListBean = gson.fromJson(json,DealListBean.class);
+		DealListBean dealListBean = null;
+		try{
+			JSONObject jsonObject = new JSONObject(jsonString);
+			String json = jsonObject.getString("Product");
+			Gson gson = new Gson();
+			dealListBean = gson.fromJson(json,DealListBean.class);
+		}catch(Exception e){
+			new GrocermaxBaseException("ConnectionServiceParser","parseUserDetailsResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return dealListBean;
 	}
 
 	public static ProductDetailsListBean parseProductContentResponse(
 			String jsonString) throws JSONException {
+		ProductDetailsListBean contentListBean = null;
+		try{
 		Gson gson = new Gson();
-		ProductDetailsListBean contentListBean = gson.fromJson(jsonString,
+		contentListBean = gson.fromJson(jsonString,
 				ProductDetailsListBean.class);
+		}catch(Exception e){
+			new GrocermaxBaseException("ConnectionServiceParser","parseProductContentResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return contentListBean;
 	}
 
@@ -324,19 +364,20 @@ public class ConnectionServiceParser {
 
 	public static CartDetailBean parseViewCartResponse(String jsonString)
 			throws JSONException {
-
+		CartDetailBean cartBean = null;
+	try {
 		String cartDetailString = "";
-		CartProductList.strShippingChargeLimit = new JSONObject(jsonString).getString("shippingChargeLimit").toString();      //500
+		CartProductList.strShippingChargeLimit = new JSONObject(jsonString).optString("shippingChargeLimit").toString();      //500
 
-		if(new JSONObject(jsonString).getString("QuoteId").toString() != null) {
+		if (new JSONObject(jsonString).getString("QuoteId").toString() != null && !new JSONObject(jsonString).getString("QuoteId").toString().equals("")) {
 			MySharedPrefs.INSTANCE.clearQuote();
 			MySharedPrefs.INSTANCE.putQuoteId(new JSONObject(jsonString).getString("QuoteId").toString());                            //added latest
 		}
 
 		MySharedPrefs.INSTANCE.putTotalItem(new JSONObject(jsonString).getString("TotalItem").toString());                        //added latest
-		cartDetailString=new JSONObject(jsonString).getJSONObject("CartDetail").toString();
+		cartDetailString = new JSONObject(jsonString).getJSONObject("CartDetail").toString();
 
-		OrderReviewBean orderReviewBean=new OrderReviewBean();
+		OrderReviewBean orderReviewBean = new OrderReviewBean();
 		orderReviewBean.setTax_ammount(new JSONObject(cartDetailString).getJSONObject("shipping_address").optString("tax_amount"));
 		orderReviewBean.setShipping_ammount(new JSONObject(cartDetailString).getJSONObject("shipping_address").optString("shipping_amount"));
 		orderReviewBean.setGrandTotal(new JSONObject(cartDetailString).getString("grand_total"));
@@ -344,18 +385,24 @@ public class ConnectionServiceParser {
 		orderReviewBean.setSubTotal(new JSONObject(cartDetailString).getString("subtotal"));
 		orderReviewBean.setCouponCode(new JSONObject(cartDetailString).getString("coupon_code"));
 		orderReviewBean.setCouponSubtotalWithDiscount(new JSONObject(cartDetailString).getString("subtotal_with_discount"));
-		
+
 //		CartProductList.getInstance().strCouponCode = new JSONObject(jsonString).getString("coupon_code");
 //		CartProductList.getInstance().strSubTotal = new JSONObject(jsonString).getString("subtotal"); 
 //		CartProductList.getInstance().strSubtotalWithDiscount = new JSONObject(jsonString).getString("subtotal_with_discount");
-		
+
 		orderReviewBean.setDiscount_amount(new JSONObject(cartDetailString).getJSONObject("shipping_address").optString("discount_amount"));
 		MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean);
-			
-		Gson gson = new Gson();jsonString=new JSONObject(jsonString).getJSONObject("CartDetail").toString();
-		CartDetailBean cartBean = gson.fromJson(jsonString,CartDetailBean.class);
-		return cartBean;
+
+		Gson gson = new Gson();
+		jsonString = new JSONObject(jsonString).getJSONObject("CartDetail").toString();
+		cartBean = gson.fromJson(jsonString, CartDetailBean.class);
+
+	}catch(Exception e){
+		new GrocermaxBaseException("ConnectionServiceParser","parseViewCartResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 	}
+		return cartBean;
+
+  }
 	static String strDiscount="";
 	///// parse there b/c updated cart values in OrderReviewBean used in shared preference for updating the values of cart///// 
 	//  useful when user moves to timing slot screen it updates the data of cart which need to send the data to Review order and Pay screen  //
@@ -430,108 +477,133 @@ public class ConnectionServiceParser {
 			    	MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean1);		    	
 				}
 		}
-		}catch(Exception e){}
+		}catch(Exception e){
+			new GrocermaxBaseException("ConnectionServiceParser","parseViewCartResponseLocally",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return cartBean;
 	}
 	///// parse there b/c updated cart values in OrderReviewBean used in shared preference for updating the values of cart/////
 
 	public static UserDetailBean parseUserDetailsResponse(String jsonString)
 			throws JSONException {
-		JSONObject jsonObject = new JSONObject(jsonString);
-		Gson gson = new Gson();
-		UserDetailBean bean = new UserDetailBean();
-		PersonalInfo personalInfo = gson.fromJson(
-				jsonObject.optString("Personal Info"), PersonalInfo.class);
-		Address shippingAddress = gson.fromJson(
-				jsonObject.optString("ShippingAddress"), Address.class);
-		Address billingAddress = gson.fromJson(
-				jsonObject.optString("BillingAddress"), Address.class);
-		bean.setPersonalInfo(personalInfo);
-		bean.setShippingAddress(shippingAddress);
-		bean.setBillingAddress(billingAddress);
+		UserDetailBean bean = null;
+		try {
+			JSONObject jsonObject = new JSONObject(jsonString);
+			Gson gson = new Gson();
+			bean = new UserDetailBean();
+			PersonalInfo personalInfo = gson.fromJson(
+					jsonObject.optString("Personal Info"), PersonalInfo.class);
+			Address shippingAddress = gson.fromJson(
+					jsonObject.optString("ShippingAddress"), Address.class);
+			Address billingAddress = gson.fromJson(
+					jsonObject.optString("BillingAddress"), Address.class);
+			bean.setPersonalInfo(personalInfo);
+			bean.setShippingAddress(shippingAddress);
+			bean.setBillingAddress(billingAddress);
+		}catch(Exception e){
+			new GrocermaxBaseException("ConnectionServiceParser","parseUserDetailsResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return bean;
 	}
 
 	public static OrderHistoryBean parseOrderHistoryResponse(String jsonString)
 			throws JSONException {
-		Gson gson = new Gson();
-		OrderHistoryBean bean = gson.fromJson(jsonString,
-				OrderHistoryBean.class);
+		OrderHistoryBean bean = null;
+		try {
+			Gson gson = new Gson();
+			bean = gson.fromJson(jsonString,
+					OrderHistoryBean.class);
+		}catch(Exception e){
+			new GrocermaxBaseException("ConnectionServiceParser","parseOrderHistoryResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return bean;
 	}
 
 	public static AddressList parseAddressBookResponse(String jsonString)
 			throws JSONException {
-		Gson gson = new Gson();
-		AddressList bean = gson.fromJson(jsonString, AddressList.class);
+		AddressList bean = null;
+		try {
+			Gson gson = new Gson();
+			bean = gson.fromJson(jsonString, AddressList.class);
+		}catch(Exception e){
+			new GrocermaxBaseException("ConnectionServiceParser","parseAddressBookResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return bean;
 	}
 
 	public static FinalCheckoutBean parseFinalCheckoutResponse(String jsonString)
 			throws JSONException {
-		Gson gson = new Gson();
-		FinalCheckoutBean bean = gson.fromJson(jsonString,
-				FinalCheckoutBean.class);
+		FinalCheckoutBean bean = null;
+		try{
+			Gson gson = new Gson();
+			bean = gson.fromJson(jsonString, FinalCheckoutBean.class);
+		}catch(Exception e){
+			new GrocermaxBaseException("ConnectionServiceParser","parseFinalCheckoutResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return bean;
 	}
 
 	public static CheckoutAddressBean parseCheckoutAddressResponse(
 			String jsonString) throws JSONException {
-		Gson gson = new Gson();
-		CheckoutAddressBean bean = gson.fromJson(jsonString,CheckoutAddressBean.class);
+		CheckoutAddressBean bean = null;
+		try{
+			Gson gson = new Gson();
+			bean = gson.fromJson(jsonString,CheckoutAddressBean.class);
 
-		JSONObject response = new JSONObject(jsonString);
-		JSONArray shipping_obj = response.getJSONArray("Shipping");
-		HashMap<String,ArrayList<String>> date_timeSlot=new HashMap<String, ArrayList<String>>();
-//		HashMap<String,ArrayList<String>> date_timeAvailableSlot=new HashMap<String, ArrayList<String>>();             //////
-		for(int i=0;i<shipping_obj.length();i++)
-		{
-			JSONObject slot_obj=shipping_obj.getJSONObject(i);
-			if(date_timeSlot.containsKey(slot_obj.getString("Date")))
+			JSONObject response = new JSONObject(jsonString);
+			JSONArray shipping_obj = response.getJSONArray("Shipping");
+			HashMap<String,ArrayList<String>> date_timeSlot=new HashMap<String, ArrayList<String>>();
+	//		HashMap<String,ArrayList<String>> date_timeAvailableSlot=new HashMap<String, ArrayList<String>>();             //////
+			for(int i=0;i<shipping_obj.length();i++)
 			{
-				ArrayList<String> timeSlot=date_timeSlot.get(slot_obj.getString("Date"));
-				timeSlot.add(slot_obj.getString("TimeSlot"));
-				date_timeSlot.put(slot_obj.getString("Date"), timeSlot);
+				JSONObject slot_obj=shipping_obj.getJSONObject(i);
+				if(date_timeSlot.containsKey(slot_obj.getString("Date")))
+				{
+					ArrayList<String> timeSlot=date_timeSlot.get(slot_obj.getString("Date"));
+					timeSlot.add(slot_obj.getString("TimeSlot"));
+					date_timeSlot.put(slot_obj.getString("Date"), timeSlot);
 
-//				ArrayList<String> timeSlot11 = date_timeSlot.get(slot_obj.getString("Date")); //////////
-//				timeSlot11.add(String.valueOf(slot_obj.getInt("Available"))); /////////////////////////////
-////				ArrayList<String> timeSlot11=new ArrayList<String>();              ///////////////
-////				timeSlot11.add(String.valueOf(slot_obj.getInt("Available")));
-//				date_timeAvailableSlot.put(slot_obj.getString("Date"), timeSlot11);///////////////
+	//				ArrayList<String> timeSlot11 = date_timeSlot.get(slot_obj.getString("Date")); //////////
+	//				timeSlot11.add(String.valueOf(slot_obj.getInt("Available"))); /////////////////////////////
+	////				ArrayList<String> timeSlot11=new ArrayList<String>();              ///////////////
+	////				timeSlot11.add(String.valueOf(slot_obj.getInt("Available")));
+	//				date_timeAvailableSlot.put(slot_obj.getString("Date"), timeSlot11);///////////////
 
-			}else{
-				ArrayList<String> timeSlot=new ArrayList<String>();
-				timeSlot.add(slot_obj.getString("TimeSlot"));
-				date_timeSlot.put(slot_obj.getString("Date"), timeSlot);
+				}else{
+					ArrayList<String> timeSlot=new ArrayList<String>();
+					timeSlot.add(slot_obj.getString("TimeSlot"));
+					date_timeSlot.put(slot_obj.getString("Date"), timeSlot);
 
-//				ArrayList<String> timeSlot11=new ArrayList<String>();              ///////////////
-//				timeSlot11.add(String.valueOf(slot_obj.getInt("Available")));                  ////////////////
-//				date_timeAvailableSlot.put(slot_obj.getString("Date"), timeSlot11);//////////////
+	//				ArrayList<String> timeSlot11=new ArrayList<String>();              ///////////////
+	//				timeSlot11.add(String.valueOf(slot_obj.getInt("Available")));                  ////////////////
+	//				date_timeAvailableSlot.put(slot_obj.getString("Date"), timeSlot11);//////////////
+				}
 			}
-		}
 
 
-		HashMap<String,ArrayList<String>> date_timeAvailableSlot=new HashMap<String, ArrayList<String>>();             //////
-		for(int i=0;i<shipping_obj.length();i++)
-		{
-			JSONObject slot_obj=shipping_obj.getJSONObject(i);
-			if(date_timeSlot.containsKey(slot_obj.getString("Date")))
+			HashMap<String,ArrayList<String>> date_timeAvailableSlot=new HashMap<String, ArrayList<String>>();             //////
+			for(int i=0;i<shipping_obj.length();i++)
 			{
-				ArrayList<String> timeSlot11 = date_timeSlot.get(slot_obj.getString("Date")); //////////
-				timeSlot11.add(String.valueOf(slot_obj.getInt("Available"))); /////////////////////////////
-//				ArrayList<String> timeSlot11=new ArrayList<String>();              ///////////////
-//				timeSlot11.add(String.valueOf(slot_obj.getInt("Available")));
-				date_timeAvailableSlot.put(slot_obj.getString("Date"), timeSlot11);///////////////
-			}else{
-				ArrayList<String> timeSlot11=new ArrayList<String>();              ///////////////
-				timeSlot11.add(String.valueOf(slot_obj.getInt("Available")));                  ////////////////
-				date_timeAvailableSlot.put(slot_obj.getString("Date"), timeSlot11);//////////////
+				JSONObject slot_obj=shipping_obj.getJSONObject(i);
+				if(date_timeSlot.containsKey(slot_obj.getString("Date")))
+				{
+					ArrayList<String> timeSlot11 = date_timeSlot.get(slot_obj.getString("Date")); //////////
+					timeSlot11.add(String.valueOf(slot_obj.getInt("Available"))); /////////////////////////////
+	//				ArrayList<String> timeSlot11=new ArrayList<String>();              ///////////////
+	//				timeSlot11.add(String.valueOf(slot_obj.getInt("Available")));
+					date_timeAvailableSlot.put(slot_obj.getString("Date"), timeSlot11);///////////////
+				}else{
+					ArrayList<String> timeSlot11=new ArrayList<String>();              ///////////////
+					timeSlot11.add(String.valueOf(slot_obj.getInt("Available")));                  ////////////////
+					date_timeAvailableSlot.put(slot_obj.getString("Date"), timeSlot11);//////////////
+				}
 			}
-		}
 
-		bean.setDate_timeSlot(date_timeSlot);
-		bean.setDate_timeAvailableSlot(date_timeAvailableSlot);
-		
+			bean.setDate_timeSlot(date_timeSlot);
+			bean.setDate_timeAvailableSlot(date_timeAvailableSlot);
+		}catch(Exception e){
+			new GrocermaxBaseException("ConnectionServiceParser","parseCheckoutAddressResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return bean;
 	}
 

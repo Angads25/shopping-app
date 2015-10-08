@@ -42,6 +42,7 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.sakshay.grocermax.api.ConnectionService;
+import com.sakshay.grocermax.api.ConnectionServiceParser;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.bean.CartDetail;
@@ -307,26 +308,33 @@ public class LoginActivity extends BaseActivity
 				if (UtilityMethods.isInternetAvailable(mContext)) {
 					showDialog();
 					String url;
-					HashMap<String, String> hashMap = new HashMap<String,String>();
+//					HashMap<String, String> hashMap = new HashMap<String,String>();
+					JSONObject jsonObject = new JSONObject();
 					if(MySharedPrefs.INSTANCE.getQuoteId()==null||MySharedPrefs.INSTANCE.getQuoteId().equals(""))
 					{
 //						url = UrlsConstants.LOGIN_URL+"uemail="+ userN + "&password=" + pwd+"&quote_id=no";
 						url = UrlsConstants.LOGIN_URL;
-						hashMap.put("uemail",userN);
-						hashMap.put("password",pwd);
-						hashMap.put("quote_id","no");
+						jsonObject.put("uemail",userN);
+						jsonObject.put("password",pwd);
+						jsonObject.put("quote_id","no");
+						System.out.println("==jsonobject=="+jsonObject);
+
 					}else{
 //						url = UrlsConstants.LOGIN_URL+"uemail="+ userN + "&password=" + pwd+"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId();
 						url = UrlsConstants.LOGIN_URL;
-						hashMap.put("uemail",userN);
-						hashMap.put("password",pwd);
-						hashMap.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
+						jsonObject.put("uemail",userN);
+						jsonObject.put("password",pwd);
+						jsonObject.put("quote_id", "no");
+						System.out.println("==jsonobject==" + jsonObject);
+
 					}
 
+					myApi.reqLogin(url,jsonObject);
 					//String url = UrlsConstants.LOGIN_URL+"uemail="+ userN + "&password=" + pwd;
 
-//					myApi.reqLogin(url);
-					myApi.reqLogin(url,hashMap);
+					myApi.reqLogin(url);
+//					myApi.reqLogin(url, hashMap);
+
 
 				} else {
 					Toast.makeText(mContext, ToastConstant.msgNoInternet ,Toast.LENGTH_LONG).show();
@@ -390,15 +398,48 @@ public class LoginActivity extends BaseActivity
 			if (UtilityMethods.isInternetAvailable(mContext)) {
 				showDialog();
 				String url;
+//				HashMap<String, String> hashMap = new HashMap<String,String>();
+				JSONObject jsonObject = new JSONObject();
 				if(MySharedPrefs.INSTANCE.getQuoteId()==null||MySharedPrefs.INSTANCE.getQuoteId().equals(""))
 				{
-					url = UrlsConstants.FB_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getFacebookEmail() + "&quote_id=no&fname=" + USER_FNAME+"&lname="+USER_LNAME+"&number=0000000000";
+//					url = UrlsConstants.FB_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getFacebookEmail() + "&quote_id=no&fname=" + USER_FNAME+"&lname="+USER_LNAME+"&number=0000000000";
+					url = UrlsConstants.FB_LOGIN_URL;
+//					hashMap.put("uemail",MySharedPrefs.INSTANCE.getFacebookEmail());
+//					hashMap.put("quote_id","no");
+//					hashMap.put("fname",USER_FNAME);
+//					hashMap.put("lname",USER_LNAME);
+//					hashMap.put("number","0000000000");
+					jsonObject.put("uemail",MySharedPrefs.INSTANCE.getFacebookEmail());
+					jsonObject.put("quote_id","no");
+					jsonObject.put("fname",USER_FNAME);
+					jsonObject.put("lname", USER_LNAME);
+					jsonObject.put("number", 0000000000);
+					System.out.println("==jsonobject==" + jsonObject);
+
+
 				}else{
 					QUOTE_ID_AFTER_FB=MySharedPrefs.INSTANCE.getQuoteId();
-					url = UrlsConstants.FB_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getFacebookEmail() + "&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&fname=" + USER_FNAME+"&lname="+USER_LNAME+"&number=0000000000";
-				}
+//					url = UrlsConstants.FB_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getFacebookEmail() + "&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&fname=" + USER_FNAME+"&lname="+USER_LNAME+"&number=0000000000";
 
-				myApi.reqLogin(url);
+					url = UrlsConstants.FB_LOGIN_URL;
+//					hashMap.put("uemail",MySharedPrefs.INSTANCE.getFacebookEmail());
+//					hashMap.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
+//					hashMap.put("fname",USER_FNAME);
+//					hashMap.put("lname",USER_LNAME);
+//					hashMap.put("number","0000000000");
+
+					jsonObject.put("uemail",MySharedPrefs.INSTANCE.getFacebookEmail());
+					jsonObject.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
+					jsonObject.put("fname",USER_FNAME);
+					jsonObject.put("lname", USER_LNAME);
+					jsonObject.put("number", 0000000000);
+					System.out.println("==jsonobject==" + jsonObject);
+
+				}
+				myApi.reqLogin(url,jsonObject);
+
+//				myApi.reqLogin(url);
+//				myApi.reqLogin(url,hashMap);
 
 			} else {
 				UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
@@ -567,7 +608,7 @@ public class LoginActivity extends BaseActivity
 					BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon);  //login icon
 					if (USER_EMAIL.equals("")) {
 						MySharedPrefs.INSTANCE.putUserEmail(username.getText().toString());
-						if(userDataBean.getQuoteId() != null) {
+						if(userDataBean.getQuoteId() != null && !userDataBean.getQuoteId().equals("") ) {
 							MySharedPrefs.INSTANCE.clearQuote();
 							MySharedPrefs.INSTANCE.putQuoteId(userDataBean.getQuoteId());
 						}
@@ -580,7 +621,7 @@ public class LoginActivity extends BaseActivity
 					}
 
 					MySharedPrefs.INSTANCE.putLoginStatus(true);
-					if(userDataBean.getQuoteId() != null) {
+					if(userDataBean.getQuoteId() != null && !userDataBean.getQuoteId().equals("")) {
 						MySharedPrefs.INSTANCE.clearQuote();
 						MySharedPrefs.INSTANCE.putQuoteId(userDataBean.getQuoteId());/////////last change
 					}
@@ -673,7 +714,7 @@ public class LoginActivity extends BaseActivity
 					setResult(RESULT_OK);
 					finish();
 				}
-				if(response.getQuoteId() != null) {
+				if(response.getQuoteId() != null && !response.getQuoteId().equals("")) {
 					MySharedPrefs.INSTANCE.clearQuote();
 					MySharedPrefs.INSTANCE.putQuoteId(response.getQuoteId());
 				}
@@ -836,6 +877,7 @@ public class LoginActivity extends BaseActivity
 		try{
 //		AppLoadingScreen.getInstance(context).showDialog();
 //		Toast.makeText(context,"22222", Toast.LENGTH_SHORT).show();
+
 
 //        Toast.makeText(context,"4444", Toast.LENGTH_SHORT).show();
 //        googlePlusLogin();
@@ -1038,16 +1080,48 @@ public class LoginActivity extends BaseActivity
 //			String url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ USER_EMAIL + "&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
 
 				String url = "";
+//				HashMap<String, String> hashMap = new HashMap<String,String>();
+				JSONObject jsonObject = new JSONObject();
 				if(MySharedPrefs.INSTANCE.getQuoteId()==null||MySharedPrefs.INSTANCE.getQuoteId().equals(""))
 				{
-					url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ USER_EMAIL + "&quote_id=no&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
+//					url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ USER_EMAIL + "&quote_id=no&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
+					url = UrlsConstants.GOOGLE_LOGIN_URL;
+//					hashMap.put("uemail",USER_EMAIL);
+//					hashMap.put("quote_id","no");
+//					hashMap.put("fname",USER_NAME);
+//					hashMap.put("lname","");
+//					hashMap.put("number","0000000000");
+
+					jsonObject.put("uemail",USER_EMAIL);
+					jsonObject.put("quote_id","no");
+					jsonObject.put("fname",USER_NAME);
+					jsonObject.put("lname", "");
+					jsonObject.put("number", 0000000000);
+					System.out.println("==jsonobject==" + jsonObject);
 				}else{
-					url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ USER_EMAIL + "&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
+//					url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ USER_EMAIL + "&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
+					url = UrlsConstants.GOOGLE_LOGIN_URL;
+//					hashMap.put("uemail",USER_EMAIL);
+//					hashMap.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
+//					hashMap.put("fname",USER_NAME);
+//					hashMap.put("lname","");
+//					hashMap.put("number","0000000000");
+
+					jsonObject.put("uemail",USER_EMAIL);
+					jsonObject.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
+					jsonObject.put("fname",USER_NAME);
+					jsonObject.put("lname", "");
+					jsonObject.put("number", 0000000000);
+					System.out.println("==jsonobject==" + jsonObject);
 				}
 
+				myApi.reqLogin(url,jsonObject);
 //			String url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getGoogleEmail() + "&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
 //			String url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getGoogleEmail() + "&fname=" + USER_NAME+"&number=0000000000";
-				myApi.reqLogin(url);
+
+//				myApi.reqLogin(url);
+//				myApi.reqLogin(url, hashMap);
+
 
 			} else {
 //			Toast.makeText(mContext, ToastConstant.msgNoInternet ,Toast.LENGTH_LONG).show();

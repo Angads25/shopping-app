@@ -638,35 +638,43 @@ public class ReviewOrderAndPay extends BaseActivity
 					String shipping = orderReviewBean.getShipping().toString();
 					String billing = orderReviewBean.getBilling().toString();
 
-					String url;
-					try {
+
+
+//					String url;
+//					try {
 //						url = UrlsConstants.FINAL_CHECKOUT + URLEncoder.encode(shipping, "UTF-8") + "&billing=" + URLEncoder.encode(billing, "UTF-8") + "&userid=" + MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId() + "&timeslot=" + orderReviewBean.getTimeSlot() + "&date=" + orderReviewBean.getDate() + "&payment_method=" + payment_mode + "&shipping_method=tablerate_bestway";
-						url = UrlsConstants.FINAL_CHECKOUT + URLEncoder.encode(shipping, "UTF-8") + "&billing=" +
-								URLEncoder.encode(billing, "UTF-8") + "&userid=" + MySharedPrefs.INSTANCE.getUserId() +
-								"&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId() + "&timeslot=" + orderReviewBean.getTimeSlot() +
-								"&date=" + orderReviewBean.getDate() + "&payment_method=" + payment_mode + "&shipping_method=tablerate_bestway";
-						System.out.println("=URL OUTPUT==" + url);
-						myApi.reqFinalCheckout(url.replaceAll(" ", "%20"));
 
+//						url = UrlsConstants.FINAL_CHECKOUT + URLEncoder.encode(shipping, "UTF-8") + "&billing=" +
+//								URLEncoder.encode(billing, "UTF-8") + "&userid=" + MySharedPrefs.INSTANCE.getUserId() +
+//								"&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId() + "&timeslot=" + orderReviewBean.getTimeSlot() +
+//								"&date=" + orderReviewBean.getDate() + "&payment_method=" + payment_mode + "&shipping_method=tablerate_bestway";
+//						System.out.println("=URL OUTPUT==" + url);
+//						myApi.reqFinalCheckout(url.replaceAll(" ", "%20"));
+
+					try {
 						////////////////POST/////////////
-//						String strurl = UrlsConstants.FINAL_CHECKOUT;
-//						HashMap<String, String> hashMap = new HashMap<String,String>();
-//						hashMap.put("shipping",URLEncoder.encode(shipping, "UTF-8"));
-//						hashMap.put("billing",URLEncoder.encode(billing, "UTF-8"));
-//						hashMap.put("userid",MySharedPrefs.INSTANCE.getUserId());
-//						hashMap.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
-//						hashMap.put("timeslot",orderReviewBean.getTimeSlot());
-//						hashMap.put("date", orderReviewBean.getDate());
-//						hashMap.put("payment_method",payment_mode);
-//						hashMap.put("shipping_method","tablerate_bestway");
-//						myApi.reqFinalCheckout(strurl.replaceAll(" ", "%20"),hashMap);
+						String strurl = UrlsConstants.FINAL_CHECKOUT;
+						JSONObject jsonObject = new JSONObject();
+						jsonObject.put("shipping", orderReviewBean.getShipping());
+						jsonObject.put("billing", orderReviewBean.getBilling());
+						jsonObject.put("userid", MySharedPrefs.INSTANCE.getUserId());
+						jsonObject.put("quote_id", MySharedPrefs.INSTANCE.getQuoteId());
+						jsonObject.put("timeslot", orderReviewBean.getTimeSlot());
+						jsonObject.put("date", orderReviewBean.getDate());
+						jsonObject.put("payment_method", payment_mode);
+						jsonObject.put("shipping_method", "tablerate_bestway");
+
+						System.out.println("====payment json format====" + jsonObject);
+
+						myApi.reqFinalCheckout(strurl.replaceAll(" ", "%20"), jsonObject);
 						////////////////POST/////////////
+					}catch(Exception e){}
 
 
-					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+//					} catch (UnsupportedEncodingException e) {
+//						 TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
 
 				}
 			});
@@ -718,30 +726,29 @@ public class ReviewOrderAndPay extends BaseActivity
 	Payment.Builder builder = new Payment().new Builder();
 
 	private void makePayment(final String orderid) {
+		try {
 
+			if (!bOnline && !bCash && !bPayTM) {
+				UtilityMethods.customToast(ToastConstant.SELECT_PAYMENT_MODE, mContext);
+				return;
+			} else if (bOnline) {
+				final HashMap<String, String> params = new HashMap<String, String>();
+				double amount = total;
 
-		if(!bOnline && !bCash && !bPayTM){
-			UtilityMethods.customToast(ToastConstant.SELECT_PAYMENT_MODE, mContext);
-			return;
-		}
-		else if(bOnline){
-			final HashMap<String, String> params = new HashMap<String, String>();
-			double amount = total;
-
-			params.put("amount",String.valueOf(total));
-			params.put("surl",UrlsConstants.CHANGE_ORDER_STATUS+"success.php?orderid="+orderid);
-			params.put("furl",UrlsConstants.CHANGE_ORDER_STATUS+"fail.php?orderid="+orderid);
-			params.put("user_credentials","yPnUG6:test");
-			params.put("key","yPnUG6");
-			params.put("txnid",orderid);
-			params.put("firstname",MySharedPrefs.INSTANCE.getFirstName()+" "+MySharedPrefs.INSTANCE.getLastName());
-			params.put("email",MySharedPrefs.INSTANCE.getUserEmail());
+				params.put("amount", String.valueOf(total));
+				params.put("surl", UrlsConstants.CHANGE_ORDER_STATUS + "success.php?orderid=" + orderid);
+				params.put("furl", UrlsConstants.CHANGE_ORDER_STATUS + "fail.php?orderid=" + orderid);
+				params.put("user_credentials", "yPnUG6:test");
+				params.put("key", "yPnUG6");
+				params.put("txnid", orderid);
+				params.put("firstname", MySharedPrefs.INSTANCE.getFirstName() + " " + MySharedPrefs.INSTANCE.getLastName());
+				params.put("email", MySharedPrefs.INSTANCE.getUserEmail());
 //            params.put("phone", "9999999999");
-			params.put("phone",MySharedPrefs.INSTANCE.getMobileNo());
-			params.put("productinfo","GrocerMax Product Info");
+				params.put("phone", MySharedPrefs.INSTANCE.getMobileNo());
+				params.put("productinfo", "GrocerMax Product Info");
 
-			params.remove("amount");
-			final double finalAmount = amount;
+				params.remove("amount");
+				final double finalAmount = amount;
 
            /* String txnId = orderid;
 			String merchant_key =  "yPnUG6";
@@ -789,10 +796,10 @@ public class ReviewOrderAndPay extends BaseActivity
 
 		    PayU.getInstance(ReviewOrderAndPay.this).startPaymentProcess(finalAmount, params);*/
 
-			new AsyncTask<Void, Void, Void>() {
-				@Override
-				protected Void doInBackground(Void... voids) {
-					try {
+				new AsyncTask<Void, Void, Void>() {
+					@Override
+					protected Void doInBackground(Void... voids) {
+						try {
                        /* HttpClient httpclient = new DefaultHttpClient();
 
                         HttpPost httppost = new HttpPost("http://uat.grocermax.com/webservice/new_services/getmobilehash");
@@ -804,15 +811,15 @@ public class ReviewOrderAndPay extends BaseActivity
                         httppost.setEntity(new UrlEncodedFormEntity(postParams));
                         JSONObject response = new JSONObject(EntityUtils.toString(httpclient.execute(httppost).getEntity()));*/
 
-						HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
-						HttpGet httpGet = new HttpGet(UrlsConstants.GET_MOBILE_HASH+"txnid="+orderid+"&amount="+String.valueOf(finalAmount)+"&email="+MySharedPrefs.INSTANCE.getUserEmail()+"&fname="+MySharedPrefs.INSTANCE.getFirstName());
-						//System.out.println("genrate hash service = "+UrlsConstants.GET_MOBILE_HASH+"txnid="+orderid+"&amount="+String.valueOf(total)+"&email="+MySharedPrefs.INSTANCE.getUserEmail()+"&fname="+"ISHAN");
-						httpGet.setHeader("Content-Type", "application/json");
-						HttpResponse response1 = null;
+							HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
+							HttpGet httpGet = new HttpGet(UrlsConstants.GET_MOBILE_HASH + "txnid=" + orderid + "&amount=" + String.valueOf(finalAmount) + "&email=" + MySharedPrefs.INSTANCE.getUserEmail() + "&fname=" + MySharedPrefs.INSTANCE.getFirstName());
+							//System.out.println("genrate hash service = "+UrlsConstants.GET_MOBILE_HASH+"txnid="+orderid+"&amount="+String.valueOf(total)+"&email="+MySharedPrefs.INSTANCE.getUserEmail()+"&fname="+"ISHAN");
+							httpGet.setHeader("Content-Type", "application/json");
+							HttpResponse response1 = null;
             			/*try {*/
-						response1 = client.execute(httpGet);
-						HttpEntity resEntity = response1.getEntity();
-						JSONObject response = new JSONObject(EntityUtils.toString(resEntity));
+							response1 = client.execute(httpGet);
+							HttpEntity resEntity = response1.getEntity();
+							JSONObject response = new JSONObject(EntityUtils.toString(resEntity));
             			/*} catch (ClientProtocolException e) {
             				e.printStackTrace();
             			} catch (IOException e) {
@@ -820,76 +827,81 @@ public class ReviewOrderAndPay extends BaseActivity
             			}*/
 
 
+							// set the hash values here.
 
+							if (response.has("Result")) {
+								PayU.merchantCodesHash = response.getJSONObject("Result").getString("merchantCodesHash");
+								PayU.paymentHash = response.getJSONObject("Result").getString("paymentHash");
+								PayU.vasHash = response.getJSONObject("Result").getString("mobileSdk");
+								PayU.ibiboCodeHash = response.getJSONObject("Result").getString("detailsForMobileSdk");
 
-						// set the hash values here.
+								if (response.getJSONObject("Result").has("deleteHash")) {
+									PayU.deleteCardHash = response.getJSONObject("Result").getString("deleteHash");
+									PayU.getUserCardHash = response.getJSONObject("Result").getString("getUserCardHash");
+									PayU.editUserCardHash = response.getJSONObject("Result").getString("editUserCardHash");
+									PayU.saveUserCardHash = response.getJSONObject("Result").getString("saveUserCardHash");
+								}
 
-						if (response.has("Result")) {
-							PayU.merchantCodesHash = response.getJSONObject("Result").getString("merchantCodesHash");
-							PayU.paymentHash = response.getJSONObject("Result").getString("paymentHash");
-							PayU.vasHash = response.getJSONObject("Result").getString("mobileSdk");
-							PayU.ibiboCodeHash = response.getJSONObject("Result").getString("detailsForMobileSdk");
-
-							if (response.getJSONObject("Result").has("deleteHash")) {
-								PayU.deleteCardHash = response.getJSONObject("Result").getString("deleteHash");
-								PayU.getUserCardHash = response.getJSONObject("Result").getString("getUserCardHash");
-								PayU.editUserCardHash = response.getJSONObject("Result").getString("editUserCardHash");
-								PayU.saveUserCardHash = response.getJSONObject("Result").getString("saveUserCardHash");
 							}
-
-						}
 //                        if(mProgressDialog != null && mProgressDialog.isShowing())
 //                            mProgressDialog.dismiss();
 
-						PayU.getInstance(ReviewOrderAndPay.this).startPaymentProcess(finalAmount, params);
+							PayU.getInstance(ReviewOrderAndPay.this).startPaymentProcess(finalAmount, params);
 //                            PayU.getInstance(MainActivity.this).startPaymentProcess(finalAmount, params, new PayU.PaymentMode[]{PayU.PaymentMode.CC, PayU.PaymentMode.NB});
 
-					} catch (UnsupportedEncodingException e) {
+						} catch (UnsupportedEncodingException e) {
 //                        if(mProgressDialog != null && mProgressDialog.isShowing())
 //                            mProgressDialog.dismiss();
-						new GrocermaxBaseException("ReviewOrderAndPay","doInBackground",e.getMessage(), GrocermaxBaseException.UnsupportedEncodingException,"nodetail");
+							new GrocermaxBaseException("ReviewOrderAndPay", "doInBackground", e.getMessage(), GrocermaxBaseException.UnsupportedEncodingException, "nodetail");
 //                        Toast.makeText(ReviewOrderAndPay.this, e.getMessage(), Toast.LENGTH_LONG).show();
-					} catch (ClientProtocolException e) {
+						} catch (ClientProtocolException e) {
 //                        if(mProgressDialog != null && mProgressDialog.isShowing())
 //                            mProgressDialog.dismiss();
-						new GrocermaxBaseException("ReviewOrderAndPay","doInBackground",e.getMessage(), GrocermaxBaseException.CLIENT_PROTOCOL_EXCEPTION,"nodetail");
+							new GrocermaxBaseException("ReviewOrderAndPay", "doInBackground", e.getMessage(), GrocermaxBaseException.CLIENT_PROTOCOL_EXCEPTION, "nodetail");
 //                        Toast.makeText(ReviewOrderAndPay.this, e.getMessage(), Toast.LENGTH_LONG).show();
-					} catch (JSONException e) {
+						} catch (JSONException e) {
 //                        if(mProgressDialog != null && mProgressDialog.isShowing())
 //                            mProgressDialog.dismiss();
-						new GrocermaxBaseException("ReviewOrderAndPay","doInBackground",e.getMessage(), GrocermaxBaseException.JSON_EXCEPTION,"nodetail");
-					} catch (IOException e) {
+							new GrocermaxBaseException("ReviewOrderAndPay", "doInBackground", e.getMessage(), GrocermaxBaseException.JSON_EXCEPTION, "nodetail");
+						} catch (IOException e) {
 //                        if(mProgressDialog != null && mProgressDialog.isShowing())
 //                            mProgressDialog.dismiss();
-						new GrocermaxBaseException("ReviewOrderAndPay","doInBackground",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
-					} /*catch (PackageManager.NameNotFoundException e) {
+							new GrocermaxBaseException("ReviewOrderAndPay", "doInBackground", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+						} /*catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
 
                         if(mProgressDialog != null && mProgressDialog.isShowing())
                             mProgressDialog.dismiss();
                     }*/
-					return null;
-				}
-			}.execute();
+						return null;
+					}
+				}.execute();
 
 
-		}
-		else
-		{
-			//new CODConfirm().execute();
+			} else {
+				//new CODConfirm().execute();
+			}
+
+		}catch(Exception e){
+			new GrocermaxBaseException("ReviewOrderAndPay", "makePayment", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 
 	}
 	private String bytesToHexString(byte[] bytes) {
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < bytes.length; i++) {
-			String hex = Integer.toHexString(0xFF & bytes[i]);
-			if (hex.length() == 1) {
-				sb.append('0');
+		try {
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < bytes.length; i++) {
+				String hex = Integer.toHexString(0xFF & bytes[i]);
+				if (hex.length() == 1) {
+					sb.append('0');
+				}
+				sb.append(hex);
 			}
-			sb.append(hex);
+			return sb.toString();
+		}catch(Exception e){
+			new GrocermaxBaseException("ReviewOrderAndPay", "bytesToHexString", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
-		return sb.toString();
+		return "";
 	}
 
 	@Override
@@ -935,13 +947,15 @@ public class ReviewOrderAndPay extends BaseActivity
 						finish();
 					}
 				}
-				if (resultCode == RESULT_CANCELED) {          //unsuccess
+				if (resultCode == RESULT_CANCELED) {          //unsuccess payu
 					//failed
 //                if(data != null)
 //                {
 					// Toast.makeText(this, "Failed-ishan" + data.getStringExtra("result"), Toast.LENGTH_LONG).show();
+
 					showDialog();
 					myApi.reqSetOrderStatus(UrlsConstants.SET_ORDER_STATUS+order_db_id);
+
 //                }
 				}
 			}
@@ -1077,30 +1091,38 @@ public class ReviewOrderAndPay extends BaseActivity
 
 
 	private void payTM(String orderid){
-		Intent intent = new Intent(this,PayTMActivity.class);
-		intent.putExtra("amount", String.valueOf(total));
-		intent.putExtra("order_id", orderid);
-		intent.putExtra("order_db_id",order_db_id);
-		startActivity(intent);
+		try {
+			Intent intent = new Intent(this, PayTMActivity.class);
+			intent.putExtra("amount", String.valueOf(total));
+			intent.putExtra("order_id", orderid);
+			intent.putExtra("order_db_id", order_db_id);
+			startActivity(intent);
+		}catch(Exception e){
+			new GrocermaxBaseException("ReviewOrderAndPay","payTM",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 
 	private void payMobiKwikWallet(String orderid){
-		Intent walletIntent = new Intent("MobikwikSDK");
-		walletIntent.setPackage(getPackageName());
-		walletIntent.setType(HTTP.PLAIN_TEXT_TYPE);
-		walletIntent.putExtra("orderid", orderid);                           //
-		walletIntent.putExtra("debitWallet", String.valueOf("true"));                           //string.valueOf("true")
-		walletIntent.putExtra("amount", String.valueOf(total));                    //
-		walletIntent.putExtra("cell", "9911500574");                                     //
-		walletIntent.putExtra("email", "abhi0124abhi@gmail.com");                                //
-		walletIntent.putExtra("paymentOption", "mw");                           //mobi kwik wallet
+		try {
+			Intent walletIntent = new Intent("MobikwikSDK");
+			walletIntent.setPackage(getPackageName());
+			walletIntent.setType(HTTP.PLAIN_TEXT_TYPE);
+			walletIntent.putExtra("orderid", orderid);                           //
+			walletIntent.putExtra("debitWallet", String.valueOf("true"));                           //string.valueOf("true")
+			walletIntent.putExtra("amount", String.valueOf(total));                    //
+			walletIntent.putExtra("cell", "9911500574");                                     //
+			walletIntent.putExtra("email", "abhi0124abhi@gmail.com");                                //
+			walletIntent.putExtra("paymentOption", "mw");                           //mobi kwik wallet
 
-		PackageManager packageManager = getPackageManager();
-		List<ResolveInfo> activities = packageManager.queryIntentActivities(walletIntent, 0);
-		boolean isIntentSafe = activities.size() > 0;
-		System.out.println("isIntentSafe " + activities.size());
+			PackageManager packageManager = getPackageManager();
+			List<ResolveInfo> activities = packageManager.queryIntentActivities(walletIntent, 0);
+			boolean isIntentSafe = activities.size() > 0;
+			System.out.println("isIntentSafe " + activities.size());
 
-		startActivity(walletIntent);
+			startActivity(walletIntent);
+		}catch(Exception e){
+			new GrocermaxBaseException("ReviewOrderAndPay","payMobiKwikWallet",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 
 }
@@ -1113,15 +1135,21 @@ class Coupon extends AsyncTask<String, String, String>
 	String strGrandTotal,strShippingCharge;
 	//	strCouponCode,strSubTotal,strSubTotalDiscount,strYouSave;
 	public Coupon(Context mContext,String strapplyorremove){
-		context = mContext;
-		strApplyorRemove = strapplyorremove;
+		try {
+			context = mContext;
+			strApplyorRemove = strapplyorremove;
+		}catch(Exception e){}
 	}
 
 	@Override
 	protected void onPreExecute() {
 		// TODO Auto-generated method stub
 		super.onPreExecute();
-		((BaseActivity)context).showDialog();
+		try {
+			((BaseActivity) context).showDialog();
+		}catch(Exception e){
+			new GrocermaxBaseException("ReviewOrderAndPay", "onPreExecute", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+		}
 	}
 
 	@Override
@@ -1273,7 +1301,11 @@ class Coupon extends AsyncTask<String, String, String>
 		}catch(Exception e){
 			new GrocermaxBaseException("ReviewOrderAndPay","onPostExecute",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
-		((BaseActivity)context).dismissDialog();
+
+		try{
+			((BaseActivity) context).dismissDialog();
+		}catch(Exception e){}
+
 	}
 
 }

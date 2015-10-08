@@ -26,6 +26,7 @@ import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.CartDetail;
 import com.sakshay.grocermax.bean.Product;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants;
@@ -81,6 +82,7 @@ public class ProductListAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
+        try{
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.product_list_row, parent,
                     false);
@@ -500,7 +502,9 @@ public class ProductListAdapter extends BaseAdapter {
 
         holder.quantity.setText(products.get(position).getQuantity());
 
-
+        }catch(Exception e){
+            new GrocermaxBaseException("ProductListAdapter","getView",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+        }
         return convertView;
     }
 
@@ -521,9 +525,12 @@ public class ProductListAdapter extends BaseAdapter {
     }
 
     public void updateList(List<Product> list) {
-        this.products = list;
-
-        notifyDataSetChanged();
+        try{
+            this.products = list;
+            notifyDataSetChanged();
+        }catch(Exception e){
+            new GrocermaxBaseException("ProductListAdapter","updateList",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+        }
     }
 }
 

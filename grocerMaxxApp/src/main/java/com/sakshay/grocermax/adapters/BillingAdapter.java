@@ -17,6 +17,7 @@ import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.ShippingAddress;
 import com.sakshay.grocermax.bean.Address;
 import com.sakshay.grocermax.bean.OrderReviewBean;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.CustomFonts;
 
@@ -64,6 +65,7 @@ public class BillingAdapter extends BaseAdapter{
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        try{
         final ViewHolder holder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.address_row, parent, false);
@@ -174,6 +176,9 @@ public class BillingAdapter extends BaseAdapter{
 //                ((ChooseAddress)mContext).deleteAddress(obj,position);
 //            }
 //        });
+        }catch(Exception e){
+            new GrocermaxBaseException("BillingAdapter","getView",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+        }
         return convertView;
     }
 
@@ -189,8 +194,12 @@ public class BillingAdapter extends BaseAdapter{
 
     public void updateList(ArrayList<Address> list)
     {
-        addressList = list;
-        notifyDataSetChanged();
+        try{
+            addressList = list;
+            notifyDataSetChanged();
+        }catch(Exception e){
+            new GrocermaxBaseException("BillingAdapter","updateList",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+        }
     }
 }
 

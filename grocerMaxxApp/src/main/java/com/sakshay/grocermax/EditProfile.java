@@ -29,6 +29,8 @@ import com.sakshay.grocermax.utils.AppConstants.ToastConstant;
 import com.sakshay.grocermax.utils.CustomFonts;
 import com.sakshay.grocermax.utils.UrlsConstants;
 import com.sakshay.grocermax.utils.UtilityMethods;
+
+import org.json.JSONObject;
 //import android.widget.Toast;
 
 public class EditProfile extends BaseActivity{
@@ -420,15 +422,33 @@ public class EditProfile extends BaseActivity{
 
 						//String params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password;
 						String params;
+						JSONObject jsonObject = new JSONObject();
 //					if(chb.isChecked())
-						if (bChangePwd) {
-							params = "userid=" + MySharedPrefs.INSTANCE.getUserId() + "uemail=" + MySharedPrefs.INSTANCE.getUserEmail() + "&password=" + new_p + "&old_password=" + old_p + "&fname=" + fname_n + "&lname=" + lname_n + "&number=" + contact_n;
+						try {
+							if (bChangePwd) {
+//								params = "userid=" + MySharedPrefs.INSTANCE.getUserId() + "uemail=" + MySharedPrefs.INSTANCE.getUserEmail() + "&password=" + new_p +
+//										"&old_password=" + old_p + "&fname=" + fname_n + "&lname=" + lname_n + "&number=" + contact_n;
 
-						} else {
-							params = "userid=" + MySharedPrefs.INSTANCE.getUserId() + "uemail=" + MySharedPrefs.INSTANCE.getUserEmail() + "&fname=" + fname_n + "&lname=" + lname_n + "&number=" + contact_n;
-						}
-						url += params;
-						myApi.reqEditProfile(url);
+								jsonObject.put("userid", MySharedPrefs.INSTANCE.getUserId());
+								jsonObject.put("uemail",MySharedPrefs.INSTANCE.getUserEmail());
+								jsonObject.put("password",new_p);
+								jsonObject.put("old_password",old_p);
+								jsonObject.put("fname",fname_n);
+								jsonObject.put("lname",lname_n);
+								jsonObject.put("number",contact_n);
+							} else {
+//								params = "userid=" + MySharedPrefs.INSTANCE.getUserId() + "uemail=" + MySharedPrefs.INSTANCE.getUserEmail() +
+//										"&fname=" + fname_n + "&lname=" + lname_n + "&number=" + contact_n;
+								jsonObject.put("userid", MySharedPrefs.INSTANCE.getUserId());
+								jsonObject.put("uemail",MySharedPrefs.INSTANCE.getUserEmail());
+								jsonObject.put("fname",fname_n);
+								jsonObject.put("lname",lname_n);
+								jsonObject.put("number",contact_n);
+							}
+//							url += params;
+//							myApi.reqEditProfile(url);
+							myApi.reqEditProfile(url,jsonObject);
+						}catch(Exception e){}
 
 					} else {
 						UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
@@ -438,6 +458,9 @@ public class EditProfile extends BaseActivity{
 			initHeader(findViewById(R.id.header), true, "Edit Profile");
 			showDialog();
 			String url = UrlsConstants.USER_DETAIL_URL + MySharedPrefs.INSTANCE.getUserId();
+//			JSONObject jsonObject = new JSONObject();
+//			jsonObject.put();
+
 			myApi.reqUserDetails1(url);
 		}catch(Exception e){
 			new GrocermaxBaseException("EditProfile","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");

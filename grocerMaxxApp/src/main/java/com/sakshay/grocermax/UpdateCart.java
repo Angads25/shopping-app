@@ -16,18 +16,33 @@ import org.json.JSONObject;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by manish.verma on 22-09-2015.
  */
 public class UpdateCart extends AsyncTask<String, Void, Void> {
     MyApi myApi ;
-    JSONArray products;
+//    JSONArray products;
+    JSONObject jsonObject;
     String url;
-    public  UpdateCart(MyApi myApi, JSONArray products)
+//    HashMap<String, String> hashMap;
+
+//    public UpdateCart(MyApi myApi,HashMap<String, String> hashMap){
+//        this.myApi = myApi;
+//        this.hashMap = hashMap;
+//    }
+
+//    public  UpdateCart(MyApi myApi, JSONArray products)
+//    {
+//        this.myApi = myApi;
+//        this.products = products;
+//    }
+
+    public  UpdateCart(MyApi myApi, JSONObject jsonObject)
     {
         this.myApi = myApi;
-        this.products = products;
+        this.jsonObject = jsonObject;
     }
 
     public UpdateCart(MyApi myApi, String url)
@@ -53,20 +68,52 @@ public class UpdateCart extends AsyncTask<String, Void, Void> {
 //            if (MySharedPrefs.INSTANCE.getUserId() == null || MySharedPrefs.INSTANCE.getUserId().equals("")) {              //user not login
                     try {
                         String url;
+
                         if (MySharedPrefs.INSTANCE.getQuoteId() == null || MySharedPrefs.INSTANCE.getQuoteId().equals(""))     //user not login and going to view cart(in this case quote id will generate)
                         {
-                            System.out.println("without quote json=" + products.toString());
-                            url = UrlsConstants.ADD_TO_CART_GUEST_URL + "products="
-                                    + URLEncoder.encode(products.toString(), "UTF-8");
-                            myApi.reqBackGroundAddToCartGuest(url);
+//                            System.out.println("without quote json=" + products.toString());
+//                            url = UrlsConstants.ADD_TO_CART_GUEST_URL + "products="
+//                                    + URLEncoder.encode(products.toString(), "UTF-8");
+//                            myApi.reqBackGroundAddToCartGuest(url);
+
+
+                            url = UrlsConstants.ADD_TO_CART_GUEST_URL;
+                            myApi.reqBackGroundAddToCartGuest(url,jsonObject);
+//                            myApi.reqBackGroundAddToCartGuest(url,products);
+
                         }
                         else                                                                                 //user not login and going to view cart for 2nd or more than 2nd time
                         {         //using there again guest URL even we already have quote id as it is generated before to deleted all items in cart.
-                            System.out.println("without quote json=" + products.toString());
-                            url = UrlsConstants.ADD_TO_CART_GUEST_URL
-                                    + MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId() + "&products="
-                                    + URLEncoder.encode(products.toString(), "UTF-8");
-                            myApi.reqBackGroundAddToCartGuest(url);
+//                            System.out.println("without quote json=" + products.toString());
+//                            url = UrlsConstants.ADD_TO_CART_GUEST_URL
+//                                    + MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId() + "&products="
+//                                    + URLEncoder.encode(products.toString(), "UTF-8");
+//                            myApi.reqBackGroundAddToCartGuest(url);
+
+//                            hashMap.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
+
+//                            JSONObject json = new JSONObject();
+//                            json.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
+//                            products.put(json);
+
+                            JSONObject json = new JSONObject(String.valueOf(jsonObject));
+                            JSONArray jsonArray = json.getJSONArray("products");
+                            JSONObject jsonOb = jsonArray.getJSONObject(0);
+                            jsonOb.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
+
+                            JSONArray products = new JSONArray();
+                            products.put(jsonOb);
+
+                            JSONObject jsonFinal = new JSONObject();
+                            jsonFinal.put("products",products);
+
+//                            jsonObject.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
+
+                            url = UrlsConstants.ADD_TO_CART_GUEST_URL;
+                            myApi.reqBackGroundAddToCartGuest(url,jsonFinal);
+
+//                            myApi.reqBackGroundAddToCartGuest(url,products);
+
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

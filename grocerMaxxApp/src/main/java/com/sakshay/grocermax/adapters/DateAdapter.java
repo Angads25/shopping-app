@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 
 import com.sakshay.grocermax.R;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,13 +23,17 @@ public class DateAdapter extends BaseAdapter{
 	
 	public DateAdapter(Context con,ArrayList<String> list) {
 		// TODO Auto-generated constructor stub
-		this.con=con;
-		this.list=list;
-		status=new boolean[list.size()];
-		for(int i=0;i<list.size();i++)
-			status[i]=false;
-			
-		status[0]=true;
+		try{
+			this.con=con;
+			this.list=list;
+			status=new boolean[list.size()];
+			for(int i=0;i<list.size();i++)
+				status[i]=false;
+
+			status[0]=true;
+		}catch(Exception e){
+			new GrocermaxBaseException("DateAdapter","DateAdapter",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 	}
 
 	@Override
@@ -53,6 +58,7 @@ public class DateAdapter extends BaseAdapter{
 		// TODO Auto-generated method stub
 		
 		View v=view;
+		try{
 		if(v==null)
 		{
 			LayoutInflater inflater=(LayoutInflater)con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -78,9 +84,11 @@ public class DateAdapter extends BaseAdapter{
 			tv.setBackgroundColor(((Activity)con).getResources().getColor(R.color.orange_text));
 		else
 			tv.setBackgroundColor(((Activity)con).getResources().getColor(R.color.blue));*/
-		
-		
-		
+
+
+		}catch(Exception e){
+			new GrocermaxBaseException("DateAdapter","getView",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return v;
 	}
 

@@ -17,6 +17,7 @@ import com.sakshay.grocermax.MyApplication;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.Order;
 import com.sakshay.grocermax.bean.Orderhistory;
+import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.utils.CustomFonts;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.Order;
@@ -59,6 +60,7 @@ public class OrderHistoryAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;
+		try{
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.order_history_adapter,
 					parent, false);
@@ -134,7 +136,9 @@ public class OrderHistoryAdapter extends BaseAdapter {
 		holder.amnt_paid.setText("Rs. "+String.format("%.2f",Float.parseFloat(obj.getGrand_total())));
 		holder.status.setText(obj.getStatus().substring(0, 1).toUpperCase() + obj.getStatus().substring(1));
 		holder.no_of_items.setText("" + obj.getTotal_item_count());
-		
+		}catch(Exception e){
+			new GrocermaxBaseException("OrderHistorytAdapter","getView",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
 		return convertView;
 	}
 

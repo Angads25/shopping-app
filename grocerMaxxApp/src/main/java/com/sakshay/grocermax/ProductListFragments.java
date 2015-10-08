@@ -179,9 +179,33 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 			List<Product> lis = category.getItems();
 			listBean.setProduct(lis);
 
-//				JSONObject prod_obj = new JSONObject(category.getItems().get(i).toString());
-//				products.put(prod_obj);
+			////jsonarray parse in listbean////////////////
+//			JSONArray productsss = new JSONArray();
+//			for(int i=0;i<category.getItems().size();i++){
+//				Product pro = category.getItems().get(i);
+//				JSONObject jsonObject = new JSONObject();
+//				jsonObject.put("productid",pro.getProductid());
+//				jsonObject.put("Name",pro.getProductName());
+//				jsonObject.put("p_brand",pro.getBrand());
+//				jsonObject.put("p_name",pro.getName());
+//				jsonObject.put("p_pack",pro.getGramsORml());
+//				jsonObject.put("promotion_level",pro.getPromotionLevel());
+//				jsonObject.put("Price",pro.getPrice());
+//				jsonObject.put("sale_price",pro.getSalePrice());
+//				jsonObject.put("Image",pro.getImage());
+//				jsonObject.put("Status",pro.getStatus());
+//
+//				productsss.put(jsonObject);
 //			}
+//			JSONObject json = new JSONObject();
+//			json.put("Product", productsss);
+//			System.out.print("2222===="+json);
+//			Gson gson = new Gson();
+//			listBean = gson.fromJson(String.valueOf(json), ProductListBean.class);
+			////jsonarray parse in listbean////////////////
+
+
+
 
 //			Gson gson = new Gson();
 //			listBean = gson.fromJson(String.valueOf(products), ProductListBean.class);

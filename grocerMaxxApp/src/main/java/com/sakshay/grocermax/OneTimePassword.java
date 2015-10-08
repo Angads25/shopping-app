@@ -75,6 +75,13 @@ public class OneTimePassword extends BaseActivity {
                                 String url = UrlsConstants.REGESTRATION_URL;
                                 url += params;
                                 myApi.reqUserRegistration(url);
+
+
+//                                try {
+//                                    JSONObject jsonObject = new JSONObject();
+//                                    jsonObject.put("otp", "1");
+//                                    myApi.reqUserRegistrationOTP(url, jsonObject);
+//                                }catch(Exception e){}
                             }
                         }else{
                             UtilityMethods.customToast("Please enter valid otp", OneTimePassword.this);
