@@ -638,8 +638,6 @@ public class ReviewOrderAndPay extends BaseActivity
 					String shipping = orderReviewBean.getShipping().toString();
 					String billing = orderReviewBean.getBilling().toString();
 
-
-
 //					String url;
 //					try {
 //						url = UrlsConstants.FINAL_CHECKOUT + URLEncoder.encode(shipping, "UTF-8") + "&billing=" + URLEncoder.encode(billing, "UTF-8") + "&userid=" + MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId() + "&timeslot=" + orderReviewBean.getTimeSlot() + "&date=" + orderReviewBean.getDate() + "&payment_method=" + payment_mode + "&shipping_method=tablerate_bestway";

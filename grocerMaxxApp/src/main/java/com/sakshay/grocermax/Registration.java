@@ -74,17 +74,16 @@ public class Registration extends BaseActivity implements
 	ImageView iv_googlePlus;
 	Context context = this;
 	EasyTracker tracker;
-
 	ImageView ivFacebook;
 	TextView tvFacebook;
 	private static final int FB_SIGN_IN = 64206;
-
 	private static final int RC_SIGN_IN = 0;
 	private static TextView tv_google_btn;
 	private boolean signedInUser;
 	private ConnectionResult mConnectionResult;
 	private boolean mIntentInProgress;
 	public static GoogleApiClient mGoogleApiClient;
+	public static JSONObject jsonObjectParams;            //will use in OneTimePassword class
 
 	String params;               //used when navigate to OTP screen
 	String strEmail;            //used when navigate to OTP screen
@@ -163,8 +162,8 @@ public class Registration extends BaseActivity implements
 						String url = UrlsConstants.FORGET_PASSWORD_URL;
 						JSONObject jsonObject = new JSONObject();
 						jsonObject.put("uemail", _email_id);
+						jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 						myApi.reqForgetPassword(url, jsonObject);
-
 //						myApi.reqForgetPassword(url);
 					}catch(Exception e){}
 				} else {
@@ -413,6 +412,17 @@ public class Registration extends BaseActivity implements
 						strEmail = _email_id;
 						//String params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password;
 
+						try {
+							jsonObjectParams = new JSONObject();
+							jsonObjectParams.put("fname", _fname);
+							jsonObjectParams.put("lname", _lname);
+							jsonObjectParams.put("uemail", _email_id);
+							jsonObjectParams.put("number", _mobile_no);
+							jsonObjectParams.put("password", _password);
+							jsonObjectParams.put("otp","1");
+							jsonObjectParams.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+						}catch(Exception e){}
+
 						params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password;
 						if (MySharedPrefs.INSTANCE.getQuoteId() == null || MySharedPrefs.INSTANCE.getQuoteId().equals("")) {
 //							params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password + "&quote_id=no";
@@ -431,6 +441,8 @@ public class Registration extends BaseActivity implements
 								jsonObject.put("password", _password);
 								jsonObject.put("quote_id", "no");
 								jsonObject.put("otp","0");
+								jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+
 								myApi.reqUserRegistrationOTP(url,jsonObject);
 
 							}catch(Exception e){}
@@ -602,6 +614,7 @@ public class Registration extends BaseActivity implements
 					Bundle call_bundle = new Bundle();
 					call_bundle.putSerializable("Otp", otpDataBean);
 					call_bundle.putString("USER_REGISTER_DATA", params);
+//					call_bundle.putSerializable("USER_REGISTER_DATA",jsonObjectParams);
 					call_bundle.putString("USER_EMAIL", strEmail);
 					intent.putExtras(call_bundle);
 //					startActivity(intent);

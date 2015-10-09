@@ -72,10 +72,11 @@ public class OneTimePassword extends BaseActivity {
                         if(otpDataBean.getOTP().equals(etOTP.getText().toString())){
                             if (UtilityMethods.isInternetAvailable(mContext)) {
                                 showDialog();
-                                String url = UrlsConstants.REGESTRATION_URL;
-                                url += params;
-                                myApi.reqUserRegistration(url);
-
+                                if(Registration.jsonObjectParams.length() > 0){
+                                    String url = UrlsConstants.REGESTRATION_URL;
+//                                  url += params;
+                                    myApi.reqUserRegistration(url,Registration.jsonObjectParams);
+                                }
 
 //                                try {
 //                                    JSONObject jsonObject = new JSONObject();

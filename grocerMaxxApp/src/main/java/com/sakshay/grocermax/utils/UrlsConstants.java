@@ -68,7 +68,6 @@ public class UrlsConstants {
 
 	public final static String GET_ALL_PRODUCTS_OF_CATEGORY = NEW_BASE_URL + "productlistall?cat_id=";
 
-
 	public final static String GET_DEAL_LISTING = NEW_BASE_URL                                   //FOR GETTING STATE OF BILLING
 			+ "dealproductlisting";
 
@@ -119,8 +118,11 @@ public class UrlsConstants {
 	public final static String REGESTRATION_URL_OTP = NEW_BASE_URL                               //use when first time hits the registeration service and getting otp
 		+ "createuser";
 
+//	public final static String REGESTRATION_URL = NEW_BASE_URL                                    //use when first time hits the registeration service and after match otp by user and coming from server
+//			+ "createuser?otp=1&";
+
 	public final static String REGESTRATION_URL = NEW_BASE_URL                                    //use when first time hits the registeration service and after match otp by user and coming from server
-			+ "createuser?otp=1&";
+			+ "createuser";
 
 	public final static String EDIT_USER_URL = BASE_URL
 			+ "editprofile.php?UserID=";// 166&fname=Suman&uemail=suman.tripath333i@sakshay.in

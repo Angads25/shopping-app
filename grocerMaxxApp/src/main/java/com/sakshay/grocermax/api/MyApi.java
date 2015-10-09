@@ -102,12 +102,17 @@ public class MyApi {
 	 * @param url
 	 * @param valuePairs
 	 */
-	public void reqUserRegistration(String url) {
+	public void reqUserRegistration(String url,JSONObject jsonObject) {
 		try{
 			Intent reqIntent = new Intent(m_context, ConnectionService.class);
 			reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.REGISTER_USER);
 			reqIntent.putExtra(ConnectionService.URL, url);
-			reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+			if(jsonObject.length() > 0){
+				reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "POST");
+				reqIntent.putExtra(ConnectionService.JSON_STRING, String.valueOf(jsonObject));
+			}else{
+				reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+			}
 			reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.REGISTRATION);
 			m_context.startService(reqIntent);
 		}catch(Exception e){
@@ -194,8 +199,6 @@ public class MyApi {
 			}else{
 				reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
 			}
-
-			reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
 			reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.FORGOT_PWD);
 			m_context.startService(reqIntent);
 		}catch(Exception e){

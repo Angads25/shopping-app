@@ -218,7 +218,6 @@ public abstract class BaseActivity extends FragmentActivity {
 				icon_header_search.setVisibility(View.GONE);
 			}
 
-
 		icon_header_logo_with_search.setOnClickListener(headerClick);
 		if(icon_header_logo_without_search != null)
 			icon_header_logo_without_search.setOnClickListener(headerClick);
@@ -1483,7 +1482,7 @@ public abstract class BaseActivity extends FragmentActivity {
 //			prod_obj.put("qty", cartProduct.getQty());
 			prod_obj.put("productid", cartProduct.getItem_id());
 			prod_obj.put("quantity", cartProduct.getQty());
-			prod_obj.put("version", "1.0");
+			prod_obj.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 			products.put(prod_obj);
 
 			JSONObject json = new JSONObject();

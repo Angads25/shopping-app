@@ -224,6 +224,8 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 						call.putExtras(call_bundle);
 //						startActivity(call);
 
+						group_click = 0;
+						child_click = 0;
 						showDialog();
 						String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(groupPosition).getCategoryId();
 						myApi.reqAllProductsCategory(url);
@@ -254,6 +256,8 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 				third_level=catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getCategory();
 
 				System.out.println(third_level + "====checking 22==" + catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getCategoryId());
+				group_click = 0;
+				child_click = 0;
 
 				MySharedPrefs.INSTANCE.putBradecrum(first_level+">>"+catObj.get(position).getChildren().get(groupPosition).getCategory()+">>"+third_level);
 				if(catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getChildren().size()>0)
@@ -276,7 +280,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 						carBean.setCategoryId(catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getCategoryId());
 						list.add(carBean);
 					}
-					call_bundle.putSerializable("Categories",list);
+					call_bundle.putSerializable("Categories", list);
 					call_bundle.putSerializable("Header", catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getBreadcrumb());
 					call.putExtras(call_bundle);
 //					startActivity(call);
@@ -481,7 +485,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		// TODO Auto-generated method stub
 		String action = bundle.getString("ACTION");
 		if (action.equals(MyReceiverActions.ALL_PRODUCTS_CATEGORY)) {
-			group_click = 0;
+//			group_click = 0;
 			Simple responseBean = (Simple) bundle.getSerializable(ConnectionService.RESPONSE);
 			if (responseBean.getFlag().equalsIgnoreCase("1")) {
 				Intent call = new Intent(HomeScreen.this, CategoryTabs.class);
