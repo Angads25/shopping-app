@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class OneTimePassword extends BaseActivity {
     OTPResponse otpDataBean;
-    String params;
+    String params = "";
     String strEmail;
 
     @Override
@@ -72,10 +72,15 @@ public class OneTimePassword extends BaseActivity {
                         if(otpDataBean.getOTP().equals(etOTP.getText().toString())){
                             if (UtilityMethods.isInternetAvailable(mContext)) {
                                 showDialog();
-                                if(Registration.jsonObjectParams.length() > 0){
+                                if(!params.equals("")){
                                     String url = UrlsConstants.REGESTRATION_URL;
 //                                  url += params;
-                                    myApi.reqUserRegistration(url,Registration.jsonObjectParams);
+                                    try {
+                                        if (!params.equals("")) {
+                                            JSONObject json = new JSONObject(params);
+                                            myApi.reqUserRegistration(url,json);
+                                        }
+                                    }catch(Exception e){}
                                 }
 
 //                                try {

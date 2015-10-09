@@ -232,6 +232,15 @@ public abstract class BaseActivity extends FragmentActivity {
 			tvHeaderName.setOnClickListener(headerClick);
 		}
 
+			edtSearch.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+						bBack = false;
+				}
+			});
+
 		edtSearch.setOnEditorActionListener(new OnEditorActionListener() {
 
 			@Override

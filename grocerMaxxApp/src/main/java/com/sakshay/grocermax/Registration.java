@@ -83,7 +83,7 @@ public class Registration extends BaseActivity implements
 	private ConnectionResult mConnectionResult;
 	private boolean mIntentInProgress;
 	public static GoogleApiClient mGoogleApiClient;
-	public static JSONObject jsonObjectParams;            //will use in OneTimePassword class
+	private JSONObject jsonObjectParams;            //will use in OneTimePassword class
 
 	String params;               //used when navigate to OTP screen
 	String strEmail;            //used when navigate to OTP screen
@@ -614,7 +614,9 @@ public class Registration extends BaseActivity implements
 					Bundle call_bundle = new Bundle();
 					call_bundle.putSerializable("Otp", otpDataBean);
 					call_bundle.putString("USER_REGISTER_DATA", params);
-//					call_bundle.putSerializable("USER_REGISTER_DATA",jsonObjectParams);
+
+					call_bundle.putSerializable("USER_REGISTER_DATA", String.valueOf(jsonObjectParams));
+
 					call_bundle.putString("USER_EMAIL", strEmail);
 					intent.putExtras(call_bundle);
 //					startActivity(intent);
