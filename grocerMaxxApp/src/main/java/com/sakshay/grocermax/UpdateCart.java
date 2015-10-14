@@ -7,6 +7,7 @@ import com.sakshay.grocermax.api.MyApi;
 import com.sakshay.grocermax.bean.CartDetail;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
+import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants;
 import com.sakshay.grocermax.utils.UrlsConstants;
 import com.sakshay.grocermax.utils.UtilityMethods;
@@ -76,7 +77,7 @@ public class UpdateCart extends AsyncTask<String, Void, Void> {
 //                                    + URLEncoder.encode(products.toString(), "UTF-8");
 //                            myApi.reqBackGroundAddToCartGuest(url);
 
-
+                            jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
                             url = UrlsConstants.ADD_TO_CART_GUEST_URL;
                             myApi.reqBackGroundAddToCartGuest(url,jsonObject);
 //                            myApi.reqBackGroundAddToCartGuest(url,products);
@@ -99,13 +100,15 @@ public class UpdateCart extends AsyncTask<String, Void, Void> {
                             JSONObject json = new JSONObject(String.valueOf(jsonObject));
                             JSONArray jsonArray = json.getJSONArray("products");
                             JSONObject jsonOb = jsonArray.getJSONObject(0);
-                            jsonOb.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
+//                            jsonOb.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
 
                             JSONArray products = new JSONArray();
                             products.put(jsonOb);
 
                             JSONObject jsonFinal = new JSONObject();
                             jsonFinal.put("products",products);
+                            jsonFinal.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
+                            jsonFinal.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 
 //                            jsonObject.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
 

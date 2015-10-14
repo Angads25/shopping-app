@@ -1865,8 +1865,8 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
         // TODO Auto-generated method stub
         super.onStart();
         try{
-            tracker.activityStart(this);
-            FlurryAgent.onStartSession(this, getResources().getString(R.string.flurry_api_key));
+            EasyTracker.getInstance(this).activityStart(this);
+            FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
             FlurryAgent.onPageView();         //Use onPageView to report page view count.
         }catch(Exception e){}
     }
@@ -1876,7 +1876,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
         // TODO Auto-generated method stub
         super.onStop();
         try{
-            tracker.activityStop(this);
+            EasyTracker.getInstance(this).activityStop(this);
             FlurryAgent.onEndSession(this);
         }catch(Exception e){}
     }

@@ -374,12 +374,19 @@ public class ConnectionServiceParser {
 			MySharedPrefs.INSTANCE.putQuoteId(new JSONObject(jsonString).getString("QuoteId").toString());                            //added latest
 		}
 
-		MySharedPrefs.INSTANCE.putTotalItem(new JSONObject(jsonString).getString("TotalItem").toString());                        //added latest
+//		MySharedPrefs.INSTANCE.putTotalItem(new JSONObject(jsonString).getString("TotalItem").toString());                        //added latest
 		cartDetailString = new JSONObject(jsonString).getJSONObject("CartDetail").toString();
 
 		OrderReviewBean orderReviewBean = new OrderReviewBean();
-		orderReviewBean.setTax_ammount(new JSONObject(cartDetailString).getJSONObject("shipping_address").optString("tax_amount"));
+
+		if(new JSONObject(cartDetailString).getJSONObject("shipping_address").optString("tax_amount") != null) {
+			orderReviewBean.setTax_ammount(new JSONObject(cartDetailString).getJSONObject("shipping_address").optString("tax_amount"));
+		}else{                                                 //if server not return tax_amount tag and value[just for precaution].
+			orderReviewBean.setTax_ammount("0.00");
+		}
+
 		orderReviewBean.setShipping_ammount(new JSONObject(cartDetailString).getJSONObject("shipping_address").optString("shipping_amount"));
+
 		orderReviewBean.setGrandTotal(new JSONObject(cartDetailString).getString("grand_total"));
 //		orderReviewBean.setGrandTotal(new JSONObject(jsonString).getString("grand_total"));
 		orderReviewBean.setSubTotal(new JSONObject(cartDetailString).getString("subtotal"));
@@ -401,8 +408,8 @@ public class ConnectionServiceParser {
 		new GrocermaxBaseException("ConnectionServiceParser","parseViewCartResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 	}
 		return cartBean;
-
   }
+
 	static String strDiscount="";
 	///// parse there b/c updated cart values in OrderReviewBean used in shared preference for updating the values of cart///// 
 	//  useful when user moves to timing slot screen it updates the data of cart which need to send the data to Review order and Pay screen  //
@@ -418,7 +425,7 @@ public class ConnectionServiceParser {
 				MySharedPrefs.INSTANCE.putQuoteId(new JSONObject(jsonString).getString("QuoteId").toString());                            //added
 			}
 
-			MySharedPrefs.INSTANCE.putTotalItem(new JSONObject(jsonString).getString("TotalItem").toString());                        //added
+//			MySharedPrefs.INSTANCE.putTotalItem(new JSONObject(jsonString).getString("TotalItem").toString());                            //added
 			jsonString=new JSONObject(jsonString).getJSONObject("CartDetail").toString();
 			
 	//		OrderReviewBean orderReviewBean=new OrderReviewBean();

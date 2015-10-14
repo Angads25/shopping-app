@@ -25,6 +25,7 @@ import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.bean.UserDetailBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
+import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.AppConstants.ToastConstant;
 import com.sakshay.grocermax.utils.CustomFonts;
 import com.sakshay.grocermax.utils.UrlsConstants;
@@ -436,6 +437,7 @@ public class EditProfile extends BaseActivity{
 								jsonObject.put("fname",fname_n);
 								jsonObject.put("lname",lname_n);
 								jsonObject.put("number",contact_n);
+								jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 							} else {
 //								params = "userid=" + MySharedPrefs.INSTANCE.getUserId() + "uemail=" + MySharedPrefs.INSTANCE.getUserEmail() +
 //										"&fname=" + fname_n + "&lname=" + lname_n + "&number=" + contact_n;
@@ -444,6 +446,7 @@ public class EditProfile extends BaseActivity{
 								jsonObject.put("fname",fname_n);
 								jsonObject.put("lname",lname_n);
 								jsonObject.put("number",contact_n);
+								jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 							}
 //							url += params;
 //							myApi.reqEditProfile(url);
@@ -527,9 +530,8 @@ public class EditProfile extends BaseActivity{
     	super.onStart();
     	try{
 			EasyTracker.getInstance(this).activityStart(this);
-//	    	tracker.activityStart(this);
-	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
+			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
+			FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){}
     }
     
@@ -538,8 +540,8 @@ public class EditProfile extends BaseActivity{
     	// TODO Auto-generated method stub
     	super.onStop();
     	try{
-	    	tracker.activityStop(this);
-	    	FlurryAgent.onEndSession(this);
+			EasyTracker.getInstance(this).activityStop(this);
+			FlurryAgent.onEndSession(this);
     	}catch(Exception e){}
     }
 	

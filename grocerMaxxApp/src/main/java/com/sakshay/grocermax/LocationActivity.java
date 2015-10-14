@@ -32,14 +32,16 @@ import java.util.List;
 
 
 public class LocationActivity extends BaseActivity {
-    LocationListBean locationList = null;
+    public static LocationListBean locationList = null;
     private ImageView []ivLocation;
     private TextView []tvLocation;
     LinearLayout llLocation;
     private int position = 0;
     TextView tvSelctionLoc;           //previously selected color change to bluish
     ImageView ivSelectionLoc;
-    public static String strSelectedCity,strSelectedState,strSelectedStateId;
+    public static String strSelectedCity,strSelectedState,
+            strSelectedStateId,                                          //store id
+            strSelectedStateRegionId;                                   //state id for create new address
 
 //    @Override
 //    protected void onStart() {
@@ -104,6 +106,7 @@ public class LocationActivity extends BaseActivity {
                             strSelectedCity = locationList.getItems().get(0).getCityName();    //selected default city
                             strSelectedState = locationList.getItems().get(0).getStateName();   //selected default state
                             strSelectedStateId = locationList.getItems().get(0).getId();  //selected default id
+                            strSelectedStateRegionId = locationList.getItems().get(0).getStateId();  //selected state region id
 
 //                            ivLocation[i].setImageResource(getImageResource(catObj.get(i).getCategory()));
 
@@ -168,6 +171,7 @@ public class LocationActivity extends BaseActivity {
             strSelectedCity = locationList.getItems().get(position).getCityName();    //selected city
             strSelectedState = locationList.getItems().get(position).getStateName();   //selected state
             strSelectedStateId = locationList.getItems().get(position).getId();   //selected state id
+            strSelectedStateRegionId = locationList.getItems().get(position).getStateId();   //selected state region id
 
             ivLocation[position].setImageResource(R.drawable.select_location);
         }catch(Exception e){

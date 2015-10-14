@@ -38,6 +38,8 @@ public class Address implements Serializable{
 	@Expose
 	private String region;
 	@Expose
+	private String region_id;
+	@Expose
 	private String street;
 	@Expose
 	private String is_default_billing;
@@ -237,6 +239,14 @@ public class Address implements Serializable{
 
 	public void setCustomer_address_id(String customer_address_id) {
 		this.customer_address_id = customer_address_id;
+	}
+
+	public String getRegionId(){
+		return region_id;
+	}
+
+	public void setRegionId(String regionid){
+		this.region_id = regionid;
 	}
 
 	public String getRegion() {

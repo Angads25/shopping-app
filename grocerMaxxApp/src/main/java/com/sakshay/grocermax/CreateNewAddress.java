@@ -26,6 +26,7 @@ import com.sakshay.grocermax.bean.AddressList;
 import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
+import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants.ToastConstant;
 import com.sakshay.grocermax.utils.CustomFonts;
 import com.sakshay.grocermax.utils.UrlsConstants;
@@ -526,7 +527,17 @@ public class CreateNewAddress extends BaseActivity{
 //					tvState.setText(address.getRegion());}
 //				else{
 //				tvState.setText(address.getState());}
-				tvState.setText(address.getRegion());
+
+
+//				tvState.setText(address.getRegion());
+				for(int i=0;i<LocationActivity.locationList.getItems().size();i++){
+
+					String str1 = address.getRegionId();
+					String str2 = LocationActivity.locationList.getItems().get(i).getStateId();
+					if(address.getRegionId().equals(LocationActivity.locationList.getItems().get(i).getStateId())){
+						tvState.setText(LocationActivity.locationList.getItems().get(i).getStateName());
+					}
+				}
 				tvState.setEnabled(false);
 
 				if(strShippingorBilling.equalsIgnoreCase("shipping") || strShippingorBilling.equalsIgnoreCase("profilenewaddress")){
@@ -911,7 +922,8 @@ public class CreateNewAddress extends BaseActivity{
 //				}
 			}else {
 				state = tvState.getText().toString();
-				state = LocationActivity.strSelectedStateId;
+//				state = LocationActivity.strSelectedStateId;
+				state = LocationActivity.strSelectedStateRegionId;
 			}
 
 			String pin = tvPinCode.getText().toString();
@@ -928,8 +940,9 @@ public class CreateNewAddress extends BaseActivity{
 			String addressLine3 = tvLandMark.getText().toString();
 
 //			String url_param = "fname=" + fname + "&lname=" + lname + "&addressline1=" + addressline1 + "&addressline2=" + "" + "&city=" + city + "&state=" + state + "&pin=" + pin + "&countrycode=" + countrycode + "&phone=" + phone;
-			String url_param = "fname=" + fname + "&lname=" + lname + "&addressline1=" + addressLine1 + "&addressline2=" + addressLine2 + "&addressline3=" + addressLine3+ "&city=" + city + "&state=" + state + "&pin=" + pin + "&countrycode=" + countrycode + "&phone=" + phone;
-			url_param = url_param.replaceAll(" ", "%20");
+
+//			String url_param = "fname=" + fname + "&lname=" + lname + "&addressline1=" + addressLine1 + "&addressline2=" + addressLine2 + "&addressline3=" + addressLine3+ "&city=" + city + "&state=" + state + "&pin=" + pin + "&countrycode=" + countrycode + "&phone=" + phone;
+//			url_param = url_param.replaceAll(" ", "%20");
 			showDialog();
 
 			if (address == null) {
@@ -956,6 +969,7 @@ public class CreateNewAddress extends BaseActivity{
 				jsonObject.put("userid",MySharedPrefs.INSTANCE.getUserId());
 				jsonObject.put("default_billing",String.valueOf(default_billing));
 				jsonObject.put("default_shipping",String.valueOf(default_shipping));
+				jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 				myApi.reqAddAddress(url, MyReceiverActions.ADD_ADDRESS, jsonObject);
 
 				////////////////POST/////////////
@@ -1005,6 +1019,7 @@ public class CreateNewAddress extends BaseActivity{
 				jsonObject.put("addressid",address.getCustomer_address_id());
 				jsonObject.put("default_billing",String.valueOf(default_billing));
 				jsonObject.put("default_shipping", String.valueOf(default_shipping));
+				jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 				myApi.reqAddAddress(url, MyReceiverActions.ADD_ADDRESS, jsonObject);
 
 
@@ -1086,10 +1101,9 @@ public class CreateNewAddress extends BaseActivity{
     	// TODO Auto-generated method stub
     	super.onStart();
     	try{
-//	    	tracker.activityStart(this);
 			EasyTracker.getInstance(this).activityStart(this);
-	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
+			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
+			FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){}
     }
     
@@ -1098,8 +1112,8 @@ public class CreateNewAddress extends BaseActivity{
     	// TODO Auto-generated method stub
     	super.onStop();
     	try{
-	    	tracker.activityStop(this);
-	    	FlurryAgent.onEndSession(this);
+			EasyTracker.getInstance(this).activityStop(this);
+			FlurryAgent.onEndSession(this);
     	}catch(Exception e){}
     }
 	

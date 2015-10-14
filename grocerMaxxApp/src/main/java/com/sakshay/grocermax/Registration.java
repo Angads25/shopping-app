@@ -475,6 +475,7 @@ public class Registration extends BaseActivity implements
 								jsonObject.put("password", _password);
 								jsonObject.put("quote_id", MySharedPrefs.INSTANCE.getQuoteId());
 								jsonObject.put("otp","0");
+								jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 								myApi.reqUserRegistrationOTP(url,jsonObject);
 							}catch(Exception e){
 
@@ -811,9 +812,8 @@ public class Registration extends BaseActivity implements
     	super.onStart();
     	try{
 			EasyTracker.getInstance(this).activityStart(this);
-//	    	tracker.activityStart(this);
-	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
+			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
+			FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){}
     }
     
@@ -822,8 +822,8 @@ public class Registration extends BaseActivity implements
     	// TODO Auto-generated method stub
     	super.onStop();
     	try{
-	    	tracker.activityStop(this);
-	    	FlurryAgent.onEndSession(this);
+			EasyTracker.getInstance(this).activityStop(this);
+			FlurryAgent.onEndSession(this);
     	}catch(Exception e){}
     }
 
@@ -995,6 +995,7 @@ public class Registration extends BaseActivity implements
 				jsonObject.put("fname",USER_FNAME);
 				jsonObject.put("lname", USER_LNAME);
 				jsonObject.put("number", 0000000000);
+				jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 				System.out.println("==jsonobject==" + jsonObject);
 
 			}else{
@@ -1007,6 +1008,7 @@ public class Registration extends BaseActivity implements
 				jsonObject.put("fname",USER_FNAME);
 				jsonObject.put("lname", USER_LNAME);
 				jsonObject.put("number", 0000000000);
+				jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 				System.out.println("==jsonobject==" + jsonObject);
 			}
 //			myApi.reqLogin(url);
@@ -1381,6 +1383,7 @@ public class Registration extends BaseActivity implements
 				jsonObject.put("fname",USER_NAME);
 				jsonObject.put("lname", "");
 				jsonObject.put("number", 0000000000);
+				jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 				System.out.println("==jsonobject==" + jsonObject);
 			}else{
 				url = UrlsConstants.GOOGLE_LOGIN_URL;
@@ -1390,6 +1393,7 @@ public class Registration extends BaseActivity implements
 				jsonObject.put("fname",USER_NAME);
 				jsonObject.put("lname", "");
 				jsonObject.put("number", 0000000000);
+				jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 				System.out.println("==jsonobject==" + jsonObject);
 			}
 

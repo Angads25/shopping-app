@@ -253,7 +253,7 @@
 
                             <TextView
                                 android:id="@+id/tv_top_red"
-                                android:layout_width="100dp"
+                                android:layout_width="75dp"
                                 android:layout_height="1dp"
                                 android:layout_alignParentRight="true"
                                 android:background="@color/red" />
@@ -266,13 +266,13 @@
                                 android:layout_below="@+id/tv_top_red"
                                 android:layout_centerVertical="true"
                                 android:layout_marginRight="10dp"
-                                android:text="OUT OF STOCK"
+                                android:text="SOLD OUT"
                                 android:textColor="@color/red"
                                 android:textSize="@dimen/text_size_12" />
 
                             <TextView
                                 android:id="@+id/tv_bottom_red"
-                                android:layout_width="100dp"
+                                android:layout_width="75dp"
                                 android:layout_height="1dp"
                                 android:layout_alignParentRight="true"
                                 android:layout_below="@+id/img_out_of_stock"

@@ -37,6 +37,7 @@ public class OrderDetail extends BaseActivity{
 	LinearLayout ll_product,ll_discount;
 	TextView tv_subtotal_2,tv_shipping,tv_youpay,tv_discount;
 	TextView tvShippingCharges;
+	TextView tvCoupon;
 
 
 	//	LinearLayout ll_header;
@@ -76,6 +77,7 @@ public class OrderDetail extends BaseActivity{
 //		tvProductQuantityHeading.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 //		tvProductSubTotalHeading.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 
+		TextView txtCoupon = (TextView) findViewById(R.id.txt_coupon);
 		TextView tvAboutOrder = (TextView) findViewById(R.id.txt_about_order);
 		TextView tvDeliveryDate = (TextView) findViewById(R.id.txt_delivery_date);
 		TextView tvDeliveryTime = (TextView) findViewById(R.id.txt_delivery_time);
@@ -93,6 +95,8 @@ public class OrderDetail extends BaseActivity{
 		tvShippingMethod.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 		tvPaymentMode.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 		txtShippingCharges.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+		txtCoupon.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+
 
 //		tvOrderId = (TextView) findViewById(R.id.order_id);
 //		tvOrderId.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
@@ -105,6 +109,7 @@ public class OrderDetail extends BaseActivity{
 		tv_shipping_address=(TextView)findViewById(R.id.tv_shipping_address);
 		tv_billing_address=(TextView)findViewById(R.id.tv_billing_address);
 		tvShippingCharges = (TextView)findViewById(R.id.tv_shipping_charges);
+		tvCoupon = (TextView) findViewById(R.id.tv_coupon);
 
 		tv_about_order.setTypeface(CustomFonts.getInstance().getRobotoLight(this));
 		tv_shipping_method.setTypeface(CustomFonts.getInstance().getRobotoLight(this));
@@ -153,6 +158,7 @@ public class OrderDetail extends BaseActivity{
 		tv_shipping.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 		textGrandTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 		tv_youpay.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+		tvCoupon.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 
 		}catch(Exception e){
 			new GrocermaxBaseException("OrderDetail","initViews",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
@@ -197,7 +203,21 @@ public class OrderDetail extends BaseActivity{
 //					tvOrderId.setText("Order ID : "+order_id);
 //					tvOrderId.setText("Order ID : "+order_increement_id);
 
-					setOrderInformation(orderDetailJson.getString("created_at").split(" ")[0]);
+//					setOrderInformation(orderDetailJson.getString("created_at").split(" ")[0]);
+					setOrderInformation(orderDetailJson.getString("created_at"));
+
+					try {
+						if (orderDetailJson.getString("discount_amount") != null) {
+							String strCouponDiscount;
+//							if (orderDetailJson.getString("discount_amount").startsWith("-")) {
+//								strCouponDiscount = orderDetailJson.getString("discount_amount").substring(1, orderDetailJson.getString("discount_amount").length() - 1);
+//							} else {
+								strCouponDiscount = orderDetailJson.getString("discount_amount");
+//							}
+							tvCoupon.setText("Rs. " + Float.parseFloat(strCouponDiscount));
+						}
+					}catch(Exception e){}
+
 					setShippingMethod(orderDetailJson.getString("shipping_description"));
 					setPaymentMethod(orderDetailJson.getJSONObject("payment").getString("method"));
 					String date=orderDetailJson.getJSONArray("deliverydate").getJSONObject(0).getString("value");
@@ -432,7 +452,6 @@ public class OrderDetail extends BaseActivity{
 		super.onStart();
 		try{
 			EasyTracker.getInstance(this).activityStart(this);
-//			tracker.activityStart(this);
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
 		}catch(Exception e){}
@@ -443,7 +462,7 @@ public class OrderDetail extends BaseActivity{
 		// TODO Auto-generated method stub
 		super.onStop();
 		try{
-			tracker.activityStop(this);
+			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
 		}catch(Exception e){}
 	}

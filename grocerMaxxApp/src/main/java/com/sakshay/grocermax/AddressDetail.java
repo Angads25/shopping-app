@@ -355,8 +355,7 @@ public class AddressDetail extends BaseActivity{
     	super.onStart();
 		try {
 			EasyTracker.getInstance(this).activityStart(this);
-//	    	tracker.activityStart(this);
-			FlurryAgent.onStartSession(this, getResources().getString(R.string.flurry_api_key));
+			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
 		}catch(Exception e){}
     }
@@ -366,8 +365,8 @@ public class AddressDetail extends BaseActivity{
     	// TODO Auto-generated method stub
     		super.onStop();
 		try{
-	    	tracker.activityStop(this);
-	    	FlurryAgent.onEndSession(this);
+			EasyTracker.getInstance(this).activityStop(this);
+			FlurryAgent.onEndSession(this);
 		}catch(Exception e){}
     }
 

@@ -1780,8 +1780,7 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
         super.onStart();
         try{
             EasyTracker.getInstance(this).activityStart(this);
-//            tracker.activityStart(this);
-            FlurryAgent.onStartSession(this, getResources().getString(R.string.flurry_api_key));
+            FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
             FlurryAgent.onPageView();         //Use onPageView to report page view count.
         }catch(Exception e){}
     }
@@ -1791,7 +1790,7 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
         // TODO Auto-generated method stub
         super.onStop();
         try{
-            tracker.activityStop(this);
+            EasyTracker.getInstance(this).activityStop(this);
             FlurryAgent.onEndSession(this);
         }catch(Exception e){}
     }

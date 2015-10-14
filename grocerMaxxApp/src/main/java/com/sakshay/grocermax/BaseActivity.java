@@ -1491,7 +1491,7 @@ public abstract class BaseActivity extends FragmentActivity {
 //			prod_obj.put("qty", cartProduct.getQty());
 			prod_obj.put("productid", cartProduct.getItem_id());
 			prod_obj.put("quantity", cartProduct.getQty());
-			prod_obj.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//			prod_obj.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 			products.put(prod_obj);
 
 			JSONObject json = new JSONObject();

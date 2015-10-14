@@ -317,6 +317,7 @@ public class LoginActivity extends BaseActivity
 						jsonObject.put("uemail",userN);
 						jsonObject.put("password",pwd);
 						jsonObject.put("quote_id","no");
+						jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 						System.out.println("==jsonobject=="+jsonObject);
 
 					}else{
@@ -324,7 +325,8 @@ public class LoginActivity extends BaseActivity
 						url = UrlsConstants.LOGIN_URL;
 						jsonObject.put("uemail",userN);
 						jsonObject.put("password",pwd);
-						jsonObject.put("quote_id", "no");
+						jsonObject.put("quote_id", MySharedPrefs.INSTANCE.getQuoteId());
+						jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 						System.out.println("==jsonobject==" + jsonObject);
 
 					}
@@ -332,7 +334,7 @@ public class LoginActivity extends BaseActivity
 					myApi.reqLogin(url,jsonObject);
 					//String url = UrlsConstants.LOGIN_URL+"uemail="+ userN + "&password=" + pwd;
 
-					myApi.reqLogin(url);
+//					myApi.reqLogin(url);
 //					myApi.reqLogin(url, hashMap);
 
 
@@ -414,6 +416,7 @@ public class LoginActivity extends BaseActivity
 					jsonObject.put("fname",USER_FNAME);
 					jsonObject.put("lname", USER_LNAME);
 					jsonObject.put("number", 0000000000);
+					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 					System.out.println("==jsonobject==" + jsonObject);
 
 
@@ -433,6 +436,7 @@ public class LoginActivity extends BaseActivity
 					jsonObject.put("fname",USER_FNAME);
 					jsonObject.put("lname", USER_LNAME);
 					jsonObject.put("number", 0000000000);
+					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 					System.out.println("==jsonobject==" + jsonObject);
 
 				}
@@ -753,8 +757,7 @@ public class LoginActivity extends BaseActivity
 		super.onStart();
 		try{
 			EasyTracker.getInstance(this).activityStart(this);
-//	    	tracker.activityStart(this);
-			FlurryAgent.onStartSession(context, getResources().getString(R.string.flurry_api_key));
+			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
 		}catch(Exception e){}
 	}
@@ -764,8 +767,8 @@ public class LoginActivity extends BaseActivity
 		// TODO Auto-generated method stub
 		super.onStop();
 		try{
-			tracker.activityStop(this);
-			FlurryAgent.onEndSession(context);
+			EasyTracker.getInstance(this).activityStop(this);
+			FlurryAgent.onEndSession(this);
 			googlePlusLogout();
 			if(mGoogleApiClient != null){
 				if (mGoogleApiClient.isConnected()) {
@@ -1097,6 +1100,7 @@ public class LoginActivity extends BaseActivity
 					jsonObject.put("fname",USER_NAME);
 					jsonObject.put("lname", "");
 					jsonObject.put("number", 0000000000);
+					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 					System.out.println("==jsonobject==" + jsonObject);
 				}else{
 //					url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ USER_EMAIL + "&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
@@ -1112,6 +1116,7 @@ public class LoginActivity extends BaseActivity
 					jsonObject.put("fname",USER_NAME);
 					jsonObject.put("lname", "");
 					jsonObject.put("number", 0000000000);
+					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 					System.out.println("==jsonobject==" + jsonObject);
 				}
 

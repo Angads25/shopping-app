@@ -258,7 +258,7 @@
                                 android:layout_gravity="right|center_vertical"
                                 android:layout_marginTop="5dp"
                                 android:layout_marginRight="10dp"
-                                android:visibility="visible">
+                                android:visibility="gone">
 
                                 <TextView
                                     android:id="@+id/tv_top_red"

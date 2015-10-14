@@ -39,6 +39,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-plus:7.5.0'
     compile 'com.google.android.gms:play-services-identity:7.5.0'
     compile 'com.google.android.gms:play-services-drive:7.5.0'
+
     compile files('libs/FlurryAnalytics-5.5.0.jar')
     compile files('libs/httpmime-4.1.1.jar')
     compile files('libs/libGoogleAnalyticsServices.jar')

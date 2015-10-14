@@ -92,16 +92,11 @@ public class CategoryTabs extends BaseActivity {
 								CategoriesProducts categoriesProducts = hotproduct.get(i);
 								if (categoriesProducts.getItems().size() > 0) {
 									alCategory.add(categoriesProducts);
-									for (int k = 0; k < categoriesProducts.getItems().size(); k++) {
-										Product pro = categoriesProducts.getItems().get(k);
-										listAll.add(categoriesProducts.getItems().get(k));
-									}
+//									for (int k = 0; k < categoriesProducts.getItems().size(); k++) {
+//										Product pro = categoriesProducts.getItems().get(k);
+//										listAll.add(categoriesProducts.getItems().get(k));
+//									}
 								}
-//							alCategory.add(categoriesProducts);
-//							for(int k=0;k<categoriesProducts.getItems().size();k++){
-//								Product pro = categoriesProducts.getItems().get(k);
-//								listAll.add(categoriesProducts.getItems().get(k));
-//							}
 							}
 						}
 					}
@@ -189,25 +184,24 @@ public class CategoryTabs extends BaseActivity {
 			ll_brad_crum = (LinearLayout) findViewById(R.id.ll_Bradcrum);
 			ll_brad_crum.setBackgroundColor(getResources().getColor(R.color.breadcrum_color));
 
-			hscrollview = (HorizontalScrollView) findViewById(R.id.hscrollview);
+//			hscrollview = (HorizontalScrollView) findViewById(R.id.hscrollview);
 
 
-			if (MySharedPrefs.INSTANCE.getBradecrum() != null) {
-				String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");
+//			if (MySharedPrefs.INSTANCE.getBradecrum() != null) {
+//				String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");
+//				for (int i = 0; i < brade_crum.length; i++) {
+//					addImageView(ll_brad_crum);
+//					addTextView(ll_brad_crum, brade_crum[i]);
+//				}
+//			}
 
-				for (int i = 0; i < brade_crum.length; i++) {
-					addImageView(ll_brad_crum);
-					addTextView(ll_brad_crum, brade_crum[i]);
-				}
-
-			}
-			hscrollview.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-				@Override
-				public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-					hscrollview.removeOnLayoutChangeListener(this);
-					hscrollview.fullScroll(View.FOCUS_RIGHT);
-				}
-			});
+//			hscrollview.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+//				@Override
+//				public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+//					hscrollview.removeOnLayoutChangeListener(this);
+//					hscrollview.fullScroll(View.FOCUS_RIGHT);
+//				}
+//			});
 
 			ll_brad_crum.setOnClickListener(new OnClickListener() {
 				@Override
@@ -221,8 +215,8 @@ public class CategoryTabs extends BaseActivity {
 			ViewPager pager = (ViewPager) findViewById(R.id.pager);
 			pager.setAdapter(adapter);
 //			pager.setOffscreenPageLimit(catObj.size());
-			pager.setOffscreenPageLimit(alCategory.size());
-//			pager.setOffscreenPageLimit(2);
+//			pager.setOffscreenPageLimit(alCategory.size());
+			pager.setOffscreenPageLimit(0);
 
 			TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
 			if(pager!=null)
@@ -506,7 +500,7 @@ public class CategoryTabs extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onStart();
 		try{
-			tracker.activityStart(this);
+			EasyTracker.getInstance(this).activityStart(this);
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
 		}catch(Exception e){}
@@ -517,7 +511,7 @@ public class CategoryTabs extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onStop();
 		try{
-			tracker.activityStop(this);
+			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
 		}catch(Exception e){}
 	}

@@ -38,8 +38,7 @@ public class MobiKwikWallet extends BaseActivity{
 		super.onStart();
 		try {
 			EasyTracker.getInstance(this).activityStart(this);
-//	    	tracker.activityStart(this);
-			FlurryAgent.onStartSession(this, getResources().getString(R.string.flurry_api_key));
+			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
 		}catch(Exception e){
 			new GrocermaxBaseException("MobiKwikWallet","onStart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
@@ -90,7 +89,7 @@ public class MobiKwikWallet extends BaseActivity{
 		// TODO Auto-generated method stub
 		super.onStop();
 		try{
-			tracker.activityStop(this);
+			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
 		}catch(Exception e){}
 	}

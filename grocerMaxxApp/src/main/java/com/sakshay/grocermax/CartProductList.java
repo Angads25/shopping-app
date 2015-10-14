@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
 import com.flurry.sdk.in;
@@ -694,8 +695,8 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				jsonObject.put("updateid", products1);
 
 				jsonObject.put("version", "1.0");
-				System.out.println("==delete and back to previous screen==" + strurl);
-				System.out.println("==delete and back json==" + jsonObject);
+//				System.out.println("==delete and back to previous screen==" + strurl);
+//				System.out.println("==delete and back json==" + jsonObject);
 				if (UtilityMethods.isInternetAvailable(this)) {
 					UpdateCartbg.getInstance().bLocally = true;
 //				myApi.reqEditCart(url,MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
@@ -966,7 +967,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	public void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-
 	}
 
 	@Override
@@ -975,7 +975,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		super.onStart();
 		try{
 			EasyTracker.getInstance(this).activityStart(this);
-//			tracker.activityStart(this);
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
 		}catch(Exception e){}
@@ -986,7 +985,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		// TODO Auto-generated method stub
 		super.onStop();
 		try{
-			tracker.activityStop(this);
+			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
 		}catch(Exception e){}
 	}

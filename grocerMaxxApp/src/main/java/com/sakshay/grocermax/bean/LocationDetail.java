@@ -18,7 +18,7 @@ public class LocationDetail implements Serializable {
     private String city_name;
 
     @Expose
-    private String state_id;
+    private String region_id;
 
     @Expose
     private String api_url;
@@ -45,11 +45,11 @@ public class LocationDetail implements Serializable {
     }
 
     public String getStateId() {
-        return state_id;
+        return region_id;
     }
 
     public void setStateId(String price) {
-        this.state_id = state_id;
+        this.region_id = region_id;
     }
 
     public String getApiUrl() {

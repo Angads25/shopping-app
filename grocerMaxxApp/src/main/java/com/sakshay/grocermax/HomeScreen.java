@@ -185,8 +185,6 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 					boolean expandStatus = false;
 					second_level = catObj.get(position).getChildren().get(groupPosition).getCategory();
 
-					System.out.println(second_level + "====checking 11==" + catObj.get(position).getChildren().get(groupPosition).getCategoryId());
-
 					MySharedPrefs.INSTANCE.putBradecrum(first_level + ">>" + second_level);
 					for (int i = 0; i < catObj.get(position).getChildren().get(groupPosition).getChildren().size(); i++) {
 						if (catObj.get(position).getChildren().get(groupPosition).getChildren().get(i).getChildren().size() > 0) {
@@ -226,7 +224,13 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 
 						group_click = 0;
 						child_click = 0;
+
 						showDialog();
+
+//						ArrayList<CategorySubcategoryBean> al1 = catObj.get(position).getChildren();                                              //5 right side sub category
+//						String catid = catObj.get(position).getChildren().get(position).getCategoryId();                                      //selected catid
+//						ArrayList<CategorySubcategoryBean> al = catObj.get(position).getChildren().get(groupPosition).getChildren();              //size 13 sub category
+						System.out.println("======checking 11=========" + catObj.get(position).getChildren().get(groupPosition).getCategoryId());
 						String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(groupPosition).getCategoryId();
 						myApi.reqAllProductsCategory(url);
 
@@ -255,7 +259,9 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 				child_click=1;
 				third_level=catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getCategory();
 
-				System.out.println(third_level + "====checking 22==" + catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getCategoryId());
+//				System.out.println(third_level + "====checking 22==" + catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getCategoryId());
+
+//				System.out.println(third_level + "====checking 22==" + catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getCategoryId());
 				group_click = 0;
 				child_click = 0;
 
@@ -285,7 +291,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 					call.putExtras(call_bundle);
 //					startActivity(call);
 					showDialog();
-					String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(groupPosition).getCategoryId();
+					String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(groupPosition).getChildren().get(childPosition).getCategoryId();
 					myApi.reqAllProductsCategory(url);
 				}
 				else
@@ -518,7 +524,8 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 //			startActivity(call);
 
 			showDialog();
-			String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(arg2).getCategoryId();
+//			String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(arg2).getCategoryId();
+			String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(arg2).getChildren().get(position).getCategoryId();
 			myApi.reqAllProductsCategory(url);
 
 		}catch(Exception e){
@@ -548,10 +555,9 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
     	// TODO Auto-generated method stub
     	super.onStart();
     	try{
-//	    	tracker.activityStart(this);
 			EasyTracker.getInstance(this).activityStart(this);
-	    	FlurryAgent.onStartSession(this, getResources().getString(R.string.flurry_api_key));
-	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
+			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
+			FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){}
     }
     
@@ -560,8 +566,8 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
     	// TODO Auto-generated method stub
     	super.onStop();
     	try{
-	    	tracker.activityStop(this);
-	    	FlurryAgent.onEndSession(this);
+			EasyTracker.getInstance(this).activityStop(this);
+			FlurryAgent.onEndSession(this);
     	}catch(Exception e){}
     }
 
