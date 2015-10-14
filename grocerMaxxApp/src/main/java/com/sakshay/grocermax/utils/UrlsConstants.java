@@ -27,8 +27,8 @@ public class UrlsConstants {
 //	public final static String BASE_URL = "http://staging.grocermax.com/webservice/";
 //	public final static String NEW_BASE_URL = "http://staging.grocermax.com/webservice/new_services/";
 
-	public final static String BASE_URL = "http://staging.grocermax.com/api/";
-	public final static String NEW_BASE_URL = "http://staging.grocermax.com/api/";
+//	public final static String BASE_URL = "http://staging.grocermax.com/api/";
+//	public final static String NEW_BASE_URL = "http://staging.grocermax.com/api/";
 
 	// live url
 //	public final static String BASE_URL = "http://grocermax.com/webservice/";
@@ -39,8 +39,8 @@ public class UrlsConstants {
 //	public final static String NEW_BASE_URL = "http://grocermax.com/gmx_api.php/";
 	///////////////////////////////////////NEW URL'S
 
-//	public final static String BASE_URL = "https://grocermax.com/api/";
-//	public final static String NEW_BASE_URL = "https://grocermax.com/api/";
+	public final static String BASE_URL = "https://grocermax.com/api/";
+	public final static String NEW_BASE_URL = "https://grocermax.com/api/";
 
 //	public final static String BASE_URL = "http://api.grocermax.com/gmx_api.php/";
 //	public final static String NEW_BASE_URL = "http://api.grocermax.com/gmx_api.php/";
@@ -189,9 +189,8 @@ public class UrlsConstants {
 	/*public final static String ADD_ADDRESS = BASE_URL
 			+ "changeaddress.php?new_billing=";*/
 
-
 	public final static String ADD_ADDRESS = NEW_BASE_URL
-			+ "addaddress?";
+			+ "addaddress";
 
 	public final static String DELETE_ADDRESS = NEW_BASE_URL
 			+ "deleteaddress?addressid=";
@@ -200,7 +199,7 @@ public class UrlsConstants {
 			+ "editaddress.php?UserID=";*/
 
 	public final static String EDIT_ADDRESS = NEW_BASE_URL
-			+ "editaddress?";
+			+ "editaddress";
 
 //	public final static String FINAL_CHECKOUT = NEW_BASE_URL
 //			+ "checkout?shipping=";
@@ -221,10 +220,10 @@ public class UrlsConstants {
 	public final static String GET_ORDER_STATUS = NEW_BASE_URL
 			+ "getstatus?orderid=";
 
-//	public final static String SET_ORDER_STATUS = NEW_BASE_URL
-//			+ "setstatus?status=canceled&orderid=";
 	public final static String SET_ORDER_STATUS = NEW_BASE_URL
-			+ "setstatus";
+			+ "setstatus?status=canceled&orderid=";
+//	public final static String SET_ORDER_STATUS = NEW_BASE_URL
+//			+ "setstatus";
 
 	public final static String SET_PAYTM_ORDER_STATUS_SUCCESS = NEW_BASE_URL
 			+ "setstatus?status=success&orderid=";

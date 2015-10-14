@@ -60,9 +60,10 @@ public class AddressDetail extends BaseActivity{
 
 			if (bundle != null) {
 				address_bean = (AddressList) bundle.getSerializable("AddressList");
-				mAddressList = address_bean.getAddress();
+				if(address_bean != null) {
+					mAddressList = address_bean.getAddress();
+				}
 			}
-
 
 			if (mAddressList != null && mAddressList.size() > 0) {
 				if (mAddressList.size() == 1 && mAddressList.get(0).getFirstname().equals("")) {
@@ -147,8 +148,17 @@ public class AddressDetail extends BaseActivity{
 						mList.addHeaderView(header, null, false);
 					}
 
-					mAdapter = new AddressListAdapter(AddressDetail.this, mAddressList);
-					mList.setAdapter(mAdapter);
+					ArrayList<Address> addressList = new ArrayList<Address>();
+					for(int i=0;i<mAddressList.size();i++){
+						if(!mAddressList.get(i).getDefaultBilling().equals("true")){
+							addressList.add(mAddressList.get(i));
+						}
+					}
+					mAddressList = addressList;
+					if(mAddressList.size() > 0) {
+						mAdapter = new AddressListAdapter(AddressDetail.this, mAddressList);
+						mList.setAdapter(mAdapter);
+					}
 				}
 			} else {
 				TextView msg = (TextView) findViewById(R.id.msg);
@@ -309,16 +319,20 @@ public class AddressDetail extends BaseActivity{
 					Intent intent = new Intent(AddressDetail.this, AddressDetail.class);
 					intent.putExtra("AddressList", address_bean);
 					startActivity(intent);
+					finish();
 				}else{
 					//i.e. shipping address has been changed.
-					if (mList != null) {
+					if (mList != null ) {
 						mAddressList = ((AddressList) data.getSerializableExtra("addressBean")).getAddress();
 						mAdapter.updateList(mAddressList);
 					}else{
-						mAddressList = ((AddressList) data.getSerializableExtra("addressBean")).getAddress();
+//						mAddressList = ((AddressList) data.getSerializableExtra("addressBean")).getAddress();
+						AddressList addressList  = ((AddressList) data.getSerializableExtra("addressBean"));
 						Intent intent = new Intent(AddressDetail.this, AddressDetail.class);
-						intent.putExtra("addressBean", mAddressList);
+//						intent.putExtra("addressBean", mAddressList);
+						intent.putExtra("AddressList", addressList);
 						startActivity(intent);
+						finish();
 					}
 				}
 

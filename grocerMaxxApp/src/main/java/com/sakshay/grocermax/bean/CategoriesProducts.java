@@ -16,6 +16,7 @@ public class CategoriesProducts extends BaseResponseBean implements Serializable
 
     String category_id;
     String category_name;
+    int Totalcount;
 
     @Expose
     private List<Product> product = new ArrayList<Product>();
@@ -43,4 +44,12 @@ public class CategoriesProducts extends BaseResponseBean implements Serializable
     public void setCategory_name(String category_name) {
         this.category_name = category_name;
     }
+
+    public int getTotalCount(){return Totalcount;}
+
+    public void setTotalCount(int totalcount){
+        this.Totalcount = totalcount;
+    }
+
+
 }

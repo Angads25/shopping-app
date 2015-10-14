@@ -448,11 +448,15 @@ public class CreateNewAddress extends BaseActivity{
 				 ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
 						 R.layout.spinner_textview, BillingStateCityLoader.alState);
 				 spinner_billing.setAdapter(dataAdapter);
-				 for(int i=0;i<BillingStateCityLoader.alState.size();i++){
-					 if(LocationActivity.strSelectedState.equalsIgnoreCase(BillingStateCityLoader.alState.get(i))){
-						indexTemp = i;
+				 try {
+					 for (int i = 0; i < BillingStateCityLoader.alState.size(); i++) {
+						 System.out.println("===state1==" + LocationActivity.strSelectedState);
+						 System.out.println("===state2===" + BillingStateCityLoader.alState.get(i));
+						 if (LocationActivity.strSelectedState.equalsIgnoreCase(BillingStateCityLoader.alState.get(i))) {
+							 indexTemp = i;
+						 }
 					 }
-				 }
+				 }catch(Exception e){}
 				 spinner_billing.setSelection(indexTemp);
 				 spinnerIndexSelected = indexTemp;
 				 spinner_billing.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -498,6 +502,17 @@ public class CreateNewAddress extends BaseActivity{
 					rlState.setVisibility(View.GONE);
 					tvCity.setEnabled(false);
 					rlStateSpinner.setVisibility(View.GONE);
+
+					try {
+						for (int i = 0; i < LocationActivity.locationList.getItems().size(); i++) {
+
+//							String str1 = address.getRegionId();
+//							String str2 = LocationActivity.locationList.getItems().get(i).getStateId();
+							if (address.getRegionId().equals(LocationActivity.locationList.getItems().get(i).getStateId())) {
+								tvState.setText(LocationActivity.locationList.getItems().get(i).getStateName());
+							}
+						}
+					}catch(Exception e){}
 				}
 
 //				tvState.setText("Haryana");
@@ -530,18 +545,13 @@ public class CreateNewAddress extends BaseActivity{
 
 
 //				tvState.setText(address.getRegion());
-				for(int i=0;i<LocationActivity.locationList.getItems().size();i++){
 
-					String str1 = address.getRegionId();
-					String str2 = LocationActivity.locationList.getItems().get(i).getStateId();
-					if(address.getRegionId().equals(LocationActivity.locationList.getItems().get(i).getStateId())){
-						tvState.setText(LocationActivity.locationList.getItems().get(i).getStateName());
-					}
-				}
 				tvState.setEnabled(false);
 
 				if(strShippingorBilling.equalsIgnoreCase("shipping") || strShippingorBilling.equalsIgnoreCase("profilenewaddress")){
 //					if(tvCity.getText().toString().equalsIgnoreCase(LocationActivity.strSelectedCity)){
+
+
 						tvCity.setEnabled(false);
 //					}
 //					if(tvState.getText().toString().equalsIgnoreCase(LocationActivity.strSelectedState)){
@@ -561,15 +571,28 @@ public class CreateNewAddress extends BaseActivity{
 				 	}
 				 	spinnerLocationShipping.setSelection(indexTempLocation);
 				 	spinnerIndexLocationShipping = indexTempLocation;
+
+					try {
+						for (int i = 0; i < LocationActivity.locationList.getItems().size(); i++) {
+
+//							String str1 = address.getRegionId();
+//							String str2 = LocationActivity.locationList.getItems().get(i).getStateId();
+							if (address.getRegionId().equals(LocationActivity.locationList.getItems().get(i).getStateId())) {
+								tvState.setText(LocationActivity.locationList.getItems().get(i).getStateName());
+							}
+						}
+					}catch(Exception e){}
 //					}
 				}else if(strShippingorBilling.equalsIgnoreCase("billing") || strShippingorBilling.equalsIgnoreCase("profilenewaddressbilling")){                                                //use spinner in case of billing
 					tvState.setEnabled(false);
 					rlState.setVisibility(View.GONE);
 					String addr = address.getStreet();
 
-					tvHouseNo.setText(addr.split("\n")[0]);
-					tvLocation.setText(addr.split("\n")[1]);
-					tvLandMark.setText(addr.split("\n")[2]);
+					try {
+						tvHouseNo.setText(addr.split("\n")[0]);
+						tvLocation.setText(addr.split("\n")[1]);
+						tvLandMark.setText(addr.split("\n")[2]);
+					}catch(Exception e){}
 				}
 
 
@@ -828,12 +851,13 @@ public class CreateNewAddress extends BaseActivity{
 					UtilityMethods.customToast("State can't be blank", mContext);
 					return;
 				}
-			}else {                                             //in shipping case and profilenewaddress case this will be gone
-				if (tvState.getText().toString().equals("")) {
-					UtilityMethods.customToast("State can't be blank", mContext);
-					return;
-				}
 			}
+//			else {                                             //in shipping case and profilenewaddress case this will be gone
+//				if (tvState.getText().toString().equals("")) {
+//					UtilityMethods.customToast("State can't be blank", mContext);
+//					return;
+//				}
+//			}
 
 
 			if (tvPinCode.getText().toString().length() != 6) {
@@ -1072,8 +1096,7 @@ public class CreateNewAddress extends BaseActivity{
 				Intent intent = new Intent();
 				intent.putExtra("addressBean", bean);
 				intent.putExtra("editIndex", editIndex);
-				setResult
-				(RESULT_OK, intent);
+				setResult(RESULT_OK, intent);
 				finish();
 			}
 		}catch(Exception e){

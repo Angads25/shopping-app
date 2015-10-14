@@ -82,9 +82,15 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 //		alCategory.get(0).getItems().get(0).get
 //		List<Product> product = alCategory.get(0).getItems();
 //		fragment.alCategory = alCategory.get(0).getItems();
-		fragment.cat_id = categorie.getCategory_id();
-		fragment.categoryData = categorie;
-		fragment.cat_name = categorie.getCategory_name();
+
+			fragment.cat_id = categorie.getCategory_id();
+			fragment.categoryData = categorie;
+			fragment.cat_name = categorie.getCategory_name();
+		try {
+			fragment.itemPerPage = categorie.getTotalCount();
+		}catch(Exception e){
+			fragment.itemPerPage = 10;
+		}
 		return fragment;
 	}
 
@@ -220,7 +226,7 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 					hasMoreItem = false;
 				}else {
 					if(hasMoreItem) {                                           //it setted false(extra condition) in postexecute (but set true again b/c calculates initial 10 records with below limit))
-						if (listBean.getProduct().size() < itemPerPage) {
+						if (listBean.getProduct().size() >= itemPerPage) {
 							hasMoreItem = false;
 						} else {
 							hasMoreItem = true;
@@ -314,16 +320,18 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 
 					if (listBean!=null && listBean.getFlag().equalsIgnoreCase("1")) {
 
-
 						if(cat_name.equalsIgnoreCase("All")){
 							hasMoreItem = false;
 						}
 						else {
 							if(hasMoreItem) {
-								if (listBean.getProduct().size() < itemPerPage) {
-									hasMoreItem = false;
-								} else {
-									hasMoreItem = true;
+//								if (listBean.getProduct().size() < itemPerPage) {         //remove
+								if(mList != null) {                                   //extra
+									if (listBean.getProduct().size() + mList.getAdapter().getCount() >= itemPerPage) {       //extra
+										hasMoreItem = false;
+									} else {
+										hasMoreItem = true;
+									}
 								}
 							}
 						}
@@ -407,6 +415,7 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 					url = UrlsConstants.PRODUCT_LIST_URL + cat_id + "&page="
 							+ pageNo;
 
+					System.out.println("========URL more pages==============="+url);
 					new CallAPI().execute(url);
 					//callApi.execute(url);
 					//startMyTask(callApi, url);

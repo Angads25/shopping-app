@@ -116,16 +116,40 @@ public class AddressListAdapter extends BaseAdapter{
 
 		holder.profilename.setText(obj.getFirstname() + " " + obj.getLastname());
 
-		if(obj.getDefaultBilling().equalsIgnoreCase("true") && obj.getDefaultShipping().equalsIgnoreCase("true")){             //user can't be deleted.
+//		if(obj.getDefaultBilling().equalsIgnoreCase("true") || obj.getDefaultShipping().equalsIgnoreCase("true")){             //user can't be deleted.
+			if(obj.getDefaultShipping().equalsIgnoreCase("true")){             //user can't be deleted.
 			holder.llDeleteAddress.setEnabled(false);
 			holder.llDeleteAddress.setVisibility(View.GONE);
 		}else{
+			holder.llDeleteAddress.setEnabled(true);
 			holder.llDeleteAddress.setVisibility(View.VISIBLE);
 		}
 
+//			String addr = address.getStreet();
+//			tvHouseNo.setText(addr.split("\n")[0]);
+//			tvLocation.setText(addr.split("\n")[1]);
+//			tvLandMark.setText(addr.split("\n")[2]);
+
 		if(obj.getRegion()!=null) {
 			if(!obj.getRegion().equals("")) {
-				holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() +","+ obj.getStreet() + "," + obj.getCity() + "," + obj.getRegion() + "," + "India" + "," + obj.getPostcode());
+				String strAddress = obj.getFirstname() + " " + obj.getLastname() +",";
+				try{
+				if(obj.getStreet() != null){
+					String addr = obj.getStreet();
+					strAddress += addr.split("\n")[0] + ","+ addr.split("\n")[1] + ","+addr.split("\n")[2]+",";
+					strAddress += obj.getCity() + "," + obj.getRegion() + "," + "India" + "," + obj.getPostcode();
+					holder.address1.setText(strAddress);
+				}}
+				catch(Exception e){
+					holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() +","+ obj.getStreet() + "," + obj.getCity() + "," + obj.getRegion() + "," + "India" + "," + obj.getPostcode());
+				}
+//				tvHouseNo.setText(addr.split("\n")[0]);
+//				tvLocation.setText(addr.split("\n")[1]);
+//				tvLandMark.setText(addr.split("\n")[2]);
+//				+ obj.getStreet() + "," + obj.getCity() + "," + obj.getRegion() + "," + "India" + "," + obj.getPostcode();
+//				holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() +","+ obj.getStreet() + "," + obj.getCity() + "," + obj.getRegion() + "," + "India" + "," + obj.getPostcode());
+
+
 			}
 //			else{
 //				holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() + obj.getStreet() + "," + obj.getCity() + ","+obj.getState()+","+"India"+","+obj.getPostcode());
