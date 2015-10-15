@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.sakshay.grocermax.BaseActivity;
@@ -129,6 +130,9 @@ public class SearchLoader extends AsyncTask<String, String, String> {
     			((BaseActivity)context).dismissDialog();
 //				UtilityMethods.getInstance().dismissDialog();
     			UtilityMethods.customToast(jsonObject.getString("Result"), context);
+				if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+					BaseActivity.bBack = true;
+				}
     			return;	
     		}
 

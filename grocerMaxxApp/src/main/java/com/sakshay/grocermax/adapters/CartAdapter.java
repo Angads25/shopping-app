@@ -18,8 +18,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.internal.SessionTracker;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.CartProductList;
@@ -42,6 +44,7 @@ public class CartAdapter extends BaseAdapter{
 	Activity activity;
 	private LayoutInflater inflater = null;
 	int positionIndex = 0;                       //delete and add product of clone cart after confirm deletion in CartProductList onResponse()
+	public static ArrayList<String> alOutOfStockId = new ArrayList<String>();
 	//ArrayList<CartDetail> cartBean;
 
 	public CartAdapter(Activity activity) {
@@ -116,6 +119,9 @@ public class CartAdapter extends BaseAdapter{
 			holder.delete_item = (ImageView) convertView.findViewById(R.id.cancel_image);
 			holder.llCancel = (LinearLayout) convertView.findViewById(R.id.ll_cancel);
 
+			holder.rlOutofStock = (RelativeLayout) convertView.findViewById(R.id.rl_out_of_stock);
+			holder.llPlusMinus = (LinearLayout) convertView.findViewById(R.id.llplusminus);
+
 			convertView.setTag(holder);
 		}else {
 			holder = (ViewHolder) convertView.getTag();
@@ -132,6 +138,24 @@ public class CartAdapter extends BaseAdapter{
 		holder.tv_quantity.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 
 		final CartDetail obj = getItem(position);
+
+
+
+		if(obj.getStatus().equals("1")){  //product available
+			holder.rlOutofStock.setVisibility(View.GONE);
+			holder.rlOutofStock.setEnabled(true);
+		}else{                            //product not available
+			holder.rlOutofStock.setVisibility(View.VISIBLE);
+			holder.rlOutofStock.setEnabled(false);
+//			alOutOfStockId.add(CartProductList.cartList.get(position).getItem_id());
+//			if(UtilityMethods.isInternetAvailable(activity)){
+				if(CartProductList.getInstance().place_order != null && CartProductList.getInstance().update_cart != null) {
+					CartProductList.getInstance().place_order.setVisibility(View.GONE);
+					CartProductList.getInstance().update_cart.setVisibility(View.VISIBLE);
+				}
+			}
+//		}
+
 //		holder.prod_brand_name.setText(obj.getBrand());
 		holder.prod_brand_name.setText(obj.getBrand());
 //		holder.prod_brand_name.setText(obj.getName());
@@ -450,6 +474,9 @@ public class CartAdapter extends BaseAdapter{
 //		TextView price,amount,tv_quantity,;
 		ImageView prod_image, increase_quantity,decrease_quantity, delete_item;
 		LinearLayout llCancel;
+		RelativeLayout rlOutofStock;
+		LinearLayout llPlusMinus;
+
 	}
 
 	public void updateList(ArrayList<CartDetail> cartBean)

@@ -31,7 +31,8 @@ public class CartDetail extends BaseResponseBean implements Serializable,Parcela
 
 	@Expose
 	private String mrp;
-	
+	@Expose
+	private String Status;
 	@Expose
 	private String p_brand;
 	@Expose
@@ -40,6 +41,12 @@ public class CartDetail extends BaseResponseBean implements Serializable,Parcela
 	private String p_pack;
 	@Expose
 	private String promotion_level;
+
+	public String getStatus(){
+		return Status;
+	}
+
+	public void setStatus(String status){  this.Status = status;  }
 
 	public String getBrand(){
 		return p_brand;
@@ -148,6 +155,7 @@ public class CartDetail extends BaseResponseBean implements Serializable,Parcela
 		mrp = in.readString();
 		no_discount = in.readString();
 		product_thumbnail = in.readString();
+		Status = in.readString();
     }
 
     @Override
@@ -169,6 +177,7 @@ public class CartDetail extends BaseResponseBean implements Serializable,Parcela
         dest.writeString(mrp);
 		dest.writeString(no_discount);
         dest.writeString(product_thumbnail);
+		dest.writeString(Status);
     }
 
     @SuppressWarnings("unused")

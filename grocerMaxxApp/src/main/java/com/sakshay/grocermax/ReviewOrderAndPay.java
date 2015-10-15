@@ -43,6 +43,7 @@ import com.sakshay.grocermax.bean.FinalCheckoutBean;
 import com.sakshay.grocermax.bean.OrderReviewBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
+import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.AppConstants.ToastConstant;
 import com.sakshay.grocermax.utils.CustomFonts;
 import com.sakshay.grocermax.utils.MyHttpUtils;
@@ -824,7 +825,6 @@ public class ReviewOrderAndPay extends BaseActivity
             				e.printStackTrace();
             			}*/
 
-
 							// set the hash values here.
 
 							if (response.has("Result")) {
@@ -952,7 +952,14 @@ public class ReviewOrderAndPay extends BaseActivity
 					// Toast.makeText(this, "Failed-ishan" + data.getStringExtra("result"), Toast.LENGTH_LONG).show();
 
 					showDialog();
-					myApi.reqSetOrderStatus(UrlsConstants.SET_ORDER_STATUS+order_db_id);
+//					myApi.reqSetOrderStatus(UrlsConstants.SET_ORDER_STATUS+order_db_id);
+
+					String url = UrlsConstants.SET_ORDER_STATUS;
+					JSONObject jsonObject = new JSONObject();
+					jsonObject.put("status","canceled");
+					jsonObject.put("orderid",order_db_id);
+					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME, AppConstants.ToastConstant.VERSION);
+					myApi.reqSetOrderStatus(url, jsonObject);
 
 //                }
 				}

@@ -259,8 +259,6 @@ public abstract class BaseActivity extends FragmentActivity {
 
 		}
 
-
-
 	}
 
 

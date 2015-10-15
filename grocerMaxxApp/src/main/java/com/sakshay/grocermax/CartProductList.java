@@ -3,6 +3,7 @@ package com.sakshay.grocermax;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -183,9 +184,21 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				if (cartBean != null) {
 					float saving = 0;
 
+					int totalcount = 0;
 					for (int i = 0; i < cartList.size(); i++) {
 						saving = saving + (cartList.get(i).getQty() * (Float.parseFloat(cartList.get(i).getMrp()) - Float.parseFloat(cartList.get(i).getPrice())));
+						totalcount += cartBean.getItems().get(i).getQty();
 					}
+
+					System.out.println(totalcount+"==size is========="+cartList.size());
+					try {
+//						cart_count_txt.setText(String.valueOf(totalcount));
+//						MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(totalcount));
+						MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(totalcount));
+						BaseActivity.cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
+					} catch (Exception e) {
+					}
+
 					//float discount=Float.parseFloat(cartBean.getSubTotal())-Float.parseFloat(cartBean.getGrandTotal());
 					saving = saving - (Float.parseFloat(orderReviewBean.getDiscount_amount()));
 //		    tv_yousave.setText("Rs."+String.format("%.2f",saving));
@@ -216,10 +229,12 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 //					if(tvCartItemCount != null) {
 //						tvCartItemCount.setText(String.valueOf(cartList.size()));
 //					}
-					if (MySharedPrefs.INSTANCE.getTotalItem() != null) {
-						MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int) Float.parseFloat(cartBean.getItems_qty())));
-						cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
-					}
+
+
+//					if (MySharedPrefs.INSTANCE.getTotalItem() != null) {
+//						MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int) Float.parseFloat(cartBean.getItems_qty())));
+//						cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
+//					}
 
 					//cart_count_txt.setText(cartBean.getItems_count());
 
@@ -677,6 +692,43 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 						jsonArray.put(Integer.parseInt(s1));
 					}
 				}
+//				if(sbDeleteProdId.length() > 0) {
+//					String sd[] = sbDeleteProdId.toString().split(",");
+//					for (int k = 0; k < sd.length; k++) {
+//						String s1 = sd[k];
+//						if(CartAdapter.alOutOfStockId.size() > 0) {
+////							boolean boutofstock = false;
+////							for(int i=0;i<CartAdapter.alOutOfStockId.size();i++){
+////
+////							}
+//						    Iterator<String> iterator = CartAdapter.alOutOfStockId.iterator();
+//     						while (iterator.hasNext()) {
+//								for (Iterator<String> iteratorvalue = CartAdapter.alOutOfStockId.iterator(); iterator.hasNext(); ) {
+//									String string = iteratorvalue.next();
+//									if (string.isEmpty()) {
+//										// Remove the current element from the iterator and the list.
+//										iteratorvalue.remove();
+//										jsonArray.put(Integer.parseInt(s1));
+//										System.out.println("=======Inner Loop========"+s1);
+//									}
+//								}
+//							}
+//						}else {
+//							jsonArray.put(Integer.parseInt(s1));
+//						}
+//
+//						if(CartAdapter.alOutOfStockId.size() > 0) {
+//							for(int i=0;i<CartAdapter.alOutOfStockId.size();i++){
+//								jsonArray.put(Integer.parseInt(CartAdapter.alOutOfStockId.get(i).toString()));
+//								System.out.println("=======Outer Loop========" + s1);
+//							}
+//						}
+//
+//					}
+//				}
+//				System.out.println("============JsonaRRAY value is============="+jsonArray);
+
+
 				jsonObject.put("userid", strUserIdtemp);
 				jsonObject.put("productid", jsonArray);
 				jsonObject.put("quote_id", strQuoteIdtemp);
@@ -685,11 +737,13 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				{
 					if(Float.parseFloat(cartList.get(i).getPrice())!=0)
 					{
-						JSONObject prod_obj = new JSONObject();
-						prod_obj.put("productid", cartList.get(i).getItem_id());
-						prod_obj.put("quantity", cartList.get(i).getQty());
-						System.out.println(cartList.get(i).getQty()+"==qty===item id=="+cartList.get(i).getItem_id());
-						products1.put(prod_obj);
+						if(cartList.get(i).getStatus().equals("1")) {                                //products available
+							JSONObject prod_obj = new JSONObject();
+							prod_obj.put("productid", cartList.get(i).getItem_id());
+							prod_obj.put("quantity", cartList.get(i).getQty());
+							System.out.println(cartList.get(i).getQty() + "==qty===item id==" + cartList.get(i).getItem_id());
+							products1.put(prod_obj);
+						}
 					}
 				}
 				jsonObject.put("updateid", products1);
@@ -769,7 +823,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				////////////////POST/////////////
 				String strurl = UrlsConstants.NEW_BASE_URL+"deleteitem";
 				JSONObject jsonObject = new JSONObject();
-				jsonObject.put("userid", strUserId);
 
 				JSONArray jsonArray = new JSONArray();
 				if(sbDeleteProdId.length() > 0) {
@@ -780,6 +833,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					}
 				}
 
+				jsonObject.put("userid", strUserId);
 				jsonObject.put("productid", jsonArray);
 				jsonObject.put("quote_id", strQuoteId);
 				JSONArray products1 = new JSONArray();

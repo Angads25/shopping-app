@@ -2,6 +2,7 @@ package com.sakshay.grocermax;
 
 import android.app.Activity;
 import android.graphics.Rect;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -32,6 +33,7 @@ public class KeyboardStatusDetector {
                     int heightDiff = v.getRootView().getHeight() - (r.bottom - r.top);
                     if (heightDiff > 100) { // if more than 100 pixels, its probably a keyboard...
                         /** Check this variable to debounce layout events */
+
                         if (!keyboardVisible) {
                             keyboardVisible = true;
                             if (visibilityListener != null)

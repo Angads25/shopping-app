@@ -204,6 +204,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ll_address_part1"
+            android:orientation="horizontal"
             android:layout_below="@+id/rl_addr_name">
 
             <TextView
@@ -228,7 +229,7 @@
 
             <TextView
                 android:id="@+id/address1"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textColor="@color/pallete_black"

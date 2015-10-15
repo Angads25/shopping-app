@@ -21,6 +21,7 @@ import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
+import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.UrlsConstants;
 import com.sakshay.grocermax.utils.UtilityMethods;
 
@@ -96,7 +97,7 @@ public class PayTMActivity extends BaseActivity
 //	        	String respmsg = inResponse.getString("RESPMSG");
 //	        	Log.i("Kushal", respmsg);
 //	        	//onTransactionSuccess :Bundle[{GATEWAYNAME=WALLET, PAYMENTMODE=PPI, TXNDATE=2015-02-19 17:01:42.0, STATUS=TXN_SUCCESS, MID=sumjkE62398232705701, CURRENCY=INR, ORDERID=5384643, TXNID=70013, IS_CHECKSUM_VALID=N, TXNAMOUNT=100.00, BANKTXNID=CC9795B5013489B9, BANKNAME=, RESPMSG=Txn Successful., RESPCODE=01, CHECKSUMHASH=8liiSa0uQ0S1lCALiQA3FsyQx6xMey9m8VrF+WZu1tTxG+72c3bU1UYZZg+j/UMS5w9F8iHXq051G4/XtVe4L7FSTk5PGnQpp4r6+QkuyWM=}]
-
+				try {
 					String strTXNid = inResponse.getString("TXNID");
 					String strBankTXNid = inResponse.getString("BANKTXNID");
 					String strOrderId = inResponse.getString("ORDERID");
@@ -120,15 +121,16 @@ public class PayTMActivity extends BaseActivity
 							+ strStatus + "=" + strTXNtype + "=" + strCurrency + "=" + strGatewayName + "=" + strResponseCode + "=" + strResponseMsg + "="
 							+ strBankName + "=" + strMID + "=" + strPaymentMode + "=" + strRefundAmount + "=" + strTXNdate + "=" + strIsCheckSumValid + "===");
 
-
-
 					showDialog();
-					myApi.reqSetOrderStatusPaytmSuccess(UrlsConstants.SET_PAYTM_ORDER_STATUS_SUCCESS + order_db_id);
+//					myApi.reqSetOrderStatusPaytmSuccess(UrlsConstants.SET_PAYTM_ORDER_STATUS_SUCCESS + order_db_id);
 
-//					String url = UrlsConstants.SET_PAYTM_ORDER_STATUS_SUCCESS;
-//					JSONObject jsonObject = new JSONObject();
-//					jsonObject.put("",order_db_id);
-//					myApi.reqSetOrderStatusPaytmSuccess(url,jsonObject);
+					String url = UrlsConstants.SET_PAYTM_ORDER_STATUS_SUCCESS;
+					JSONObject jsonObject = new JSONObject();
+					jsonObject.put("status","success");
+					jsonObject.put("orderid",order_db_id);
+					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+					myApi.reqSetOrderStatusPaytmSuccess(url, jsonObject);
+				}catch(Exception e){}
 
 				}
 
@@ -139,40 +141,43 @@ public class PayTMActivity extends BaseActivity
 //	        	String respmsg = inResponse.getString("RESPMSG");
 //	        	
 //	        	Log.i("Test", respmsg);
-					String strTXNid = inResponse.getString("TXNID");
-					String strBankTXNid = inResponse.getString("BANKTXNID");
-					String strOrderId = inResponse.getString("ORDERID");
-					String strTXNamount = inResponse.getString("TXNAMOUNT");
-					String strStatus = inResponse.getString("STATUS");
-					String strTXNtype = inResponse.getString("TXNTYPE");
-					String strCurrency = inResponse.getString("CURRENCY");
-					String strGatewayName = inResponse.getString("GATEWAYNAME");
-					String strResponseCode = inResponse.getString("RESPCODE");
-					String strResponseMsg = inResponse.getString("RESPMSG");
-					String strBankName = inResponse.getString("BANKNAME");
-					String strMID = inResponse.getString("MID");                         //grocer28494183264317
-					String strPaymentMode = inResponse.getString("PAYMENTMODE");
-					String strRefundAmount = inResponse.getString("REFUNDAMT");
-					String strTXNdate = inResponse.getString("TXNDATE");
-					String strIsCheckSumValid = inResponse.getString("IS_CHECKSUM_VALID");
+					try {
+						String strTXNid = inResponse.getString("TXNID");
+						String strBankTXNid = inResponse.getString("BANKTXNID");
+						String strOrderId = inResponse.getString("ORDERID");
+						String strTXNamount = inResponse.getString("TXNAMOUNT");
+						String strStatus = inResponse.getString("STATUS");
+						String strTXNtype = inResponse.getString("TXNTYPE");
+						String strCurrency = inResponse.getString("CURRENCY");
+						String strGatewayName = inResponse.getString("GATEWAYNAME");
+						String strResponseCode = inResponse.getString("RESPCODE");
+						String strResponseMsg = inResponse.getString("RESPMSG");
+						String strBankName = inResponse.getString("BANKNAME");
+						String strMID = inResponse.getString("MID");                         //grocer28494183264317
+						String strPaymentMode = inResponse.getString("PAYMENTMODE");
+						String strRefundAmount = inResponse.getString("REFUNDAMT");
+						String strTXNdate = inResponse.getString("TXNDATE");
+						String strIsCheckSumValid = inResponse.getString("IS_CHECKSUM_VALID");
 
-					System.out.println(strTXNid + "==failure==" + strBankTXNid + "=" + strOrderId + "=" + strTXNamount + "="
-							+ strStatus + "=" + strTXNtype + "=" + strCurrency + "=" + strGatewayName + "=" + strResponseCode + "=" + strResponseMsg + "="
-							+ strBankName + "=" + strMID + "=" + strPaymentMode + "=" + strRefundAmount + "=" + strTXNdate + "=" + strIsCheckSumValid + "===");
+						System.out.println(strTXNid + "==failure==" + strBankTXNid + "=" + strOrderId + "=" + strTXNamount + "="
+								+ strStatus + "=" + strTXNtype + "=" + strCurrency + "=" + strGatewayName + "=" + strResponseCode + "=" + strResponseMsg + "="
+								+ strBankName + "=" + strMID + "=" + strPaymentMode + "=" + strRefundAmount + "=" + strTXNdate + "=" + strIsCheckSumValid + "===");
 
 //					finish();
-					UtilityMethods.customToast("Sorry, Payment Failed",mContext);
-					showDialog();
-					myApi.reqSetOrderStatus(UrlsConstants.SET_ORDER_STATUS + order_db_id);
 
-//					String url = UrlsConstants.SET_ORDER_STATUS;
-//					JSONObject jsonObject = new JSONObject();
-//					jsonObject.put("",order_db_id);
-//					myApi.reqSetOrderStatusPaytmSuccess(url, jsonObject);
+						UtilityMethods.customToast("Sorry, Payment Failed", mContext);
+						showDialog();
+//						myApi.reqSetOrderStatus(UrlsConstants.SET_ORDER_STATUS + order_db_id);
 
+					String url = UrlsConstants.SET_ORDER_STATUS;          //cancel
+					JSONObject jsonObject = new JSONObject();
+					jsonObject.put("status","canceled");
+					jsonObject.put("orderid",order_db_id);
+					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+					myApi.reqSetOrderStatus(url, jsonObject);
+					}catch(Exception e){}
 
 				}
-
 
 				@Override
 				public void clientAuthenticationFailed(String inErrorMessage) {

@@ -220,13 +220,15 @@ public class UrlsConstants {
 	public final static String GET_ORDER_STATUS = NEW_BASE_URL
 			+ "getstatus?orderid=";
 
-	public final static String SET_ORDER_STATUS = NEW_BASE_URL
-			+ "setstatus?status=canceled&orderid=";
 //	public final static String SET_ORDER_STATUS = NEW_BASE_URL
-//			+ "setstatus";
+//			+ "setstatus?status=canceled&orderid=";
+	public final static String SET_ORDER_STATUS = NEW_BASE_URL                  //used in paytn amd payu failure
+			+ "setstatus";
 
+//	public final static String SET_PAYTM_ORDER_STATUS_SUCCESS = NEW_BASE_URL
+//			+ "setstatus?status=success&orderid=";
 	public final static String SET_PAYTM_ORDER_STATUS_SUCCESS = NEW_BASE_URL
-			+ "setstatus?status=success&orderid=";
+		+ "setstatus";
 
 	public final static String GET_MOBILE_HASH = NEW_BASE_URL
 			+ "getmobilehash?";
