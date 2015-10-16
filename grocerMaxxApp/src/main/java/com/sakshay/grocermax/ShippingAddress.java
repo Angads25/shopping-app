@@ -1,6 +1,7 @@
 package com.sakshay.grocermax;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,8 +95,6 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
 
     ImageView billingDropDown;
 
-
-
     Button btn1TimeSlot,btn2TimeSlot,btn3TimeSlot,btn4TimeSlot;
     RelativeLayout rl1,rl2,rl3,rl4;
 
@@ -145,11 +144,13 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
             addressList = new ArrayList<Address>();
 
             for(int i=0;i<address_obj.getAddress().size();i++) {
+                System.out.println(LocationActivity.strSelectedState+"======"+ LocationActivity.strSelectedCity);
 //                if(address_obj.getAddress().get(i).getDefaultShipping().equals("true")) {
                 if(address_obj.getAddress().get(i).getCity().equalsIgnoreCase(LocationActivity.strSelectedCity) &&
                         address_obj.getAddress().get(i).getRegion().equalsIgnoreCase(LocationActivity.strSelectedState)){
                     addressList.add(address_obj.getAddress().get(i));
                 }
+
             }
 
 //		/*addActionsInFilter(MyReceiverActions.FINAL_CHECKOUT);*/

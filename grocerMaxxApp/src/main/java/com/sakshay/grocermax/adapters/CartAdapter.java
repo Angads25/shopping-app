@@ -25,6 +25,7 @@ import com.facebook.internal.SessionTracker;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.CartProductList;
+import com.sakshay.grocermax.LocationActivity;
 import com.sakshay.grocermax.MyApplication;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.UpdateCartbg;
@@ -126,6 +127,18 @@ public class CartAdapter extends BaseAdapter{
 		}else {
 			holder = (ViewHolder) convertView.getTag();
 		}
+
+		if(LocationActivity.densityPhone <= 1.5){
+			holder.delete_item.getLayoutParams().height = 35;
+			holder.delete_item.getLayoutParams().width = 30;
+		}else if(LocationActivity.densityPhone <= 2.0){
+			holder.delete_item.getLayoutParams().height = 50;
+			holder.delete_item.getLayoutParams().width = 40;
+		}else{
+			holder.delete_item.getLayoutParams().height = 70;
+			holder.delete_item.getLayoutParams().width = 60;
+		}
+
 
 		holder.prod_brand_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
 		holder.prod_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));

@@ -121,6 +121,16 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 //    		}
     		
     		System.out.print("==Result=="+result);
+
+			if(result == null){
+				((BaseActivity)context).dismissDialog();
+				UtilityMethods.customToast("Problem Occured", context);
+				if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+					BaseActivity.bBack = true;
+				}
+				return;
+			}
+
     		JSONObject jsonObject = new JSONObject(result);
     		if(jsonObject.getString("Result").equalsIgnoreCase("Categories Found")){
     			
@@ -128,7 +138,6 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 
     		if(jsonObject.getString("Result").equalsIgnoreCase("No Result Found")){
     			((BaseActivity)context).dismissDialog();
-//				UtilityMethods.getInstance().dismissDialog();
     			UtilityMethods.customToast(jsonObject.getString("Result"), context);
 				if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
 					BaseActivity.bBack = true;
