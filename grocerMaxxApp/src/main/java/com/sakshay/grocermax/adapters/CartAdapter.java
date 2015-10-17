@@ -344,7 +344,9 @@ public class CartAdapter extends BaseAdapter{
 					}else{                                 //shipping and billing charges
 //						totalPriceYouPay += 50;
 //						CartProductList.getInstance().tv_shipping.setText("Rs.50.0");
-						CartProductList.getInstance().tv_shipping.setText(orderReviewBean.getShipping_ammount());
+//						CartProductList.getInstance().tv_shipping.setText(orderReviewBean.getShipping_ammount());
+						CartProductList.getInstance().tv_shipping.setText("Rs."+String.format("%.2f",Float.parseFloat(orderReviewBean.getShipping_ammount())));
+
 					}
 
 //  				    CartProductList.getInstance().tv_grandTotal.setText("Rs."+String.valueOf(totalPriceYouPay));
@@ -429,7 +431,9 @@ public class CartAdapter extends BaseAdapter{
 						}else{                                 //shipping and billing charges
 //						totalPriceYouPay += 50;
 //						CartProductList.getInstance().tv_shipping.setText("Rs.50.0");
-							CartProductList.getInstance().tv_shipping.setText(orderReviewBean.getShipping_ammount());
+
+//						CartProductList.getInstance().tv_shipping.setText(orderReviewBean.getShipping_ammount());
+						CartProductList.getInstance().tv_shipping.setText("Rs."+String.format("%.2f",Float.parseFloat(orderReviewBean.getShipping_ammount())));
 						}
 
 //				    CartProductList.getInstance().tv_grandTotal.setText("Rs."+String.valueOf(totalPriceYouPay));
@@ -548,7 +552,8 @@ public class CartAdapter extends BaseAdapter{
 			}else{                                 //shipping and billing charges
 //				sub_totalPriceYouPay += 50;
 //				CartProductList.getInstance().tv_shipping.setText("Rs.50.0");
-				CartProductList.getInstance().tv_shipping.setText(orderReviewBean.getShipping_ammount());
+//				CartProductList.getInstance().tv_shipping.setText(orderReviewBean.getShipping_ammount());
+				CartProductList.getInstance().tv_shipping.setText("Rs."+String.format("%.2f",Float.parseFloat(orderReviewBean.getShipping_ammount())));
 			}
 
 //		    CartProductList.getInstance().tv_grandTotal.setText("Rs."+String.valueOf(totalPriceYouPay));

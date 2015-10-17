@@ -409,14 +409,14 @@ public class ChooseAddress extends BaseActivity implements OnClickListener{
 //
 //				View view = inflater.inflate(R.layout.item_cat_main, null);
 //
-//				LinearLayout llTimeSlot = (LinearLayout) findViewById(R.id.ll_date_slot);
+//				LinearLayout llTimeSlot = (LinearLayout) findViewById(R.id.ll_date_slot);                //main layout for adding
 //				for (int i = 0; i < date_list.size() / 2; i++) {
 //					tempInt++;
-//					View oneLineView = inflater.inflate(R.layout.date_slot, null, false);
+//					View oneLineView = inflater.inflate(R.layout.date_slot, null, false);                  //this layout being add in main layout
 //
-//					llTop = (LinearLayout) oneLineView.findViewById(R.id.one_line_top);
+//					llTop = (LinearLayout) oneLineView.findViewById(R.id.one_line_top);                   //top parent of layout being added in main layout
 //
-//					LinearLayout llLeft = (LinearLayout) oneLineView.findViewById(R.id.ll_left_1_line);
+//					LinearLayout llLeft = (LinearLayout) oneLineView.findViewById(R.id.ll_left_1_line);     //main left view
 //					llLeft.setVisibility(View.VISIBLE);
 //					imgDateSlot[tempInt] = (ImageView) oneLineView.findViewById(R.id.iv_left_1_one_line);
 //					tvDateSlot[tempInt] = (TextView) oneLineView.findViewById(R.id.tv_right_1_one_line);
@@ -437,7 +437,7 @@ public class ChooseAddress extends BaseActivity implements OnClickListener{
 //
 //					tempInt++;
 //
-//					LinearLayout llRight = (LinearLayout) oneLineView.findViewById(R.id.ll_right_1_line);
+//					LinearLayout llRight = (LinearLayout) oneLineView.findViewById(R.id.ll_right_1_line);       //main right view
 //					llRight.setVisibility(View.VISIBLE);
 //					imgDateSlot[tempInt] = (ImageView) oneLineView.findViewById(R.id.iv_left_2_line);
 //					tvDateSlot[tempInt] = (TextView) oneLineView.findViewById(R.id.tv_right_2_line);

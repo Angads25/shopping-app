@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp" >
+
+    <LinearLayout
+        android:id="@+id/ll_sub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:weightSum="3" >
+
+
+    <TextView
+        android:id="@+id/tv_first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_14"
+        android:text="first"
+        android:singleLine="true"
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="10dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/tv_second"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_14"
+        android:text="second"
+        android:singleLine="true"
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="10dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/tv_third"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_14"
+        android:text="third"
+        android:singleLine="true"
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="10dp"
+        android:layout_weight="1" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
+

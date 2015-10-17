@@ -211,7 +211,8 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			}
 			else
 				ll_discount.setVisibility(View.VISIBLE);*/
-					tv_shipping.setText("Rs." + Float.parseFloat(orderReviewBean.getShipping_ammount()));
+//					tv_shipping.setText("Rs." + Float.parseFloat(orderReviewBean.getShipping_ammount()));
+					tv_shipping.setText("Rs."+String.format("%.2f", Float.parseFloat(orderReviewBean.getShipping_ammount())));
 
 			if(Float.parseFloat(orderReviewBean.getShipping_ammount())==0)
 			{
@@ -924,7 +925,8 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					tv_subTotal.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getSubTotal())));
 					tv_discount.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getDiscount_amount())));
 					tvSavePrice.setText("Rs." + String.format("%.2f", saving));
-					tv_shipping.setText("Rs." + Float.parseFloat(orderReviewBean.getShipping_ammount()));
+//					tv_shipping.setText("Rs." + Float.parseFloat(orderReviewBean.getShipping_ammount()));
+					tv_shipping.setText("Rs."+String.format("%.2f", Float.parseFloat(orderReviewBean.getShipping_ammount())));
 //				tv_grandTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(cartBean.getGrandTotal())));
 					tv_grandTotal.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getGrandTotal())));
 //					if(tvCartTotalTop != null){
