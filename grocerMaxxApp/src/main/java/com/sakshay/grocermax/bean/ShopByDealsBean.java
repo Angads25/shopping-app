@@ -11,6 +11,34 @@ public class ShopByDealsBean implements Serializable{
     public String Result, flag;
     public ArrayList<ShopByDealModel> deal_type = new ArrayList<>();
 
+    public String name;
+    public String linkurl;
+    public String imageurl;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLinkurl() {
+        return linkurl;
+    }
+
+    public void setLinkurl(String linkurl) {
+        this.linkurl = linkurl;
+    }
+
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
+    }
+
     public String getResult() {
         return Result;
     }

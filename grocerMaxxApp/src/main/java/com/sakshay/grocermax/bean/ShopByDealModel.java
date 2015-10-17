@@ -1,9 +1,11 @@
 package com.sakshay.grocermax.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Nawab on 26-09-2015.
  */
-public class ShopByDealModel {
+public class ShopByDealModel implements Serializable{
     String id,dealType,img;
 
     public String getId() {

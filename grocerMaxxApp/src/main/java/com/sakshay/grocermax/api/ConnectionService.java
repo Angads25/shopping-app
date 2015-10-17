@@ -120,8 +120,6 @@ public class ConnectionService extends IntentService {
 				Log.i(TAG, "URL::" + urlString);
 			}
 			
-			
-			
 //			Bundle bun = intent.getExtras();
 //			System.out.println("===bundle===="+bun);
 //			if(bun != null){
@@ -131,7 +129,6 @@ public class ConnectionService extends IntentService {
 //					System.out.println("===jsonObject 11s===="+jsonObject);
 //				}
 //			}
-		    
 			
 			if(intent.getSerializableExtra(JSON_OBJECT) != null){
 				jsonObject = (JSONObject)intent
@@ -146,6 +143,10 @@ public class ConnectionService extends IntentService {
 						.getSerializableExtra(PAIRS);
 				if (AppConstants.DEBUG) {
 					Log.i(TAG, "HASHMAP::" + mHashMap);
+//					String str1 = mHashMap.get("first");
+//					String str2 = mHashMap.get("second");
+//					String str3 = mHashMap.get("third");
+//					String str4 = mHashMap.get("fourth");
 				}
 			}
 			if (intent.getSerializableExtra(JSON_STRING) != null) {
@@ -347,6 +348,11 @@ public class ConnectionService extends IntentService {
 //		try {
 
 			switch (type) {
+//				case MyParserType.SEARCH_BY_CATEGORY:
+//					bundle.putSerializable(RESPONSE,
+//							(Serializable) ConnectionServiceParser
+//									.parseSearchResponse(response));
+//					break;
 				case MyParserType.LOGIN:
 					bundle.putSerializable(RESPONSE,
 							(Serializable) ConnectionServiceParser
@@ -402,6 +408,18 @@ public class ConnectionService extends IntentService {
 							(Serializable) ConnectionServiceParser
 									.parseProductResponse(response));
 					break;
+//				case MyParserType.DEAL_PRODUCT_LIST:
+//					bundle.putSerializable(RESPONSE,
+//							(Serializable) ConnectionServiceParser
+//									.parseDeal(response));
+//					break;
+				case MyParserType.PRODUCT_LISTING_BY_DEALTYPE:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser
+									.parseDeal(response));
+					break;
+
+
 				case MyParserType.PRODUCT_CONTENT_LIST:
 					bundle.putSerializable(RESPONSE,
 							(Serializable) ConnectionServiceParser
@@ -477,6 +495,10 @@ public class ConnectionService extends IntentService {
 				case MyParserType.GET_SET_ORDERSTATUS:
 					bundle.putSerializable(RESPONSE, (Serializable) response);
 					break;
+				case MyParserType.SET_PAYTM_ORDER_STATUS_SUCCESS:                            //paytm success
+					bundle.putSerializable(RESPONSE, (Serializable) response);
+					break;
+
 			}
 
 //		}

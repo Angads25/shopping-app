@@ -71,8 +71,11 @@ public final class ProductListFragments extends Fragment implements OnScrollList
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
     	super.onActivityCreated(savedInstanceState);
-    	categoryTabs = ((CategoryTabs)getActivity());
-    	
+		try{
+    		categoryTabs = ((CategoryTabs)getActivity());
+		}catch(Exception e){
+			new GrocermaxBaseException("ProductListFragments","onActivityCreated",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+		}
     }
     
     @Override
@@ -85,7 +88,7 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 				cat_id = savedInstanceState.getString("cat_id");
 			}
 			}catch(Exception e){
-				new GrocermaxBaseException("ProductListFragments","onStart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+				new GrocermaxBaseException("ProductListFragments","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 			}
     }
 
@@ -93,16 +96,16 @@ public final class ProductListFragments extends Fragment implements OnScrollList
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	View view = inflater.inflate(R.layout.fragment_categoty_list, container, false);
     	try{
-    	main_lay = (LinearLayout) view.findViewById(R.id.main_lay);
-    	progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-    	
-    	main_lay.setVisibility(View.GONE);
-    	progressBar.setVisibility(View.VISIBLE);
-    	
-    	mList = (ListView) view.findViewById(R.id.category_list);
-    	footerView = (LinearLayout) view.findViewById(R.id.load_more_progressBar);
-    	
-		mList.setOnItemClickListener(new OnItemClickListener() {
+			main_lay = (LinearLayout) view.findViewById(R.id.main_lay);
+			progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+
+			main_lay.setVisibility(View.GONE);
+			progressBar.setVisibility(View.VISIBLE);
+
+			mList = (ListView) view.findViewById(R.id.category_list);
+			footerView = (LinearLayout) view.findViewById(R.id.load_more_progressBar);
+
+			mList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,int position, long arg3) {
                if(CategoryTabs.clickStatus==0)

@@ -35,7 +35,8 @@ public class DealProductListingItemDetailGrid extends Fragment {
         offerList = (ArrayList<DealProductListingModel>) bundle.get(Constants.PRODUCTLIST);
         View view = inflater.inflate(R.layout.item_grid, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.gridView);
-        GridLayoutManager gridLayout = new GridLayoutManager(getActivity(), 2);
+//        GridLayoutManager gridLayout = new GridLayoutManager(getActivity(), 2);
+        GridLayoutManager gridLayout = new GridLayoutManager(getActivity(), 1);
         ProductListingAdapter optionsListAdapter = new ProductListingAdapter(getActivity(), this);
         recyclerView.setLayoutManager(gridLayout);
         recyclerView.setAdapter(optionsListAdapter);

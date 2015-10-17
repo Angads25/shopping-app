@@ -184,7 +184,6 @@ public class SplashScreen extends BaseActivity
 
 		}
 
-
 //		String jsonResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);
 //		//UtilityMethods.write("response",jsonResponse,SplashScreen.this);
 //		ArrayList<CategorySubcategoryBean> category = UtilityMethods.getCategorySubCategory(jsonResponse);
@@ -244,7 +243,6 @@ public class SplashScreen extends BaseActivity
 		});
 
 	}
-
 
 
 	}

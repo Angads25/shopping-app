@@ -53,7 +53,6 @@
             <LinearLayout
                 android:id="@+id/ll_placeholder_logoIcon_appBar"
                 android:layout_width="wrap_content"
-
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center">
@@ -219,7 +218,7 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <EditText
+                    <com.sakshay.grocermax.preference.CustomEditSearch
                         android:id="@+id/edtSearch"
                         android:layout_width="0dp"
                         android:layout_height="35dp"

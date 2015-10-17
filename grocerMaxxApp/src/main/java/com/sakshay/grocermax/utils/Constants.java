@@ -23,6 +23,8 @@ public class Constants {
 	
 	public static int cart_count = 0;
 
+	public static final String StackCartFile = "stackCart.txt";
+
 	public static boolean DEBUG = true;
 
 	public static String PKG_NAME = "com.sakshay.grocermax";
@@ -47,6 +49,7 @@ public class Constants {
 
 	public static final String SHOP_BY_CATEGORY_MODEL = "shopbycategorymodel";
 	public static final String SHOP_BY_DEALS_MODEL = "shopbydealsmodel";
+    public static final String HOME_BANNER = "homeBannermodel";
 	public static final String OFFER_BY_DEAL = "offerbydeal";
 	public static final String DEAL_BY_DEAL = "dealbydeal";
 	public static final String PRODUCTLIST = "productList";
@@ -131,9 +134,8 @@ public class Constants {
 		public static final String BILL_PHONE_VALID = "Phone number should be of 10 digit in billing address";
 		public static final String BILL_PINCODE_VALID = "Pincode should be of 6 digit in billing address";
 
-
-
-
+		public static final String INTERNET_NOT_AVAILABLE = "Internet connection seems to be offline.";
+		
 	}
 
 }

@@ -48,40 +48,43 @@ public class OneTimePassword extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.otp);
+        try{
+                Bundle bundle = getIntent().getExtras();
+                addActionsInFilter(MyReceiverActions.REGISTER_USER);
 
-        Bundle bundle = getIntent().getExtras();
-        addActionsInFilter(MyReceiverActions.REGISTER_USER);
-
-        if (bundle != null) {
-             otpDataBean = (OTPResponse)bundle.getSerializable("Otp");
-             params = bundle.getString("USER_REGISTER_DATA");
-             strEmail = bundle.getString("USER_EMAIL");
-        }
-
-        final EditText etOTP = (EditText)findViewById(R.id.et_otp);
-        Button btnOTP = (Button)findViewById(R.id.btn_submit);
-        btnOTP.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(etOTP.getText().toString().equals("")){
-                    UtilityMethods.customToast("Please enter valid otp", OneTimePassword.this);
-                    return;
+                if (bundle != null) {
+                     otpDataBean = (OTPResponse)bundle.getSerializable("Otp");
+                     params = bundle.getString("USER_REGISTER_DATA");
+                     strEmail = bundle.getString("USER_EMAIL");
                 }
-                String str = otpDataBean.getOTP();
-                String str1 = etOTP.getText().toString();
-                if(otpDataBean.getOTP().equals(etOTP.getText().toString())){
-                    if (UtilityMethods.isInternetAvailable(mContext)) {
-                        showDialog();
-                        String url = UrlsConstants.REGESTRATION_URL;
-                        url += params;
-						myApi.reqUserRegistration(url);
-                    }
-                }else{
-                    UtilityMethods.customToast("Please enter valid otp", OneTimePassword.this);
-                }
-            }
+
+                final EditText etOTP = (EditText)findViewById(R.id.et_otp);
+                Button btnOTP = (Button)findViewById(R.id.btn_submit);
+                btnOTP.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(etOTP.getText().toString().equals("")){
+                            UtilityMethods.customToast("Please enter valid otp", OneTimePassword.this);
+                            return;
+                        }
+                        String str = otpDataBean.getOTP();
+                        String str1 = etOTP.getText().toString();
+                        if(otpDataBean.getOTP().equals(etOTP.getText().toString())){
+                            if (UtilityMethods.isInternetAvailable(mContext)) {
+                                showDialog();
+                                String url = UrlsConstants.REGESTRATION_URL;
+                                url += params;
+                                myApi.reqUserRegistration(url);
+                            }
+                        }else{
+                            UtilityMethods.customToast("Please enter valid otp", OneTimePassword.this);
+                        }
+                        }
         });
-        initHeader(findViewById(R.id.header), true, null);
+            initHeader(findViewById(R.id.header), true, null);
+        }catch(Exception e){
+            new GrocermaxBaseException("OneTimePassword","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+        }
     }
 
     @Override
@@ -103,6 +106,7 @@ public class OneTimePassword extends BaseActivity {
 
     @Override
     public void OnResponse(Bundle bundle) {
+        try{
         if (bundle.getString("ACTION").equals(MyReceiverActions.REGISTER_USER)) {
             dismissDialog();
             LoginResponse userDataBean = (LoginResponse) bundle.getSerializable(ConnectionService.RESPONSE);
@@ -155,6 +159,9 @@ public class OneTimePassword extends BaseActivity {
             } else {
                 UtilityMethods.customToast(userDataBean.getResult(), mContext);
             }
+        }
+        }catch(Exception e){
+            new GrocermaxBaseException("LoginActivity","OnResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
         }
     }
 

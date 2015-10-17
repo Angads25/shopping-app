@@ -74,9 +74,9 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
     private boolean textAllBold = true;
 
     private int scrollOffset = 52;
-    private int indicatorHeight = 4;
+    private int indicatorHeight = 6;
     private int underlineHeight = 2;
-    private int dividerPadding = 12;
+    private int dividerPadding = 12;        //top and bottom vertical line
     private int tabPadding = 24;
     private int dividerWidth = 1;
 
@@ -141,6 +141,7 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
         dividerPadding = a.getDimensionPixelSize(R.styleable.PagerSlidingTabStrip_pstsDividerPadding, dividerPadding);
         tabPadding = a.getDimensionPixelSize(R.styleable.PagerSlidingTabStrip_pstsTabPaddingLeftRight, tabPadding);
         tabBackgroundResId = a.getResourceId(R.styleable.PagerSlidingTabStrip_pstsTabBackground, tabBackgroundResId);
+
         shouldExpand = a.getBoolean(R.styleable.PagerSlidingTabStrip_pstsShouldExpand, shouldExpand);
         scrollOffset = a.getDimensionPixelSize(R.styleable.PagerSlidingTabStrip_pstsScrollOffset, scrollOffset);
         textAllCaps = a.getBoolean(R.styleable.PagerSlidingTabStrip_pstsTextAllCaps, textAllCaps);
@@ -256,6 +257,7 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
             View v = tabsContainer.getChildAt(i);
 
             v.setBackgroundResource(tabBackgroundResId);
+//            v.setBackgroundColor(Color.parseColor("#ee2d09"));
 
             if (v instanceof TextView) {
 
@@ -339,8 +341,8 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
         canvas.drawRect(0, height - underlineHeight, tabsContainer.getWidth(), height, rectPaint);
 
         // draw divider
-
-        dividerPaint.setColor(dividerColor);
+//        dividerPaint.setColor(dividerColor);
+        dividerPaint.setColor(Color.parseColor("#ee2d09"));
         for (int i = 0; i < tabCount - 1; i++) {
             View tab = tabsContainer.getChildAt(i);
             canvas.drawLine(tab.getRight(), dividerPadding, tab.getRight(), height - dividerPadding, dividerPaint);
@@ -354,9 +356,12 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
 
             currentPosition = position;
             currentPositionOffset = positionOffset;
-
-            scrollToChild(position, (int) (positionOffset * tabsContainer.getChildAt(position).getWidth()));
-
+try {
+    scrollToChild(position, (int) (positionOffset * tabsContainer.getChildAt(position).getWidth()));
+}catch(Exception ex)
+{
+    ex.printStackTrace();
+}
             invalidate();
 
             if (delegatePageListener != null) {
@@ -407,14 +412,14 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
             View v = tabsContainer.getChildAt(i);
 
             v.setBackgroundResource(tabBackgroundResId);
-
+//            v.setBackgroundColor(Color.parseColor("#ee2d09"));
             if (v instanceof TextView) {
                 TextView tab = (TextView) v;
 
                 if(i == currentPosition) {
-                    tab.setTextColor(Color.parseColor("#13A3D7"));
+                    dividerPaint.setColor(Color.parseColor("#ee2d09"));
                 }else{
-                    tab.setTextColor(Color.parseColor("#484849"));
+                    dividerPaint.setColor(Color.parseColor("#ee2d09"));
                 }
             }
         }
@@ -545,10 +550,13 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
     }
 
     public void setTabBackground(int resId) {
-        this.tabBackgroundResId = resId;
+
+//        this.tabBackgroundResId = resId;
+        this.tabBackgroundResId = Color.parseColor("#ee2d09");
     }
 
-    public int getTabBackground() {
+    public int getTabBackground()
+    {
         return tabBackgroundResId;
     }
 

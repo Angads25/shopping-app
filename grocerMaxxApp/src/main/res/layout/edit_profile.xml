@@ -179,10 +179,10 @@
 
                     <ImageView
                         android:id="@+id/cb_iv_change_pwd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/checkbox_unselect" />
+                        android:src="@drawable/chkbox_unselected" />
 
 
                 <TextView

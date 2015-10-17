@@ -20,6 +20,7 @@ import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.DealByDealTypeBean;
 import com.sakshay.grocermax.bean.OfferByDealTypeBean;
 import com.sakshay.grocermax.bean.OfferByDealTypeModel;
+import com.sakshay.grocermax.bean.OfferByDealTypeSubModel;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.hotoffers.MyPagerSlidingTabStrip;
 import com.sakshay.grocermax.hotoffers.adapter.DetailListAdapter;
@@ -27,6 +28,7 @@ import com.sakshay.grocermax.utils.Constants;
 import com.sakshay.grocermax.utils.Worker;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -37,7 +39,6 @@ public class ItemDetailFragment extends Fragment {
     private static final int NUM_PAGES = 3;
     private String viewId;
     ViewPager viewPager;
-    String[] array = {"All", "Staples", "Frozen"};
     private List<String> keyList = new ArrayList<>();
     private ScreenSlidePagerAdapter mPagerAdapter;
     private MyPagerSlidingTabStrip tabs;
@@ -46,25 +47,35 @@ public class ItemDetailFragment extends Fragment {
     private boolean is_shop_by_deal = false;
     private String key;
     Worker worker;
+    ArrayList<OfferByDealTypeModel> allData;
+
+    HashMap<String,ArrayList<OfferByDealTypeSubModel>> dealcatListing;
 //    private ItemDetailGrid itemDetailGrid;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         Bundle data = getArguments();
-
 //        itemDetailGrid = new ItemDetailGrid();
         try {
             is_shop_by_deal = data.getBoolean(Constants.SHOP_BY_DEAL);
             if (is_shop_by_deal) {
             } else {
                 offerByDealTypeBean = (OfferByDealTypeBean) data.getSerializable(Constants.OFFER_BY_DEAL);
-                if (offerByDealTypeBean.getDealcategorylisting().size() > 0) {
-                    for (String key : offerByDealTypeBean.getDealcategorylisting().keySet()) {
-                        keyList.add(key);
-                    }
+                if(offerByDealTypeBean.getDealcategorylisting().getAll().size()>0)
+                {
+                    dealcatListing = new HashMap<>();
+                    keyList.add(" All ");
+                    dealcatListing.put(" All ",offerByDealTypeBean.getDealcategorylisting().getAll());
+                }
 
-                    //System.out.println("Response" + offerByDealTypeBean.getDealcategorylisting().keySet());
+                if(offerByDealTypeBean.getDealcategorylisting().getDealsCategory().size()>0)
+                {
+                    for (OfferByDealTypeModel model : offerByDealTypeBean.getDealcategorylisting().getDealsCategory())
+                    {
+                        keyList.add(model.getDealType());
+                        dealcatListing.put(model.getDealType(),model.getDeals());
+                    }
                 }
             }
         } catch (Exception e) {
@@ -114,13 +125,13 @@ public class ItemDetailFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             ItemDetailGrid fragment = new ItemDetailGrid();
-            fragment.setData(offerByDealTypeBean.getDealcategorylisting().get(keyList.get(position)));
+            fragment.setData(dealcatListing.get(keyList.get(position)));
             return fragment;
         }
 
         @Override
         public int getCount() {
-            return offerByDealTypeBean.getDealcategorylisting().size();
+            return dealcatListing.size();
         }
 
     }

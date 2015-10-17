@@ -100,9 +100,26 @@ public class SearchTabs extends BaseActivity{
 
 //			Bundle bundle = getIntent().getExtras();
 			header = "";
-			Handler handler;
-			handler = new Handler();
-			handler.postDelayed(runningThread, 0000);
+
+			FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
+			ViewPager pager = (ViewPager) findViewById(R.id.pager);
+			pager.setAdapter(adapter);
+//        pager.setOffscreenPageLimit(catObj.size());
+
+			TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
+			if(pager!=null)
+				indicator.setViewPager(pager);
+
+//			if (size > 2) {
+//				pager.setOffscreenPageLimit(2);
+//			} else {
+//				pager.setOffscreenPageLimit(size);
+//			}
+
+
+//			Handler handler;
+//			handler = new Handler();
+//			handler.postDelayed(runningThread, 0000);
 
 //			Message msg = handler.obtainMessage();
 //			handler.sendMessage(msg);
@@ -196,8 +213,8 @@ public class SearchTabs extends BaseActivity{
 //			});
 
 		}catch(Exception e){
-//			dismissDialog();
-			UtilityMethods.getInstance().dismissDialog();
+			dismissDialog();
+//			UtilityMethods.getInstance().dismissDialog();
 			new GrocermaxBaseException("SearchTabs","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 
@@ -222,32 +239,32 @@ public class SearchTabs extends BaseActivity{
 //	};
 
 
-	class MakeFragments extends AsyncTask{
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			showDialog();
-		}
-
-		@Override
-		protected Object doInBackground(Object[] params) {
-//			FragmentStatePagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
-			FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
-			ViewPager pager = (ViewPager) findViewById(R.id.pager);
-			pager.setAdapter(adapter);
-//        pager.setOffscreenPageLimit(catObj.size());
-			pager.setOffscreenPageLimit(size);
-			TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
-			indicator.setViewPager(pager);
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(Object o) {
-			super.onPostExecute(o);
-			dismissDialog();
-		}
-	}
+//	class MakeFragments extends AsyncTask{
+//		@Override
+//		protected void onPreExecute() {
+//			super.onPreExecute();
+//			showDialog();
+//		}
+//
+//		@Override
+//		protected Object doInBackground(Object[] params) {
+////			FragmentStatePagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
+//			FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
+//			ViewPager pager = (ViewPager) findViewById(R.id.pager);
+//			pager.setAdapter(adapter);
+////        pager.setOffscreenPageLimit(catObj.size());
+//			pager.setOffscreenPageLimit(size);
+//			TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
+//			indicator.setViewPager(pager);
+//			return null;
+//		}
+//
+//		@Override
+//		protected void onPostExecute(Object o) {
+//			super.onPostExecute(o);
+//			dismissDialog();
+//		}
+//	}
 
 
 
@@ -263,6 +280,8 @@ public class SearchTabs extends BaseActivity{
 				try{
 //					return SearchProductFragments.newInstance(json[position % json.length]);
 					return SearchProductFragments.newInstance(String.valueOf(json[position % json.length]));
+				}catch(IllegalStateException e){
+					new GrocermaxBaseException("SearchTabs","getItem",e.getMessage(), GrocermaxBaseException.ILLEGALSTATEEXCEPTION,"nodetail");
 				}catch(Exception e){
 					new GrocermaxBaseException("SearchTabs","getItem",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 				}
@@ -271,23 +290,26 @@ public class SearchTabs extends BaseActivity{
 
 			@Override
 			public CharSequence getPageTitle ( int position){
-				CharSequence ch = "default";            //default if error occured
 				try {
 					if (listCategoryHashMap.get(position % json.length).get(SearchLoader.TAG_CAT_NAME) != null) {
 						return listCategoryHashMap.get(position % json.length).get(SearchLoader.TAG_CAT_NAME).toUpperCase();
 					} else {
 						return listCategoryHashMap.get(position % json.length).get(SearchLoader.TAG_CAT_NAME);
 					}
+				}catch(IllegalStateException e){
+					new GrocermaxBaseException("SearchTabs","getItem",e.getMessage(), GrocermaxBaseException.ILLEGALSTATEEXCEPTION,"nodetail");
 				}catch(Exception e){
 					new GrocermaxBaseException("SearchTabs","getPageTitle",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 				}
-				return ch;                      //default if error occured
+				return "";                      //default if error occured
 			}
 
 			@Override
 			public int getCount () {
 				try {
 					return json.length;
+				}catch(IllegalStateException e){
+					new GrocermaxBaseException("SearchTabs","getItem",e.getMessage(), GrocermaxBaseException.ILLEGALSTATEEXCEPTION,"nodetail");
 				}catch(Exception e){
 					new GrocermaxBaseException("SearchTabs","getCount",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 				}
@@ -391,22 +413,33 @@ public class SearchTabs extends BaseActivity{
 
 	Runnable runningThread = new Runnable() {
 		public void run() {
-			showDialog();
-			// change UI elements here
+//			showDialog();
+			try {
+				// change UI elements here
 //			FragmentStatePagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
-			FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
-			ViewPager pager = (ViewPager) findViewById(R.id.pager);
-			pager.setAdapter(adapter);
-//        pager.setOffscreenPageLimit(catObj.size());
 
-			if(size > 3){
-				pager.setOffscreenPageLimit(3);
-			}else {
-				pager.setOffscreenPageLimit(size);
+
+//				FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
+//				ViewPager pager = (ViewPager) findViewById(R.id.pager);
+//				pager.setAdapter(adapter);
+////        pager.setOffscreenPageLimit(catObj.size());
+//
+//				TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
+//				if(pager!=null)
+//				indicator.setViewPager(pager);
+//
+//				if (size > 2) {
+//					pager.setOffscreenPageLimit(2);
+//				} else {
+//					pager.setOffscreenPageLimit(size);
+//				}
+
+//				dismissDialog();
+			}catch(IllegalStateException e){
+				new GrocermaxBaseException("SearchTabs","runningThread",e.getMessage(), GrocermaxBaseException.ILLEGALSTATEEXCEPTION,"nodetail");
+			}catch(Exception e){
+				new GrocermaxBaseException("SearchTabs","runningThread",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 			}
-			TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
-			indicator.setViewPager(pager);
-			dismissDialog();
 		}
 	};
 	
@@ -506,7 +539,6 @@ protected void onStart() {
 //		View headerView = findViewById(R.id.header);
 //		initHeader(headerView, true, searchString);
 //		UtilityMethods.getInstance().dismissDialog();
-
 
 //		EasyTracker.getInstance(this).activityStart(this);
 ////    	tracker.activityStart(this);
