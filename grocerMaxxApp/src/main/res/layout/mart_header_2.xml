@@ -267,7 +267,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="42dp"
-                    android:layout_toRightOf="@+id/tv"
                     android:background="#ffa096" />
 
                 <TextView

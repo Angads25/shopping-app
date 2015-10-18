@@ -35,6 +35,7 @@ import com.sakshay.grocermax.bean.OfferByDealTypeSubModel;
 import com.sakshay.grocermax.bean.ShopByCategoryBean;
 import com.sakshay.grocermax.bean.ShopByDealsBean;
 import com.sakshay.grocermax.hotoffers.fragment.DealProductListingItemDetailGrid;
+import com.sakshay.grocermax.hotoffers.fragment.ExpandableMenuFragment;
 import com.sakshay.grocermax.hotoffers.fragment.HomeFragment;
 import com.sakshay.grocermax.hotoffers.fragment.ItemDetailFragment;
 import com.sakshay.grocermax.hotoffers.fragment.MenuFragment;
@@ -100,15 +101,16 @@ public class HotOffersActivity extends BaseActivity {
             String response = UtilityMethods.readCategoryResponse(this, AppConstants.categoriesFile);
             catObj = UtilityMethods.getCategorySubCategory(response);
         }
-        Bundle call_bundle = new Bundle();
-        call_bundle.putSerializable("Categories", catObj);
-        call_bundle.putString("Title", "Home");
-        call_bundle.putBoolean("isListView",true);
-        MenuFragment fragment = new MenuFragment();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.menu, fragment);
-        fragment.setArguments(call_bundle);
-        fragmentTransaction.commit();
+//        Bundle call_bundle = new Bundle();
+//        call_bundle.putSerializable("Categories", catObj);
+//        call_bundle.putString("Title", "Home");
+//        call_bundle.putBoolean("isListView",true);
+//
+//        MenuFragment fragment = new MenuFragment();
+//        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.add(R.id.menu, fragment);
+//        fragment.setArguments(call_bundle);
+//        fragmentTransaction.commit();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, null, R.string.open, R.string.close) {
@@ -151,18 +153,23 @@ public class HotOffersActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
-//            getSupportFragmentManager().popBackStack();
+            if (this.getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                this.getSupportFragmentManager().popBackStack();
+            } else {
+                getDrawerLayout().closeDrawers();
+            }
         } else {
             super.onBackPressed();
         }
     }
 
-    public void setMenu(ArrayList<CategorySubcategoryBean> arrayList,String name) {
+    public void setMenu(ArrayList<CategorySubcategoryBean> arrayList, String name) {
         Bundle call_bundle = new Bundle();
         call_bundle.putSerializable("Categories", arrayList);
-        call_bundle.putString("Title",name);
-        call_bundle.putBoolean("isListView",false);
-        MenuFragment fragment = new MenuFragment();
+        call_bundle.putString("Title", name);
+        call_bundle.putSerializable(Constants.SHOP_BY_DEALS_MODEL, shopByDealsBean);
+        call_bundle.putBoolean("isListView", false);
+        ExpandableMenuFragment fragment = new ExpandableMenuFragment();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 //        fragmentTransaction.add(R.id.menu, fragment);
 //        fragment.setArguments(call_bundle);
@@ -172,7 +179,7 @@ public class HotOffersActivity extends BaseActivity {
 //        FragmentTransaction ft = manager.beginTransaction();
 //        fragmentTransaction.add(R.id.menu, fragment);
         fragmentTransaction.replace(R.id.menu, fragment, name);
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_UNSET);
         fragment.setArguments(call_bundle);
         fragmentTransaction.addToBackStack(name);
         fragmentTransaction.commit();
@@ -232,7 +239,20 @@ public class HotOffersActivity extends BaseActivity {
                     data.putSerializable(Constants.HOME_BANNER, homeBannerBean);
                     fragment.setArguments(data);
                     fragmentTransaction.commit();
+
+                    Bundle call_bundle = new Bundle();
+                    call_bundle.putSerializable("Categories", catObj);
+                    call_bundle.putSerializable(Constants.SHOP_BY_DEALS_MODEL, shopByDealsBean);
+                    call_bundle.putString("Title", "Home");
+                    call_bundle.putBoolean("isListView", true);
+                    MenuFragment fragment1 = new MenuFragment();
+                    android.support.v4.app.FragmentTransaction fragmentTransact = getSupportFragmentManager().beginTransaction();
+                    fragmentTransact.add(R.id.menu, fragment1);
+                    fragment1.setArguments(call_bundle);
+                    fragmentTransact.commit();
                 }
+
+
             } else if (action.equals(MyReceiverActions.OFFER_BY_DEALTYPE)) {
 
                 dismissDialog();
@@ -298,15 +318,21 @@ public class HotOffersActivity extends BaseActivity {
         progress.dismiss();
     }
 
+    public ShopByDealsBean getShopByDeals() {
+        return shopByDealsBean;
+    }
+
     public void hitForShopByCategory(String categoryId) {
         addActionsInFilter(MyReceiverActions.OFFER_BY_DEALTYPE);
         String url = UrlsConstants.OFFER_BY_DEAL_TYPE;
         showDialog();
         myApi.reqOfferByDealType(url + categoryId);
     }
-public DrawerLayout getDrawerLayout(){
-    return drawerLayout;
-}
+
+    public DrawerLayout getDrawerLayout() {
+        return drawerLayout;
+    }
+
     public void hitForShopByDeals(String dealId) {
         addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);
         showDialog();

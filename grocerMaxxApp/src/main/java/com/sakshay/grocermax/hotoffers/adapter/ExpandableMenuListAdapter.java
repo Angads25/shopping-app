@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
+import com.sakshay.grocermax.hotoffers.fragment.ExpandableMenuFragment;
 import com.sakshay.grocermax.hotoffers.fragment.MenuFragment;
 
 public class ExpandableMenuListAdapter extends BaseExpandableListAdapter {
@@ -98,12 +99,20 @@ public class ExpandableMenuListAdapter extends BaseExpandableListAdapter {
 		TextView lblListHeader = (TextView) convertView
 				.findViewById(R.id.item_name_parent);
 		ImageView imgArrow = (ImageView)convertView.findViewById(R.id.img_arrow_parent);
-		lblListHeader.setTypeface(null, Typeface.BOLD);
-		if(!((MenuFragment)fragment).isExpandable(groupPosition)){
+		ImageView img_arrow_parent_minus = (ImageView)convertView.findViewById(R.id.img_arrow_parent_minus);
+		if(!((ExpandableMenuFragment)fragment).isExpandable(groupPosition)){
 
 			imgArrow.setVisibility(View.GONE);
+			img_arrow_parent_minus.setVisibility(View.GONE);
 		}else{
 			imgArrow.setVisibility(View.VISIBLE);
+			if(((ExpandableMenuFragment)fragment).isExpanded(groupPosition)){
+				img_arrow_parent_minus.setVisibility(View.VISIBLE);
+				imgArrow.setVisibility(View.GONE);
+			}else{
+				imgArrow.setVisibility(View.VISIBLE);
+				img_arrow_parent_minus.setVisibility(View.GONE);
+			}
 		}
 		lblListHeader.setText(headerTitle);
 

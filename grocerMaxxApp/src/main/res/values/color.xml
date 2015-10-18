@@ -76,6 +76,8 @@
     <color name="line_color">#ededed</color>
     <color name="orange_text">#EC6523</color> 
     <color name="grey_text">#888888</color>
+    <color name="grey_dark">#afafaf</color>
+    <color name="grey_view">#2c2c2c</color>
     <color name="text_grey">#707070</color>
     <color name="teal_color">#16a6b1</color>
     <color name="teal_pressed">#00a4b0</color>

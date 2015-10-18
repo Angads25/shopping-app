@@ -39,7 +39,7 @@
             android:layout_marginLeft="30dp"
             android:layout_centerVertical="true"
             android:background="@color/transparent"
-            android:textColor="@color/small_heading_text"
+            android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_14" />
 
         <!-- TODO , please remove this as child needs no arrow-->

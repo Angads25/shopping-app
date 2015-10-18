@@ -1,5 +1,6 @@
 package com.sakshay.grocermax.hotoffers.fragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -34,9 +35,18 @@ public class HomeFragment extends Fragment {
 
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
-    private  HomeBannerBean homeBannerBean;
+    private HomeBannerBean homeBannerBean;
+    private ProgressDialog progress;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        progress = new ProgressDialog(getActivity());
+        progress.setTitle(null);
+        progress.setMessage("Please Wait");
+        progress.setCancelable(false);
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.show();
 
         Bundle bundle = this.getArguments();
         ShopByCategoryBean shopByCategoryBean = (ShopByCategoryBean) bundle.get(Constants.SHOP_BY_CATEGORY_MODEL);
@@ -73,7 +83,7 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager llm1 = new LinearLayoutManager(getActivity());
         llm1.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView2.setLayoutManager(llm1);
-
+        progress.dismiss();
         return view;
     }
 
