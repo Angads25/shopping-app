@@ -188,7 +188,7 @@ public class OrderDetail extends BaseActivity{
 	}
 
 	@Override
-	void OnResponse(Bundle bundle) {
+	public void OnResponse(Bundle bundle) {
 		dismissDialog();
 		try
 		{

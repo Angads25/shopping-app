@@ -378,7 +378,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	}
 
 	@Override
-	void OnResponse(Bundle bundle) {
+	public void OnResponse(Bundle bundle) {
 		try {
 			String action = bundle.getString("ACTION");
 			if (action.equals(MyReceiverActions.DELETE_FROM_CART)) {

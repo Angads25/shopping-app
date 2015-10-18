@@ -1355,7 +1355,7 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
 //	}
 
     @Override
-    void OnResponse(Bundle bundle) {
+    public void OnResponse(Bundle bundle) {
         String action = bundle.getString("ACTION");
         try {
             if (action.equals(MyReceiverActions.CHECKOUT_ADDRESS)) {

@@ -28,9 +28,10 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
             android:paddingTop="2dp"
-            android:visibility="visible"
+            android:visibility="gone"
             android:background="@color/transparent"
-            android:src="@drawable/categories_arrow_icon" />
+            android:src="@drawable/categories_arrow_icon"
+            />
         
         <TextView 
             android:id="@+id/item_name_childs"

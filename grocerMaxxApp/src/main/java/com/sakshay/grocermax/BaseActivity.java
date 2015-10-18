@@ -80,6 +80,7 @@ import com.sakshay.grocermax.bean.ProductListBean;
 import com.sakshay.grocermax.bean.SearchListBean;
 import com.sakshay.grocermax.bean.UserDetailBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.AppConstants.ToastConstant;
@@ -141,7 +142,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 	}
 
-	protected void initHeader(View view, boolean showSearch, String name) {
+	public void initHeader(View view, boolean showSearch, String name) {
 		try {
 			getKeyBoardVisibility();
 
@@ -207,7 +208,7 @@ public abstract class BaseActivity extends FragmentActivity {
 				}
 			} else {
 				if(tvHeaderName != null) {
-					tvHeaderName.setVisibility(View.GONE);
+					tvHeaderName.setVisibility(View.INVISIBLE);
 				}
 			}
 
@@ -277,16 +278,17 @@ public abstract class BaseActivity extends FragmentActivity {
 						finish();
 						break;
 					case R.id.icon_header_back:
-						finish();
+//						finish();
+						onBackPressed();
 						break;
 					case R.id.icon_header_logo_with_search:
-						Intent intent = new Intent(mContext, HomeScreen.class);
+						Intent intent = new Intent(mContext, HotOffersActivity.class);
 						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(intent);
 						finish();
 						break;
 					case R.id.icon_header_logo_without_search:
-						Intent intent1 = new Intent(mContext, HomeScreen.class);
+						Intent intent1 = new Intent(mContext, HotOffersActivity.class);
 						intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(intent1);
 						finish();
@@ -1072,7 +1074,7 @@ public abstract class BaseActivity extends FragmentActivity {
 
 	private ProgressDialog mProgressDialog;
 	private IntentFilter intentFilter = new IntentFilter();
-	protected static MyApi myApi;
+	public static MyApi myApi;
 	private boolean isRegister = false;
 
 	public void showDialog() {
@@ -1117,7 +1119,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 	}
 
-	protected void addActionsInFilter(String action) {
+	public void addActionsInFilter(String action) {
 		intentFilter.addAction(action);
 	}
 
@@ -1371,7 +1373,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 	};
 
-	abstract void OnResponse(Bundle bundle);
+	public abstract void OnResponse(Bundle bundle);
 
 	public void initImageLoaderM() {
 		try {

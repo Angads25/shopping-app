@@ -1078,7 +1078,7 @@ public class CreateNewAddress extends BaseActivity{
 	}
 
 	@Override
-	void OnResponse(Bundle bundle) {
+	public void OnResponse(Bundle bundle) {
 		try {
 			String action = bundle.getString("ACTION");
 			if (action.equals(MyReceiverActions.ADD_ADDRESS) || action.equals(MyReceiverActions.EDIT_ADDRESS)) {

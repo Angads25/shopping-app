@@ -8,7 +8,7 @@ import java.util.Arrays;
  * Class to Hold the AppConstants
  * */
 public class AppConstants {
-	
+	public static String strTitleHotDeal;
 	public static String token = "gpjaic0pdzqsv3jyouqsu3cd";
 	
 	public static String user_id = "61723373-785e-407d-a966-ad3b2694ceef";

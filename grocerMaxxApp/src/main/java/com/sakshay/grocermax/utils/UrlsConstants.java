@@ -1,5 +1,7 @@
 package com.sakshay.grocermax.utils;
 
+import com.sakshay.grocermax.MyApplication;
+
 /**
  * Class to Hold the Url AppConstants
  */
@@ -41,7 +43,7 @@ public class UrlsConstants {
 
 	public final static String BASE_URL = "https://grocermax.com/api/";
 	public final static String NEW_BASE_URL = "https://grocermax.com/api/";
-
+	public final static String BANNER_SEARCH_PRODUCT = NEW_BASE_URL ;
 //	public final static String BASE_URL = "http://api.grocermax.com/gmx_api.php/";
 //	public final static String NEW_BASE_URL = "http://api.grocermax.com/gmx_api.php/";
 
@@ -102,8 +104,25 @@ public class UrlsConstants {
 			+ "errorlog?error=";
 
 	//public final static String LOGIN_URL = BASE_URL + "login.php?";// uemail=suman.ditm07@gmail.com&password=XHqvaHnW
+	String PKG_NAME = MyApplication.getInstance().getPackageName();
 
+	String GET_SHOP_BY_CATEGORIES = PKG_NAME + ".get_shop_by_categories";
+	String GET_SHOP_BY_DEALS = PKG_NAME + ".get_shop_by_deals";
 
+	String OFFER_BY_DEALTYPE = PKG_NAME + ".offer_by_deal_type";
+	String DEAL_BY_DEALTYPE = PKG_NAME + ".deal_by_deal_type";
+	String PRODUCT_LISTING_BY_DEALTYPE = PKG_NAME + ".product_listing_by_deal_type";
+	public final static String OFFER_BY_DEAL_TYPE = NEW_BASE_URL+"offerbydealtype?cat_id=";
+
+	public final static String DEAL_BY_DEAL_TYPE = NEW_BASE_URL+"dealsbydealtype?deal_type_id=";
+
+	public final static String PRODUCTLISTING_BY_DEAL_TYPE = NEW_BASE_URL+"dealproductlisting?deal_id=";
+
+	public final static String SHOP_BY_DEAL_TYPE = NEW_BASE_URL + "shopbydealtype";
+
+	public final static String SHOP_BY_CATEGORY_TYPE = NEW_BASE_URL + "shopbycategory";
+
+	public final static String GET_BANNER = NEW_BASE_URL + "homebanner";
 
 	public final static String FB_LOGIN_URL = NEW_BASE_URL + "fbregister?";
 

@@ -141,7 +141,7 @@ public class OffersPromoCode extends BaseActivity implements OnClickListener{
     }
 
 	@Override
-	void OnResponse(Bundle bundle) {
+	public void OnResponse(Bundle bundle) {
 		// TODO Auto-generated method stub		
 	}
 	

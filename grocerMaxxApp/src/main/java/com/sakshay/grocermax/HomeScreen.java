@@ -487,7 +487,7 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 		}
 	}
 	@Override
-	void OnResponse(Bundle bundle) {
+	public void OnResponse(Bundle bundle) {
 		// TODO Auto-generated method stub
 		String action = bundle.getString("ACTION");
 		if (action.equals(MyReceiverActions.ALL_PRODUCTS_CATEGORY)) {

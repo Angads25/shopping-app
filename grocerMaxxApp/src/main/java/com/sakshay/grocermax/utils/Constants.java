@@ -46,7 +46,13 @@ public class Constants {
 	public static final String email = "hello@grocermax.com";
 	
 	public static final String customer_care = "tel:+91 8010500700";
-
+	public static final String SHOP_BY_DEAL = "shop_by_deal";
+	public static final String SHOP_BY_CATEGORY_MODEL = "shopbycategorymodel";
+	public static final String SHOP_BY_DEALS_MODEL = "shopbydealsmodel";
+	public static final String HOME_BANNER = "homeBannermodel";
+	public static final String OFFER_BY_DEAL = "offerbydeal";
+	public static final String DEAL_BY_DEAL = "dealbydeal";
+	public static final String PRODUCTLIST = "productList";
 	
 	
 	public static final String categoriesFile = "categories.txt";

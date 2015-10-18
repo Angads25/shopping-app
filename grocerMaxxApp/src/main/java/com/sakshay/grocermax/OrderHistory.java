@@ -73,7 +73,7 @@ public class OrderHistory extends BaseActivity{
 	}
 
 	@Override
-	void OnResponse(Bundle bundle) {
+	public void OnResponse(Bundle bundle) {
 		// TODO Auto-generated method stub
 		
 	}

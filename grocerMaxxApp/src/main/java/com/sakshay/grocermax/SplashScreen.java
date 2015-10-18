@@ -164,7 +164,7 @@ public class SplashScreen extends BaseActivity
 	};
 
 	@Override
-	void OnResponse(Bundle bundle) {
+	public void OnResponse(Bundle bundle) {
 		String action = bundle.getString("ACTION");
 		if (action.equals(MyReceiverActions.LOCATION)) {
 //			LocationListBean locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);

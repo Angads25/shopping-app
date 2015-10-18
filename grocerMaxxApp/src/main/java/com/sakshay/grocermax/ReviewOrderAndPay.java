@@ -971,7 +971,7 @@ public class ReviewOrderAndPay extends BaseActivity
 
 
 	@Override
-	void OnResponse(Bundle bundle) {
+	public void OnResponse(Bundle bundle) {
 		// TODO Auto-generated method stub
 		try{
 			if (bundle.getString("ACTION").equals(MyReceiverActions.FINAL_CHECKOUT)) {

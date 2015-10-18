@@ -104,7 +104,7 @@ public class BrowseActivity extends BaseActivity implements OnClickListener {
 	}
 
 	@Override
-	void OnResponse(Bundle bundle) {
+	public void OnResponse(Bundle bundle) {
 //		try {
 			String jsonResponse = (String) bundle
 					.getSerializable(ConnectionService.RESPONSE);

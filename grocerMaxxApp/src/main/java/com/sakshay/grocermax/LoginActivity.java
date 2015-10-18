@@ -574,7 +574,7 @@ public class LoginActivity extends BaseActivity
 	}
 
 	@Override
-	void OnResponse(Bundle bundle) {
+	public void OnResponse(Bundle bundle) {
 		try {
 			if (bundle.getString("ACTION").equals(MyReceiverActions.LOGIN)) {
 				LoginResponse userDataBean = (LoginResponse) bundle.getSerializable(ConnectionService.RESPONSE);

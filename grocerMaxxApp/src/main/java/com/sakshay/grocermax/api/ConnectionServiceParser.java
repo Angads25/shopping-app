@@ -71,6 +71,12 @@ public class ConnectionServiceParser {
 		int SET_PAYTM_ORDER_STATUS_SUCCESS = 125;
 		int DEAL_PRODUCT_LIST = 126;
 		int ALL_PRODUCTS_CATEGORY = 127;
+		int SHOP_BY_CATEGORY_LIST = 124;
+		int OFFER_BY_DEALTYPE = 125;
+		int SHOP_BY_DEALS_LIST = 126;
+		int DEAL_BY_DEAL_TYPE = 127;
+		int HOME_BANNER = 132;
+		int PRODUCT_LISTING_BY_DEALTYPE = 128;
 	}
 
 	public static BaseResponseBean parseSimpleResponse(String jsonString)

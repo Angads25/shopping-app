@@ -473,7 +473,7 @@ public class EditProfile extends BaseActivity{
 	
 	
 	@Override
-	void OnResponse(Bundle bundle) {
+	public void OnResponse(Bundle bundle) {
 		try {
 			if (bundle.getString("ACTION").equals(MyReceiverActions.EDIT_PROFILE)) {
 				BaseResponseBean userDataBean = (BaseResponseBean) bundle.getSerializable(ConnectionService.RESPONSE);

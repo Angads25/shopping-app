@@ -256,7 +256,7 @@ public class UserProfile extends BaseActivity{
 	}
 
 	@Override
-	void OnResponse(Bundle bundle) {
+	public void OnResponse(Bundle bundle) {
 		try{
 			if (bundle.getString("ACTION").equals(MyReceiverActions.USER_DETAILS1)) {
 				userDetailBean = (UserDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);

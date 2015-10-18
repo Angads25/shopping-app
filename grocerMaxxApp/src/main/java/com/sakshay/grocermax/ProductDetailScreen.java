@@ -449,7 +449,7 @@ public class ProductDetailScreen extends BaseActivity implements
     }
 
     @Override
-    void OnResponse(Bundle bundle) {
+    public void OnResponse(Bundle bundle) {
         try {
             String action = bundle.getString("ACTION");
             if (action.equalsIgnoreCase(MyReceiverActions.ADD_TO_CART)) {

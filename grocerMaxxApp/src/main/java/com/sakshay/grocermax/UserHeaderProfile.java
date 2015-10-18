@@ -308,7 +308,7 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
     }
 
     @Override
-    void OnResponse(Bundle bundle) {
+    public void OnResponse(Bundle bundle) {
 
     }
     @Override
