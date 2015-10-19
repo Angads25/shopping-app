@@ -1,7 +1,9 @@
 package com.sakshay.grocermax.hotoffers.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sakshay.grocermax.BaseActivity;
+import com.sakshay.grocermax.CategoryActivity;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.ShopByCategoryModel;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
@@ -82,8 +85,17 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((HotOffersActivity) context).hitForShopByCategory(data.get(position).getCategory_id());
-                ShopByCategoryListAdapter.strDealListCategoryHeading = data.get(position).getName();
+//                ((HotOffersActivity) context).hitForShopByCategory(data.get(position).getCategory_id());
+//                ShopByCategoryListAdapter.strDealListCategoryHeading = data.get(position).getName();
+
+                Intent intent = new Intent(((HotOffersActivity) context), CategoryActivity.class);
+                Bundle call_bundle = new Bundle();
+                call_bundle.putSerializable("Categories", (((HotOffersActivity) context).catObj));
+                intent.putExtras(call_bundle);
+                intent.putExtra("maincategoryposition", position);
+                intent.putExtra("CategoryName",data.get(position).getName());
+                ((HotOffersActivity) context).startActivity(intent);
+
                 //fragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.explode));
 //                ((HotOffersActivity)context).hitForShopByCategory(data.get(position).getCategory_id());
             }

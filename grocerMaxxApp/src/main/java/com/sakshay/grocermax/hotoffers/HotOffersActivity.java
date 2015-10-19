@@ -58,7 +58,7 @@ public class HotOffersActivity extends BaseActivity {
     private ProgressDialog progress;
     private String url;
     private DrawerLayout drawerLayout;
-    private ArrayList<CategorySubcategoryBean> catObj;
+    public ArrayList<CategorySubcategoryBean> catObj;
     private ArrayList<String> menuArray = new ArrayList<>();
 
     @Override
@@ -197,8 +197,8 @@ public class HotOffersActivity extends BaseActivity {
                     Gson gson = new Gson();
                     shopByCategoryBean = gson.fromJson(jsonObject.toString(), ShopByCategoryBean.class);
 
-                    System.out.println("RESPONSE MODEL" + shopByCategoryBean.getResult());
-                    System.out.println("RESPONSE MODEL" + shopByCategoryBean.getArrayList().size());
+                    System.out.println("RESPONSE MODEL CATEGORY" + shopByCategoryBean.getResult());
+                    System.out.println("RESPONSE MODEL CATEGORY1" + shopByCategoryBean.getArrayList().size());
 
 
                 } else if (action.equals(MyReceiverActions.GET_SHOP_BY_DEALS)) {

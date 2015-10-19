@@ -141,10 +141,10 @@ public class SplashScreen extends BaseActivity
 	public void onResume() {
 		super.onResume();
 		String url  = UrlsConstants.GET_LOCATION;
-//		myApi.reqLocation(url);
+		myApi.reqLocation(url);
 
-		Intent inte = new Intent(SplashScreen.this,CategoryActivity.class);
-		startActivity(inte);
+//		Intent inte = new Intent(SplashScreen.this,CategoryActivity.class);
+//		startActivity(inte);
 
 //		String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;
 //		myApi.reqCategorySubCategoryList(url);
