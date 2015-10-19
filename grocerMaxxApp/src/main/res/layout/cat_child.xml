@@ -4,15 +4,14 @@
     android:layout_height="match_parent" 
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:background="@color/white"
-    >
+    android:background="@color/app_background" >
 
     <RelativeLayout
         android:id="@+id/ll_main_cat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/app_background"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center_horizontal" >
 
         <ImageView
@@ -43,12 +42,11 @@
             android:background="@drawable/transparent_black"
             android:text="Select category to view products" />
 
-
         <LinearLayout
             android:id="@+id/ll_child_expandable_category"
             android:layout_width="match_parent"
             android:layout_height="90dp"
-            android:background="@color/white"
+            android:background="@color/app_background"
             android:layout_below="@+id/cat_icon"
             android:orientation="vertical" >
 

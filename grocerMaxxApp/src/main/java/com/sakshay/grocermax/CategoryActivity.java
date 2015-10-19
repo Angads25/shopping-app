@@ -24,139 +24,155 @@ import com.sakshay.grocermax.utils.UtilityMethods;
 
 public class CategoryActivity extends BaseActivity {
 //    RelativeLayout rlParent,rlChild;
-    int countSubCat = 7;
+    int mainCatLength = 9;
+    int SubCatLength = 7;
     LinearLayout llChild[];
     LinearLayout llParent;
     ScrollView scrollView;
     int selectedIndex = 0;
-    int sum=30;
     private LayoutInflater inflater = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
-//        rlParent=(RelativeLayout) findViewById(R.id.rl_parent);
         scrollView = (ScrollView) findViewById(R.id.scroll_view);
-//        rlChild=new RelativeLayout(CategoryActivity.this);
         llParent = (LinearLayout) findViewById(R.id.ll_main_layout);
-//        b=new Button[20];
-//        inflater = (LayoutInflater) this.getSystemService(this.LAYOUT_INFLATER_SERVICE);
-//        call();
 
         LayoutInflater inflater = this.getLayoutInflater();
-        ImageView imgArr[] = new ImageView[15];
-        TextView tvName[] = new TextView[15];
-        llChild = new LinearLayout[15];
-        for(int i=0;i<15;i++){
+//        ImageView imgArr[] = new ImageView[15];
+//        TextView tvName[] = new TextView[15];
+        llChild = new LinearLayout[mainCatLength];
+        for(int i=0 ; i < mainCatLength ; i++){
             View view = inflater.inflate(R.layout.cat_child, null);
             llChild[i] = (LinearLayout) view.findViewById(R.id.ll_child_expandable_category);
 
-            try {
-                imgArr[i] = (ImageView) view.findViewById(R.id.cat_icon);                //main category image like staples
-                tvName[i] = (TextView) view.findViewById(R.id.cat_name);
-            }catch(Exception e){
-                Toast.makeText(CategoryActivity.this,"first",Toast.LENGTH_SHORT).show();
-            }
-            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(
-                    (int) ViewGroup.LayoutParams.MATCH_PARENT,(int) ViewGroup.LayoutParams.WRAP_CONTENT);
-
-//            TextView tvSubChild[] = new TextView[countSubCat];
-            TextView tvSubChild[] = new TextView[3];
-            int tempInt = -1;
-            if(i==0){
+            if(i ==  selectedIndex){
                 llChild[i].setVisibility(View.VISIBLE);
-                int childheight = 0;
-                for(int k=1;k<=countSubCat;k+=3){
-                    childheight += 80;
-                }
-                llChild[i].getLayoutParams().height = childheight;
-
-                LinearLayout llMain;
-//                LinearLayout llSub = (LinearLayout) subView.findViewById(R.id.ll_sub);                     //sub main view
-
-                for(int k=1 ; k<=countSubCat / 3 ;k++){
-
-//                for(int k=1 ; k <= 1 ;k++){
-                    View subView = inflater.inflate(R.layout.catsubchild, null);
-                    llMain = (LinearLayout) subView.findViewById(R.id.ll_main);                   //main view
-
-                    TextView tv1 = (TextView) subView.findViewById(R.id.tv_first);
-                    TextView tv2 = (TextView) subView.findViewById(R.id.tv_second);
-                    TextView tv3 = (TextView) subView.findViewById(R.id.tv_third);
-
-                    tempInt++;
-                    tv1.setText("starting");
-                    tv1.setTag(tempInt);
-                    tv1.setVisibility(View.VISIBLE);
-                    tv1.setOnClickListener(listenerchild);
-
-                    tempInt++;
-                    tv2.setText("middling");
-                    tv2.setTag(tempInt);
-                    tv2.setVisibility(View.VISIBLE);
-                    tv2.setOnClickListener(listenerchild);
-
-                    tempInt++;
-                    tv3.setText("ending");
-                    tv3.setTag(tempInt);
-                    tv3.setVisibility(View.VISIBLE);
-                    tv3.setOnClickListener(listenerchild);
-
-                    llChild[i].addView(llMain);
-
-                    if (countSubCat % 3 != 0) {                    //if records are not divisible by 3.
-						if (tempInt + 2 == countSubCat) {          //when records are of 4,7,10 etc.    //1 view in next row.
-                            View subView2 = inflater.inflate(R.layout.catsubchild, null);
-                            llMain = (LinearLayout) subView2.findViewById(R.id.ll_main);                   //main view
-
-                            TextView tv11 = (TextView) subView2.findViewById(R.id.tv_first);
-
-                            tempInt++;
-                            tv11.setText("levelling");
-                            tv11.setTag(tempInt);
-                            tv11.setVisibility(View.VISIBLE);
-                            tv11.setOnClickListener(listenerchild);
-
-                            llChild[i].addView(llMain);
-
-                        }else if(tempInt + 3 == countSubCat){      //when records are of 5,8,11 etc.    //2 view in next row.
-                            View subView2 = inflater.inflate(R.layout.catsubchild, null);
-                            llMain = (LinearLayout) subView2.findViewById(R.id.ll_main);                   //main view
-
-                            TextView tv11 = (TextView) subView2.findViewById(R.id.tv_first);
-                            TextView tv22 = (TextView) subView2.findViewById(R.id.tv_second);
-
-                            tempInt++;
-                            tv11.setText("level 1");
-                            tv11.setTag(tempInt);
-                            tv11.setVisibility(View.VISIBLE);
-                            tv11.setOnClickListener(listenerchild);
-
-                            tempInt++;
-                            tv22.setText("level 2");
-                            tv22.setTag(tempInt);
-                            tv22.setVisibility(View.VISIBLE);
-                            tv22.setOnClickListener(listenerchild);
-
-                            llChild[i].addView(llMain);
-                        }
-
-                    }
-                }
-
-
+                updateUi(selectedIndex);
             }else{
                 llChild[i].setVisibility(View.GONE);
             }
-//            b[i]=new Button(this);
-//            RelativeLayout.LayoutParams params=new RelativeLayout.LayoutParams(
-//                    (int) ViewGroup.LayoutParams.MATCH_PARENT,(int) ViewGroup.LayoutParams.WRAP_CONTENT);
 
-//            params.leftMargin=50;
-//            params.topMargin=50;
-//            b[i].setText("Button " + i);
-//            b[i].setLayoutParams(params);
-//            rlChild.addView(b[i]);
+            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(
+                    (int) ViewGroup.LayoutParams.MATCH_PARENT,(int) ViewGroup.LayoutParams.WRAP_CONTENT);
+//            int tempInt = -1;
+//            if(i == selectedIndex){
+//                llChild[i].setVisibility(View.VISIBLE);
+//                int childheight = 0;
+//                for(int k=1;k<=countSubCat;k+=3){
+//                    childheight += 80;
+//                }
+//                llChild[i].getLayoutParams().height = childheight;
+//
+//                LinearLayout llMain;
+//                if(countSubCat == 1){
+//                    View subView2 = inflater.inflate(R.layout.catsubchild, null);
+//                    llMain = (LinearLayout) subView2.findViewById(R.id.ll_main);                   //main view
+//
+//                    TextView tv11 = (TextView) subView2.findViewById(R.id.tv_first);
+//
+//                    tempInt++;
+//                    tv11.setText("levelling");
+//                    tv11.setTag(tempInt);
+//                    tv11.setVisibility(View.VISIBLE);
+//                    tv11.setOnClickListener(listenerchild);
+//
+//                    llChild[i].addView(llMain);
+//                }else if(countSubCat == 2){
+//                    View subView2 = inflater.inflate(R.layout.catsubchild, null);
+//                    llMain = (LinearLayout) subView2.findViewById(R.id.ll_main);                   //main view
+//
+//                    TextView tv11 = (TextView) subView2.findViewById(R.id.tv_first);
+//                    TextView tv22 = (TextView) subView2.findViewById(R.id.tv_second);
+//
+//                    tempInt++;
+//                    tv11.setText("level 1");
+//                    tv11.setTag(tempInt);
+//                    tv11.setVisibility(View.VISIBLE);
+//                    tv11.setOnClickListener(listenerchild);
+//
+//                    tempInt++;
+//                    tv22.setText("level 2");
+//                    tv22.setTag(tempInt);
+//                    tv22.setVisibility(View.VISIBLE);
+//                    tv22.setOnClickListener(listenerchild);
+//
+//                    llChild[i].addView(llMain);
+//                }else if(countSubCat >= 3){
+//                    for(int k=1 ; k<=countSubCat / 3 ;k++){
+//
+//                        View subView = inflater.inflate(R.layout.catsubchild, null);
+//                        llMain = (LinearLayout) subView.findViewById(R.id.ll_main);                   //main view
+//
+//                        TextView tv1 = (TextView) subView.findViewById(R.id.tv_first);
+//                        TextView tv2 = (TextView) subView.findViewById(R.id.tv_second);
+//                        TextView tv3 = (TextView) subView.findViewById(R.id.tv_third);
+//
+//                        tempInt++;
+//                        tv1.setText("starting");
+//                        tv1.setTag(tempInt);
+//                        tv1.setVisibility(View.VISIBLE);
+//                        tv1.setOnClickListener(listenerchild);
+//
+//                        tempInt++;
+//                        tv2.setText("middling");
+//                        tv2.setTag(tempInt);
+//                        tv2.setVisibility(View.VISIBLE);
+//                        tv2.setOnClickListener(listenerchild);
+//
+//                        tempInt++;
+//                        tv3.setText("ending");
+//                        tv3.setTag(tempInt);
+//                        tv3.setVisibility(View.VISIBLE);
+//                        tv3.setOnClickListener(listenerchild);
+//
+//                        llChild[i].addView(llMain);
+//
+//                        if (countSubCat % 3 != 0) {                    //if records are not divisible by 3.
+//                            if (tempInt + 2 == countSubCat) {          //when records are of 4,7,10 etc.    //1 view in next row.
+//                                View subView2 = inflater.inflate(R.layout.catsubchild, null);
+//                                llMain = (LinearLayout) subView2.findViewById(R.id.ll_main);                   //main view
+//
+//                                TextView tv11 = (TextView) subView2.findViewById(R.id.tv_first);
+//
+//                                tempInt++;
+//                                tv11.setText("levelling");
+//                                tv11.setTag(tempInt);
+//                                tv11.setVisibility(View.VISIBLE);
+//                                tv11.setOnClickListener(listenerchild);
+//
+//                                llChild[i].addView(llMain);
+//
+//                            }else if(tempInt + 3 == countSubCat){      //when records are of 5,8,11 etc.    //2 view in next row.
+//                                View subView2 = inflater.inflate(R.layout.catsubchild, null);
+//                                llMain = (LinearLayout) subView2.findViewById(R.id.ll_main);                   //main view
+//
+//                                TextView tv11 = (TextView) subView2.findViewById(R.id.tv_first);
+//                                TextView tv22 = (TextView) subView2.findViewById(R.id.tv_second);
+//
+//                                tempInt++;
+//                                tv11.setText("level 1");
+//                                tv11.setTag(tempInt);
+//                                tv11.setVisibility(View.VISIBLE);
+//                                tv11.setOnClickListener(listenerchild);
+//
+//                                tempInt++;
+//                                tv22.setText("level 2");
+//                                tv22.setTag(tempInt);
+//                                tv22.setVisibility(View.VISIBLE);
+//                                tv22.setOnClickListener(listenerchild);
+//
+//                                llChild[i].addView(llMain);
+//                            }
+//
+//                        }
+//                    }
+//                }
+//
+//            }else{
+//                llChild[i].setVisibility(View.GONE);
+//            }
+
             try{
                 view.setTag(i);
                 view.setLayoutParams(params);
@@ -165,16 +181,8 @@ public class CategoryActivity extends BaseActivity {
             }catch(Exception e){
                 Toast.makeText(CategoryActivity.this,"second",Toast.LENGTH_SHORT).show();
             }
-            sum=sum+100;
         }
-
-//        try{
-//        scrollView.addView(rlChild);
-//        }catch(Exception e){
-//            Toast.makeText(CategoryActivity.this,"third",Toast.LENGTH_SHORT).show();
-//        }
-//        rlParent.addView(sv);
-        initHeader(findViewById(R.id.app_bar_header), true, "My Profile");
+        initHeader(findViewById(R.id.app_bar_header), true, "Category");
     }
 
     @Override
@@ -216,17 +224,18 @@ public class CategoryActivity extends BaseActivity {
 //                cat_name.setTextColor(getResources().getColor(R.color.main_cat_text_selected));              //selected text color white of main category
 //                tvSelctionCat = cat_name;                         //assign currently selected view to previously selected holder
 
-                for(int i=0;i<llChild.length;i++){
+                for(int i=0 ; i < mainCatLength ; i++){
                     llChild[i].setVisibility(View.GONE);
                 }
-                countSubCat = 12;
-                int childheight = 0;
-                for(int k=1;k<=countSubCat;k+=3){
-                    childheight += 80;
-                }
-                llChild[position].getLayoutParams().height = childheight;
-                llChild[position].setVisibility(View.VISIBLE);
+//                countSubCat = 12;
+//                int childheight = 0;
+//                for(int k=1;k<=countSubCat;k+=3){
+//                    childheight += 80;
+//                }
+//                llChild[position].getLayoutParams().height = childheight;
+//                llChild[position].setVisibility(View.VISIBLE);
                 selectedIndex = position;
+                updateUi(selectedIndex);
             }catch(Exception e){
                 new GrocermaxBaseException("HomeScreen","listener",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
             }
@@ -280,6 +289,127 @@ public class CategoryActivity extends BaseActivity {
 			}
 		}
 	};
+
+    private void updateUi(int selectedIndex){
+        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(
+                (int) ViewGroup.LayoutParams.MATCH_PARENT,(int) ViewGroup.LayoutParams.WRAP_CONTENT);
+        LayoutInflater inflater = this.getLayoutInflater();
+        int tempInt = -1;
+//        if(i == selectedIndex){
+            llChild[selectedIndex].setVisibility(View.VISIBLE);
+            int childheight = 0;
+            for(int k=1;k<=SubCatLength;k+=3){
+                childheight += 80;
+            }
+            llChild[selectedIndex].getLayoutParams().height = childheight;
+
+            LinearLayout llMain;
+            if(SubCatLength == 1){
+                View subView2 = inflater.inflate(R.layout.catsubchild, null);
+                llMain = (LinearLayout) subView2.findViewById(R.id.ll_main);                   //main view
+
+                TextView tv11 = (TextView) subView2.findViewById(R.id.tv_first);
+
+                tempInt++;
+                tv11.setText("levelling");
+                tv11.setTag(tempInt);
+                tv11.setVisibility(View.VISIBLE);
+                tv11.setOnClickListener(listenerchild);
+
+                llChild[selectedIndex].addView(llMain);
+            }else if(SubCatLength == 2){
+                View subView2 = inflater.inflate(R.layout.catsubchild, null);
+                llMain = (LinearLayout) subView2.findViewById(R.id.ll_main);                   //main view
+
+                TextView tv11 = (TextView) subView2.findViewById(R.id.tv_first);
+                TextView tv22 = (TextView) subView2.findViewById(R.id.tv_second);
+
+                tempInt++;
+                tv11.setText("level 1");
+                tv11.setTag(tempInt);
+                tv11.setVisibility(View.VISIBLE);
+                tv11.setOnClickListener(listenerchild);
+
+                tempInt++;
+                tv22.setText("level 2");
+                tv22.setTag(tempInt);
+                tv22.setVisibility(View.VISIBLE);
+                tv22.setOnClickListener(listenerchild);
+
+                llChild[selectedIndex].addView(llMain);
+            }else if(SubCatLength >= 3){
+                for(int k=1 ; k<=SubCatLength / 3 ;k++){
+
+                    View subView = inflater.inflate(R.layout.catsubchild, null);
+                    llMain = (LinearLayout) subView.findViewById(R.id.ll_main);                   //main view
+
+                    TextView tv1 = (TextView) subView.findViewById(R.id.tv_first);
+                    TextView tv2 = (TextView) subView.findViewById(R.id.tv_second);
+                    TextView tv3 = (TextView) subView.findViewById(R.id.tv_third);
+
+                    tempInt++;
+                    tv1.setText("starting");
+                    tv1.setTag(tempInt);
+                    tv1.setVisibility(View.VISIBLE);
+                    tv1.setOnClickListener(listenerchild);
+
+                    tempInt++;
+                    tv2.setText("middling");
+                    tv2.setTag(tempInt);
+                    tv2.setVisibility(View.VISIBLE);
+                    tv2.setOnClickListener(listenerchild);
+
+                    tempInt++;
+                    tv3.setText("ending");
+                    tv3.setTag(tempInt);
+                    tv3.setVisibility(View.VISIBLE);
+                    tv3.setOnClickListener(listenerchild);
+
+                    llChild[selectedIndex].addView(llMain);
+
+                    if (SubCatLength % 3 != 0) {                    //if records are not divisible by 3.
+                        if (tempInt + 2 == SubCatLength) {          //when records are of 4,7,10 etc.    //1 view in next row.
+                            View subView2 = inflater.inflate(R.layout.catsubchild, null);
+                            llMain = (LinearLayout) subView2.findViewById(R.id.ll_main);                   //main view
+
+                            TextView tv11 = (TextView) subView2.findViewById(R.id.tv_first);
+
+                            tempInt++;
+                            tv11.setText("levelling");
+                            tv11.setTag(tempInt);
+                            tv11.setVisibility(View.VISIBLE);
+                            tv11.setOnClickListener(listenerchild);
+
+                            llChild[selectedIndex].addView(llMain);
+
+                        }else if(tempInt + 3 == SubCatLength){      //when records are of 5,8,11 etc.    //2 view in next row.
+                            View subView2 = inflater.inflate(R.layout.catsubchild, null);
+                            llMain = (LinearLayout) subView2.findViewById(R.id.ll_main);                   //main view
+
+                            TextView tv11 = (TextView) subView2.findViewById(R.id.tv_first);
+                            TextView tv22 = (TextView) subView2.findViewById(R.id.tv_second);
+
+                            tempInt++;
+                            tv11.setText("level 1");
+                            tv11.setTag(tempInt);
+                            tv11.setVisibility(View.VISIBLE);
+                            tv11.setOnClickListener(listenerchild);
+
+                            tempInt++;
+                            tv22.setText("level 2");
+                            tv22.setTag(tempInt);
+                            tv22.setVisibility(View.VISIBLE);
+                            tv22.setOnClickListener(listenerchild);
+
+                            llChild[selectedIndex].addView(llMain);
+                        }
+
+                    }
+                }
+            }
+
+//        }
+    }
 
     @Override
     void OnResponse(Bundle bundle) {
