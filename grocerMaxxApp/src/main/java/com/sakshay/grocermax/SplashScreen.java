@@ -141,7 +141,11 @@ public class SplashScreen extends BaseActivity
 	public void onResume() {
 		super.onResume();
 		String url  = UrlsConstants.GET_LOCATION;
-		myApi.reqLocation(url);
+//		myApi.reqLocation(url);
+
+		Intent inte = new Intent(SplashScreen.this,CategoryActivity.class);
+		startActivity(inte);
+
 //		String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;
 //		myApi.reqCategorySubCategoryList(url);
 	}
@@ -170,13 +174,14 @@ public class SplashScreen extends BaseActivity
 //			LocationListBean locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
 			LocationListBean locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
 			if(locationBean.getFlag().equals("1")) {
+
 				Intent call = new Intent(SplashScreen.this, LocationActivity.class);
 				Bundle call_bundle = new Bundle();
 				call_bundle.putSerializable("Location", locationBean);
 				call.putExtras(call_bundle);
 				startActivity(call);
 				registerGCM();
-					finish();
+				finish();
 			}else{
 				registerGCM();
 				UtilityMethods.customToast(AppConstants.ToastConstant.DATA_NOT_FOUND, mContext);

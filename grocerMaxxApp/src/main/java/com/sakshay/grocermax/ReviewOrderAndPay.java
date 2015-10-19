@@ -740,7 +740,8 @@ public class ReviewOrderAndPay extends BaseActivity
 				params.put("user_credentials", "yPnUG6:test");
 				params.put("key", "yPnUG6");
 				params.put("txnid", orderid);
-				params.put("firstname", MySharedPrefs.INSTANCE.getFirstName() + " " + MySharedPrefs.INSTANCE.getLastName());
+//				params.put("firstname", MySharedPrefs.INSTANCE.getFirstName() + " " + MySharedPrefs.INSTANCE.getLastName());
+				params.put("firstname", MySharedPrefs.INSTANCE.getUserEmail());
 				params.put("email", MySharedPrefs.INSTANCE.getUserEmail());
 //            params.put("phone", "9999999999");
 				params.put("phone", MySharedPrefs.INSTANCE.getMobileNo());
@@ -748,6 +749,8 @@ public class ReviewOrderAndPay extends BaseActivity
 
 				params.remove("amount");
 				final double finalAmount = amount;
+
+				System.out.println("============params================="+params);
 
            /* String txnId = orderid;
 			String merchant_key =  "yPnUG6";
@@ -812,7 +815,8 @@ public class ReviewOrderAndPay extends BaseActivity
 
 							HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
 							HttpGet httpGet = new HttpGet(UrlsConstants.GET_MOBILE_HASH + "txnid=" + orderid + "&amount=" + String.valueOf(finalAmount) + "&email=" + MySharedPrefs.INSTANCE.getUserEmail() + "&fname=" + MySharedPrefs.INSTANCE.getFirstName());
-							//System.out.println("genrate hash service = "+UrlsConstants.GET_MOBILE_HASH+"txnid="+orderid+"&amount="+String.valueOf(total)+"&email="+MySharedPrefs.INSTANCE.getUserEmail()+"&fname="+"ISHAN");
+//							HttpGet httpGet = new HttpGet(UrlsConstants.GET_MOBILE_HASH + "txnid=" + orderid + "&amount=" + String.valueOf(finalAmount) + "&email=" + MySharedPrefs.INSTANCE.getUserEmail() + "&fname=" + MySharedPrefs.INSTANCE.getUserEmail());
+							System.out.println("genrate hash service = "+UrlsConstants.GET_MOBILE_HASH + "txnid=" + orderid + "&amount=" + String.valueOf(finalAmount) + "&email=" + MySharedPrefs.INSTANCE.getUserEmail() + "&fname=" + MySharedPrefs.INSTANCE.getFirstName());
 							httpGet.setHeader("Content-Type", "application/json");
 							HttpResponse response1 = null;
             			/*try {*/
@@ -904,11 +908,14 @@ public class ReviewOrderAndPay extends BaseActivity
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		System.out.println(requestCode+"======0000==========="+resultCode+"=========data=========="+data);
 		try{
 			if(requestCode==123)                  //uses when coming from OneTimePassword screen after to register successfully this will finish and go back to loginactivity and loginactivity also uses same funct
 			{
+				System.out.println(requestCode+"======0000==========="+data);
 				if(resultCode==RESULT_OK) {
 					dismissDialog();
+					System.out.println(requestCode + "======0000===========" + data);
 					MySharedPrefs.INSTANCE.putTotalItem("0");
 					MySharedPrefs.INSTANCE.clearQuote();
 					Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
@@ -925,25 +932,28 @@ public class ReviewOrderAndPay extends BaseActivity
 			if (requestCode == PayU.RESULT) {
 				if(resultCode == RESULT_OK) {
 					//success
-					if(data != null )                     //success
-					{
-						//  Toast.makeText(this, "Success" + data.getStringExtra("result"), Toast.LENGTH_LONG).show();
-						dismissDialog();
-						MySharedPrefs.INSTANCE.putTotalItem("0");
-						MySharedPrefs.INSTANCE.clearQuote();
+					System.out.println("======0000==========="+data);
+//					if(data != null )                     //success
+//					{
+//						System.out.println("======1111==========="+data);
+
+					//  Toast.makeText(this, "Success" + data.getStringExtra("result"), Toast.LENGTH_LONG).show();
+					dismissDialog();
+					MySharedPrefs.INSTANCE.putTotalItem("0");
+					MySharedPrefs.INSTANCE.clearQuote();
 					/*Intent intent = new Intent(ReviewOrderAndPay.this, HomeScreen.class);
 
 					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
 					finish();*/
-						Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
-						Bundle call_bundle = new Bundle();
-						call_bundle.putString("orderid", order_id);
-						call_bundle.putString("status", "success");
-						intent.putExtras(call_bundle);
-						startActivity(intent);
-						finish();
-					}
+					Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
+					Bundle call_bundle = new Bundle();
+					call_bundle.putString("orderid", order_id);
+					call_bundle.putString("status", "success");
+					intent.putExtras(call_bundle);
+					startActivity(intent);
+					finish();
+//					}
 				}
 				if (resultCode == RESULT_CANCELED) {          //unsuccess payu
 					//failed
@@ -957,7 +967,8 @@ public class ReviewOrderAndPay extends BaseActivity
 					String url = UrlsConstants.SET_ORDER_STATUS;
 					JSONObject jsonObject = new JSONObject();
 					jsonObject.put("status","canceled");
-					jsonObject.put("orderid",order_db_id);
+					jsonObject.put("orderid",order_id);
+					jsonObject.put("orderdbid",order_db_id);
 					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME, AppConstants.ToastConstant.VERSION);
 					myApi.reqSetOrderStatus(url, jsonObject);
 

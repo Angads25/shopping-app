@@ -126,8 +126,10 @@ public class PayTMActivity extends BaseActivity
 
 					String url = UrlsConstants.SET_PAYTM_ORDER_STATUS_SUCCESS;
 					JSONObject jsonObject = new JSONObject();
+
 					jsonObject.put("status","success");
-					jsonObject.put("orderid",order_db_id);
+					jsonObject.put("orderid",order_id);
+					jsonObject.put("orderdbid",order_db_id);
 					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 					myApi.reqSetOrderStatusPaytmSuccess(url, jsonObject);
 				}catch(Exception e){}
@@ -172,7 +174,8 @@ public class PayTMActivity extends BaseActivity
 					String url = UrlsConstants.SET_ORDER_STATUS;          //cancel
 					JSONObject jsonObject = new JSONObject();
 					jsonObject.put("status","canceled");
-					jsonObject.put("orderid",order_db_id);
+					jsonObject.put("orderid",order_id);
+					jsonObject.put("orderdbid",order_db_id);
 					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 					myApi.reqSetOrderStatus(url, jsonObject);
 					}catch(Exception e){}

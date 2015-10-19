@@ -54,7 +54,6 @@ public class ProductListAdapter extends BaseAdapter {
         this.products = list;
         this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-
         for (int i = 0; i < products.size(); i++)
             products.get(i).setQuantity("1");
     }

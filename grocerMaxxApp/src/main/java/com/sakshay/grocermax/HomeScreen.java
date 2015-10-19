@@ -230,7 +230,9 @@ public class HomeScreen extends BaseActivity implements OnItemClickListener{
 //						ArrayList<CategorySubcategoryBean> al1 = catObj.get(position).getChildren();                                              //5 right side sub category
 //						String catid = catObj.get(position).getChildren().get(position).getCategoryId();                                      //selected catid
 //						ArrayList<CategorySubcategoryBean> al = catObj.get(position).getChildren().get(groupPosition).getChildren();              //size 13 sub category
-						System.out.println("======checking 11=========" + catObj.get(position).getChildren().get(groupPosition).getCategoryId());
+
+
+//						System.out.println("======checking 11=========" + catObj.get(position).getChildren().get(groupPosition).getCategoryId());
 						String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(groupPosition).getCategoryId();
 						myApi.reqAllProductsCategory(url);
 
