@@ -90,7 +90,7 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
 //                ShopByCategoryListAdapter.strDealListCategoryHeading = data.get(position).getName();
 
 
-                ArrayList<CategorySubcategoryBean> catObjSend = new ArrayList<CategorySubcategoryBean>();
+//                ArrayList<CategorySubcategoryBean> catObjSend = new ArrayList<CategorySubcategoryBean>();
 //                int size = ((HotOffersActivity) context).catObj.get(position).getChildren().size();
 //
 //                for (int i = 0; i < ((HotOffersActivity) context).catObj.get(position).getChildren().size(); i++) {
@@ -103,14 +103,18 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
 //                    }
 //                }
 
+
                 Intent intent = new Intent(((HotOffersActivity) context), CategoryActivity.class);
                 Bundle call_bundle = new Bundle();
                 call_bundle.putSerializable("Categories", (((HotOffersActivity) context).catObj));
 //                call_bundle.putSerializable("Categories", catObjSend);
                 call_bundle.putSerializable("maincategoryposition", String.valueOf(position));
                 call_bundle.putSerializable("CategoryName", data.get(position).getName());
+                call_bundle.putSerializable("CategoryId", data.get(position).getCategory_id());           //catid of shop deals
                 intent.putExtras(call_bundle);
                 ((HotOffersActivity) context).startActivity(intent);
+
+                System.out.println("=====idss1111111===" + data.get(position).getCategory_id());
 
                 //fragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.explode));
 //                ((HotOffersActivity)context).hitForShopByCategory(data.get(position).getCategory_id());
@@ -121,6 +125,9 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
             @Override
             public void onClick(View v) {
                 ((HotOffersActivity)context).hitForShopByCategory(data.get(position).getCategory_id());
+
+                System.out.println("=====idss==="+data.get(position).getCategory_id());
+
                 ShopByCategoryListAdapter.strDealListCategoryHeading = data.get(position).getName();
             }
         });

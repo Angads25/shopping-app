@@ -102,6 +102,15 @@ public class BannerFragment extends Fragment {
 //                category?parentid=2402
 
                 System.out.println("====values is====" + linkurl);
+
+//                types of banner in android
+//1                "search?keyword=dairy"                             //
+//2                "dealproductlisting?deal_id=11"                    //
+//3                "dealsbydealtype?deal_type_id=1"                   //
+//4                "shopbydealtype"                                   //not implemented in android
+//5                "productlistall?cat_id=2402"                      //
+//6                linkurl = "offerbydealtype?cat_id=2483";
+
                 int index = 0;
                 String strType="";
                 if(linkurl.contains("?")) {
@@ -170,7 +179,6 @@ public class BannerFragment extends Fragment {
                         strId = linkurl.substring(indexequal+1, linkurl.length());
                         System.out.println("====indexequals is====>>"+strId);
                     }
-                    ((HotOffersActivity)context).showDialog();
                     ((HotOffersActivity) context).addActionsInFilter(MyReceiverActions.OFFER_BY_DEALTYPE);
                     ((HotOffersActivity) context).hitForShopByCategory(strId);
                 }

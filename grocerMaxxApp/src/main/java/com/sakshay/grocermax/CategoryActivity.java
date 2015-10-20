@@ -43,6 +43,7 @@ public class CategoryActivity extends BaseActivity {
     ScrollView scrollView;
     int selectedIndex = 0;
     String strNextScreenHeader;
+    String strCatName;                          //shown on header of screen
     ArrayList<CategorySubcategoryBean> alcatObjSend;
     public ArrayList<CategorySubcategoryBean> catObj;
     private LayoutInflater inflater = null;
@@ -52,6 +53,7 @@ public class CategoryActivity extends BaseActivity {
         setContentView(R.layout.activity_category);
         scrollView = (ScrollView) findViewById(R.id.scroll_view);
         llParent = (LinearLayout) findViewById(R.id.ll_main_layout);
+        String strCatIdByCat="";
 
         addActionsInFilter(MyReceiverActions.ALL_PRODUCTS_CATEGORY);
 
@@ -60,7 +62,8 @@ public class CategoryActivity extends BaseActivity {
         if (bundle != null) {
             try {
                 catObj = (ArrayList<CategorySubcategoryBean>) bundle.getSerializable("Categories");              //main category name on left side like staples
-                String strCatName = bundle.getString("CategoryName");
+                strCatName = bundle.getString("CategoryName");
+                strCatIdByCat = bundle.getString("CategoryId");
                 String str = bundle.getString("maincategoryposition");
                 mainCatPosition = Integer.parseInt(str);
             }catch(Exception e){
@@ -68,8 +71,16 @@ public class CategoryActivity extends BaseActivity {
             }
         }
 
+        for(int i=0;i<catObj.size();i++){
+            if(catObj.get(i).getCategoryId().equals(strCatIdByCat)){
+                mainCatPosition = i;
+            }
+        }
+
 //        alSubCat = catObj.get(mainCatPosition).getChildren();                   //under main category [right side top category e.g. dryfruits]
         alSubCat = catObj.get(mainCatPosition).getChildren();                   //under main category [right side top category e.g. dryfruits]
+
+
 
         alcatObjSend = new ArrayList<CategorySubcategoryBean>();
         for(int i=0;i<alSubCat.size();i++){
@@ -135,7 +146,7 @@ public class CategoryActivity extends BaseActivity {
 //                Toast.makeText(CategoryActivity.this,"second",Toast.LENGTH_SHORT).show();
             }
         }
-        initHeader(findViewById(R.id.app_bar_header), true, "Category");
+        initHeader(findViewById(R.id.app_bar_header), true, strCatName);
     }
 
     @Override
@@ -148,7 +159,7 @@ public class CategoryActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        initHeader(findViewById(R.id.app_bar_header), false, "Category");
+        initHeader(findViewById(R.id.app_bar_header), true, strCatName);
     }
 
     @Override
