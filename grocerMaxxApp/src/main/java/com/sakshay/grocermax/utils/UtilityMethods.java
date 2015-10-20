@@ -764,7 +764,11 @@ public class UtilityMethods {
 			category = new ArrayList<CategorySubcategoryBean>();
 			CategorySubcategoryBean categoryOb;
 			JSONObject jsonObject = new JSONObject(content.trim());
+
+			Constants.base_url_category_image = jsonObject.getString("urlImg");
+
 			jsonObject=jsonObject.getJSONObject(ListConstant.TAG_CATEGORY).getJSONArray("children").getJSONObject(0);
+
 
 			JSONArray jsonMainArray = jsonObject.getJSONArray(ListConstant.TAG_CHILDREN);
 			for (int i = 0; i < jsonMainArray.length(); i++) {

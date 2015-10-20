@@ -60,7 +60,7 @@ public class BannerFragment extends Fragment {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             ////////////// 1.search ///////////////////
+                ////////////// 1.search ///////////////////
 //                linkurl = "search?keyword=atta";
 //                String strAtta = "atta";
 //                System.out.println("====values OF is====" + linkurl);
@@ -101,48 +101,78 @@ public class BannerFragment extends Fragment {
 
 //                category?parentid=2402
 
-                System.out.println("====values is===="+linkurl);
+                System.out.println("====values is====" + linkurl);
                 int index = 0;
                 String strType="";
-                index = linkurl.indexOf("?");
-                if(linkurl.length() >= index) {
-                    strType = linkurl.substring(0, index);
-                    System.out.println("====result is===="+strType);
+                if(linkurl.contains("?")) {
+                    index = linkurl.indexOf("?");
+                    if (linkurl.length() >= index) {
+                        strType = linkurl.substring(0, index);
+                        System.out.println("====result is====" + strType);
+                    }
+                }else{
+                    strType = linkurl;
                 }
 
                 if(strType.equalsIgnoreCase("dealproductlisting")){
-                    String dealId = "270";
+//                    String dealId = "270";
+//                    String dealId = linkurl.substring(index+1,linkurl.length()-1);
+//                    System.out.println("===========dealproductlisting=============dealid===================="+dealId);
                     ((HotOffersActivity) context).addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
-                    String url = UrlsConstants.PRODUCTLISTING_BY_DEAL_TYPE;
+//                    String PRODUCTLISTING_BY_DEAL_TYPE = UrlsConstants.NEW_BASE_URL+"dealproductlisting?deal_id=";
+//                    String url = UrlsConstants.PRODUCTLISTING_BY_DEAL_TYPE;
+                    String url = UrlsConstants.NEW_BASE_URL;
                     ((HotOffersActivity)context).showDialog();
-                    ((HotOffersActivity)context).myApi.reqProductListingByDealType(url + dealId);
-                    System.out.println(dealId);
+                    ((HotOffersActivity)context).myApi.reqProductListingByDealType(url + linkurl);
+//                    System.out.println(dealId);
                 }else if(strType.equalsIgnoreCase("dealsbydealtype")){
-                    String dealId = "1";
+//                    String dealId = "1";
                     ((HotOffersActivity) context).addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);
                     ((HotOffersActivity)context).showDialog();
-                    String url = UrlsConstants.DEAL_BY_DEAL_TYPE;
-                    System.out.print("==my work=="+url);
-                    ((HotOffersActivity)context).myApi.reqDealByDealType(url+ dealId);
+//                    public final static String DEAL_BY_DEAL_TYPE = NEW_BASE_URL+"dealsbydealtype?deal_type_id=";
+//                    String url = UrlsConstants.DEAL_BY_DEAL_TYPE;
+                    String url = UrlsConstants.NEW_BASE_URL;
+                    ((HotOffersActivity)context).myApi.reqDealByDealType(url+ linkurl);
+                }else if(strType.equalsIgnoreCase("productlistall")){
+                    //                    public final static String GET_ALL_PRODUCTS_OF_CATEGORY = NEW_BASE_URL + "productlistall?cat_id=";
+                    ((HotOffersActivity) context).addActionsInFilter(MyReceiverActions.ALL_PRODUCTS_CATEGORY);
+                    ((HotOffersActivity)context).showDialog();
+                    String strUrl = UrlsConstants.NEW_BASE_URL;
+                    ((HotOffersActivity)context).myApi.reqAllProductsCategory(strUrl+linkurl);
+                    System.out.println("===complete url===="+strUrl+linkurl);
                 }else if(strType.equalsIgnoreCase("shopbydealtype")){
+
 
                 }else if(strType.equalsIgnoreCase("search")){
 //                    linkurl = "search?keyword=atta";
+                    String strSearch = "";
                     index = linkurl.indexOf("?");
                     int indexequal = linkurl.indexOf("=");
                     if(linkurl.length() >= index) {
-                        String strEqual = linkurl.substring(indexequal, linkurl.length());
-                        System.out.println("====indexequals is===="+strEqual);
+                        strSearch = linkurl.substring(indexequal+1, linkurl.length());
+                        System.out.println("====indexequals is====>>"+strSearch);
                     }
 
-                    String strAtta = "atta";
+//                    String strAtta = "atta";
                     System.out.println("====values OF is====" + linkurl);
                     String url = UrlsConstants.BANNER_SEARCH_PRODUCT + linkurl;
                     url = url.replace(" ", "%20");
 //                SearchLoader searchLoader  = new SearchLoader(this,search_key);
-                    SearchLoader searchLoader  = new SearchLoader(context,strAtta);
+                    SearchLoader searchLoader  = new SearchLoader(context,strSearch);
                     searchLoader.execute(url);
                     Log.i("Banner Through Search", "URL::" + url);
+                }else if(strType.equalsIgnoreCase("offerbydealtype")){
+//                    http://staging.grocermax.com/api/offerbydealtype?cat_id=2180&version=1.0
+                    String strId = "";
+                    index = linkurl.indexOf("?");
+                    int indexequal = linkurl.indexOf("=");
+                    if(linkurl.length() >= index) {
+                        strId = linkurl.substring(indexequal+1, linkurl.length());
+                        System.out.println("====indexequals is====>>"+strId);
+                    }
+                    ((HotOffersActivity)context).showDialog();
+                    ((HotOffersActivity) context).addActionsInFilter(MyReceiverActions.OFFER_BY_DEALTYPE);
+                    ((HotOffersActivity) context).hitForShopByCategory(strId);
                 }
 
 

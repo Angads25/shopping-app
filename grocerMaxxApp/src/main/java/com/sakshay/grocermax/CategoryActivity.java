@@ -19,12 +19,14 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
 import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.Simple;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.utils.AppConstants;
+import com.sakshay.grocermax.utils.Constants;
 import com.sakshay.grocermax.utils.UrlsConstants;
 import com.sakshay.grocermax.utils.UtilityMethods;
 
@@ -35,12 +37,13 @@ public class CategoryActivity extends BaseActivity {
 //    RelativeLayout rlParent,rlChild;
     int mainCatLength = 9;
     int SubCatLength = 7;
-    Integer mainCatPosition = 0;
+    int mainCatPosition = 0;
     LinearLayout llChild[];
     LinearLayout llParent;
     ScrollView scrollView;
     int selectedIndex = 0;
-    ArrayList<CategorySubcategoryBean> alSubCat;
+    String strNextScreenHeader;
+    ArrayList<CategorySubcategoryBean> alcatObjSend;
     public ArrayList<CategorySubcategoryBean> catObj;
     private LayoutInflater inflater = null;
     @Override
@@ -53,24 +56,33 @@ public class CategoryActivity extends BaseActivity {
         addActionsInFilter(MyReceiverActions.ALL_PRODUCTS_CATEGORY);
 
         Bundle bundle = getIntent().getExtras();
+        ArrayList<CategorySubcategoryBean> alSubCat;
         if (bundle != null) {
             try {
                 catObj = (ArrayList<CategorySubcategoryBean>) bundle.getSerializable("Categories");              //main category name on left side like staples
-                mainCatPosition = (int) Integer.parseInt((String) bundle.getString("maincategoryposition"));
                 String strCatName = bundle.getString("CategoryName");
+                String str = bundle.getString("maincategoryposition");
+                mainCatPosition = Integer.parseInt(str);
             }catch(Exception e){
                 e.printStackTrace();
             }
         }
 
+//        alSubCat = catObj.get(mainCatPosition).getChildren();                   //under main category [right side top category e.g. dryfruits]
         alSubCat = catObj.get(mainCatPosition).getChildren();                   //under main category [right side top category e.g. dryfruits]
 
-        for(int i=1;i<alSubCat.size();i++){
-            String str = alSubCat.get(i).getCategory();
-            String str1 = alSubCat.get(i).getCategory();
+        alcatObjSend = new ArrayList<CategorySubcategoryBean>();
+        for(int i=0;i<alSubCat.size();i++){
+//            String str = alSubCat.get(i).getCategory();
+//            String str1 = alSubCat.get(i).getCategory();
+//            alSubCat.get(i).getIsActive()
+            if(alSubCat.get(i).getIsActive().equals("1")){
+                alcatObjSend.add(alSubCat.get(i));
+            }
         }
-        if(alSubCat.size() > 0){
-            mainCatLength = alSubCat.size();
+        if(alcatObjSend.size() > 0){
+//            mainCatLength = alSubCat.size();
+            mainCatLength = alcatObjSend.size();
         }
 
         LayoutInflater inflater = this.getLayoutInflater();
@@ -85,13 +97,23 @@ public class CategoryActivity extends BaseActivity {
             TextView tvName = (TextView) view.findViewById(R.id.tv_name);
 //            view.findViewById(R.id.ll_child_expandable_category);
 
+//            String strurlImage = "http://staging.grocermax.com/media/mobile_images/category/2506.png";
+//            String strurlImage = "http://staging.grocermax.com/media/mobile_images/category/"+alcatObjSend.get(i).getCategoryId()+".png";
+
+            String strurlImage = Constants.base_url_category_image+alcatObjSend.get(i).getCategoryId()+".png";
+
+//            ImageLoader.getInstance().displayImage(data.get(position).getImages(),
+//                    holder.imageView, ((BaseActivity) context).baseImageoptions);
+            ImageLoader.getInstance().displayImage(strurlImage,
+                    ivCat, ((BaseActivity) this).baseImageoptions);
+
             if (catObj.get(i).getChildren().get(0).getChildren().size() > 0) {  //sub-sub-sub category present
                 tvName.setVisibility(View.VISIBLE);
             } else {
                 tvName.setVisibility(View.GONE);
             }
 
-            tvCatName.setText(alSubCat.get(i).getCategory());
+            tvCatName.setText(alcatObjSend.get(i).getCategory());
 
             llChild[i] = (LinearLayout) view.findViewById(R.id.ll_child_expandable_category);
 
@@ -110,7 +132,7 @@ public class CategoryActivity extends BaseActivity {
                 view.setOnClickListener(listener);
                 llParent.addView(view);
             }catch(Exception e){
-                Toast.makeText(CategoryActivity.this,"second",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(CategoryActivity.this,"second",Toast.LENGTH_SHORT).show();
             }
         }
         initHeader(findViewById(R.id.app_bar_header), true, "Category");
@@ -149,7 +171,7 @@ public class CategoryActivity extends BaseActivity {
         public void onClick(View view) {
             try{
                 int position = (Integer) view.getTag();
-                Toast.makeText(CategoryActivity.this,"clicked on"+position,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(CategoryActivity.this,"clicked on"+position,Toast.LENGTH_SHORT).show();
 //                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 //                TextView cat_name = (TextView) view.findViewById(R.id.cat_name);                           //get view of currently selected main category
 //                cat_name.setTextColor(getResources().getColor(R.color.main_cat_text_selected));              //selected text color white of main category
@@ -176,12 +198,11 @@ public class CategoryActivity extends BaseActivity {
                 }
 
                 SubCatLength = catObj.get(mainCatPosition).getChildren().get(selectedIndex).getChildren().size();
-
+                strNextScreenHeader = alcatObjSend.get(selectedIndex).getCategory();
                 if(expandStatus && catObj.get(mainCatPosition).getChildren().get(selectedIndex).getIsActive().equals("1")) {
                     updateUi(selectedIndex);
                 }else{
                     showDialog();
-//                    String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(groupPosition).getCategoryId();
                     String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(mainCatPosition).getChildren().get(selectedIndex).getCategoryId();
                     myApi.reqAllProductsCategory(url);
                 }
@@ -197,42 +218,12 @@ public class CategoryActivity extends BaseActivity {
 			try {
 
 				int pos = (Integer) view.getTag();
-    			UtilityMethods.customToast(String.valueOf(pos) + "====", MyApplication.getInstance());
-//
-//				for (int i = 0; i < date_list.size(); i++) {
-//					System.out.println("====text====" + i);
-////				imgDateSlot[i].setBackgroundResource(R.drawable.delivery_slot_date_unselected_btn);
-//					imgDateSlot[i].setImageResource(R.drawable.uncheck_pay);
-//
-//					tvDateSlot[i].setBackgroundResource(R.drawable.delivery_slot_date_unselected_btn);
-//					tvDateSlot[i].setBackgroundColor(getResources().getColor(R.color.delivery_slot_unselected_color));
-//					tvDateSlot[i].setTextColor(getResources().getColor(R.color.delivery_slot_text_unselected_color));
-//				}
-//
-//				imgDateSlot[pos].setImageResource(R.drawable.check_pay);
-//				tvDateSlot[pos].setTextColor(getResources().getColor(R.color.delivery_slot_text_selected_color));
-//				tvDateSlot[pos].setBackgroundResource(R.drawable.delivery_slot_selected_btn);
-////			((LinearLayout)view).setBackgroundColor(getResources().getColor(R.color.red));
-//				date = date_list.get(pos);
-//				time = "";
-//				setTimeSlotting(date);
-//				GridViewAdapter.selectedPosition = pos;
-//
-//				btn1TimeSlot.setBackgroundResource(R.drawable.uncheck_pay);
-//				btn2TimeSlot.setBackgroundResource(R.drawable.uncheck_pay);
-//				btn3TimeSlot.setBackgroundResource(R.drawable.uncheck_pay);
-//				btn4TimeSlot.setBackgroundResource(R.drawable.uncheck_pay);
-//
-//				tvFirstTime.setBackgroundResource(R.color.delivery_slot_unselected_color);
-//				tvSecondTime.setBackgroundResource(R.color.delivery_slot_unselected_color);
-//				tvThirdTime.setBackgroundResource(R.color.delivery_slot_unselected_color);
-//				tvFourthTime.setBackgroundResource(R.color.delivery_slot_unselected_color);
-//
-//				tvFirstTime.setTextColor(getResources().getColor(R.color.delivery_slot_text_unselected_color));
-//				tvSecondTime.setTextColor(getResources().getColor(R.color.delivery_slot_text_unselected_color));
-//				tvThirdTime.setTextColor(getResources().getColor(R.color.delivery_slot_text_unselected_color));
-//				tvFourthTime.setTextColor(getResources().getColor(R.color.delivery_slot_text_unselected_color));
-////			//scroll_view.scrollTo(0, 0);
+                showDialog();
+//                String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(mainCatPosition).getChildren().get(selectedIndex).getCategoryId();
+                strNextScreenHeader = alcatObjSend.get(selectedIndex).getChildren().get(pos).getCategory();
+                String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(mainCatPosition).getChildren().get(selectedIndex).getChildren().get(pos).getCategoryId();
+                myApi.reqAllProductsCategory(url);
+//    			UtilityMethods.customToast(String.valueOf(pos) + "====", MyApplication.getInstance());
 			}catch(Exception e){
 				new GrocermaxBaseException("ChooseAddress","listener",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 			}
@@ -245,12 +236,35 @@ public class CategoryActivity extends BaseActivity {
         LayoutInflater inflater = this.getLayoutInflater();
         int tempInt = -1;
 
+//        View subViewGetHeight = inflater.inflate(R.layout.catsubchild, null);
+//        TextView tv_first = (TextView) subViewGetHeight.findViewById(R.id.tv_first);
+//        System.out.println("===ll.getHeight()==="+tv_first.getHeight());
+
         ArrayList<CategorySubcategoryBean> alSubSubChild = catObj.get(mainCatPosition).getChildren().get(selectedIndex).getChildren();
 //        if(i == selectedIndex){
             llChild[selectedIndex].setVisibility(View.VISIBLE);
+
+            if(llChild[selectedIndex] != null) {
+                llChild[selectedIndex].removeAllViews();
+            }
+
+        int addedHeight = 0;
+        if(LocationActivity.densityPhone <= 1.5){
+              addedHeight = 50;
+        }else if(LocationActivity.densityPhone <= 2.0){
+              addedHeight = 90;
+        }else if(LocationActivity.densityPhone <= 3.0){
+              addedHeight = 130;
+        }else if(LocationActivity.densityPhone <= 4.0){
+              addedHeight = 170;
+        }
+
+
             int childheight = 0;
             for(int k=1;k<=SubCatLength;k+=3){
-                childheight += 80;
+                childheight += addedHeight;
+//                childheight += 130;
+//                childheight += tv_first.getHeight();
             }
             llChild[selectedIndex].getLayoutParams().height = childheight;
 
@@ -297,6 +311,11 @@ public class CategoryActivity extends BaseActivity {
                     View subView = inflater.inflate(R.layout.catsubchild, null);
                     llMain = (LinearLayout) subView.findViewById(R.id.ll_main);                   //main view
 
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lp.setMargins(0, 10, 0, 0);
+
+                    llMain.setLayoutParams(lp);
+
                     TextView tv1 = (TextView) subView.findViewById(R.id.tv_first);
                     TextView tv2 = (TextView) subView.findViewById(R.id.tv_second);
                     TextView tv3 = (TextView) subView.findViewById(R.id.tv_third);
@@ -327,9 +346,13 @@ public class CategoryActivity extends BaseActivity {
                     if (SubCatLength % 3 != 0) {                    //if records are not divisible by 3.
                         if (tempInt + 2 == SubCatLength) {          //when records are of 4,7,10 etc.    //1 view in next row.
                             View subView2 = inflater.inflate(R.layout.catsubchild, null);
-                            llMain = (LinearLayout) subView2.findViewById(R.id.ll_main);                   //main view
+                            LinearLayout llMain0 = (LinearLayout) subView2.findViewById(R.id.ll_main);                   //main view
 
                             TextView tv11 = (TextView) subView2.findViewById(R.id.tv_first);
+
+                            LinearLayout.LayoutParams lp1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                            lp1.setMargins(0, 10, 0, 0);
+                            llMain0.setLayoutParams(lp1);
 
                             tempInt++;
 //                            tv11.setText("levelling");
@@ -338,14 +361,18 @@ public class CategoryActivity extends BaseActivity {
                             tv11.setVisibility(View.VISIBLE);
                             tv11.setOnClickListener(listenerchild);
 
-                            llChild[selectedIndex].addView(llMain);
+                            llChild[selectedIndex].addView(llMain0);
 
                         }else if(tempInt + 3 == SubCatLength){      //when records are of 5,8,11 etc.    //2 view in next row.
                             View subView2 = inflater.inflate(R.layout.catsubchild, null);
-                            llMain = (LinearLayout) subView2.findViewById(R.id.ll_main);                   //main view
+                            LinearLayout llMain1 = (LinearLayout) subView2.findViewById(R.id.ll_main);                   //main view
 
                             TextView tv11 = (TextView) subView2.findViewById(R.id.tv_first);
                             TextView tv22 = (TextView) subView2.findViewById(R.id.tv_second);
+
+                            LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                            lp2.setMargins(0, 10, 0, 0);
+                            llMain1.setLayoutParams(lp2);
 
                             tempInt++;
 //                            tv11.setText("level 1");
@@ -361,7 +388,7 @@ public class CategoryActivity extends BaseActivity {
                             tv22.setVisibility(View.VISIBLE);
                             tv22.setOnClickListener(listenerchild);
 
-                            llChild[selectedIndex].addView(llMain);
+                            llChild[selectedIndex].addView(llMain1);
                         }
 
                     }
@@ -382,6 +409,8 @@ public class CategoryActivity extends BaseActivity {
                 Intent call = new Intent(CategoryActivity.this, CategoryTabs.class);
                 Bundle call_bundle = new Bundle();
                 call_bundle.putSerializable("PRODUCTDATA", responseBean);
+                call_bundle.putSerializable("HEADERNAME", strNextScreenHeader);
+//                alSubCat.get(i).getCategory()
                 call.putExtras(call_bundle);
                 startActivity(call);
             } else {

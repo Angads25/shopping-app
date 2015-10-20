@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/header"
-        layout="@layout/mart_header" />
+        layout="@layout/mart_header_2" />
 
     <HorizontalScrollView
         android:layout_width="fill_parent"
@@ -43,7 +43,7 @@
         android:id="@+id/tv_your_cart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_marginBottom="3dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
@@ -72,7 +72,7 @@
         android:layout_height="wrap_content"
         android:background="#f3faff"
         android:orientation="vertical"
-        android:visibility="visible" >
+        android:visibility="gone" >
 
 
 

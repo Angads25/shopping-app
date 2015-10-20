@@ -4,53 +4,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp" >
+    android:layout_marginTop="0dp"
+     >
 
     <LinearLayout
         android:id="@+id/ll_sub"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:weightSum="3" >
 
 
     <TextView
         android:id="@+id/tv_first"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
         android:textSize="@dimen/text_size_14"
-        android:text="first"
+        android:text="ghghg"
         android:singleLine="true"
         android:gravity="center"
         android:visibility="gone"
-        android:padding="10dp"
+        android:background="@drawable/shop_by_categories_boundary"
+        android:padding="5dp"
         android:layout_weight="1" />
 
     <TextView
         android:id="@+id/tv_second"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
         android:textSize="@dimen/text_size_14"
-        android:text="second"
+        android:text=""
         android:singleLine="true"
         android:gravity="center"
         android:visibility="gone"
-        android:padding="10dp"
+        android:background="@drawable/shop_by_categories_boundary"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:padding="5dp"
         android:layout_weight="1" />
 
     <TextView
         android:id="@+id/tv_third"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
         android:textSize="@dimen/text_size_14"
-        android:text="third"
+        android:text=""
         android:singleLine="true"
         android:gravity="center"
         android:visibility="gone"
-        android:padding="10dp"
+        android:background="@drawable/shop_by_categories_boundary"
+        android:padding="5dp"
         android:layout_weight="1" />
 
     </LinearLayout>

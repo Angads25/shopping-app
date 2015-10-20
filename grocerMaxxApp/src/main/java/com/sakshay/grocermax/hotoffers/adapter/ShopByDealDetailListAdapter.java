@@ -19,6 +19,7 @@ import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.OfferByDealTypeSubModel;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
+import com.sakshay.grocermax.utils.AppConstants;
 
 import java.util.ArrayList;
 
@@ -111,7 +112,7 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
             @Override
             public void onClick(View v) {
                 ((HotOffersActivity)context).hitForDealsByDeals(data.get(position).getPromo_id());
-
+                AppConstants.strTitleHotDeal = data.get(position).getName();
 //                ItemDetailFragment fragment = new ItemDetailFragment();
 //                fragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.explode));
 //                ((HotOffersActivity)context).hitForDealsByDeals(data.get(position).getId());

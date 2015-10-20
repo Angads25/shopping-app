@@ -78,6 +78,7 @@ import com.sakshay.grocermax.bean.DealListBean;
 import com.sakshay.grocermax.bean.OrderHistoryBean;
 import com.sakshay.grocermax.bean.ProductListBean;
 import com.sakshay.grocermax.bean.SearchListBean;
+import com.sakshay.grocermax.bean.Simple;
 import com.sakshay.grocermax.bean.UserDetailBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
@@ -1344,6 +1345,26 @@ public abstract class BaseActivity extends FragmentActivity {
 					}
 
 
+				}else if (intent.getAction().equals(MyReceiverActions.ALL_PRODUCTS_CATEGORY)) {
+					//			group_click = 0;
+					Simple responseBean = (Simple) bundle.getSerializable(ConnectionService.RESPONSE);
+					if (responseBean.getFlag().equalsIgnoreCase("1")) {
+						Intent call = new Intent(BaseActivity.this, CategoryTabs.class);
+						Bundle call_bundle = new Bundle();
+						call_bundle.putSerializable("PRODUCTDATA", responseBean);
+						call.putExtras(call_bundle);
+						startActivity(call);
+					}else{
+						UtilityMethods.customToast(AppConstants.ToastConstant.NO_RESULT_FOUND,mContext);
+					}
+//			Simple simple1 = (Simple) bundle.getSerializable(ConnectionService.RESPONSE);
+//			if (responseBean.getResult().equalsIgnoreCase("1")) {
+//				ArrayList<CategoriesProducts> hotproduct = responseBean.getHotproduct();
+//				ArrayList<CategoriesProducts> productList = responseBean.getProductList();
+//				if(hotproduct.size() > 0 && productList.size() > 0){
+//
+//				}
+//			}
 				}
 //				else if(intent.getAction().equals(MyReceiverActions.SEARCH_BY_CATEGORY)){
 //

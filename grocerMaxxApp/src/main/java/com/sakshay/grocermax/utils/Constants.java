@@ -8,7 +8,9 @@ import java.util.Arrays;
  * Class to Hold the Constants
  * */
 public class Constants {
-	
+
+	public static String base_url_category_image;
+
 	public static final String SERVER_SUCCESS = "1";
 	
 	public static final String SERVER_FAILURE = "0";

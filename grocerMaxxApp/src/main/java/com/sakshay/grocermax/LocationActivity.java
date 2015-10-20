@@ -69,8 +69,8 @@ public class LocationActivity extends BaseActivity {
         densityPhone =  getResources().getDisplayMetrics().density;    //0.75 - ldpi  1.0 - mdpi  1.5 - hdpi 2.0 - xhdpi  3.0 - xxhdpi  4.0 - xxxhdpi
 
         System.out.println(densityPhone+"====xaxis====");
-//index - 2.0
-//lenovo - 3.0
+//index - 2.0 - xhdpi
+//lenovo - 3.0 - xxhdpi
         llLocation = (LinearLayout)findViewById(R.id.location_main_layout);
         TextView tvSave = (TextView) findViewById(R.id.location_save);
         tvSave.setOnClickListener(new View.OnClickListener() {

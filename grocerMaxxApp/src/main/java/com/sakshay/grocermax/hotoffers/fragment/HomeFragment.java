@@ -97,6 +97,8 @@ public class HomeFragment extends Fragment {
             bannerFragment.setData(homeBannerBean.getBanner().get(position).getImageurl());
             bannerFragment.setLinkUrl(homeBannerBean.getBanner().get(position).getLinkurl());
             bannerFragment.setName(homeBannerBean.getBanner().get(position).getName());
+
+            System.out.println("====NAME===="+homeBannerBean.getBanner().get(position).getName());
 //            return BannerFragment.newInstance(homeBannerBean.getBanner().get(position % homeBannerBean.getBanner().size()));
             return bannerFragment;
         }

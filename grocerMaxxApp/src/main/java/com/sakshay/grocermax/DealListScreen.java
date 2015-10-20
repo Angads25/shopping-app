@@ -77,8 +77,8 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
                 hasMoreItem = true;
             }
 
-            TextView tvHeader = (TextView) findViewById(R.id.tv_your_cart);
-            tvHeader.setText(header);
+//            TextView tvHeader = (TextView) findViewById(R.id.tv_your_cart);
+//            tvHeader.setText(header);
 
 //            tv_bradcrum = (TextView) findViewById(R.id.tv_Bradcrum);
 //            hrc = (View) findViewById(R.id.hrc_Bradcrum);
@@ -283,7 +283,7 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
                 /*** do the work for load more date! ***/
                 if (!isLoading) {
                     //isLoading = true;
-                    loadMoreData();
+//                    loadMoreData();
                 }
             }
         }catch(Exception e){
@@ -327,7 +327,7 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
         // TODO Auto-generated method stub
         super.onResume();
         try{
-            initHeader(findViewById(R.id.header), true, null);
+            initHeader(findViewById(R.id.header), true, header);
             clickStatus=0;
         }catch(Exception e){
             new GrocermaxBaseException("DealListScreen","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");

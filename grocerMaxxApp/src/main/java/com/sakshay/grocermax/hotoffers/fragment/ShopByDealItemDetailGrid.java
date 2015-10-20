@@ -48,31 +48,4 @@ public class ShopByDealItemDetailGrid extends Fragment {
         this.offerList = arrayList;
     }
 
-    private void addArrayData() {
-
-        arrayList.add("Brightness");
-        arrayList.add("Contrast");
-        arrayList.add("Autofix");
-        arrayList.add("Black & White");
-        arrayList.add("Flip Vertical");
-        arrayList.add("Flip Horizontal");
-        arrayList.add("Fish Eye");
-        arrayList.add("Documentary");
-        arrayList.add("Tint");
-        arrayList.add("Vignette");
-        arrayList.add("Sharpen");
-        arrayList.add("Sepia");
-        arrayList.add("Temperature");
-        arrayList.add("Saturate");
-        arrayList.add("Rotate");
-        arrayList.add("Posterize");
-        arrayList.add("Negative");
-        arrayList.add("Lomoish");
-        arrayList.add("Grayscale");
-        arrayList.add("Grain");
-        arrayList.add("Negative");
-        arrayList.add("Fill Light");
-        arrayList.add("Duotone");
-        arrayList.add("Crossprocess");
-    }
 }

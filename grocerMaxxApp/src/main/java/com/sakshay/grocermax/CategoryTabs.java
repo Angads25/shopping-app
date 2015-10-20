@@ -2,6 +2,7 @@ package com.sakshay.grocermax;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,8 +31,10 @@ import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
 import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.BaseResponseBean;
+import com.sakshay.grocermax.bean.CategoriesProducts;
 import com.sakshay.grocermax.bean.Product;
 import com.sakshay.grocermax.bean.ProductDetailsListBean;
+import com.sakshay.grocermax.bean.Simple;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.Constants.ToastConstant;
@@ -42,16 +45,20 @@ import com.viewpagerindicator.TabPageIndicator;
 
 public class CategoryTabs extends BaseActivity {
 	private String header;
-	private ArrayList<CategorySubcategoryBean> catObj;
+	//	private ArrayList<CategorySubcategoryBean> catObj;
 	public Product product;
 	TextView tv_bradcrum;
 	LinearLayout ll_brad_crum;
 	HorizontalScrollView hscrollview;
 	ImageView iconHeaderHome;
 	Context mContext = this;
+	String strHeader;
 	public static int clickStatus=0;
 	public static ArrayList<ProductListFragments.CallAPI> asyncTasks=new ArrayList<ProductListFragments.CallAPI>();
-//	EasyTracker tracker;
+	//	EasyTracker tracker;
+	String selectedCatId;
+	private ArrayList<CategoriesProducts> alCategory;
+
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,8 +71,91 @@ public class CategoryTabs extends BaseActivity {
 
 			Bundle bundle = getIntent().getExtras();
 			if (bundle != null) {
-				catObj = (ArrayList<CategorySubcategoryBean>) bundle.getSerializable("Categories");
-				header = bundle.getString("Header");
+//				catObj = (ArrayList<CategorySubcategoryBean>) bundle.getSerializable("Categories");
+//				header = bundle.getString("Header");
+//				selectedCatId = bundle.getString("selectedcatid");
+
+				Simple responseBean = (Simple)bundle.getSerializable("PRODUCTDATA");
+				strHeader = bundle.getString("HEADERNAME");
+
+				alCategory = new ArrayList<CategoriesProducts>();
+
+				List<Product> listAll = new ArrayList<Product>();                      //contain All products
+
+//				alCategory.add(categoriesproduct)
+
+				if (responseBean.getFlag().equalsIgnoreCase("1")) {
+					ArrayList<CategoriesProducts> hotproduct = responseBean.getHotproduct();
+					ArrayList<CategoriesProducts> productList = responseBean.getProductList();
+
+					if(hotproduct != null) {
+						if (hotproduct.size() > 0) {
+							for (int i = 0; i < hotproduct.size(); i++) {
+								CategoriesProducts categoriesProducts = hotproduct.get(i);
+								if (categoriesProducts.getItems().size() > 0) {
+									alCategory.add(categoriesProducts);
+//									for (int k = 0; k < categoriesProducts.getItems().size(); k++) {
+//										Product pro = categoriesProducts.getItems().get(k);
+//										listAll.add(categoriesProducts.getItems().get(k));
+//									}
+								}
+							}
+						}
+					}
+
+					if(productList != null){
+						if(productList.size() > 0) {
+							for (int j = 0; j < productList.size(); j++) {
+								CategoriesProducts categoriesProducts = productList.get(j);
+								if (categoriesProducts.getItems().size() > 0) {
+									alCategory.add(categoriesProducts);
+									for (int k = 0; k < categoriesProducts.getItems().size(); k++) {
+										listAll.add(categoriesProducts.getItems().get(k));
+									}
+								}
+//							alCategory.add(categoriesProducts);
+//							for(int k=0;k<categoriesProducts.getItems().size();k++){
+//								listAll.add(categoriesProducts.getItems().get(k));
+//							}
+							}
+
+						}
+					}
+
+					if(listAll.size() > 0) {
+						CategoriesProducts categoriesProducts = new CategoriesProducts();
+						categoriesProducts.setCategory_id(null);
+						categoriesProducts.setCategory_name("All");
+						categoriesProducts.setItems(listAll);
+						categoriesProducts.setFlag(null);
+						categoriesProducts.setMobile(null);
+						categoriesProducts.setResult(null);
+						categoriesProducts.setTotalItem(0);
+						alCategory.add(0,categoriesProducts);
+					}
+
+//				Simple responseBean = (Simple) bundle.getSerializable(ConnectionService.RESPONSE);
+//				ArrayList<CategoriesProducts> hotproduct = responseBean.getHotproduct();
+//				ArrayList<CategoriesProducts> productList = responseBean.getProductList();
+//				if(hotproduct.size() > 0 && productList.size() > 0){
+//					for(int i=0;i<hotproduct.size();i++){
+//						CategoriesProducts categoriesProducts = hotproduct.get(0);
+//						String strName = hotproduct.get(0).getCategory_name();
+//						List<Product> products = categoriesProducts.getItems();
+//						System.out.println(strName+"=="+i+"==HOT NAME=="+product.getName());
+//					}
+//					for(int j=0;j<productList.size();j++){
+//						CategoriesProducts categoriesProducts = productList.get(0);
+//						List<Product> products = categoriesProducts.getItems();
+//						String strName = hotproduct.get(0).getCategory_name();
+//						System.out.println(strName+"=="+j+"==PRODUCT NAME=="+product.getName());
+//					}
+				}
+
+
+//				ArrayList<CategoriesProducts> hotproduct = responseBean.getHotproduct();
+//				PRODUCTDATA
+
 			/*for(int i=0;i<catObj.size();i++)
 			{
 				ProductListFragments.CallAPI callapi=new ProductListFragments().new CallAPI();
@@ -74,7 +164,7 @@ public class CategoryTabs extends BaseActivity {
 			}
 
 			iconHeaderHome = (ImageView) findViewById(R.id.icon_header_home);
-			iconHeaderHome.setOnClickListener(new View.OnClickListener() {
+			iconHeaderHome.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
@@ -96,25 +186,24 @@ public class CategoryTabs extends BaseActivity {
 			ll_brad_crum = (LinearLayout) findViewById(R.id.ll_Bradcrum);
 			ll_brad_crum.setBackgroundColor(getResources().getColor(R.color.breadcrum_color));
 
-			hscrollview = (HorizontalScrollView) findViewById(R.id.hscrollview);
+//			hscrollview = (HorizontalScrollView) findViewById(R.id.hscrollview);
 
 
-			if (MySharedPrefs.INSTANCE.getBradecrum() != null) {
-				String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");
+//			if (MySharedPrefs.INSTANCE.getBradecrum() != null) {
+//				String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");
+//				for (int i = 0; i < brade_crum.length; i++) {
+//					addImageView(ll_brad_crum);
+//					addTextView(ll_brad_crum, brade_crum[i]);
+//				}
+//			}
 
-				for (int i = 0; i < brade_crum.length; i++) {
-					addImageView(ll_brad_crum);
-					addTextView(ll_brad_crum, brade_crum[i]);
-				}
-
-			}
-			hscrollview.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-				@Override
-				public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-					hscrollview.removeOnLayoutChangeListener(this);
-					hscrollview.fullScroll(View.FOCUS_RIGHT);
-				}
-			});
+//			hscrollview.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+//				@Override
+//				public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+//					hscrollview.removeOnLayoutChangeListener(this);
+//					hscrollview.fullScroll(View.FOCUS_RIGHT);
+//				}
+//			});
 
 			ll_brad_crum.setOnClickListener(new OnClickListener() {
 				@Override
@@ -123,26 +212,31 @@ public class CategoryTabs extends BaseActivity {
 				}
 			});
 
-
-
 			FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
 
 			ViewPager pager = (ViewPager) findViewById(R.id.pager);
 			pager.setAdapter(adapter);
-			pager.setOffscreenPageLimit(catObj.size());
+//			pager.setOffscreenPageLimit(catObj.size());
+//			pager.setOffscreenPageLimit(alCategory.size());
+			pager.setOffscreenPageLimit(0);
 
 			TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
-			indicator.setViewPager(pager);
-
+			if(pager!=null)
+				indicator.setViewPager(pager);
 
 			View headerView = findViewById(R.id.header);
+
+			initHeader(headerView, true, strHeader);
 //			initHeader(headerView, true, header.replaceAll("/", " >> "));
-			if (MySharedPrefs.INSTANCE.getBradecrum() != null) {
-				String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");
-				initHeader(headerView, true, brade_crum[brade_crum.length-1]);
-			}else{
-				initHeader(headerView, true, null);
-			}
+//			if (MySharedPrefs.INSTANCE.getBradecrum() != null) {
+//				String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");
+//				initHeader(headerView, true, brade_crum[brade_crum.length-1]);
+//			}else{
+//				initHeader(headerView, true, null);
+//			}
+
+
+
 //			TextView textView = (TextView) headerView.findViewById(R.id.screenName);
 //			TextView textView = (TextView) headerView.findViewById(R.id.tv_appbar_breadcrumb);
 
@@ -169,6 +263,7 @@ public class CategoryTabs extends BaseActivity {
 //			});
 
 		}catch(Exception e){
+			e.printStackTrace();
 			new GrocermaxBaseException("CategoryTabs", "onCreate", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 
@@ -206,7 +301,8 @@ public class CategoryTabs extends BaseActivity {
 		@Override
 		public Fragment getItem(int position) {
 			try{
-				return ProductListFragments.newInstance(catObj.get(position % catObj.size()));
+//            	return ProductListFragments.newInstance(catObj.get(position % catObj.size()));
+				return ProductListFragments.newInstance(alCategory.get(position % alCategory.size()));
 			}catch(Exception e){
 				new GrocermaxBaseException("CategoryTabs","GoogleMusicAdapter",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 			}
@@ -216,7 +312,11 @@ public class CategoryTabs extends BaseActivity {
 		@Override
 		public CharSequence getPageTitle(int position) {
 			try{
-				return catObj.get(position % catObj.size()).getCategory().toUpperCase();
+//            	return catObj.get(position % catObj.size()).getCategory().toUpperCase();
+//				String str = alCategory.get(position % alCategory.size()).getCategory_name().toUpperCase();;
+//				System.out.println("==Cat value is=="+str);
+
+				return alCategory.get(position % alCategory.size()).getCategory_name().toUpperCase();
 			}catch(Exception e){
 				new GrocermaxBaseException("CategoryTabs","GoogleMusicAdapter",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 			}
@@ -226,7 +326,8 @@ public class CategoryTabs extends BaseActivity {
 		@Override
 		public int getCount() {
 			try{
-				return catObj.size();
+//          		return catObj.size();
+				return alCategory.size();
 			}catch(Exception e){
 				new GrocermaxBaseException("CategoryTabs","GoogleMusicAdapter",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 			}
@@ -335,14 +436,14 @@ public class CategoryTabs extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		try {
-			if (MySharedPrefs.INSTANCE.getBradecrum() != null) {
-				String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");
-				initHeader(findViewById(R.id.header), true, brade_crum[brade_crum.length-1]);
-
-			}else{
-				initHeader(findViewById(R.id.header), true, null);
-			}
-//			initHeader(findViewById(R.id.header), true, null);
+//			if (MySharedPrefs.INSTANCE.getBradecrum() != null) {
+//				String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");
+//				initHeader(findViewById(R.id.header), true, brade_crum[brade_crum.length-1]);
+//
+//			}else{
+//				initHeader(findViewById(R.id.header), true, null);
+//			}
+			initHeader(findViewById(R.id.header), true, strHeader);
 			if (martHeader != null) {
 				martHeader.setVisibility(View.GONE);
 			}
@@ -406,7 +507,7 @@ public class CategoryTabs extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onStart();
 		try{
-			tracker.activityStart(this);
+			EasyTracker.getInstance(this).activityStart(this);
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
 		}catch(Exception e){}
@@ -417,7 +518,7 @@ public class CategoryTabs extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onStop();
 		try{
-			tracker.activityStop(this);
+			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
 		}catch(Exception e){}
 	}

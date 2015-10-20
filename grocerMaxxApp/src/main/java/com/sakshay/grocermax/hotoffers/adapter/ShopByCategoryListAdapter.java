@@ -17,6 +17,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.CategoryActivity;
 import com.sakshay.grocermax.R;
+import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
 import com.sakshay.grocermax.bean.ShopByCategoryModel;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 
@@ -79,7 +80,7 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
         ImageLoader.getInstance().displayImage(data.get(position).getImages(),
                 holder.imageView, ((BaseActivity) context).baseImageoptions);
 
-        holder.footer.setText(data.get(position).getOffercount()+" Offer");
+        holder.footer.setText(data.get(position).getOffercount() + " Offer");
         holder.ivRightCarrot.setVisibility(View.VISIBLE);
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
@@ -88,12 +89,27 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
 //                ((HotOffersActivity) context).hitForShopByCategory(data.get(position).getCategory_id());
 //                ShopByCategoryListAdapter.strDealListCategoryHeading = data.get(position).getName();
 
+
+                ArrayList<CategorySubcategoryBean> catObjSend = new ArrayList<CategorySubcategoryBean>();
+//                int size = ((HotOffersActivity) context).catObj.get(position).getChildren().size();
+//
+//                for (int i = 0; i < ((HotOffersActivity) context).catObj.get(position).getChildren().size(); i++) {
+//                    if (((HotOffersActivity) context).catObj.get(position).getChildren().get(i).getIsActive().equals("1")) {
+//                           catObjSend.add((((HotOffersActivity) context).catObj.get(i)));
+//                    }
+//                    .get(0).getcategory
+//                    if (((HotOffersActivity) context).catObj.get(position).getChildren().get(i).getIsActive().equals("1")){
+//                        catObjSend.add((((HotOffersActivity) context).catObj.get(i)));
+//                    }
+//                }
+
                 Intent intent = new Intent(((HotOffersActivity) context), CategoryActivity.class);
                 Bundle call_bundle = new Bundle();
                 call_bundle.putSerializable("Categories", (((HotOffersActivity) context).catObj));
+//                call_bundle.putSerializable("Categories", catObjSend);
+                call_bundle.putSerializable("maincategoryposition", String.valueOf(position));
+                call_bundle.putSerializable("CategoryName", data.get(position).getName());
                 intent.putExtras(call_bundle);
-                intent.putExtra("maincategoryposition", position);
-                intent.putExtra("CategoryName",data.get(position).getName());
                 ((HotOffersActivity) context).startActivity(intent);
 
                 //fragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.explode));

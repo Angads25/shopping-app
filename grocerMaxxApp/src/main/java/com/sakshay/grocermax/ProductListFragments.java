@@ -10,6 +10,8 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,6 +33,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
 import com.sakshay.grocermax.adapters.ProductListAdapter;
+import com.sakshay.grocermax.bean.CategoriesProducts;
 import com.sakshay.grocermax.bean.Product;
 import com.sakshay.grocermax.bean.ProductListBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
@@ -46,7 +49,7 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 	int currentFirstVisibleItem = 0;
 	int currentVisibleItemCount = 10;
 	int totalItemCount = 10;
-	int currentScrollState = AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
+	int currentScrollState = OnScrollListener.SCROLL_STATE_IDLE;
 	boolean isLoading = false;
 	int itemPerPage = 10;
 	boolean hasMoreItem = true;
@@ -55,6 +58,7 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 	private ProductListBean productListBean;
 	private int pageNo = 1;
 	private String cat_id = "";
+	private String cat_name = "";
 	private List<Product> product_list;
 	private CategoryTabs categoryTabs;
 	private View footerView;
@@ -62,9 +66,31 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 	private ProgressBar progressBar;
 	public static TextView tvGlobalUpdateProductList;        //will update product listing screen if on product description page quantity has been changed and user press back btn OR cross btn
 	public static ImageView imgAddedProductCount;           //will update product listing screen if on product description page quantity has been changed and user press back btn OR cross btn
-	public static ProductListFragments newInstance(CategorySubcategoryBean categorySubcategoryBean) {
+
+	private CategoriesProducts categoryData;
+
+//    public static ProductListFragments newInstance(CategorySubcategoryBean categorySubcategoryBean) {
+//    	ProductListFragments fragment = new ProductListFragments();
+//    	fragment.cat_id = categorySubcategoryBean.getCategoryId();
+//        return fragment;
+//    }
+
+	//	ArrayList<CategoriesProducts> alCategory = null;
+	public static ProductListFragments newInstance(CategoriesProducts categorie) {
 		ProductListFragments fragment = new ProductListFragments();
-		fragment.cat_id = categorySubcategoryBean.getCategoryId();
+//		fragment.cat_id = alCategory.getCategoryId();
+//		alCategory.get(0).getItems().get(0).get
+//		List<Product> product = alCategory.get(0).getItems();
+//		fragment.alCategory = alCategory.get(0).getItems();
+
+			fragment.cat_id = categorie.getCategory_id();
+			fragment.categoryData = categorie;
+			fragment.cat_name = categorie.getCategory_name();
+		try {
+			fragment.itemPerPage = categorie.getTotalCount();
+		}catch(Exception e){
+			fragment.itemPerPage = 10;
+		}
 		return fragment;
 	}
 
@@ -128,16 +154,126 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 			});
 			mList.setOnScrollListener(this);
 
-			CallAPI callapi=new CallAPI();
-			CategoryTabs.asyncTasks.add(callapi);
-			callapi.execute(UrlsConstants.PRODUCT_LIST_URL + cat_id);
+//		CallAPI callapi=new CallAPI();
+//		CategoryTabs.asyncTasks.add(callapi);
+//		callapi.execute(UrlsConstants.PRODUCT_LIST_URL + cat_id);
+			makeUI();
+			return view;
 		}catch(Exception e){
 			new GrocermaxBaseException("ProductListFragments","onCreateView",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 
-		return view;
+		return null;
 	}
-    
+
+
+	private void makeUI(){
+		try{
+			main_lay.setVisibility(View.VISIBLE);
+			progressBar.setVisibility(View.GONE);
+			ProductListBean listBean = null;
+//			if (result!=null) {
+//				Log.i(TAG, "RESPONSE:::" + result);
+//			JSONArray products = new JSONArray();
+//			int size= category.getItems().size();
+//			System.out.println("====size si=="+size);
+//			for(int i=0;i<category.getItems().size();i++)
+//			{
+//				Product pro = category.getItems().get(i);
+			listBean = new ProductListBean();
+			List<Product> lis = new ArrayList<Product>();
+			lis = categoryData.getItems();
+
+			listBean.setProduct(lis);
+			////jsonarray parse in listbean////////////////
+//			JSONArray productsss = new JSONArray();
+//			for(int i=0;i<category.getItems().size();i++){
+//				Product pro = category.getItems().get(i);
+//				JSONObject jsonObject = new JSONObject();
+//				jsonObject.put("productid",pro.getProductid());
+//				jsonObject.put("Name",pro.getProductName());
+//				jsonObject.put("p_brand",pro.getBrand());
+//				jsonObject.put("p_name",pro.getName());
+//				jsonObject.put("p_pack",pro.getGramsORml());
+//				jsonObject.put("promotion_level",pro.getPromotionLevel());
+//				jsonObject.put("Price",pro.getPrice());
+//				jsonObject.put("sale_price",pro.getSalePrice());
+//				jsonObject.put("Image",pro.getImage());
+//				jsonObject.put("Status",pro.getStatus());
+//
+//				productsss.put(jsonObject);
+//			}
+//			JSONObject json = new JSONObject();
+//			json.put("Product", productsss);
+//			System.out.print("2222===="+json);
+//			Gson gson = new Gson();
+//			listBean = gson.fromJson(String.valueOf(json), ProductListBean.class);
+			////jsonarray parse in listbean////////////////
+
+//			Gson gson = new Gson();
+//			listBean = gson.fromJson(String.valueOf(products), ProductListBean.class);
+
+//			List<Product> listP = category.getItems();
+//			listP.size()
+//			listP.get(0).getBrand()
+
+//			listBean = gson.fromJson(category.getItems().toString(), ProductListBean.class);
+
+//				if (listBean!=null && listBean.getFlag().equalsIgnoreCase("1")) {
+			if (listBean!=null ) {
+//			if (category.getItems() != null ) {
+				if(cat_name.equalsIgnoreCase("All")){
+					hasMoreItem = false;
+				}else {
+					if(hasMoreItem) {                                           //it setted false(extra condition) in postexecute (but set true again b/c calculates initial 10 records with below limit))
+						if (listBean.getProduct().size() >= itemPerPage) {
+							hasMoreItem = false;
+						} else {
+							hasMoreItem = true;
+						}
+					}
+				}
+				footerView.setVisibility(View.GONE);
+				if (mAdapter != null) {
+
+					for(int i=0;i<listBean.getProduct().size();i++)                //new 10 records
+						listBean.getProduct().get(i).setQuantity("1");
+					product_list = new ArrayList<Product>();
+					product_list.addAll(listBean.getProduct());                    //added more records in product_list
+//					product_list.addAll(category.getItems());                    //added more records in product_list
+
+					mAdapter = new ProductListAdapter(getActivity(), product_list);
+					mList.setAdapter(mAdapter);
+
+//					productListBean.setProduct(product_list);
+//					mAdapter.updateList(product_list);
+				}else{
+					productListBean = listBean;
+					product_list = productListBean.getProduct();
+//					product_list = category.getItems();
+//					mAdapter = new ProductListAdapter(categoryTabs, product_list);
+					mAdapter = new ProductListAdapter(getActivity(), product_list);
+					mList.setAdapter(mAdapter);
+				}
+			} else
+			{
+				product_list=new ArrayList<Product>();
+				Product product=new Product("No product found for this category");
+				product_list.add(product);
+//				mAdapter = new ProductListAdapter(categoryTabs, product_list);
+				mAdapter = new ProductListAdapter(getActivity(), product_list);
+
+				mList.setAdapter(mAdapter);
+
+			}
+//			}
+		}catch(Exception e){
+			e.printStackTrace();
+			new GrocermaxBaseException("ProductListFragments","onPostExecute",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
+	}
+
+
 	/*@TargetApi(Build.VERSION_CODES.HONEYCOMB) // API 11
     void startMyTask(AsyncTask<String, String, String> asyncTask,String params) {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
@@ -183,10 +319,21 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 					listBean = gson.fromJson(result, ProductListBean.class);
 
 					if (listBean!=null && listBean.getFlag().equalsIgnoreCase("1")) {
-						if (listBean.getProduct().size() < itemPerPage) {
+
+						if(cat_name.equalsIgnoreCase("All")){
 							hasMoreItem = false;
-						} else {
-							hasMoreItem = true;
+						}
+						else {
+							if(hasMoreItem) {
+//								if (listBean.getProduct().size() < itemPerPage) {         //remove
+								if(mList != null) {                                   //extra
+									if (listBean.getProduct().size() + mList.getAdapter().getCount() >= itemPerPage) {       //extra
+										hasMoreItem = false;
+									} else {
+										hasMoreItem = true;
+									}
+								}
+							}
 						}
 						footerView.setVisibility(View.GONE);
 						if (mAdapter != null) {
@@ -196,6 +343,7 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 							product_list.addAll(listBean.getProduct());                    //added more records in product_list
 							productListBean.setProduct(product_list);
 							mAdapter.updateList(product_list);
+
 						}else{
 							productListBean = listBean;
 							product_list = productListBean.getProduct();
@@ -267,6 +415,7 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 					url = UrlsConstants.PRODUCT_LIST_URL + cat_id + "&page="
 							+ pageNo;
 
+					System.out.println("========URL more pages==============="+url);
 					new CallAPI().execute(url);
 					//callApi.execute(url);
 					//startMyTask(callApi, url);

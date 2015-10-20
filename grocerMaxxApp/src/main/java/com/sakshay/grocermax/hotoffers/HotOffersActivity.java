@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -70,6 +71,10 @@ public class HotOffersActivity extends BaseActivity {
         addActionsInFilter(MyReceiverActions.GET_SHOP_BY_CATEGORIES);
         addActionsInFilter(MyReceiverActions.GET_SHOP_BY_DEALS);
         addActionsInFilter(MyReceiverActions.GET_BANNER);
+        addActionsInFilter(MyReceiverActions.OFFER_BY_DEALTYPE);
+        addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
+        addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);
+
         menuIcon = (ImageView) findViewById(R.id.menuIcon);
 //        martHeader.setVisibility(View.VISIBLE);
         progress = new ProgressDialog(this);
@@ -181,6 +186,7 @@ public class HotOffersActivity extends BaseActivity {
         initHeader(findViewById(R.id.header), true, null);
         findViewById(R.id.header).setVisibility(View.VISIBLE);
         findViewById(R.id.header_left).setVisibility(View.GONE);
+//      setHeader(null);
     }
 
     @Override
@@ -239,6 +245,7 @@ public class HotOffersActivity extends BaseActivity {
                     fragmentTransact.add(R.id.menu, fragment1);
                     fragment1.setArguments(call_bundle);
                     fragmentTransact.commit();
+
                 }
 
 
@@ -271,8 +278,13 @@ public class HotOffersActivity extends BaseActivity {
                 changeFragment(fragment);
             } else if (action.equals(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE)) {
 
-                DealListBean dealListBean = (DealListBean) bundle
-                        .getSerializable(ConnectionService.RESPONSE);
+//                DealListBean dealListBean = (DealListBean) bundle
+  //                      .getSerializable(ConnectionService.RESPONSE);
+                JSONObject jsonObject = new JSONObject(bundle.getString("json"));
+                JSONObject json = jsonObject.getJSONObject("Product");
+                Gson gson = new Gson();
+            DealListBean dealListBean = gson.fromJson(json.toString(), DealListBean.class);
+//                System.out.println("RESPONSE DEALLISTING" + dealProductListingBean.getProduct().size());
                 if (dealListBean == null) {
                     UtilityMethods.customToast(AppConstants.ToastConstant.NO_PRODUCT, mContext);
                     return;
@@ -312,7 +324,6 @@ public class HotOffersActivity extends BaseActivity {
     }
 
     public void hitForShopByCategory(String categoryId) {
-        addActionsInFilter(MyReceiverActions.OFFER_BY_DEALTYPE);
         String url = UrlsConstants.OFFER_BY_DEAL_TYPE;
         showDialog();
         myApi.reqOfferByDealType(url + categoryId);
@@ -323,7 +334,7 @@ public class HotOffersActivity extends BaseActivity {
     }
 
     public void hitForShopByDeals(String dealId) {
-        addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);
+
         showDialog();
         String url = UrlsConstants.DEAL_BY_DEAL_TYPE;
         System.out.print("==my work==" + url);
@@ -331,7 +342,7 @@ public class HotOffersActivity extends BaseActivity {
     }
 
     public void hitForDealsByDeals(String dealId) {
-        addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
+
         String url = UrlsConstants.PRODUCTLISTING_BY_DEAL_TYPE;
         showDialog();
         myApi.reqProductListingByDealType(url + dealId);
@@ -372,4 +383,11 @@ public class HotOffersActivity extends BaseActivity {
 ////        if(fragmentTransaction.getBackStackEntryCount())
 //        super.onBackPressed();
 //    }
+    public void setHeader(String header)
+    {
+        initHeader(findViewById(R.id.header), true, header);
+//        findViewById(R.id.header).setVisibility(View.VISIBLE);
+//        findViewById(R.id.header_left).setVisibility(View.GONE);
+    }
+
 }

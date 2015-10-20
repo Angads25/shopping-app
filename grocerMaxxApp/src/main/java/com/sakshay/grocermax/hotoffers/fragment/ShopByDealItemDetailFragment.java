@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.DealByDealTypeBean;
 import com.sakshay.grocermax.bean.OfferByDealTypeSubModel;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.hotoffers.MyPagerSlidingTabStrip;
 import com.sakshay.grocermax.utils.Constants;
 import com.sakshay.grocermax.utils.Worker;
@@ -43,6 +44,7 @@ public class ShopByDealItemDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         Bundle data = getArguments();
+        ((HotOffersActivity)getActivity()).setHeader("activity start");
 
 //        itemDetailGrid = new ItemDetailGrid();
         try {
