@@ -155,8 +155,11 @@ public class ExpandableMenuFragment extends Fragment {
             menuMap = new HashMap<>();
 
             for (int i = 0; i < catObj.size(); i++) {
-                header.add(catObj.get(i).getCategory());
-                menuMap.put(catObj.get(i).getCategory(), catObj.get(i).getChildren());
+                System.out.println("==========>>>>>>>" + catObj.get(i).getCategory());
+                if(catObj.get(i).getIsActive().equals("1")){
+                    header.add(catObj.get(i).getCategory());
+                    menuMap.put(catObj.get(i).getCategory(), catObj.get(i).getChildren());
+                }
             }
         }
     }

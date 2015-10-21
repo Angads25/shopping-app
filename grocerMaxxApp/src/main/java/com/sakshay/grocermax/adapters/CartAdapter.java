@@ -128,10 +128,10 @@ public class CartAdapter extends BaseAdapter{
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		if(LocationActivity.densityPhone <= 1.5){
+		if(AppConstants.densityPhone <= 1.5){
 			holder.delete_item.getLayoutParams().height = 35;
 			holder.delete_item.getLayoutParams().width = 30;
-		}else if(LocationActivity.densityPhone <= 2.0){
+		}else if(AppConstants.densityPhone <= 2.0){
 			holder.delete_item.getLayoutParams().height = 50;
 			holder.delete_item.getLayoutParams().width = 40;
 		}else{

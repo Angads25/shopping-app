@@ -6,6 +6,7 @@ import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.SignalStrength;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,7 +94,7 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.option_list_item, parent, false);
 
-        ((BaseActivity) context).initHeader(context.findViewById(R.id.header_left), false, ShopByDealDetailListAdapter.strDealListDeatilHeading);
+        ((BaseActivity) context).initHeader(context.findViewById(R.id.header_left), true, ShopByDealDetailListAdapter.strDealListDeatilHeading);
         ((BaseActivity) context).findViewById(R.id.header_left).setVisibility(View.VISIBLE);
         ((BaseActivity) context).findViewById(R.id.header).setVisibility(View.GONE);
 
@@ -112,7 +113,13 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
             @Override
             public void onClick(View v) {
                 ((HotOffersActivity)context).hitForDealsByDeals(data.get(position).getPromo_id());
-                AppConstants.strTitleHotDeal = data.get(position).getName();
+                AppConstants.strTitleHotDeal = data.get(position).getTitle();
+
+//                String str1 = data.get(position).getDealName();
+//                String str2 = data.get(position).getName();
+//                String str3 = data.get(position).getTitle();
+//                System.out.println(data.get(position).getDealName() + "==================" + data.get(position).getName());
+
 //                ItemDetailFragment fragment = new ItemDetailFragment();
 //                fragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.explode));
 //                ((HotOffersActivity)context).hitForDealsByDeals(data.get(position).getId());

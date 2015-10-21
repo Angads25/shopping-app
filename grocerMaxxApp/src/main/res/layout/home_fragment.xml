@@ -3,8 +3,10 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f6f6f6"
+    android:background="@color/white"
     android:orientation="vertical">
+
+    <!-- android:background="#f6f6f6" -->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,14 +30,41 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:paddingLeft="10dp"
-                android:text="Shop by Categories"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+
+                    android:background="@color/black"
+                    />
+
+            <TextView
+                android:id="@+id/txt_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"
+                android:gravity="center_horizontal"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="s&#160;h&#160;o&#160;p&#160;&#160;b&#160;y&#160;&#160;c&#160;a&#160;t&#160;e&#160;g&#160;o&#160;r&#160;i&#160;e&#160;s"
                 android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
+
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/black"
+                    />
+
+            </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView1"
@@ -54,14 +83,43 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:paddingLeft="10dp"
-                android:text="Shop by Deals"
-                android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/black"
+                    />
+
+                <TextView
+                    android:id="@+id/txt_deal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="s&#160;h&#160;o&#160;p&#160;&#160;b&#160;y&#160;&#160;d&#160;e&#160;a&#160;l&#160;s"
+                    android:gravity="center_horizontal"
+                    android:textAllCaps="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/black"
+                    />
+
+            </LinearLayout>
+
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView2"

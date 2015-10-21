@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.sakshay.grocermax.BaseActivity;
@@ -51,7 +52,7 @@ public class HotOffersActivity extends BaseActivity {
     public OfferByDealTypeBean offerByDealTypeBean;
     public DealByDealTypeBean dealByDealTypeBean;
     public HomeBannerBean homeBannerBean;
-    private ImageView menuIcon;
+    private ImageView menuIcon,homeDrawer;
     private android.support.v4.app.FragmentTransaction fragmentTransaction;
     private ArrayList<OfferByDealTypeModel> arrayList;
     private ShopByDealsBean shopByDealsBean;
@@ -76,6 +77,7 @@ public class HotOffersActivity extends BaseActivity {
         addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);
 
         menuIcon = (ImageView) findViewById(R.id.menuIcon);
+        homeDrawer = (ImageView) findViewById(R.id.homedrawer);
 //        martHeader.setVisibility(View.VISIBLE);
         progress = new ProgressDialog(this);
         progress.setTitle(null);
@@ -123,8 +125,19 @@ public class HotOffersActivity extends BaseActivity {
             }
         };
 
+
         actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
         menuIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                    drawerLayout.closeDrawers();
+                } else {
+                    drawerLayout.openDrawer(Gravity.LEFT);
+                }
+            }
+        });
+        homeDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
@@ -276,6 +289,7 @@ public class HotOffersActivity extends BaseActivity {
                 data.putSerializable(Constants.DEAL_BY_DEAL, dealByDealTypeBean);
                 fragment.setArguments(data);
                 changeFragment(fragment);
+
             } else if (action.equals(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE)) {
 
 //                DealListBean dealListBean = (DealListBean) bundle

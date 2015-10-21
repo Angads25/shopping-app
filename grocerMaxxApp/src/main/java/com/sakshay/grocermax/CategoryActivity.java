@@ -42,7 +42,7 @@ public class CategoryActivity extends BaseActivity {
     LinearLayout llParent;
     ScrollView scrollView;
     int selectedIndex = 0;
-    String strNextScreenHeader;
+    public static String strNextScreenHeader;
     String strCatName;                          //shown on header of screen
     ArrayList<CategorySubcategoryBean> alcatObjSend;
     public ArrayList<CategorySubcategoryBean> catObj;
@@ -74,13 +74,12 @@ public class CategoryActivity extends BaseActivity {
         for(int i=0;i<catObj.size();i++){
             if(catObj.get(i).getCategoryId().equals(strCatIdByCat)){
                 mainCatPosition = i;
+                strCatName = catObj.get(i).getCategory();
             }
         }
 
 //        alSubCat = catObj.get(mainCatPosition).getChildren();                   //under main category [right side top category e.g. dryfruits]
         alSubCat = catObj.get(mainCatPosition).getChildren();                   //under main category [right side top category e.g. dryfruits]
-
-
 
         alcatObjSend = new ArrayList<CategorySubcategoryBean>();
         for(int i=0;i<alSubCat.size();i++){
@@ -118,11 +117,11 @@ public class CategoryActivity extends BaseActivity {
             ImageLoader.getInstance().displayImage(strurlImage,
                     ivCat, ((BaseActivity) this).baseImageoptions);
 
-            if (catObj.get(i).getChildren().get(0).getChildren().size() > 0) {  //sub-sub-sub category present
-                tvName.setVisibility(View.VISIBLE);
-            } else {
-                tvName.setVisibility(View.GONE);
-            }
+//            if (catObj.get(i).getChildren().get(0).getChildren().size() > 0) {  //sub-sub-sub category present
+//                tvName.setVisibility(View.VISIBLE);
+//            } else {
+//                tvName.setVisibility(View.GONE);
+//            }
 
             tvCatName.setText(alcatObjSend.get(i).getCategory());
 
@@ -131,6 +130,7 @@ public class CategoryActivity extends BaseActivity {
             if(i ==  selectedIndex){
 //                llChild[i].setVisibility(View.VISIBLE);
 //                updateUi(selectedIndex);
+                llChild[i].setVisibility(View.GONE);
             }else{
                 llChild[i].setVisibility(View.GONE);
             }
@@ -260,13 +260,13 @@ public class CategoryActivity extends BaseActivity {
             }
 
         int addedHeight = 0;
-        if(LocationActivity.densityPhone <= 1.5){
-              addedHeight = 50;
-        }else if(LocationActivity.densityPhone <= 2.0){
+        if(AppConstants.densityPhone <= 1.5){
+              addedHeight = 70;
+        }else if(AppConstants.densityPhone <= 2.0){
               addedHeight = 90;
-        }else if(LocationActivity.densityPhone <= 3.0){
+        }else if(AppConstants.densityPhone <= 3.0){
               addedHeight = 130;
-        }else if(LocationActivity.densityPhone <= 4.0){
+        }else if(AppConstants.densityPhone <= 4.0){
               addedHeight = 170;
         }
 
@@ -323,7 +323,7 @@ public class CategoryActivity extends BaseActivity {
                     llMain = (LinearLayout) subView.findViewById(R.id.ll_main);                   //main view
 
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(0, 10, 0, 0);
+                    lp.setMargins(0, 0, 0, 0);
 
                     llMain.setLayoutParams(lp);
 

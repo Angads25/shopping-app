@@ -29,6 +29,7 @@ import com.sakshay.grocermax.bean.AddressList;
 import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.bean.CheckoutAddressBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
+import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants.ToastConstant;
 import com.sakshay.grocermax.utils.CustomFonts;
 import com.sakshay.grocermax.utils.UrlsConstants;
@@ -203,7 +204,7 @@ public class AddressDetail extends BaseActivity{
 	public void goToAddress(Address address,int position) {          //edit address for Shipping in MyProfile
 		try{
 		if (ShippingLocationLoader.alLocationShipping == null || ShippingLocationLoader.alLocationShipping.size() == 0) {                //first time call this service for getting states
-			new ShippingLocationLoader(AddressDetail.this, address, "profilenewaddress", String.valueOf(position)).execute(UrlsConstants.GET_LOCATION_SHIPPING + LocationActivity.strSelectedStateId);
+			new ShippingLocationLoader(AddressDetail.this, address, "profilenewaddress", String.valueOf(position)).execute(UrlsConstants.GET_LOCATION_SHIPPING + AppConstants.strSelectedStateId);
 		} else {
 			Intent intent = new Intent(mContext, CreateNewAddress.class);
 			intent.putExtra("address", address);
@@ -226,7 +227,7 @@ public class AddressDetail extends BaseActivity{
 			try {
 				if (ShippingLocationLoader.alLocationShipping == null || ShippingLocationLoader.alLocationShipping.size() == 0) {                //first time call this service for getting states
 					Address addres = null;
-					new ShippingLocationLoader(AddressDetail.this, addres, "profilenewaddress", "-1").execute(UrlsConstants.GET_LOCATION_SHIPPING + LocationActivity.strSelectedStateId);
+					new ShippingLocationLoader(AddressDetail.this, addres, "profilenewaddress", "-1").execute(UrlsConstants.GET_LOCATION_SHIPPING + AppConstants.strSelectedStateId);
 				} else {
 					Intent intent = new Intent(mContext, CreateNewAddress.class);
 					intent.putExtra("shippingorbillingaddress", "profilenewaddress");

@@ -283,16 +283,20 @@ public abstract class BaseActivity extends FragmentActivity {
 						onBackPressed();
 						break;
 					case R.id.icon_header_logo_with_search:
-						Intent intent = new Intent(mContext, HotOffersActivity.class);
-						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						startActivity(intent);
-						finish();
+
+							Intent intent = new Intent(mContext, HotOffersActivity.class);
+							intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
+							finish();
+
 						break;
 					case R.id.icon_header_logo_without_search:
-						Intent intent1 = new Intent(mContext, HotOffersActivity.class);
-						intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						startActivity(intent1);
-						finish();
+
+							Intent intent1 = new Intent(mContext, HotOffersActivity.class);
+							intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent1);
+							finish();
+
 						break;
 					case R.id.icon_header_search:
 						showSearchView(true);
@@ -1352,6 +1356,7 @@ public abstract class BaseActivity extends FragmentActivity {
 						Intent call = new Intent(BaseActivity.this, CategoryTabs.class);
 						Bundle call_bundle = new Bundle();
 						call_bundle.putSerializable("PRODUCTDATA", responseBean);
+						call_bundle.putSerializable("HEADERNAME", CategoryActivity.strNextScreenHeader);
 						call.putExtras(call_bundle);
 						startActivity(call);
 					}else{

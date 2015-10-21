@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -54,6 +55,8 @@ public final class SearchProductFragments extends Fragment implements OnScrollLi
 //	private LinearLayout main_lay;
 	private ProgressBar progressBar;
 	public static TextView tvGlobalUpdateProductList;
+
+
 	
 //    public static ProductListFragments newInstance(CategorySubcategoryBean categorySubcategoryBean) {
 //    	ProductListFragments fragment = new ProductListFragments();
@@ -64,6 +67,8 @@ public final class SearchProductFragments extends Fragment implements OnScrollLi
 //	 public static SearchProductFragments newInstance(JSONObject jsonObject) {
 	public static SearchProductFragments newInstance(String str) {
 		try {
+
+
 			JSONObject jsonObject = new JSONObject(str);
 			SearchProductFragments fragment = new SearchProductFragments();
 //	    	fragment.cat_id = categorySubcategoryBean.getCategoryId();
@@ -116,8 +121,7 @@ public final class SearchProductFragments extends Fragment implements OnScrollLi
     	
     	mList = (ListView) view.findViewById(R.id.category_list);
 //    	footerView = (LinearLayout) view.findViewById(R.id.load_more_progressBar);
-    	
-    	
+
 		mList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,int position, long arg3) {

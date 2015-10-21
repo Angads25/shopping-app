@@ -1,6 +1,8 @@
 package com.sakshay.grocermax.hotoffers.fragment;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.HomeBannerBean;
@@ -29,6 +32,7 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
     ViewPager scrollView;
     RecyclerView recyclerView1, recyclerView2;
+    TextView txtCategory,txtDeal;
     ArrayList<String> arrayList = new ArrayList<>();
     private static final int NUM_PAGES = 3;
 
@@ -64,6 +68,13 @@ public class HomeFragment extends Fragment {
         mPager = (ViewPager) view.findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+
+        txtCategory = (TextView) view.findViewById(R.id.txt_category);
+        txtDeal = (TextView) view.findViewById(R.id.txt_deal);
+
+        Typeface type = Typeface.createFromAsset(getActivity().getAssets(), "Lato-Bol.ttf");
+        txtCategory.setTypeface(type);
+        txtDeal.setTypeface(type);
 
         recyclerView1 = (RecyclerView) view.findViewById(R.id.recyclerView1);
 
@@ -107,6 +118,9 @@ public class HomeFragment extends Fragment {
         public int getCount() {
             return homeBannerBean.getBanner().size();
         }
+
+
+
     }
 
 }

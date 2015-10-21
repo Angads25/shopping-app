@@ -41,10 +41,12 @@ public class LocationActivity extends BaseActivity {
     private int position = 0;
     TextView tvSelctionLoc;           //previously selected color change to bluish
     ImageView ivSelectionLoc;
-    public static String strSelectedCity,strSelectedState,
-            strSelectedStateId,                                          //store id
-            strSelectedStateRegionId;                                   //state id for create new address
-    public static float densityPhone = 0;
+//    public static String strSelectedCity,strSelectedState,
+//            strSelectedStateId,                                          //store id
+//            strSelectedStateRegionId;                                   //state id for create new address
+//    public static float densityPhone = 0;
+
+
 
 //    @Override
 //    protected void onStart() {
@@ -66,9 +68,9 @@ public class LocationActivity extends BaseActivity {
 //        float xAxis = metrics.xdpi;
 //        float yAxis = metrics.ydpi;
 
-        densityPhone =  getResources().getDisplayMetrics().density;    //0.75 - ldpi  1.0 - mdpi  1.5 - hdpi 2.0 - xhdpi  3.0 - xxhdpi  4.0 - xxxhdpi
+        AppConstants.densityPhone =  getResources().getDisplayMetrics().density;    //0.75 - ldpi  1.0 - mdpi  1.5 - hdpi 2.0 - xhdpi  3.0 - xxhdpi  4.0 - xxxhdpi
 
-        System.out.println(densityPhone+"====xaxis====");
+        System.out.println(AppConstants.densityPhone+"====xaxis====");
 //index - 2.0 - xhdpi
 //lenovo - 3.0 - xxhdpi
         llLocation = (LinearLayout)findViewById(R.id.location_main_layout);
@@ -115,10 +117,10 @@ public class LocationActivity extends BaseActivity {
                             tvLocation[i] = (TextView) view.findViewById(R.id.tv_location);
                             tvLocation[i].setText(locationList.getItems().get(i).getCityName());
 
-                            strSelectedCity = locationList.getItems().get(0).getCityName();    //selected default city
-                            strSelectedState = locationList.getItems().get(0).getStateName();   //selected default state
-                            strSelectedStateId = locationList.getItems().get(0).getId();  //selected default id
-                            strSelectedStateRegionId = locationList.getItems().get(0).getStateId();  //selected state region id
+                            AppConstants.strSelectedCity = locationList.getItems().get(0).getCityName();    //selected default city
+                            AppConstants.strSelectedState = locationList.getItems().get(0).getStateName();   //selected default state
+                            AppConstants.strSelectedStateId = locationList.getItems().get(0).getId();  //selected default id
+                            AppConstants.strSelectedStateRegionId = locationList.getItems().get(0).getStateId();  //selected state region id
 
 //                            ivLocation[i].setImageResource(getImageResource(catObj.get(i).getCategory()));
 
@@ -180,10 +182,10 @@ public class LocationActivity extends BaseActivity {
             ivLocation[position].setImageResource(R.drawable.unselect_location);
             position = (Integer) view.getTag();
 
-            strSelectedCity = locationList.getItems().get(position).getCityName();    //selected city
-            strSelectedState = locationList.getItems().get(position).getStateName();   //selected state
-            strSelectedStateId = locationList.getItems().get(position).getId();   //selected state id
-            strSelectedStateRegionId = locationList.getItems().get(position).getStateId();   //selected state region id
+            AppConstants.strSelectedCity = locationList.getItems().get(position).getCityName();    //selected city
+            AppConstants.strSelectedState = locationList.getItems().get(position).getStateName();   //selected state
+            AppConstants.strSelectedStateId = locationList.getItems().get(position).getId();   //selected state id
+            AppConstants.strSelectedStateRegionId = locationList.getItems().get(position).getStateId();   //selected state region id
 
             ivLocation[position].setImageResource(R.drawable.select_location);
         }catch(Exception e){

@@ -19,6 +19,7 @@ import com.sakshay.grocermax.bean.Address;
 import com.sakshay.grocermax.bean.OrderReviewBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.preference.MySharedPrefs;
+import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.CustomFonts;
 import com.sakshay.grocermax.utils.UrlsConstants;
 import com.sakshay.grocermax.utils.UtilityMethods;
@@ -168,10 +169,10 @@ public class ShippingAdapter extends BaseAdapter{
 
             @Override
             public void onClick(View v) {
-                if(LocationActivity.strSelectedState.equalsIgnoreCase(obj.getRegion()) && LocationActivity.strSelectedCity.equalsIgnoreCase(obj.getCity()))
+                if(AppConstants.strSelectedState.equalsIgnoreCase(obj.getRegion()) && AppConstants.strSelectedCity.equalsIgnoreCase(obj.getCity()))
                 ((ShippingAddress)mContext).goToAddress(obj,position);
                 else{
-                    UtilityMethods.customToast("We deliver only in "+LocationActivity.strSelectedCity+","+LocationActivity.strSelectedState+".Kindly select add new address", mContext);
+                    UtilityMethods.customToast("We deliver only in "+AppConstants.strSelectedCity+","+AppConstants.strSelectedState+".Kindly select add new address", mContext);
                 }
             }
         });

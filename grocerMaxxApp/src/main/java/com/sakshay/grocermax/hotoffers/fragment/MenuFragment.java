@@ -46,6 +46,8 @@ public class MenuFragment extends Fragment {
     private ShopByDealsMenuListAdapter shopByDealsListADapter;
 
     ShopByDealsBean shopByDealsBean;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 

@@ -40,10 +40,12 @@ public class ShopByDealItemDetailFragment extends Fragment {
     ArrayList<OfferByDealTypeSubModel> allData ;
     HashMap<String,ArrayList<OfferByDealTypeSubModel>> dealcategory;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         Bundle data = getArguments();
+
         ((HotOffersActivity)getActivity()).setHeader("activity start");
 
 //        itemDetailGrid = new ItemDetailGrid();

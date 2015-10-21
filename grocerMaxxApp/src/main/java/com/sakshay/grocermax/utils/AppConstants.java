@@ -9,6 +9,11 @@ import java.util.Arrays;
  * */
 public class AppConstants {
 	public static String strTitleHotDeal;
+	public static String strSelectedCity,strSelectedState,
+			strSelectedStateId,                                          //store id
+			strSelectedStateRegionId;                                   //state id for create new address
+	public static float densityPhone = 0;
+
 	public static String token = "gpjaic0pdzqsv3jyouqsu3cd";
 	
 	public static String user_id = "61723373-785e-407d-a966-ad3b2694ceef";

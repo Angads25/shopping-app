@@ -4,7 +4,7 @@
     android:id="@+id/drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
+    android:background="@color/white"
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
@@ -19,9 +19,14 @@
             android:visibility="gone"/>
 
         <include
-            android:id="@+id/header"
+            android:id="@+id/header_change"
             layout="@layout/mart_header"
             android:visibility="gone" />
+
+        <include
+            android:id="@+id/header"
+            layout="@layout/mart_header_drawer"
+            android:visibility="visible" />
 
         <include
             android:id="@+id/header_left"
@@ -33,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/primaryColor"
+            android:visibility="gone"
             android:orientation="vertical">
 
             <LinearLayout

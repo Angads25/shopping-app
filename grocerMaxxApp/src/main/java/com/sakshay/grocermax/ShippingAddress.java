@@ -114,7 +114,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
     {
         try{
             if(ShippingLocationLoader.alLocationShipping == null || ShippingLocationLoader.alLocationShipping.size() == 0){                //first time call this service for getting states
-                new ShippingLocationLoader(this,address,"shipping",String.valueOf(position)).execute(UrlsConstants.GET_LOCATION_SHIPPING+LocationActivity.strSelectedStateId);
+                new ShippingLocationLoader(this,address,"shipping",String.valueOf(position)).execute(UrlsConstants.GET_LOCATION_SHIPPING+AppConstants.strSelectedStateId);
             }else {
                 Intent intent = new Intent(mContext, CreateNewAddress.class);
                 intent.putExtra("address", address);
@@ -144,10 +144,10 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
             addressList = new ArrayList<Address>();
 
             for(int i=0;i<address_obj.getAddress().size();i++) {
-                System.out.println(LocationActivity.strSelectedState+"======"+ LocationActivity.strSelectedCity);
+                System.out.println(AppConstants.strSelectedState+"======"+ AppConstants.strSelectedCity);
 //                if(address_obj.getAddress().get(i).getDefaultShipping().equals("true")) {
-                if(address_obj.getAddress().get(i).getCity().equalsIgnoreCase(LocationActivity.strSelectedCity) &&
-                        address_obj.getAddress().get(i).getRegion().equalsIgnoreCase(LocationActivity.strSelectedState)){
+                if(address_obj.getAddress().get(i).getCity().equalsIgnoreCase(AppConstants.strSelectedCity) &&
+                        address_obj.getAddress().get(i).getRegion().equalsIgnoreCase(AppConstants.strSelectedState)){
                     addressList.add(address_obj.getAddress().get(i));
                 }
 
@@ -561,7 +561,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                         try {
                             if (ShippingLocationLoader.alLocationShipping == null || ShippingLocationLoader.alLocationShipping.size() == 0) {                //first time call this service for getting states
                                 Address addres = null;
-                                new ShippingLocationLoader(ShippingAddress.this, addres, "shipping", "-1").execute(UrlsConstants.GET_LOCATION_SHIPPING + LocationActivity.strSelectedStateId);
+                                new ShippingLocationLoader(ShippingAddress.this, addres, "shipping", "-1").execute(UrlsConstants.GET_LOCATION_SHIPPING + AppConstants.strSelectedStateId);
                             } else {
                                 Intent intent = new Intent(mContext, CreateNewAddress.class);
                                 intent.putExtra("shippingorbillingaddress", "shipping");
@@ -739,12 +739,12 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
 
                         Address ship_add = addressList.get(selectedPosition);
 
-                        if (!ship_add.getCity().equalsIgnoreCase(LocationActivity.strSelectedCity)) {
-                            UtilityMethods.customToast("We deliver only in " + LocationActivity.strSelectedCity + "," + LocationActivity.strSelectedState + ".Kindly select add new address", mContext);
+                        if (!ship_add.getCity().equalsIgnoreCase(AppConstants.strSelectedCity)) {
+                            UtilityMethods.customToast("We deliver only in " + AppConstants.strSelectedCity + "," + AppConstants.strSelectedState + ".Kindly select add new address", mContext);
                             return;
                         }
-                        if (!ship_add.getRegion().equalsIgnoreCase(LocationActivity.strSelectedState)) {
-                            UtilityMethods.customToast("We deliver only in " + LocationActivity.strSelectedCity + "," + LocationActivity.strSelectedState + ".Kindly select add new address", mContext);
+                        if (!ship_add.getRegion().equalsIgnoreCase(AppConstants.strSelectedState)) {
+                            UtilityMethods.customToast("We deliver only in " + AppConstants.strSelectedCity + "," + AppConstants.strSelectedState + ".Kindly select add new address", mContext);
                             return;
                         }
 
@@ -1484,12 +1484,12 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                 orderReviewBean.setShipping(shipping_json_obj);
                 MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean);
 
-                if(!ship_add.getCity().equalsIgnoreCase(LocationActivity.strSelectedCity)){
-                    UtilityMethods.customToast("We deliver only in "+LocationActivity.strSelectedCity+","+LocationActivity.strSelectedState+".Kindly select add new address", mContext);
+                if(!ship_add.getCity().equalsIgnoreCase(AppConstants.strSelectedCity)){
+                    UtilityMethods.customToast("We deliver only in "+AppConstants.strSelectedCity+","+AppConstants.strSelectedState+".Kindly select add new address", mContext);
                     return;
                 }
-                if(!ship_add.getRegion().equalsIgnoreCase(LocationActivity.strSelectedState)){
-                    UtilityMethods.customToast("We deliver only in "+LocationActivity.strSelectedCity+","+LocationActivity.strSelectedState+".Kindly select add new address", mContext);
+                if(!ship_add.getRegion().equalsIgnoreCase(AppConstants.strSelectedState)){
+                    UtilityMethods.customToast("We deliver only in "+AppConstants.strSelectedCity+","+AppConstants.strSelectedState+".Kindly select add new address", mContext);
                     return;
                 }
                 finish();
