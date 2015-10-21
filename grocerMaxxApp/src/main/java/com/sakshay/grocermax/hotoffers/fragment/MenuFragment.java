@@ -44,6 +44,7 @@ public class MenuFragment extends Fragment {
     private HashMap<String, ArrayList<CategorySubcategoryBean>> menuMap;
     private ExpandableMenuListAdapter expandableMenuListAdapter;
     private ShopByDealsMenuListAdapter shopByDealsListADapter;
+    private View div1,div2,div3,div4;
 
     ShopByDealsBean shopByDealsBean;
 
@@ -67,8 +68,12 @@ public class MenuFragment extends Fragment {
         View view = inflater.inflate(R.layout.menu_fragment, container, false);
 //        for (int i = 0; i < catObj.size(); i++) {
 //            menuArray.add(catObj.get(i).getCategory());
-//        }
+//        };
 
+        div1 = (View)view.findViewById(R.id.div1);
+        div2 = (View)view.findViewById(R.id.div2);
+        div3 = (View)view.findViewById(R.id.div3);
+        div4 = (View)view.findViewById(R.id.div4);
         txvTitle = (TextView) view.findViewById(R.id.txvTitle);
         txvShopByCategories = (TextView) view.findViewById(R.id.txvShopByCategories);
         txvShopByDeals = (TextView) view.findViewById(R.id.txvShopByDeals);
@@ -105,6 +110,8 @@ public class MenuFragment extends Fragment {
         setListShopByCategoriesHeight(lstMenu);
         setListShopByCategoriesHeight(lstShopByDealsMenu);
 
+        div1.setVisibility(View.GONE);
+        div2.setVisibility(View.VISIBLE);
 
         txvTitle.setText(title);
         imgBack.setOnClickListener(new View.OnClickListener() {
@@ -122,6 +129,8 @@ public class MenuFragment extends Fragment {
             public void onClick(View v) {
                 lstShopByDealsMenu.setVisibility(View.VISIBLE);
                 lstMenu.setVisibility(View.GONE);
+                div3.setVisibility(View.GONE);
+                div4.setVisibility(View.VISIBLE);
             }
         });
         txvShopByCategories.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +138,8 @@ public class MenuFragment extends Fragment {
             public void onClick(View v) {
                 lstShopByDealsMenu.setVisibility(View.GONE);
                 lstMenu.setVisibility(View.VISIBLE);
+                div1.setVisibility(View.GONE);
+                div2.setVisibility(View.VISIBLE);
             }
         });
         txvGetInTouch.setOnClickListener(new View.OnClickListener() {

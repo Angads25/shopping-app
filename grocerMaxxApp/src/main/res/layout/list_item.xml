@@ -4,7 +4,7 @@
     android:drawableRight="@drawable/arrow_right"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="@dimen/ten_dp">
+    android:padding="@dimen/twelve">
 
     <TextView
         android:id="@+id/textMenuItem"
@@ -18,7 +18,7 @@
     <ImageView
         android:layout_width="14dp"
         android:layout_height="15dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="@dimen/five_dp"
         android:layout_gravity="center"
         android:src="@drawable/arrow_right"/>
 </LinearLayout>

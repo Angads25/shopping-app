@@ -19,7 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/drawer_back" />
+                android:src="@drawable/home" />
 
             <TextView
                 android:id="@+id/txvTitle"
@@ -29,7 +29,7 @@
                 android:layout_marginLeft="@dimen/ten_dp"
                 android:text="Home"
                 android:textColor="@color/grey_dark"
-                android:textSize="@dimen/sixteen_text" />
+                android:textSize="@dimen/fourteen_text" />
         </LinearLayout>
 
         <View
@@ -42,22 +42,30 @@
             android:id="@+id/txvShopByCategories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="@dimen/ten_dp"
             android:layout_marginLeft="@dimen/ten_dp"
             android:text="Shop By Categories"
             android:textColor="@color/grey_dark"
-            android:textSize="@dimen/sixteen_text" />
+            android:textSize="@dimen/fourteen_text" />
 
         <View
+            android:id="@+id/div1"
             android:layout_width="match_parent"
             android:layout_height="0.8dp"
-            android:layout_marginBottom="@dimen/ten_dp"
+            android:layout_marginBottom="@dimen/five_dp"
             android:background="@color/grey_view" />
 
         <ListView
             android:id="@+id/lstMenu"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:divider="@null"/>
+        <View
+            android:id="@+id/div2"
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:background="@color/grey_view" />
 
         <TextView
             android:id="@+id/txvShopByDeals"
@@ -65,12 +73,13 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/ten_dp"
             android:layout_marginTop="2dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="@dimen/ten_dp"
             android:text="Shop By Deals"
             android:textColor="@color/grey_dark"
-            android:textSize="@dimen/sixteen_text" />
+            android:textSize="@dimen/fourteen_text" />
 
         <View
+            android:id="@+id/div3"
             android:layout_width="match_parent"
             android:layout_height="0.8dp"
             android:layout_marginBottom="@dimen/ten_dp"
@@ -80,7 +89,15 @@
             android:id="@+id/lstShopByDealsMenu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:divider="@null"
             android:visibility="gone" />
+        <View
+            android:id="@+id/div4"
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:background="@color/grey_view"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/txvGetInTouch"
@@ -89,7 +106,7 @@
             android:layout_marginLeft="@dimen/ten_dp"
             android:text="Get in touch with us"
             android:textColor="@color/grey_dark"
-            android:textSize="@dimen/sixteen_text" />
+            android:textSize="@dimen/fourteen_text" />
 
 
         <ExpandableListView
