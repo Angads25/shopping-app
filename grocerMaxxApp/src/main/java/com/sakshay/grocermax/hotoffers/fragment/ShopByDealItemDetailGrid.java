@@ -3,6 +3,7 @@ package com.sakshay.grocermax.hotoffers.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.view.ViewGroup;
 
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.OfferByDealTypeSubModel;
+import com.sakshay.grocermax.hotoffers.adapter.DetailListAdapter;
+import com.sakshay.grocermax.hotoffers.adapter.ShopByCategoryListAdapter;
 import com.sakshay.grocermax.hotoffers.adapter.ShopByDealDetailListAdapter;
 import com.sakshay.grocermax.utils.Worker;
 
@@ -34,13 +37,45 @@ public class ShopByDealItemDetailGrid extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+//        View view = inflater.inflate(R.layout.item_grid, container, false);
+//        recyclerView = (RecyclerView) view.findViewById(R.id.gridView);
+//        GridLayoutManager gridLayout = new GridLayoutManager(getActivity(), 2);
+//        ShopByDealDetailListAdapter optionsListAdapter = new ShopByDealDetailListAdapter(getActivity(), this);
+//        recyclerView.setLayoutManager(gridLayout);
+//        recyclerView.setAdapter(optionsListAdapter);
+//        optionsListAdapter.setListData(offerList);
+
+//        View view1 = inflater.inflate(R.layout.home_fragment, container, false);
+//        recyclerView = (RecyclerView) view1.findViewById(R.id.recyclerView1);
+//        ShopByCategoryListAdapter shopByCategoryListAdapter1 = new ShopByCategoryListAdapter(getActivity(), this);
+//        shopByCategoryListAdapter1.setListData(shopByCategoryBean.getArrayList());
+//        recyclerView.setAdapter(shopByCategoryListAdapter1);
+//        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+//        llm.setOrientation(LinearLayoutManager.VERTICAL);
+//        recyclerView.setLayoutManager(llm);
+
         View view = inflater.inflate(R.layout.item_grid, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.gridView);
-        GridLayoutManager gridLayout = new GridLayoutManager(getActivity(), 2);
+//        GridLayoutManager gridLayout = new GridLayoutManager(getActivity(), 2);
         ShopByDealDetailListAdapter optionsListAdapter = new ShopByDealDetailListAdapter(getActivity(), this);
-        recyclerView.setLayoutManager(gridLayout);
+//        recyclerView.setAdapter(optionsListAdapter);
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(llm);
         recyclerView.setAdapter(optionsListAdapter);
         optionsListAdapter.setListData(offerList);
+
+//        View view = inflater.inflate(R.layout.item_grid, container, false);
+//        recyclerView = (RecyclerView) view.findViewById(R.id.gridView);
+//        ShopByCategoryListAdapter shopByCategoryListAdapter1 = new ShopByCategoryListAdapter(getActivity(), this);
+////        shopByCategoryListAdapter1.setListData(shopByCategoryBean.getArrayList());
+////        recyclerView.setAdapter(shopByCategoryListAdapter1);
+//        DetailListAdapter detailListAdapter = new DetailListAdapter(getActivity(),this);
+//        recyclerView.setAdapter(detailListAdapter);
+//        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+//        llm.setOrientation(LinearLayoutManager.VERTICAL);
+//        recyclerView.setLayoutManager(llm);
+
+
         return view;
     }
 

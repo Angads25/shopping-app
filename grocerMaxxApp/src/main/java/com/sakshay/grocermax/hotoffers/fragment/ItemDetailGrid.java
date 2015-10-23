@@ -44,7 +44,7 @@ public class ItemDetailGrid extends Fragment {
 //        addArrayData();
 //        offerList = ((ItemDetailFragment) frag).getOfferData(0);
         View view = inflater.inflate(R.layout.item_grid, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.gridView);
+//        recyclerView = (RecyclerView) view.findViewById(R.id.gridView);
         GridLayoutManager gridLayout = new GridLayoutManager(getActivity(), 2);
         DetailListAdapter optionsListAdapter = new DetailListAdapter(getActivity(), this);
         recyclerView.setLayoutManager(gridLayout);

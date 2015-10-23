@@ -97,7 +97,7 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
             holder.view2Space.setVisibility(View.VISIBLE);
         }
 
-        holder.footer.setText(data.get(position).getOffercount() + " Offers");
+        holder.footer.setText(data.get(position).getOffercount() + " Offer");
         holder.ivRightCarrot.setVisibility(View.VISIBLE);
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
