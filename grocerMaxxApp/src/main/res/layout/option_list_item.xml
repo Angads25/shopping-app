@@ -1,58 +1,103 @@
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@android:color/white">
+
+<android.support.v7.widget.CardView
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layoutParent"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="#f9e0dd"
+    android:background="@color/white"
     android:layout_margin="5dp"
     card_view:cardCornerRadius="2dp" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@android:color/white">
+    <!--  android:background="#f9e0dd"  -->
 
-        <ImageView
-            android:id="@+id/img"
-            android:layout_width="280dp"
-            android:layout_height="160dp"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/staples_home" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/white">
 
-    <LinearLayout
-        android:id="@+id/ll_"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:background="@drawable/hotcategoryborder"
-        android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="280dp"
+                android:layout_height="160dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/staples_home" />
 
-        <TextView
-            android:id="@+id/footer"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:gravity="center"
-            android:singleLine="true"
-            android:textAllCaps="true"
-            android:ellipsize="end"
-            android:text="White"
-            android:textSize="20sp"
-            android:textColor="#fe6b58"
-            android:layout_alignParentBottom="true"
-            />
+            <LinearLayout
+                android:id="@+id/ll_"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="-3dp"
+                android:background="@drawable/category_bottom_border"
+                android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/iv_right_carrot"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_marginLeft="5dp"
-            android:visibility="gone"
-            android:src="@drawable/hot_category" />
+                <!--   android:background="@drawable/hotcategoryborder"  -->
+
+                <TextView
+                    android:id="@+id/footer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textAllCaps="true"
+                    android:ellipsize="end"
+                    android:text="White"
+                    android:textSize="14sp"
+                    android:textColor="#ff7765"
+                    android:layout_alignParentBottom="true"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_right_carrot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:visibility="gone"
+                    android:src="@drawable/hot_category" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
 </android.support.v7.widget.CardView>
+
+        <View
+            android:id="@+id/view_1_space"
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
+            />
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="#eeeeee" />
+
+        <View
+            android:id="@+id/view_2_space"
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -139,7 +140,7 @@ public class CategoryActivity extends BaseActivity {
                     (int) ViewGroup.LayoutParams.MATCH_PARENT,(int) ViewGroup.LayoutParams.WRAP_CONTENT);
             try{
                 view.setTag(i);
-                view.setLayoutParams(params);
+//                view.setLayoutParams(params);
                 view.setOnClickListener(listener);
                 llParent.addView(view);
             }catch(Exception e){
@@ -270,10 +271,12 @@ public class CategoryActivity extends BaseActivity {
               addedHeight = 170;
         }
 
+        int addeveryindex = 0;
 
             int childheight = 0;
             for(int k=1;k<=SubCatLength;k+=3){
-                childheight += addedHeight;
+                childheight += addedHeight+addeveryindex;
+                addeveryindex = 20;
 //                childheight += 130;
 //                childheight += tv_first.getHeight();
             }
@@ -285,13 +288,17 @@ public class CategoryActivity extends BaseActivity {
                 llMain = (LinearLayout) subView2.findViewById(R.id.ll_main);                   //main view
 
                 TextView tv11 = (TextView) subView2.findViewById(R.id.tv_first);
+                CardView cartView11 = (CardView) subView2.findViewById(R.id.layoutParent_1);
 
                 tempInt++;
 //                tv11.setText("levelling");
                 tv11.setText(alSubSubChild.get(tempInt).getCategory());
                 tv11.setTag(tempInt);
                 tv11.setVisibility(View.VISIBLE);
+                cartView11.setVisibility(View.VISIBLE);
                 tv11.setOnClickListener(listenerchild);
+
+
 
                 llChild[selectedIndex].addView(llMain);
             }else if(SubCatLength == 2){
@@ -301,11 +308,15 @@ public class CategoryActivity extends BaseActivity {
                 TextView tv11 = (TextView) subView2.findViewById(R.id.tv_first);
                 TextView tv22 = (TextView) subView2.findViewById(R.id.tv_second);
 
+                CardView cartView11 = (CardView) subView2.findViewById(R.id.layoutParent_1);
+                CardView cartView22 = (CardView) subView2.findViewById(R.id.layoutParent_2);
+
                 tempInt++;
 //                tv11.setText("level 1");
                 tv11.setText(alSubSubChild.get(tempInt).getCategory());
                 tv11.setTag(tempInt);
                 tv11.setVisibility(View.VISIBLE);
+                cartView11.setVisibility(View.VISIBLE);
                 tv11.setOnClickListener(listenerchild);
 
                 tempInt++;
@@ -313,6 +324,7 @@ public class CategoryActivity extends BaseActivity {
                 tv22.setText(alSubSubChild.get(tempInt).getCategory());
                 tv22.setTag(tempInt);
                 tv22.setVisibility(View.VISIBLE);
+                cartView22.setVisibility(View.VISIBLE);
                 tv22.setOnClickListener(listenerchild);
 
                 llChild[selectedIndex].addView(llMain);
@@ -331,11 +343,16 @@ public class CategoryActivity extends BaseActivity {
                     TextView tv2 = (TextView) subView.findViewById(R.id.tv_second);
                     TextView tv3 = (TextView) subView.findViewById(R.id.tv_third);
 
+                    CardView cartView11 = (CardView) subView.findViewById(R.id.layoutParent_1);
+                    CardView cartView22 = (CardView) subView.findViewById(R.id.layoutParent_2);
+                    CardView cartView33 = (CardView) subView.findViewById(R.id.layoutParent_3);
+
                     tempInt++;
 //                    tv1.setText("starting");
                     tv1.setText(alSubSubChild.get(tempInt).getCategory());
                     tv1.setTag(tempInt);
                     tv1.setVisibility(View.VISIBLE);
+                    cartView11.setVisibility(View.VISIBLE);
                     tv1.setOnClickListener(listenerchild);
 
                     tempInt++;
@@ -343,6 +360,7 @@ public class CategoryActivity extends BaseActivity {
                     tv2.setText(alSubSubChild.get(tempInt).getCategory());
                     tv2.setTag(tempInt);
                     tv2.setVisibility(View.VISIBLE);
+                    cartView22.setVisibility(View.VISIBLE);
                     tv2.setOnClickListener(listenerchild);
 
                     tempInt++;
@@ -350,6 +368,7 @@ public class CategoryActivity extends BaseActivity {
                     tv3.setText(alSubSubChild.get(tempInt).getCategory());
                     tv3.setTag(tempInt);
                     tv3.setVisibility(View.VISIBLE);
+                    cartView33.setVisibility(View.VISIBLE);
                     tv3.setOnClickListener(listenerchild);
 
                     llChild[selectedIndex].addView(llMain);
@@ -360,6 +379,7 @@ public class CategoryActivity extends BaseActivity {
                             LinearLayout llMain0 = (LinearLayout) subView2.findViewById(R.id.ll_main);                   //main view
 
                             TextView tv11 = (TextView) subView2.findViewById(R.id.tv_first);
+                            CardView cartView1 = (CardView) subView2.findViewById(R.id.layoutParent_1);
 
                             LinearLayout.LayoutParams lp1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                             lp1.setMargins(0, 10, 0, 0);
@@ -370,6 +390,7 @@ public class CategoryActivity extends BaseActivity {
                             tv11.setText(alSubSubChild.get(tempInt).getCategory());
                             tv11.setTag(tempInt);
                             tv11.setVisibility(View.VISIBLE);
+                            cartView1.setVisibility(View.VISIBLE);
                             tv11.setOnClickListener(listenerchild);
 
                             llChild[selectedIndex].addView(llMain0);
@@ -381,6 +402,9 @@ public class CategoryActivity extends BaseActivity {
                             TextView tv11 = (TextView) subView2.findViewById(R.id.tv_first);
                             TextView tv22 = (TextView) subView2.findViewById(R.id.tv_second);
 
+                            CardView cartView1 = (CardView) subView2.findViewById(R.id.layoutParent_1);
+                            CardView cartView2 = (CardView) subView2.findViewById(R.id.layoutParent_2);
+
                             LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                             lp2.setMargins(0, 10, 0, 0);
                             llMain1.setLayoutParams(lp2);
@@ -390,6 +414,7 @@ public class CategoryActivity extends BaseActivity {
                             tv11.setText(alSubSubChild.get(tempInt).getCategory());
                             tv11.setTag(tempInt);
                             tv11.setVisibility(View.VISIBLE);
+                            cartView1.setVisibility(View.VISIBLE);
                             tv11.setOnClickListener(listenerchild);
 
                             tempInt++;
@@ -397,6 +422,7 @@ public class CategoryActivity extends BaseActivity {
                             tv22.setText(alSubSubChild.get(tempInt).getCategory());
                             tv22.setTag(tempInt);
                             tv22.setVisibility(View.VISIBLE);
+                            cartView2.setVisibility(View.VISIBLE);
                             tv22.setOnClickListener(listenerchild);
 
                             llChild[selectedIndex].addView(llMain1);

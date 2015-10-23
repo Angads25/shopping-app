@@ -72,7 +72,7 @@ public class HomeFragment extends Fragment {
         txtCategory = (TextView) view.findViewById(R.id.txt_category);
         txtDeal = (TextView) view.findViewById(R.id.txt_deal);
 
-        Typeface type = Typeface.createFromAsset(getActivity().getAssets(), "Lato-Bol.ttf");
+        Typeface type = Typeface.createFromAsset(getActivity().getAssets(), "Lato-Reg.ttf");
         txtCategory.setTypeface(type);
         txtDeal.setTypeface(type);
 

@@ -22,6 +22,7 @@ import com.sakshay.grocermax.hotoffers.adapter.MenuListAdapter;
 import com.sakshay.grocermax.hotoffers.adapter.ShopByDealsMenuListAdapter;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants;
+import com.sakshay.grocermax.utils.UrlsConstants;
 import com.sakshay.grocermax.utils.UtilityMethods;
 
 import java.util.ArrayList;
@@ -106,7 +107,14 @@ public class ExpandableMenuFragment extends Fragment {
                     if (!expand) {
                         //Toast.makeText(getActivity(), " Will not open "+catObj.get(groupPosition).getCategory(), Toast.LENGTH_SHORT).show();
                         expandableListView.collapseGroup(groupPosition);
-                        startActivity(catObj.get(groupPosition));
+//                        startActivity(catObj.get(groupPosition));
+
+                        ((HotOffersActivity)getActivity()).showDialog();
+//                        String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(groupPosition).getCategoryId();
+                        String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(groupPosition).getCategoryId();
+                        System.out.println(catObj.get(groupPosition).getCategory()+"==========id=========="+catObj.get(groupPosition).getCategoryId());
+                        ((HotOffersActivity) getActivity()).myApi.reqAllProductsCategory(url);
+
                         return true;
                     }
                 }
@@ -118,7 +126,11 @@ public class ExpandableMenuFragment extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-                startActivity(catObj.get(groupPosition).getChildren().get(childPosition));
+//                startActivity(catObj.get(groupPosition).getChildren().get(childPosition));
+                ((HotOffersActivity)getActivity()).showDialog();
+                String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(groupPosition).getCategoryId();
+                System.out.println(catObj.get(groupPosition).getCategory()+"==========id111=========="+catObj.get(groupPosition).getCategoryId());
+                ((HotOffersActivity)getActivity()).myApi.reqAllProductsCategory(url);
                 return false;
             }
         });

@@ -70,7 +70,12 @@ public class LocationActivity extends BaseActivity {
 
         AppConstants.densityPhone =  getResources().getDisplayMetrics().density;    //0.75 - ldpi  1.0 - mdpi  1.5 - hdpi 2.0 - xhdpi  3.0 - xxhdpi  4.0 - xxxhdpi
 
-        System.out.println(AppConstants.densityPhone+"====xaxis====");
+            DisplayMetrics displaymetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+            int height = displaymetrics.heightPixels;
+            int width = displaymetrics.widthPixels;
+
+        System.out.println(width+"====xaxis===="+height);
 //index - 2.0 - xhdpi
 //lenovo - 3.0 - xxhdpi
         llLocation = (LinearLayout)findViewById(R.id.location_main_layout);

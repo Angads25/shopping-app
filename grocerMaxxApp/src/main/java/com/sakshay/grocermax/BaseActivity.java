@@ -184,11 +184,14 @@ public abstract class BaseActivity extends FragmentActivity {
 //				BaseActivity.icon_header_user.setEnabled(true);
 //				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon);  //login icon
 //				BaseActivity.icon_header_user.setImageResource(R.drawable.profile);  //login icon
+
 				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_1);  //login icon
+
 			} else {
 //				BaseActivity.icon_header_user.setEnabled(true);
 //				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_logout);  //logout icon
-				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_2);  //logout icon
+
+//				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_2);  //logout icon
 			}
 
 			if (MySharedPrefs.INSTANCE.getTotalItem() != null) {

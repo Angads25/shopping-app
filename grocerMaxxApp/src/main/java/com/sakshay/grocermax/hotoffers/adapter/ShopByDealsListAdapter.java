@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -43,13 +44,22 @@ public class ShopByDealsListAdapter extends RecyclerView.Adapter<ShopByDealsList
         ImageView imageView;
         TextView footer;
         CardView parentLayout;
+        LinearLayout ll_;
+        View view1Space,viewVerticalLine,view2Space;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.img);
             footer = (TextView) itemView.findViewById(R.id.footer);
-            parentLayout = (CardView) itemView.findViewById(R.id.layoutParent);
+            parentLayout  = (CardView) itemView.findViewById(R.id.layoutParent);
+            ll_ = (LinearLayout) itemView.findViewById(R.id.ll_);
 
+            view1Space = (View) itemView.findViewById(R.id.view_1_space);
+            viewVerticalLine = (View) itemView.findViewById(R.id.view_line);
+            view2Space = (View) itemView.findViewById(R.id.view_2_space);
+
+            parentLayout.setShadowPadding(0,0,0,0);
+            parentLayout.setCardElevation(0);
         }
     }
 
@@ -64,8 +74,20 @@ public class ShopByDealsListAdapter extends RecyclerView.Adapter<ShopByDealsList
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         ImageLoader.getInstance().displayImage(data.get(position).getImg(),
                 holder.imageView, ((BaseActivity) context).baseImageoptions);
+
+        if(position == data.size()-1){
+            holder.view1Space.setVisibility(View.GONE);
+            holder.viewVerticalLine.setVisibility(View.GONE);
+            holder.view2Space.setVisibility(View.GONE);
+        }else{
+            holder.view1Space.setVisibility(View.VISIBLE);
+            holder.viewVerticalLine.setVisibility(View.VISIBLE);
+            holder.view2Space.setVisibility(View.VISIBLE);
+        }
+
         holder.footer.setText(data.get(position).getDealType());
         holder.footer.setVisibility(View.GONE);
+        holder.ll_.setVisibility(View.GONE);
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

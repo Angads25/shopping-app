@@ -57,6 +57,9 @@ public class BannerFragment extends Fragment {
         ImageView imageView  = (ImageView)view.findViewById(R.id.image);
         context = getActivity();
 
+        card_view.setShadowPadding(0,0,0,0);
+        card_view.setCardElevation(0);
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

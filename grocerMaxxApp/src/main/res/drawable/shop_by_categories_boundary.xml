@@ -13,6 +13,7 @@
         android:bottomLeftRadius="3dp"
         android:bottomRightRadius="3dp"
         android:topLeftRadius="3dp"
+
         />
     
     <stroke android:width="3px" android:color="@color/darker_Gray" />
@@ -21,6 +22,8 @@
         android:dashWidth="1dip"
         android:width="1dip"
         android:color="#eB5B22" /> -->
+
+       <solid android:color="@color/white"/>
     
    <!--   <solid android:color="#dc5d1d"/>  
    <solid android:color="#e5390e"/>

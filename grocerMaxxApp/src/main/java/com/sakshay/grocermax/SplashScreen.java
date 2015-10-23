@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -55,12 +56,23 @@ public class SplashScreen extends BaseActivity
 	private GCMClientManager pushClientManager;
 	private String DeviceRegistrationId;
 
+	public int pxToDp(int px) {
+		DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+		int dp = Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+		return dp;
+	}
+
+
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		super.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.splash_screen);
 		addActionsInFilter(MyReceiverActions.LOCATION);
+
+//		String sd = String.valueOf(pxToDp(420));
+//		System.out.println("======pxdp=====" + sd);
 		
 		try {
             PackageInfo info = getPackageManager().getPackageInfo(

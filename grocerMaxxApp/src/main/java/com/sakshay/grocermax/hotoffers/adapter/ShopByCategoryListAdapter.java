@@ -50,6 +50,7 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
         TextView footer;
         CardView parentLayout;
         ImageView ivRightCarrot;
+        View view1Space,viewVerticalLine,view2Space;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -58,7 +59,11 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
             parentLayout = (CardView) itemView.findViewById(R.id.layoutParent);
             ivRightCarrot = (ImageView) itemView.findViewById(R.id.iv_right_carrot);
 
-            Typeface type = Typeface.createFromAsset(activity.getAssets(), "Lato-Lig.ttf");
+            view1Space = (View) itemView.findViewById(R.id.view_1_space);
+            viewVerticalLine = (View) itemView.findViewById(R.id.view_line);
+            view2Space = (View) itemView.findViewById(R.id.view_2_space);
+
+            Typeface type = Typeface.createFromAsset(activity.getAssets(), "Lato-Bol.ttf");
 		    footer.setTypeface(type);
 
             parentLayout.setShadowPadding(0,0,0,0);
@@ -79,7 +84,20 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
         ImageLoader.getInstance().displayImage(data.get(position).getImages(),
                 holder.imageView, ((BaseActivity) context).baseImageoptions);
 
-        holder.footer.setText(data.get(position).getOffercount() + " Offer");
+//        position
+//        data.size()
+
+        if(position == data.size()-1){
+            holder.view1Space.setVisibility(View.GONE);
+            holder.viewVerticalLine.setVisibility(View.GONE);
+            holder.view2Space.setVisibility(View.GONE);
+        }else{
+            holder.view1Space.setVisibility(View.VISIBLE);
+            holder.viewVerticalLine.setVisibility(View.VISIBLE);
+            holder.view2Space.setVisibility(View.VISIBLE);
+        }
+
+        holder.footer.setText(data.get(position).getOffercount() + " Offers");
         holder.ivRightCarrot.setVisibility(View.VISIBLE);
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {

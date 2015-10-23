@@ -122,11 +122,11 @@
 
                 <ImageView
                     android:id="@+id/icon_header_search"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
                     android:contentDescription="@string/image_content_desc"
+                    android:background="@drawable/selector_search_appbar"/>
 
-                    android:src="@drawable/search" />
             </LinearLayout>
 
             <!-- android:src="@drawable/ic_menu_search_holo_light" -->
@@ -155,8 +155,8 @@
                 <!--TODO wire this Abhi after removing whatever is causing placeholder ovewrite in background -->
                 <ImageButton
                     android:id="@+id/icon_header_cart"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="-10dp"
                     android:background="@drawable/selector_carticon_appbar"
