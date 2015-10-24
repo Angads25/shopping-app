@@ -103,11 +103,6 @@ public class ItemDetailFragment extends Fragment {
     }
 
 
-    @Override
-    public void onResume() {
-        Toast.makeText(getActivity(), "Item Detail On resume", Toast.LENGTH_SHORT).show();
-        super.onResume();
-    }
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);

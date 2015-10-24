@@ -42,6 +42,7 @@ public class HomeFragment extends Fragment {
     private PagerAdapter mPagerAdapter;
     private HomeBannerBean homeBannerBean;
     private ProgressDialog progress;
+    private int pos;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,6 +71,25 @@ public class HomeFragment extends Fragment {
         mPager = (ViewPager) view.findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+        mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+
+                pos = position;
+                Toast.makeText(getActivity()," pos "+pos,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         txtCategory = (TextView) view.findViewById(R.id.txt_category);
         txtDeal = (TextView) view.findViewById(R.id.txt_deal);
@@ -82,10 +102,10 @@ public class HomeFragment extends Fragment {
 
         ArrayList<ShopByCategoryModel> alfinal = new ArrayList<ShopByCategoryModel>();
         ArrayList<ShopByCategoryModel> al = shopByCategoryBean.getArrayList();
-        for(int i=0;i<((HotOffersActivity) getActivity()).catObj.size();i++){
-            for(int j=0;j<al.size();j++) {
+        for (int i = 0; i < ((HotOffersActivity) getActivity()).catObj.size(); i++) {
+            for (int j = 0; j < al.size(); j++) {
                 if (((HotOffersActivity) getActivity()).catObj.get(i).getCategoryId().equalsIgnoreCase(al.get(j).getCategory_id())) {
-                        alfinal.add(al.get(j));
+                    alfinal.add(al.get(j));
                 }
             }
         }
@@ -119,7 +139,7 @@ public class HomeFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
 
-            BannerFragment bannerFragment = new BannerFragment();
+            BannerFragment bannerFragment = BannerFragment.newInstance(HomeFragment.this);
             Bundle bundle = new Bundle();
             bundle.putString("imgUrl", homeBannerBean.getBanner().get(position).getImageurl());
             bundle.putString("linkUrl", homeBannerBean.getBanner().get(position).getLinkurl());
@@ -144,4 +164,12 @@ public class HomeFragment extends Fragment {
 
     }
 
+    public int getPosition() {
+//        return pos;
+        return mPager.getCurrentItem();
+    }
+
+    public HomeBannerBean getHomeBannerBean(){
+        return homeBannerBean;
+    }
 }
