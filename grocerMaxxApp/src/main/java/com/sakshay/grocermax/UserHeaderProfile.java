@@ -23,6 +23,7 @@ import com.sakshay.grocermax.bean.Address;
 import com.sakshay.grocermax.bean.AddressList;
 import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants;
@@ -282,11 +283,18 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
 //					loginActivity.googlePlusLogout();
                     MySharedPrefs.INSTANCE.clearAllData();
                 }
+
                 UtilityMethods.customToast(AppConstants.ToastConstant.LOGOUT_SUCCESS, mContext);
-                Intent intent = new Intent(mContext, HomeScreen.class);
+                Intent intent = new Intent(mContext, HotOffersActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
+
+//                UtilityMethods.customToast(AppConstants.ToastConstant.LOGOUT_SUCCESS, mContext);
+//                Intent intent = new Intent(mContext, HomeScreen.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(intent);
+//                finish();
                 break;
         }
 
@@ -300,8 +308,14 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                 finish();
             }else {
 //        if (resultCode == LOGIN_SIGNUP) {
-            Intent intent = new Intent(this, HomeScreen.class);
+
+            Intent intent = new Intent(mContext, HotOffersActivity.class);
             startActivity(intent);
+//            Intent intent = new Intent(this, HomeScreen.class);
+//            startActivity(intent);
+
+
+
         }
 //        }
 

@@ -37,13 +37,10 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
     }
 
     public void setListData(ArrayList<OfferByDealTypeSubModel> data) {
-
         this.data = data;
 //        if(data!=null)
 //        adminReservationList.clear();
-
     }
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 

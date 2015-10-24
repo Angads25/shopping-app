@@ -79,10 +79,8 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-
-
                 pos = position;
-                Toast.makeText(getActivity()," pos "+pos,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity()," pos "+pos,Toast.LENGTH_SHORT).show();
             }
 
             @Override

@@ -1001,11 +1001,18 @@ public abstract class BaseActivity extends FragmentActivity {
 //					new LoginActivity().googlePlusLogout();
 //				}
 
+
 						UtilityMethods.customToast(ToastConstant.LOGOUT_SUCCESS, mContext);
-						Intent intent = new Intent(mContext, HomeScreen.class);
+						Intent intent = new Intent(mContext, HotOffersActivity.class);
 						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(intent);
 						finish();
+
+//						UtilityMethods.customToast(ToastConstant.LOGOUT_SUCCESS, mContext);
+//						Intent intent = new Intent(mContext, HomeScreen.class);
+//						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//						startActivity(intent);
+//						finish();
 						break;
 					case R.id.feedback_lay:
 						PackageInfo pInfo = null;

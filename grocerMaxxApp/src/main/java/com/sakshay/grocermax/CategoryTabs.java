@@ -36,6 +36,7 @@ import com.sakshay.grocermax.bean.Product;
 import com.sakshay.grocermax.bean.ProductDetailsListBean;
 import com.sakshay.grocermax.bean.Simple;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.Constants.ToastConstant;
 import com.sakshay.grocermax.utils.CustomFonts;
@@ -172,10 +173,16 @@ public class CategoryTabs extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     // TODO Auto-generated method stub
-                    Intent intent = new Intent(mContext, HomeScreen.class);
+
+                    Intent intent = new Intent(mContext, HotOffersActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();
+
+//                    Intent intent = new Intent(mContext, HomeScreen.class);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    startActivity(intent);
+//                    finish();
                 }
             });
 
