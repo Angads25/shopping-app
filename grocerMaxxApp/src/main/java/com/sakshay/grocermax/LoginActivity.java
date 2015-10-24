@@ -49,6 +49,7 @@ import com.sakshay.grocermax.bean.CartDetail;
 import com.sakshay.grocermax.bean.CartDetailBean;
 import com.sakshay.grocermax.bean.LoginResponse;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.AppLoadingScreen;
@@ -200,10 +201,15 @@ public class LoginActivity extends BaseActivity
 	public void gotoHome(View v)
 	{
 		try{
-			Intent intent = new Intent(LoginActivity.this, HomeScreen.class);
+			Intent intent = new Intent(mContext, HotOffersActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 			finish();
+
+//			Intent intent = new Intent(LoginActivity.this, HomeScreen.class);
+//			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//			startActivity(intent);
+//			finish();
 		}catch(Exception e){
 			new GrocermaxBaseException("LoginActivity","gotoHome",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
 		}

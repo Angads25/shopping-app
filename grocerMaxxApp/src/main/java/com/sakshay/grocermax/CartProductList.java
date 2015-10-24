@@ -35,6 +35,7 @@ import com.sakshay.grocermax.bean.CartDetailBean;
 import com.sakshay.grocermax.bean.CheckoutAddressBean;
 import com.sakshay.grocermax.bean.OrderReviewBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants;
@@ -287,10 +288,17 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			} else {
 				UtilityMethods.customToast(ToastConstant.CART_EMPTY, mContext);
 				ll_total.setVisibility(View.GONE);
-				Intent intent = new Intent(CartProductList.this, HomeScreen.class);
+				Intent intent = new Intent(mContext, HotOffersActivity.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				finish();
+
+//				UtilityMethods.customToast(ToastConstant.CART_EMPTY, mContext);
+//				ll_total.setVisibility(View.GONE);
+//				Intent intent = new Intent(CartProductList.this, HomeScreen.class);
+//				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//				startActivity(intent);
+//				finish();
 			}
 		}catch(NullPointerException e){
 			new GrocermaxBaseException("CartProductList", "setCartList", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");

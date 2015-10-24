@@ -13,6 +13,7 @@ public class AppConstants {
 			strSelectedStateId,                                          //store id
 			strSelectedStateRegionId;                                   //state id for create new address
 	public static float densityPhone = 0;
+	public static boolean bBack = false;
 
 	public static String token = "gpjaic0pdzqsv3jyouqsu3cd";
 	

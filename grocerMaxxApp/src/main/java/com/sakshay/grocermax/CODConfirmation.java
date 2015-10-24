@@ -11,6 +11,7 @@ import com.flurry.android.FlurryAgent;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.utils.CustomFonts;
 
 public class CODConfirmation extends BaseActivity implements OnClickListener{
@@ -105,10 +106,15 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 		switch(v.getId())
 		{
 			case R.id.continueButton:
-				Intent intent = new Intent(CODConfirmation.this, HomeScreen.class);
+				Intent intent = new Intent(mContext, HotOffersActivity.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				finish();
+
+//				Intent intent = new Intent(CODConfirmation.this, HomeScreen.class);
+//				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//				startActivity(intent);
+//				finish();
 				break;
 			case R.id.orderHistory:
 				openOrderHistory();
@@ -135,10 +141,15 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 		// TODO Auto-generated method stub
 		super.onBackPressed();
 		try {
-			Intent intent = new Intent(CODConfirmation.this, HomeScreen.class);
+			Intent intent = new Intent(mContext, HotOffersActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 			finish();
+
+//			Intent intent = new Intent(CODConfirmation.this, HomeScreen.class);
+//			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//			startActivity(intent);
+//			finish();
 		}catch(Exception e){
 			new GrocermaxBaseException("CODConfirmation","onBackPressed",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}

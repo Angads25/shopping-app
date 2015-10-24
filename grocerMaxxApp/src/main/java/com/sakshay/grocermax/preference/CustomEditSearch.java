@@ -1,13 +1,13 @@
 package com.sakshay.grocermax.preference;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.widget.EditText;
-import com.paymentsdk.android.MyApp;
-import com.sakshay.grocermax.HomeScreen;
-import com.sakshay.grocermax.MyApplication;
+
+import com.sakshay.grocermax.utils.AppConstants;
+
+//import com.sakshay.grocermax.HomeScreen;
 
 /**
  * Created by Abhishek on 9/30/2015.
@@ -40,7 +40,7 @@ public class CustomEditSearch extends EditText {
     public boolean onKeyPreIme(int keyCode, KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
 //            if (mOnImeBack != null) mOnImeBack.onImeBack(this);
-            HomeScreen.bBack = true;
+            AppConstants.bBack = true;
         }
         return super.dispatchKeyEvent(event);
     }
