@@ -97,7 +97,7 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
             holder.view2Space.setVisibility(View.VISIBLE);
         }
 
-        holder.footer.setText(data.get(position).getOffercount() + " Offer");
+        holder.footer.setText(data.get(position).getOffercount() + " Offers");
         holder.ivRightCarrot.setVisibility(View.VISIBLE);
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
@@ -142,7 +142,7 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
             @Override
             public void onClick(View v) {
                 ((HotOffersActivity)context).hitForShopByCategory(data.get(position).getCategory_id());
-                System.out.println("=====idss===" + data.get(position).getCategory_id());
+//                System.out.println("=====idss===" + data.get(position).getCategory_id());
 
                 for(int i=0;i<((HotOffersActivity) context).catObj.size();i++){
                     if(((HotOffersActivity) context).catObj.get(i).getCategoryId().equals(data.get(position).getCategory_id())){

@@ -19,7 +19,9 @@ import android.widget.TextView;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.HomeBannerBean;
 import com.sakshay.grocermax.bean.ShopByCategoryBean;
+import com.sakshay.grocermax.bean.ShopByCategoryModel;
 import com.sakshay.grocermax.bean.ShopByDealsBean;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.hotoffers.adapter.ShopByCategoryListAdapter;
 import com.sakshay.grocermax.hotoffers.adapter.ShopByDealsListAdapter;
 import com.sakshay.grocermax.utils.Constants;
@@ -78,8 +80,20 @@ public class HomeFragment extends Fragment {
 
         recyclerView1 = (RecyclerView) view.findViewById(R.id.recyclerView1);
 
+        ArrayList<ShopByCategoryModel> alfinal = new ArrayList<ShopByCategoryModel>();
+        ArrayList<ShopByCategoryModel> al = shopByCategoryBean.getArrayList();
+        for(int i=0;i<((HotOffersActivity) getActivity()).catObj.size();i++){
+            for(int j=0;j<al.size();j++) {
+                if (((HotOffersActivity) getActivity()).catObj.get(i).getCategoryId().equalsIgnoreCase(al.get(j).getCategory_id())) {
+                        alfinal.add(al.get(j));
+                }
+            }
+        }
+
         ShopByCategoryListAdapter shopByCategoryListAdapter1 = new ShopByCategoryListAdapter(getActivity(), this);
-        shopByCategoryListAdapter1.setListData(shopByCategoryBean.getArrayList());
+//        shopByCategoryListAdapter1.setListData(shopByCategoryBean.getArrayList());
+        shopByCategoryListAdapter1.setListData(alfinal);
+
         recyclerView1.setAdapter(shopByCategoryListAdapter1);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -104,12 +118,13 @@ public class HomeFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
+
             BannerFragment bannerFragment = new BannerFragment();
             bannerFragment.setData(homeBannerBean.getBanner().get(position).getImageurl());
             bannerFragment.setLinkUrl(homeBannerBean.getBanner().get(position).getLinkurl());
             bannerFragment.setName(homeBannerBean.getBanner().get(position).getName());
 
-            System.out.println("====NAME===="+homeBannerBean.getBanner().get(position).getName());
+            System.out.println(position+"====NAME===="+homeBannerBean.getBanner().get(position).getName());
 //            return BannerFragment.newInstance(homeBannerBean.getBanner().get(position % homeBannerBean.getBanner().size()));
             return bannerFragment;
         }

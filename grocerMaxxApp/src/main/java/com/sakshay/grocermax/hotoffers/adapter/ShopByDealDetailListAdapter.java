@@ -52,13 +52,13 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageView;
-        CardView parentLayout;
+//        CardView parentLayout;
 //        TextView footer;
 //        LinearLayout ll;
         public ViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.img);
-            parentLayout = (CardView) itemView.findViewById(R.id.layoutParent);
+//            parentLayout = (CardView) itemView.findViewById(R.id.layoutParent);
 //            footer = (TextView) itemView.findViewById(R.id.footer);
 //            ll = (LinearLayout) itemView.findViewById(R.id.ll_);
 
@@ -106,7 +106,7 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
 //        holder.ll.setVisibility(View.GONE);
 //        holder.footer.setText(data.get(position).getTitle() + "");
 
-        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((HotOffersActivity)context).hitForDealsByDeals(data.get(position).getPromo_id());

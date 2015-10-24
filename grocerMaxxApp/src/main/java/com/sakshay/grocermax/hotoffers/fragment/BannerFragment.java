@@ -60,6 +60,9 @@ public class BannerFragment extends Fragment {
         card_view.setShadowPadding(0,0,0,0);
         card_view.setCardElevation(0);
 
+        System.out.println("====link values is====" + linkurl);
+
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
