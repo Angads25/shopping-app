@@ -17,6 +17,7 @@ import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.api.SearchLoader;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
+import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.UrlsConstants;
 
 
@@ -68,10 +69,12 @@ public class BannerFragment extends Fragment {
         card_view.setCardElevation(0);
 
         url = getArguments().getString("imgUrl");
-//        linkurl = getArguments().getString("linkUrl");
 //        linkurl = (((HomeFragment)frag).getHomeBannerBean()).getBanner().get(((HomeFragment)frag).getPosition()).getLinkurl();
 //        name = (((HomeFragment)frag).getHomeBannerBean()).getBanner().get(((HomeFragment) frag).getPosition()).getName();
         System.out.println("====link values is====" + linkurl);
+//        linkurl = getArguments().getString("linkUrl");
+//        name = getArguments().getString("name");
+        System.out.println(name+"====link values is====" + linkurl);
 
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -142,7 +145,10 @@ public class BannerFragment extends Fragment {
                     strType = linkurl;
                 }
 
-                if (strType.equalsIgnoreCase("dealproductlisting")) {
+//                if (strType.equalsIgnoreCase("dealproductlisting")) {
+
+                AppConstants.strTitleHotDeal = name;
+                if(strType.equalsIgnoreCase("dealproductlisting")){
 //                    String dealId = "270";
 //                    String dealId = linkurl.substring(index+1,linkurl.length()-1);
 //                    System.out.println("===========dealproductlisting=============dealid===================="+dealId);

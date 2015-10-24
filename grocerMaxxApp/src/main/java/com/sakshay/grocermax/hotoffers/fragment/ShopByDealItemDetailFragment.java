@@ -10,12 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.DealByDealTypeBean;
 import com.sakshay.grocermax.bean.OfferByDealTypeSubModel;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.hotoffers.MyPagerSlidingTabStrip;
 import com.sakshay.grocermax.hotoffers.adapter.ShopByCategoryListAdapter;
+import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants;
 import com.sakshay.grocermax.utils.Worker;
 
@@ -52,6 +54,11 @@ public class ShopByDealItemDetailFragment extends Fragment {
 
 //        itemDetailGrid = new ItemDetailGrid();
         try {
+
+            ((BaseActivity) getActivity()).initHeader(getActivity().findViewById(R.id.header_left), true, AppConstants.strTitleHotDeal);
+            ((BaseActivity) getActivity()).findViewById(R.id.header_left).setVisibility(View.VISIBLE);
+            ((BaseActivity) getActivity()).findViewById(R.id.header).setVisibility(View.GONE);
+
             is_shop_by_deal = data.getBoolean(Constants.SHOP_BY_DEAL);
             if (is_shop_by_deal) {
                 dealByDealTypeBean = (DealByDealTypeBean) data.getSerializable(Constants.DEAL_BY_DEAL);

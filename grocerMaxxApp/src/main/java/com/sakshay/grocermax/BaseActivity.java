@@ -1363,7 +1363,8 @@ public abstract class BaseActivity extends FragmentActivity {
 						Intent call = new Intent(BaseActivity.this, CategoryTabs.class);
 						Bundle call_bundle = new Bundle();
 						call_bundle.putSerializable("PRODUCTDATA", responseBean);
-						call_bundle.putSerializable("HEADERNAME", CategoryActivity.strNextScreenHeader);
+//						call_bundle.putSerializable("HEADERNAME", CategoryActivity.strNextScreenHeader);
+						call_bundle.putSerializable("HEADERNAME", AppConstants.strTitleHotDeal);
 						call.putExtras(call_bundle);
 						startActivity(call);
 					}else{
