@@ -20,6 +20,7 @@ import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
 import com.sakshay.grocermax.bean.ShopByCategoryModel;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
+import com.sakshay.grocermax.utils.AppConstants;
 
 import java.util.ArrayList;
 
@@ -29,7 +30,7 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
     private Fragment fragment;
     private ArrayList<ShopByCategoryModel> data;
     private static Activity activity;
-    public static String strDealListCategoryHeading;
+//    public static String strDealListCategoryHeading;
     public ShopByCategoryListAdapter(Activity activity, Fragment fragment) {
 //        this.context = context;
         this.context = activity;
@@ -147,7 +148,8 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
                 for(int i=0;i<((HotOffersActivity) context).catObj.size();i++){
                     if(((HotOffersActivity) context).catObj.get(i).getCategoryId().equals(data.get(position).getCategory_id())){
 //                        strCatName = catObj.get(i).getCategory();
-                        ShopByCategoryListAdapter.strDealListCategoryHeading = ((HotOffersActivity) context).catObj.get(i).getCategory();
+//                        ShopByCategoryListAdapter.strDealListCategoryHeading = ((HotOffersActivity) context).catObj.get(i).getCategory();
+                        AppConstants.strTitleHotDeal = ((HotOffersActivity) context).catObj.get(i).getCategory();
                     }
                 }
 //                ShopByCategoryListAdapter.strDealListCategoryHeading = ((HotOffersActivity) context).catObj.get(position).getCategory();
