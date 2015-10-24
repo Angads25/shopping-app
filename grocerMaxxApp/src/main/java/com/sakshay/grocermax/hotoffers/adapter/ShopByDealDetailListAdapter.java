@@ -30,7 +30,7 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
     private Fragment fragment;
     private ArrayList<OfferByDealTypeSubModel> data;
     private static  Activity activity;
-    public static String strDealListDeatilHeading;
+//    public static String strDealListDeatilHeading;
     public ShopByDealDetailListAdapter(Activity activity, Fragment fragment) {
 //        this.context = context;
         this.context = activity;
@@ -85,13 +85,12 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
         }
     }
 
-
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.shop_by_item_detail, parent, false);
 
-        ((BaseActivity) context).initHeader(context.findViewById(R.id.header_left), true, ShopByDealDetailListAdapter.strDealListDeatilHeading);
+//        ((BaseActivity) context).initHeader(context.findViewById(R.id.header_left), true, ShopByDealDetailListAdapter.strDealListDeatilHeading);
+        ((BaseActivity) context).initHeader(context.findViewById(R.id.header_left), true, AppConstants.strTitleHotDeal);
         ((BaseActivity) context).findViewById(R.id.header_left).setVisibility(View.VISIBLE);
         ((BaseActivity) context).findViewById(R.id.header).setVisibility(View.GONE);
 

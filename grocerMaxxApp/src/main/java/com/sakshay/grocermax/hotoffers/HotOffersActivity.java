@@ -75,6 +75,7 @@ public class HotOffersActivity extends BaseActivity {
         addActionsInFilter(MyReceiverActions.OFFER_BY_DEALTYPE);
         addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
         addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);
+        addActionsInFilter(MyReceiverActions.ALL_PRODUCTS_CATEGORY);
 
         menuIcon = (ImageView) findViewById(R.id.menuIcon);
         homeDrawer = (ImageView) findViewById(R.id.homedrawer);

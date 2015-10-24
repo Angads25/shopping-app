@@ -43,7 +43,7 @@ public class CategoryActivity extends BaseActivity {
     LinearLayout llParent;
     ScrollView scrollView;
     int selectedIndex = 0;
-    public static String strNextScreenHeader;
+//    public static String strNextScreenHeader;
     String strCatName;                          //shown on header of screen
     ArrayList<CategorySubcategoryBean> alcatObjSend;
     public ArrayList<CategorySubcategoryBean> catObj;
@@ -210,7 +210,8 @@ public class CategoryActivity extends BaseActivity {
                 }
 
                 SubCatLength = catObj.get(mainCatPosition).getChildren().get(selectedIndex).getChildren().size();
-                strNextScreenHeader = alcatObjSend.get(selectedIndex).getCategory();
+//                strNextScreenHeader = alcatObjSend.get(selectedIndex).getCategory();
+                AppConstants.strTitleHotDeal = alcatObjSend.get(selectedIndex).getCategory();
                 if(expandStatus && catObj.get(mainCatPosition).getChildren().get(selectedIndex).getIsActive().equals("1")) {
                     updateUi(selectedIndex);
                 }else{
@@ -232,7 +233,9 @@ public class CategoryActivity extends BaseActivity {
 				int pos = (Integer) view.getTag();
                 showDialog();
 //                String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(mainCatPosition).getChildren().get(selectedIndex).getCategoryId();
-                strNextScreenHeader = alcatObjSend.get(selectedIndex).getChildren().get(pos).getCategory();
+
+//                strNextScreenHeader = alcatObjSend.get(selectedIndex).getChildren().get(pos).getCategory();
+                AppConstants.strTitleHotDeal = alcatObjSend.get(selectedIndex).getChildren().get(pos).getCategory();
                 String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(mainCatPosition).getChildren().get(selectedIndex).getChildren().get(pos).getCategoryId();
                 myApi.reqAllProductsCategory(url);
 //    			UtilityMethods.customToast(String.valueOf(pos) + "====", MyApplication.getInstance());
@@ -452,7 +455,7 @@ public class CategoryActivity extends BaseActivity {
                 Intent call = new Intent(CategoryActivity.this, CategoryTabs.class);
                 Bundle call_bundle = new Bundle();
                 call_bundle.putSerializable("PRODUCTDATA", responseBean);
-                call_bundle.putSerializable("HEADERNAME", strNextScreenHeader);
+                call_bundle.putSerializable("HEADERNAME", AppConstants.strTitleHotDeal);
 //                alSubCat.get(i).getCategory()
                 call.putExtras(call_bundle);
                 startActivity(call);

@@ -117,7 +117,8 @@ public class ExpandableMenuFragment extends Fragment {
                             ((HotOffersActivity) getActivity()).showDialog();
 //                        String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(groupPosition).getCategoryId();
                             String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(groupPosition).getCategoryId();
-                            System.out.println(catObj.get(groupPosition).getCategory() + "==========id==========" + catObj.get(groupPosition).getCategoryId());
+                            AppConstants.strTitleHotDeal = catObj.get(groupPosition).getCategory();
+                                System.out.println(catObj.get(groupPosition).getCategory() + "==========id==========" + catObj.get(groupPosition).getCategoryId());
                             ((HotOffersActivity) getActivity()).myApi.reqAllProductsCategory(url);
                         }
                         return true;
@@ -132,8 +133,9 @@ public class ExpandableMenuFragment extends Fragment {
 
 //                startActivity(catObj.get(groupPosition).getChildren().get(childPosition));
                 ((HotOffersActivity) getActivity()).showDialog();
-                String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(groupPosition).getCategoryId();
-                System.out.println(catObj.get(groupPosition).getCategory() + "==========id111==========" + catObj.get(groupPosition).getCategoryId());
+                String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(groupPosition).getChildren().get(childPosition).getCategoryId();
+                AppConstants.strTitleHotDeal = catObj.get(groupPosition).getChildren().get(childPosition).getCategory();
+                System.out.println(catObj.get(groupPosition).getChildren().get(childPosition).getCategory() + "==========id111==========" + catObj.get(groupPosition).getChildren().get(childPosition).getCategoryId());
                 ((HotOffersActivity) getActivity()).myApi.reqAllProductsCategory(url);
                 return false;
             }
@@ -200,7 +202,7 @@ public class ExpandableMenuFragment extends Fragment {
 //        }
         call_bundle.putSerializable("Categories", list);
         call_bundle.putSerializable("Header", categorySubcategoryBean.getCategory());
-        call_bundle.putBoolean("isFromDrawerMenu",true);
+        call_bundle.putBoolean("isFromDrawerMenu", true);
         call.putExtras(call_bundle);
         startActivity(call);
         ((HotOffersActivity) getActivity()).getDrawerLayout().closeDrawers();

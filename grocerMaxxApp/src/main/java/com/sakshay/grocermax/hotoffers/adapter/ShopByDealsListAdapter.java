@@ -16,6 +16,7 @@ import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.ShopByDealModel;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
+import com.sakshay.grocermax.utils.AppConstants;
 
 import java.util.ArrayList;
 
@@ -91,9 +92,11 @@ public class ShopByDealsListAdapter extends RecyclerView.Adapter<ShopByDealsList
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShopByDealDetailListAdapter.strDealListDeatilHeading = "";
-                ShopByDealDetailListAdapter.strDealListDeatilHeading = data.get(position).getDealType();
-                ((HotOffersActivity)context).hitForShopByDeals(data.get(position).getId());
+//                ShopByDealDetailListAdapter.strDealListDeatilHeading = "";
+//                ShopByDealDetailListAdapter.strDealListDeatilHeading = data.get(position).getDealType();
+                AppConstants.strTitleHotDeal = "";
+                AppConstants.strTitleHotDeal = data.get(position).getDealType();
+                ((HotOffersActivity) context).hitForShopByDeals(data.get(position).getId());
 
             }
         });

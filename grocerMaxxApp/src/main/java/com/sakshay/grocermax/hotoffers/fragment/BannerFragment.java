@@ -17,6 +17,7 @@ import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.api.SearchLoader;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
+import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.UrlsConstants;
 
 
@@ -63,7 +64,7 @@ public class BannerFragment extends Fragment {
         url = getArguments().getString("imgUrl");
         linkurl = getArguments().getString("linkUrl");
         name = getArguments().getString("name");
-        System.out.println("====link values is====" + linkurl);
+        System.out.println(name+"====link values is====" + linkurl);
 
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +133,8 @@ public class BannerFragment extends Fragment {
                     strType = linkurl;
                 }
 
+
+                AppConstants.strTitleHotDeal = name;
                 if(strType.equalsIgnoreCase("dealproductlisting")){
 //                    String dealId = "270";
 //                    String dealId = linkurl.substring(index+1,linkurl.length()-1);

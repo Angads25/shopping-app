@@ -10,12 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.DealByDealTypeBean;
 import com.sakshay.grocermax.bean.OfferByDealTypeBean;
 import com.sakshay.grocermax.bean.OfferByDealTypeModel;
 import com.sakshay.grocermax.bean.OfferByDealTypeSubModel;
 import com.sakshay.grocermax.hotoffers.MyPagerSlidingTabStrip;
+import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants;
 import com.sakshay.grocermax.utils.Worker;
 
@@ -49,6 +51,11 @@ public class ItemDetailFragment extends Fragment {
 
         Bundle data = getArguments();
 //        itemDetailGrid = new ItemDetailGrid();
+
+        ((BaseActivity) getActivity()).initHeader(getActivity().findViewById(R.id.header_left), true, AppConstants.strTitleHotDeal);
+        ((BaseActivity) getActivity()).findViewById(R.id.header_left).setVisibility(View.VISIBLE);
+        ((BaseActivity) getActivity()).findViewById(R.id.header).setVisibility(View.GONE);
+
         try {
             is_shop_by_deal = data.getBoolean(Constants.SHOP_BY_DEAL);
             if (is_shop_by_deal) {
@@ -105,7 +112,7 @@ public class ItemDetailFragment extends Fragment {
 
     @Override
     public void onResume() {
-        Toast.makeText(getActivity(), "Item Detail On resume", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "Item Detail On resume", Toast.LENGTH_SHORT).show();
         super.onResume();
     }
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
