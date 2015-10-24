@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@drawable/drawer_bg"
     android:orientation="vertical">
 
     <LinearLayout
@@ -37,7 +37,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:groupIndicator="@null"
-        android:divider="@null"
+        android:divider="@color/grey_view"
+        android:dividerHeight="0.8dp"
         android:visibility="gone" />
 
 
