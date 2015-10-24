@@ -48,47 +48,42 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageView;
-        CardView parentLayout;
-        TextView footer;
+//        CardView parentLayout;
+//        TextView footer;
         public ViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.img);
-            parentLayout = (CardView) itemView.findViewById(R.id.layoutParent);
-            footer = (TextView) itemView.findViewById(R.id.footer);
-
-            Display display = activity.getWindowManager().getDefaultDisplay();
-            Point size = new Point();
-            int width,height;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {      //13
-                display.getSize(size);
-                width = size.x;
-                height = size.y;
-            }else{
-                width = display.getWidth();
-                height = display.getHeight();
-            }
-
-            // SET THE IMAGEVIEW DIMENSIONS
-            int dimens = (width/2)-20;
-            float density = activity.getResources().getDisplayMetrics().density;
-//            int finalDimens = (int)(dimens * density);
-            int finalDimens = (int)(dimens);
-            LinearLayout.LayoutParams imgvwDimens =
-                    new LinearLayout.LayoutParams(finalDimens, finalDimens);
-            imageView.setLayoutParams(imgvwDimens);
-// SET SCALETYPE
-//            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
+//            parentLayout = (CardView) itemView.findViewById(R.id.layoutParent);
+//            footer = (TextView) itemView.findViewById(R.id.footer);
+//            Display display = activity.getWindowManager().getDefaultDisplay();
+//            Point size = new Point();
+//            int width,height;
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {      //13
+//                display.getSize(size);
+//                width = size.x;
+//                height = size.y;
+//            }else{
+//                width = display.getWidth();
+//                height = display.getHeight();
+//            }
+//            int dimens = (width/2)-20;
+//            float density = activity.getResources().getDisplayMetrics().density;
+//            int finalDimens = (int)(dimens);
+//            LinearLayout.LayoutParams imgvwDimens =
+//                    new LinearLayout.LayoutParams(finalDimens, finalDimens);
+//            imageView.setLayoutParams(imgvwDimens);
         }
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.option_list_item, parent, false);
-        LinearLayout ll = (LinearLayout)root.findViewById(R.id.ll_);
-        ll.setVisibility(View.GONE);
+//        View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.option_list_item, parent, false);
+        View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.shop_by_item_detail, parent, false);
+//        LinearLayout ll = (LinearLayout)root.findViewById(R.id.ll_);
+//        ll.setVisibility(View.GONE);
 
-        ((BaseActivity) context).initHeader(context.findViewById(R.id.header_left), true, ShopByCategoryListAdapter.strDealListCategoryHeading);
+//        ((BaseActivity) context).initHeader(context.findViewById(R.id.header_left), true, ShopByCategoryListAdapter.strDealListCategoryHeading);
+        ((BaseActivity) context).initHeader(context.findViewById(R.id.header_left), true, AppConstants.strTitleHotDeal);
         ((BaseActivity) context).findViewById(R.id.header_left).setVisibility(View.VISIBLE);
         ((BaseActivity) context).findViewById(R.id.header).setVisibility(View.GONE);
 
@@ -102,19 +97,28 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
         ImageLoader.getInstance().displayImage(data.get(position).getImage(),
                 holder.imageView, ((BaseActivity) context).baseImageoptions);
 
-        holder.footer.setText(data.get(position).getName());
-        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((HotOffersActivity) context).hitForDealsByDeals(data.get(position).getId());
-
-                AppConstants.strTitleHotDeal = data.get(position).getName();
-
-//                ItemDetailFragment fragment = new ItemDetailFragment();
-//                fragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.explode));
-//                ((MainActivity)context).changeFragment(fragment,holder.parentLayout);
+                    AppConstants.strTitleHotDeal = data.get(position).getName();
             }
         });
+
+
+//        holder.footer.setText(data.get(position).getName());
+//        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ((HotOffersActivity) context).hitForDealsByDeals(data.get(position).getId());
+//
+//                AppConstants.strTitleHotDeal = data.get(position).getName();
+//
+/////                ItemDetailFragment fragment = new ItemDetailFragment();
+/////                fragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.explode));
+/////                ((MainActivity)context).changeFragment(fragment,holder.parentLayout);
+//            }
+//        });
 
     }
 

@@ -45,15 +45,6 @@ public class ShopByDealItemDetailGrid extends Fragment {
 //        recyclerView.setAdapter(optionsListAdapter);
 //        optionsListAdapter.setListData(offerList);
 
-//        View view1 = inflater.inflate(R.layout.home_fragment, container, false);
-//        recyclerView = (RecyclerView) view1.findViewById(R.id.recyclerView1);
-//        ShopByCategoryListAdapter shopByCategoryListAdapter1 = new ShopByCategoryListAdapter(getActivity(), this);
-//        shopByCategoryListAdapter1.setListData(shopByCategoryBean.getArrayList());
-//        recyclerView.setAdapter(shopByCategoryListAdapter1);
-//        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-//        llm.setOrientation(LinearLayoutManager.VERTICAL);
-//        recyclerView.setLayoutManager(llm);
-
         View view = inflater.inflate(R.layout.item_grid, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.gridView);
 //        GridLayoutManager gridLayout = new GridLayoutManager(getActivity(), 2);
@@ -63,18 +54,6 @@ public class ShopByDealItemDetailGrid extends Fragment {
         recyclerView.setLayoutManager(llm);
         recyclerView.setAdapter(optionsListAdapter);
         optionsListAdapter.setListData(offerList);
-
-//        View view = inflater.inflate(R.layout.item_grid, container, false);
-//        recyclerView = (RecyclerView) view.findViewById(R.id.gridView);
-//        ShopByCategoryListAdapter shopByCategoryListAdapter1 = new ShopByCategoryListAdapter(getActivity(), this);
-////        shopByCategoryListAdapter1.setListData(shopByCategoryBean.getArrayList());
-////        recyclerView.setAdapter(shopByCategoryListAdapter1);
-//        DetailListAdapter detailListAdapter = new DetailListAdapter(getActivity(),this);
-//        recyclerView.setAdapter(detailListAdapter);
-//        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-//        llm.setOrientation(LinearLayoutManager.VERTICAL);
-//        recyclerView.setLayoutManager(llm);
-
 
         return view;
     }

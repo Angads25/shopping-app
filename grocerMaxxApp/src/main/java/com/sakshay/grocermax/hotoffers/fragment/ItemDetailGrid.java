@@ -3,14 +3,18 @@ package com.sakshay.grocermax.hotoffers.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.OfferByDealTypeSubModel;
 import com.sakshay.grocermax.hotoffers.adapter.DetailListAdapter;
+import com.sakshay.grocermax.hotoffers.adapter.ShopByDealDetailListAdapter;
+import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Worker;
 import com.sakshay.grocermax.utils.onPageChange;
 
@@ -43,13 +47,27 @@ public class ItemDetailGrid extends Fragment {
         });
 //        addArrayData();
 //        offerList = ((ItemDetailFragment) frag).getOfferData(0);
+
+//        View view = inflater.inflate(R.layout.item_grid, container, false);
+//        recyclerView = (RecyclerView) view.findViewById(R.id.gridView);
+//        GridLayoutManager gridLayout = new GridLayoutManager(getActivity(), 2);
+//        DetailListAdapter optionsListAdapter = new DetailListAdapter(getActivity(), this);
+//        recyclerView.setLayoutManager(gridLayout);
+//        recyclerView.setAdapter(optionsListAdapter);
+//        optionsListAdapter.setListData(offerList);
+
+        ((BaseActivity) getActivity()).initHeader(getActivity().findViewById(R.id.header_left), true, AppConstants.strTitleHotDeal);
+        ((BaseActivity) getActivity()).findViewById(R.id.header_left).setVisibility(View.VISIBLE);
+        ((BaseActivity) getActivity()).findViewById(R.id.header).setVisibility(View.GONE);
+
         View view = inflater.inflate(R.layout.item_grid, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.gridView);
-        GridLayoutManager gridLayout = new GridLayoutManager(getActivity(), 2);
         DetailListAdapter optionsListAdapter = new DetailListAdapter(getActivity(), this);
-        recyclerView.setLayoutManager(gridLayout);
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(llm);
         recyclerView.setAdapter(optionsListAdapter);
         optionsListAdapter.setListData(offerList);
+
         return view;
     }
 
