@@ -260,32 +260,33 @@ public class CategoryActivity extends BaseActivity {
                 llChild[selectedIndex].removeAllViews();
             }
 
-        int addedHeight = 0;
-        if(AppConstants.densityPhone <= 1.5){
-              addedHeight = 70;
-        }else if(AppConstants.densityPhone <= 2.0){
-              addedHeight = 90;
-        }else if(AppConstants.densityPhone <= 3.0){
-              addedHeight = 130;
-        }else if(AppConstants.densityPhone <= 4.0){
-              addedHeight = 170;
-        }
-
-        int addeveryindex = 0;
-
-            int childheight = 0;
-            for(int k=1;k<=SubCatLength;k+=3){
-                childheight += addedHeight+addeveryindex;
-                addeveryindex = 20;
-//                childheight += 130;
-//                childheight += tv_first.getHeight();
-            }
-            llChild[selectedIndex].getLayoutParams().height = childheight;
+//        int addedHeight = 0;
+//        if(AppConstants.densityPhone <= 1.5){
+//              addedHeight = 90;
+//        }else if(AppConstants.densityPhone <= 2.0){
+//              addedHeight = 110;
+//        }else if(AppConstants.densityPhone <= 3.0){
+//              addedHeight = 150;
+//        }else if(AppConstants.densityPhone <= 4.0){
+//              addedHeight = 190;
+//        }
+//            int addeveryindex = 0;
+//            int childheight = 0;
+//            for(int k=1;k<=SubCatLength;k+=3){
+//                childheight += addedHeight+addeveryindex;
+//                addeveryindex = 60;
+////                getResources().getDisplayMetrics().density
+//            }
+////            llChild[selectedIndex].getLayoutParams().height = childheight;
 
             LinearLayout llMain;
             if(SubCatLength == 1){
                 View subView2 = inflater.inflate(R.layout.catsubchild, null);
                 llMain = (LinearLayout) subView2.findViewById(R.id.ll_main);                   //main view
+
+                LinearLayout.LayoutParams lp1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                lp1.setMargins(0, 0, 0, 35);
+                llMain.setLayoutParams(lp1);
 
                 TextView tv11 = (TextView) subView2.findViewById(R.id.tv_first);
                 CardView cartView11 = (CardView) subView2.findViewById(R.id.layoutParent_1);
@@ -304,6 +305,10 @@ public class CategoryActivity extends BaseActivity {
             }else if(SubCatLength == 2){
                 View subView2 = inflater.inflate(R.layout.catsubchild, null);
                 llMain = (LinearLayout) subView2.findViewById(R.id.ll_main);                   //main view
+
+                LinearLayout.LayoutParams lp1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                lp1.setMargins(0, 0, 0, 35);
+                llMain.setLayoutParams(lp1);
 
                 TextView tv11 = (TextView) subView2.findViewById(R.id.tv_first);
                 TextView tv22 = (TextView) subView2.findViewById(R.id.tv_second);
@@ -334,10 +339,11 @@ public class CategoryActivity extends BaseActivity {
                     View subView = inflater.inflate(R.layout.catsubchild, null);
                     llMain = (LinearLayout) subView.findViewById(R.id.ll_main);                   //main view
 
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(0, 0, 0, 0);
-
-                    llMain.setLayoutParams(lp);
+                    if(SubCatLength %3 ==0) {
+                        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        lp.setMargins(0, 0, 0, 35);
+                        llMain.setLayoutParams(lp);
+                    }
 
                     TextView tv1 = (TextView) subView.findViewById(R.id.tv_first);
                     TextView tv2 = (TextView) subView.findViewById(R.id.tv_second);
@@ -382,7 +388,7 @@ public class CategoryActivity extends BaseActivity {
                             CardView cartView1 = (CardView) subView2.findViewById(R.id.layoutParent_1);
 
                             LinearLayout.LayoutParams lp1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            lp1.setMargins(0, 10, 0, 0);
+                            lp1.setMargins(0, 0, 0, 35);
                             llMain0.setLayoutParams(lp1);
 
                             tempInt++;
@@ -406,7 +412,7 @@ public class CategoryActivity extends BaseActivity {
                             CardView cartView2 = (CardView) subView2.findViewById(R.id.layoutParent_2);
 
                             LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            lp2.setMargins(0, 10, 0, 0);
+                            lp2.setMargins(0, 0, 0, 35);
                             llMain1.setLayoutParams(lp2);
 
                             tempInt++;

@@ -63,6 +63,9 @@ public class BannerFragment extends Fragment {
         url = getArguments().getString("imgUrl");
         linkurl = getArguments().getString("linkUrl");
         name = getArguments().getString("name");
+        System.out.println("====link values is====" + linkurl);
+
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

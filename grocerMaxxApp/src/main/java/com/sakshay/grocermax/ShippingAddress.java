@@ -146,11 +146,12 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
             for(int i=0;i<address_obj.getAddress().size();i++) {
                 System.out.println(AppConstants.strSelectedState+"======"+ AppConstants.strSelectedCity);
 //                if(address_obj.getAddress().get(i).getDefaultShipping().equals("true")) {
+                if(address_obj.getAddress().get(i).getCity() != null && address_obj.getAddress().get(i).getRegion() != null){
                 if(address_obj.getAddress().get(i).getCity().equalsIgnoreCase(AppConstants.strSelectedCity) &&
-                        address_obj.getAddress().get(i).getRegion().equalsIgnoreCase(AppConstants.strSelectedState)){
+                        address_obj.getAddress().get(i).getRegion().equalsIgnoreCase(AppConstants.strSelectedState)) {
                     addressList.add(address_obj.getAddress().get(i));
+                  }
                 }
-
             }
 
 //		/*addActionsInFilter(MyReceiverActions.FINAL_CHECKOUT);*/

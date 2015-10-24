@@ -52,38 +52,35 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageView;
-        CardView parentLayout;
-        TextView footer;
-        LinearLayout ll;
+//        CardView parentLayout;
+//        TextView footer;
+//        LinearLayout ll;
         public ViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.img);
-            parentLayout = (CardView) itemView.findViewById(R.id.layoutParent);
-            footer = (TextView) itemView.findViewById(R.id.footer);
-            ll = (LinearLayout) itemView.findViewById(R.id.ll_);
+//            parentLayout = (CardView) itemView.findViewById(R.id.layoutParent);
+//            footer = (TextView) itemView.findViewById(R.id.footer);
+//            ll = (LinearLayout) itemView.findViewById(R.id.ll_);
 
-            Display display = activity.getWindowManager().getDefaultDisplay();
-            Point size = new Point();
-            int width,height;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {      //13
-                display.getSize(size);
-                width = size.x;
-                height = size.y;
-            }else{
-                width = display.getWidth();
-                height = display.getHeight();
-            }
+//            Display display = activity.getWindowManager().getDefaultDisplay();
+//            Point size = new Point();
+//            int width,height;
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {      //13
+//                display.getSize(size);
+//                width = size.x;
+//                height = size.y;
+//            }else{
+//                width = display.getWidth();
+//                height = display.getHeight();
+//            }
 
             // SET THE IMAGEVIEW DIMENSIONS
-            int dimens = (width/2)-20;
-            float density = activity.getResources().getDisplayMetrics().density;
-//            int finalDimens = (int)(dimens * density);
-            int finalDimens = (int)(dimens);
-            LinearLayout.LayoutParams imgvwDimens =
-                    new LinearLayout.LayoutParams(finalDimens, finalDimens);
-            imageView.setLayoutParams(imgvwDimens);
-// SET SCALETYPE
-//            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//            int dimens = (width/2)-20;
+//            float density = activity.getResources().getDisplayMetrics().density;
+//            int finalDimens = (int)(dimens);
+//            LinearLayout.LayoutParams imgvwDimens =
+//                    new LinearLayout.LayoutParams(finalDimens, finalDimens);
+//            imageView.setLayoutParams(imgvwDimens);
 
         }
     }
@@ -92,7 +89,7 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.option_list_item, parent, false);
+        View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.shop_by_item_detail, parent, false);
 
         ((BaseActivity) context).initHeader(context.findViewById(R.id.header_left), true, ShopByDealDetailListAdapter.strDealListDeatilHeading);
         ((BaseActivity) context).findViewById(R.id.header_left).setVisibility(View.VISIBLE);
@@ -106,10 +103,10 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
         ImageLoader.getInstance().displayImage(data.get(position).getDeal_image(),
                 holder.imageView, ((BaseActivity) context).baseImageoptions);
 
-        holder.ll.setVisibility(View.GONE);
-        holder.footer.setText(data.get(position).getTitle() + "");
+//        holder.ll.setVisibility(View.GONE);
+//        holder.footer.setText(data.get(position).getTitle() + "");
 
-        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((HotOffersActivity)context).hitForDealsByDeals(data.get(position).getPromo_id());

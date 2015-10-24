@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.sakshay.grocermax.bean.DealByDealTypeBean;
 import com.sakshay.grocermax.bean.OfferByDealTypeSubModel;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.hotoffers.MyPagerSlidingTabStrip;
+import com.sakshay.grocermax.hotoffers.adapter.ShopByCategoryListAdapter;
 import com.sakshay.grocermax.utils.Constants;
 import com.sakshay.grocermax.utils.Worker;
 
@@ -46,7 +48,7 @@ public class ShopByDealItemDetailFragment extends Fragment {
 
         Bundle data = getArguments();
 
-        ((HotOffersActivity)getActivity()).setHeader("activity start");
+//        ((HotOffersActivity)getActivity()).setHeader("activity start");
 
 //        itemDetailGrid = new ItemDetailGrid();
         try {
@@ -141,6 +143,15 @@ public class ShopByDealItemDetailFragment extends Fragment {
         public Fragment getItem(int position) {
             ShopByDealItemDetailGrid fragment = new ShopByDealItemDetailGrid();
             fragment.setData(dealcategory.get(keyList.get(position)));
+
+//            ShopByCategoryListAdapter shopByCategoryListAdapter1 = new ShopByCategoryListAdapter(getActivity(), this);
+//            shopByCategoryListAdapter1.setListData(shopByCategoryBean.getArrayList());
+//            recyclerView1.setAdapter(shopByCategoryListAdapter1);
+//            LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+//            llm.setOrientation(LinearLayoutManager.HORIZONTAL);
+//            recyclerView1.setLayoutManager(llm);
+
+
             return fragment;
         }
 
