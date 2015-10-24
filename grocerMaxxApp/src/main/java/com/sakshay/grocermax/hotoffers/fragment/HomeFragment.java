@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.HomeBannerBean;
@@ -30,11 +32,9 @@ import java.util.ArrayList;
  * Created by nawab.hussain on 9/14/2015.
  */
 public class HomeFragment extends Fragment {
-    ViewPager scrollView;
     RecyclerView recyclerView1, recyclerView2;
-    TextView txtCategory,txtDeal;
+    TextView txtCategory, txtDeal;
     ArrayList<String> arrayList = new ArrayList<>();
-    private static final int NUM_PAGES = 3;
 
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
@@ -105,11 +105,18 @@ public class HomeFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             BannerFragment bannerFragment = new BannerFragment();
-            bannerFragment.setData(homeBannerBean.getBanner().get(position).getImageurl());
-            bannerFragment.setLinkUrl(homeBannerBean.getBanner().get(position).getLinkurl());
-            bannerFragment.setName(homeBannerBean.getBanner().get(position).getName());
+            Bundle bundle = new Bundle();
+            bundle.putString("imgUrl", homeBannerBean.getBanner().get(position).getImageurl());
+            bundle.putString("linkUrl", homeBannerBean.getBanner().get(position).getLinkurl());
+            bundle.putString("name", homeBannerBean.getBanner().get(position).getName());
+//            bannerFragment.setData(homeBannerBean.getBanner().get(position).getImageurl());
+            System.out.println("Position " + position + " ImageUrl " + homeBannerBean.getBanner().get(position).getImageurl());
+//            bannerFragment.setLinkUrl(homeBannerBean.getBanner().get(position).getLinkurl());
+//            bannerFragment.setName(homeBannerBean.getBanner().get(position).getName());
 
-            System.out.println("====NAME===="+homeBannerBean.getBanner().get(position).getName());
+            System.out.println("====NAME====" + homeBannerBean.getBanner().get(position).getName());
+
+            bannerFragment.setArguments(bundle);
 //            return BannerFragment.newInstance(homeBannerBean.getBanner().get(position % homeBannerBean.getBanner().size()));
             return bannerFragment;
         }
@@ -118,7 +125,6 @@ public class HomeFragment extends Fragment {
         public int getCount() {
             return homeBannerBean.getBanner().size();
         }
-
 
 
     }

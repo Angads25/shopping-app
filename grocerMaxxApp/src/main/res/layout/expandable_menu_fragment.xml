@@ -16,7 +16,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/drawer_back" />
+            android:src="@drawable/drawer_back"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"/>
 
         <TextView
             android:id="@+id/txvTitle"

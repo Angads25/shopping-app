@@ -266,6 +266,10 @@ public abstract class BaseActivity extends FragmentActivity {
 
 	}
 
+	public void hideHeader(){
+		llLeftIcon1.setVisibility(View.GONE);
+
+	}
 
 
 	public void setCartCount()

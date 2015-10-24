@@ -28,7 +28,7 @@
         <include
             android:id="@+id/header"
             layout="@layout/mart_header_drawer"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <include
             android:id="@+id/header_left"

@@ -45,8 +45,10 @@ public class ExpandableMenuFragment extends Fragment {
     private HashMap<String, ArrayList<CategorySubcategoryBean>> menuMap;
     private ExpandableMenuListAdapter expandableMenuListAdapter;
     private ShopByDealsMenuListAdapter shopByDealsListADapter;
+    private boolean isFromDrawer = false;
 
     ShopByDealsBean shopByDealsBean;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -56,13 +58,17 @@ public class ExpandableMenuFragment extends Fragment {
 
         if (bundle != null) {
             catObj = (ArrayList<CategorySubcategoryBean>) bundle.getSerializable("Categories");
-             shopByDealsBean = (ShopByDealsBean) bundle.get(Constants.SHOP_BY_DEALS_MODEL);
+            shopByDealsBean = (ShopByDealsBean) bundle.get(Constants.SHOP_BY_DEALS_MODEL);
             title = bundle.getString("Title");
             isListView = bundle.getBoolean("isListView");
+            isFromDrawer = bundle.getBoolean("isFromDrawer");
         } else {
             String response = UtilityMethods.readCategoryResponse(getActivity(), AppConstants.categoriesFile);
             catObj = UtilityMethods.getCategorySubCategory(response);
         }
+
+
+
         View view = inflater.inflate(R.layout.expandable_menu_fragment, container, false);
 //        for (int i = 0; i < catObj.size(); i++) {
 //            menuArray.add(catObj.get(i).getCategory());
@@ -72,10 +78,10 @@ public class ExpandableMenuFragment extends Fragment {
         imgBack = (ImageView) view.findViewById(R.id.imgBack);
         expandableListView = (ExpandableListView) view.findViewById(R.id.expLstMenu);
 
-            setExpandableListdata();
-            expandableListView.setVisibility(View.VISIBLE);
-            expandableMenuListAdapter = new ExpandableMenuListAdapter(getActivity(), ExpandableMenuFragment.this, header, menuMap);
-            expandableListView.setAdapter(expandableMenuListAdapter);
+        setExpandableListdata();
+        expandableListView.setVisibility(View.VISIBLE);
+        expandableMenuListAdapter = new ExpandableMenuListAdapter(getActivity(), ExpandableMenuFragment.this, header, menuMap);
+        expandableListView.setAdapter(expandableMenuListAdapter);
 
 
         txvTitle.setText(title);
@@ -107,17 +113,15 @@ public class ExpandableMenuFragment extends Fragment {
                     if (!expand) {
                         //Toast.makeText(getActivity(), " Will not open "+catObj.get(groupPosition).getCategory(), Toast.LENGTH_SHORT).show();
                         expandableListView.collapseGroup(groupPosition);
-//                        startActivity(catObj.get(groupPosition));
-
-                        ((HotOffersActivity)getActivity()).showDialog();
+//                            startActivity(catObj.get(groupPosition));
+                            ((HotOffersActivity) getActivity()).showDialog();
 //                        String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(groupPosition).getCategoryId();
-                        String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(groupPosition).getCategoryId();
-                        System.out.println(catObj.get(groupPosition).getCategory()+"==========id=========="+catObj.get(groupPosition).getCategoryId());
-                        ((HotOffersActivity) getActivity()).myApi.reqAllProductsCategory(url);
-
+                            String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(groupPosition).getCategoryId();
+                            System.out.println(catObj.get(groupPosition).getCategory() + "==========id==========" + catObj.get(groupPosition).getCategoryId());
+                            ((HotOffersActivity) getActivity()).myApi.reqAllProductsCategory(url);
+                        }
                         return true;
                     }
-                }
                 return false;
             }
         });
@@ -127,10 +131,10 @@ public class ExpandableMenuFragment extends Fragment {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
 //                startActivity(catObj.get(groupPosition).getChildren().get(childPosition));
-                ((HotOffersActivity)getActivity()).showDialog();
+                ((HotOffersActivity) getActivity()).showDialog();
                 String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(groupPosition).getCategoryId();
-                System.out.println(catObj.get(groupPosition).getCategory()+"==========id111=========="+catObj.get(groupPosition).getCategoryId());
-                ((HotOffersActivity)getActivity()).myApi.reqAllProductsCategory(url);
+                System.out.println(catObj.get(groupPosition).getCategory() + "==========id111==========" + catObj.get(groupPosition).getCategoryId());
+                ((HotOffersActivity) getActivity()).myApi.reqAllProductsCategory(url);
                 return false;
             }
         });
@@ -168,7 +172,7 @@ public class ExpandableMenuFragment extends Fragment {
 
             for (int i = 0; i < catObj.size(); i++) {
                 System.out.println("==========>>>>>>>" + catObj.get(i).getCategory());
-                if(catObj.get(i).getIsActive().equals("1")){
+                if (catObj.get(i).getIsActive().equals("1")) {
                     header.add(catObj.get(i).getCategory());
                     menuMap.put(catObj.get(i).getCategory(), catObj.get(i).getChildren());
                 }
@@ -196,6 +200,7 @@ public class ExpandableMenuFragment extends Fragment {
 //        }
         call_bundle.putSerializable("Categories", list);
         call_bundle.putSerializable("Header", categorySubcategoryBean.getCategory());
+        call_bundle.putBoolean("isFromDrawerMenu",true);
         call.putExtras(call_bundle);
         startActivity(call);
         ((HotOffersActivity) getActivity()).getDrawerLayout().closeDrawers();
@@ -215,7 +220,8 @@ public class ExpandableMenuFragment extends Fragment {
 
         return expand;
     }
-    public  boolean isExpanded(int position){
+
+    public boolean isExpanded(int position) {
 
         return expandableListView.isGroupExpanded(position);
     }

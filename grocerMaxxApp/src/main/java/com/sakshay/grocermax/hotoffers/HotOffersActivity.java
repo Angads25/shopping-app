@@ -52,7 +52,7 @@ public class HotOffersActivity extends BaseActivity {
     public OfferByDealTypeBean offerByDealTypeBean;
     public DealByDealTypeBean dealByDealTypeBean;
     public HomeBannerBean homeBannerBean;
-    private ImageView menuIcon,homeDrawer;
+    private ImageView menuIcon, homeDrawer;
     private android.support.v4.app.FragmentTransaction fragmentTransaction;
     private ArrayList<OfferByDealTypeModel> arrayList;
     private ShopByDealsBean shopByDealsBean;
@@ -166,7 +166,17 @@ public class HotOffersActivity extends BaseActivity {
                 getDrawerLayout().closeDrawers();
             }
         } else {
-            super.onBackPressed();
+            if (this.getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                this.getSupportFragmentManager().popBackStack();
+
+                if(this.getSupportFragmentManager().getBackStackEntryCount() == 1){
+                    findViewById(R.id.header).setVisibility(View.VISIBLE);
+                    findViewById(R.id.header_left).setVisibility(View.GONE);
+                }
+            } else {
+
+                super.onBackPressed();
+            }
         }
     }
 
@@ -176,6 +186,7 @@ public class HotOffersActivity extends BaseActivity {
         call_bundle.putString("Title", name);
         call_bundle.putSerializable(Constants.SHOP_BY_DEALS_MODEL, shopByDealsBean);
         call_bundle.putBoolean("isListView", false);
+        call_bundle.putBoolean("isFromDrawer", true);
         ExpandableMenuFragment fragment = new ExpandableMenuFragment();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 //        fragmentTransaction.add(R.id.menu, fragment);
@@ -240,7 +251,7 @@ public class HotOffersActivity extends BaseActivity {
                     dismissDialog();
                     android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 //                fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.frame, fragment);
+                    fragmentTransaction.add(R.id.frame, fragment);
                     Bundle data = new Bundle();
                     data.putSerializable(Constants.SHOP_BY_CATEGORY_MODEL, shopByCategoryBean);
                     data.putSerializable(Constants.SHOP_BY_DEALS_MODEL, shopByDealsBean);
@@ -293,11 +304,11 @@ public class HotOffersActivity extends BaseActivity {
             } else if (action.equals(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE)) {
 
 //                DealListBean dealListBean = (DealListBean) bundle
-  //                      .getSerializable(ConnectionService.RESPONSE);
+                //                      .getSerializable(ConnectionService.RESPONSE);
                 JSONObject jsonObject = new JSONObject(bundle.getString("json"));
                 JSONObject json = jsonObject.getJSONObject("Product");
                 Gson gson = new Gson();
-            DealListBean dealListBean = gson.fromJson(json.toString(), DealListBean.class);
+                DealListBean dealListBean = gson.fromJson(json.toString(), DealListBean.class);
 //                System.out.println("RESPONSE DEALLISTING" + dealProductListingBean.getProduct().size());
                 if (dealListBean == null) {
                     UtilityMethods.customToast(AppConstants.ToastConstant.NO_PRODUCT, mContext);
@@ -392,13 +403,12 @@ public class HotOffersActivity extends BaseActivity {
         return url;
     }
 
-//    @Override
+    //    @Override
 //    public void onBackPressed() {
 ////        if(fragmentTransaction.getBackStackEntryCount())
 //        super.onBackPressed();
 //    }
-    public void setHeader(String header)
-    {
+    public void setHeader(String header) {
         initHeader(findViewById(R.id.header), true, header);
 //        findViewById(R.id.header).setVisibility(View.VISIBLE);
 //        findViewById(R.id.header_left).setVisibility(View.GONE);

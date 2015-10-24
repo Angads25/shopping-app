@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.DealByDealTypeBean;
@@ -102,7 +103,11 @@ public class ItemDetailFragment extends Fragment {
     }
 
 
-
+    @Override
+    public void onResume() {
+        Toast.makeText(getActivity(), "Item Detail On resume", Toast.LENGTH_SHORT).show();
+        super.onResume();
+    }
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);

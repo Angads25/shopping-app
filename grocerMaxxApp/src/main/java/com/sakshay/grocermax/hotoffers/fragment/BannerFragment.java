@@ -60,6 +60,9 @@ public class BannerFragment extends Fragment {
         card_view.setShadowPadding(0,0,0,0);
         card_view.setCardElevation(0);
 
+        url = getArguments().getString("imgUrl");
+        linkurl = getArguments().getString("linkUrl");
+        name = getArguments().getString("name");
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,15 +213,15 @@ public class BannerFragment extends Fragment {
     }
 
 
-    public static void setData(String imageurl)
-    {
-        url = imageurl;
-    }
-    public static void setLinkUrl(String link){
-        linkurl = link;
-    }
-    public static void setName(String strname){
-        name = strname;
-    }
+//    public static void setData(String imageurl)
+//    {
+//        url = imageurl;
+//    }
+//    public static void setLinkUrl(String link){
+//        linkurl = link;
+//    }
+//    public static void setName(String strname){
+//        name = strname;
+//    }
 
 }
