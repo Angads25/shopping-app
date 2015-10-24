@@ -75,6 +75,9 @@ public class ShopByDealsMenuListAdapter extends BaseAdapter {
 			
 		}
 		holder.txvMenuItem.setText(offerList.get(position).getDealType());
+
+		System.out.println("========deal type============="+offerList.get(position).getDealType());
+
 		holder.txvMenuItem.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

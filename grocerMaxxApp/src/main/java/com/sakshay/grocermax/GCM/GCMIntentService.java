@@ -32,6 +32,12 @@ import com.google.android.gms.gcm.GcmListenerService;
 import com.sakshay.grocermax.CartProductList;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.SplashScreen;
+import com.sakshay.grocermax.api.MyReceiverActions;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
+import com.sakshay.grocermax.utils.UrlsConstants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,6 +50,8 @@ import java.net.URL;
 public class GCMIntentService extends GcmListenerService {
 
     private static final String TAG = "MyGcmListenerService";
+    String strLinkurl,strName;
+    Context context = this;
 
     /**
      * Called when message is received.
@@ -55,15 +63,26 @@ public class GCMIntentService extends GcmListenerService {
     // [START receive_message]
     @Override
     public void onMessageReceived(String from, Bundle data) {
-        String message = data.getString("message");
-        Log.d(TAG, "From: " + from);
-        Log.d(TAG, "Message: " + message);
+        try{
+            String message = data.getString("message");
+            strName = data.getString("name");
+            strLinkurl = data.getString("linkurl");
+            String collapse_key = data.getString("collapse_key");
+            Log.d(TAG, "From: " + from);
+            Log.d(TAG, "Message: " + message);
+            sendNotification(message);
+        }catch(Exception e){}
 
         if (from.startsWith("/topics/")) {
             // message received from some topic.
         } else {
             // normal downstream message.
         }
+
+
+//        String str = data.getString();
+
+
 
         // [START_EXCLUDE]
         /**
@@ -77,7 +96,7 @@ public class GCMIntentService extends GcmListenerService {
          * In some cases it may be useful to show a notification indicating to the user
          * that a message was received.
          */
-        sendNotification(message);
+//        sendNotification(message);
         // [END_EXCLUDE]
     }
     // [END receive_message]
@@ -88,6 +107,27 @@ public class GCMIntentService extends GcmListenerService {
      * @param message GCM message received.
      */
     private void sendNotification(String message) {
+
+//        String linkurl = "";
+//        int index = 0;
+//        String strType = "";
+//        if (linkurl.contains("?")) {
+//            index = linkurl.indexOf("?");
+//            if (linkurl.length() >= index) {
+//                strType = linkurl.substring(0, index);
+//                System.out.println("====result is====" + strType);
+//            }
+//        } else {
+//            strType = linkurl;
+//        }
+
+        ((HotOffersActivity) context).addActionsInFilter(MyReceiverActions.ALL_PRODUCTS_CATEGORY);
+        ((HotOffersActivity) context).showDialog();
+        String strUrl = UrlsConstants.NEW_BASE_URL;
+        ((HotOffersActivity) context).myApi.reqAllProductsCategory(strUrl + strLinkurl);
+        System.out.println("===complete url====" + strUrl + strLinkurl);
+
+//        Intent intent = new Intent(this, CartProductList.class);
         Intent intent = new Intent(this, CartProductList.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
@@ -106,7 +146,6 @@ public class GCMIntentService extends GcmListenerService {
         }
         notiStyle.bigPicture(remote_picture);
 
-
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.app_icon)
                 .setContentTitle("GrocerMax-Online Grocery")
@@ -115,7 +154,6 @@ public class GCMIntentService extends GcmListenerService {
                 .setSound(defaultSoundUri)
                 .setStyle(notiStyle)
                 .setContentIntent(pendingIntent);
-
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
