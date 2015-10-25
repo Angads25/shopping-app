@@ -24,6 +24,7 @@ import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.LocationListBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
+import com.sakshay.grocermax.hotoffers.fragment.MenuFragment;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.UrlsConstants;
@@ -41,6 +42,7 @@ public class LocationActivity extends BaseActivity {
     private int position = 0;
     TextView tvSelctionLoc;           //previously selected color change to bluish
     ImageView ivSelectionLoc;
+    String strFromWhereToCome;                      //used for check whether to come from drawyer or from starting the app.
 //    public static String strSelectedCity,strSelectedState,
 //            strSelectedStateId,                                          //store id
 //            strSelectedStateRegionId;                                   //state id for create new address
@@ -89,9 +91,18 @@ public class LocationActivity extends BaseActivity {
 //                    locationList.getItems().get(position).getCityName();
 //                    locationList.getItems().get(position).getId()
 //                    locationList.getItems().get(position).getStateId();
-                    showDialog();
-                    String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;
-                    myApi.reqCategorySubCategoryList(url);
+
+                    if(strFromWhereToCome.equalsIgnoreCase("fromdrawyer")){
+                        if(MenuFragment.txvLocation != null) {
+                            MenuFragment.txvLocation.setText(AppConstants.strSelectedCity);
+                            MySharedPrefs.INSTANCE.clearQuote();
+                        }
+                        finish();
+                    }else{
+                        showDialog();
+                        String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;
+                        myApi.reqCategorySubCategoryList(url);
+                    }
                 }
             }
         });
@@ -100,7 +111,10 @@ public class LocationActivity extends BaseActivity {
         LayoutInflater inflater = this.getLayoutInflater();
         if (bundle != null) {
             try {
-                locationList =  (LocationListBean)bundle.getSerializable("Location");
+
+                locationList = (LocationListBean)bundle.getSerializable("Location");
+                strFromWhereToCome = bundle.getString("FromDrawer");
+
                 if(locationList.getFlag().equals("1")){  //success
 //                    ImageView iv1 = (ImageView)findViewById(R.id.iv1);
 //                    ImageView iv2 = (ImageView)findViewById(R.id.iv2);
@@ -187,9 +201,9 @@ public class LocationActivity extends BaseActivity {
             ivLocation[position].setImageResource(R.drawable.unselect_location);
             position = (Integer) view.getTag();
 
-            AppConstants.strSelectedCity = locationList.getItems().get(position).getCityName();    //selected city
-            AppConstants.strSelectedState = locationList.getItems().get(position).getStateName();   //selected state
-            AppConstants.strSelectedStateId = locationList.getItems().get(position).getId();   //selected state id
+            AppConstants.strSelectedCity = locationList.getItems().get(position).getCityName();           //selected city
+            AppConstants.strSelectedState = locationList.getItems().get(position).getStateName();         //selected state
+            AppConstants.strSelectedStateId = locationList.getItems().get(position).getId();              //selected state id
             AppConstants.strSelectedStateRegionId = locationList.getItems().get(position).getStateId();   //selected state region id
 
             ivLocation[position].setImageResource(R.drawable.select_location);

@@ -1,5 +1,7 @@
 package com.sakshay.grocermax.utils;
 
+import com.sakshay.grocermax.bean.LocationListBean;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -14,6 +16,7 @@ public class AppConstants {
 			strSelectedStateRegionId;                                   //state id for create new address
 	public static float densityPhone = 0;
 	public static boolean bBack = false;
+	public static LocationListBean locationBean;
 
 	public static String token = "gpjaic0pdzqsv3jyouqsu3cd";
 	

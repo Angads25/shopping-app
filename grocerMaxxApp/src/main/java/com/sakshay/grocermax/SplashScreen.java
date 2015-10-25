@@ -184,12 +184,14 @@ public class SplashScreen extends BaseActivity
 		String action = bundle.getString("ACTION");
 		if (action.equals(MyReceiverActions.LOCATION)) {
 //			LocationListBean locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
-			LocationListBean locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
-			if(locationBean.getFlag().equals("1")) {
+			AppConstants.locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
+			if(AppConstants.locationBean.getFlag().equals("1")) {
 
 				Intent call = new Intent(SplashScreen.this, LocationActivity.class);
 				Bundle call_bundle = new Bundle();
-				call_bundle.putSerializable("Location", locationBean);
+//				call_bundle.putSerializable("Location", locationBean);
+				call_bundle.putSerializable("Location", AppConstants.locationBean);
+				call_bundle.putSerializable("FromDrawer", "");
 				call.putExtras(call_bundle);
 				startActivity(call);
 				registerGCM();
