@@ -61,11 +61,14 @@ public class ItemDetailFragment extends Fragment {
             if (is_shop_by_deal) {
             } else {
                 offerByDealTypeBean = (OfferByDealTypeBean) data.getSerializable(Constants.OFFER_BY_DEAL);
+
                 if(offerByDealTypeBean.getDealcategorylisting().getAll().size()>0)
                 {
                     dealcatListing = new HashMap<>();
-                    keyList.add(" All ");
-                    dealcatListing.put(" All ",offerByDealTypeBean.getDealcategorylisting().getAll());
+                    //////// responsible for All tab in starting //////////
+//                    keyList.add(" All ");
+//                    dealcatListing.put(" All ",offerByDealTypeBean.getDealcategorylisting().getAll());
+                    //////// responsible for All tab in starting //////////
                 }
 
                 if(offerByDealTypeBean.getDealcategorylisting().getDealsCategory().size()>0)
@@ -109,6 +112,10 @@ public class ItemDetailFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {

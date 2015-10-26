@@ -64,6 +64,8 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
             viewVerticalLine = (View) itemView.findViewById(R.id.view_line);
             view2Space = (View) itemView.findViewById(R.id.view_2_space);
 
+            imageView.setImageResource(R.drawable.cancel_icon);
+
             Typeface type = Typeface.createFromAsset(activity.getAssets(), "Lato-Bol.ttf");
 		    footer.setTypeface(type);
 

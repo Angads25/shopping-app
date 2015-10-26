@@ -298,6 +298,19 @@ public class MyApi {
 		}
 	}
 
+//	public void reqLocationBackground(String url) {               //hit when start the app in background not to come on listener
+//		try{
+//			Intent reqIntent = new Intent(m_context, ConnectionService.class);
+////			reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.LOCATION);
+//			reqIntent.putExtra(ConnectionService.URL, url);
+//			reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+//			reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.LOCATION);
+//			m_context.startService(reqIntent);
+//		}catch(Exception e){
+//			new GrocermaxBaseException("MyApi","reqLocation",e.getMessage(), GrocermaxBaseException.EXCEPTION,url);
+//		}
+//	}
+
 	public void reqProductList(String url) {
 		try{
 			Intent reqIntent = new Intent(m_context, ConnectionService.class);

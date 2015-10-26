@@ -11,9 +11,9 @@ import java.util.Arrays;
  * */
 public class AppConstants {
 	public static String strTitleHotDeal;
-	public static String strSelectedCity,strSelectedState,
-			strSelectedStateId,                                          //store id
-			strSelectedStateRegionId;                                   //state id for create new address
+//	public static String strSelectedCity="",strSelectedState,
+//			strSelectedStateId,                                          //store id
+//			strSelectedStateRegionId;                                   //state id for create new address
 	public static float densityPhone = 0;
 	public static boolean bBack = false;
 	public static LocationListBean locationBean;

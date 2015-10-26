@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ public class ExpandableMenuFragment extends Fragment {
     private ListView lstMenu, lstShopByDealsMenu;
     private MenuListAdapter menuListAdapter;
     private ImageView imgBack;
+    private LinearLayout llExpandableMenu;
     private String title;
     private Boolean isListView;
     private TextView txvTitle, txvShopByDeals, txvGetInTouch, txvShopByCategories;
@@ -76,6 +78,7 @@ public class ExpandableMenuFragment extends Fragment {
 
         txvTitle = (TextView) view.findViewById(R.id.txvTitle);
         imgBack = (ImageView) view.findViewById(R.id.imgBack);
+        llExpandableMenu = (LinearLayout) view.findViewById(R.id.ll_expandable_menu);
         expandableListView = (ExpandableListView) view.findViewById(R.id.expLstMenu);
 
         setExpandableListdata();
@@ -85,7 +88,7 @@ public class ExpandableMenuFragment extends Fragment {
 
 
         txvTitle.setText(title);
-        imgBack.setOnClickListener(new View.OnClickListener() {
+        llExpandableMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (getActivity().getSupportFragmentManager().getBackStackEntryCount() > 0) {
@@ -100,7 +103,7 @@ public class ExpandableMenuFragment extends Fragment {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 boolean expand = false;
-
+//                expandableListView.c
                 //Toast.makeText(getActivity(), "Size :" + catObj.get(groupPosition).getChildren().size(), Toast.LENGTH_SHORT).show();
                 for (int i = 0; i < catObj.get(groupPosition).getChildren().size(); i++) {
                     if (catObj.get(groupPosition).getChildren().get(i).getChildren().size() > 0) {

@@ -23,7 +23,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:layout_gravity="center_vertical"
-            android:visibility="visible"
+            android:visibility="gone"
             android:padding="5dp"
             card_view:cardCornerRadius="2dp" >
 
@@ -37,9 +37,7 @@
                 android:gravity="center"
                 android:textColor="#1d1d1d"
                 android:layout_gravity="center_vertical"
-                android:visibility="visible"
-
-                 />
+                android:visibility="gone" />
 
         </android.support.v7.widget.CardView>
 
@@ -53,7 +51,7 @@
             android:background="@color/white"
             android:layout_weight="1"
             android:gravity="center"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
@@ -69,8 +67,7 @@
         android:gravity="center"
         android:textColor="#1d1d1d"
         android:layout_gravity="center_vertical"
-        android:visibility="visible"
-
+        android:visibility="gone"
         android:padding="5dp"
          />
 

@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sakshay.grocermax.BaseActivity;
+import com.sakshay.grocermax.CategoryTabs;
+import com.sakshay.grocermax.ProductListFragments;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.CartDetail;
 import com.sakshay.grocermax.bean.Product;
@@ -256,6 +258,13 @@ public class ProductListAdapter extends BaseAdapter {
 
             ImageLoader.getInstance().displayImage(obj.getImage(),
                     holder.prod_image, ((BaseActivity) activity).baseImageoptions);
+
+            holder.prod_image.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
 
             holder.increase_quantity.setOnClickListener(new OnClickListener() {
                 @Override

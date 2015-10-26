@@ -36,7 +36,6 @@ public class ShopByDealsListAdapter extends RecyclerView.Adapter<ShopByDealsList
         this.data = data;
 //        if(data!=null)
 //        adminReservationList.clear();
-
     }
 
 

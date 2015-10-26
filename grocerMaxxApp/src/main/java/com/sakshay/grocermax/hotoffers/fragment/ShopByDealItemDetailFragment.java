@@ -63,11 +63,15 @@ public class ShopByDealItemDetailFragment extends Fragment {
             if (is_shop_by_deal) {
                 dealByDealTypeBean = (DealByDealTypeBean) data.getSerializable(Constants.DEAL_BY_DEAL);
                 dealcategory = new HashMap<>();
-                if(dealByDealTypeBean.getDealcategory().getAll().size()>0)
-                {
-                    keyList.add(" All ");
-                    dealcategory.put(" All ",dealByDealTypeBean.getDealcategory().getAll());
-                }
+
+///////////    responsible for All tab in starting   ////////////////////
+//                if(dealByDealTypeBean.getDealcategory().getAll().size()>0)
+//                {
+//                    keyList.add(" All ");
+//                    dealcategory.put(" All ",dealByDealTypeBean.getDealcategory().getAll());
+//                }
+///////////    responsible for All tab in starting   ////////////////////
+
                 if(dealByDealTypeBean.getDealcategory().getCategory().size()>0)
                 {
                     for (OfferByDealTypeSubModel dataValue : dealByDealTypeBean.getDealcategory().getCategory()) {

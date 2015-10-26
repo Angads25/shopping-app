@@ -2,63 +2,61 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/transparent"
+    android:orientation="vertical"
     android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    >
-    
-    <RelativeLayout 
+    android:paddingRight="10dp">
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:layout_gravity="center_vertical"
         android:background="@color/transparent"
+        android:gravity="center_vertical"
+        android:paddingBottom="4dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp" >
+        android:paddingTop="4dp">
 
         <!-- TODO, please remove this, child does not need this-->
         <ImageView
             android:id="@+id/image_childs"
             android:layout_width="14dp"
             android:layout_height="14dp"
-            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:paddingTop="2dp"
-            android:visibility="gone"
             android:background="@color/transparent"
+            android:paddingTop="2dp"
             android:src="@drawable/categories_arrow_icon"
-            />
-        
-        <TextView 
+            android:visibility="gone" />
+
+        <TextView
             android:id="@+id/item_name_childs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
             android:background="@color/transparent"
-            android:textColor="@color/small_heading_text"
-            android:textSize="@dimen/text_size_16" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/twelveScaled" />
 
         <!-- TODO , please remove this as child needs no arrow-->
-        <ImageView 
+        <ImageView
             android:id="@+id/img_arrow_childs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:visibility="gone"
-            android:src="@drawable/arrow_right"/>
+            android:src="@drawable/arrow_right"
+            android:visibility="gone" />
     </RelativeLayout>
-    
-    <View 
+
+    <View
         android:id="@+id/line_childs"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:visibility="gone"
-        android:background="#ebebeb"/>
-    
+        android:background="#ebebeb"
+        android:visibility="gone" />
+
 </LinearLayout>

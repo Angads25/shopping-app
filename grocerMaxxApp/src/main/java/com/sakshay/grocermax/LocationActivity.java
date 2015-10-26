@@ -77,8 +77,8 @@ public class LocationActivity extends BaseActivity {
             int height = displaymetrics.heightPixels;
             int width = displaymetrics.widthPixels;
 
-        System.out.println(width+"====xaxis===="+height);
-//index - 2.0 - xhdpi
+//        System.out.println(width+"====xaxis===="+height);
+//intex - 2.0 - xhdpi
 //lenovo - 3.0 - xxhdpi
         llLocation = (LinearLayout)findViewById(R.id.location_main_layout);
         TextView tvSave = (TextView) findViewById(R.id.location_save);
@@ -93,10 +93,15 @@ public class LocationActivity extends BaseActivity {
 //                    locationList.getItems().get(position).getStateId();
 
                     if(strFromWhereToCome.equalsIgnoreCase("fromdrawyer")){
-                        if(MenuFragment.txvLocation != null) {
-                            MenuFragment.txvLocation.setText(AppConstants.strSelectedCity);
-                            MySharedPrefs.INSTANCE.clearQuote();
+                        if(MenuFragment.txvSelectLocation != null) {
+//                            MenuFragment.txvSelectLocation.setText(AppConstants.strSelectedCity);
+                            if(MySharedPrefs.INSTANCE.getSelectedCity() != null) {
+                                if(MenuFragment.txvSelectLocation != null) {
+                                    MenuFragment.txvSelectLocation.setText(MySharedPrefs.INSTANCE.getSelectedCity());
+                                }
+                            }
                         }
+                        MySharedPrefs.INSTANCE.clearQuote();
                         finish();
                     }else{
                         showDialog();
@@ -136,29 +141,109 @@ public class LocationActivity extends BaseActivity {
                             tvLocation[i] = (TextView) view.findViewById(R.id.tv_location);
                             tvLocation[i].setText(locationList.getItems().get(i).getCityName());
 
-                            AppConstants.strSelectedCity = locationList.getItems().get(0).getCityName();    //selected default city
-                            AppConstants.strSelectedState = locationList.getItems().get(0).getStateName();   //selected default state
-                            AppConstants.strSelectedStateId = locationList.getItems().get(0).getId();  //selected default id
-                            AppConstants.strSelectedStateRegionId = locationList.getItems().get(0).getStateId();  //selected state region id
 
-//                            ivLocation[i].setImageResource(getImageResource(catObj.get(i).getCategory()));
+                            if(MySharedPrefs.INSTANCE.getSelectedCity() != null) {
+                                if (!locationList.getItems().get(i).getCityName().equalsIgnoreCase(MySharedPrefs.INSTANCE.getSelectedCity())) {
+                                    ivLocation[i].setImageResource(R.drawable.unselect_location);
+                                } else {
+                                    MySharedPrefs.INSTANCE.putSelectedCity(locationList.getItems().get(i).getCityName());    //selected default city
+                                    MySharedPrefs.INSTANCE.putSelectedState(locationList.getItems().get(i).getStateName());   //selected default state
+                                    MySharedPrefs.INSTANCE.putSelectedStateId(locationList.getItems().get(i).getId());  //selected default id
+                                    MySharedPrefs.INSTANCE.putSelectedStateRegionId(locationList.getItems().get(i).getStateId());  //selected state region id;
 
-                            if (i != 0) {
-                                ivLocation[i].setImageResource(R.drawable.unselect_location);
-//                                ivLocation[i].setBackground(getResources().getDrawable(R.drawable.unselect_location));
-                            }else{
-                                tvSelctionLoc = tvLocation[i];
-                                ivSelectionLoc = ivLocation[i];
-                                ivLocation[i].setImageResource(R.drawable.select_location);
-//                                ivLocation[i].setBackground(getResources().getDrawable(R.drawable.select_location));
-//                                tvLocation[i].setTextColor();
+                                    tvSelctionLoc = tvLocation[i];
+                                    ivSelectionLoc = ivLocation[i];
+                                    ivLocation[i].setImageResource(R.drawable.select_location);
+                                }
+                            }else{                               //first time
+                                MySharedPrefs.INSTANCE.putSelectedCity(locationList.getItems().get(0).getCityName());    //selected default city
+                                MySharedPrefs.INSTANCE.putSelectedState(locationList.getItems().get(0).getStateName());   //selected default state
+                                MySharedPrefs.INSTANCE.putSelectedStateId(locationList.getItems().get(0).getId());  //selected default id
+                                MySharedPrefs.INSTANCE.putSelectedStateRegionId(locationList.getItems().get(0).getStateId());  //selected state region id;
+                                if (i != 0) {
+                                    ivLocation[i].setImageResource(R.drawable.unselect_location);
+                                } else {
+                                    tvSelctionLoc = tvLocation[i];
+                                    ivSelectionLoc = ivLocation[i];
+                                    ivLocation[i].setImageResource(R.drawable.select_location);
+                                }
                             }
+
+
+////                            if(AppConstants.strSelectedCity.equals("")){      //first time
+//                            if(MySharedPrefs.INSTANCE.getSelectedCity() != null) {
+//                                if (MySharedPrefs.INSTANCE.getSelectedCity().equals("")) {      //first time
+//
+//                                    MySharedPrefs.INSTANCE.putSelectedCity(locationList.getItems().get(0).getCityName());    //selected default city
+//                                    MySharedPrefs.INSTANCE.putSelectedState(locationList.getItems().get(0).getStateName());   //selected default state
+//                                    MySharedPrefs.INSTANCE.putSelectedStateId(locationList.getItems().get(0).getId());  //selected default id
+//                                    MySharedPrefs.INSTANCE.putSelectedStateRegionId(locationList.getItems().get(0).getStateId());  //selected state region id;
+//
+////                                    AppConstants.strSelectedCity = locationList.getItems().get(0).getCityName();    //selected default city
+////                                    AppConstants.strSelectedState = locationList.getItems().get(0).getStateName();   //selected default state
+////                                    AppConstants.strSelectedStateId = locationList.getItems().get(0).getId();  //selected default id
+////                                    AppConstants.strSelectedStateRegionId = locationList.getItems().get(0).getStateId();  //selected state region id
+//                                    //                            ivLocation[i].setImageResource(getImageResource(catObj.get(i).getCategory()));
+//                                    if (i != 0) {
+//                                        ivLocation[i].setImageResource(R.drawable.unselect_location);
+//                                        //                                ivLocation[i].setBackground(getResources().getDrawable(R.drawable.unselect_location));
+//                                    } else {
+//                                        tvSelctionLoc = tvLocation[i];
+//                                        ivSelectionLoc = ivLocation[i];
+//                                        ivLocation[i].setImageResource(R.drawable.select_location);
+//                                        //                                ivLocation[i].setBackground(getResources().getDrawable(R.drawable.select_location));
+//                                        //                                tvLocation[i].setTextColor();
+//                                    }
+//                                }else{
+////                                if(!locationList.getItems().get(i).getCityName().equalsIgnoreCase(AppConstants.strSelectedCity)){
+//                                    if(MySharedPrefs.INSTANCE.getSelectedCity() != null) {
+//                                        if (!locationList.getItems().get(i).getCityName().equalsIgnoreCase(MySharedPrefs.INSTANCE.getSelectedCity())) {
+//                                            ivLocation[i].setImageResource(R.drawable.unselect_location);
+//                                        } else {
+//                                            MySharedPrefs.INSTANCE.putSelectedCity(locationList.getItems().get(i).getCityName());    //selected default city
+//                                            MySharedPrefs.INSTANCE.putSelectedState(locationList.getItems().get(i).getStateName());   //selected default state
+//                                            MySharedPrefs.INSTANCE.putSelectedStateId(locationList.getItems().get(i).getId());  //selected default id
+//                                            MySharedPrefs.INSTANCE.putSelectedStateRegionId(locationList.getItems().get(i).getStateId());  //selected state region id;
+//
+////                                    AppConstants.strSelectedCity = locationList.getItems().get(i).getCityName();    //selected default city
+////                                    AppConstants.strSelectedState = locationList.getItems().get(i).getStateName();   //selected default state
+////                                    AppConstants.strSelectedStateId = locationList.getItems().get(i).getId();  //selected default id
+////                                    AppConstants.strSelectedStateRegionId = locationList.getItems().get(i).getStateId();  //selected state region id
+//
+//                                            tvSelctionLoc = tvLocation[i];
+//                                            ivSelectionLoc = ivLocation[i];
+//                                            ivLocation[i].setImageResource(R.drawable.select_location);
+//                                        }
+//                                    }
+//                                }
+//                            }else{
+////                                if(!locationList.getItems().get(i).getCityName().equalsIgnoreCase(AppConstants.strSelectedCity)){
+//                                if(MySharedPrefs.INSTANCE.getSelectedCity() != null) {
+//                                    if (!locationList.getItems().get(i).getCityName().equalsIgnoreCase(MySharedPrefs.INSTANCE.getSelectedCity())) {
+//                                        ivLocation[i].setImageResource(R.drawable.unselect_location);
+//                                    } else {
+//                                        MySharedPrefs.INSTANCE.putSelectedCity(locationList.getItems().get(i).getCityName());    //selected default city
+//                                        MySharedPrefs.INSTANCE.putSelectedState(locationList.getItems().get(i).getStateName());   //selected default state
+//                                        MySharedPrefs.INSTANCE.putSelectedStateId(locationList.getItems().get(i).getId());  //selected default id
+//                                        MySharedPrefs.INSTANCE.putSelectedStateRegionId(locationList.getItems().get(i).getStateId());  //selected state region id;
+//
+////                                    AppConstants.strSelectedCity = locationList.getItems().get(i).getCityName();    //selected default city
+////                                    AppConstants.strSelectedState = locationList.getItems().get(i).getStateName();   //selected default state
+////                                    AppConstants.strSelectedStateId = locationList.getItems().get(i).getId();  //selected default id
+////                                    AppConstants.strSelectedStateRegionId = locationList.getItems().get(i).getStateId();  //selected state region id
+//
+//                                        tvSelctionLoc = tvLocation[i];
+//                                        ivSelectionLoc = ivLocation[i];
+//                                        ivLocation[i].setImageResource(R.drawable.select_location);
+//                                    }
+//                                }
+//                            }
 
                             view.setTag(i);
                             view.setOnClickListener(listener);
-//                            catImageArray[i].setMinimumHeight((linearMainCat[i].getMeasuredHeight())); // trying to make it a square
-
+                            //                            catImageArray[i].setMinimumHeight((linearMainCat[i].getMeasuredHeight())); // trying to make it a square
                             llLocation.addView(view);
+
                         }
                     }
                 }
@@ -198,13 +283,20 @@ public class LocationActivity extends BaseActivity {
                 if (keyboardVisibility)
                     imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
             }
-            ivLocation[position].setImageResource(R.drawable.unselect_location);
+            for(int i=0;i<locationList.getItems().size();i++){
+                ivLocation[i].setImageResource(R.drawable.unselect_location);
+            }
+//            ivLocation[position].setImageResource(R.drawable.unselect_location);
             position = (Integer) view.getTag();
 
-            AppConstants.strSelectedCity = locationList.getItems().get(position).getCityName();           //selected city
-            AppConstants.strSelectedState = locationList.getItems().get(position).getStateName();         //selected state
-            AppConstants.strSelectedStateId = locationList.getItems().get(position).getId();              //selected state id
-            AppConstants.strSelectedStateRegionId = locationList.getItems().get(position).getStateId();   //selected state region id
+//            AppConstants.strSelectedCity = locationList.getItems().get(position).getCityName();           //selected city
+//            AppConstants.strSelectedState = locationList.getItems().get(position).getStateName();         //selected state
+//            AppConstants.strSelectedStateId = locationList.getItems().get(position).getId();              //selected state id
+//            AppConstants.strSelectedStateRegionId = locationList.getItems().get(position).getStateId();   //selected state region id
+            MySharedPrefs.INSTANCE.putSelectedCity(locationList.getItems().get(position).getCityName());    //selected default city
+            MySharedPrefs.INSTANCE.putSelectedState(locationList.getItems().get(position).getStateName());   //selected default state
+            MySharedPrefs.INSTANCE.putSelectedStateId(locationList.getItems().get(position).getId());  //selected default id
+            MySharedPrefs.INSTANCE.putSelectedStateRegionId(locationList.getItems().get(position).getStateId());  //selected state region id;
 
             ivLocation[position].setImageResource(R.drawable.select_location);
         }catch(Exception e){

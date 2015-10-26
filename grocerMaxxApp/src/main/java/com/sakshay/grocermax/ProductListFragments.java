@@ -166,6 +166,24 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 		return null;
 	}
 
+//	public void descriptionCall(){
+//		if(CategoryTabs.clickStatus==0)
+//		{
+//			CategoryTabs.clickStatus=1;
+//			if(productListBean!=null)
+////			{
+////				MySharedPrefs.INSTANCE.putItemQuantity(productListBean.getProduct().get(position).getQuantity());
+////				categoryTabs.product = productListBean.getProduct().get(position);
+////				categoryTabs.showDialog();
+////
+////				tvGlobalUpdateProductList = (TextView) view.findViewById(R.id.added_product_count);
+////				imgAddedProductCount = (ImageView) view.findViewById(R.id.img_added_product_count);
+////
+////				String url = UrlsConstants.PRODUCT_DETAIL_URL + categoryTabs.product.getProductid();
+////				categoryTabs.myApi.reqProductContentList(url);
+////			}
+//		}
+//	}
 
 	private void makeUI(){
 		try{

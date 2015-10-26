@@ -1,10 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_menulist"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:drawableRight="@drawable/arrow_right"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="@dimen/twelve">
+    android:padding="@dimen/eight">
 
     <TextView
         android:id="@+id/textMenuItem"
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textColor="#EFEFEF"
-        android:textSize="@dimen/sixteen_text"
+        android:textSize="@dimen/fourteen_text"
         android:text="Menu"/>
 
     <ImageView
@@ -20,5 +21,5 @@
         android:layout_height="15dp"
         android:layout_marginRight="@dimen/five_dp"
         android:layout_gravity="center"
-        android:src="@drawable/arrow_right"/>
+        android:src="@drawable/drawer_caret"/>
 </LinearLayout>

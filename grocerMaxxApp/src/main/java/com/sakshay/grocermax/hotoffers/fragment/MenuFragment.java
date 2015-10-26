@@ -21,8 +21,10 @@ import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.hotoffers.adapter.ExpandableMenuListAdapter;
 import com.sakshay.grocermax.hotoffers.adapter.MenuListAdapter;
 import com.sakshay.grocermax.hotoffers.adapter.ShopByDealsMenuListAdapter;
+import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants;
+import com.sakshay.grocermax.utils.UrlsConstants;
 import com.sakshay.grocermax.utils.UtilityMethods;
 
 import java.util.ArrayList;
@@ -40,7 +42,8 @@ public class MenuFragment extends Fragment {
     private String title;
     private Boolean isListView;
     private TextView txvTitle, txvShopByDeals, txvGetInTouch, txvShopByCategories;
-    public static TextView txvLocation;
+    public static TextView txvSelectLocation;
+    private TextView txvLocation;
     private ExpandableListView expandableListView;
     private ArrayList<String> header;
     private HashMap<String, ArrayList<CategorySubcategoryBean>> menuMap;
@@ -80,13 +83,19 @@ public class MenuFragment extends Fragment {
         txvShopByCategories = (TextView) view.findViewById(R.id.txvShopByCategories);
         txvShopByDeals = (TextView) view.findViewById(R.id.txvShopByDeals);
         txvGetInTouch = (TextView) view.findViewById(R.id.txvGetInTouch);
+        txvSelectLocation = (TextView) view.findViewById(R.id.txvSelectLocation);
         txvLocation = (TextView) view.findViewById(R.id.txvLocation);
         imgBack = (ImageView) view.findViewById(R.id.imgBack);
         lstMenu = (ListView) view.findViewById(R.id.lstMenu);
         lstShopByDealsMenu = (ListView) view.findViewById(R.id.lstShopByDealsMenu);
         expandableListView = (ExpandableListView) view.findViewById(R.id.expLstMenu);
 
-        txvLocation.setText(AppConstants.strSelectedCity);
+//        txvLocation.setText(AppConstants.strSelectedCity);
+//        txvSelectLocation.setText(AppConstants.strSelectedCity);
+        if(MySharedPrefs.INSTANCE.getSelectedCity() != null) {
+            txvSelectLocation.setText(MySharedPrefs.INSTANCE.getSelectedCity());
+//            txvLocation.setText(MySharedPrefs.INSTANCE.getSelectedCity());
+        }
 
         if (isListView) {
             expandableListView.setVisibility(View.GONE);
@@ -100,6 +109,7 @@ public class MenuFragment extends Fragment {
             lstShopByDealsMenu.setAdapter(shopByDealsListADapter);
             txvShopByDeals.setVisibility(View.VISIBLE);
             txvGetInTouch.setVisibility(View.VISIBLE);
+            txvSelectLocation.setVisibility(View.VISIBLE);
             txvLocation.setVisibility(View.VISIBLE);
             txvShopByCategories.setVisibility(View.VISIBLE);
 
@@ -111,6 +121,7 @@ public class MenuFragment extends Fragment {
             expandableListView.setAdapter(expandableMenuListAdapter);
             txvShopByDeals.setVisibility(View.GONE);
             txvGetInTouch.setVisibility(View.GONE);
+            txvSelectLocation.setVisibility(View.GONE);
             txvLocation.setVisibility(View.GONE);
             txvShopByCategories.setVisibility(View.GONE);
         }
@@ -163,14 +174,21 @@ public class MenuFragment extends Fragment {
         txvLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(AppConstants.locationBean.getFlag().equals("1")) {
-                    Intent call = new Intent(getActivity(), LocationActivity.class);
-                    Bundle call_bundle = new Bundle();
-                    call_bundle.putSerializable("Location", AppConstants.locationBean);
-                    call_bundle.putSerializable("FromDrawer", "fromdrawyer");
-                    call.putExtras(call_bundle);
-                    startActivity(call);
+                if(AppConstants.locationBean != null) {
+                    if (AppConstants.locationBean.getFlag().equals("1")) {
+                        Intent call = new Intent(getActivity(), LocationActivity.class);
+                        Bundle call_bundle = new Bundle();
+                        call_bundle.putSerializable("Location", AppConstants.locationBean);
+                        call_bundle.putSerializable("FromDrawer", "fromdrawyer");
+                        call.putExtras(call_bundle);
+                        startActivity(call);
+                    }
+                }else{
+                    ((HotOffersActivity)getActivity()).showDialog();
+                    String url = UrlsConstants.GET_LOCATION;
+                    ((HotOffersActivity)getActivity()).myApi.reqLocation(url);
                 }
+
 //                Intent intent = new Intent(Intent.ACTION_SEND);
 //                intent.setType("text/plain");
 //                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

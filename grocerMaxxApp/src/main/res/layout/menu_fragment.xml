@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/drawer_bg">
+    android:background="@drawable/drawer_bg"
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,6 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:padding="@dimen/ten_dp">
 
             <ImageView
@@ -19,21 +21,39 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/home"
                 android:paddingLeft="@dimen/ten_dp"
                 android:paddingRight="@dimen/ten_dp"
-                android:visibility="gone"/>
+                android:src="@drawable/home"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/txvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginLeft="@dimen/five_dp"
                 android:text="Home"
-                android:textColor="@color/grey_dark"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
                 android:textSize="@dimen/fourteen_text" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:background="@color/grey_view"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/txvSelectLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:paddingBottom="@dimen/ten_dp"
+            android:text="Gurgaon"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fourteen_text" />
 
         <View
             android:layout_width="match_parent"
@@ -41,15 +61,16 @@
             android:layout_marginBottom="@dimen/ten_dp"
             android:background="@color/grey_view" />
 
+
         <TextView
             android:id="@+id/txvShopByCategories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/ten_dp"
-            android:layout_marginLeft="@dimen/ten_dp"
-            android:text="SHOP BY CATEGORIES"
-            android:textColor="#CDCDCD"
-            android:textSize="@dimen/fourteen_text" />
+            android:layout_marginLeft="@dimen/twenty_dp"
+            android:text="S&#160;H&#160;O&#160;P&#160;&#160; B&#160;Y&#160;&#160; C&#160;A&#160;T&#160;E&#160;G&#160;O&#160;R&#160;I&#160;E&#160;S"
+            android:textColor="@color/white"
+            android:textSize="@dimen/twelveScaled" />
 
         <View
             android:id="@+id/div1"
@@ -62,7 +83,10 @@
             android:id="@+id/lstMenu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@null"/>
+            android:layout_marginLeft="@dimen/twentyfour"
+            android:divider="@null"
+            android:paddingBottom="@dimen/ten_dp" />
+
         <View
             android:id="@+id/div2"
             android:layout_width="match_parent"
@@ -74,12 +98,12 @@
             android:id="@+id/txvShopByDeals"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/ten_dp"
-            android:layout_marginTop="2dp"
             android:layout_marginBottom="@dimen/ten_dp"
-            android:text="SHOP BY DEALS"
-            android:textColor="#CDCDCD"
-            android:textSize="@dimen/fourteen_text" />
+            android:layout_marginLeft="@dimen/twenty_dp"
+            android:layout_marginTop="2dp"
+            android:text="S&#160;H&#160;O&#160;P&#160;&#160; B&#160;Y&#160;&#160; D&#160;E&#160;A&#160;L&#160;S"
+            android:textColor="@color/white"
+            android:textSize="@dimen/twelveScaled" />
 
         <View
             android:id="@+id/div3"
@@ -93,24 +117,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@null"
+            android:paddingBottom="@dimen/ten_dp"
             android:visibility="gone" />
+
         <View
             android:id="@+id/div4"
             android:layout_width="match_parent"
             android:layout_height="0.8dp"
             android:layout_marginBottom="@dimen/five_dp"
             android:background="@color/grey_view"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/txvGetInTouch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/ten_dp"
-            android:text="GET IN TOUCH WITH US"
-            android:textColor="#CDCDCD"
             android:layout_marginBottom="@dimen/ten_dp"
-            android:textSize="@dimen/fourteen_text" />
+            android:layout_marginLeft="@dimen/twenty_dp"
+            android:text="G&#160;E&#160;T&#160;&#160; I&#160;N&#160;&#160; T&#160;O&#160;U&#160;C&#160;H&#160;&#160; W&#160;I&#160;T&#160;H&#160;&#160; U&#160;S&#160;"
+            android:textColor="@color/white"
+            android:textSize="@dimen/twelveScaled" />
 
         <View
             android:id="@+id/div5"
@@ -122,13 +148,18 @@
             android:id="@+id/txvLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/ten_dp"
-            android:text="Select You Location : "
-            android:textAllCaps="true"
-            android:textColor="#CDCDCD"
-            android:layout_marginTop="@dimen/ten_dp"
             android:layout_marginBottom="@dimen/ten_dp"
-            android:textSize="@dimen/fourteen_text" />
+            android:layout_marginLeft="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:text="P&#160;I&#160;C&#160;K&#160;&#160; Y&#160;O&#160;U&#160;R&#160;&#160; C&#160;I&#160;T&#160;Y"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/twelveScaled" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:background="@color/grey_view" />
 
         <ExpandableListView
             android:id="@+id/expLstMenu"

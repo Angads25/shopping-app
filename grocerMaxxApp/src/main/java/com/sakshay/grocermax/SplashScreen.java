@@ -36,6 +36,7 @@ import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.bean.LocationDetail;
 import com.sakshay.grocermax.bean.LocationListBean;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants;
@@ -152,14 +153,14 @@ public class SplashScreen extends BaseActivity
 	@Override
 	public void onResume() {
 		super.onResume();
-		String url  = UrlsConstants.GET_LOCATION;
-		myApi.reqLocation(url);
-
-//		Intent inte = new Intent(SplashScreen.this,CategoryActivity.class);
-//		startActivity(inte);
-
-//		String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;
-//		myApi.reqCategorySubCategoryList(url);
+		if(MySharedPrefs.INSTANCE.getSelectedCity() != null){
+//			showDialog();
+			String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;
+			myApi.reqCategorySubCategoryList(url);
+		}else {
+			String url = UrlsConstants.GET_LOCATION;
+			myApi.reqLocation(url);
+		}
 	}
 
 	public void onBackPressed() {
@@ -201,6 +202,22 @@ public class SplashScreen extends BaseActivity
 				UtilityMethods.customToast(AppConstants.ToastConstant.DATA_NOT_FOUND, mContext);
 			}
 
+		}else{                   //category
+			dismissDialog();
+			String jsonResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);
+			//UtilityMethods.write("response",jsonResponse,SplashScreen.this);
+			ArrayList<CategorySubcategoryBean> category = UtilityMethods.getCategorySubCategory(jsonResponse);
+			if (!jsonResponse.trim().equals("") && category.size() > 0) {
+				UtilityMethods.writeCategoryResponse(SplashScreen.this, AppConstants.categoriesFile, jsonResponse);
+				Intent call = new Intent(SplashScreen.this, HotOffersActivity.class);
+				Bundle call_bundle = new Bundle();
+				call_bundle.putSerializable("Categories", category);
+				call.putExtras(call_bundle);
+				startActivity(call);
+				finish();
+			} else {
+				UtilityMethods.customToast(AppConstants.ToastConstant.DATA_NOT_FOUND, mContext);
+			}
 		}
 
 //		String jsonResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);

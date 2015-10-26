@@ -169,10 +169,12 @@ public class ShippingAdapter extends BaseAdapter{
 
             @Override
             public void onClick(View v) {
-                if(AppConstants.strSelectedState.equalsIgnoreCase(obj.getRegion()) && AppConstants.strSelectedCity.equalsIgnoreCase(obj.getCity()))
+//                if(AppConstants.strSelectedState.equalsIgnoreCase(obj.getRegion()) && AppConstants.strSelectedCity.equalsIgnoreCase(obj.getCity()))
+                if(MySharedPrefs.INSTANCE.getSelectedState().equalsIgnoreCase(obj.getRegion()) && MySharedPrefs.INSTANCE.getSelectedCity().equalsIgnoreCase(obj.getCity()))
                 ((ShippingAddress)mContext).goToAddress(obj,position);
                 else{
-                    UtilityMethods.customToast("We deliver only in "+AppConstants.strSelectedCity+","+AppConstants.strSelectedState+".Kindly select add new address", mContext);
+//                    UtilityMethods.customToast("We deliver only in "+AppConstants.strSelectedCity+","+AppConstants.strSelectedState+".Kindly select add new address", mContext);
+                    UtilityMethods.customToast("We deliver only in "+MySharedPrefs.INSTANCE.getSelectedCity()+","+MySharedPrefs.INSTANCE.getSelectedState()+".Kindly select add new address", mContext);
                 }
             }
         });

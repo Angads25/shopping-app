@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,14 +70,15 @@ public class MenuListAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 			holder.txvMenuItem = (TextView) view
 					.findViewById(R.id.textMenuItem);
+			holder.llMenuList = (LinearLayout) view
+					.findViewById(R.id.ll_menulist);
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
-			
-			
 		}
 		holder.txvMenuItem.setText(offerList.get(position).getCategory());
-		holder.txvMenuItem.setOnClickListener(new OnClickListener() {
+//		holder.txvMenuItem.setOnClickListener(new OnClickListener() {
+		holder.llMenuList.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if(offerList.get(position).getChildren().size()>0) {
@@ -95,5 +97,7 @@ public class MenuListAdapter extends BaseAdapter {
 	class ViewHolder {
 		// TextView txvProductName;
 		TextView txvMenuItem;
+		LinearLayout llMenuList;
+
 	}
 }

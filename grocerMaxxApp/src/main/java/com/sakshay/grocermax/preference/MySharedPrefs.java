@@ -47,12 +47,54 @@ public enum MySharedPrefs {
 	private final String COUPON_AMOUNT = "coupon_amount";
 	private final String MOBILE_NUMBER = "mobile_no";
 
+	private final String SELECTED_CITY = "selected_city";
+	private final String SELECTED_STATE = "selected_state";
+	private final String SELECTED_STATEID = "selected_state_id";
+	private final String SELECTED_STATEREGIONID = "selected_state_region_id";
+
 	private SharedPreferences getAppPreference() {
 		SharedPreferences preferences = MyApplication
 				.getInstance()
 				.getSharedPreferences(APP_PREFERENCE_NAME, Context.MODE_PRIVATE);
 		return preferences;
 	}
+
+	//////////  LOCATION USER SELECTED DATA  /////////
+
+	public void putSelectedCity(String strCity) {
+		getAppPreference().edit().putString(SELECTED_CITY, strCity).commit();
+	}
+
+	public String getSelectedCity() {
+		return getAppPreference().getString(SELECTED_CITY, null);
+	}
+
+	public void putSelectedState(String strState) {
+		getAppPreference().edit().putString(SELECTED_STATE, strState).commit();
+	}
+
+	public String getSelectedState() {
+		return getAppPreference().getString(SELECTED_STATE, null);
+	}
+
+	public void putSelectedStateId(String strStateId) {
+		getAppPreference().edit().putString(SELECTED_STATEID, strStateId).commit();
+	}
+
+	public String getSelectedStateId() {
+		return getAppPreference().getString(SELECTED_STATEID, null);
+	}
+
+	public void putSelectedStateRegionId(String strStateRegionId) {
+		getAppPreference().edit().putString(SELECTED_STATEREGIONID, strStateRegionId).commit();
+	}
+
+	public String getSelectedStateRegionId() {
+		return getAppPreference().getString(SELECTED_STATEREGIONID, null);
+	}
+
+	//////////  LOCATION USER SELECTED DATA  /////////
+
 	
 	///////// COUPON DATA /////////
 	public void putisCouponApply(String strCoupon) {                                       //put true OR false

@@ -75,6 +75,7 @@ import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.bean.CartDetail;
 import com.sakshay.grocermax.bean.CartDetailBean;
 import com.sakshay.grocermax.bean.DealListBean;
+import com.sakshay.grocermax.bean.LocationListBean;
 import com.sakshay.grocermax.bean.OrderHistoryBean;
 import com.sakshay.grocermax.bean.ProductListBean;
 import com.sakshay.grocermax.bean.SearchListBean;
@@ -110,6 +111,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	private ImageView imgSearchIcon;
 	private ImageView imgSearchCloseIcon;
 	private RelativeLayout rlSearchLook;
+	public static boolean isFromCategoryTabs = false;
 	private LinearLayout llLeftIcon;
 	private LinearLayout llLeftIcon1;
 	public View martHeader;
@@ -1385,7 +1387,27 @@ public abstract class BaseActivity extends FragmentActivity {
 //
 //				}
 //			}
+				}else if (intent.getAction().equals(MyReceiverActions.LOCATION)) {                          //first time hit for location every time when app starts
+//			LocationListBean locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
+					AppConstants.locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
+					if(AppConstants.locationBean.getFlag().equals("1")) {
+						Intent call = new Intent(BaseActivity.this, LocationActivity.class);
+						Bundle call_bundle = new Bundle();
+						call_bundle.putSerializable("Location", AppConstants.locationBean);
+						call_bundle.putSerializable("FromDrawer", "fromdrawyer");
+						call.putExtras(call_bundle);
+						startActivity(call);
+					}else{
+						UtilityMethods.customToast(AppConstants.ToastConstant.DATA_NOT_FOUND, mContext);
+					}
+
 				}
+
+
+
+
+
+
 //				else if(intent.getAction().equals(MyReceiverActions.SEARCH_BY_CATEGORY)){
 //
 //					SearchListBean searchListBean = (SearchListBean) bundle

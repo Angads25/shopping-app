@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.ShopByDealModel;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
+import com.sakshay.grocermax.utils.AppConstants;
 
 import java.util.List;
 
@@ -76,12 +77,14 @@ public class ShopByDealsMenuListAdapter extends BaseAdapter {
 		}
 		holder.txvMenuItem.setText(offerList.get(position).getDealType());
 
-		System.out.println("========deal type============="+offerList.get(position).getDealType());
+//		System.out.println("========deal type============="+offerList.get(position).getDealType());
 
 		holder.txvMenuItem.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 
+				AppConstants.strTitleHotDeal = "";
+				AppConstants.strTitleHotDeal = offerList.get(position).getDealType();
 				((HotOffersActivity)mContext).hitForShopByDeals(offerList.get(position).getId());
 				((HotOffersActivity) mContext).getDrawerLayout().closeDrawers();
 //				ShopByDealDetailListAdapter.strDealListDeatilHeading = offerList.get(position).getDealType();

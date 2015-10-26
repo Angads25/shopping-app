@@ -7,9 +7,12 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ll_expandable_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/ten_dp">
+        android:paddingRight="@dimen/ten_dp"
+        android:paddingBottom="@dimen/ten_dp"
+        android:paddingTop="@dimen/ten_dp">
 
         <ImageView
             android:id="@+id/imgBack"
@@ -25,10 +28,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/ten_dp"
+            android:layout_marginLeft="@dimen/five_dp"
             android:text="Home"
-            android:textColor="@color/grey_dark"
-            android:textSize="@dimen/sixteen_text" />
+            android:textAllCaps="true"
+            android:textColor="#CDCDCD"
+            android:textSize="@dimen/fourteen_text" />
     </LinearLayout>
 
 

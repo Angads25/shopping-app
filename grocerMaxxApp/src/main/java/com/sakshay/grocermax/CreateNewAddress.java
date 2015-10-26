@@ -450,9 +450,10 @@ public class CreateNewAddress extends BaseActivity{
 				 spinner_billing.setAdapter(dataAdapter);
 				 try {
 					 for (int i = 0; i < BillingStateCityLoader.alState.size(); i++) {
-						 System.out.println("===state1==" + AppConstants.strSelectedState);
-						 System.out.println("===state2===" + BillingStateCityLoader.alState.get(i));
-						 if (AppConstants.strSelectedState.equalsIgnoreCase(BillingStateCityLoader.alState.get(i))) {
+//						 System.out.println("===state1==" + AppConstants.strSelectedState);
+//						 System.out.println("===state2===" + BillingStateCityLoader.alState.get(i));
+//						 if (AppConstants.strSelectedState.equalsIgnoreCase(BillingStateCityLoader.alState.get(i))) {
+						 if (MySharedPrefs.INSTANCE.getSelectedState().equalsIgnoreCase(BillingStateCityLoader.alState.get(i))) {
 							 indexTemp = i;
 						 }
 					 }
@@ -486,9 +487,11 @@ public class CreateNewAddress extends BaseActivity{
 				tvFirstName.setText(MySharedPrefs.INSTANCE.getFirstName());
 				tvLastName.setText(MySharedPrefs.INSTANCE.getLastName());
 
-				tvCity.setText(AppConstants.strSelectedCity);
+//				tvCity.setText(AppConstants.strSelectedCity);
+				tvCity.setText(MySharedPrefs.INSTANCE.getSelectedCity());
 				tvCity.setEnabled(false);
-				tvState.setText(AppConstants.strSelectedState);
+//				tvState.setText(AppConstants.strSelectedState);
+				tvState.setText(MySharedPrefs.INSTANCE.getSelectedState());
 				tvState.setEnabled(false);
 
 				if(strShippingorBilling.equalsIgnoreCase("billing")) {  //drop down come in place of state
@@ -946,8 +949,9 @@ public class CreateNewAddress extends BaseActivity{
 //				}
 			}else {
 				state = tvState.getText().toString();
-//				state = LocationActivity.strSelectedStateId;
-				state = AppConstants.strSelectedStateRegionId;
+
+//				state = AppConstants.strSelectedStateRegionId;
+				state = MySharedPrefs.INSTANCE.getSelectedStateRegionId();
 			}
 
 			String pin = tvPinCode.getText().toString();

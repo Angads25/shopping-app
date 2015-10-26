@@ -126,17 +126,21 @@ public class CategoryTabs extends BaseActivity {
                         }
                     }
 
-                    if (listAll.size() > 0) {
-                        CategoriesProducts categoriesProducts = new CategoriesProducts();
-                        categoriesProducts.setCategory_id(null);
-                        categoriesProducts.setCategory_name("All");
-                        categoriesProducts.setItems(listAll);
-                        categoriesProducts.setFlag(null);
-                        categoriesProducts.setMobile(null);
-                        categoriesProducts.setResult(null);
-                        categoriesProducts.setTotalItem(0);
-                        alCategory.add(0, categoriesProducts);
-                    }
+
+///////////    responsible for All tab in starting   ////////////////////
+//                    if (listAll.size() > 0) {
+//                        CategoriesProducts categoriesProducts = new CategoriesProducts();
+//                        categoriesProducts.setCategory_id(null);
+//                        categoriesProducts.setCategory_name("All");
+//                        categoriesProducts.setItems(listAll);
+//                        categoriesProducts.setFlag(null);
+//                        categoriesProducts.setMobile(null);
+//                        categoriesProducts.setResult(null);
+//                        categoriesProducts.setTotalItem(0);
+//                        alCategory.add(0, categoriesProducts);
+//                    }
+///////////    responsible for All tab in starting   ////////////////////
+
 
 //				Simple responseBean = (Simple) bundle.getSerializable(ConnectionService.RESPONSE);
 //				ArrayList<CategoriesProducts> hotproduct = responseBean.getHotproduct();
@@ -298,7 +302,6 @@ public class CategoryTabs extends BaseActivity {
 //			}
 //		});
     }
-
 
     class GoogleMusicAdapter extends FragmentPagerAdapter {
 
@@ -463,6 +466,7 @@ public class CategoryTabs extends BaseActivity {
     public void onBackPressed() {
         // TODO Auto-generated method stub
         super.onBackPressed();
+isFromCategoryTabs = true;
         try {
             for (int i = 0; i < asyncTasks.size(); i++)
                 if (!asyncTasks.get(i).isCancelled()) {

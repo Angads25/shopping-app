@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -20,7 +19,6 @@ import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.DealListScreen;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
-import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.DealByDealTypeBean;
 import com.sakshay.grocermax.bean.DealListBean;
@@ -61,6 +59,7 @@ public class HotOffersActivity extends BaseActivity {
     private String url;
     private DrawerLayout drawerLayout;
     public ArrayList<CategorySubcategoryBean> catObj;
+    public static boolean isFirstFragment = true;
     private ArrayList<String> menuArray = new ArrayList<>();
 
     @Override
@@ -76,6 +75,7 @@ public class HotOffersActivity extends BaseActivity {
         addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
         addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);
         addActionsInFilter(MyReceiverActions.ALL_PRODUCTS_CATEGORY);
+        addActionsInFilter(MyReceiverActions.LOCATION);
 
         menuIcon = (ImageView) findViewById(R.id.menuIcon);
         homeDrawer = (ImageView) findViewById(R.id.homedrawer);
@@ -170,9 +170,12 @@ public class HotOffersActivity extends BaseActivity {
             if (this.getSupportFragmentManager().getBackStackEntryCount() > 0) {
                 this.getSupportFragmentManager().popBackStack();
 
-                if(this.getSupportFragmentManager().getBackStackEntryCount() == 1){
+                if (this.getSupportFragmentManager().getBackStackEntryCount() == 1) {
                     findViewById(R.id.header).setVisibility(View.VISIBLE);
                     findViewById(R.id.header_left).setVisibility(View.GONE);
+                } else if (this.getSupportFragmentManager().getBackStackEntryCount() == 2) {
+                    findViewById(R.id.header).setVisibility(View.GONE);
+                    findViewById(R.id.header_left).setVisibility(View.VISIBLE);
                 }
             } else {
 
@@ -208,9 +211,31 @@ public class HotOffersActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        initHeader(findViewById(R.id.header), true, null);
+        Toast.makeText(this, this.getSupportFragmentManager().getBackStackEntryCount() + "====resume of activity==== " + isFromCategoryTabs, Toast.LENGTH_LONG).show();
+//        if (this.getSupportFragmentManager().getBackStackEntryCount() == 1 ) {
         findViewById(R.id.header).setVisibility(View.VISIBLE);
         findViewById(R.id.header_left).setVisibility(View.GONE);
+//        }else
+
+        if ( this.getSupportFragmentManager().getBackStackEntryCount() == 2) {
+            findViewById(R.id.header).setVisibility(View.GONE);
+            findViewById(R.id.header_left).setVisibility(View.VISIBLE);
+//            this.getSupportFragmentManager().popBackStack();
+        }
+        if (this.getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            findViewById(R.id.header).setVisibility(View.VISIBLE);
+            findViewById(R.id.header_left).setVisibility(View.GONE);
+        }
+
+        initHeader(findViewById(R.id.header), true, null);
+        if (isFromCategoryTabs && this.getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            findViewById(R.id.header).setVisibility(View.VISIBLE);
+            findViewById(R.id.header_left).setVisibility(View.GONE);
+            isFromCategoryTabs = false;
+            drawerLayout.closeDrawer(Gravity.LEFT);
+        }
+
+        Toast.makeText(this, this.getSupportFragmentManager().getBackStackEntryCount() + "====last count====", Toast.LENGTH_LONG).show();
 //      setHeader(null);
     }
 
@@ -341,7 +366,10 @@ public class HotOffersActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        if (this.getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            findViewById(R.id.header).setVisibility(View.VISIBLE);
+            findViewById(R.id.header_left).setVisibility(View.GONE);
+        }
         progress.dismiss();
     }
 
