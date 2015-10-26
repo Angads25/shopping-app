@@ -123,7 +123,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/ten_dp"
-            android:text="Location"
+            android:text="Select You Location : "
             android:textAllCaps="true"
             android:textColor="#CDCDCD"
             android:layout_marginTop="@dimen/ten_dp"
