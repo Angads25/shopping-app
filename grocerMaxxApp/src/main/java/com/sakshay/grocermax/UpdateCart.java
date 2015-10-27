@@ -77,7 +77,7 @@ public class UpdateCart extends AsyncTask<String, Void, Void> {
 //                                    + URLEncoder.encode(products.toString(), "UTF-8");
 //                            myApi.reqBackGroundAddToCartGuest(url);
 
-                            jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//                            jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
                             url = UrlsConstants.ADD_TO_CART_GUEST_URL;
                             myApi.reqBackGroundAddToCartGuest(url,jsonObject);
 //                            myApi.reqBackGroundAddToCartGuest(url,products);
@@ -108,7 +108,7 @@ public class UpdateCart extends AsyncTask<String, Void, Void> {
                             JSONObject jsonFinal = new JSONObject();
                             jsonFinal.put("products",products);
                             jsonFinal.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
-                            jsonFinal.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//                            jsonFinal.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 
 //                            jsonObject.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
 

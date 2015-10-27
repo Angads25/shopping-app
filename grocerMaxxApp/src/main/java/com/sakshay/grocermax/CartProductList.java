@@ -8,7 +8,6 @@ import java.util.Iterator;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.flurry.android.FlurryAgent;
 import com.flurry.sdk.in;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -757,7 +755,8 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				}
 				jsonObject.put("updateid", products1);
 
-				jsonObject.put("version", "1.0");
+//				jsonObject.put("version", "1.0");
+
 //				System.out.println("==delete and back to previous screen==" + strurl);
 //				System.out.println("==delete and back json==" + jsonObject);
 				if (UtilityMethods.isInternetAvailable(this)) {
@@ -859,7 +858,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				}
 				jsonObject.put("updateid", products1);
 
-				jsonObject.put("version", "1.0");
+//				jsonObject.put("version", "1.0");
 				System.out.println("==URL'S HERE==" + strurl);
 				System.out.println("==jsonobject HERE==" + jsonObject);
 				if (UtilityMethods.isInternetAvailable(this)) {

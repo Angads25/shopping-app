@@ -17,6 +17,7 @@ import com.facebook.SessionState;
 import com.google.gson.Gson;
 import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.CartProductList;
+import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.bean.CartDetail;
 import com.sakshay.grocermax.bean.LoginResponse;
@@ -271,10 +272,15 @@ public class ConnectionCartService  extends IntentService {
 
             if (requestType.equalsIgnoreCase("POST")) {
                 HttpPost httpPost = new HttpPost(urlString);
-                httpPost.setHeader("Content-Type", "application/json");
-                if (accessToken != null) {
-                    httpPost.setHeader("AccessToken", "" + accessToken);
+//                httpPost.setHeader("Content-Type", "application/json");
+                httpPost.setHeader("device", getResources().getString(R.string.app_device));
+                httpPost.setHeader("version", getResources().getString(R.string.app_version));
+                if(MySharedPrefs.INSTANCE.getSelectedStateId() != null) {
+                    httpPost.setHeader("storeid", MySharedPrefs.INSTANCE.getSelectedStateId());
                 }
+//                if (accessToken != null) {
+//                    httpPost.setHeader("AccessToken", "" + accessToken);
+//                }
                 // IF Required.
                 // httpPost.setHeader("Authorization", "Basic " +
                 // Base64.NO_WRAP));
@@ -296,12 +302,17 @@ public class ConnectionCartService  extends IntentService {
                 response = client.execute(httpPost);
                 CartProductList.getInstance().jsonObjectUpdate = null;
             } else if (requestType.equalsIgnoreCase("GET")) {
-                if(urlString.contains("?")) {
-                    urlString += "&version=1.0";
-                }else{
-                    urlString += "?version=1.0";
-                }
+//                if(urlString.contains("?")) {
+//                    urlString += "&version=1.0";
+//                }else{
+//                    urlString += "?version=1.0";
+//                }
                 HttpGet httpGet = new HttpGet(urlString);
+                httpGet.setHeader("device", getResources().getString(R.string.app_device));
+                httpGet.setHeader("version", getResources().getString(R.string.app_version));
+                if(MySharedPrefs.INSTANCE.getSelectedStateId() != null) {
+                    httpGet.setHeader("storeid", MySharedPrefs.INSTANCE.getSelectedStateId());
+                }
                 if (AppConstants.DEBUG) {
                     Log.i(TAG, "URL:::" + urlString);
                 }
@@ -312,10 +323,10 @@ public class ConnectionCartService  extends IntentService {
 //				int timeoutSocket = 5000;
 //				HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 
-                httpGet.setHeader("Content-Type", "application/json");
-                if (accessToken != null) {
-                    httpGet.setHeader("AccessToken", "" + accessToken);
-                }
+//                httpGet.setHeader("Content-Type", "application/json");
+//                if (accessToken != null) {
+//                    httpGet.setHeader("AccessToken", "" + accessToken);
+//                }
                 // IF Required.
                 // httpGet.setHeader("Authorization", "Basic " +
                 // Base64.NO_WRAP));

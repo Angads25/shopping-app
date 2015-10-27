@@ -13,12 +13,12 @@
         android:layout_gravity="center_vertical"
         android:background="@color/transparent"
         android:gravity="center_vertical"
-        android:paddingBottom="4dp"
+        android:paddingBottom="8dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:paddingTop="4dp">
+        android:paddingTop="8dp">
 
-        <!-- TODO, please remove this, child does not need this-->
+
         <ImageView
             android:id="@+id/image_childs"
             android:layout_width="14dp"
@@ -41,7 +41,6 @@
             android:textColor="@color/white"
             android:textSize="@dimen/twelveScaled" />
 
-        <!-- TODO , please remove this as child needs no arrow-->
         <ImageView
             android:id="@+id/img_arrow_childs"
             android:layout_width="wrap_content"

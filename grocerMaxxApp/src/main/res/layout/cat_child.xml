@@ -30,40 +30,40 @@
 
             <!--  card_view:cardUseCompatPadding="true"  -->
 
-        <ImageView
-            android:id="@+id/cat_icon"
-            android:layout_width="match_parent"
-            android:layout_height="114dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/category_placeholder" />
+            <ImageView
+                android:id="@+id/cat_icon"
+                android:layout_width="match_parent"
+                android:layout_height="114dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/category_placeholder" />
 
-        <!--
-         android:scaleType="fitXY"
-         android:src="@drawable/cat_dairy" -->
+            <!--
+             android:scaleType="fitXY"
+             android:src="@drawable/cat_dairy" -->
 
-        <TextView
-            android:id="@+id/cat_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Oil and Ghee"
-            android:layout_marginTop="80dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="@dimen/text_size_18"
-            android:visibility="gone"
-            android:singleLine="true"
-            />
+            <TextView
+                android:id="@+id/cat_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Oil and Ghee"
+                android:layout_marginTop="80dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="@dimen/text_size_18"
+                android:visibility="gone"
+                android:singleLine="true"
+                />
 
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:gravity="center"
-            android:paddingBottom="3dp"
-            android:layout_marginTop="130dp"
-            android:textColor="@color/white"
-            android:visibility="gone"
-            android:background="@drawable/transparent_black"
-            android:text="Select category to view products" />
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:paddingBottom="3dp"
+                android:layout_marginTop="130dp"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                android:background="@drawable/transparent_black"
+                android:text="Select category to view products" />
 
         </android.support.v7.widget.CardView>
 

@@ -59,6 +59,8 @@ public class LocationActivity extends BaseActivity {
 //        FlurryAgent.onPageView();         //Use onPageView to report page view count.
 //    }
 
+    String strTempSelectedCity = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +71,10 @@ public class LocationActivity extends BaseActivity {
 //        DisplayMetrics metrics = getResources().getDisplayMetrics();
 //        float xAxis = metrics.xdpi;
 //        float yAxis = metrics.ydpi;
+
+            if(MySharedPrefs.INSTANCE.getSelectedCity() != null){
+                strTempSelectedCity = MySharedPrefs.INSTANCE.getSelectedCity();
+            }
 
         AppConstants.densityPhone =  getResources().getDisplayMetrics().density;    //0.75 - ldpi  1.0 - mdpi  1.5 - hdpi 2.0 - xhdpi  3.0 - xxhdpi  4.0 - xxxhdpi
 
@@ -93,15 +99,26 @@ public class LocationActivity extends BaseActivity {
 //                    locationList.getItems().get(position).getStateId();
 
                     if(strFromWhereToCome.equalsIgnoreCase("fromdrawyer")){
-                        if(MenuFragment.txvSelectLocation != null) {
+                        if(!MySharedPrefs.INSTANCE.getSelectedCity().equalsIgnoreCase(strTempSelectedCity)) {          //work when user select different location.
+                            if (MenuFragment.txvSelectLocation != null) {
 //                            MenuFragment.txvSelectLocation.setText(AppConstants.strSelectedCity);
-                            if(MySharedPrefs.INSTANCE.getSelectedCity() != null) {
-                                if(MenuFragment.txvSelectLocation != null) {
-                                    MenuFragment.txvSelectLocation.setText(MySharedPrefs.INSTANCE.getSelectedCity());
+                                if (MySharedPrefs.INSTANCE.getSelectedCity() != null) {
+                                    if (MenuFragment.txvSelectLocation != null) {
+                                        MenuFragment.txvSelectLocation.setText(MySharedPrefs.INSTANCE.getSelectedCity());
+                                    }
                                 }
                             }
+
+                            MySharedPrefs.INSTANCE.clearQuote();
+                            MySharedPrefs.INSTANCE.putTotalItem(String.valueOf("0"));
+                            if(BaseActivity.cart_count_txt != null) {
+                                BaseActivity.cart_count_txt.setText("0");
+                            }
+                            UtilityMethods.deleteCloneCart(activity);
+                            UtilityMethods.deleteLocalCart(activity);
+                            UtilityMethods.deleteServerCart(activity);
                         }
-                        MySharedPrefs.INSTANCE.clearQuote();
+
                         finish();
                     }else{
                         showDialog();

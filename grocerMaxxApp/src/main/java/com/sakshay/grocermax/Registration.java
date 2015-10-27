@@ -162,7 +162,7 @@ public class Registration extends BaseActivity implements
 						String url = UrlsConstants.FORGET_PASSWORD_URL;
 						JSONObject jsonObject = new JSONObject();
 						jsonObject.put("uemail", _email_id);
-						jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//						jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 						myApi.reqForgetPassword(url, jsonObject);
 //						myApi.reqForgetPassword(url);
 					}catch(Exception e){}
@@ -420,7 +420,7 @@ public class Registration extends BaseActivity implements
 							jsonObjectParams.put("number", _mobile_no);
 							jsonObjectParams.put("password", _password);
 							jsonObjectParams.put("otp","1");
-							jsonObjectParams.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//							jsonObjectParams.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 						}catch(Exception e){}
 
 						params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password;
@@ -441,7 +441,7 @@ public class Registration extends BaseActivity implements
 								jsonObject.put("password", _password);
 								jsonObject.put("quote_id", "no");
 								jsonObject.put("otp","0");
-								jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//								jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 
 								myApi.reqUserRegistrationOTP(url,jsonObject);
 
@@ -475,7 +475,7 @@ public class Registration extends BaseActivity implements
 								jsonObject.put("password", _password);
 								jsonObject.put("quote_id", MySharedPrefs.INSTANCE.getQuoteId());
 								jsonObject.put("otp","0");
-								jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//								jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 								myApi.reqUserRegistrationOTP(url,jsonObject);
 							}catch(Exception e){
 
@@ -995,7 +995,7 @@ public class Registration extends BaseActivity implements
 				jsonObject.put("fname",USER_FNAME);
 				jsonObject.put("lname", USER_LNAME);
 				jsonObject.put("number", 0000000000);
-				jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//				jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 				System.out.println("==jsonobject==" + jsonObject);
 
 			}else{
@@ -1008,7 +1008,7 @@ public class Registration extends BaseActivity implements
 				jsonObject.put("fname",USER_FNAME);
 				jsonObject.put("lname", USER_LNAME);
 				jsonObject.put("number", 0000000000);
-				jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//				jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 				System.out.println("==jsonobject==" + jsonObject);
 			}
 //			myApi.reqLogin(url);
@@ -1383,7 +1383,7 @@ public class Registration extends BaseActivity implements
 				jsonObject.put("fname",USER_NAME);
 				jsonObject.put("lname", "");
 				jsonObject.put("number", 0000000000);
-				jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//				jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 				System.out.println("==jsonobject==" + jsonObject);
 			}else{
 				url = UrlsConstants.GOOGLE_LOGIN_URL;
@@ -1393,7 +1393,7 @@ public class Registration extends BaseActivity implements
 				jsonObject.put("fname",USER_NAME);
 				jsonObject.put("lname", "");
 				jsonObject.put("number", 0000000000);
-				jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//				jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 				System.out.println("==jsonobject==" + jsonObject);
 			}
 

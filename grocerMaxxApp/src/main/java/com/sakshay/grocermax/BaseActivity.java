@@ -1441,9 +1441,12 @@ public abstract class BaseActivity extends FragmentActivity {
 	public void initImageLoaderM() {
 		try {
 			baseImageoptions = new DisplayImageOptions.Builder()
-					.showImageOnLoading(R.drawable.place_holder_icon)
-					.showImageForEmptyUri(R.drawable.place_holder_icon)
-					.showImageOnFail(R.drawable.place_holder_icon)
+//					.showImageOnLoading(R.drawable.place_holder_icon)
+//					.showImageForEmptyUri(R.drawable.place_holder_icon)
+//					.showImageOnFail(R.drawable.place_holder_icon)
+					.showImageOnLoading(R.drawable.cat_deals_holder)
+					.showImageForEmptyUri(R.drawable.cat_deals_holder)
+					.showImageOnFail(R.drawable.cat_deals_holder)
 					.cacheInMemory(true).cacheOnDisk(true).considerExifParams(true)
 					.build();
 

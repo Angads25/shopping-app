@@ -43,12 +43,14 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.preference.PreferenceActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.sakshay.grocermax.CartProductList;
+import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.api.ConnectionServiceParser.MyParserType;
 import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
@@ -267,16 +269,19 @@ public class ConnectionService extends IntentService {
 			if (requestType.equalsIgnoreCase("POST")) {
 				HttpPost httpPost = new HttpPost(urlString);
 				//httpPost.setHeader("Content-Type", "application/json");
-				if (accessToken != null) {
-					httpPost.setHeader("AccessToken", "" + accessToken);
+//				if (accessToken != null) {
+				httpPost.setHeader("device", getResources().getString(R.string.app_device));
+				httpPost.setHeader("version", getResources().getString(R.string.app_version));
+				if(MySharedPrefs.INSTANCE.getSelectedStateId() != null) {
+					httpPost.setHeader("storeid", MySharedPrefs.INSTANCE.getSelectedStateId());
 				}
+
+//				}
 				// IF Required.
 				// httpPost.setHeader("Authorization", "Basic " +
 				// Base64.NO_WRAP));
 
-				System.out.println("==second parameters is=="+nameValuePairs);
-
-
+				System.out.println("==second parameters is==" + nameValuePairs);
 				if (jsonString != null) {
 					httpPost.setEntity(new StringEntity(jsonString));
 				}else if (nameValuePairs != null) {
@@ -293,12 +298,17 @@ public class ConnectionService extends IntentService {
 				response = client.execute(httpPost);
 				CartProductList.getInstance().jsonObjectUpdate = null;
 			} else if (requestType.equalsIgnoreCase("GET")) {
-				if(urlString.contains("?")) {
-					urlString += "&version=1.0";
-				}else{
-					urlString += "?version=1.0";
-				}
+//				if(urlString.contains("?")) {
+//					urlString += "&version=1.0";
+//				}else{
+//					urlString += "?version=1.0";
+//				}
 				HttpGet httpGet = new HttpGet(urlString);
+				httpGet.setHeader("device", getResources().getString(R.string.app_device));
+				httpGet.setHeader("version", getResources().getString(R.string.app_version));
+				if(MySharedPrefs.INSTANCE.getSelectedStateId() != null) {
+					httpGet.setHeader("storeid", MySharedPrefs.INSTANCE.getSelectedStateId());
+				}
 				if (AppConstants.DEBUG) {
 					Log.i(TAG, "URL:::" + urlString);
 				}
@@ -309,10 +319,10 @@ public class ConnectionService extends IntentService {
 //				int timeoutSocket = 5000;
 //				HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 
-				httpGet.setHeader("Content-Type", "application/json");
-				if (accessToken != null) {
-					httpGet.setHeader("AccessToken", "" + accessToken);
-				}
+//				httpGet.setHeader("Content-Type", "application/json");
+//				if (accessToken != null) {
+//					httpGet.setHeader("AccessToken", "" + accessToken);
+//				}
 				// IF Required.
 				// httpGet.setHeader("Authorization", "Basic " +
 				// Base64.NO_WRAP));

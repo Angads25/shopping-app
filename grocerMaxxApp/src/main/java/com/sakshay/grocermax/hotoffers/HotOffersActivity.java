@@ -1,5 +1,6 @@
 package com.sakshay.grocermax.hotoffers;
 
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
@@ -126,6 +127,7 @@ public class HotOffersActivity extends BaseActivity {
             }
         };
 
+        getSupportFragmentManager().addOnBackStackChangedListener(getListener());
 
         actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
         menuIcon.setOnClickListener(new View.OnClickListener() {
@@ -155,8 +157,28 @@ public class HotOffersActivity extends BaseActivity {
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
 
-
     }
+
+    private android.support.v4.app.FragmentManager.OnBackStackChangedListener getListener()
+    {
+        android.support.v4.app.FragmentManager.OnBackStackChangedListener result = new android.support.v4.app.FragmentManager.OnBackStackChangedListener()
+        {
+            public void onBackStackChanged()
+            {
+                android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+                if (manager != null)
+                {
+//                    MyFragment currFrag = (MyFragment)manager.
+//                            findFragmentById(R.id.fragmentItem);
+//                    currFrag.onFragmentResume();
+//                    HomeFragment homeFragment = (HomeFragment) manager.findFragmentById(R.id.fragment);
+                }
+            }
+        };
+
+        return result;
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -183,6 +205,7 @@ public class HotOffersActivity extends BaseActivity {
             }
         }
     }
+
 
     public void setMenu(ArrayList<CategorySubcategoryBean> arrayList, String name) {
         Bundle call_bundle = new Bundle();
@@ -211,7 +234,7 @@ public class HotOffersActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        Toast.makeText(this, this.getSupportFragmentManager().getBackStackEntryCount() + "====resume of activity==== " + isFromCategoryTabs, Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, this.getSupportFragmentManager().getBackStackEntryCount() + "====resume of activity==== " + isFromCategoryTabs, Toast.LENGTH_LONG).show();
 //        if (this.getSupportFragmentManager().getBackStackEntryCount() == 1 ) {
         findViewById(R.id.header).setVisibility(View.VISIBLE);
         findViewById(R.id.header_left).setVisibility(View.GONE);
@@ -235,7 +258,7 @@ public class HotOffersActivity extends BaseActivity {
             drawerLayout.closeDrawer(Gravity.LEFT);
         }
 
-        Toast.makeText(this, this.getSupportFragmentManager().getBackStackEntryCount() + "====last count====", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, this.getSupportFragmentManager().getBackStackEntryCount() + "====last count====", Toast.LENGTH_LONG).show();
 //      setHeader(null);
     }
 

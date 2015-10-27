@@ -323,7 +323,7 @@ public class LoginActivity extends BaseActivity
 						jsonObject.put("uemail",userN);
 						jsonObject.put("password",pwd);
 						jsonObject.put("quote_id","no");
-						jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//						jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 						System.out.println("==jsonobject=="+jsonObject);
 
 					}else{
@@ -332,7 +332,7 @@ public class LoginActivity extends BaseActivity
 						jsonObject.put("uemail",userN);
 						jsonObject.put("password",pwd);
 						jsonObject.put("quote_id", MySharedPrefs.INSTANCE.getQuoteId());
-						jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//						jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 						System.out.println("==jsonobject==" + jsonObject);
 
 					}
@@ -422,7 +422,7 @@ public class LoginActivity extends BaseActivity
 					jsonObject.put("fname",USER_FNAME);
 					jsonObject.put("lname", USER_LNAME);
 					jsonObject.put("number", 0000000000);
-					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 					System.out.println("==jsonobject==" + jsonObject);
 
 
@@ -442,7 +442,7 @@ public class LoginActivity extends BaseActivity
 					jsonObject.put("fname",USER_FNAME);
 					jsonObject.put("lname", USER_LNAME);
 					jsonObject.put("number", 0000000000);
-					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 					System.out.println("==jsonobject==" + jsonObject);
 
 				}
@@ -1106,7 +1106,7 @@ public class LoginActivity extends BaseActivity
 					jsonObject.put("fname",USER_NAME);
 					jsonObject.put("lname", "");
 					jsonObject.put("number", 0000000000);
-					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 					System.out.println("==jsonobject==" + jsonObject);
 				}else{
 //					url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ USER_EMAIL + "&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
@@ -1122,7 +1122,7 @@ public class LoginActivity extends BaseActivity
 					jsonObject.put("fname",USER_NAME);
 					jsonObject.put("lname", "");
 					jsonObject.put("number", 0000000000);
-					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 					System.out.println("==jsonobject==" + jsonObject);
 				}
 

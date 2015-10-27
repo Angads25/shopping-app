@@ -997,7 +997,7 @@ public class CreateNewAddress extends BaseActivity{
 				jsonObject.put("userid",MySharedPrefs.INSTANCE.getUserId());
 				jsonObject.put("default_billing",String.valueOf(default_billing));
 				jsonObject.put("default_shipping",String.valueOf(default_shipping));
-				jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//				jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 				myApi.reqAddAddress(url, MyReceiverActions.ADD_ADDRESS, jsonObject);
 
 				////////////////POST/////////////
@@ -1047,7 +1047,7 @@ public class CreateNewAddress extends BaseActivity{
 				jsonObject.put("addressid",address.getCustomer_address_id());
 				jsonObject.put("default_billing",String.valueOf(default_billing));
 				jsonObject.put("default_shipping", String.valueOf(default_shipping));
-				jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//				jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 				myApi.reqAddAddress(url, MyReceiverActions.ADD_ADDRESS, jsonObject);
 
 

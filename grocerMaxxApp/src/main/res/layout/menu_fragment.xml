@@ -31,7 +31,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/five_dp"
+
+                android:layout_marginLeft="@dimen/ten_dp"
                 android:text="Home"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
@@ -44,23 +45,36 @@
             android:background="@color/grey_view"
             android:visibility="gone" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:paddingBottom="@dimen/ten_dp"
+            android:src="@drawable/locationdrawer" />
+
         <TextView
             android:id="@+id/txvSelectLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="@dimen/five_dp"
             android:paddingBottom="@dimen/ten_dp"
             android:text="Gurgaon"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="@dimen/fourteen_text" />
 
+            </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.8dp"
             android:layout_marginBottom="@dimen/ten_dp"
-            android:background="@color/grey_view" />
-
+            android:background="#645855" />
 
         <TextView
             android:id="@+id/txvShopByCategories"
@@ -117,6 +131,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@null"
+            android:layout_marginLeft="@dimen/twentyfour"
             android:paddingBottom="@dimen/ten_dp"
             android:visibility="gone" />
 

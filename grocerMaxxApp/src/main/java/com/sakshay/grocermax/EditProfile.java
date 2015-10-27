@@ -437,7 +437,7 @@ public class EditProfile extends BaseActivity{
 								jsonObject.put("fname",fname_n);
 								jsonObject.put("lname",lname_n);
 								jsonObject.put("number",contact_n);
-								jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//								jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 							} else {
 //								params = "userid=" + MySharedPrefs.INSTANCE.getUserId() + "uemail=" + MySharedPrefs.INSTANCE.getUserEmail() +
 //										"&fname=" + fname_n + "&lname=" + lname_n + "&number=" + contact_n;
@@ -446,7 +446,7 @@ public class EditProfile extends BaseActivity{
 								jsonObject.put("fname",fname_n);
 								jsonObject.put("lname",lname_n);
 								jsonObject.put("number",contact_n);
-								jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//								jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 							}
 //							url += params;
 //							myApi.reqEditProfile(url);

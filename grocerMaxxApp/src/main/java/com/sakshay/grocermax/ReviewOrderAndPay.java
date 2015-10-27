@@ -969,7 +969,7 @@ public class ReviewOrderAndPay extends BaseActivity
 					jsonObject.put("status","canceled");
 					jsonObject.put("orderid",order_id);
 					jsonObject.put("orderdbid",order_db_id);
-					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME, AppConstants.ToastConstant.VERSION);
+//					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME, AppConstants.ToastConstant.VERSION);
 					myApi.reqSetOrderStatus(url, jsonObject);
 
 //                }
