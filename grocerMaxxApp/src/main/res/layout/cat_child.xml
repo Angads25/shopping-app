@@ -34,7 +34,7 @@
                 android:id="@+id/cat_icon"
                 android:layout_width="match_parent"
                 android:layout_height="114dp"
-                android:scaleType="fitXY"
+
                 android:src="@drawable/category_placeholder" />
 
             <!--

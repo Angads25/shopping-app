@@ -109,14 +109,16 @@ public class LocationActivity extends BaseActivity {
                                 }
                             }
 
-                            MySharedPrefs.INSTANCE.clearQuote();
-                            MySharedPrefs.INSTANCE.putTotalItem(String.valueOf("0"));
-                            if(BaseActivity.cart_count_txt != null) {
-                                BaseActivity.cart_count_txt.setText("0");
-                            }
-                            UtilityMethods.deleteCloneCart(activity);
-                            UtilityMethods.deleteLocalCart(activity);
-                            UtilityMethods.deleteServerCart(activity);
+                            try {
+                                MySharedPrefs.INSTANCE.clearQuote();
+                                MySharedPrefs.INSTANCE.putTotalItem(String.valueOf("0"));
+                                if (BaseActivity.cart_count_txt != null) {
+                                    BaseActivity.cart_count_txt.setText("0");
+                                }
+                                UtilityMethods.deleteCloneCart(activity);
+                                UtilityMethods.deleteLocalCart(activity);
+                                UtilityMethods.deleteServerCart(activity);
+                            }catch(Exception e){}
                         }
 
                         finish();
@@ -266,7 +268,7 @@ public class LocationActivity extends BaseActivity {
                 }
 
             }catch(Exception e){
-                System.out.println(e.getMessage());
+//                System.out.println(e.getMessage());
             }
         }
         }catch(Exception e){

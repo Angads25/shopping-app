@@ -47,7 +47,8 @@
                 android:background="@drawable/category_bottom_border"
                 android:orientation="horizontal">
 
-                <!--   android:background="@drawable/hotcategoryborder"  -->
+                <!--   android:background="@drawable/hotcategoryborder"
+                android:background="@drawable/category_bottom_border"   -->
 
                 <TextView
                     android:id="@+id/footer"

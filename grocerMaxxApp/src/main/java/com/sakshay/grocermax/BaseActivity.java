@@ -1441,12 +1441,12 @@ public abstract class BaseActivity extends FragmentActivity {
 	public void initImageLoaderM() {
 		try {
 			baseImageoptions = new DisplayImageOptions.Builder()
-//					.showImageOnLoading(R.drawable.place_holder_icon)
-//					.showImageForEmptyUri(R.drawable.place_holder_icon)
-//					.showImageOnFail(R.drawable.place_holder_icon)
-					.showImageOnLoading(R.drawable.cat_deals_holder)
-					.showImageForEmptyUri(R.drawable.cat_deals_holder)
-					.showImageOnFail(R.drawable.cat_deals_holder)
+					.showImageOnLoading(R.drawable.place_holder_icon)
+					.showImageForEmptyUri(R.drawable.place_holder_icon)
+					.showImageOnFail(R.drawable.place_holder_icon)
+//					.showImageOnLoading(R.drawable.category_bottom_border)
+//					.showImageForEmptyUri(R.drawable.category_bottom_border)
+//					.showImageOnFail(R.drawable.category_bottom_border)
 					.cacheInMemory(true).cacheOnDisk(true).considerExifParams(true)
 					.build();
 
@@ -1454,7 +1454,7 @@ public abstract class BaseActivity extends FragmentActivity {
 					mContext).threadPriority(Thread.NORM_PRIORITY - 2)
 					.denyCacheImageMultipleSizesInMemory()
 					.diskCacheFileNameGenerator(new Md5FileNameGenerator())
-					.diskCacheSize(5 * 1024 * 1024) // 50 Mb
+//					.diskCacheSize(5 * 1024 * 1024) // 50 Mb
 					.tasksProcessingOrder(QueueProcessingType.LIFO).build();
 			ImageLoader.getInstance().init(config);
 		}catch(Exception e){
