@@ -59,7 +59,16 @@ public class ExpandableMenuListAdapter extends BaseExpandableListAdapter {
 		TextView txtListChild = (TextView) convertView
 				.findViewById(R.id.item_name_childs);
 
+		ImageView ivLine = (ImageView) convertView
+				.findViewById(R.id.img_arrow_childs);
+
 		txtListChild.setText(childText);
+//		if(_listDataChild.size() - 1 == childPosition) {
+//			ivLine.setVisibility(View.VISIBLE);
+//		}else{
+//			ivLine.setVisibility(View.GONE);
+//		}
+
 		return convertView;
 	}
 

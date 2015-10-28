@@ -29,6 +29,7 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -107,6 +108,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	public static TextView cart_count_txt;
 	private PopupWindow popupMenuOption;
 	private LinearLayout llSearchLayout;
+//	private ImageView ivSearchHeaderBack;
 	public EditText edtSearch;
 	private ImageView imgSearchIcon;
 	private ImageView imgSearchCloseIcon;
@@ -168,6 +170,7 @@ public abstract class BaseActivity extends FragmentActivity {
 			icon_header_logo_without_search = (ImageView) view.findViewById(R.id.icon_header_logo_without_search);
 			icon_header_logo_with_search = (ImageView) view.findViewById(R.id.icon_header_logo_with_search);
 			llSearchLayout = (LinearLayout) view.findViewById(R.id.llSearchLayout);
+//			ivSearchHeaderBack = (ImageView) view.findViewById(R.id.iv_search_header_back);
 			edtSearch = (EditText) view.findViewById(R.id.edtSearch);
 			imgSearchIcon = (ImageView) view.findViewById(R.id.imgSearchIcon);
 			imgSearchCloseIcon = (ImageView) view
@@ -187,7 +190,7 @@ public abstract class BaseActivity extends FragmentActivity {
 //				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon);  //login icon
 //				BaseActivity.icon_header_user.setImageResource(R.drawable.profile);  //login icon
 
-				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_1);  //login icon
+				BaseActivity.icon_header_user.setBackgroundResource(R.drawable.user_icon_1);  //login icon
 
 			} else {
 //				BaseActivity.icon_header_user.setEnabled(true);
@@ -293,10 +296,11 @@ public abstract class BaseActivity extends FragmentActivity {
 						break;
 					case R.id.icon_header_logo_with_search:
 
-							Intent intent = new Intent(mContext, HotOffersActivity.class);
-							intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-							startActivity(intent);
-							finish();
+							showSearchView(false);
+//							Intent intent = new Intent(mContext, HotOffersActivity.class);
+//							intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//							startActivity(intent);
+//							finish();
 
 						break;
 					case R.id.icon_header_logo_without_search:
@@ -323,7 +327,8 @@ public abstract class BaseActivity extends FragmentActivity {
 //						imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 						break;
 					case R.id.icon_header_user:
-						if (keyboardVisibility)
+				HotOffersActivity.isFromFragment=false;
+								if (keyboardVisibility)
 							UtilityMethods.hideKeyBoard(BaseActivity.this);
 //							showMoreOption(icon_header_user);
                         Intent intent2 = null;
@@ -340,10 +345,12 @@ public abstract class BaseActivity extends FragmentActivity {
 						break;
 					case R.id.nom_producte:
 //						goToCart();
+						HotOffersActivity.isFromFragment=false;
 						viewCart();
 						break;
 					case R.id.icon_header_cart:
 //						goToCart();
+						HotOffersActivity.isFromFragment=false;
 						viewCart();
 						break;
 					case R.id.imgSearchIcon:
@@ -415,12 +422,11 @@ public abstract class BaseActivity extends FragmentActivity {
 			icon_header_user.setVisibility(View.GONE);
 			icon_header_cart.setVisibility(View.GONE);
 			rlSearchLook.setVisibility(View.VISIBLE);
-
 			llLeftIcon.setVisibility(View.VISIBLE);               //
 			llLeftIcon1.setVisibility(View.GONE);               //
-
 			icon_header_search.setVisibility(View.GONE);
 			llSearchLayout.setVisibility(View.VISIBLE);
+//			ivSearchHeaderBack.setVisibility(View.VISIBLE);
 			edtSearch.setCursorVisible(true);
 			edtSearch.setFocusable(true);
 			edtSearch.requestFocus();
@@ -432,12 +438,11 @@ public abstract class BaseActivity extends FragmentActivity {
 			icon_header_user.setVisibility(View.VISIBLE);
 			icon_header_cart.setVisibility(View.VISIBLE);
 			rlSearchLook.setVisibility(View.VISIBLE);
-
 			llLeftIcon.setVisibility(View.GONE);                       //
 			llLeftIcon1.setVisibility(View.VISIBLE);               //
-
 			icon_header_search.setVisibility(View.VISIBLE);
 			llSearchLayout.setVisibility(View.GONE);
+//			ivSearchHeaderBack.setVisibility(View.GONE);
 			edtSearch.getText().clear();
 			if(bBack){}
 			else if(!bBack) {
@@ -1122,6 +1127,18 @@ public abstract class BaseActivity extends FragmentActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
+
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
 		try{
 			registerReceiver();
 		}catch(Exception e){
@@ -1130,14 +1147,14 @@ public abstract class BaseActivity extends FragmentActivity {
 	}
 
 	@Override
-	public void onPause() {
-		super.onPause();
+	protected void onDestroy() {
 		try{
 			dismissDialog();
 			unRegisterReceiver();
 		}catch(Exception e){
 			new GrocermaxBaseException("BaseActivity", "onPause", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
+		super.onDestroy();
 	}
 
 	public void addActionsInFilter(String action) {
@@ -1438,12 +1455,12 @@ public abstract class BaseActivity extends FragmentActivity {
 
 	public abstract void OnResponse(Bundle bundle);
 
-	public void initImageLoaderM() {
+	public void initImageLoaderMCtegoryDeal() {
 		try {
 			baseImageoptions = new DisplayImageOptions.Builder()
-					.showImageOnLoading(R.drawable.place_holder_icon)
-					.showImageForEmptyUri(R.drawable.place_holder_icon)
-					.showImageOnFail(R.drawable.place_holder_icon)
+					.showImageOnLoading(R.drawable.cat_deals_holder)
+					.showImageForEmptyUri(R.drawable.cat_deals_holder)
+					.showImageOnFail(R.drawable.cat_deals_holder)
 //					.showImageOnLoading(R.drawable.category_bottom_border)
 //					.showImageForEmptyUri(R.drawable.category_bottom_border)
 //					.showImageOnFail(R.drawable.category_bottom_border)
@@ -1454,7 +1471,31 @@ public abstract class BaseActivity extends FragmentActivity {
 					mContext).threadPriority(Thread.NORM_PRIORITY - 2)
 					.denyCacheImageMultipleSizesInMemory()
 					.diskCacheFileNameGenerator(new Md5FileNameGenerator())
-//					.diskCacheSize(5 * 1024 * 1024) // 50 Mb
+					.diskCacheSize(5 * 1024 * 1024) // 50 Mb
+					.tasksProcessingOrder(QueueProcessingType.LIFO).build();
+			ImageLoader.getInstance().init(config);
+		}catch(Exception e){
+			new GrocermaxBaseException("BaseActivity", "initImageLoaderM", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+		}
+	}
+
+	public void initImageLoaderM() {
+		try {
+			baseImageoptions = new DisplayImageOptions.Builder()
+					.showImageOnLoading(R.drawable.product_placeholder)
+					.showImageForEmptyUri(R.drawable.product_placeholder)
+					.showImageOnFail(R.drawable.product_placeholder)
+//					.showImageOnLoading(R.drawable.place_holder_icon)
+//					.showImageForEmptyUri(R.drawable.place_holder_icon)
+//					.showImageOnFail(R.drawable.place_holder_icon)
+					.cacheInMemory(true).cacheOnDisk(true).considerExifParams(true)
+					.build();
+
+			ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+					mContext).threadPriority(Thread.NORM_PRIORITY - 2)
+					.denyCacheImageMultipleSizesInMemory()
+					.diskCacheFileNameGenerator(new Md5FileNameGenerator())
+					.diskCacheSize(5 * 1024 * 1024) // 50 Mb
 					.tasksProcessingOrder(QueueProcessingType.LIFO).build();
 			ImageLoader.getInstance().init(config);
 		}catch(Exception e){

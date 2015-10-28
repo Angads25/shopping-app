@@ -20,7 +20,9 @@ import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.DealListScreen;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
+import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
+import com.sakshay.grocermax.api.SearchLoader;
 import com.sakshay.grocermax.bean.DealByDealTypeBean;
 import com.sakshay.grocermax.bean.DealListBean;
 import com.sakshay.grocermax.bean.DealProductListingBean;
@@ -62,6 +64,8 @@ public class HotOffersActivity extends BaseActivity {
     public ArrayList<CategorySubcategoryBean> catObj;
     public static boolean isFirstFragment = true;
     private ArrayList<String> menuArray = new ArrayList<>();
+    public static boolean isFromFragment = false;
+    boolean isFromNotification = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,86 +81,20 @@ public class HotOffersActivity extends BaseActivity {
         addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);
         addActionsInFilter(MyReceiverActions.ALL_PRODUCTS_CATEGORY);
         addActionsInFilter(MyReceiverActions.LOCATION);
+        addActionsInFilter(MyReceiverActions.CATEGORY_LIST);
 
         menuIcon = (ImageView) findViewById(R.id.menuIcon);
         homeDrawer = (ImageView) findViewById(R.id.homedrawer);
 //        martHeader.setVisibility(View.VISIBLE);
-        progress = new ProgressDialog(this);
-        progress.setTitle(null);
-        progress.setMessage("Please Wait");
-        progress.setCancelable(false);
-        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progress.show();
-
-        myApi.reqGetShopByCategories(UrlsConstants.SHOP_BY_CATEGORY_TYPE);
-        myApi.reqGetShopByDeals(UrlsConstants.SHOP_BY_DEAL_TYPE);
-        myApi.reqGetHomePageBanner(UrlsConstants.GET_BANNER);
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            catObj = (ArrayList<CategorySubcategoryBean>) bundle.getSerializable("Categories");
-        } else {
-            String response = UtilityMethods.readCategoryResponse(this, AppConstants.categoriesFile);
-            catObj = UtilityMethods.getCategorySubCategory(response);
+        if (bundle != null && bundle.getBoolean("IS_FROM_NOTIFICATION", false)) {
+                getNotificationData(bundle);
+            isFromNotification = true;
         }
-//        Bundle call_bundle = new Bundle();
-//        call_bundle.putSerializable("Categories", catObj);
-//        call_bundle.putString("Title", "Home");
-//        call_bundle.putBoolean("isListView",true);
-//
-//        MenuFragment fragment = new MenuFragment();
-//        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.add(R.id.menu, fragment);
-//        fragment.setArguments(call_bundle);
-//        fragmentTransaction.commit();
-
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, null, R.string.open, R.string.close) {
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
-                super.onDrawerClosed(drawerView);
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
-
-                super.onDrawerOpened(drawerView);
-            }
-        };
-
-        getSupportFragmentManager().addOnBackStackChangedListener(getListener());
-
-        actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
-        menuIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
-                    drawerLayout.closeDrawers();
-                } else {
-                    drawerLayout.openDrawer(Gravity.LEFT);
-                }
-            }
-        });
-        homeDrawer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
-                    drawerLayout.closeDrawers();
-                } else {
-                    drawerLayout.openDrawer(Gravity.LEFT);
-                }
-            }
-        });
-
-        //Setting the actionbarToggle to drawer layout
-        drawerLayout.setDrawerListener(actionBarDrawerToggle);
-
-        //calling sync state is necessay or else your hamburger icon wont show up
-        actionBarDrawerToggle.syncState();
-
+        else {
+            setHomePage();
+        }
     }
 
     private android.support.v4.app.FragmentManager.OnBackStackChangedListener getListener()
@@ -192,13 +130,13 @@ public class HotOffersActivity extends BaseActivity {
             if (this.getSupportFragmentManager().getBackStackEntryCount() > 0) {
                 this.getSupportFragmentManager().popBackStack();
 
-                if (this.getSupportFragmentManager().getBackStackEntryCount() == 1) {
-                    findViewById(R.id.header).setVisibility(View.VISIBLE);
-                    findViewById(R.id.header_left).setVisibility(View.GONE);
-                } else if (this.getSupportFragmentManager().getBackStackEntryCount() == 2) {
-                    findViewById(R.id.header).setVisibility(View.GONE);
-                    findViewById(R.id.header_left).setVisibility(View.VISIBLE);
-                }
+//                if (this.getSupportFragmentManager().getBackStackEntryCount() == 1) {
+//                    findViewById(R.id.header).setVisibility(View.VISIBLE);
+//                    findViewById(R.id.header_left).setVisibility(View.GONE);
+//                } else if (this.getSupportFragmentManager().getBackStackEntryCount() == 2) {
+//                    findViewById(R.id.header).setVisibility(View.GONE);
+//                    findViewById(R.id.header_left).setVisibility(View.VISIBLE);
+//                }
             } else {
 
                 super.onBackPressed();
@@ -234,41 +172,46 @@ public class HotOffersActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-//        Toast.makeText(this, this.getSupportFragmentManager().getBackStackEntryCount() + "====resume of activity==== " + isFromCategoryTabs, Toast.LENGTH_LONG).show();
-//        if (this.getSupportFragmentManager().getBackStackEntryCount() == 1 ) {
-        findViewById(R.id.header).setVisibility(View.VISIBLE);
-        findViewById(R.id.header_left).setVisibility(View.GONE);
-//        }else
 
-        if ( this.getSupportFragmentManager().getBackStackEntryCount() == 2) {
-            findViewById(R.id.header).setVisibility(View.GONE);
-            findViewById(R.id.header_left).setVisibility(View.VISIBLE);
-//            this.getSupportFragmentManager().popBackStack();
+        if(isFromNotification)
+        {
+            setHomePage();
+            isFromNotification = false;
         }
-        if (this.getSupportFragmentManager().getBackStackEntryCount() == 1) {
+
+        if(!isFromFragment) {
             findViewById(R.id.header).setVisibility(View.VISIBLE);
             findViewById(R.id.header_left).setVisibility(View.GONE);
+        }else{
+            isFromFragment =false;
+            findViewById(R.id.header).setVisibility(View.GONE);
+            findViewById(R.id.header_left).setVisibility(View.VISIBLE);
         }
 
         initHeader(findViewById(R.id.header), true, null);
         if (isFromCategoryTabs && this.getSupportFragmentManager().getBackStackEntryCount() == 1) {
-            findViewById(R.id.header).setVisibility(View.VISIBLE);
-            findViewById(R.id.header_left).setVisibility(View.GONE);
             isFromCategoryTabs = false;
             drawerLayout.closeDrawer(Gravity.LEFT);
         }
-
-//        Toast.makeText(this, this.getSupportFragmentManager().getBackStackEntryCount() + "====last count====", Toast.LENGTH_LONG).show();
-//      setHeader(null);
     }
+
 
     @Override
     public void OnResponse(Bundle bundle) {
 
         try {
             String action = bundle.getString("ACTION");
-
-            if (action.equals(MyReceiverActions.GET_SHOP_BY_CATEGORIES) || action.equals(MyReceiverActions.GET_SHOP_BY_DEALS) || action.equals(MyReceiverActions.GET_BANNER)) {
+            if(action.equals(MyReceiverActions.CATEGORY_LIST)) {
+                dismissDialog();
+                String jsonResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);
+                //UtilityMethods.write("response",jsonResponse,SplashScreen.this);
+                ArrayList<CategorySubcategoryBean> category = UtilityMethods.getCategorySubCategory(jsonResponse);
+                if (!jsonResponse.trim().equals("") && category.size() > 0) {
+                    UtilityMethods.writeCategoryResponse(HotOffersActivity.this, AppConstants.categoriesFile, jsonResponse);
+                    catObj = UtilityMethods.getCategorySubCategory(jsonResponse);
+                }
+            }
+             if (action.equals(MyReceiverActions.GET_SHOP_BY_CATEGORIES) || action.equals(MyReceiverActions.GET_SHOP_BY_DEALS) || action.equals(MyReceiverActions.GET_BANNER)) {
                 if (action.equals(MyReceiverActions.GET_SHOP_BY_CATEGORIES)) {
 
                     System.out.println("RESPONSE" + bundle.getString("json"));
@@ -300,7 +243,7 @@ public class HotOffersActivity extends BaseActivity {
                     dismissDialog();
                     android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 //                fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.add(R.id.frame, fragment);
+                    fragmentTransaction.replace(R.id.frame, fragment);
                     Bundle data = new Bundle();
                     data.putSerializable(Constants.SHOP_BY_CATEGORY_MODEL, shopByCategoryBean);
                     data.putSerializable(Constants.SHOP_BY_DEALS_MODEL, shopByDealsBean);
@@ -389,10 +332,10 @@ public class HotOffersActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (this.getSupportFragmentManager().getBackStackEntryCount() == 1) {
-            findViewById(R.id.header).setVisibility(View.VISIBLE);
-            findViewById(R.id.header_left).setVisibility(View.GONE);
-        }
+//        if (this.getSupportFragmentManager().getBackStackEntryCount() == 1) {
+//            findViewById(R.id.header).setVisibility(View.VISIBLE);
+//            findViewById(R.id.header_left).setVisibility(View.GONE);
+//        }
         progress.dismiss();
     }
 
@@ -432,7 +375,7 @@ public class HotOffersActivity extends BaseActivity {
 //            fragment.setSharedElementEnterTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.explode));
 //            fragment.setEnterTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.explode));
         }
-        fragmentTransaction.add(R.id.frame, fragment);
+        fragmentTransaction.replace(R.id.frame, fragment);
         fragmentTransaction.addToBackStack(fragment.toString());
         fragmentTransaction.commit();
     }
@@ -460,10 +403,161 @@ public class HotOffersActivity extends BaseActivity {
 ////        if(fragmentTransaction.getBackStackEntryCount())
 //        super.onBackPressed();
 //    }
-    public void setHeader(String header) {
-        initHeader(findViewById(R.id.header), true, header);
-//        findViewById(R.id.header).setVisibility(View.VISIBLE);
-//        findViewById(R.id.header_left).setVisibility(View.GONE);
+
+//    public void setHeader(String header) {
+//        initHeader(findViewById(R.id.header), true, header);
+//    }
+
+    public void getNotificationData(Bundle data)
+    {
+        String strName = data.getString("name");
+        String strLinkurl = data.getString("linkurl");
+        String strImageUrl = data.getString("imageurl");
+        int index = 0;
+        String strType = "";
+        if (strLinkurl.contains("?")) {
+            index = strLinkurl.indexOf("?");
+            if (strLinkurl.length() >= index) {
+                strType = strLinkurl.substring(0, index);
+                System.out.println("====result is====" + strType);
+            }
+        } else {
+            strType = strLinkurl;
+        }
+
+        AppConstants.strTitleHotDeal = strName;
+        if(strType.equalsIgnoreCase("dealproductlisting")){
+   addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
+            String url = UrlsConstants.NEW_BASE_URL;
+           showDialog();
+            myApi.reqProductListingByDealType(url + strLinkurl);
+        } else if (strType.equalsIgnoreCase("dealsbydealtype")) {
+            addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);
+            showDialog();
+            String url = UrlsConstants.NEW_BASE_URL;
+            myApi.reqDealByDealType(url + strLinkurl);
+        } else if (strType.equalsIgnoreCase("productlistall")) {
+            addActionsInFilter(MyReceiverActions.ALL_PRODUCTS_CATEGORY);
+            showDialog();
+            String strUrl = UrlsConstants.NEW_BASE_URL;
+            myApi.reqAllProductsCategory(strUrl + strLinkurl);
+            System.out.println("===complete url====" + strUrl + strLinkurl);
+        } else if (strType.equalsIgnoreCase("shopbydealtype")) {
+
+
+        } else if (strType.equalsIgnoreCase("search")) {
+            String strSearch = "";
+            index = strLinkurl.indexOf("?");
+            int indexequal = strLinkurl.indexOf("=");
+            if (strLinkurl.length() >= index) {
+                strSearch = strLinkurl.substring(indexequal + 1, strLinkurl.length());
+                System.out.println("====indexequals is====>>" + strSearch);
+            }
+
+            System.out.println("====values OF is====" + strLinkurl);
+            String url = UrlsConstants.BANNER_SEARCH_PRODUCT + strLinkurl;
+            url = url.replace(" ", "%20");
+            SearchLoader searchLoader = new SearchLoader(this, strSearch);
+            searchLoader.execute(url);
+        } else if (strType.equalsIgnoreCase("offerbydealtype")) {
+            String strId = "";
+            index = strLinkurl.indexOf("?");
+            int indexequal = strLinkurl.indexOf("=");
+            if (strLinkurl.length() >= index) {
+                strId = strLinkurl.substring(indexequal + 1, strLinkurl.length());
+                System.out.println("====indexequals is====>>" + strId);
+            }
+            addActionsInFilter(MyReceiverActions.OFFER_BY_DEALTYPE);
+            hitForShopByCategory(strId);
+        }
     }
 
+
+    public void setHomePage()
+    {
+        progress = new ProgressDialog(this);
+        progress.setTitle(null);
+        progress.setMessage("Please Wait");
+        progress.setCancelable(false);
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.show();
+
+        Bundle bundle1 = getIntent().getExtras();
+        if (bundle1 != null) {
+            catObj = (ArrayList<CategorySubcategoryBean>) bundle1.getSerializable("Categories");
+        } else {
+            String response = UtilityMethods.readCategoryResponse(this, AppConstants.categoriesFile);
+            catObj = UtilityMethods.getCategorySubCategory(response);
+        }
+
+        if(catObj==null)
+        {
+            String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;
+            myApi.reqCategorySubCategoryList(url);
+
+        }
+        myApi.reqGetShopByCategories(UrlsConstants.SHOP_BY_CATEGORY_TYPE);
+        myApi.reqGetShopByDeals(UrlsConstants.SHOP_BY_DEAL_TYPE);
+        myApi.reqGetHomePageBanner(UrlsConstants.GET_BANNER);
+
+
+//        Bundle call_bundle = new Bundle();
+//        call_bundle.putSerializable("Categories", catObj);
+//        call_bundle.putString("Title", "Home");
+//        call_bundle.putBoolean("isListView",true);
+//
+//        MenuFragment fragment = new MenuFragment();
+//        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.add(R.id.menu, fragment);
+//        fragment.setArguments(call_bundle);
+//        fragmentTransaction.commit();
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, null, R.string.open, R.string.close) {
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
+
+                super.onDrawerOpened(drawerView);
+            }
+        };
+
+        getSupportFragmentManager().addOnBackStackChangedListener(getListener());
+
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
+        menuIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                    drawerLayout.closeDrawers();
+                } else {
+                    drawerLayout.openDrawer(Gravity.LEFT);
+                }
+            }
+        });
+
+        homeDrawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                    drawerLayout.closeDrawers();
+                } else {
+                    drawerLayout.openDrawer(Gravity.LEFT);
+                }
+            }
+        });
+
+        //Setting the actionbarToggle to drawer layout
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+
+        //calling sync state is necessay or else your hamburger icon wont show up
+        actionBarDrawerToggle.syncState();
+    }
 }

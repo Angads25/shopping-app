@@ -13,18 +13,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
-
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar_layout"
-            android:visibility="gone"/>
-
-        <include
-            android:id="@+id/header_change"
-            layout="@layout/mart_header"
-            android:visibility="gone" />
-
         <include
             android:id="@+id/header"
             layout="@layout/mart_header_drawer"
@@ -36,7 +24,6 @@
             android:visibility="gone" />
 
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/primaryColor"

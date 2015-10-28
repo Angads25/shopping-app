@@ -48,6 +48,7 @@ public class ExpandableMenuFragment extends Fragment {
     private ExpandableMenuListAdapter expandableMenuListAdapter;
     private ShopByDealsMenuListAdapter shopByDealsListADapter;
     private boolean isFromDrawer = false;
+    private int lastExpandedGroupPosition;
 
     ShopByDealsBean shopByDealsBean;
 
@@ -68,7 +69,6 @@ public class ExpandableMenuFragment extends Fragment {
             String response = UtilityMethods.readCategoryResponse(getActivity(), AppConstants.categoriesFile);
             catObj = UtilityMethods.getCategorySubCategory(response);
         }
-
 
 
         View view = inflater.inflate(R.layout.expandable_menu_fragment, container, false);
@@ -99,6 +99,18 @@ public class ExpandableMenuFragment extends Fragment {
             }
         });
 
+        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                if (groupPosition != lastExpandedGroupPosition) {
+                    expandableListView.collapseGroup(lastExpandedGroupPosition);
+                }
+                lastExpandedGroupPosition = groupPosition;
+
+            }
+        });
+
+
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
@@ -113,19 +125,24 @@ public class ExpandableMenuFragment extends Fragment {
                         break;
                     }
 
+
                     if (!expand) {
                         //Toast.makeText(getActivity(), " Will not open "+catObj.get(groupPosition).getCategory(), Toast.LENGTH_SHORT).show();
                         expandableListView.collapseGroup(groupPosition);
 //                            startActivity(catObj.get(groupPosition));
-                            ((HotOffersActivity) getActivity()).showDialog();
+                        ((HotOffersActivity) getActivity()).isFromFragment = false;
+                        ((HotOffersActivity) getActivity()).showDialog();
+                        ((HotOffersActivity) getActivity()).getDrawerLayout().closeDrawers();
 //                        String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(groupPosition).getCategoryId();
-                            String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(groupPosition).getCategoryId();
-                            AppConstants.strTitleHotDeal = catObj.get(groupPosition).getCategory();
-                                System.out.println(catObj.get(groupPosition).getCategory() + "==========id==========" + catObj.get(groupPosition).getCategoryId());
-                            ((HotOffersActivity) getActivity()).myApi.reqAllProductsCategory(url);
-                        }
-                        return true;
+                        String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(groupPosition).getCategoryId();
+                        AppConstants.strTitleHotDeal = catObj.get(groupPosition).getCategory();
+                        System.out.println(catObj.get(groupPosition).getCategory() + "==========id==========" + catObj.get(groupPosition).getCategoryId());
+                        ((HotOffersActivity) getActivity()).myApi.reqAllProductsCategory(url);
                     }
+
+                    //todo
+                    return true;
+                }
                 return false;
             }
         });
@@ -136,6 +153,7 @@ public class ExpandableMenuFragment extends Fragment {
 
 //                startActivity(catObj.get(groupPosition).getChildren().get(childPosition));
                 ((HotOffersActivity) getActivity()).showDialog();
+                ((HotOffersActivity) getActivity()).getDrawerLayout().closeDrawers();
                 String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(groupPosition).getChildren().get(childPosition).getCategoryId();
                 AppConstants.strTitleHotDeal = catObj.get(groupPosition).getChildren().get(childPosition).getCategory();
                 System.out.println(catObj.get(groupPosition).getChildren().get(childPosition).getCategory() + "==========id111==========" + catObj.get(groupPosition).getChildren().get(childPosition).getCategoryId());

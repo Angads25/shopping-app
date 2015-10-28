@@ -1,5 +1,6 @@
 package com.sakshay.grocermax.hotoffers.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -49,9 +50,8 @@ public class ShopByDealItemDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         Bundle data = getArguments();
-
+        ((HotOffersActivity) getActivity()).isFromFragment = true;
 //        ((HotOffersActivity)getActivity()).setHeader("activity start");
-
 //        itemDetailGrid = new ItemDetailGrid();
         try {
 
@@ -106,7 +106,8 @@ public class ShopByDealItemDetailFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        getActivity().findViewById(R.id.header).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.header_left).setVisibility(View.VISIBLE);
         View view = inflater.inflate(R.layout.itemdetailfragment, container, false);
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
         tabs = (MyPagerSlidingTabStrip) view.findViewById(R.id.tabs);
@@ -173,5 +174,24 @@ public class ShopByDealItemDetailFragment extends Fragment {
 
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        getActivity().findViewById(R.id.header).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.header_left).setVisibility(View.VISIBLE);
+        super.onAttach(activity);
+    }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        getActivity().findViewById(R.id.header).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.header_left).setVisibility(View.VISIBLE);
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        getActivity().findViewById(R.id.header).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.header_left).setVisibility(View.VISIBLE);
+        super.onStart();
+    }
 }

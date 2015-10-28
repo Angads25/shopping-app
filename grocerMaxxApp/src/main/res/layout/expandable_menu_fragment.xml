@@ -10,8 +10,10 @@
         android:id="@+id/ll_expandable_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingRight="@dimen/ten_dp"
         android:paddingBottom="@dimen/ten_dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:paddingRight="@dimen/ten_dp"
         android:paddingTop="@dimen/ten_dp">
 
         <ImageView
@@ -19,9 +21,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/drawer_back"
             android:paddingLeft="@dimen/ten_dp"
-            android:paddingRight="@dimen/ten_dp"/>
+            android:paddingRight="@dimen/ten_dp"
+            android:src="@drawable/drawer_back" />
 
         <TextView
             android:id="@+id/txvTitle"
@@ -30,19 +32,25 @@
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/five_dp"
             android:text="Home"
+            android:alpha="0.7"
             android:textAllCaps="true"
             android:textColor="#CDCDCD"
             android:textSize="@dimen/fourteen_text" />
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:background="#9b8f8c" />
 
     <ExpandableListView
         android:id="@+id/expLstMenu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:groupIndicator="@null"
         android:divider="@color/grey_view"
         android:dividerHeight="0.8dp"
+        android:groupIndicator="@null"
         android:visibility="gone" />
 
 

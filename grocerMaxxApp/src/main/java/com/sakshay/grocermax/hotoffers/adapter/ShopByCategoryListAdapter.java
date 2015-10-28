@@ -36,7 +36,8 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
         this.context = activity;
         this.fragment = fragment;
         this.activity = activity;
-        ((BaseActivity) activity).initImageLoaderM();
+//        ((BaseActivity) activity).initImageLoaderM();
+        ((BaseActivity) activity).initImageLoaderMCtegoryDeal();
     }
 
     public void setListData(ArrayList<ShopByCategoryModel> data) {
@@ -85,7 +86,7 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         ImageLoader.getInstance().displayImage(data.get(position).getImages(),
-                holder.imageView, ((BaseActivity) context).baseImageoptions);
+                holder.imageView, ((BaseActivity) activity).baseImageoptions);
 
 //        position
 //        data.size()
@@ -133,6 +134,8 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
                 call_bundle.putSerializable("CategoryId", data.get(position).getCategory_id());           //catid of shop deals
                 intent.putExtras(call_bundle);
                 ((HotOffersActivity) context).startActivity(intent);
+                ((HotOffersActivity)context).isFromFragment=false;
+
 
                 System.out.println("=====idss1111111===" + data.get(position).getCategory_id());
 
@@ -144,6 +147,7 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
         holder.footer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 ((HotOffersActivity)context).hitForShopByCategory(data.get(position).getCategory_id());
 //                System.out.println("=====idss===" + data.get(position).getCategory_id());
 
@@ -151,6 +155,8 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
                     if(((HotOffersActivity) context).catObj.get(i).getCategoryId().equals(data.get(position).getCategory_id())){
 //                        strCatName = catObj.get(i).getCategory();
 //                        ShopByCategoryListAdapter.strDealListCategoryHeading = ((HotOffersActivity) context).catObj.get(i).getCategory();
+
+//                        AppConstants.strTitleHotDeal = ((HotOffersActivity) context).catObj.get(i).getCategory();
                         AppConstants.strTitleHotDeal = ((HotOffersActivity) context).catObj.get(i).getCategory();
                     }
                 }

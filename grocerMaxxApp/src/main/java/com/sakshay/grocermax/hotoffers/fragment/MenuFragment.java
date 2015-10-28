@@ -44,6 +44,7 @@ public class MenuFragment extends Fragment {
     private TextView txvTitle, txvShopByDeals, txvGetInTouch, txvShopByCategories;
     public static TextView txvSelectLocation;
     private TextView txvLocation;
+    private ImageView ivLocation;
     private ExpandableListView expandableListView;
     private ArrayList<String> header;
     private HashMap<String, ArrayList<CategorySubcategoryBean>> menuMap;
@@ -84,7 +85,8 @@ public class MenuFragment extends Fragment {
         txvShopByDeals = (TextView) view.findViewById(R.id.txvShopByDeals);
         txvGetInTouch = (TextView) view.findViewById(R.id.txvGetInTouch);
         txvSelectLocation = (TextView) view.findViewById(R.id.txvSelectLocation);
-        txvLocation = (TextView) view.findViewById(R.id.txvLocation);
+        ivLocation = (ImageView) view.findViewById(R.id.ivLocation);
+//        txvLocation = (TextView) view.findViewById(R.id.txvLocation);
         imgBack = (ImageView) view.findViewById(R.id.imgBack);
         lstMenu = (ListView) view.findViewById(R.id.lstMenu);
         lstShopByDealsMenu = (ListView) view.findViewById(R.id.lstShopByDealsMenu);
@@ -110,7 +112,8 @@ public class MenuFragment extends Fragment {
             txvShopByDeals.setVisibility(View.VISIBLE);
             txvGetInTouch.setVisibility(View.VISIBLE);
             txvSelectLocation.setVisibility(View.VISIBLE);
-            txvLocation.setVisibility(View.VISIBLE);
+//            txvLocation.setVisibility(View.VISIBLE);
+            ivLocation.setVisibility(View.VISIBLE);
             txvShopByCategories.setVisibility(View.VISIBLE);
 
         } else {
@@ -122,7 +125,8 @@ public class MenuFragment extends Fragment {
             txvShopByDeals.setVisibility(View.GONE);
             txvGetInTouch.setVisibility(View.GONE);
             txvSelectLocation.setVisibility(View.GONE);
-            txvLocation.setVisibility(View.GONE);
+//            txvLocation.setVisibility(View.GONE);
+            ivLocation.setVisibility(View.GONE);
             txvShopByCategories.setVisibility(View.GONE);
         }
         setListShopByCategoriesHeight(lstMenu);
@@ -168,10 +172,11 @@ public class MenuFragment extends Fragment {
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra(Intent.EXTRA_TEXT, "Check out the new awesome Grocermax! https://grocermax.com");
                 startActivity(Intent.createChooser(intent, "How do you want to share ?"));
+                ((HotOffersActivity)getActivity()).isFromFragment=false;
             }
         });
 
-        txvLocation.setOnClickListener(new View.OnClickListener() {
+        ivLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(AppConstants.locationBean != null) {

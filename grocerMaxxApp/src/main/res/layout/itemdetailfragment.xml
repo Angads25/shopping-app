@@ -10,13 +10,13 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@+id/messageHeader"
         android:background="@color/primaryColor"
         app:pstsDividerColor="#fff"
         app:pstsIndicatorColor="#fff"
         app:pstsShouldExpand="true"
-        app:pstsTabPaddingLeftRight="5dp"
-        app:pstsUnderlineColor="#fff"/>
+
+        app:pstsTabPaddingLeftRight="10dp"
+      />
     <!--        android:background="#317fe2" -->
 
     <android.support.v4.view.ViewPager

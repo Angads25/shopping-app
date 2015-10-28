@@ -419,9 +419,10 @@ public class Registration extends BaseActivity implements
 							jsonObjectParams.put("uemail", _email_id);
 							jsonObjectParams.put("number", _mobile_no);
 							jsonObjectParams.put("password", _password);
-							jsonObjectParams.put("otp","1");
+							jsonObjectParams.put("otp", "1");
 //							jsonObjectParams.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
-						}catch(Exception e){}
+						} catch (Exception e) {
+						}
 
 						params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password;
 						if (MySharedPrefs.INSTANCE.getQuoteId() == null || MySharedPrefs.INSTANCE.getQuoteId().equals("")) {
@@ -440,12 +441,13 @@ public class Registration extends BaseActivity implements
 								jsonObject.put("number", _mobile_no);
 								jsonObject.put("password", _password);
 								jsonObject.put("quote_id", "no");
-								jsonObject.put("otp","0");
+								jsonObject.put("otp", "0");
 //								jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 
-								myApi.reqUserRegistrationOTP(url,jsonObject);
+								myApi.reqUserRegistrationOTP(url, jsonObject);
 
-							}catch(Exception e){}
+							} catch (Exception e) {
+							}
 
 							////////////////POST/////////////
 //							String strurl = UrlsConstants.REGESTRATION_URL_OTP;
@@ -458,7 +460,7 @@ public class Registration extends BaseActivity implements
 //							hashMap.put("quote_id","no");
 //							myApi.reqUserRegistrationOTP(strurl,hashMap);
 							////////////////POST/////////////
-						}else {
+						} else {
 //							params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password +
 //									"&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
 //							url += params;
@@ -466,7 +468,7 @@ public class Registration extends BaseActivity implements
 //							myApi.reqUserRegistrationOTP(url);
 							MySharedPrefs.INSTANCE.putMobileNo(_mobile_no);                           //14/09/15
 
-							try{
+							try {
 								JSONObject jsonObject = new JSONObject();
 								jsonObject.put("fname", _fname);
 								jsonObject.put("lname", _lname);
@@ -474,10 +476,10 @@ public class Registration extends BaseActivity implements
 								jsonObject.put("number", _mobile_no);
 								jsonObject.put("password", _password);
 								jsonObject.put("quote_id", MySharedPrefs.INSTANCE.getQuoteId());
-								jsonObject.put("otp","0");
+								jsonObject.put("otp", "0");
 //								jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
-								myApi.reqUserRegistrationOTP(url,jsonObject);
-							}catch(Exception e){
+								myApi.reqUserRegistrationOTP(url, jsonObject);
+							} catch (Exception e) {
 
 							}
 							////////////////POST/////////////
@@ -512,8 +514,12 @@ public class Registration extends BaseActivity implements
 				}
 			});
 
-			initHeader(findViewById(R.id.header), true, null);
-
+//			initHeader(findViewById(R.id.header), true, null);
+			if (SCREEN_NAME.equals("ForgotPassword")) {
+				initHeader(findViewById(R.id.header), true, "Forgot Password");
+			}else if (SCREEN_NAME.equals("Registration")){
+				initHeader(findViewById(R.id.header), true, "Registeration");
+			}
 		}catch(NullPointerException e){
 			new GrocermaxBaseException("Registeration", "displayRegistrationView", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
 		}catch(Exception e){
@@ -800,7 +806,12 @@ public class Registration extends BaseActivity implements
 		// TODO Auto-generated method stub
 		super.onResume();
 		try {
-			initHeader(findViewById(R.id.header), true, null);
+//			initHeader(findViewById(R.id.header), true, null);
+			if (SCREEN_NAME.equals("ForgotPassword")) {
+				initHeader(findViewById(R.id.header), true, "Forgot Password");
+			}else if (SCREEN_NAME.equals("Registration")){
+				initHeader(findViewById(R.id.header), true, "Registeration");
+			}
 		}catch(Exception e){
 			new GrocermaxBaseException("Registeration","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}

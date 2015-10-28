@@ -33,7 +33,9 @@ import com.sakshay.grocermax.CartProductList;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.SplashScreen;
 import com.sakshay.grocermax.api.MyReceiverActions;
+import com.sakshay.grocermax.api.SearchLoader;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
+import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.UrlsConstants;
 
 import org.json.JSONException;
@@ -50,7 +52,7 @@ import java.net.URL;
 public class GCMIntentService extends GcmListenerService {
 
     private static final String TAG = "MyGcmListenerService";
-    String strLinkurl,strName;
+    String strLinkurl,strName,strImageUrl;
     Context context = this;
 
     /**
@@ -67,68 +69,25 @@ public class GCMIntentService extends GcmListenerService {
             String message = data.getString("message");
             strName = data.getString("name");
             strLinkurl = data.getString("linkurl");
+            strImageUrl = data.getString("imageurl");
+
             String collapse_key = data.getString("collapse_key");
             Log.d(TAG, "From: " + from);
             Log.d(TAG, "Message: " + message);
-            sendNotification(message);
+            sendNotification(message,data);
         }catch(Exception e){}
 
-        if (from.startsWith("/topics/")) {
-            // message received from some topic.
-        } else {
-            // normal downstream message.
-        }
-
-
-//        String str = data.getString();
-
-
-
-        // [START_EXCLUDE]
-        /**
-         * Production applications would usually process the message here.
-         * Eg: - Syncing with server.
-         *     - Store message in local database.
-         *     - Update UI.
-         */
-
-        /**
-         * In some cases it may be useful to show a notification indicating to the user
-         * that a message was received.
-         */
-//        sendNotification(message);
-        // [END_EXCLUDE]
     }
-    // [END receive_message]
 
     /**
      * Create and show a simple notification containing the received GCM message.
      *
      * @param message GCM message received.
      */
-    private void sendNotification(String message) {
-
-//        String linkurl = "";
-//        int index = 0;
-//        String strType = "";
-//        if (linkurl.contains("?")) {
-//            index = linkurl.indexOf("?");
-//            if (linkurl.length() >= index) {
-//                strType = linkurl.substring(0, index);
-//                System.out.println("====result is====" + strType);
-//            }
-//        } else {
-//            strType = linkurl;
-//        }
-
-        ((HotOffersActivity) context).addActionsInFilter(MyReceiverActions.ALL_PRODUCTS_CATEGORY);
-        ((HotOffersActivity) context).showDialog();
-        String strUrl = UrlsConstants.NEW_BASE_URL;
-        ((HotOffersActivity) context).myApi.reqAllProductsCategory(strUrl + strLinkurl);
-        System.out.println("===complete url====" + strUrl + strLinkurl);
-
-//        Intent intent = new Intent(this, CartProductList.class);
-        Intent intent = new Intent(this, CartProductList.class);
+    private void sendNotification(String message,Bundle data) {
+        Intent intent = new Intent(this, HotOffersActivity.class);
+        data.putBoolean("IS_FROM_NOTIFICATION",true);
+        intent.putExtras(data);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
@@ -136,11 +95,11 @@ public class GCMIntentService extends GcmListenerService {
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.BigPictureStyle notiStyle = new NotificationCompat.BigPictureStyle();
-        notiStyle.setBigContentTitle("Big Picture Expanded");
-        notiStyle.setSummaryText("Nice big picture.");
+        notiStyle.setBigContentTitle(strName);
+        notiStyle.setSummaryText(message);
         Bitmap remote_picture =  null;
         try {
-            remote_picture = BitmapFactory.decodeStream((InputStream) new URL("http://independent.pepsimax.com.au/assets/logo-54ec3ba94fc69acc15a536331952d774.png").getContent());
+            remote_picture = BitmapFactory.decodeStream((InputStream) new URL(strImageUrl).getContent());
         } catch (IOException e) {
             e.printStackTrace();
         }

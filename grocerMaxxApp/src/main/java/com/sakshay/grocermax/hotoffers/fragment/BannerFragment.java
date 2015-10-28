@@ -28,7 +28,6 @@ public class BannerFragment extends Fragment {
 
     private static Fragment frag;
     private LinearLayout parentLayout;
-    private CardView card_view;
     private static String url = "";
     private static String linkurl = "";
     private static String name = "";
@@ -61,12 +60,9 @@ public class BannerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.banner, container, false);
         parentLayout = (LinearLayout) view.findViewById(R.id.parentLayout);
-        card_view = (CardView) view.findViewById(R.id.card_view);
         ImageView imageView = (ImageView) view.findViewById(R.id.image);
         context = getActivity();
 
-        card_view.setShadowPadding(0, 0, 0, 0);
-        card_view.setCardElevation(0);
 
         url = getArguments().getString("imgUrl");
 //        linkurl = (((HomeFragment)frag).getHomeBannerBean()).getBanner().get(((HomeFragment)frag).getPosition()).getLinkurl();
@@ -155,6 +151,7 @@ public class BannerFragment extends Fragment {
                     ((HotOffersActivity) context).addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
 //                    String PRODUCTLISTING_BY_DEAL_TYPE = UrlsConstants.NEW_BASE_URL+"dealproductlisting?deal_id=";
 //                    String url = UrlsConstants.PRODUCTLISTING_BY_DEAL_TYPE;
+                    AppConstants.strTitleHotDeal = "Offer Detail";
                     String url = UrlsConstants.NEW_BASE_URL;
                     ((HotOffersActivity) context).showDialog();
                     ((HotOffersActivity) context).myApi.reqProductListingByDealType(url + linkurl);

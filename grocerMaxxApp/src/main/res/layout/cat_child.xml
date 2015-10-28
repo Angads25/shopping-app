@@ -1,40 +1,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    android:orientation="horizontal"
-    android:background="@color/app_background" >
+    android:background="@color/app_background"
+    android:orientation="horizontal">
 
     <RelativeLayout
         android:id="@+id/ll_main_cat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
         android:background="@color/app_background"
-        android:gravity="center_horizontal" >
+        android:gravity="center_horizontal">
 
 
         <!--  android:layout_marginBottom="10dp" -->
 
-        <android.support.v7.widget.CardView
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:id="@+id/card_view"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:layout_gravity="center"
             android:fitsSystemWindows="true"
-            android:padding="3dp"
             card_view:cardCornerRadius="2dp"
-            card_view:cardElevation="2dp"
-            android:layout_marginBottom="5dp" >
 
-            <!--  card_view:cardUseCompatPadding="true"  -->
+            >
+
+            <!--  card_view:cardUseCompatPadding="true"
+            card_view:cardElevation="2dp"-->
 
             <ImageView
                 android:id="@+id/cat_icon"
                 android:layout_width="match_parent"
                 android:layout_height="114dp"
-
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
                 android:src="@drawable/category_placeholder" />
 
             <!--
@@ -45,25 +47,24 @@
                 android:id="@+id/cat_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Oil and Ghee"
-                android:layout_marginTop="80dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="@dimen/text_size_18"
-                android:visibility="gone"
+                android:layout_marginTop="80dp"
                 android:singleLine="true"
-                />
+                android:text="Oil and Ghee"
+                android:textSize="@dimen/text_size_18"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:layout_marginTop="130dp"
+                android:background="@drawable/transparent_black"
                 android:gravity="center"
                 android:paddingBottom="3dp"
-                android:layout_marginTop="130dp"
+                android:text="Select category to view products"
                 android:textColor="@color/white"
-                android:visibility="gone"
-                android:background="@drawable/transparent_black"
-                android:text="Select category to view products" />
+                android:visibility="gone" />
 
         </android.support.v7.widget.CardView>
 
@@ -71,10 +72,10 @@
             android:id="@+id/ll_child_expandable_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:background="@color/app_background"
             android:layout_below="@+id/card_view"
-            android:orientation="vertical" >
+            android:background="@color/app_background"
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <!--               android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"-->

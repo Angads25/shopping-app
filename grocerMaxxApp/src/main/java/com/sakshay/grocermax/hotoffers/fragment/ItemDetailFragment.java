@@ -16,6 +16,7 @@ import com.sakshay.grocermax.bean.DealByDealTypeBean;
 import com.sakshay.grocermax.bean.OfferByDealTypeBean;
 import com.sakshay.grocermax.bean.OfferByDealTypeModel;
 import com.sakshay.grocermax.bean.OfferByDealTypeSubModel;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.hotoffers.MyPagerSlidingTabStrip;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants;
@@ -50,6 +51,7 @@ public class ItemDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         Bundle data = getArguments();
+        ((HotOffersActivity) getActivity()).isFromFragment = true;
 //        itemDetailGrid = new ItemDetailGrid();
 
         ((BaseActivity) getActivity()).initHeader(getActivity().findViewById(R.id.header_left), true, AppConstants.strTitleHotDeal);
@@ -83,7 +85,8 @@ public class ItemDetailFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        getActivity().findViewById(R.id.header).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.header_left).setVisibility(View.VISIBLE);
         View view = inflater.inflate(R.layout.itemdetailfragment, container, false);
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
         tabs = (MyPagerSlidingTabStrip) view.findViewById(R.id.tabs);

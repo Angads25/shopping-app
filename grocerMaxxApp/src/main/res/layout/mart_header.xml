@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:background="@color/primaryColor"
     android:clipToPadding="false"
-    android:elevation="@dimen/action_bar_elevation"
     app:popupTheme="@style/CustomToolBarTheme"
     app:theme="@style/CustomToolBarTheme"
     app:contentInsetLeft="0dp"
@@ -34,8 +33,19 @@
                 android:id="@+id/icon_header_logo_with_search"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
+                android:layout_marginRight="10dp"
+                android:contentDescription="@string/image_content_desc"
+                android:src="@drawable/carat_left_white" />
+
+<!--
+            <ImageView
+                android:id="@+id/icon_header_logo_with_search"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:contentDescription="@string/image_content_desc"
                 android:src="@drawable/header_icon_1" />
+
+                -->
         </LinearLayout>
 
         <LinearLayout
@@ -52,11 +62,11 @@
 
             <LinearLayout
                 android:id="@+id/ll_placeholder_logoIcon_appBar"
-                android:layout_width="wrap_content"
-
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center">
+
 
                 <ImageView
                     android:id="@+id/icon_header_logo_without_search"
@@ -79,7 +89,7 @@
             <!-- TODO wire this Abhi after removing whatever is causing placeholder ovewrite in background -->
             <LinearLayout
                 android:id="@+id/ll_placeholder_profileIcon_appBar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
 
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -109,7 +119,7 @@
             <!-- TODO wire this Abhi after removing whatever is causing placeholder ovewrite in background -->
             <LinearLayout
                 android:id="@+id/ll_placeholder_searchIcon_appBar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
 
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -127,8 +137,7 @@
 
             <LinearLayout
                 android:id="@+id/ll_placeholder_cartIcon_appBar"
-                android:layout_width="wrap_content"
-
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center">

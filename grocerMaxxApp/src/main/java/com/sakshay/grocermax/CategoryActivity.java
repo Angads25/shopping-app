@@ -419,7 +419,6 @@ public class CategoryActivity extends BaseActivity {
                             llMain1.setLayoutParams(lp2);
 
                             tempInt++;
-//                            tv11.setText("level 1");
                             tv11.setText(alSubSubChild.get(tempInt).getCategory());
                             tv11.setTag(tempInt);
                             tv11.setVisibility(View.VISIBLE);
@@ -427,7 +426,6 @@ public class CategoryActivity extends BaseActivity {
                             tv11.setOnClickListener(listenerchild);
 
                             tempInt++;
-//                            tv22.setText("level 2");
                             tv22.setText(alSubSubChild.get(tempInt).getCategory());
                             tv22.setTag(tempInt);
                             tv22.setVisibility(View.VISIBLE);

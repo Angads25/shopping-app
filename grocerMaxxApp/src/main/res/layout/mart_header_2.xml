@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:background="@color/primaryColor"
     android:clipToPadding="false"
-    android:elevation="@dimen/action_bar_elevation"
     app:popupTheme="@style/CustomToolBarTheme"
     app:theme="@style/CustomToolBarTheme"
     app:contentInsetLeft="0dp"
@@ -26,11 +25,20 @@
             android:visibility="gone">
 
             <ImageView
+            android:id="@+id/icon_header_logo_with_search"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:contentDescription="@string/image_content_desc"
+            android:src="@drawable/carat_left_white" />
+            <!--
+            <ImageView
                 android:id="@+id/icon_header_logo_with_search"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:contentDescription="@string/image_content_desc"
                 android:src="@drawable/header_icon_1" />
+                -->
         </LinearLayout>
 
         <LinearLayout
@@ -61,7 +69,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
-                    android:text="Path"
+                    android:text=""
                     android:gravity="center_vertical"
                     android:textSize="@dimen/mart_header_text_size"
                     android:singleLine="true"

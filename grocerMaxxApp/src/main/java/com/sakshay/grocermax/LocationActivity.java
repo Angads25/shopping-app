@@ -19,8 +19,10 @@ import android.widget.TextView;
 import com.flurry.android.FlurryAgent;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.sakshay.grocermax.adapters.CategorySubcategoryBean;
+import com.sakshay.grocermax.api.BillingStateCityLoader;
 import com.sakshay.grocermax.api.ConnectionService;
 import com.sakshay.grocermax.api.MyReceiverActions;
+import com.sakshay.grocermax.api.ShippingLocationLoader;
 import com.sakshay.grocermax.bean.LocationListBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
@@ -114,6 +116,12 @@ public class LocationActivity extends BaseActivity {
                                 MySharedPrefs.INSTANCE.putTotalItem(String.valueOf("0"));
                                 if (BaseActivity.cart_count_txt != null) {
                                     BaseActivity.cart_count_txt.setText("0");
+                                }
+                                if(ShippingLocationLoader.alLocationShipping != null) {
+                                    ShippingLocationLoader.alLocationShipping = null;
+                                }
+                                if(BillingStateCityLoader.alState != null) {
+                                    BillingStateCityLoader.alState = null;
                                 }
                                 UtilityMethods.deleteCloneCart(activity);
                                 UtilityMethods.deleteLocalCart(activity);

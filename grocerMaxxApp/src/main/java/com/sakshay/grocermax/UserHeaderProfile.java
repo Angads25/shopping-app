@@ -167,7 +167,7 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
             tvUserName.setTextAppearance(this, R.style.normal_textsize);
             rlSignOut.setVisibility(View.GONE);
             viewSignOut.setVisibility(View.GONE);
-            }
+        }
 
             initHeader(findViewById(R.id.app_bar_header), true, "My Profile");
 //        initFooter(findViewById(R.id.footer), 4, 3);

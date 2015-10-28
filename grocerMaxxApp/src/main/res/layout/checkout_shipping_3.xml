@@ -407,7 +407,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/pallete_blue"
-        android:text="Select payment method"
+        android:text="Proceed"
         android:textAllCaps="true"
         android:textColor="@color/white" />
 </RelativeLayout>

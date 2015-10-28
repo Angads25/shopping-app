@@ -128,16 +128,16 @@ public class CartAdapter extends BaseAdapter{
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		if(AppConstants.densityPhone <= 1.5){
-			holder.delete_item.getLayoutParams().height = 35;
-			holder.delete_item.getLayoutParams().width = 30;
-		}else if(AppConstants.densityPhone <= 2.0){
-			holder.delete_item.getLayoutParams().height = 50;
-			holder.delete_item.getLayoutParams().width = 40;
-		}else{
-			holder.delete_item.getLayoutParams().height = 70;
-			holder.delete_item.getLayoutParams().width = 60;
-		}
+//		if(AppConstants.densityPhone <= 1.5){
+//			holder.delete_item.getLayoutParams().height = 35;
+//			holder.delete_item.getLayoutParams().width = 30;
+//		}else if(AppConstants.densityPhone <= 2.0){
+//			holder.delete_item.getLayoutParams().height = 50;
+//			holder.delete_item.getLayoutParams().width = 40;
+//		}else{
+//			holder.delete_item.getLayoutParams().height = 200;
+//			holder.delete_item.getLayoutParams().width = 200;
+//		}
 
 
 		holder.prod_brand_name.setTypeface(CustomFonts.getInstance().getRobotoRegular(activity));
@@ -165,6 +165,7 @@ public class CartAdapter extends BaseAdapter{
 				if(CartProductList.getInstance().place_order != null && CartProductList.getInstance().update_cart != null) {
 					CartProductList.getInstance().place_order.setVisibility(View.GONE);
 					CartProductList.getInstance().update_cart.setVisibility(View.VISIBLE);
+					CartProductList.getInstance().update_cart.setBackgroundColor(activity.getResources().getColor(R.color.updateshade));
 				}
 			}
 //		}
@@ -299,6 +300,7 @@ public class CartAdapter extends BaseAdapter{
 					if(CartProductList.getInstance().place_order != null && CartProductList.getInstance().update_cart != null) {
 						CartProductList.getInstance().place_order.setVisibility(View.GONE);
 						CartProductList.getInstance().update_cart.setVisibility(View.VISIBLE);
+						CartProductList.getInstance().update_cart.setBackgroundColor(activity.getResources().getColor(R.color.updateshade));
 					}
 					int value1=Integer.parseInt(holder.tv_quantity.getText().toString());
 					//int value1 = Integer.parseInt(quantity.getText().toString());
@@ -388,6 +390,7 @@ public class CartAdapter extends BaseAdapter{
 					if(CartProductList.getInstance().place_order != null && CartProductList.getInstance().update_cart != null) {
 						CartProductList.getInstance().place_order.setVisibility(View.GONE);
 						CartProductList.getInstance().update_cart.setVisibility(View.VISIBLE);
+						CartProductList.getInstance().update_cart.setBackgroundColor(activity.getResources().getColor(R.color.updateshade));
 					}
 					int value1=Integer.parseInt(holder.tv_quantity.getText().toString());
 					//int value1 = Integer.parseInt(quantity.getText().toString());
@@ -514,6 +517,7 @@ public class CartAdapter extends BaseAdapter{
 			if(CartProductList.getInstance().place_order != null && CartProductList.getInstance().update_cart != null) {
 				CartProductList.getInstance().place_order.setVisibility(View.GONE);
 				CartProductList.getInstance().update_cart.setVisibility(View.VISIBLE);
+				CartProductList.getInstance().update_cart.setBackgroundColor(activity.getResources().getColor(R.color.updateshade));
 			}
 //			if(UpdateCartbg.getInstance().alDeleteId.size() > 0){
 //				UpdateCartbg.getInstance().alDeleteId.add(","+CartProductList.cartList.get(position).getItem_id());  //saves deleted id for background hitting URL for edit

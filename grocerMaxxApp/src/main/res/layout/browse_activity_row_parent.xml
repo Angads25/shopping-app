@@ -33,12 +33,12 @@
             android:paddingLeft="5dp"
             android:text="Category heading"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/twelveScaled" />
+            android:textSize="@dimen/thirteenScaled" />
 
         <ImageView
             android:id="@+id/img_arrow_parent"
-            android:layout_width="14dp"
-            android:layout_height="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"

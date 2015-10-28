@@ -71,19 +71,19 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
 
     private boolean shouldExpand = false;
     private boolean textAllCaps = false;
-    private boolean textAllBold = true;
+    private boolean textAllBold = false;
 
     private int scrollOffset = 52;
     private int indicatorHeight = 6;
     private int underlineHeight = 2;
-    private int dividerPadding = 12;        //top and bottom vertical line
+    private int dividerPadding = 10;        //top and bottom vertical line
     private int tabPadding = 24;
     private int dividerWidth = 1;
 
     private int tabTextSize = 14;
     private int tabTextColor = 0xFFFFFFFF;
     private Typeface tabTypeface = null;
-    private int tabTypefaceStyle = Typeface.BOLD;
+    private int tabTypefaceStyle = Typeface.NORMAL;
 
     private int lastScrollX = 0;
 

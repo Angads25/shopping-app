@@ -8,7 +8,9 @@
     <dimen name="five_dp">5dp</dimen>
     <dimen name="sixteen_text">16sp</dimen>
     <dimen name="fourteen_text">14sp</dimen>
+    <dimen name="thirteen_text">13sp</dimen>
     <dimen name="ten_dp">10dp</dimen>
     <dimen name="twenty_dp">20dp</dimen>
     <dimen name="date_picker_padding">24dp</dimen>
+    <dimen name="twetyfive_dp">25dp</dimen>
 </resources>

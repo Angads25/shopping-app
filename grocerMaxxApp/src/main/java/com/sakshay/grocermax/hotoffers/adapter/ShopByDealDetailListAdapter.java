@@ -109,8 +109,9 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
             @Override
             public void onClick(View v) {
                 ((HotOffersActivity)context).hitForDealsByDeals(data.get(position).getPromo_id());
-                AppConstants.strTitleHotDeal = data.get(position).getTitle();
-
+//                AppConstants.strTitleHotDeal = data.get(position).getTitle();
+                  AppConstants.strTitleHotDeal = "Offer Detail";
+                ((HotOffersActivity) context).isFromFragment = true;
 //                String str1 = data.get(position).getDealName();
 //                String str2 = data.get(position).getName();
 //                String str3 = data.get(position).getTitle();

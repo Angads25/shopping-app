@@ -98,7 +98,9 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
             @Override
             public void onClick(View v) {
                 ((HotOffersActivity) context).hitForDealsByDeals(data.get(position).getId());
-                    AppConstants.strTitleHotDeal = data.get(position).getName();
+                ((HotOffersActivity) context).isFromFragment = true;
+//                    AppConstants.strTitleHotDeal = data.get(position).getName();
+                AppConstants.strTitleHotDeal = "Offer Detail";
             }
         });
 

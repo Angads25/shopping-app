@@ -490,7 +490,7 @@ need this in relative layout when price details need to be shown below -->
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/cart_place_order"
-            android:text="Proceed to Checkout"
+            android:text="Proceed"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_16"

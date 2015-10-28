@@ -214,8 +214,10 @@ public class SplashScreen extends BaseActivity
 				call_bundle.putSerializable("Categories", category);
 				call.putExtras(call_bundle);
 				startActivity(call);
+				registerGCM();
 				finish();
 			} else {
+				registerGCM();
 				UtilityMethods.customToast(AppConstants.ToastConstant.DATA_NOT_FOUND, mContext);
 			}
 		}

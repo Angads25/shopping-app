@@ -38,6 +38,7 @@
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="red">#FF0000</color>
+    <color name="updateshade">#f08d00</color>
     <color name="flag_top_btn">#ff8610</color>
     <color name="flag_center_btn">#d6ffd6</color>
     <color name="flag_bottom_btn">#10ff10</color>

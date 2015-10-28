@@ -15,6 +15,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +45,18 @@ public class HomeFragment extends Fragment {
     private HomeBannerBean homeBannerBean;
     private ProgressDialog progress;
     private int pos;
+    ImageView iv[];
+
+//    backImage[0] = R.drawable.beverages_large;
+//    backImage[1] = R.drawable.dairy_large;
+//    backImage[2] = R.drawable.frozen_large;
+//    backImage[3] = R.drawable.fruits_large;
+//    backImage[4] = R.drawable.non_veg_large;
+//    backImage[5] = R.drawable.beverages_large;
+//    backImage[6] = R.drawable.family_care_large;
+//    backImage[7] = R.drawable.home_care_large;
+//    backImage[8] = R.drawable.home_needs_large;
+//    backImage[9] = R.drawable.staples_large;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,11 +80,22 @@ public class HomeFragment extends Fragment {
         } catch (Exception e) {
 
         }
+
+        getActivity().findViewById(R.id.header).setVisibility(View.VISIBLE);
+        getActivity().findViewById(R.id.header_left).setVisibility(View.GONE);
         View view = inflater.inflate(R.layout.home_fragment, container, false);
 
         mPager = (ViewPager) view.findViewById(R.id.pager);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+
+//        LinearLayout ll = (LinearLayout) view.findViewById(R.id.ll_dots);
+//        iv = new ImageView[5];
+//        for(int i=0;i<5;i++){
+//            iv[i].setBackgroundDrawable(getResources().getDrawable(R.drawable.progress_grey) );
+//            ll.addView(iv[i]);
+//        }
+
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -170,4 +195,10 @@ public class HomeFragment extends Fragment {
     public HomeBannerBean getHomeBannerBean(){
         return homeBannerBean;
     }
+
+
+    public HomeFragment() {
+        super();
+    }
+
 }
