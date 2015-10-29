@@ -438,14 +438,15 @@ public abstract class BaseActivity extends FragmentActivity {
 				icon_header_user.setVisibility(View.VISIBLE);
 				icon_header_cart.setVisibility(View.VISIBLE);
 				rlSearchLook.setVisibility(View.VISIBLE);
-				llLeftIcon.setVisibility(View.GONE);                       //
+				llLeftIcon.setVisibility(View.GONE);                   //
 				llLeftIcon1.setVisibility(View.VISIBLE);               //
 				icon_header_search.setVisibility(View.VISIBLE);
 				llSearchLayout.setVisibility(View.GONE);
 //			ivSearchHeaderBack.setVisibility(View.GONE);
 				edtSearch.getText().clear();
-				if(bBack){}
-				else if(!bBack) {
+
+				if(AppConstants.bBack){}
+				else if(!AppConstants.bBack) {
 					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 					imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 				}

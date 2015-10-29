@@ -49,17 +49,6 @@ public class HomeFragment extends Fragment {
     private int pos;
     ImageView iv[];
 
-//    backImage[0] = R.drawable.beverages_large;
-//    backImage[1] = R.drawable.dairy_large;
-//    backImage[2] = R.drawable.frozen_large;
-//    backImage[3] = R.drawable.fruits_large;
-//    backImage[4] = R.drawable.non_veg_large;
-//    backImage[5] = R.drawable.beverages_large;
-//    backImage[6] = R.drawable.family_care_large;
-//    backImage[7] = R.drawable.home_care_large;
-//    backImage[8] = R.drawable.home_needs_large;
-//    backImage[9] = R.drawable.staples_large;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -92,12 +81,7 @@ public class HomeFragment extends Fragment {
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
-//        LinearLayout ll = (LinearLayout) view.findViewById(R.id.ll_dots);
-//        iv = new ImageView[5];
-//        for(int i=0;i<5;i++){
-//            iv[i].setBackgroundDrawable(getResources().getDrawable(R.drawable.progress_grey) );
-//            ll.addView(iv[i]);
-//        }
+
 
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -108,7 +92,18 @@ public class HomeFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 pos = position;
-//                Toast.makeText(getActivity()," pos "+pos,Toast.LENGTH_SHORT).show();
+                for(int i=0;i<homeBannerBean.getBanner().size();i++){
+                    if(i == position){
+                        iv[i].setImageResource(R.drawable.progress_green);
+                    }else{
+                        iv[i].setImageResource(R.drawable.progress_grey);
+                    }
+//                    if(i <= position) {
+//                        iv[i].setImageResource(R.drawable.progress_green);
+//                    }else{
+//                        iv[i].setImageResource(R.drawable.progress_grey);
+//                    }
+                }
             }
 
             @Override
@@ -116,6 +111,19 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
+        LinearLayout ll = (LinearLayout) view.findViewById(R.id.ll_dots);
+        iv = new ImageView[homeBannerBean.getBanner().size()];
+        for(int i=0;i<homeBannerBean.getBanner().size();i++){
+            View view1 = inflater.inflate(R.layout.banner_single_image, null);
+            iv[i] = (ImageView) view1.findViewById(R.id.banner_indicator);
+            if(i==0) {
+                iv[i].setImageResource(R.drawable.progress_green);
+            }else {
+                iv[i].setImageResource(R.drawable.progress_grey);
+            }
+            ll.addView(view1);
+        }
 
         txtCategory = (TextView) view.findViewById(R.id.txt_category);
         txtDeal = (TextView) view.findViewById(R.id.txt_deal);
@@ -129,12 +137,44 @@ public class HomeFragment extends Fragment {
         ArrayList<ShopByCategoryModel> alfinal = new ArrayList<ShopByCategoryModel>();
         ArrayList<ShopByCategoryModel> al = shopByCategoryBean.getArrayList();
         for (int i = 0; i < ((HotOffersActivity) getActivity()).catObj.size(); i++) {
+            boolean b_id_found = false;
             for (int j = 0; j < al.size(); j++) {
                 if (((HotOffersActivity) getActivity()).catObj.get(i).getCategoryId().equalsIgnoreCase(al.get(j).getCategory_id())) {
                     alfinal.add(al.get(j));
+                    b_id_found = true;
                 }
             }
+            if(!b_id_found){
+                ShopByCategoryModel shopByCategoryModel = new ShopByCategoryModel();
+                    String strurlImage = Constants.base_url_category_image+((HotOffersActivity) getActivity()).catObj.get(i).getCategoryId()+".png";
+                    shopByCategoryModel.setCategory_id(((HotOffersActivity) getActivity()).catObj.get(i).getCategoryId());
+                    shopByCategoryModel.setName(((HotOffersActivity) getActivity()).catObj.get(i).getCategory());
+                    shopByCategoryModel.setImages(strurlImage);
+                    shopByCategoryModel.setIs_active(((HotOffersActivity) getActivity()).catObj.get(i).getIsActive());
+                    shopByCategoryModel.setOffercount("0");
+                alfinal.add(shopByCategoryModel);
+            }
         }
+
+//            for (int i = 0; i < al.size(); i++) {
+//                boolean b_id_found = false;
+//                for (int j = 0; j < ((HotOffersActivity) getActivity()).catObj.size(); j++) {
+//                    if(al.get(i).getCategory_id().equalsIgnoreCase(((HotOffersActivity) getActivity()).catObj.get(j).getCategoryId())) {
+//                        alfinal.add(al.get(i));
+//                        b_id_found = true;
+//                    }
+//                }
+//                if(!b_id_found){
+//                    ShopByCategoryModel shopByCategoryModel = new ShopByCategoryModel();
+////                    shopByCategoryModel.setCategory_id();
+////                    shopByCategoryModel.setImages();
+////                    shopByCategoryModel.setCategory_id();
+////                    shopByCategoryModel.setName();
+//                    shopByCategoryModel.setOffercount("0");
+//                    alfinal.add(shopByCategoryModel);
+//                }
+//            }
+
 
         ShopByCategoryListAdapter shopByCategoryListAdapter1 = new ShopByCategoryListAdapter(getActivity(), this);
 //        shopByCategoryListAdapter1.setListData(shopByCategoryBean.getArrayList());

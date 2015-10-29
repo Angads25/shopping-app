@@ -131,7 +131,9 @@
     <color name="choose_address_corner_color">#e5390e</color>
     <color name="choose_address_top_color">#e5390e</color>
     <color name="choose_address_backgroundcolor">#fbf9f9</color>
-    
+
+    <color name="register_line_color">#eeeeee</color>
+
     <color name="register_address_text_unselected_color">#bebebe</color>
     <color name="register_address_text_selected_color">#000000</color>
     <color name="register_address_line_color">#f1f1f1</color>

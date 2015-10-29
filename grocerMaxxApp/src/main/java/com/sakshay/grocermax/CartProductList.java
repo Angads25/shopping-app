@@ -405,7 +405,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					CheckoutAddressBean bean = (CheckoutAddressBean) bundle.getSerializable(ConnectionService.RESPONSE);
 			/*if(bean.getAddress().size()>0)
 			{*/
-					Intent intent = new Intent(CartProductList.this, com.sakshay.grocermax.ShippingAddress.class);
+					Intent intent = new Intent(CartProductList.this, ShippingAddress.class);
 //					Intent intent = new Intent(CartProductList.this, BillingAddress.class);
 //					Intent intent = new Intent(CartProductList.this, ChooseAddress.class);
 //					Intent intent = new Intent(CartProductList.this, DeliveryDetails.class);
@@ -484,7 +484,8 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				cartList.clear();
 				cartList = cartBean.getItems();
 				setCartList(cartBean);
-//			callAddressApi();                        //commented on 4/8/15
+
+				callAddressApi();                        //commented on 4/8/15
 			} else if (action.equals(MyReceiverActions.VIEW_CART_GO_HOME_SCREEN)) {
 				dismissDialog();
 				CartDetailBean cartBean = (CartDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);

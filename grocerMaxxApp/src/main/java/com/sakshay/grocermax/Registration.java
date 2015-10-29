@@ -518,7 +518,7 @@ public class Registration extends BaseActivity implements
 			if (SCREEN_NAME.equals("ForgotPassword")) {
 				initHeader(findViewById(R.id.header), true, "Forgot Password");
 			}else if (SCREEN_NAME.equals("Registration")){
-				initHeader(findViewById(R.id.header), true, "Registeration");
+				initHeader(findViewById(R.id.header), true, "Register");
 			}
 		}catch(NullPointerException e){
 			new GrocermaxBaseException("Registeration", "displayRegistrationView", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
@@ -810,7 +810,7 @@ public class Registration extends BaseActivity implements
 			if (SCREEN_NAME.equals("ForgotPassword")) {
 				initHeader(findViewById(R.id.header), true, "Forgot Password");
 			}else if (SCREEN_NAME.equals("Registration")){
-				initHeader(findViewById(R.id.header), true, "Registeration");
+				initHeader(findViewById(R.id.header), true, "Register");
 			}
 		}catch(Exception e){
 			new GrocermaxBaseException("Registeration","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");

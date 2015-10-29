@@ -29,7 +29,6 @@ public class CustomEditSearch extends EditText {
 
     public CustomEditSearch(Context context, AttributeSet attrs) {
         super(context, attrs);
-
     }
 
     private BackPressedListener mOnImeBack;

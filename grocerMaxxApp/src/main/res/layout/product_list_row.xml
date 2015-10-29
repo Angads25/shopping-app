@@ -25,13 +25,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+
+                android:paddingLeft="4dp"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:paddingRight="8dp"
                 android:orientation="vertical">
 
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="130dp"
-
                     android:orientation="horizontal"
                     android:weightSum="3"
                     >
@@ -204,7 +207,7 @@
                                     android:layout_height="wrap_content"
                                     android:id="@+id/sale_price"
                                     android:textSize="@dimen/text_size_14"
-                                    android:textColor="@color/pallete_black"
+                                    android:textColor="@color/primaryColor"
                                     android:text="price"/>
                                 <TextView
                                     android:id="@+id/tv_vertical_bar"
@@ -219,7 +222,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="discounted rate"
-                                    android:textColor="@color/primaryColor"
+                                    android:textColor="@color/pallete_black"
                                     android:id="@+id/amount"
                                     android:textSize="@dimen/text_size_14"/>
                             </LinearLayout>
@@ -231,9 +234,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:orientation="horizontal"
-                                android:layout_below="@+id/calculation_top"
-                                android:layout_marginTop="5dp"
-                                >
+                                android:layout_below="@+id/calculation_top" >
 
                                 <TextView
                                     android:id="@+id/total"
@@ -259,10 +260,20 @@
                                     android:layout_marginRight="10dp"
                                     android:visibility="gone">
 
+                                    <ImageView
+                                        android:id="@+id/iv_out_of_stock"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_centerVertical="true"
+                                        android:src="@drawable/sold_out"/>
+
                                     <TextView
                                         android:id="@+id/tv_top_red"
                                         android:layout_width="75dp"
                                         android:layout_height="1dp"
+                                        android:visibility="gone"
                                         android:layout_alignParentEnd="true"
                                         android:layout_alignParentRight="true"
                                         android:background="@color/red" />
@@ -276,6 +287,7 @@
                                         android:layout_centerVertical="true"
                                         android:layout_marginRight="10dp"
                                         android:text="SOLD OUT"
+                                        android:visibility="gone"
                                         android:textColor="@color/red"
                                         android:textSize="@dimen/text_size_12" />
 
@@ -286,6 +298,7 @@
                                         android:layout_width="75dp"
                                         android:layout_height="1dp"
                                         android:layout_alignParentRight="true"
+                                        android:visibility="gone"
                                         android:layout_below="@+id/img_out_of_stock"
                                         android:background="@color/red" />
 
@@ -372,6 +385,7 @@
                                         android:layout_height="@dimen/plus_minus_buttons"
                                         android:text="Add"
                                         android:textAllCaps="true"
+                                        android:visibility="gone"
                                         android:gravity="center"
                                         android:textColor="@color/white"
                                         android:textSize="@dimen/text_size_16"

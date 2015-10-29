@@ -47,7 +47,40 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    android:weightSum="2"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/facebook_icon"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/register_facebook" />
+
+
+                    <ImageView
+                        android:id="@+id/reg_google_plus_left_icon"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/google_register" />
+
+                    </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
                     android:orientation="vertical"
+                    android:visibility="gone"
                     android:padding="20dp">
 
                     <RelativeLayout
@@ -56,7 +89,7 @@
                         android:layout_height="40dp">
 
                         <ImageView
-                            android:id="@+id/facebook_icon"
+                            android:id="@+id/facebook_icon_1"
                             android:layout_width="40dp"
                             android:layout_height="match_parent"
                             android:background="@drawable/facebook_curve"
@@ -67,7 +100,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="2dp"
-                            android:layout_toRightOf="@+id/facebook_icon"
+                            android:layout_toRightOf="@+id/facebook_icon_1"
                             android:background="@drawable/facebook_curve"
                             android:gravity="center"
                             android:text="Join with Facebook"
@@ -83,7 +116,7 @@
                         android:layout_marginTop="10dp">
 
                         <ImageView
-                            android:id="@+id/reg_google_plus_left_icon"
+                            android:id="@+id/reg_google_plus_left_icon_1"
                             android:layout_width="40dp"
                             android:layout_height="match_parent"
                             android:layout_centerVertical="true"
@@ -96,7 +129,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="2dp"
-                            android:layout_toRightOf="@+id/reg_google_plus_left_icon"
+                            android:layout_toRightOf="@+id/reg_google_plus_left_icon_1"
                             android:background="@drawable/google_curve"
                             android:gravity="center"
                             android:text="Join with Google"
@@ -114,10 +147,10 @@
                     android:layout_margin="8dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="5dp"
-                    android:text="Or Signup"
+                    android:text="Or Signup Here"
                     android:textAllCaps="true"
-                    android:textColor="@color/pallete_black"
-                    android:textSize="@dimen/text_size_16" />
+                    android:textColor="#1d1d1d"
+                    android:textSize="@dimen/text_size_14" />
             </LinearLayout>
 
             <LinearLayout
@@ -143,7 +176,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="First Name"
-                            android:textSize="@dimen/text_size_14" />
+                            android:textSize="@dimen/text_size_11" />
 
                         <EditText
                             android:id="@+id/et_register_first_name"
@@ -153,12 +186,12 @@
                             android:hint="required"
                             android:singleLine="true"
                             android:textColorHint="@color/register_address_text_unselected_color"
-                            android:textSize="@dimen/text_size_15" />
+                            android:textSize="@dimen/text_size_14" />
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@color/register_address_text_unselected_color"></View>
+                            android:background="@color/register_line_color"></View>
 
                     </LinearLayout>
 
@@ -172,7 +205,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Last Name"
-                            android:textSize="@dimen/text_size_14" />
+                            android:paddingTop="10dp"
+                            android:textSize="@dimen/text_size_11" />
 
                         <EditText
                             android:id="@+id/et_register_last_name"
@@ -182,19 +216,18 @@
                             android:hint="required"
                             android:singleLine="true"
                             android:textColorHint="@color/register_address_text_unselected_color"
-                            android:textSize="@dimen/text_size_15" />
+                            android:textSize="@dimen/text_size_14" />
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@color/register_address_text_unselected_color"></View>
+                            android:background="@color/register_line_color"></View>
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
 
@@ -202,7 +235,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Mobile No"
-                            android:textSize="@dimen/text_size_14" />
+                            android:paddingTop="10dp"
+                            android:textSize="@dimen/text_size_11" />
 
                         <EditText
                             android:id="@+id/et_register_mobileno"
@@ -214,19 +248,18 @@
                             android:maxLength="10"
                             android:singleLine="true"
                             android:textColorHint="@color/register_address_text_unselected_color"
-                            android:textSize="@dimen/text_size_15" />
+                            android:textSize="@dimen/text_size_14" />
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@color/register_address_text_unselected_color"></View>
+                            android:background="@color/register_line_color"></View>
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
 
@@ -234,9 +267,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Email"
-                            android:textSize="@dimen/text_size_14" />
-
-                        //TODO abhi now it is full name
+                            android:paddingTop="10dp"
+                            android:textSize="@dimen/text_size_11" />
 
                         <EditText
                             android:id="@+id/et_register_email"
@@ -246,19 +278,18 @@
                             android:hint="required"
                             android:singleLine="true"
                             android:textColorHint="@color/register_address_text_unselected_color"
-                            android:textSize="@dimen/text_size_15" />
+                            android:textSize="@dimen/text_size_14" />
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@color/register_address_text_unselected_color"></View>
+                            android:background="@color/register_line_color"></View>
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
 
@@ -266,7 +297,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Password"
-                            android:textSize="@dimen/text_size_14" />
+                            android:paddingTop="10dp"
+                            android:textSize="@dimen/text_size_11" />
 
                         <EditText
                             android:id="@+id/et_register_password"
@@ -276,12 +308,12 @@
                             android:hint="required"
                             android:singleLine="true"
                             android:textColorHint="@color/register_address_text_unselected_color"
-                            android:textSize="@dimen/text_size_15" />
+                            android:textSize="@dimen/text_size_14" />
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@color/register_address_text_unselected_color"></View>
+                            android:background="@color/register_line_color"></View>
 
                     </LinearLayout>
 
@@ -289,7 +321,6 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
 
@@ -297,7 +328,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Confirm Password"
-                            android:textSize="@dimen/text_size_14" />
+                            android:paddingTop="10dp"
+                            android:textSize="@dimen/text_size_11" />
 
                         <EditText
                             android:id="@+id/et_register_confirm_pwd"
@@ -307,7 +339,12 @@
                             android:hint="required"
                             android:singleLine="true"
                             android:textColorHint="@color/register_address_text_unselected_color"
-                            android:textSize="@dimen/text_size_15" />
+                            android:textSize="@dimen/text_size_14" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/register_line_color"></View>
 
                     </LinearLayout>
 
@@ -322,7 +359,8 @@
                             android:id="@+id/tv_regsiter_gender_heading"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Gender"
+                            android:text="Gender (Optional)"
+                            android:paddingTop="10dp"
                             android:textSize="@dimen/text_size_14" />
 
                         <LinearLayout
@@ -344,7 +382,7 @@
                                     android:layout_height="25dp"
                                     android:layout_marginLeft="5dp"
                                     android:layout_marginTop="5dp"
-                                    android:src="@drawable/checkbox_unselect" />
+                                    android:src="@drawable/checkbox_unselect"/>
 
                                 <CheckBox
                                     android:id="@+id/cb_male"
@@ -353,7 +391,6 @@
                                     android:visibility="gone" />
 
                                 <TextView
-
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
