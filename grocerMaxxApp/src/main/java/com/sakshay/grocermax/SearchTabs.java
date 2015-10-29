@@ -473,8 +473,14 @@ public class SearchTabs extends BaseActivity{
 		}
 //		clickStatus=0;
 	}
-	
-//	@Override
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+
+	}
+
+	//	@Override
 //	public void onBackPressed() {
 //		// TODO Auto-generated method stub
 //		super.onBackPressed();

@@ -1,6 +1,7 @@
 package com.sakshay.grocermax;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -44,7 +45,6 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
     boolean isLoading = false;
     int itemPerPage = 10;
     boolean hasMoreItem = true;
-
     private String header = "";
     private ListView mList;
     ProductListAdapter mAdapter;

@@ -56,6 +56,7 @@ public class ItemDetailGrid extends Fragment {
 //        recyclerView.setAdapter(optionsListAdapter);
 //        optionsListAdapter.setListData(offerList);
 
+
         ((BaseActivity) getActivity()).initHeader(getActivity().findViewById(R.id.header_left), true, AppConstants.strTitleHotDeal);
         ((BaseActivity) getActivity()).findViewById(R.id.header_left).setVisibility(View.VISIBLE);
         ((BaseActivity) getActivity()).findViewById(R.id.header).setVisibility(View.GONE);

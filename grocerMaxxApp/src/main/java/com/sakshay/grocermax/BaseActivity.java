@@ -100,7 +100,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	public DisplayImageOptions baseImageoptions;
 	private static SearchLoader searchLoader = null;
 	ImageView icon_header_back;
-//	ImageView icon_header_logo,
+	//	ImageView icon_header_logo,
 	ImageView icon_header_logo_without_search,icon_header_logo_with_search;
 	ImageView /*icon_header_cart,*/ icon_header_search;
 	ImageButton icon_header_cart;
@@ -108,7 +108,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	public static TextView cart_count_txt;
 	private PopupWindow popupMenuOption;
 	private LinearLayout llSearchLayout;
-//	private ImageView ivSearchHeaderBack;
+	//	private ImageView ivSearchHeaderBack;
 	public EditText edtSearch;
 	private ImageView imgSearchIcon;
 	private ImageView imgSearchCloseIcon;
@@ -160,7 +160,7 @@ public abstract class BaseActivity extends FragmentActivity {
 //				if(keyboardVisibility)
 //					imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
 //			}
-		    icon_header_back = (ImageView) view.findViewById(R.id.icon_header_back);
+			icon_header_back = (ImageView) view.findViewById(R.id.icon_header_back);
 			tvHeaderName = (TextView) view.findViewById(R.id.tv_appbar_breadcrumb);
 			icon_header_user = (ImageButton) view.findViewById(R.id.icon_header_user);
 			icon_header_cart = (ImageButton) view.findViewById(R.id.icon_header_cart);
@@ -170,7 +170,7 @@ public abstract class BaseActivity extends FragmentActivity {
 			icon_header_logo_without_search = (ImageView) view.findViewById(R.id.icon_header_logo_without_search);
 			icon_header_logo_with_search = (ImageView) view.findViewById(R.id.icon_header_logo_with_search);
 			llSearchLayout = (LinearLayout) view.findViewById(R.id.llSearchLayout);
-//			ivSearchHeaderBack = (ImageView) view.findViewById(R.id.iv_search_header_back);
+
 			edtSearch = (EditText) view.findViewById(R.id.edtSearch);
 			imgSearchIcon = (ImageView) view.findViewById(R.id.imgSearchIcon);
 			imgSearchCloseIcon = (ImageView) view
@@ -228,41 +228,41 @@ public abstract class BaseActivity extends FragmentActivity {
 				icon_header_search.setVisibility(View.GONE);
 			}
 
-		icon_header_logo_with_search.setOnClickListener(headerClick);
-		if(icon_header_logo_without_search != null)
-			icon_header_logo_without_search.setOnClickListener(headerClick);
-		icon_header_user.setOnClickListener(headerClick);
-		icon_header_cart.setOnClickListener(headerClick);
-		cart_count_txt.setOnClickListener(headerClick);
-		imgSearchIcon.setOnClickListener(headerClick);
-		imgSearchCloseIcon.setOnClickListener(headerClick);
+			icon_header_logo_with_search.setOnClickListener(headerClick);
+			if(icon_header_logo_without_search != null)
+				icon_header_logo_without_search.setOnClickListener(headerClick);
+			icon_header_user.setOnClickListener(headerClick);
+			icon_header_cart.setOnClickListener(headerClick);
+			cart_count_txt.setOnClickListener(headerClick);
+			imgSearchIcon.setOnClickListener(headerClick);
+			imgSearchCloseIcon.setOnClickListener(headerClick);
 
-		if(icon_header_back != null && tvHeaderName != null) {
-			icon_header_back.setOnClickListener(headerClick);
-			tvHeaderName.setOnClickListener(headerClick);
-		}
+			if(icon_header_back != null && tvHeaderName != null) {
+				icon_header_back.setOnClickListener(headerClick);
+				tvHeaderName.setOnClickListener(headerClick);
+			}
 
 			edtSearch.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-						bBack = false;
+					bBack = false;
 				}
 			});
 
-		edtSearch.setOnEditorActionListener(new OnEditorActionListener() {
+			edtSearch.setOnEditorActionListener(new OnEditorActionListener() {
 
-			@Override
-			public boolean onEditorAction(TextView v, int actionId,
-					KeyEvent event) {
+				@Override
+				public boolean onEditorAction(TextView v, int actionId,
+											  KeyEvent event) {
 
-				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-					UtilityMethods.hideKeyboardFromContext(BaseActivity.this);
+					if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+						UtilityMethods.hideKeyboardFromContext(BaseActivity.this);
 
-					goforsearch();
-				}
-				return false;
+						goforsearch();
+					}
+					return false;
 				}
 			});
 		}catch(Exception e){
@@ -296,7 +296,7 @@ public abstract class BaseActivity extends FragmentActivity {
 						break;
 					case R.id.icon_header_logo_with_search:
 
-							showSearchView(false);
+						showSearchView(false);
 //							Intent intent = new Intent(mContext, HotOffersActivity.class);
 //							intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //							startActivity(intent);
@@ -305,10 +305,10 @@ public abstract class BaseActivity extends FragmentActivity {
 						break;
 					case R.id.icon_header_logo_without_search:
 
-							Intent intent1 = new Intent(mContext, HotOffersActivity.class);
-							intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-							startActivity(intent1);
-							finish();
+						Intent intent1 = new Intent(mContext, HotOffersActivity.class);
+						intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						startActivity(intent1);
+						finish();
 
 						break;
 					case R.id.icon_header_search:
@@ -327,21 +327,21 @@ public abstract class BaseActivity extends FragmentActivity {
 //						imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 						break;
 					case R.id.icon_header_user:
-				HotOffersActivity.isFromFragment=false;
-								if (keyboardVisibility)
+						HotOffersActivity.isFromFragment=false;
+						if (keyboardVisibility)
 							UtilityMethods.hideKeyBoard(BaseActivity.this);
 //							showMoreOption(icon_header_user);
-                        Intent intent2 = null;
-                        if (MySharedPrefs.INSTANCE.getLoginStatus()) {
-                            intent2 = new Intent(mContext, UserHeaderProfile.class);
-                        }else{
-                            intent2 = new Intent(mContext, LoginActivity.class);
-                        }
-								startActivity(intent2);
+						Intent intent2 = null;
+						if (MySharedPrefs.INSTANCE.getLoginStatus()) {
+							intent2 = new Intent(mContext, UserHeaderProfile.class);
+						}else{
+							intent2 = new Intent(mContext, LoginActivity.class);
+						}
+						startActivity(intent2);
 
 						if(UtilityMethods.getCurrentClassName(BaseActivity.this).equals(getApplicationContext().getPackageName() + ".CartProductList")) {
-								finish();
-						 }
+							finish();
+						}
 						break;
 					case R.id.nom_producte:
 //						goToCart();
@@ -417,39 +417,39 @@ public abstract class BaseActivity extends FragmentActivity {
 
 		try {
 
-		if (b) {
-			cart_count_txt.setVisibility(View.GONE);
-			icon_header_user.setVisibility(View.GONE);
-			icon_header_cart.setVisibility(View.GONE);
-			rlSearchLook.setVisibility(View.VISIBLE);
-			llLeftIcon.setVisibility(View.VISIBLE);               //
-			llLeftIcon1.setVisibility(View.GONE);               //
-			icon_header_search.setVisibility(View.GONE);
-			llSearchLayout.setVisibility(View.VISIBLE);
+			if (b) {
+				cart_count_txt.setVisibility(View.GONE);
+				icon_header_user.setVisibility(View.GONE);
+				icon_header_cart.setVisibility(View.GONE);
+				rlSearchLook.setVisibility(View.VISIBLE);
+				llLeftIcon.setVisibility(View.VISIBLE);               //
+				llLeftIcon1.setVisibility(View.GONE);               //
+				icon_header_search.setVisibility(View.GONE);
+				llSearchLayout.setVisibility(View.VISIBLE);
 //			ivSearchHeaderBack.setVisibility(View.VISIBLE);
-			edtSearch.setCursorVisible(true);
-			edtSearch.setFocusable(true);
-			edtSearch.requestFocus();
+				edtSearch.setCursorVisible(true);
+				edtSearch.setFocusable(true);
+				edtSearch.requestFocus();
 
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-		} else {
-			cart_count_txt.setVisibility(View.VISIBLE);
-			icon_header_user.setVisibility(View.VISIBLE);
-			icon_header_cart.setVisibility(View.VISIBLE);
-			rlSearchLook.setVisibility(View.VISIBLE);
-			llLeftIcon.setVisibility(View.GONE);                       //
-			llLeftIcon1.setVisibility(View.VISIBLE);               //
-			icon_header_search.setVisibility(View.VISIBLE);
-			llSearchLayout.setVisibility(View.GONE);
-//			ivSearchHeaderBack.setVisibility(View.GONE);
-			edtSearch.getText().clear();
-			if(bBack){}
-			else if(!bBack) {
 				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+			} else {
+				cart_count_txt.setVisibility(View.VISIBLE);
+				icon_header_user.setVisibility(View.VISIBLE);
+				icon_header_cart.setVisibility(View.VISIBLE);
+				rlSearchLook.setVisibility(View.VISIBLE);
+				llLeftIcon.setVisibility(View.GONE);                       //
+				llLeftIcon1.setVisibility(View.VISIBLE);               //
+				icon_header_search.setVisibility(View.VISIBLE);
+				llSearchLayout.setVisibility(View.GONE);
+//			ivSearchHeaderBack.setVisibility(View.GONE);
+				edtSearch.getText().clear();
+				if(bBack){}
+				else if(!bBack) {
+					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+				}
 			}
-		}
 		}catch(Exception e) {
 			new GrocermaxBaseException("BaseActivity", "showSearchView", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
@@ -470,6 +470,7 @@ public abstract class BaseActivity extends FragmentActivity {
 					UtilityMethods.customToast(ToastConstant.APPROPRIATE_QUERY,mContext);
 					return;
 				}
+
 				String url = UrlsConstants.SEARCH_PRODUCT + search_key;
 				url = url.replace(" ", "%20");
 				SearchLoader searchLoader  = new SearchLoader(this,search_key);
@@ -588,9 +589,9 @@ public abstract class BaseActivity extends FragmentActivity {
 		catch(Exception e){
 			new GrocermaxBaseException("BaseActivity", "goToCart", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
-		
+
 	}
-	
+
 	private void addToCartNewProduct(){
 
 		ArrayList<CartDetail> cart_products = null;
@@ -598,29 +599,29 @@ public abstract class BaseActivity extends FragmentActivity {
 			cart_products = UtilityMethods.readLocalCart(BaseActivity.this, Constants.localCartFile);
 			if (cart_products != null && cart_products.size() >= 0) {
 
-					JSONArray products = new JSONArray();
-					for (int i = 0; i < cart_products.size(); i++) {
-						JSONObject prod_obj = new JSONObject();
-						prod_obj.put("productid", cart_products.get(i).getItem_id());
-						prod_obj.put("quantity", cart_products.get(i).getQty());
-						products.put(prod_obj);
-					}
+				JSONArray products = new JSONArray();
+				for (int i = 0; i < cart_products.size(); i++) {
+					JSONObject prod_obj = new JSONObject();
+					prod_obj.put("productid", cart_products.get(i).getItem_id());
+					prod_obj.put("quantity", cart_products.get(i).getQty());
+					products.put(prod_obj);
+				}
 
-					String url;
-					if (MySharedPrefs.INSTANCE.getQuoteId() == null || MySharedPrefs.INSTANCE.getQuoteId().equals("")) {
-						System.out.println("without quote json=" + products.toString());
-						url = UrlsConstants.ADD_TO_CART_URL
-								+ MySharedPrefs.INSTANCE.getUserId() + "&products="
-								+ URLEncoder.encode(products.toString(), "UTF-8");
-					} else {
-						System.out.println("with quote json=" + products.toString());
-						url = UrlsConstants.ADD_TO_CART_URL
-								+ MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId() + "&products="
-								+ URLEncoder.encode(products.toString(), "UTF-8");
-					}
-					String urls = url;
-					//String url = UrlsConstants.ADD_TO_CART_URL + userDataBean.getUserID() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+ "&products="+ URLEncoder.encode(products.toString(), "UTF-8");
-					myApi.reqAddToCartNewProduct(url);
+				String url;
+				if (MySharedPrefs.INSTANCE.getQuoteId() == null || MySharedPrefs.INSTANCE.getQuoteId().equals("")) {
+					System.out.println("without quote json=" + products.toString());
+					url = UrlsConstants.ADD_TO_CART_URL
+							+ MySharedPrefs.INSTANCE.getUserId() + "&products="
+							+ URLEncoder.encode(products.toString(), "UTF-8");
+				} else {
+					System.out.println("with quote json=" + products.toString());
+					url = UrlsConstants.ADD_TO_CART_URL
+							+ MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId() + "&products="
+							+ URLEncoder.encode(products.toString(), "UTF-8");
+				}
+				String urls = url;
+				//String url = UrlsConstants.ADD_TO_CART_URL + userDataBean.getUserID() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+ "&products="+ URLEncoder.encode(products.toString(), "UTF-8");
+				myApi.reqAddToCartNewProduct(url);
 
 			}
 		}catch(NullPointerException e){
@@ -629,8 +630,8 @@ public abstract class BaseActivity extends FragmentActivity {
 			new GrocermaxBaseException("BaseActivity", "addToCartNewProduct", e.getMessage(), GrocermaxBaseException.EXCEPTION, String.valueOf(cart_products));
 		}
 	}
-	
-	
+
+
 
 	private TextView[] footerButton;
 
@@ -644,13 +645,13 @@ public abstract class BaseActivity extends FragmentActivity {
 		 * (TextView)view.findViewById(R.id.product); footerButton[3] =
 		 * (TextView)view.findViewById(R.id.offer); footerButton[4] =
 		 * (TextView)view.findViewById(R.id.checkout);
-		 * 
+		 *
 		 * setAllFooterEnable();
-		 * 
+		 *
 		 * setFooterDisable(disable);
-		 * 
+		 *
 		 * setFooterSelected(selected);
-		 * 
+		 *
 		 * for (int i = 0; i < footerButton.length; i++) {
 		 * footerButton[i].setOnClickListener(footerClick); }
 		 */
@@ -729,14 +730,14 @@ public abstract class BaseActivity extends FragmentActivity {
 
 	private void setFooterDisable(int position) {
 		try{
-		if (footerButton == null) {
-			return;
-		}
-		for (int i = 0; i < footerButton.length; i++) {
-			if (i == position) {
-				footerButton[i].setEnabled(false);
+			if (footerButton == null) {
+				return;
 			}
-		}
+			for (int i = 0; i < footerButton.length; i++) {
+				if (i == position) {
+					footerButton[i].setEnabled(false);
+				}
+			}
 		}catch(Exception e){
 			new GrocermaxBaseException("BaseActivity", "setFooterDisable", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
@@ -1058,7 +1059,7 @@ public abstract class BaseActivity extends FragmentActivity {
 			}
 		}
 	};
-	
+
 	public void openOrderHistory()
 	{
 		try{
@@ -1116,9 +1117,9 @@ public abstract class BaseActivity extends FragmentActivity {
 
 	public void dismissDialog() {
 		try{
-		if (mProgressDialog != null && mProgressDialog.isShowing()) {
-			mProgressDialog.dismiss();
-		}
+			if (mProgressDialog != null && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
 		}catch(Exception e){
 			new GrocermaxBaseException("BaseActivity", "dismissDialog", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
@@ -1164,10 +1165,10 @@ public abstract class BaseActivity extends FragmentActivity {
 	private void registerReceiver() {
 		try {
 			if (!isRegister) {
-			LocalBroadcastManager.getInstance(mContext).registerReceiver(
-					receiver, intentFilter);
-			isRegister = true;
-		}
+				LocalBroadcastManager.getInstance(mContext).registerReceiver(
+						receiver, intentFilter);
+				isRegister = true;
+			}
 		}catch(Exception e){
 			new GrocermaxBaseException("BaseActivity", "registerReceiver", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
@@ -1190,31 +1191,31 @@ public abstract class BaseActivity extends FragmentActivity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			try{
-			dismissDialog();
-			Bundle bundle = intent.getBundleExtra(ConnectionService.DATA);
-			String errorString = bundle.getString(ConnectionService.ERROR);
-			if (errorString == null) {
-				if (intent.getAction().equals(MyReceiverActions.USER_DETAILS)) {
-					UserDetailBean bean = (UserDetailBean) bundle
-							.getSerializable(ConnectionService.RESPONSE);
-					Intent i = new Intent(mContext, UserProfile.class);
-					i.putExtra("UserDetailBean", bean);
-					startActivity(i);
-				} else if (intent.getAction().equals(
-						MyReceiverActions.ORDER_HISTORY)) {
-					OrderHistoryBean bean = (OrderHistoryBean) bundle
-							.getSerializable(ConnectionService.RESPONSE);
-					Intent i = new Intent(mContext, OrderHistory.class);
-					i.putExtra("OrderHistory", bean);
-					startActivity(i);
-				}
+				dismissDialog();
+				Bundle bundle = intent.getBundleExtra(ConnectionService.DATA);
+				String errorString = bundle.getString(ConnectionService.ERROR);
+				if (errorString == null) {
+					if (intent.getAction().equals(MyReceiverActions.USER_DETAILS)) {
+						UserDetailBean bean = (UserDetailBean) bundle
+								.getSerializable(ConnectionService.RESPONSE);
+						Intent i = new Intent(mContext, UserProfile.class);
+						i.putExtra("UserDetailBean", bean);
+						startActivity(i);
+					} else if (intent.getAction().equals(
+							MyReceiverActions.ORDER_HISTORY)) {
+						OrderHistoryBean bean = (OrderHistoryBean) bundle
+								.getSerializable(ConnectionService.RESPONSE);
+						Intent i = new Intent(mContext, OrderHistory.class);
+						i.putExtra("OrderHistory", bean);
+						startActivity(i);
+					}
 //				else if(intent.getAction().equalsIgnoreCase(MyReceiverActions.VIEW_CART_UPDATE_LOCALLY)){
 //					System.out.print("====");
 //					BaseResponseBean bean = (BaseResponseBean) bundle
 //							.getSerializable(ConnectionService.RESPONSE);
 //				}
-					
-				else if(intent.getAction().equalsIgnoreCase(MyReceiverActions.ADD_TO_CART_NEW_PRODUCT)){
+
+					else if(intent.getAction().equalsIgnoreCase(MyReceiverActions.ADD_TO_CART_NEW_PRODUCT)){
 //					if (action.equalsIgnoreCase(MyReceiverActions.ADD_TO_CART)) {
 						BaseResponseBean bean = (BaseResponseBean) bundle
 								.getSerializable(ConnectionService.RESPONSE);
@@ -1228,67 +1229,67 @@ public abstract class BaseActivity extends FragmentActivity {
 							MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(bean.getTotalItem()));
 							cart_count_txt.setText(String.valueOf(bean.getTotalItem()));
 							UtilityMethods.deleteLocalCart(BaseActivity.this);
-							
+
 							String url = UrlsConstants.VIEW_CART_URL+ MySharedPrefs.INSTANCE.getUserId()+"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId();
 							myApi.reqViewCart(url);
-							
+
 						} else {
 //							Toast.makeText(
 //									mContext,
 //									bean.getResult(),
 //									Toast.LENGTH_LONG).show();
-							
+
 //							MySharedPrefs.INSTANCE.putQuoteId(bean.getQuoteId());
 //							MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(bean.getTotalItem()));
 //							finish();
 							UtilityMethods.customToast(bean.getResult(), mContext);
 						}
 //					}
-				}
-				
-				else if (intent.getAction().equals(
-						MyReceiverActions.VIEW_CART)) {
+					}
 
-					cart_count_txt.setText(String.valueOf(MySharedPrefs.INSTANCE.getTotalItem()));               //added latest
+					else if (intent.getAction().equals(
+							MyReceiverActions.VIEW_CART)) {
 
- 					CartDetailBean cartBean = (CartDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
-					if(cartBean.getItems().size()>0)
-					{
-						UtilityMethods.deleteLocalCart(BaseActivity.this);                   //new 1/9/2015
-						UtilityMethods.deleteCloneCart(BaseActivity.this);
-						for(int i=0;i<cartBean.getItems().size();i++)
+						cart_count_txt.setText(String.valueOf(MySharedPrefs.INSTANCE.getTotalItem()));               //added latest
+
+						CartDetailBean cartBean = (CartDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
+						if(cartBean.getItems().size()>0)
 						{
-							UtilityMethods.writeCloneCart(BaseActivity.this, Constants.localCloneFile, cartBean.getItems().get(i));
-						}			
+							UtilityMethods.deleteLocalCart(BaseActivity.this);                   //new 1/9/2015
+							UtilityMethods.deleteCloneCart(BaseActivity.this);
+							for(int i=0;i<cartBean.getItems().size();i++)
+							{
+								UtilityMethods.writeCloneCart(BaseActivity.this, Constants.localCloneFile, cartBean.getItems().get(i));
+							}
 
-						Intent i = new Intent(mContext, CartProductList.class);
-						Bundle bundle_cart = new Bundle();
-						bundle_cart.putParcelableArrayList("cartList",cartBean.getItems());
-						bundle_cart.putSerializable("cartBean", cartBean);
-						i.putExtras(bundle_cart);
+							Intent i = new Intent(mContext, CartProductList.class);
+							Bundle bundle_cart = new Bundle();
+							bundle_cart.putParcelableArrayList("cartList",cartBean.getItems());
+							bundle_cart.putSerializable("cartBean", cartBean);
+							i.putExtras(bundle_cart);
+							startActivity(i);
+						}
+						else
+						{
+							UtilityMethods.customToast(ToastConstant.CART_EMPTY, mContext);
+						}
+
+
+					} else if (intent.getAction().equals(
+							MyReceiverActions.ADDRESS_BOOK)) {
+						AddressList bean = (AddressList) bundle
+								.getSerializable(ConnectionService.RESPONSE);
+						Intent i = new Intent(mContext, AddressDetail.class);
+						i.putExtra("AddressList", bean);
 						startActivity(i);
-					}
-					else
-					{
-						UtilityMethods.customToast(ToastConstant.CART_EMPTY, mContext);
-					}
-				
-				
-				} else if (intent.getAction().equals(
-						MyReceiverActions.ADDRESS_BOOK)) {
-					AddressList bean = (AddressList) bundle
-							.getSerializable(ConnectionService.RESPONSE);
-					Intent i = new Intent(mContext, AddressDetail.class);
-					i.putExtra("AddressList", bean);
-					startActivity(i);
-				}else if (intent.getAction().equals(
-						MyReceiverActions.DEAL_PRODUCT_LIST)) {
-					DealListBean dealListBean = (DealListBean) bundle
-							.getSerializable(ConnectionService.RESPONSE);
-					if(dealListBean == null){
-						UtilityMethods.customToast(ToastConstant.NO_PRODUCT, mContext);
-						return;
-					}
+					}else if (intent.getAction().equals(
+							MyReceiverActions.DEAL_PRODUCT_LIST)) {
+						DealListBean dealListBean = (DealListBean) bundle
+								.getSerializable(ConnectionService.RESPONSE);
+						if(dealListBean == null){
+							UtilityMethods.customToast(ToastConstant.NO_PRODUCT, mContext);
+							return;
+						}
 //					if (dealListBean.getFlag().equalsIgnoreCase("1")) {
 						Intent call = new Intent(mContext,
 								DealListScreen.class);
@@ -1306,96 +1307,96 @@ public abstract class BaseActivity extends FragmentActivity {
 //					}
 
 
-				}
+					}
 
-				else if (intent.getAction().equals(
-						MyReceiverActions.SEARCH_PRODUCT_LIST)) {
+					else if (intent.getAction().equals(
+							MyReceiverActions.SEARCH_PRODUCT_LIST)) {
 
-					ProductListBean productListBean = (ProductListBean) bundle
-							.getSerializable(ConnectionService.RESPONSE);
-					if (productListBean == null) {
+						ProductListBean productListBean = (ProductListBean) bundle
+								.getSerializable(ConnectionService.RESPONSE);
+						if (productListBean == null) {
 //						Toast.makeText(mContext,ToastConstant.NO_PRODUCT,
 //								Toast.LENGTH_LONG).show();
-						UtilityMethods.customToast(ToastConstant.NO_PRODUCT, mContext);
-						return;
-					}
-					edtSearch.getText().clear();
-					edtSearch.requestFocus();
-					MySharedPrefs.INSTANCE.putIsSearched(true);
-					MySharedPrefs.INSTANCE.putSearchKey(search_key.trim());
-					MySharedPrefs.INSTANCE.putBradecrum("");
+							UtilityMethods.customToast(ToastConstant.NO_PRODUCT, mContext);
+							return;
+						}
+						edtSearch.getText().clear();
+						edtSearch.requestFocus();
+						MySharedPrefs.INSTANCE.putIsSearched(true);
+						MySharedPrefs.INSTANCE.putSearchKey(search_key.trim());
+						MySharedPrefs.INSTANCE.putBradecrum("");
 
-					if (productListBean.getFlag().equalsIgnoreCase("1")) {
-						Intent call = new Intent(mContext,
-								ProductListScreen.class);
-						Bundle call_bundle = new Bundle();
-						call_bundle.putSerializable("ProductList",
-								productListBean);
-						call_bundle.putSerializable("Header", "");
-						// call_bundle.putString("cat_id",
-						// category.getCategoryId());
-						call.putExtras(call_bundle);
-						startActivity(call);
+						if (productListBean.getFlag().equalsIgnoreCase("1")) {
+							Intent call = new Intent(mContext,
+									ProductListScreen.class);
+							Bundle call_bundle = new Bundle();
+							call_bundle.putSerializable("ProductList",
+									productListBean);
+							call_bundle.putSerializable("Header", "");
+							// call_bundle.putString("cat_id",
+							// category.getCategoryId());
+							call.putExtras(call_bundle);
+							startActivity(call);
 
-					} else {
+						} else {
 //						Toast.makeText(mContext, productListBean.getResult(),
 //								Toast.LENGTH_LONG).show();
-						UtilityMethods.customToast(productListBean.getResult(), mContext);
-					}
+							UtilityMethods.customToast(productListBean.getResult(), mContext);
+						}
 
-				} else if(intent.getAction().equals(
-						MyReceiverActions.PRODUCT_LIST_FROM_HOME)){
-					ProductListBean productListBean = (ProductListBean) bundle
-							.getSerializable(ConnectionService.RESPONSE);
-					if (productListBean.getFlag().equalsIgnoreCase("1")) {
-						MySharedPrefs.INSTANCE.putIsSearched(false);
-						Intent call = new Intent(mContext,
-								ProductListScreen.class);
-						Bundle call_bundle = new Bundle();
-						call_bundle.putSerializable("ProductList",
-								productListBean);
-						call_bundle.putSerializable("Header", "");
-						 call_bundle.putString("cat_id",MySharedPrefs.INSTANCE.getCatId());
-						call.putExtras(call_bundle);
-						startActivity(call);
+					} else if(intent.getAction().equals(
+							MyReceiverActions.PRODUCT_LIST_FROM_HOME)){
+						ProductListBean productListBean = (ProductListBean) bundle
+								.getSerializable(ConnectionService.RESPONSE);
+						if (productListBean.getFlag().equalsIgnoreCase("1")) {
+							MySharedPrefs.INSTANCE.putIsSearched(false);
+							Intent call = new Intent(mContext,
+									ProductListScreen.class);
+							Bundle call_bundle = new Bundle();
+							call_bundle.putSerializable("ProductList",
+									productListBean);
+							call_bundle.putSerializable("Header", "");
+							call_bundle.putString("cat_id",MySharedPrefs.INSTANCE.getCatId());
+							call.putExtras(call_bundle);
+							startActivity(call);
 
-					} else {
+						} else {
 //						Toast.makeText(mContext, productListBean.getResult(),Toast.LENGTH_LONG).show();
-						UtilityMethods.customToast(productListBean.getResult(), mContext);
-					}
-				}else if(intent.getAction().equals(MyReceiverActions.ADD_TO_CART_GUEST)){
+							UtilityMethods.customToast(productListBean.getResult(), mContext);
+						}
+					}else if(intent.getAction().equals(MyReceiverActions.ADD_TO_CART_GUEST)){
 
-					BaseResponseBean bean = (BaseResponseBean) bundle.getSerializable(ConnectionService.RESPONSE);
-					if (bean.getFlag().equalsIgnoreCase("1")) {
-						cart_count_txt.setText(String.valueOf(bean.getTotalItem()));
-						UtilityMethods.customToast(ToastConstant.PRODUCT_ADDED_CART, mContext);
-						MySharedPrefs.INSTANCE.putQuoteId(bean.getQuoteId());
-						MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(bean.getTotalItem()));
-						UtilityMethods.deleteLocalCart(BaseActivity.this);
-						showDialog();
-						String url = UrlsConstants.VIEW_CART_URL+ MySharedPrefs.INSTANCE.getUserId()+"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId();
-						myApi.reqViewCart(url);
-					} else if(bean.getFlag().equalsIgnoreCase("0")){
-						UtilityMethods.customToast(bean.getResult(), mContext);
-					}else {
-						UtilityMethods.customToast(ToastConstant.ERROR_MSG, mContext);
-					}
+						BaseResponseBean bean = (BaseResponseBean) bundle.getSerializable(ConnectionService.RESPONSE);
+						if (bean.getFlag().equalsIgnoreCase("1")) {
+							cart_count_txt.setText(String.valueOf(bean.getTotalItem()));
+							UtilityMethods.customToast(ToastConstant.PRODUCT_ADDED_CART, mContext);
+							MySharedPrefs.INSTANCE.putQuoteId(bean.getQuoteId());
+							MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(bean.getTotalItem()));
+							UtilityMethods.deleteLocalCart(BaseActivity.this);
+							showDialog();
+							String url = UrlsConstants.VIEW_CART_URL+ MySharedPrefs.INSTANCE.getUserId()+"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId();
+							myApi.reqViewCart(url);
+						} else if(bean.getFlag().equalsIgnoreCase("0")){
+							UtilityMethods.customToast(bean.getResult(), mContext);
+						}else {
+							UtilityMethods.customToast(ToastConstant.ERROR_MSG, mContext);
+						}
 
 
-				}else if (intent.getAction().equals(MyReceiverActions.ALL_PRODUCTS_CATEGORY)) {
-					//			group_click = 0;
-					Simple responseBean = (Simple) bundle.getSerializable(ConnectionService.RESPONSE);
-					if (responseBean.getFlag().equalsIgnoreCase("1")) {
-						Intent call = new Intent(BaseActivity.this, CategoryTabs.class);
-						Bundle call_bundle = new Bundle();
-						call_bundle.putSerializable("PRODUCTDATA", responseBean);
+					}else if (intent.getAction().equals(MyReceiverActions.ALL_PRODUCTS_CATEGORY)) {
+						//			group_click = 0;
+						Simple responseBean = (Simple) bundle.getSerializable(ConnectionService.RESPONSE);
+						if (responseBean.getFlag().equalsIgnoreCase("1")) {
+							Intent call = new Intent(BaseActivity.this, CategoryTabs.class);
+							Bundle call_bundle = new Bundle();
+							call_bundle.putSerializable("PRODUCTDATA", responseBean);
 //						call_bundle.putSerializable("HEADERNAME", CategoryActivity.strNextScreenHeader);
-						call_bundle.putSerializable("HEADERNAME", AppConstants.strTitleHotDeal);
-						call.putExtras(call_bundle);
-						startActivity(call);
-					}else{
-						UtilityMethods.customToast(AppConstants.ToastConstant.NO_RESULT_FOUND,mContext);
-					}
+							call_bundle.putSerializable("HEADERNAME", AppConstants.strTitleHotDeal);
+							call.putExtras(call_bundle);
+							startActivity(call);
+						}else{
+							UtilityMethods.customToast(AppConstants.ToastConstant.NO_RESULT_FOUND,mContext);
+						}
 //			Simple simple1 = (Simple) bundle.getSerializable(ConnectionService.RESPONSE);
 //			if (responseBean.getResult().equalsIgnoreCase("1")) {
 //				ArrayList<CategoriesProducts> hotproduct = responseBean.getHotproduct();
@@ -1404,21 +1405,21 @@ public abstract class BaseActivity extends FragmentActivity {
 //
 //				}
 //			}
-				}else if (intent.getAction().equals(MyReceiverActions.LOCATION)) {                          //first time hit for location every time when app starts
+					}else if (intent.getAction().equals(MyReceiverActions.LOCATION)) {                          //first time hit for location every time when app starts
 //			LocationListBean locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
-					AppConstants.locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
-					if(AppConstants.locationBean.getFlag().equals("1")) {
-						Intent call = new Intent(BaseActivity.this, LocationActivity.class);
-						Bundle call_bundle = new Bundle();
-						call_bundle.putSerializable("Location", AppConstants.locationBean);
-						call_bundle.putSerializable("FromDrawer", "fromdrawyer");
-						call.putExtras(call_bundle);
-						startActivity(call);
-					}else{
-						UtilityMethods.customToast(AppConstants.ToastConstant.DATA_NOT_FOUND, mContext);
-					}
+						AppConstants.locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
+						if(AppConstants.locationBean.getFlag().equals("1")) {
+							Intent call = new Intent(BaseActivity.this, LocationActivity.class);
+							Bundle call_bundle = new Bundle();
+							call_bundle.putSerializable("Location", AppConstants.locationBean);
+							call_bundle.putSerializable("FromDrawer", "fromdrawyer");
+							call.putExtras(call_bundle);
+							startActivity(call);
+						}else{
+							UtilityMethods.customToast(AppConstants.ToastConstant.DATA_NOT_FOUND, mContext);
+						}
 
-				}
+					}
 
 
 
@@ -1430,21 +1431,21 @@ public abstract class BaseActivity extends FragmentActivity {
 //					SearchListBean searchListBean = (SearchListBean) bundle
 //							.getSerializable(ConnectionService.RESPONSE);
 //				}
-				else {
-					bundle.putString("ACTION", intent.getAction());
-					OnResponse(bundle);
-				}
-			} else {
-				if (errorString
-						.equalsIgnoreCase(ConnectionService.IO_EXCEPTION))
+					else {
+						bundle.putString("ACTION", intent.getAction());
+						OnResponse(bundle);
+					}
+				} else {
+					if (errorString
+							.equalsIgnoreCase(ConnectionService.IO_EXCEPTION))
 //					Toast.makeText(mContext, ToastConstant.msgNoInternet,
 //							Toast.LENGTH_SHORT).show();
-					UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
-				else
+						UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
+					else
 //					Toast.makeText(mContext,ToastConstant.ERROR_MSG,
 //							Toast.LENGTH_SHORT).show();
-					UtilityMethods.customToast(ToastConstant.ERROR_MSG, mContext);
-			}
+						UtilityMethods.customToast(ToastConstant.ERROR_MSG, mContext);
+				}
 			}catch(NullPointerException e){
 				new GrocermaxBaseException("BaseActivity", "BroadcastReceiver", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
 			}catch(Exception e){
@@ -1502,8 +1503,8 @@ public abstract class BaseActivity extends FragmentActivity {
 			new GrocermaxBaseException("BaseActivity", "initImageLoaderM", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 	}
-	
-	
+
+
 	@Override
 	protected void onResumeFragments() {
 		// TODO Auto-generated method stub
@@ -1514,25 +1515,25 @@ public abstract class BaseActivity extends FragmentActivity {
 			new GrocermaxBaseException("BaseActivity", "onResumeFragments", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 	}
-	
+
 	public Session getSession() {
-			return Session.openActiveSession(this, false, callback);
+		return Session.openActiveSession(this, false, callback);
 	}
-	 
+
 	private Session.StatusCallback callback = new Session.StatusCallback() {
-	     public void call(Session session, SessionState state,
-	              Exception exception) {
-	         if (session.isOpened()) {
-	             //Do something
-	         }
-	     }
+		public void call(Session session, SessionState state,
+						 Exception exception) {
+			if (session.isOpened()) {
+				//Do something
+			}
+		}
 	};
 
 
-    public void getKeyBoardVisibility()
-    {
-        KeyboardStatusDetector keyStatus = new KeyboardStatusDetector();
-        keyStatus.registerActivity(BaseActivity.this);
+	public void getKeyBoardVisibility()
+	{
+		KeyboardStatusDetector keyStatus = new KeyboardStatusDetector();
+		keyStatus.registerActivity(BaseActivity.this);
 		keyStatus.setVisibilityListener(null);
 		keyStatus.setVisibilityListener(new KeyboardVisibilityListener() {
 
@@ -1549,11 +1550,11 @@ public abstract class BaseActivity extends FragmentActivity {
 					keyboardVisibility = true;
 				} else {
 					System.out.println("Hide");
-                    keyboardVisibility = false;
-                }
-            }
-        });
-    }
+					keyboardVisibility = false;
+				}
+			}
+		});
+	}
 
 	@Override
 	public void onBackPressed() {
@@ -1633,8 +1634,8 @@ public abstract class BaseActivity extends FragmentActivity {
 			showDialog();
 			String url = UrlsConstants.VIEW_CART_URL + MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
 			myApi.reqViewCart(url);
-		//	UpdateCart updateCart = new UpdateCart(myApi,url);
-		//	updateCart.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+			//	UpdateCart updateCart = new UpdateCart(myApi,url);
+			//	updateCart.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		}
 	}
 

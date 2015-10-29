@@ -70,7 +70,7 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
     private int dividerColor = 0x1A000000;
 
     private boolean shouldExpand = false;
-    private boolean textAllCaps = false;
+    private boolean textAllCaps = true;
     private boolean textAllBold = false;
 
     private int scrollOffset = 52;

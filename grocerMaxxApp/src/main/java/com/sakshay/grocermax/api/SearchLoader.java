@@ -22,12 +22,15 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 
 import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.CartProductList;
 import com.sakshay.grocermax.LoginActivity;
+import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.SearchTabs;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.MyHttpUtils;
 import com.sakshay.grocermax.utils.UtilityMethods;
@@ -281,6 +284,8 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 			((BaseActivity)context).dismissDialog();
 		if (UtilityMethods.getCurrentClassName(context).equals(context.getPackageName() + ".SearchTabs")) {
 			((SearchTabs)context).finish();
+		}else{
+			((BaseActivity) context).showSearchView(false);
 		}
     	Intent call = new Intent(context, SearchTabs.class);
 		call.putExtra("SEARCHSTRING", searchKey);
@@ -290,9 +295,6 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 //			call.putExtras(bundle);
 
 //			call.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//If set, and the activity being launched is already running in the current task, then instead of launching a new instance of that activity, all of the other activities on top of it will be closed and this Intent will be delivered to the (now on top) old activity as a new Intent.
-
-
-
 
 		}catch(JSONException e){
 			((BaseActivity)context).dismissDialog();

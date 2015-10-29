@@ -25,7 +25,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="15dp"
                 android:gravity="center_vertical"
                 android:visibility="gone">
 
@@ -41,9 +40,8 @@
 
                 <ImageView
                     android:id="@+id/icon_header_logo_with_search"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:contentDescription="@string/image_content_desc"
                     android:src="@drawable/carat_left_white" />
             </LinearLayout>
@@ -117,7 +115,8 @@
                         android:background="@drawable/selector_search_appbar" />
                 </LinearLayout>
 
-                <!-- android:src="@drawable/ic_menu_search_holo_light" -->
+                <!-- android:src="@drawable/ic_menu_search_holo_light"
+                -->
 
                 <LinearLayout
                     android:id="@+id/ll_placeholder_cartIcon_appBar"
@@ -176,7 +175,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/ll_left_icon"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:id="@+id/rl_serach_look"
@@ -184,7 +183,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <TextView
                         android:id="@+id/tv1"

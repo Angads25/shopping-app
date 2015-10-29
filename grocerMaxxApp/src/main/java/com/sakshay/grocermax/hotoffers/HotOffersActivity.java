@@ -180,15 +180,17 @@ public class HotOffersActivity extends BaseActivity {
         }
 
         if(!isFromFragment) {
+            initHeader(findViewById(R.id.header), true, null);
             findViewById(R.id.header).setVisibility(View.VISIBLE);
             findViewById(R.id.header_left).setVisibility(View.GONE);
         }else{
             isFromFragment =false;
+//            initHeader(findViewById(R.id.header_left), true, null);
             findViewById(R.id.header).setVisibility(View.GONE);
             findViewById(R.id.header_left).setVisibility(View.VISIBLE);
         }
 
-        initHeader(findViewById(R.id.header), true, null);
+//        initHeader(findViewById(R.id.header), true, null);
         if (isFromCategoryTabs && this.getSupportFragmentManager().getBackStackEntryCount() == 1) {
             isFromCategoryTabs = false;
             drawerLayout.closeDrawer(Gravity.LEFT);

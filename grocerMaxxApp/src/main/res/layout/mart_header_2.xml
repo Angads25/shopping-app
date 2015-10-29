@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="15dp"
+
             android:gravity="center_vertical"
             android:visibility="gone">
 
@@ -28,7 +28,7 @@
             android:id="@+id/icon_header_logo_with_search"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginRight="10dp"
+
             android:contentDescription="@string/image_content_desc"
             android:src="@drawable/carat_left_white" />
             <!--
@@ -87,7 +87,7 @@
                 android:layout_weight="1"
                 android:src="@drawable/user_icon" />
 -->
-            <!-- TODO wire this Abhi after removing whatever is causing placeholder ovewrite in background -->
+
             <LinearLayout
                 android:id="@+id/ll_placeholder_profileIcon_appBar"
                 android:layout_width="wrap_content"
@@ -119,7 +119,7 @@
                 android:src="@drawable/search_icon"
                 />
 -->
-            <!-- TODO wire this Abhi after removing whatever is causing placeholder ovewrite in background -->
+
             <LinearLayout
                 android:id="@+id/ll_placeholder_searchIcon_appBar"
                 android:layout_width="wrap_content"
@@ -160,7 +160,7 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="0dp" />-->
 
-                <!--TODO wire this Abhi after removing whatever is causing placeholder ovewrite in background -->
+
                 <ImageButton
                     android:id="@+id/icon_header_cart"
                     android:layout_width="21dp"

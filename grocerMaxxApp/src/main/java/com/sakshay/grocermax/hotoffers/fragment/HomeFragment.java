@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.HomeBannerBean;
 import com.sakshay.grocermax.bean.ShopByCategoryBean;
@@ -28,6 +29,7 @@ import com.sakshay.grocermax.bean.ShopByDealsBean;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.hotoffers.adapter.ShopByCategoryListAdapter;
 import com.sakshay.grocermax.hotoffers.adapter.ShopByDealsListAdapter;
+import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants;
 
 import java.util.ArrayList;
@@ -81,8 +83,9 @@ public class HomeFragment extends Fragment {
 
         }
 
-        getActivity().findViewById(R.id.header).setVisibility(View.VISIBLE);
-        getActivity().findViewById(R.id.header_left).setVisibility(View.GONE);
+        ((BaseActivity) getActivity()).initHeader(getActivity().findViewById(R.id.header), true, null);
+        ((BaseActivity) getActivity()).findViewById(R.id.header).setVisibility(View.VISIBLE);
+        ((BaseActivity) getActivity()).findViewById(R.id.header_left).setVisibility(View.GONE);
         View view = inflater.inflate(R.layout.home_fragment, container, false);
 
         mPager = (ViewPager) view.findViewById(R.id.pager);

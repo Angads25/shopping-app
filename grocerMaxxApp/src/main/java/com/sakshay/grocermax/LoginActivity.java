@@ -615,7 +615,7 @@ public class LoginActivity extends BaseActivity
 //						MySharedPrefs.INSTANCE.putLastName(userDataBean.getLastName());
 //					}
 
-					BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon);  //login icon
+//					BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon);  //login icon
 					if (USER_EMAIL.equals("")) {
 						MySharedPrefs.INSTANCE.putUserEmail(username.getText().toString());
 						if(userDataBean.getQuoteId() != null && !userDataBean.getQuoteId().equals("") ) {
