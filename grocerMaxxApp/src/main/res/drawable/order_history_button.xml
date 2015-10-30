@@ -9,26 +9,22 @@
         android:type="linear" /> -->
 
     <padding
-        android:bottom="13dip"
+        android:bottom="10dip"
         android:left="20dip"
         android:right="20dip"
-        android:top="13dip" />
-
-    <corners
-        android:radius="2dp"/>
+        android:top="10dip" />
+    
+    <corners 
+        android:radius="0dp"/>
 
     <!-- <stroke
         android:dashWidth="1dip"
         android:width="1dip"
         android:color="#eB5B22" /> -->
-
-    <!--   <solid android:color="#dc5d1d"/>
-     <solid android:color="#de2c01"/> !-->
-
-
-    <solid android:color="@color/signup"/>
-
-
-
+    
+   <!--   <solid android:color="#dc5d1d"/>-->
+  
+ 
+    <solid android:color="#2a2727"/>
 
 </shape>

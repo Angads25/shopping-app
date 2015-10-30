@@ -64,10 +64,11 @@ import com.sakshay.grocermax.utils.UtilityMethods;
 public class LoginActivity extends BaseActivity
 		implements ConnectionCallbacks, OnConnectionFailedListener
 {
-	TextView button_facebook, button_skip;
+	ImageView button_facebook;
+	TextView button_skip;
 	EditText username, password;
 	//	ImageView googlePlus;
-	private static TextView tv_google_btn;
+	private ImageView tv_google_btn;
 	Context context=this;
 	//	CheckBox remember_me;
 	String QUOTE_ID_AFTER_FB = "";
@@ -99,7 +100,10 @@ public class LoginActivity extends BaseActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.login_screen);
+//		setContentView(R.layout.login_screen);
+		setContentView(R.layout.login_new);
+//		setContentView(R.layout.confirmation_activity);
+//		setContentView(R.layout.order_failure);
 		try {
 			//context = this;
 
@@ -128,6 +132,10 @@ public class LoginActivity extends BaseActivity
 
 			//wordTwo.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.text_grey)), 0, wordTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			//register.append(wordTwo);
+
+			TextView txtHello = (TextView) findViewById(R.id.txt_hello);
+			txtHello.setTypeface(CustomFonts.getInstance().getRobotoLight(context));
+
 			register.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -136,6 +144,7 @@ public class LoginActivity extends BaseActivity
 
 				}
 			});
+			register.setTypeface(CustomFonts.getInstance().getRobotoRegular(context));
 
 			TextView forgot_pwd = (TextView) findViewById(R.id.forgot_password);
 			forgot_pwd.setOnClickListener(new OnClickListener() {
@@ -160,11 +169,11 @@ public class LoginActivity extends BaseActivity
 			username.setText(MySharedPrefs.INSTANCE.getRememberMeEmail());
 //		}
 
-			button_facebook = (TextView) findViewById(R.id.button_facebook);
+			button_facebook = (ImageView) findViewById(R.id.button_facebook);
 			button_facebook.setOnClickListener(fb_signin_listener);
 
 //			googlePlus = (ImageView) findViewById(R.id.google_plus_left_icon);
-			tv_google_btn = (TextView) findViewById(R.id.button_google);
+			tv_google_btn = (ImageView) findViewById(R.id.button_google);
 
 //	    signinButton = (SignInButton) findViewById(R.id.google_plus_icon);
 
@@ -192,7 +201,7 @@ public class LoginActivity extends BaseActivity
 				}
 			});
 
-			button_skip.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+			button_skip.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
 		}catch(Exception e){
 			new GrocermaxBaseException("LoginActivity","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
 		}
@@ -272,7 +281,7 @@ public class LoginActivity extends BaseActivity
 				Session session = Session.getActiveSession();
 				if (!session.isClosed()) {
 					session.closeAndClearTokenInformation();
-					button_facebook.setText("Sign in with Facebook");
+//					button_facebook.setText("Sign in with Facebook");
 					button_facebook.setOnClickListener(fb_signin_listener);
 				}
 			}catch(Exception e){
@@ -547,7 +556,7 @@ public class LoginActivity extends BaseActivity
 								dismissDialog();
 								if (user != null) {
 									saveUserData(user);
-									button_facebook.setText("Sign out Facebook");
+//									button_facebook.setText("Sign out Facebook");
 									button_facebook.setOnClickListener(fb_sign_out_listener);
 									//TODO: Mohit Raheja
 									//								Intent intent = new Intent(mContext , HomeActivity.class);
@@ -812,9 +821,11 @@ public class LoginActivity extends BaseActivity
 //		        mGoogleApiClient.connect();
 //			}catch(Exception e){}
 				if (UtilityMethods.isInternetAvailable(mContext)) {
-					if (tv_google_btn.getText().toString().equalsIgnoreCase("Login with Google")) {
+//					if (tv_google_btn.getText().toString().equalsIgnoreCase("Login with Google")) {
+					if(MySharedPrefs.INSTANCE.getGoogleEmail() == null) {
 						googleLoginWithEmailPermission();
-					} else if (tv_google_btn.getText().toString().equalsIgnoreCase("Logout with Google")) {
+//					} else if (tv_google_btn.getText().toString().equalsIgnoreCase("Logout with Google")) {
+					}else if(MySharedPrefs.INSTANCE.getGoogleEmail() != null){
 //					googlePlusLogoutLocally();
 						googlePlusLogout();
 					}
@@ -943,7 +954,7 @@ public class LoginActivity extends BaseActivity
 	private void getProfileInformation() {
 		try {
 			if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
-				tv_google_btn.setText("Logout with Google");
+//				tv_google_btn.setText("Logout with Google");
 				Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
 				saveGoogleUserData(currentPerson);
 
@@ -1010,10 +1021,9 @@ public class LoginActivity extends BaseActivity
 					Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
 					mGoogleApiClient.disconnect();
 					mGoogleApiClient.connect();
-					if(tv_google_btn != null){
-						tv_google_btn.setText("Logout with Google");
-					}
-					//            updateProfile(false);
+//					if(tv_google_btn != null){
+//						tv_google_btn.setText("Logout with Google");
+//					}
 				}
 			}
 		}catch(Exception e){

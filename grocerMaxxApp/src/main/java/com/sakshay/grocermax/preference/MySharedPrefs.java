@@ -51,6 +51,7 @@ public enum MySharedPrefs {
 	private final String SELECTED_STATE = "selected_state";
 	private final String SELECTED_STATEID = "selected_state_id";
 	private final String SELECTED_STATEREGIONID = "selected_state_region_id";
+	private final String SELECTED_STOREID = "selected_store_id";
 
 	private SharedPreferences getAppPreference() {
 		SharedPreferences preferences = MyApplication
@@ -91,6 +92,14 @@ public enum MySharedPrefs {
 
 	public String getSelectedStateRegionId() {
 		return getAppPreference().getString(SELECTED_STATEREGIONID, null);
+	}
+
+	public void putSelectedStoreId(String strStoreId) {
+		getAppPreference().edit().putString(SELECTED_STOREID, strStoreId).commit();
+	}
+
+	public String getSelectedStoreId() {
+		return getAppPreference().getString(SELECTED_STOREID, null);
 	}
 
 	//////////  LOCATION USER SELECTED DATA  /////////

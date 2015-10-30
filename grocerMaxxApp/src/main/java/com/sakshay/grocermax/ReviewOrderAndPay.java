@@ -1175,7 +1175,11 @@ class Coupon extends AsyncTask<String, String, String>
 			HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
 			params[0] = params[0].replace(" ", "%20");
 			HttpGet httpGet = new HttpGet(params[0]);
-			httpGet.setHeader("Content-Type", "application/json");
+			httpGet.setHeader("device", context.getResources().getString(R.string.app_device));
+			httpGet.setHeader("version", context.getResources().getString(R.string.app_version));
+			if(MySharedPrefs.INSTANCE.getSelectedStateId() != null) {
+				httpGet.setHeader("storeid", MySharedPrefs.INSTANCE.getSelectedStoreId());
+			}
 			HttpResponse response = null;
 
 			response = client.execute(httpGet);

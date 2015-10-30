@@ -95,7 +95,7 @@
 
                 <ImageButton
                     android:id="@+id/icon_header_user"
-                    android:layout_width="21dp"
+                    android:layout_width="23dp"
                     android:layout_height="21dp"
                     android:background="@drawable/selector_profile_icon_appbar"
                     android:contentDescription="@string/image_content_desc"

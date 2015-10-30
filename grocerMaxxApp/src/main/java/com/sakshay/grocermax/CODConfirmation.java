@@ -32,22 +32,27 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 				TextView tvSuccess = (TextView) findViewById(R.id.tv_success);
 				TextView tvOrder = (TextView) findViewById(R.id.tv_order);
 				TextView tvOrderId = (TextView) findViewById(R.id.tv_order_id);
+				TextView tvOrderIdCode = (TextView) findViewById(R.id.tv_order_id_code);
 				TextView tvCheckMailDetails = (TextView) findViewById(R.id.tv_check_mail_for_details);
 				TextView tvTellYourFriends = (TextView) findViewById(R.id.tv_tell_your_friends);
 //			String msg="Your order has been successfully placed.Order ID is <b>"+orderid+"</b>.Please check your mail for details.";
 				String msg = "Order ID is <b>" + orderid + "</b>";
-				tvOrderId.setText(Html.fromHtml(msg));
+//				tvOrderId.setText(Html.fromHtml(msg));
+				tvOrderIdCode.setText(Html.fromHtml(msg));
 //			hint.setText(Html.fromHtml(msg));
 				tvSuccess.setVisibility(View.VISIBLE);
 				tvOrder.setVisibility(View.VISIBLE);
 				tvOrderId.setVisibility(View.VISIBLE);
+				tvOrderIdCode.setVisibility(View.VISIBLE);
 				tvCheckMailDetails.setVisibility(View.VISIBLE);
 
 				tvSuccess.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 				tvOrder.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 				tvOrderId.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+				tvOrderIdCode.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+				tvOrderIdCode.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 				tvCheckMailDetails.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-				tvTellYourFriends.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+				tvTellYourFriends.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 
 			} else {
 				setContentView(R.layout.order_failure);

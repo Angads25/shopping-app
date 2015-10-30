@@ -9,10 +9,12 @@ import com.sakshay.grocermax.AddressDetail;
 import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.BillingAddress;
 import com.sakshay.grocermax.CreateNewAddress;
+import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.SearchTabs;
 import com.sakshay.grocermax.ShippingAddress;
 import com.sakshay.grocermax.bean.Address;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
+import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.MyHttpUtils;
 import com.sakshay.grocermax.utils.UtilityMethods;
 
@@ -67,13 +69,18 @@ public class BillingStateCityLoader extends AsyncTask<String, String, String> {
         String strResult = "";
         HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
         String urlString = params[0];
-        if(urlString.contains("?")) {
-            urlString += "&version=1.0";
-        }else{
-            urlString += "?version=1.0";
-        }
+//        if(urlString.contains("?")) {
+//            urlString += "&version=1.0";
+//        }else{
+//            urlString += "?version=1.0";
+//        }
         HttpGet httpGet = new HttpGet(urlString);
-        httpGet.setHeader("Content-Type", "application/json");
+        httpGet.setHeader("device", context.getResources().getString(R.string.app_device));
+        httpGet.setHeader("version", context.getResources().getString(R.string.app_version));
+        if(MySharedPrefs.INSTANCE.getSelectedStateId() != null) {
+            httpGet.setHeader("storeid", MySharedPrefs.INSTANCE.getSelectedStoreId());
+        }
+//        httpGet.setHeader("Content-Type", "application/json");
         HttpResponse response = null;
         try {
             response = client.execute(httpGet);

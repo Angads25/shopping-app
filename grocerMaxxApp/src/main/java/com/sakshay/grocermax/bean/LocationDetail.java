@@ -15,6 +15,9 @@ public class LocationDetail implements Serializable {
     private String id;
 
     @Expose
+    private String storeid;
+
+    @Expose
     private String city_name;
 
     @Expose
@@ -58,6 +61,14 @@ public class LocationDetail implements Serializable {
 
     public void setApiUrl(String row_total) {
         this.api_url = api_url;
+    }
+
+    public String getStoreId() {
+        return storeid;
+    }
+
+    public void setStoreId(String store_id) {
+        this.storeid = store_id;
     }
 
 }

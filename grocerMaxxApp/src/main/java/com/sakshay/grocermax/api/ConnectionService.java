@@ -273,7 +273,7 @@ public class ConnectionService extends IntentService {
 				httpPost.setHeader("device", getResources().getString(R.string.app_device));
 				httpPost.setHeader("version", getResources().getString(R.string.app_version));
 				if(MySharedPrefs.INSTANCE.getSelectedStateId() != null) {
-					httpPost.setHeader("storeid", MySharedPrefs.INSTANCE.getSelectedStateId());
+					httpPost.setHeader("storeid", MySharedPrefs.INSTANCE.getSelectedStoreId());
 				}
 
 //				}
@@ -307,7 +307,7 @@ public class ConnectionService extends IntentService {
 				httpGet.setHeader("device", getResources().getString(R.string.app_device));
 				httpGet.setHeader("version", getResources().getString(R.string.app_version));
 				if(MySharedPrefs.INSTANCE.getSelectedStateId() != null) {
-					httpGet.setHeader("storeid", MySharedPrefs.INSTANCE.getSelectedStateId());
+					httpGet.setHeader("storeid", MySharedPrefs.INSTANCE.getSelectedStoreId());
 				}
 				if (AppConstants.DEBUG) {
 					Log.i(TAG, "URL:::" + urlString);

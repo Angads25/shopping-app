@@ -177,6 +177,7 @@ public class LocationActivity extends BaseActivity {
                                     MySharedPrefs.INSTANCE.putSelectedState(locationList.getItems().get(i).getStateName());   //selected default state
                                     MySharedPrefs.INSTANCE.putSelectedStateId(locationList.getItems().get(i).getId());  //selected default id
                                     MySharedPrefs.INSTANCE.putSelectedStateRegionId(locationList.getItems().get(i).getStateId());  //selected state region id;
+                                    MySharedPrefs.INSTANCE.putSelectedStoreId(locationList.getItems().get(i).getStoreId());
 
                                     tvSelctionLoc = tvLocation[i];
                                     ivSelectionLoc = ivLocation[i];
@@ -187,6 +188,7 @@ public class LocationActivity extends BaseActivity {
                                 MySharedPrefs.INSTANCE.putSelectedState(locationList.getItems().get(0).getStateName());   //selected default state
                                 MySharedPrefs.INSTANCE.putSelectedStateId(locationList.getItems().get(0).getId());  //selected default id
                                 MySharedPrefs.INSTANCE.putSelectedStateRegionId(locationList.getItems().get(0).getStateId());  //selected state region id;
+                                MySharedPrefs.INSTANCE.putSelectedStoreId(locationList.getItems().get(0).getStoreId());
                                 if (i != 0) {
                                     ivLocation[i].setImageResource(R.drawable.unselect_location);
                                 } else {
@@ -324,6 +326,7 @@ public class LocationActivity extends BaseActivity {
             MySharedPrefs.INSTANCE.putSelectedState(locationList.getItems().get(position).getStateName());   //selected default state
             MySharedPrefs.INSTANCE.putSelectedStateId(locationList.getItems().get(position).getId());  //selected default id
             MySharedPrefs.INSTANCE.putSelectedStateRegionId(locationList.getItems().get(position).getStateId());  //selected state region id;
+            MySharedPrefs.INSTANCE.putSelectedStoreId(locationList.getItems().get(position).getStoreId());  //selected store id;
 
             ivLocation[position].setImageResource(R.drawable.select_location);
         }catch(Exception e){

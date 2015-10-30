@@ -31,6 +31,7 @@ import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.SearchTabs;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
+import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.MyHttpUtils;
 import com.sakshay.grocermax.utils.UtilityMethods;
@@ -86,13 +87,20 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 		String strResult = "";
     	HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
 		String urlString = params[0];
-		if(urlString.contains("?")) {
-			urlString += "&version=1.0";
-		}else{
-			urlString += "?version=1.0";
-		}
+//		if(urlString.contains("?")) {
+//			urlString += "&version=1.0";
+//		}else{
+//			urlString += "?version=1.0";
+//		}
+		String asa = MySharedPrefs.INSTANCE.getSelectedStoreId();
     	HttpGet httpGet = new HttpGet(urlString);
-		httpGet.setHeader("Content-Type", "application/json");
+//		httpGet.setHeader("Content-Type", "application/json");
+		httpGet.setHeader("device", context.getResources().getString(R.string.app_device));
+		httpGet.setHeader("version", context.getResources().getString(R.string.app_version));
+		if(MySharedPrefs.INSTANCE.getSelectedStateId() != null) {
+			httpGet.setHeader("storeid", MySharedPrefs.INSTANCE.getSelectedStoreId());
+		}
+
 		HttpResponse response = null;
 		try {
 			response = client.execute(httpGet);

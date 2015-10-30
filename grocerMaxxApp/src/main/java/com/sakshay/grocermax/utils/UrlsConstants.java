@@ -51,6 +51,9 @@ public class UrlsConstants {
 //	public final static String BASE_URL = "http://api.grocermax.com/gmx_api.php/";
 //	public final static String NEW_BASE_URL = "http://api.grocermax.com/gmx_api.php/";
 
+//	public final static String BASE_URL = "https://multi.grocermax.com/api/";
+//	public final static String NEW_BASE_URL = "http://multi.grocermax.com/api/";
+
 	// dev url
 //	public final static String BASE_URL = "http://dev.api.grocermax.com/";
 //	public final static String NEW_BASE_URL = "http://dev.api.grocermax.com/";

@@ -187,11 +187,11 @@ public class Registration extends BaseActivity implements
 
 			final ImageView iv_male = (ImageView) findViewById(R.id.img_male);
 			final ImageView iv_female = (ImageView) findViewById(R.id.img_female);
-			final ImageView iv_other = (ImageView) findViewById(R.id.img_other);
+//			final ImageView iv_other = (ImageView) findViewById(R.id.img_other);
 
 			final CheckBox cbMale = (CheckBox) findViewById(R.id.cb_male);
 			final CheckBox cbFemale = (CheckBox) findViewById(R.id.cb_female);
-			final CheckBox cbOther = (CheckBox) findViewById(R.id.cb_other);
+//			final CheckBox cbOther = (CheckBox) findViewById(R.id.cb_other);
 
 			tv_google_btn = (TextView) findViewById(R.id.reg_button_google);
 			iv_googlePlus = (ImageView) findViewById(R.id.reg_google_plus_left_icon);
@@ -232,7 +232,7 @@ public class Registration extends BaseActivity implements
 					// TODO Auto-generated method stub
 					if (cbMale.isChecked()) {
 						cbFemale.setChecked(false);
-						cbOther.setChecked(false);
+//						cbOther.setChecked(false);
 					} else {
 						cbMale.setChecked(false);
 					}
@@ -265,7 +265,7 @@ public class Registration extends BaseActivity implements
 					if (clickMale) {
 						iv_male.setImageResource(R.drawable.checkbox_select);           //select
 						iv_female.setImageResource(R.drawable.checkbox_unselect);       //unselect
-						iv_other.setImageResource(R.drawable.checkbox_unselect);        //unselect
+//						iv_other.setImageResource(R.drawable.checkbox_unselect);        //unselect
 					} else {
 						iv_male.setImageResource(R.drawable.checkbox_unselect);         //unselect
 					}
@@ -288,39 +288,39 @@ public class Registration extends BaseActivity implements
 					if (clickFemale) {
 						iv_female.setImageResource(R.drawable.checkbox_select);           //select
 						iv_male.setImageResource(R.drawable.checkbox_unselect);       //unselect
-						iv_other.setImageResource(R.drawable.checkbox_unselect);        //unselect
+//						iv_other.setImageResource(R.drawable.checkbox_unselect);        //unselect
 					} else {
 						iv_female.setImageResource(R.drawable.checkbox_unselect);         //unselect
 					}
 				}
 			});
 
-			iv_other.setOnClickListener(new View.OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					clickMale = false;
-					clickFemale = false;
-					if (clickOther) {
-						clickOther = false;
-					} else {
-						clickOther = true;
-					}
-
-					if (clickOther) {
-						iv_other.setImageResource(R.drawable.checkbox_select);           //select
-						iv_male.setImageResource(R.drawable.checkbox_unselect);       //unselect
-						iv_female.setImageResource(R.drawable.checkbox_unselect);        //unselect
-					} else {
-						iv_other.setImageResource(R.drawable.checkbox_unselect);         //unselect
-					}
-
-				}
-			});
+//			iv_other.setOnClickListener(new View.OnClickListener() {
+//
+//				@Override
+//				public void onClick(View v) {
+//					// TODO Auto-generated method stub
+//					clickMale = false;
+//					clickFemale = false;
+//					if (clickOther) {
+//						clickOther = false;
+//					} else {
+//						clickOther = true;
+//					}
+//
+//					if (clickOther) {
+//						iv_other.setImageResource(R.drawable.checkbox_select);           //select
+//						iv_male.setImageResource(R.drawable.checkbox_unselect);       //unselect
+//						iv_female.setImageResource(R.drawable.checkbox_unselect);        //unselect
+//					} else {
+//						iv_other.setImageResource(R.drawable.checkbox_unselect);         //unselect
+//					}
+//
+//				}
+//			});
 
 			TextView account_create = (TextView) findViewById(R.id.account_create);
-			account_create.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+			account_create.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
 			account_create.setOnClickListener(new View.OnClickListener() {
 
 				@Override
@@ -516,9 +516,32 @@ public class Registration extends BaseActivity implements
 
 //			initHeader(findViewById(R.id.header), true, null);
 			if (SCREEN_NAME.equals("ForgotPassword")) {
-				initHeader(findViewById(R.id.header), true, "Forgot Password");
+				initHeader(findViewById(R.id.header), false, "Forgot Password");
+				icon_header_search.setVisibility(View.GONE);
+				icon_header_cart.setVisibility(View.GONE);
+				cart_count_txt.setVisibility(View.GONE);
+				icon_header_cart.setClickable(false);
+				cart_count_txt.setClickable(false);
+				icon_header_user.setClickable(false);
+//				icon_header_search.setVisibility(View.GONE);
+//				cart_count_txt.setVisibility(View.GONE);
+//				icon_header_logo_without_search.setVisibility(View.GONE);
+//				icon_header_logo_with_search.setVisibility(View.GONE);
+//				icon_header_cart.setVisibility(View.GONE);
 			}else if (SCREEN_NAME.equals("Registration")){
-				initHeader(findViewById(R.id.header), true, "Register");
+				initHeader(findViewById(R.id.header), false, "Register");
+				icon_header_search.setVisibility(View.GONE);
+				icon_header_cart.setVisibility(View.GONE);
+				cart_count_txt.setVisibility(View.GONE);
+				icon_header_cart.setClickable(false);
+				cart_count_txt.setClickable(false);
+				icon_header_user.setClickable(false);
+//				cart_count_txt.setClickable(false);
+//				icon_header_search.setVisibility(View.GONE);
+//				cart_count_txt.setVisibility(View.GONE);
+//				icon_header_logo_without_search.setVisibility(View.GONE);
+//				icon_header_logo_with_search.setVisibility(View.GONE);
+//				icon_header_cart.setVisibility(View.GONE);
 			}
 		}catch(NullPointerException e){
 			new GrocermaxBaseException("Registeration", "displayRegistrationView", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
@@ -808,9 +831,32 @@ public class Registration extends BaseActivity implements
 		try {
 //			initHeader(findViewById(R.id.header), true, null);
 			if (SCREEN_NAME.equals("ForgotPassword")) {
-				initHeader(findViewById(R.id.header), true, "Forgot Password");
+				initHeader(findViewById(R.id.header), false, "Forgot Password");
+				icon_header_cart.setClickable(false);
+				cart_count_txt.setClickable(false);
+				icon_header_user.setClickable(false);
+//				icon_header_search.setVisibility(View.GONE);
+//				cart_count_txt.setVisibility(View.GONE);
+//				icon_header_logo_without_search.setVisibility(View.GONE);
+//				icon_header_logo_with_search.setVisibility(View.GONE);
+//				icon_header_cart.setVisibility(View.GONE);
+
+				icon_header_search.setVisibility(View.GONE);
+				icon_header_cart.setVisibility(View.GONE);
+				cart_count_txt.setVisibility(View.GONE);
 			}else if (SCREEN_NAME.equals("Registration")){
-				initHeader(findViewById(R.id.header), true, "Register");
+				initHeader(findViewById(R.id.header), false, "Register");
+				icon_header_search.setVisibility(View.GONE);
+				icon_header_cart.setVisibility(View.GONE);
+				cart_count_txt.setVisibility(View.GONE);
+				icon_header_cart.setClickable(false);
+				cart_count_txt.setClickable(false);
+				icon_header_user.setClickable(false);
+//				icon_header_search.setVisibility(View.GONE);
+//				cart_count_txt.setVisibility(View.GONE);
+//				icon_header_logo_without_search.setVisibility(View.GONE);
+//				icon_header_logo_with_search.setVisibility(View.GONE);
+//				icon_header_cart.setVisibility(View.GONE);
 			}
 		}catch(Exception e){
 			new GrocermaxBaseException("Registeration","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
