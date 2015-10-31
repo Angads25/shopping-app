@@ -233,7 +233,6 @@ public class CategoryActivity extends BaseActivity {
 				int pos = (Integer) view.getTag();
                 showDialog();
 //                String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(mainCatPosition).getChildren().get(selectedIndex).getCategoryId();
-
 //                strNextScreenHeader = alcatObjSend.get(selectedIndex).getChildren().get(pos).getCategory();
                 AppConstants.strTitleHotDeal = alcatObjSend.get(selectedIndex).getChildren().get(pos).getCategory();
                 String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(mainCatPosition).getChildren().get(selectedIndex).getChildren().get(pos).getCategoryId();
@@ -445,22 +444,22 @@ public class CategoryActivity extends BaseActivity {
     @Override
     public void OnResponse(Bundle bundle) {
         String action = bundle.getString("ACTION");
-        if (action.equals(MyReceiverActions.ALL_PRODUCTS_CATEGORY)) {
-//			group_click = 0;
-
-            Simple responseBean = (Simple) bundle.getSerializable(ConnectionService.RESPONSE);
-            if (responseBean.getFlag().equalsIgnoreCase("1")) {
-                Intent call = new Intent(CategoryActivity.this, CategoryTabs.class);
-                Bundle call_bundle = new Bundle();
-                call_bundle.putSerializable("PRODUCTDATA", responseBean);
-                call_bundle.putSerializable("HEADERNAME", AppConstants.strTitleHotDeal);
-//                alSubCat.get(i).getCategory()
-                call.putExtras(call_bundle);
-                startActivity(call);
-            } else {
-                UtilityMethods.customToast(AppConstants.ToastConstant.NO_RESULT_FOUND, mContext);
-            }
-        }
+//        if (action.equals(MyReceiverActions.ALL_PRODUCTS_CATEGORY)) {
+////			group_click = 0;
+//
+//            Simple responseBean = (Simple) bundle.getSerializable(ConnectionService.RESPONSE);
+//            if (responseBean.getFlag().equalsIgnoreCase("1")) {
+//                Intent call = new Intent(CategoryActivity.this, CategoryTabs.class);
+//                Bundle call_bundle = new Bundle();
+//                call_bundle.putSerializable("PRODUCTDATA", responseBean);
+//                call_bundle.putSerializable("HEADERNAME", AppConstants.strTitleHotDeal);
+////                alSubCat.get(i).getCategory()
+//                call.putExtras(call_bundle);
+//                startActivity(call);
+//            } else {
+//                UtilityMethods.customToast(AppConstants.ToastConstant.NO_RESULT_FOUND, mContext);
+//            }
+//        }
 
     }
 }

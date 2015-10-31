@@ -332,7 +332,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				Toast.makeText(this,ToastConstant.PRODUCT_DELETED, Toast.LENGTH_LONG).show();
 			}*/
 		}
-		
+
 		/*showDialog();
 		String url = UrlsConstants.DELETE_FROM_CART_URL + user_id + "&productid=" + cartList.get(position).getProductId();
 		myApi.reqDeleteFromCart(url);
@@ -615,10 +615,10 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 //					productsUpdate.put(prod_obj);
 //				}
 //			}
-//			
+//
 //			System.out.println("====PRODUCTS===="+productsUpdate);
 ////			HashMap<String, JSONArray> valuePairs = new HashMap<String, JSONArray>();
-//			
+//
 //			JSONArray productsDelete = new JSONArray();
 //			for(int j=0;j<UpdateCartbg.getInstance().alDeleteId.size();j++)
 //			{
@@ -626,25 +626,25 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 //				prod_obj.put("prod", cartList.get(j).toString());
 //				productsDelete.put(prod_obj);
 //			}
-//			
+//
 ////			valuePairs.put("delete_id", productsDelete);
 ////			valuePairs.put("update_id", productsUpdate);
 ////			jsonArray = new JSONArray();
 ////			jsonArray.put(valuePairs);
-//			
+//
 //			jsonObjectUpdate = new JSONObject();
 //			jsonObjectUpdate.put("update_id", productsUpdate);
 //			jsonObjectUpdate.put("delete_id", productsDelete);
 //			System.out.println("==Json object value is=="+jsonObjectUpdate);
 ////			showDialog();
-//			
+//
 ////			http://uat.grocermax.com/webservice/new_services  /deleteitem?userid=+ user_id + "&productid=" + productid +
 ////				"&quote_id="+ quoteid &"&updateid="+ URLEncoder.encode(products.toString(), "UTF-8");
-//			
-//			
+//
+//
 ////			String url = UrlsConstants.NEW_BASE_URL+"deleteitem?userid="+MySharedPrefs.INSTANCE.getUserId()+
 ////					"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId();
-//			
+//
 ////			System.out.println("==URL'S HERE=="+url);
 ////			if(UtilityMethods.isInternetAvailable(this)){
 ////				UpdateCartbg.getInstance().bLocally = true;
@@ -655,7 +655,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 ////						+ MySharedPrefs.INSTANCE.getUserId() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&products="
 ////						+ URLEncoder.encode(products.toString(), "UTF-8");
 ////			myApi.reqViewCartAfterDelete(url,MyReceiverActions.CART_DETAIL_AFTER_DELETE);
-//			
+//
 //		} catch (Exception e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
@@ -966,7 +966,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 //		// TODO Auto-generated method stub
 //		super.onResume();
 //		initHeader(findViewById(R.id.header), true, null);
-//		
+//
 //		orderReviewBean=MySharedPrefs.INSTANCE.getOrderReviewBean();
 //		if(orderReviewBean != null){
 //			List<CartDetail> cartList = orderReviewBean.getProduct();
@@ -977,7 +977,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 //				{
 //					saving=saving+(cartList.get(i).getQty()*(Float.parseFloat(cartList.get(i).getMrp())-Float.parseFloat(cartList.get(i).getPrice())));
 //				}
-//				
+//
 //				saving = saving-(Float.parseFloat(orderReviewBean.getDiscount_amount()));
 ////				if(orderReviewBean.getCouponCode() != null && !orderReviewBean.getCouponCode().equalsIgnoreCase("null")){
 ////					float save = Float.parseFloat(orderReviewBean.getSubTotal()) - Float.parseFloat(orderReviewBean.getCouponSubtotalWithDsicount());
@@ -985,7 +985,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 ////				}
 //				tvSavePrice.setText("Rs."+String.format("%.2f",saving));
 ////				tv_yousave.setText("Rs."+String.format("%.2f",saving));
-//				
+//
 //	//			tv_subTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(cartBean.getSubTotal())));
 //				if(orderReviewBean.getSubTotal() != null && orderReviewBean.getSubTotal().length() > 0){
 //					tv_subTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(orderReviewBean.getSubTotal())));
@@ -993,14 +993,14 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 //				if(orderReviewBean.getDiscount_amount() != null){
 //					tv_discount.setText("Rs."+String.format("%.2f", Float.parseFloat(orderReviewBean.getDiscount_amount())));
 //				}
-//				
+//
 //				if(!MySharedPrefs.INSTANCE.getCouponAmount().equalsIgnoreCase("0") && MySharedPrefs.INSTANCE.getCouponAmount() != null){
 //					tvCoupon.setText("Rs."+String.format("%.2f", Float.parseFloat(MySharedPrefs.INSTANCE.getCouponAmount())));
 //					ll_coupon.setVisibility(View.VISIBLE);
 //				}else{
 //					ll_coupon.setVisibility(View.GONE);
 //				}
-//				
+//
 //				if(orderReviewBean.getShipping_ammount() != null){
 //				 	tv_shipping.setText("Rs."+Float.parseFloat(orderReviewBean.getShipping_ammount()));
 //				}
@@ -1015,8 +1015,8 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 //				else{
 //					tv_grandTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(orderReviewBean.getGrandTotal())));
 //				}
-//				
-//				
+//
+//
 //				if(MySharedPrefs.INSTANCE.getTotalItem()!=null)
 //				{
 //					MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int)Float.parseFloat(cartBean.getItems_qty())));

@@ -400,16 +400,6 @@ public class HotOffersActivity extends BaseActivity {
         return url;
     }
 
-    //    @Override
-//    public void onBackPressed() {
-////        if(fragmentTransaction.getBackStackEntryCount())
-//        super.onBackPressed();
-//    }
-
-//    public void setHeader(String header) {
-//        initHeader(findViewById(R.id.header), true, header);
-//    }
-
     public void getNotificationData(Bundle data)
     {
         String strName = data.getString("name");
@@ -429,7 +419,7 @@ public class HotOffersActivity extends BaseActivity {
 
         AppConstants.strTitleHotDeal = strName;
         if(strType.equalsIgnoreCase("dealproductlisting")){
-   addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
+            addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
             String url = UrlsConstants.NEW_BASE_URL;
            showDialog();
             myApi.reqProductListingByDealType(url + strLinkurl);

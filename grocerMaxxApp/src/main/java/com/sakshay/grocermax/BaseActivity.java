@@ -1129,18 +1129,6 @@ public abstract class BaseActivity extends FragmentActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
 		try{
 			registerReceiver();
 		}catch(Exception e){
@@ -1149,15 +1137,36 @@ public abstract class BaseActivity extends FragmentActivity {
 	}
 
 	@Override
-	protected void onDestroy() {
+	public void onPause() {
+		super.onPause();
 		try{
 			dismissDialog();
 			unRegisterReceiver();
 		}catch(Exception e){
 			new GrocermaxBaseException("BaseActivity", "onPause", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
-		super.onDestroy();
 	}
+
+//	@Override
+//	protected void onStart() {
+//		super.onStart();
+//		try{
+//			registerReceiver();
+//		}catch(Exception e){
+//			new GrocermaxBaseException("BaseActivity", "onResume", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+//		}
+//	}
+
+//	@Override
+//	protected void onDestroy() {
+//		try{
+//			dismissDialog();
+//			unRegisterReceiver();
+//		}catch(Exception e){
+//			new GrocermaxBaseException("BaseActivity", "onPause", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+//		}
+//		super.onDestroy();
+//	}
 
 	public void addActionsInFilter(String action) {
 		intentFilter.addAction(action);
@@ -1384,7 +1393,8 @@ public abstract class BaseActivity extends FragmentActivity {
 						}
 
 
-					}else if (intent.getAction().equals(MyReceiverActions.ALL_PRODUCTS_CATEGORY)) {
+					}
+					else if (intent.getAction().equals(MyReceiverActions.ALL_PRODUCTS_CATEGORY)) {
 						//			group_click = 0;
 						Simple responseBean = (Simple) bundle.getSerializable(ConnectionService.RESPONSE);
 						if (responseBean.getFlag().equalsIgnoreCase("1")) {
@@ -1398,15 +1408,10 @@ public abstract class BaseActivity extends FragmentActivity {
 						}else{
 							UtilityMethods.customToast(AppConstants.ToastConstant.NO_RESULT_FOUND,mContext);
 						}
-//			Simple simple1 = (Simple) bundle.getSerializable(ConnectionService.RESPONSE);
-//			if (responseBean.getResult().equalsIgnoreCase("1")) {
-//				ArrayList<CategoriesProducts> hotproduct = responseBean.getHotproduct();
-//				ArrayList<CategoriesProducts> productList = responseBean.getProductList();
-//				if(hotproduct.size() > 0 && productList.size() > 0){
-//
-//				}
-//			}
-					}else if (intent.getAction().equals(MyReceiverActions.LOCATION)) {                          //first time hit for location every time when app starts
+
+					}
+
+					else if (intent.getAction().equals(MyReceiverActions.LOCATION)) {                          //first time hit for location every time when app starts
 //			LocationListBean locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
 						AppConstants.locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
 						if(AppConstants.locationBean.getFlag().equals("1")) {
