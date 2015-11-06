@@ -87,7 +87,7 @@ public class MenuListAdapter extends BaseAdapter {
 					((HotOffersActivity)mContext).setMenu(offerList.get(position).getChildren(),offerList.get(position).getCategory());
 				}else{
 
-					Toast.makeText(mContext,"Last Level",Toast.LENGTH_SHORT).show();
+//					Toast.makeText(mContext,"Last Level",Toast.LENGTH_SHORT).show();
 				}
 			}
 		});

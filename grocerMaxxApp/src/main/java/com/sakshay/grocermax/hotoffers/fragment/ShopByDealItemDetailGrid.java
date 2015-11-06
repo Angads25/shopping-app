@@ -1,5 +1,6 @@
 package com.sakshay.grocermax.hotoffers.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,11 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.paymentsdk.android.MyApp;
+import com.sakshay.grocermax.BaseActivity;
+import com.sakshay.grocermax.MyApplication;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.OfferByDealTypeSubModel;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.hotoffers.adapter.DetailListAdapter;
 import com.sakshay.grocermax.hotoffers.adapter.ShopByCategoryListAdapter;
 import com.sakshay.grocermax.hotoffers.adapter.ShopByDealDetailListAdapter;
+import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Worker;
 
 import java.util.ArrayList;

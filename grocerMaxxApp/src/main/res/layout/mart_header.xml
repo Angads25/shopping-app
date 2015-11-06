@@ -68,8 +68,8 @@
 
                 <ImageView
                     android:id="@+id/icon_header_logo_without_search"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
                     android:layout_gravity="center_vertical"
                     android:contentDescription="@string/image_content_desc"
                     android:src="@drawable/header_icon_1" />

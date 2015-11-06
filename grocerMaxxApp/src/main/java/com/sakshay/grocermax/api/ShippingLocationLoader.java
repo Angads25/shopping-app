@@ -68,6 +68,7 @@ public class ShippingLocationLoader extends AsyncTask<String, String, String> {
 //        }else{
 //            urlString += "?version=1.0";
 //        }
+        System.out.println("====URLSSS shipping===="+urlString);
         HttpGet httpGet = new HttpGet(urlString);
         httpGet.setHeader("device", context.getResources().getString(R.string.app_device));
         httpGet.setHeader("version", context.getResources().getString(R.string.app_version));

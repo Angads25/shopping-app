@@ -24,6 +24,7 @@ import com.sakshay.grocermax.bean.DealListBean;
 import com.sakshay.grocermax.bean.Product;
 import com.sakshay.grocermax.bean.ProductDetailsListBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants;
@@ -369,4 +370,11 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
         }catch(Exception e){}
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        try {
+            HotOffersActivity.isFromFragment = true;
+        }catch(Exception e){}
+    }
 }

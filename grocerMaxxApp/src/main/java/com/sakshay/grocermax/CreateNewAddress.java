@@ -434,9 +434,6 @@ public class CreateNewAddress extends BaseActivity{
 				 rlLocation.setVisibility(View.VISIBLE);
 			 }
 
-
-
-
 			 tvState = (EditText) findViewById(R.id.edit_state);
 			 rlStateSpinner = (RelativeLayout) findViewById(R.id.rl_state_spinner);
 			 rlState = (RelativeLayout) findViewById(R.id.rl_state);

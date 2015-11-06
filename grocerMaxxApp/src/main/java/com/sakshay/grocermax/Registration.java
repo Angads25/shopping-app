@@ -1009,6 +1009,9 @@ public class Registration extends BaseActivity implements
 
 		String USER_NAME = "";
 
+		Registration.googleName = null;
+		MySharedPrefs.INSTANCE.putGoogleName(null);
+
 		USER_FNAME = user.getFirstName();
 		USER_MNAME = user.getMiddleName();
 		USER_LNAME = user.getLastName();
@@ -1107,7 +1110,20 @@ public class Registration extends BaseActivity implements
 		@Override
 		public void onClick(View v) {
 			try{
+				String strCity = MySharedPrefs.INSTANCE.getSelectedCity();
+				String strRegionId = MySharedPrefs.INSTANCE.getSelectedStateRegionId();
+				String strState = MySharedPrefs.INSTANCE.getSelectedState();
+				String strStoreId = MySharedPrefs.INSTANCE.getSelectedStoreId();
+				String strStateId = MySharedPrefs.INSTANCE.getSelectedStateId();
+
 				MySharedPrefs.INSTANCE.clearAllData();
+
+				MySharedPrefs.INSTANCE.putSelectedCity(strCity);
+				MySharedPrefs.INSTANCE.putSelectedStateRegionId(strRegionId);
+				MySharedPrefs.INSTANCE.putSelectedState(strState);
+				MySharedPrefs.INSTANCE.putSelectedStoreId(strStoreId);
+				MySharedPrefs.INSTANCE.putSelectedStateId(strStateId);
+
 				Session session = Session.getActiveSession();
 				if (!session.isClosed()) {
 					session.closeAndClearTokenInformation();
@@ -1388,6 +1404,10 @@ public class Registration extends BaseActivity implements
 //		String USER_FNAME = "";
 //		String USER_MNAME = "";
 //		String USER_LNAME = "";
+
+		Registration.facebookName = null;
+		MySharedPrefs.INSTANCE.putFacebookName(null);
+
 		USER_EMAIL = "";
 		String USER_NAME = "";
 		USER_NAME = currentPerson.getDisplayName();

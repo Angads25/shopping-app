@@ -84,7 +84,7 @@
             <ImageView
                 android:id="@+id/ivLocation"
                 android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
+                android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_gravity="right"
                 android:layout_marginRight="10dp"

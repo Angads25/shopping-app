@@ -94,14 +94,6 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
         rlWriteToUs.setOnClickListener(this);
         rlSignOut.setOnClickListener(this);
 
-//        boolean str1 =  MySharedPrefs.INSTANCE.getLoginStatus();
-//        String str2 =  MySharedPrefs.INSTANCE.getFacebookName();
-//        String str3 = MySharedPrefs.INSTANCE.getGoogleName();
-//        String str4 = MySharedPrefs.INSTANCE.getFirstName();
-//        String str5 = MySharedPrefs.INSTANCE.getLastName();
-//        String str6 =  MySharedPrefs.INSTANCE.getFirstName();
-//        String str7 =  MySharedPrefs.INSTANCE.getLastName();
-
         if (MySharedPrefs.INSTANCE.getLoginStatus()){
 //        if(MySharedPrefs.INSTANCE.getFacebookName() != null){
 //            if(Registration.facebookName != null) {
@@ -178,6 +170,7 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
         String userId = MySharedPrefs.INSTANCE.getUserId();
         switch (v.getId()) {
             case R.id.rl_login_signup:
+                try{
                 RelativeLayout rl = (RelativeLayout)v.findViewById(R.id.rl_login_signup);
                 TextView tv = (TextView) rl.findViewById(R.id.tv_login_signup);
                 if (tv.getText().toString().equalsIgnoreCase(getString(R.string.Login))) {
@@ -190,8 +183,10 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                         startActivityForResult(intent, 555);
                     }
                 }
+                }catch(Exception e){}
                 break;
             case R.id.rl_orderhistory:
+                try{
                 if (!UtilityMethods.getCurrentClassName(UserHeaderProfile.this).equals(getApplicationContext().getPackageName() + ".OrderHistory")) {
                     if (userId != null && userId.trim().length() > 0) {
                         openOrderHistory();
@@ -200,8 +195,10 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                         startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
                     }
                 }
+                }catch(Exception e){}
                 break;
             case R.id.rl_myaddresses:
+                try{
                 if (!UtilityMethods.getCurrentClassName(UserHeaderProfile.this).equals(getApplicationContext().getPackageName() + ".AddressDetail")) {
                     if (userId != null && userId.trim().length() > 0) {
                         showDialog();
@@ -212,6 +209,7 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                         startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
                     }
                 }
+                }catch(Exception e){}
                 break;
 
 //            case R.id.rl_viewprofile:
@@ -227,6 +225,7 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
 //                }
 //                break;
             case R.id.rl_editprofile:
+                try{
                 if (!UtilityMethods.getCurrentClassName(UserHeaderProfile.this).equals(getApplicationContext().getPackageName() + ".EditProfile")) {
                     if (userId != null && userId.trim().length() > 0) {
                         Intent intent = new Intent(mContext, EditProfile.class);
@@ -237,16 +236,21 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                         startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
                     }
                 }
+                }catch(Exception e){}
                 break;
             case R.id.rl_invitefriends:
+                try{
                 UtilityMethods.shareApp(mContext);
+                }catch(Exception e){}
                 break;
             case R.id.rl_callus:
+                try{
                 Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse(AppConstants.customer_care));
                 startActivity(callIntent);
-
+                }catch(Exception e){}
                 break;
             case R.id.rl_writetous:
+                try{
                 PackageInfo pInfo = null;
                 try {
                     pInfo = getPackageManager().getPackageInfo(
@@ -259,36 +263,70 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                     String subject = AppConstants.subject;
                     shareToGMail(AppConstants.email, subject);
                 }
+                }catch(Exception e){}
                 break;
             case R.id.rl_signout:
-                MySharedPrefs.INSTANCE.clearUserInfo();
-                MySharedPrefs.INSTANCE.putTotalItem("0");
-                cart_count_txt.setText("0");
-                BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_logout);
-                UtilityMethods.deleteCloneCart(UserHeaderProfile.this);
+                try {
+                    MySharedPrefs.INSTANCE.clearUserInfo();
+                    MySharedPrefs.INSTANCE.putTotalItem("0");
+                    cart_count_txt.setText("0");
+                    BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_logout);
+                    UtilityMethods.deleteCloneCart(UserHeaderProfile.this);
 
-                ////Fb logout/////////
-                if (MySharedPrefs.INSTANCE.getFacebookId() != null) {
-                    Session session = LoginActivity.getInstance().getSession();
-                    if (!session.isClosed()) {
-                        MySharedPrefs.INSTANCE.clearAllData();
-                        session.closeAndClearTokenInformation();
+                    ////Fb logout/////////
+                    if (MySharedPrefs.INSTANCE.getFacebookId() != null) {
+                        Session session = LoginActivity.getInstance().getSession();
+                        if (!session.isClosed()) {
+
+
+//                        MySharedPrefs.INSTANCE.clearAllData();
+                            String strCity = MySharedPrefs.INSTANCE.getSelectedCity();
+                            String strRegionId = MySharedPrefs.INSTANCE.getSelectedStateRegionId();
+                            String strState = MySharedPrefs.INSTANCE.getSelectedState();
+                            String strStoreId = MySharedPrefs.INSTANCE.getSelectedStoreId();
+                            String strStateId = MySharedPrefs.INSTANCE.getSelectedStateId();
+
+                            MySharedPrefs.INSTANCE.clearAllData();
+
+                            MySharedPrefs.INSTANCE.putSelectedCity(strCity);
+                            MySharedPrefs.INSTANCE.putSelectedStateRegionId(strRegionId);
+                            MySharedPrefs.INSTANCE.putSelectedState(strState);
+                            MySharedPrefs.INSTANCE.putSelectedStoreId(strStoreId);
+                            MySharedPrefs.INSTANCE.putSelectedStateId(strStateId);
+
+
+                            session.closeAndClearTokenInformation();
+                        }
                     }
-                }
-                if (MySharedPrefs.INSTANCE.getGoogleId() != null) {
+                    if (MySharedPrefs.INSTANCE.getGoogleId() != null) {
 //					LoginActivity loginActivity = new LoginActivity();
 //					loginActivity.googlePlusLogoutLocally();
-                    LoginActivity.googlePlusLogout();
-                    Registration.googlePlusLogoutReg();
+                        LoginActivity.googlePlusLogout();
+                        Registration.googlePlusLogoutReg();
 //					loginActivity.googlePlusLogout();
-                    MySharedPrefs.INSTANCE.clearAllData();
-                }
 
-                UtilityMethods.customToast(AppConstants.ToastConstant.LOGOUT_SUCCESS, mContext);
-                Intent intent = new Intent(mContext, HotOffersActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
+//                    MySharedPrefs.INSTANCE.clearAllData();
+                        String strCity = MySharedPrefs.INSTANCE.getSelectedCity();
+                        String strRegionId = MySharedPrefs.INSTANCE.getSelectedStateRegionId();
+                        String strState = MySharedPrefs.INSTANCE.getSelectedState();
+                        String strStoreId = MySharedPrefs.INSTANCE.getSelectedStoreId();
+                        String strStateId = MySharedPrefs.INSTANCE.getSelectedStateId();
+
+                        MySharedPrefs.INSTANCE.clearAllData();
+
+                        MySharedPrefs.INSTANCE.putSelectedCity(strCity);
+                        MySharedPrefs.INSTANCE.putSelectedStateRegionId(strRegionId);
+                        MySharedPrefs.INSTANCE.putSelectedState(strState);
+                        MySharedPrefs.INSTANCE.putSelectedStoreId(strStoreId);
+                        MySharedPrefs.INSTANCE.putSelectedStateId(strStateId);
+                    }
+
+                    UtilityMethods.customToast(AppConstants.ToastConstant.LOGOUT_SUCCESS, mContext);
+                    Intent intent = new Intent(mContext, HotOffersActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
+                }catch(Exception e){}
 
 //                UtilityMethods.customToast(AppConstants.ToastConstant.LOGOUT_SUCCESS, mContext);
 //                Intent intent = new Intent(mContext, HomeScreen.class);

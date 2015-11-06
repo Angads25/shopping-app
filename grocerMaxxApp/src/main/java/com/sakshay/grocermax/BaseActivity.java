@@ -93,7 +93,7 @@ import com.sakshay.grocermax.utils.UtilityMethods;
 //import android.widget.Toast;
 
 public abstract class BaseActivity extends FragmentActivity {
-	public static boolean bBack = false;
+//	public static boolean bBack = false;
 	protected Context mContext = this;
 	EditText etSearchBckup;  //when press on search icon and it came you to previous screen.
 	public static Activity activity;
@@ -107,7 +107,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	public static ImageButton icon_header_user;                     //icon differ in login and logout case.
 	public static TextView cart_count_txt;
 	private PopupWindow popupMenuOption;
-	private LinearLayout llSearchLayout;
+	public LinearLayout llSearchLayout;
 	//	private ImageView ivSearchHeaderBack;
 	public EditText edtSearch;
 	private ImageView imgSearchIcon;
@@ -122,6 +122,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	private String search_key;
 	public static boolean keyboardVisibility=false;
 	EasyTracker tracker;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -239,17 +240,17 @@ public abstract class BaseActivity extends FragmentActivity {
 
 			if(icon_header_back != null && tvHeaderName != null) {
 				icon_header_back.setOnClickListener(headerClick);
-				tvHeaderName.setOnClickListener(headerClick);
+//				tvHeaderName.setOnClickListener(headerClick);
 			}
 
-			edtSearch.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					bBack = false;
-				}
-			});
+//			edtSearch.setOnClickListener(new OnClickListener() {
+//
+//				@Override
+//				public void onClick(View v) {
+//					// TODO Auto-generated method stub
+//					bBack = false;
+//				}
+//			});
 
 			edtSearch.setOnEditorActionListener(new OnEditorActionListener() {
 
@@ -414,7 +415,6 @@ public abstract class BaseActivity extends FragmentActivity {
 //	}
 
 	public void showSearchView(boolean b) {
-
 		try {
 
 			if (b) {
@@ -454,7 +454,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		}catch(Exception e) {
 			new GrocermaxBaseException("BaseActivity", "showSearchView", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
-		bBack = false;
+		AppConstants.bBack = false;
 		// UtilityMethods.hideKeyboard(BaseActivity.this);
 		//UtilityMethods.hideKeyboardFromContext(BaseActivity.this);
 
@@ -991,7 +991,20 @@ public abstract class BaseActivity extends FragmentActivity {
 						if (MySharedPrefs.INSTANCE.getFacebookId() != null) {
 							Session session = getSession();
 							if (!session.isClosed()) {
+								String strCity = MySharedPrefs.INSTANCE.getSelectedCity();
+								String strRegionId = MySharedPrefs.INSTANCE.getSelectedStateRegionId();
+								String strState = MySharedPrefs.INSTANCE.getSelectedState();
+								String strStoreId = MySharedPrefs.INSTANCE.getSelectedStoreId();
+								String strStateId = MySharedPrefs.INSTANCE.getSelectedStateId();
+
 								MySharedPrefs.INSTANCE.clearAllData();
+
+								MySharedPrefs.INSTANCE.putSelectedCity(strCity);
+								MySharedPrefs.INSTANCE.putSelectedStateRegionId(strRegionId);
+								MySharedPrefs.INSTANCE.putSelectedState(strState);
+								MySharedPrefs.INSTANCE.putSelectedStoreId(strStoreId);
+								MySharedPrefs.INSTANCE.putSelectedStateId(strStateId);
+
 								session.closeAndClearTokenInformation();
 							}
 						}
@@ -1002,7 +1015,20 @@ public abstract class BaseActivity extends FragmentActivity {
 							LoginActivity.googlePlusLogout();
 							Registration.googlePlusLogoutReg();
 //					loginActivity.googlePlusLogout();
+
+							String strCity = MySharedPrefs.INSTANCE.getSelectedCity();
+							String strRegionId = MySharedPrefs.INSTANCE.getSelectedStateRegionId();
+							String strState = MySharedPrefs.INSTANCE.getSelectedState();
+							String strStoreId = MySharedPrefs.INSTANCE.getSelectedStoreId();
+							String strStateId = MySharedPrefs.INSTANCE.getSelectedStateId();
+
 							MySharedPrefs.INSTANCE.clearAllData();
+
+							MySharedPrefs.INSTANCE.putSelectedCity(strCity);
+							MySharedPrefs.INSTANCE.putSelectedStateRegionId(strRegionId);
+							MySharedPrefs.INSTANCE.putSelectedState(strState);
+							MySharedPrefs.INSTANCE.putSelectedStoreId(strStoreId);
+							MySharedPrefs.INSTANCE.putSelectedStateId(strStateId);
 						}
 
 //				Toast.makeText(mContext,ToastConstant.LOGOUT_SUCCESS, Toast.LENGTH_LONG).show();
@@ -1562,12 +1588,12 @@ public abstract class BaseActivity extends FragmentActivity {
 		});
 	}
 
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-
-		bBack = true;
-	}
+//	@Override
+//	public void onBackPressed() {
+//		super.onBackPressed();
+//
+//		bBack = true;
+//	}
 
 	public static void syncStack() {
 		try {

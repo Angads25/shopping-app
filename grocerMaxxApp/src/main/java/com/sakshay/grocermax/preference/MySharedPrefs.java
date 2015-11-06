@@ -62,6 +62,8 @@ public enum MySharedPrefs {
 
 	//////////  LOCATION USER SELECTED DATA  /////////
 
+
+
 	public void putSelectedCity(String strCity) {
 		getAppPreference().edit().putString(SELECTED_CITY, strCity).commit();
 	}

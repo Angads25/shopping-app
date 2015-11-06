@@ -176,8 +176,10 @@ public class ShopByDealItemDetailFragment extends Fragment {
 
     @Override
     public void onAttach(Activity activity) {
-        getActivity().findViewById(R.id.header).setVisibility(View.GONE);
-        getActivity().findViewById(R.id.header_left).setVisibility(View.VISIBLE);
+        try {
+            getActivity().findViewById(R.id.header).setVisibility(View.GONE);
+            getActivity().findViewById(R.id.header_left).setVisibility(View.VISIBLE);
+        }catch(Exception e){}
         super.onAttach(activity);
     }
 

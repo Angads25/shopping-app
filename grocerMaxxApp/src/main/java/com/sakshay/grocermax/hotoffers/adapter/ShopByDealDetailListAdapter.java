@@ -1,6 +1,7 @@
 package com.sakshay.grocermax.hotoffers.adapter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Point;
 import android.os.Build;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -58,6 +60,8 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
         public ViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.img);
+
+
 //            parentLayout = (CardView) itemView.findViewById(R.id.layoutParent);
 //            footer = (TextView) itemView.findViewById(R.id.footer);
 //            ll = (LinearLayout) itemView.findViewById(R.id.ll_);
@@ -90,6 +94,9 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
         View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.shop_by_item_detail, parent, false);
 
 //        ((BaseActivity) context).initHeader(context.findViewById(R.id.header_left), true, ShopByDealDetailListAdapter.strDealListDeatilHeading);
+
+//        ((HotOffersActivity) context).isFromFragment = true;
+//        ((BaseActivity) context).showSearchView(false);
         ((BaseActivity) context).initHeader(context.findViewById(R.id.header_left), true, AppConstants.strTitleHotDeal);
         ((BaseActivity) context).findViewById(R.id.header_left).setVisibility(View.VISIBLE);
         ((BaseActivity) context).findViewById(R.id.header).setVisibility(View.GONE);
@@ -101,6 +108,8 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         ImageLoader.getInstance().displayImage(data.get(position).getDeal_image(),
                 holder.imageView, ((BaseActivity) context).baseImageoptions);
+
+
 
 //        holder.ll.setVisibility(View.GONE);
 //        holder.footer.setText(data.get(position).getTitle() + "");

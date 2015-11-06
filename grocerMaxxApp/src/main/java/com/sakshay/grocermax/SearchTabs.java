@@ -39,6 +39,7 @@ import com.sakshay.grocermax.bean.Product;
 import com.sakshay.grocermax.bean.ProductDetailsListBean;
 import com.sakshay.grocermax.bean.UserDetailBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.Constants.ToastConstant;
 import com.sakshay.grocermax.utils.UrlsConstants;
@@ -477,7 +478,9 @@ public class SearchTabs extends BaseActivity{
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-
+		try {
+			HotOffersActivity.isFromFragment = false;
+		}catch(Exception e){}
 	}
 
 	//	@Override

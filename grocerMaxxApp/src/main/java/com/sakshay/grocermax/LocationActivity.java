@@ -168,7 +168,6 @@ public class LocationActivity extends BaseActivity {
                             tvLocation[i] = (TextView) view.findViewById(R.id.tv_location);
                             tvLocation[i].setText(locationList.getItems().get(i).getCityName());
 
-
                             if(MySharedPrefs.INSTANCE.getSelectedCity() != null) {
                                 if (!locationList.getItems().get(i).getCityName().equalsIgnoreCase(MySharedPrefs.INSTANCE.getSelectedCity())) {
                                     ivLocation[i].setImageResource(R.drawable.unselect_location);
@@ -322,11 +321,27 @@ public class LocationActivity extends BaseActivity {
 //            AppConstants.strSelectedState = locationList.getItems().get(position).getStateName();         //selected state
 //            AppConstants.strSelectedStateId = locationList.getItems().get(position).getId();              //selected state id
 //            AppConstants.strSelectedStateRegionId = locationList.getItems().get(position).getStateId();   //selected state region id
+
+
+
+
             MySharedPrefs.INSTANCE.putSelectedCity(locationList.getItems().get(position).getCityName());    //selected default city
             MySharedPrefs.INSTANCE.putSelectedState(locationList.getItems().get(position).getStateName());   //selected default state
             MySharedPrefs.INSTANCE.putSelectedStateId(locationList.getItems().get(position).getId());  //selected default id
             MySharedPrefs.INSTANCE.putSelectedStateRegionId(locationList.getItems().get(position).getStateId());  //selected state region id;
             MySharedPrefs.INSTANCE.putSelectedStoreId(locationList.getItems().get(position).getStoreId());  //selected store id;
+
+            System.out.println(locationList.getItems().get(position).getCityName() + "=1111111===" +
+                    locationList.getItems().get(position).getStateName() + "====" +
+                    locationList.getItems().get(position).getId() + "====" +
+                    locationList.getItems().get(position).getStateId() + "====" +
+                    locationList.getItems().get(position).getStoreId() + "====");
+
+            System.out.println(MySharedPrefs.INSTANCE.getSelectedCity() + "==22222222==" +
+                    MySharedPrefs.INSTANCE.getSelectedState() + "====" +
+                    MySharedPrefs.INSTANCE.getSelectedStoreId() + "====" +
+                    MySharedPrefs.INSTANCE.getSelectedStateId() + "====" +
+                    MySharedPrefs.INSTANCE.getSelectedStateRegionId() + "====");
 
             ivLocation[position].setImageResource(R.drawable.select_location);
         }catch(Exception e){

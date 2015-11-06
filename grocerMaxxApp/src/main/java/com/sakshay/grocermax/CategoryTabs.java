@@ -466,7 +466,11 @@ public class CategoryTabs extends BaseActivity {
     public void onBackPressed() {
         // TODO Auto-generated method stub
         super.onBackPressed();
-isFromCategoryTabs = true;
+        try {
+            HotOffersActivity.isFromFragment = false;
+        }catch(Exception e){}
+
+        isFromCategoryTabs = true;
         try {
             for (int i = 0; i < asyncTasks.size(); i++)
                 if (!asyncTasks.get(i).isCancelled()) {
