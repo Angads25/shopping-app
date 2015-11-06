@@ -580,6 +580,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					String userId = MySharedPrefs.INSTANCE.getUserId();
 					if (userId == null || userId.length() == 0) {
 						Intent intent = new Intent(mContext, LoginActivity.class);
+						intent.putExtra("requestCode", AppConstants.LOGIN_REQUEST_CODE);
 						startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
 					} else {
 						callAddressApi();
@@ -1066,10 +1067,21 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		}catch(Exception e){
 			new GrocermaxBaseException("CartProductList", "onDestroy", e.toString(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
-
 	}
 
-//    public String getHeaderUpdateQuantity(){
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		try {
+			if(HotOffersActivity.bFromHome) {
+				HotOffersActivity.isFromFragment = false;    //work fine for home
+			}else{
+				HotOffersActivity.isFromFragment = true;
+			}
+		}catch(Exception e){}
+	}
+
+	//    public String getHeaderUpdateQuantity(){
 //    	return cart_count_txt.getText().toString();
 //    }
 

@@ -52,6 +52,9 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        HotOffersActivity.bFromHome = true;
+        HotOffersActivity.isFromFragment = false;
+
         progress = new ProgressDialog(getActivity());
         progress.setTitle(null);
         progress.setMessage("Please Wait");

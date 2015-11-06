@@ -36,6 +36,7 @@ import com.sakshay.grocermax.hotoffers.fragment.HomeFragment;
 import com.sakshay.grocermax.hotoffers.fragment.ItemDetailFragment;
 import com.sakshay.grocermax.hotoffers.fragment.MenuFragment;
 import com.sakshay.grocermax.hotoffers.fragment.ShopByDealItemDetailFragment;
+import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Constants;
 import com.sakshay.grocermax.utils.UrlsConstants;
@@ -66,6 +67,7 @@ public class HotOffersActivity extends BaseActivity {
     private ArrayList<String> menuArray = new ArrayList<>();
     public static boolean isFromFragment = false;
     boolean isFromNotification = false;
+    public static boolean bFromHome = false;          //track for home screen(1st level fragment) fragment and deal detail fragment(2nd level fragment)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,19 +186,19 @@ public class HotOffersActivity extends BaseActivity {
             findViewById(R.id.header).setVisibility(View.VISIBLE);
             findViewById(R.id.header_left).setVisibility(View.GONE);
         }else{
-            isFromFragment =false;
-//            initHeader(findViewById(R.id.header_left), true, null);
+//            isFromFragment =false;
+            initHeader(findViewById(R.id.header_left), true, AppConstants.strTitleHotDeal);
             findViewById(R.id.header).setVisibility(View.GONE);
             findViewById(R.id.header_left).setVisibility(View.VISIBLE);
         }
 
 //        initHeader(findViewById(R.id.header), true, null);
+
         if (isFromCategoryTabs && this.getSupportFragmentManager().getBackStackEntryCount() == 1) {
             isFromCategoryTabs = false;
             drawerLayout.closeDrawer(Gravity.LEFT);
         }
     }
-
 
     @Override
     public void OnResponse(Bundle bundle) {
@@ -313,9 +315,8 @@ public class HotOffersActivity extends BaseActivity {
                 Bundle call_bundle = new Bundle();
                 call_bundle.putSerializable("ProductList",
                         dealListBean);
-                call_bundle.putSerializable("Header", AppConstants.strTitleHotDeal);
-                // call_bundle.putString("cat_id",
-                // category.getCategoryId());
+//                call_bundle.putSerializable("Header", AppConstants.strTitleHotDeal);
+                call_bundle.putSerializable("Header", DealListScreen.strDealHeading);
                 call.putExtras(call_bundle);
                 startActivity(call);
 

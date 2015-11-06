@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.OfferByDealTypeSubModel;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.hotoffers.adapter.DetailListAdapter;
 import com.sakshay.grocermax.hotoffers.adapter.ShopByDealDetailListAdapter;
 import com.sakshay.grocermax.utils.AppConstants;
@@ -45,6 +46,8 @@ public class ItemDetailGrid extends Fragment {
                 offerList = arrayList;
             }
         });
+
+        HotOffersActivity.bFromHome = false;
 //        addArrayData();
 //        offerList = ((ItemDetailFragment) frag).getOfferData(0);
 

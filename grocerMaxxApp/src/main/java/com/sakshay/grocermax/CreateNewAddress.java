@@ -481,6 +481,8 @@ public class CreateNewAddress extends BaseActivity{
 			if (address == null)       //new address
 			{
 //				tvCity.setText("Gurgaon");
+//				String str1 = 	MySharedPrefs.INSTANCE.getFirstName();
+//				String str2 = 	MySharedPrefs.INSTANCE.getLastName();
 				tvFirstName.setText(MySharedPrefs.INSTANCE.getFirstName());
 				tvLastName.setText(MySharedPrefs.INSTANCE.getLastName());
 

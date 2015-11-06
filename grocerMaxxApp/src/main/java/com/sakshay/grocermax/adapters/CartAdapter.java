@@ -154,21 +154,60 @@ public class CartAdapter extends BaseAdapter{
 
 
 
-		if(obj.getStatus().equals("1")){  //product available
-			holder.rlOutofStock.setVisibility(View.GONE);
-			holder.rlOutofStock.setEnabled(true);
-		}else{                            //product not available
-			holder.rlOutofStock.setVisibility(View.VISIBLE);
-			holder.rlOutofStock.setEnabled(false);
+//		if(obj.getStatus().equals("1")){  //product available
+//			holder.rlOutofStock.setVisibility(View.GONE);
+//			holder.rlOutofStock.setEnabled(true);
+//		}else{                            //product not available
+//			holder.rlOutofStock.setVisibility(View.VISIBLE);
+//			holder.rlOutofStock.setEnabled(false);
+////			alOutOfStockId.add(CartProductList.cartList.get(position).getItem_id());
+////			if(UtilityMethods.isInternetAvailable(activity)){
+//				if(CartProductList.getInstance().place_order != null && CartProductList.getInstance().update_cart != null) {
+//					CartProductList.getInstance().place_order.setVisibility(View.GONE);
+//					CartProductList.getInstance().update_cart.setVisibility(View.VISIBLE);
+//					CartProductList.getInstance().update_cart.setBackgroundColor(activity.getResources().getColor(R.color.updateshade));
+//				}
+//			}
+
+
+
+			if(obj.getStatus().equals("1")){  //product available
+				holder.rlOutofStock.setVisibility(View.GONE);
+				holder.rlOutofStock.setEnabled(true);
+				if(obj.getPromotionLevel() != null){
+					holder.offerImage.setVisibility(View.VISIBLE);
+					holder.tvOffers.setVisibility(View.VISIBLE);
+					holder.tvOffers.setText(obj.getPromotionLevel());
+				}else{
+					holder.tvOffers.setVisibility(View.GONE);
+					holder.offerImage.setVisibility(View.GONE);
+				}
+			}else{                            //product not available
+				holder.rlOutofStock.setVisibility(View.VISIBLE);
+				holder.rlOutofStock.setEnabled(false);
 //			alOutOfStockId.add(CartProductList.cartList.get(position).getItem_id());
 //			if(UtilityMethods.isInternetAvailable(activity)){
 				if(CartProductList.getInstance().place_order != null && CartProductList.getInstance().update_cart != null) {
 					CartProductList.getInstance().place_order.setVisibility(View.GONE);
 					CartProductList.getInstance().update_cart.setVisibility(View.VISIBLE);
 					CartProductList.getInstance().update_cart.setBackgroundColor(activity.getResources().getColor(R.color.updateshade));
+					holder.increase_quantity.setVisibility(View.INVISIBLE);
+					holder.decrease_quantity.setVisibility(View.INVISIBLE);
+					holder.tvOffers.setVisibility(View.VISIBLE);
+					holder.tvOffers.setText(AppConstants.ToastConstant.REMOVE_ITEM_FOR_PROCEED);
+					if(obj.getPromotionLevel() != null){
+						holder.offerImage.setVisibility(View.VISIBLE);
+//						holder.tvOffers.setVisibility(View.VISIBLE);
+//						holder.tvOffers.setText(obj.getPromotionLevel());
+					}else{
+//						holder.tvOffers.setVisibility(View.GONE);
+//						holder.offerImage.setVisibility(View.GONE);
+					}
 				}
 			}
 //		}
+
+
 
 //		holder.prod_brand_name.setText(obj.getBrand());
 		holder.prod_brand_name.setText(obj.getBrand());
@@ -178,14 +217,14 @@ public class CartAdapter extends BaseAdapter{
 		holder.prod_name.setText(obj.getProductName());
 		holder.prod_gmorml.setText(obj.getGramsORml());
 
-		if(obj.getPromotionLevel() != null){
-			holder.offerImage.setVisibility(View.VISIBLE);
-			holder.tvOffers.setVisibility(View.VISIBLE);
-			holder.tvOffers.setText(obj.getPromotionLevel());
-		}else{
-			holder.tvOffers.setVisibility(View.GONE);
-			holder.offerImage.setVisibility(View.GONE);
-		}
+//		if(obj.getPromotionLevel() != null){
+//			holder.offerImage.setVisibility(View.VISIBLE);
+//			holder.tvOffers.setVisibility(View.VISIBLE);
+//			holder.tvOffers.setText(obj.getPromotionLevel());
+//		}else{
+//			holder.tvOffers.setVisibility(View.GONE);
+//			holder.offerImage.setVisibility(View.GONE);
+//		}
 
 		String price=obj.getPrice().toString().replace(",", "");
 //		holder.price.setText("Rs. " + String.format("%.2f", Float.parseFloat(price)));
@@ -197,19 +236,38 @@ public class CartAdapter extends BaseAdapter{
 		float saving=obj.getQty()*(Float.parseFloat(mrp)-Float.parseFloat(price));
 //		holder.saving.setText("You Save : Rs. " + String.format("%.2f", saving));
 
-		if(Float.parseFloat(price)==0)
-		{
-			holder.increase_quantity.setVisibility(View.INVISIBLE);
-			holder.decrease_quantity.setVisibility(View.INVISIBLE);
-			holder.delete_item.setVisibility(View.INVISIBLE);
-			holder.llCancel.setVisibility(View.INVISIBLE);
+//		if(Float.parseFloat(price)==0)
+//		{
+//			holder.increase_quantity.setVisibility(View.INVISIBLE);
+//			holder.decrease_quantity.setVisibility(View.INVISIBLE);
+//			holder.delete_item.setVisibility(View.INVISIBLE);
+//			holder.llCancel.setVisibility(View.INVISIBLE);
+//
+//		}else{
+//			holder.increase_quantity.setVisibility(View.VISIBLE);
+//			holder.decrease_quantity.setVisibility(View.VISIBLE);
+//			holder.delete_item.setVisibility(View.VISIBLE);
+//			holder.llCancel.setVisibility(View.VISIBLE);
+//		}
 
-		}else{
-			holder.increase_quantity.setVisibility(View.VISIBLE);
-			holder.decrease_quantity.setVisibility(View.VISIBLE);
-			holder.delete_item.setVisibility(View.VISIBLE);
-			holder.llCancel.setVisibility(View.VISIBLE);
-		}
+			if(Float.parseFloat(price)==0)
+			{
+				holder.increase_quantity.setVisibility(View.INVISIBLE);
+				holder.decrease_quantity.setVisibility(View.INVISIBLE);
+				holder.delete_item.setVisibility(View.INVISIBLE);
+				holder.llCancel.setVisibility(View.INVISIBLE);
+			}else{
+				holder.increase_quantity.setVisibility(View.VISIBLE);
+				holder.decrease_quantity.setVisibility(View.VISIBLE);
+				holder.delete_item.setVisibility(View.VISIBLE);
+				holder.llCancel.setVisibility(View.VISIBLE);
+				if(obj.getStatus().equals("0")){      //product not available
+					holder.increase_quantity.setVisibility(View.INVISIBLE);
+					holder.decrease_quantity.setVisibility(View.INVISIBLE);
+					holder.delete_item.setVisibility(View.VISIBLE);
+					holder.llCancel.setVisibility(View.VISIBLE);
+				}
+			}
 
 		ImageLoader.getInstance().displayImage(obj.getProduct_thumbnail(),holder.prod_image, ((BaseActivity)activity).baseImageoptions);
 

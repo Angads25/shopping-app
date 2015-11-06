@@ -19,6 +19,7 @@ import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.hotoffers.adapter.DetailListAdapter;
 import com.sakshay.grocermax.hotoffers.adapter.ShopByCategoryListAdapter;
 import com.sakshay.grocermax.hotoffers.adapter.ShopByDealDetailListAdapter;
+import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 import com.sakshay.grocermax.utils.Worker;
 
@@ -43,6 +44,7 @@ public class ShopByDealItemDetailGrid extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        HotOffersActivity.bFromHome = false;
 //        View view = inflater.inflate(R.layout.item_grid, container, false);
 //        recyclerView = (RecyclerView) view.findViewById(R.id.gridView);
 //        GridLayoutManager gridLayout = new GridLayoutManager(getActivity(), 2);

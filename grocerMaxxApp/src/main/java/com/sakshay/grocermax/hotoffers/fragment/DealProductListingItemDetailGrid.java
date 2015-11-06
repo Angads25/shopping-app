@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.DealProductListingModel;
+import com.sakshay.grocermax.hotoffers.HotOffersActivity;
 import com.sakshay.grocermax.hotoffers.adapter.ProductListingAdapter;
 import com.sakshay.grocermax.utils.Constants;
 
@@ -26,6 +27,8 @@ public class DealProductListingItemDetailGrid extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        HotOffersActivity.bFromHome = false;
 
         Bundle bundle = getArguments();
         offerList = (ArrayList<DealProductListingModel>) bundle.get(Constants.PRODUCTLIST);

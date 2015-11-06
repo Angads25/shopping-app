@@ -59,6 +59,7 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
 //    TextView tv_bradcrum;
     View hrc;
     EasyTracker tracker;
+    public static String strDealHeading = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -374,7 +375,11 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
     public void onBackPressed() {
         super.onBackPressed();
         try {
-            HotOffersActivity.isFromFragment = true;
+            if(HotOffersActivity.bFromHome) {
+                HotOffersActivity.isFromFragment = false;    //work fine for home
+            }else{
+                HotOffersActivity.isFromFragment = true;
+            }
         }catch(Exception e){}
     }
 }

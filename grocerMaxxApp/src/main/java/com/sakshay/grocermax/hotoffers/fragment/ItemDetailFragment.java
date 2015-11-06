@@ -52,7 +52,10 @@ public class ItemDetailFragment extends Fragment {
 
         Bundle data = getArguments();
         ((HotOffersActivity) getActivity()).isFromFragment = true;
+        HotOffersActivity.bFromHome = false;
 //        itemDetailGrid = new ItemDetailGrid();
+
+
 
         ((BaseActivity) getActivity()).initHeader(getActivity().findViewById(R.id.header_left), true, AppConstants.strTitleHotDeal);
         ((BaseActivity) getActivity()).findViewById(R.id.header_left).setVisibility(View.VISIBLE);

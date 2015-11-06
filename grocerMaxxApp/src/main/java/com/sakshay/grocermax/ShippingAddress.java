@@ -744,18 +744,22 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
 
                         Address ship_add = addressList.get(selectedPosition);
 
-//                        if (!ship_add.getCity().equalsIgnoreCase(AppConstants.strSelectedCity)) {
-                        if (!ship_add.getCity().equalsIgnoreCase(MySharedPrefs.INSTANCE.getSelectedCity())) {
-//                            UtilityMethods.customToast("We deliver only in " + AppConstants.strSelectedCity + "," + AppConstants.strSelectedState + ".Kindly select add new address", mContext);
-                            UtilityMethods.customToast("We deliver only in " + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + ".Kindly select add new address", mContext);
-                            return;
+                        try{
+                        if (ship_add.getRegionId() != null && MySharedPrefs.INSTANCE.getSelectedStateRegionId() != null) {
+                            if (!ship_add.getRegionId().equals(MySharedPrefs.INSTANCE.getSelectedStateRegionId())) {
+                                UtilityMethods.customToast("We deliver only in " + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + ".Kindly select add new address", mContext);
+                            }
                         }
-//                        if (!ship_add.getRegion().equalsIgnoreCase(AppConstants.strSelectedState)) {
-                        if (!ship_add.getRegion().equalsIgnoreCase(MySharedPrefs.INSTANCE.getSelectedState())) {
-//                            UtilityMethods.customToast("We deliver only in " + AppConstants.strSelectedCity + "," + AppConstants.strSelectedState + ".Kindly select add new address", mContext);
-                            UtilityMethods.customToast("We deliver only in " + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + ".Kindly select add new address", mContext);
-                            return;
-                        }
+                        }catch(Exception e){}
+//                        if (!ship_add.getCity().equalsIgnoreCase(MySharedPrefs.INSTANCE.getSelectedCity())) {
+//                            UtilityMethods.customToast("We deliver only in " + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + ".Kindly select add new address", mContext);
+//                            return;
+//                        }
+
+//                        if (!ship_add.getRegion().equalsIgnoreCase(MySharedPrefs.INSTANCE.getSelectedState())) {
+//                            UtilityMethods.customToast("We deliver only in " + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + ".Kindly select add new address", mContext);
+//                            return;
+//                        }
 
                         if (bShippingAsBilling) {
                             OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
@@ -1459,15 +1463,15 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                 JSONObject shipping_json_obj = new JSONObject();
 
                 int index;
-                if(editIndex.equals("")){
+                if (editIndex.equals("")) {
                     addressList = address_obj.getAddress();
-                    index = addressList.size()-1;            //doesn't come in this case
-                }else if(editIndex.equals("-1")){
+                    index = addressList.size() - 1;            //doesn't come in this case
+                } else if (editIndex.equals("-1")) {
                     addressList = address_obj.getAddress();
-                    index = addressList.size()-1;            //when adding address
-                }else{
-                    for(int i=0;i<address_obj.getAddress().size();i++) {
-                        if(address_obj.getAddress().get(i).getDefaultShipping().equals("true")) {
+                    index = addressList.size() - 1;            //when adding address
+                } else {
+                    for (int i = 0; i < address_obj.getAddress().size(); i++) {
+                        if (address_obj.getAddress().get(i).getDefaultShipping().equals("true")) {
                             addressList.add(address_obj.getAddress().get(i));
                         }
                     }
@@ -1478,7 +1482,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                 shipping_json_obj.put("fname", ship_add.getFirstname());
                 shipping_json_obj.put("lname", ship_add.getLastname());
                 shipping_json_obj.put("city", ship_add.getCity());
-                if(ship_add.getRegion()!=null ) {
+                if (ship_add.getRegion() != null) {
                     if (!ship_add.getRegion().equals("")) {
                         shipping_json_obj.put("region", ship_add.getRegion());
                     }
@@ -1487,24 +1491,30 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                 shipping_json_obj.put("country_id", "IN");
                 shipping_json_obj.put("telephone", ship_add.getTelephone());
                 shipping_json_obj.put("addressline1", ship_add.getStreet());
-                shipping_json_obj.put("addressline2","");
-                shipping_json_obj.put("default_billing","0");
-                shipping_json_obj.put("default_shipping","0");
+                shipping_json_obj.put("addressline2", "");
+                shipping_json_obj.put("default_billing", "0");
+                shipping_json_obj.put("default_shipping", "0");
                 orderReviewBean.setShipping(shipping_json_obj);
                 MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean);
 
-//                if(!ship_add.getCity().equalsIgnoreCase(AppConstants.strSelectedCity)){
-                if(!ship_add.getCity().equalsIgnoreCase(MySharedPrefs.INSTANCE.getSelectedCity())){
-//                    UtilityMethods.customToast("We deliver only in "+AppConstants.strSelectedCity+","+AppConstants.strSelectedState+".Kindly select add new address", mContext);
-                    UtilityMethods.customToast("We deliver only in "+MySharedPrefs.INSTANCE.getSelectedCity()+","+MySharedPrefs.INSTANCE.getSelectedState()+".Kindly select add new address", mContext);
-                    return;
-                }
-//                if(!ship_add.getRegion().equalsIgnoreCase(AppConstants.strSelectedState)){
-                if(!ship_add.getRegion().equalsIgnoreCase(MySharedPrefs.INSTANCE.getSelectedState())){
-//                    UtilityMethods.customToast("We deliver only in "+AppConstants.strSelectedCity+","+AppConstants.strSelectedState+".Kindly select add new address", mContext);
-                    UtilityMethods.customToast("We deliver only in "+MySharedPrefs.INSTANCE.getSelectedCity()+","+MySharedPrefs.INSTANCE.getSelectedState()+".Kindly select add new address", mContext);
-                    return;
-                }
+                try {
+                    if (ship_add.getRegionId() != null && MySharedPrefs.INSTANCE.getSelectedStateRegionId() != null) {
+                        if (!ship_add.getRegionId().equals(MySharedPrefs.INSTANCE.getSelectedStateRegionId())) {
+                            UtilityMethods.customToast("We deliver only in " + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + ".Kindly select add new address", mContext);
+                            return;
+                        }
+                    }
+                }catch(Exception e){}
+
+//                if(!ship_add.getCity().equalsIgnoreCase(MySharedPrefs.INSTANCE.getSelectedCity())){
+//                    UtilityMethods.customToast("We deliver only in "+MySharedPrefs.INSTANCE.getSelectedCity()+","+MySharedPrefs.INSTANCE.getSelectedState()+".Kindly select add new address", mContext);
+//                    return;
+//                }
+
+//                if(!ship_add.getRegion().equalsIgnoreCase(MySharedPrefs.INSTANCE.getSelectedState())){
+//                    UtilityMethods.customToast("We deliver only in "+MySharedPrefs.INSTANCE.getSelectedCity()+","+MySharedPrefs.INSTANCE.getSelectedState()+".Kindly select add new address", mContext);
+//                    return;
+//                }
                 finish();
 
                 Intent intent = new Intent(ShippingAddress.this, ShippingAddress.class);

@@ -469,6 +469,7 @@ public class SearchTabs extends BaseActivity{
 //			initHeader(headerView, true, searchString);
 
 
+
 		} catch (Exception e) {
 			new GrocermaxBaseException("SearchTabs","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
@@ -479,7 +480,11 @@ public class SearchTabs extends BaseActivity{
 	public void onBackPressed() {
 		super.onBackPressed();
 		try {
-			HotOffersActivity.isFromFragment = false;
+			if(HotOffersActivity.bFromHome) {
+				HotOffersActivity.isFromFragment = false;    //work fine for home
+			}else{
+				HotOffersActivity.isFromFragment = true;
+			}
 		}catch(Exception e){}
 	}
 

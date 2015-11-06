@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sakshay.grocermax.BaseActivity;
+import com.sakshay.grocermax.DealListScreen;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.OfferByDealTypeSubModel;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
@@ -100,7 +101,8 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
                 ((HotOffersActivity) context).hitForDealsByDeals(data.get(position).getId());
                 ((HotOffersActivity) context).isFromFragment = true;
 //                    AppConstants.strTitleHotDeal = data.get(position).getName();
-                AppConstants.strTitleHotDeal = "Offer Detail";
+//                AppConstants.strTitleHotDeal = "Offer Detail";
+                DealListScreen.strDealHeading  = "Offer Detail";
             }
         });
 

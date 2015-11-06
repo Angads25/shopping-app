@@ -51,6 +51,7 @@ public class ShopByDealItemDetailFragment extends Fragment {
 
         Bundle data = getArguments();
         ((HotOffersActivity) getActivity()).isFromFragment = true;
+        HotOffersActivity.bFromHome = false;
 //        ((HotOffersActivity)getActivity()).setHeader("activity start");
 //        itemDetailGrid = new ItemDetailGrid();
         try {

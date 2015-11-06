@@ -156,10 +156,22 @@ public class SplashScreen extends BaseActivity
 		if(MySharedPrefs.INSTANCE.getSelectedCity() != null){
 //			showDialog();
 			String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;
-			myApi.reqCategorySubCategoryList(url);
+			if(UtilityMethods.isInternetAvailable(activity)) {
+				myApi.reqCategorySubCategoryList(url);
+			}else{
+				UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, activity);
+				handler = new Handler();
+				handler.postDelayed(runningThread, 4000);
+			}
 		}else {
 			String url = UrlsConstants.GET_LOCATION;
-			myApi.reqLocation(url);
+			if(UtilityMethods.isInternetAvailable(activity)) {
+				myApi.reqLocation(url);
+			}else{
+				UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, activity);
+				handler = new Handler();
+				handler.postDelayed(runningThread, 4000);
+			}
 		}
 	}
 
@@ -172,6 +184,7 @@ public class SplashScreen extends BaseActivity
 
 	Runnable runningThread = new Runnable() {
 		public void run() {
+			finish();
 			/*Intent intent;
 			intent = new Intent(SplashScreen.this, HomeScreen.class);
 			startActivity(intent);

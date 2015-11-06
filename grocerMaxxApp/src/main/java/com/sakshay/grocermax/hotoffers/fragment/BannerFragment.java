@@ -63,6 +63,8 @@ public class BannerFragment extends Fragment {
         ImageView imageView = (ImageView) view.findViewById(R.id.image);
         context = getActivity();
 
+        HotOffersActivity.bFromHome = true;
+
 
         url = getArguments().getString("imgUrl");
 //        linkurl = (((HomeFragment)frag).getHomeBannerBean()).getBanner().get(((HomeFragment)frag).getPosition()).getLinkurl();

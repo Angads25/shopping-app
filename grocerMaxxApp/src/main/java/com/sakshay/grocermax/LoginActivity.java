@@ -47,6 +47,7 @@ import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.bean.BaseResponseBean;
 import com.sakshay.grocermax.bean.CartDetail;
 import com.sakshay.grocermax.bean.CartDetailBean;
+import com.sakshay.grocermax.bean.DealListBean;
 import com.sakshay.grocermax.bean.LoginResponse;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
@@ -84,6 +85,7 @@ public class LoginActivity extends BaseActivity
 	String USER_EMAIL = "";          //common for facebook and google plus
 
 	EasyTracker tracker;
+	int requestcodecart = 00;  //uses for gettng separation of whether calling from cartactivity or from home screen.
 
 	public static LoginActivity instance = null;
 	public static LoginActivity getInstance(){
@@ -104,8 +106,15 @@ public class LoginActivity extends BaseActivity
 		setContentView(R.layout.login_new);
 //		setContentView(R.layout.confirmation_activity);
 //		setContentView(R.layout.order_failure);
+
 		try {
 			//context = this;
+
+			Bundle bundle = getIntent().getExtras();
+			if (bundle != null) {
+				requestcodecart = bundle.getInt("requestCode");
+
+			}
 
 			tracker = EasyTracker.getInstance(this);
 
@@ -402,6 +411,8 @@ public class LoginActivity extends BaseActivity
 			}catch(Exception e){}
 
 			try {
+//			String str1 = 	MySharedPrefs.INSTANCE.getFirstName();
+//			String str2 = 	MySharedPrefs.INSTANCE.getLastName();
 				USER_EMAIL = user.getProperty("email").toString();
 			} catch (Exception e) {
 				Log.e("ERROR", "Enable to get email");
@@ -714,8 +725,23 @@ public class LoginActivity extends BaseActivity
 //					}else{                                   //if user has no total item that mean he will redirect to home screen or product listing or product description screen.
 
 
-					setResult(RESULT_OK);
-					finish();
+					if (requestcodecart != 00) {
+						if (requestcodecart == AppConstants.LOGIN_REQUEST_CODE) {           //call from cartproductlist
+							setResult(RESULT_OK);
+							finish();
+						}else{                                                                  //move on to homescreen
+							Intent intent = new Intent(mContext, HotOffersActivity.class);
+							intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
+							finish();
+						}
+					}else {                                                                   //move on to homescreen
+						Intent intent = new Intent(mContext, HotOffersActivity.class);
+						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						startActivity(intent);
+						finish();
+					}
+
 //					}
 
 
@@ -1087,6 +1113,7 @@ public class LoginActivity extends BaseActivity
 //		USER_MNAME = user.getMiddleName();
 //		USER_LNAME = user.getLastName();
 			try {
+				MySharedPrefs.INSTANCE.putFirstName(USER_NAME);
 				USER_EMAIL = Plus.AccountApi.getAccountName(mGoogleApiClient);
 			} catch (Exception e) {
 				Log.e("ERROR", "Enable to get email");

@@ -19,9 +19,11 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sakshay.grocermax.BaseActivity;
+import com.sakshay.grocermax.DealListScreen;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.OfferByDealTypeSubModel;
 import com.sakshay.grocermax.hotoffers.HotOffersActivity;
+import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.AppConstants;
 
 import java.util.ArrayList;
@@ -97,6 +99,7 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
 
 //        ((HotOffersActivity) context).isFromFragment = true;
 //        ((BaseActivity) context).showSearchView(false);
+
         ((BaseActivity) context).initHeader(context.findViewById(R.id.header_left), true, AppConstants.strTitleHotDeal);
         ((BaseActivity) context).findViewById(R.id.header_left).setVisibility(View.VISIBLE);
         ((BaseActivity) context).findViewById(R.id.header).setVisibility(View.GONE);
@@ -119,8 +122,11 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
             public void onClick(View v) {
                 ((HotOffersActivity)context).hitForDealsByDeals(data.get(position).getPromo_id());
 //                AppConstants.strTitleHotDeal = data.get(position).getTitle();
-                  AppConstants.strTitleHotDeal = "Offer Detail";
-                ((HotOffersActivity) context).isFromFragment = true;
+
+//                  AppConstants.strTitleHotDeal = "Offer Detail";
+                DealListScreen.strDealHeading  = "Offer Detail";
+
+                    ((HotOffersActivity) context).isFromFragment = true;
 //                String str1 = data.get(position).getDealName();
 //                String str2 = data.get(position).getName();
 //                String str3 = data.get(position).getTitle();

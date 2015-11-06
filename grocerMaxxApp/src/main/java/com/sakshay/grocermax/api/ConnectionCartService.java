@@ -241,20 +241,22 @@ public class ConnectionCartService  extends IntentService {
                         Session session = getSession();
                         if (!session.isClosed()) {
 //                            MySharedPrefs.INSTANCE.clearAllData();
-                            String strCity = MySharedPrefs.INSTANCE.getSelectedCity();
-                            String strRegionId = MySharedPrefs.INSTANCE.getSelectedStateRegionId();
-                            String strState = MySharedPrefs.INSTANCE.getSelectedState();
-                            String strStoreId = MySharedPrefs.INSTANCE.getSelectedStoreId();
-                            String strStateId = MySharedPrefs.INSTANCE.getSelectedStateId();
 
-                            MySharedPrefs.INSTANCE.clearAllData();
 
-                            MySharedPrefs.INSTANCE.putSelectedCity(strCity);
-                            MySharedPrefs.INSTANCE.putSelectedStateRegionId(strRegionId);
-                            MySharedPrefs.INSTANCE.putSelectedState(strState);
-                            MySharedPrefs.INSTANCE.putSelectedStoreId(strStoreId);
-                            MySharedPrefs.INSTANCE.putSelectedStateId(strStateId);
-                            session.closeAndClearTokenInformation();
+//                            String strCity = MySharedPrefs.INSTANCE.getSelectedCity();
+//                            String strRegionId = MySharedPrefs.INSTANCE.getSelectedStateRegionId();
+//                            String strState = MySharedPrefs.INSTANCE.getSelectedState();
+//                            String strStoreId = MySharedPrefs.INSTANCE.getSelectedStoreId();
+//                            String strStateId = MySharedPrefs.INSTANCE.getSelectedStateId();
+//
+//                            MySharedPrefs.INSTANCE.clearAllData();
+//
+//                            MySharedPrefs.INSTANCE.putSelectedCity(strCity);
+//                            MySharedPrefs.INSTANCE.putSelectedStateRegionId(strRegionId);
+//                            MySharedPrefs.INSTANCE.putSelectedState(strState);
+//                            MySharedPrefs.INSTANCE.putSelectedStoreId(strStoreId);
+//                            MySharedPrefs.INSTANCE.putSelectedStateId(strStateId);
+//                            session.closeAndClearTokenInformation();
                         }
                     }
                 }

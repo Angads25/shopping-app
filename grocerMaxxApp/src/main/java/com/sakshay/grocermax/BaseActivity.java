@@ -185,7 +185,6 @@ public abstract class BaseActivity extends FragmentActivity {
 			martHeader = (View) view.findViewById(R.id.header_shadow);
 
 			if (MySharedPrefs.INSTANCE.getUserId() != null) {
-				//TODO: commented this out as it was superimposing another image which was bigge than params specified,
 				//please handle again for login logout
 //				BaseActivity.icon_header_user.setEnabled(true);
 //				BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon);  //login icon
