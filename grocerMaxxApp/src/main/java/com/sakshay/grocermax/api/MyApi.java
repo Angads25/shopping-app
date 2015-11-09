@@ -939,6 +939,17 @@ public class MyApi {
 		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.SHOP_BY_CATEGORY_LIST);
 		m_context.startService(reqIntent);
 	}
+
+	public void reqHome(String url) {
+		Intent reqIntent = new Intent(m_context, ConnectionService.class);
+		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.GET_HOME_PAGE);
+		reqIntent.putExtra(ConnectionService.URL, url);
+		reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+		reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.SHOP_BY_CATEGORY_LIST);
+		m_context.startService(reqIntent);
+	}
+
+
 	public void reqGetShopByDeals(String url) {
 		Intent reqIntent = new Intent(m_context, ConnectionService.class);
 		reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.GET_SHOP_BY_DEALS);

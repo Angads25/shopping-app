@@ -147,20 +147,21 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
         holder.footer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            try {
+                if (Integer.parseInt(data.get(position).getOffercount()) > 0) {
 
-                ((HotOffersActivity)context).hitForShopByCategory(data.get(position).getCategory_id());
-//                System.out.println("=====idss===" + data.get(position).getCategory_id());
-
-                for(int i=0;i<((HotOffersActivity) context).catObj.size();i++){
-                    if(((HotOffersActivity) context).catObj.get(i).getCategoryId().equals(data.get(position).getCategory_id())){
+                    ((HotOffersActivity) context).hitForShopByCategory(data.get(position).getCategory_id());
+                    for (int i = 0; i < ((HotOffersActivity) context).catObj.size(); i++) {
+                        if (((HotOffersActivity) context).catObj.get(i).getCategoryId().equals(data.get(position).getCategory_id())) {
 //                        strCatName = catObj.get(i).getCategory();
 //                        ShopByCategoryListAdapter.strDealListCategoryHeading = ((HotOffersActivity) context).catObj.get(i).getCategory();
 
 //                        AppConstants.strTitleHotDeal = ((HotOffersActivity) context).catObj.get(i).getCategory();
-                        AppConstants.strTitleHotDeal = ((HotOffersActivity) context).catObj.get(i).getCategory();
+                            AppConstants.strTitleHotDeal = ((HotOffersActivity) context).catObj.get(i).getCategory();
+                        }
                     }
                 }
-//                ShopByCategoryListAdapter.strDealListCategoryHeading = ((HotOffersActivity) context).catObj.get(position).getCategory();
+            }catch(Exception e){}
             }
         });
 

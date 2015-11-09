@@ -42,6 +42,15 @@ public class CartDetail extends BaseResponseBean implements Serializable,Parcela
 	@Expose
 	private String promotion_level;
 
+	@Expose
+	private String webqty;
+
+	public String getWebQty(){
+		return webqty;
+	}
+
+	public void setWebQty(String webquantity){  this.webqty = webquantity;  }
+
 	public String getStatus(){
 		return Status;
 	}

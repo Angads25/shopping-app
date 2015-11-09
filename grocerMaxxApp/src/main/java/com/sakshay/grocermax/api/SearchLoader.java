@@ -136,9 +136,9 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 			if(result == null){
 				((BaseActivity)context).dismissDialog();
 				UtilityMethods.customToast("Problem Occured", context);
-				if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+//				if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
 					AppConstants.bBack = true;
-				}
+//				}
 				return;
 			}
 
@@ -150,9 +150,9 @@ public class SearchLoader extends AsyncTask<String, String, String> {
     		if(jsonObject.getString("Result").equalsIgnoreCase("No Result Found")){
     			((BaseActivity)context).dismissDialog();
     			UtilityMethods.customToast(jsonObject.getString("Result"), context);
-				if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+//				if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
 					AppConstants.bBack = true;
-				}
+//				}
     			return;	
     		}
 

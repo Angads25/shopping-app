@@ -19,6 +19,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
@@ -328,11 +329,12 @@ public class ConnectionService extends IntentService {
 					Log.i(TAG, "URL:::" + urlString);
 				}
 
-//				HttpParams httpParameters = new BasicHttpParams();
-//				int timeoutConnection = 3000;
-//				HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
-//				int timeoutSocket = 5000;
-//				HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+				HttpParams httpParameters = new BasicHttpParams();
+				int timeoutConnection = 0;
+				HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+				int timeoutSocket = 5000;
+				HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+
 
 //				httpGet.setHeader("Content-Type", "application/json");
 //				if (accessToken != null) {
@@ -347,7 +349,11 @@ public class ConnectionService extends IntentService {
 			HttpEntity resEntity = response.getEntity();
 			return EntityUtils.toString(resEntity);
 
-		}catch (Exception e) {
+		}catch (ConnectTimeoutException e) {
+			//Here Connection TimeOut excepion
+//			Toast.makeText(xyz.this, "Your connection timedout", 10000).show();
+		}
+		catch (Exception e) {
 			new GrocermaxBaseException("ConnectionService","processRequest",e.getMessage(),GrocermaxBaseException.EXCEPTION,EntityUtils.toString(response.getEntity()));
 			e.printStackTrace();
 		}

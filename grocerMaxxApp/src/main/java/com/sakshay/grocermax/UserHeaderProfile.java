@@ -37,7 +37,7 @@ import org.json.JSONObject;
  * Created by Abhishek on 8/25/2015.
  */
 public class UserHeaderProfile extends BaseActivity implements View.OnClickListener{
-    TextView tvUserName,tvUserEmail,tvUserMobileNo;
+    public static TextView tvUserName,tvUserEmail,tvUserMobileNo;
     RelativeLayout rlLogin,rlOrderHistory,rlMyAddresses,rlEditProfile,rlInviteFriends,rlCallToUs,rlWriteToUs,rlSignOut;
 //    rlViewProfile
     TextView tvLogin,tvOrderHistory,tvMyAddresses,tvEditProfile,tvInviteFriends,tvCallToUs,tvWriteToUs,tvSignOut;
@@ -97,27 +97,33 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
         if (MySharedPrefs.INSTANCE.getLoginStatus()){
 //        if(MySharedPrefs.INSTANCE.getFacebookName() != null){
 //            if(Registration.facebookName != null) {
-                if(Registration.facebookName != null) {
-                    tvUserName.setText(Registration.facebookName);
-                    if (MySharedPrefs.INSTANCE.getFacebookName() == null) {
-                        MySharedPrefs.INSTANCE.putFacebookName(Registration.facebookName);
-                    }
-                }else if(MySharedPrefs.INSTANCE.getFacebookName() != null){
-                    tvUserName.setText(MySharedPrefs.INSTANCE.getFacebookName());
-                    if (MySharedPrefs.INSTANCE.getFacebookName() == null) {
-                        MySharedPrefs.INSTANCE.putFacebookName(Registration.facebookName);
-                    }
-                }else if(Registration.googleName != null) {
-                    tvUserName.setText(Registration.googleName);
-                    if (MySharedPrefs.INSTANCE.getGoogleName() == null) {
-                        MySharedPrefs.INSTANCE.putGoogleName(Registration.googleName);
-                    }
-                }else if(MySharedPrefs.INSTANCE.getGoogleName() != null) {
-                    tvUserName.setText(MySharedPrefs.INSTANCE.getGoogleName());
-                    if (MySharedPrefs.INSTANCE.getGoogleName() == null) {
-                        MySharedPrefs.INSTANCE.putGoogleName(Registration.googleName);
-                    }
-                }else if (MySharedPrefs.INSTANCE.getFirstName() != null && MySharedPrefs.INSTANCE.getLastName() != null) {
+
+
+
+//                if(Registration.facebookName != null) {
+//                    tvUserName.setText(Registration.facebookName);
+//                    if (MySharedPrefs.INSTANCE.getFacebookName() == null) {
+//                        MySharedPrefs.INSTANCE.putFacebookName(Registration.facebookName);
+//                    }
+//                }else if(MySharedPrefs.INSTANCE.getFacebookName() != null){
+//                    tvUserName.setText(MySharedPrefs.INSTANCE.getFacebookName());
+//                    if (MySharedPrefs.INSTANCE.getFacebookName() == null) {
+//                        MySharedPrefs.INSTANCE.putFacebookName(Registration.facebookName);
+//                    }
+//                }else if(Registration.googleName != null) {
+//                    tvUserName.setText(Registration.googleName);
+//                    if (MySharedPrefs.INSTANCE.getGoogleName() == null) {
+//                        MySharedPrefs.INSTANCE.putGoogleName(Registration.googleName);
+//                    }
+//                }else if(MySharedPrefs.INSTANCE.getGoogleName() != null) {
+//                    tvUserName.setText(MySharedPrefs.INSTANCE.getGoogleName());
+//                    if (MySharedPrefs.INSTANCE.getGoogleName() == null) {
+//                        MySharedPrefs.INSTANCE.putGoogleName(Registration.googleName);
+//                    }
+//                }else
+
+
+                if (MySharedPrefs.INSTANCE.getFirstName() != null && MySharedPrefs.INSTANCE.getLastName() != null) {
                     tvUserName.setText(MySharedPrefs.INSTANCE.getFirstName() + " " + MySharedPrefs.INSTANCE.getLastName());
                 }else if(MySharedPrefs.INSTANCE.getFirstName() != null){
                     tvUserName.setText(MySharedPrefs.INSTANCE.getFirstName());
@@ -230,7 +236,8 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                     if (userId != null && userId.trim().length() > 0) {
                         Intent intent = new Intent(mContext, EditProfile.class);
                         startActivity(intent);
-                        finish();                                                     //added 25_9
+//                        startActivityForResult(intent, 1001);
+//                        finish();                                                     //added 25_9
                     } else {
                         Intent intent = new Intent(mContext, LoginActivity.class);
                         startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
@@ -344,16 +351,19 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
         if(requestCode == 555){
             if(resultCode==RESULT_OK)
                 finish();
-            }else {
+            }
+//        else if(requestCode == 1001){
+//            if(resultCode==RESULT_OK){
+//
+//            }
+//        }
+        else {
 //        if (resultCode == LOGIN_SIGNUP) {
 
             Intent intent = new Intent(mContext, HotOffersActivity.class);
             startActivity(intent);
 //            Intent intent = new Intent(this, HomeScreen.class);
 //            startActivity(intent);
-
-
-
         }
 //        }
 

@@ -42,6 +42,7 @@ import com.sakshay.grocermax.utils.Constants;
 import com.sakshay.grocermax.utils.UrlsConstants;
 import com.sakshay.grocermax.utils.UtilityMethods;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -75,6 +76,7 @@ public class HotOffersActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_hot_offer);
+        addActionsInFilter(MyReceiverActions.GET_HOME_PAGE);
         addActionsInFilter(MyReceiverActions.GET_SHOP_BY_CATEGORIES);
         addActionsInFilter(MyReceiverActions.GET_SHOP_BY_DEALS);
         addActionsInFilter(MyReceiverActions.GET_BANNER);
@@ -91,7 +93,7 @@ public class HotOffersActivity extends BaseActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null && bundle.getBoolean("IS_FROM_NOTIFICATION", false)) {
-                getNotificationData(bundle);
+            getNotificationData(bundle);
             isFromNotification = true;
         }
         else {
@@ -215,9 +217,9 @@ public class HotOffersActivity extends BaseActivity {
                     catObj = UtilityMethods.getCategorySubCategory(jsonResponse);
                 }
             }
-             if (action.equals(MyReceiverActions.GET_SHOP_BY_CATEGORIES) || action.equals(MyReceiverActions.GET_SHOP_BY_DEALS) || action.equals(MyReceiverActions.GET_BANNER)) {
-                if (action.equals(MyReceiverActions.GET_SHOP_BY_CATEGORIES)) {
 
+            if(action.equals(MyReceiverActions.GET_HOME_PAGE)){
+                try {
                     System.out.println("RESPONSE" + bundle.getString("json"));
                     JSONObject jsonObject = new JSONObject(bundle.getString("json"));
                     Gson gson = new Gson();
@@ -226,50 +228,134 @@ public class HotOffersActivity extends BaseActivity {
                     System.out.println("RESPONSE MODEL CATEGORY" + shopByCategoryBean.getResult());
                     System.out.println("RESPONSE MODEL CATEGORY1" + shopByCategoryBean.getArrayList().size());
 
+                    JSONObject jsonO = new JSONObject(bundle.getString("json"));
+                    jsonO.getString("Result");
+                    JSONArray jsonArrayCategory = jsonO.getJSONArray("category");
+                    JSONArray jsonArrayBanner = jsonO.getJSONArray("banner");
+                    JSONArray jsonDealType = jsonO.getJSONArray("deal_type");
 
-                } else if (action.equals(MyReceiverActions.GET_SHOP_BY_DEALS)) {
-                    System.out.println("RESPONSE" + bundle.getString("json"));
-                    JSONObject jsonObject = new JSONObject(bundle.getString("json"));
-                    Gson gson = new Gson();
-                    shopByDealsBean = gson.fromJson(jsonObject.toString(), ShopByDealsBean.class);
+                    JSONObject jsonOCategory = new JSONObject();
+                    jsonOCategory.put("category", jsonArrayCategory);
+                    Gson gson1 = new Gson();
+                    shopByCategoryBean = gson1.fromJson(jsonOCategory.toString(), ShopByCategoryBean.class);       //
 
-                    System.out.println("RESPONSE MODEL" + shopByDealsBean.getResult());
-                    System.out.println("RESPONSE MODEL" + shopByDealsBean.getArrayList().size());
-                } else if (action.equals(MyReceiverActions.GET_BANNER)) {
-                    System.out.println("RESPONSE" + bundle.getString("json"));
-                    JSONObject jsonObject = new JSONObject(bundle.getString("json"));
-                    Gson gson = new Gson();
-                    homeBannerBean = gson.fromJson(jsonObject.toString(), HomeBannerBean.class);
-                }
+                    JSONObject jsonOBanner = new JSONObject();
+                    jsonOBanner.put("banner", jsonArrayBanner);
+                    Gson gson2 = new Gson();
+                    homeBannerBean = gson2.fromJson(jsonOBanner.toString(), HomeBannerBean.class);             //
 
-                if (shopByCategoryBean != null && shopByDealsBean != null && homeBannerBean != null) {
-                    HomeFragment fragment = new HomeFragment();
-                    dismissDialog();
-                    android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    JSONObject jsonODealType = new JSONObject();
+                    jsonODealType.put("deal_type", jsonDealType);
+                    Gson gson3 = new Gson();
+                    shopByDealsBean = gson3.fromJson(jsonODealType.toString(), ShopByDealsBean.class);
+
+
+                    if (shopByCategoryBean != null && shopByDealsBean != null && homeBannerBean != null) {
+                        HomeFragment fragment = new HomeFragment();
+                        dismissDialog();
+                        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 //                fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.frame, fragment);
-                    Bundle data = new Bundle();
-                    data.putSerializable(Constants.SHOP_BY_CATEGORY_MODEL, shopByCategoryBean);
-                    data.putSerializable(Constants.SHOP_BY_DEALS_MODEL, shopByDealsBean);
-                    data.putSerializable(Constants.HOME_BANNER, homeBannerBean);
-                    fragment.setArguments(data);
-                    fragmentTransaction.commit();
+                        fragmentTransaction.replace(R.id.frame, fragment);
+                        Bundle data = new Bundle();
+                        data.putSerializable(Constants.SHOP_BY_CATEGORY_MODEL, shopByCategoryBean);
+                        data.putSerializable(Constants.SHOP_BY_DEALS_MODEL, shopByDealsBean);
+                        data.putSerializable(Constants.HOME_BANNER, homeBannerBean);
+                        fragment.setArguments(data);
+                        fragmentTransaction.commit();
 
-                    Bundle call_bundle = new Bundle();
-                    call_bundle.putSerializable("Categories", catObj);
-                    call_bundle.putSerializable(Constants.SHOP_BY_DEALS_MODEL, shopByDealsBean);
-                    call_bundle.putString("Title", "Home");
-                    call_bundle.putBoolean("isListView", true);
-                    MenuFragment fragment1 = new MenuFragment();
-                    android.support.v4.app.FragmentTransaction fragmentTransact = getSupportFragmentManager().beginTransaction();
-                    fragmentTransact.add(R.id.menu, fragment1);
-                    fragment1.setArguments(call_bundle);
-                    fragmentTransact.commit();
+                        Bundle call_bundle = new Bundle();
+                        call_bundle.putSerializable("Categories", catObj);
+                        call_bundle.putSerializable(Constants.SHOP_BY_DEALS_MODEL, shopByDealsBean);
+                        call_bundle.putString("Title", "Home");
+                        call_bundle.putBoolean("isListView", true);
+                        MenuFragment fragment1 = new MenuFragment();
+                        android.support.v4.app.FragmentTransaction fragmentTransact = getSupportFragmentManager().beginTransaction();
+                        fragmentTransact.add(R.id.menu, fragment1);
+                        fragment1.setArguments(call_bundle);
+                        fragmentTransact.commit();
 
-                }
+                        progress.dismiss();
+                    }
+                }catch(Exception e){}
+            }
 
-
-            } else if (action.equals(MyReceiverActions.OFFER_BY_DEALTYPE)) {
+//            if (action.equals(MyReceiverActions.GET_SHOP_BY_CATEGORIES) || action.equals(MyReceiverActions.GET_SHOP_BY_DEALS) || action.equals(MyReceiverActions.GET_BANNER)) {
+//                if (action.equals(MyReceiverActions.GET_SHOP_BY_CATEGORIES)) {
+//
+//                    System.out.println("RESPONSE" + bundle.getString("json"));
+//                    JSONObject jsonObject = new JSONObject(bundle.getString("json"));
+//                    Gson gson = new Gson();
+//                    shopByCategoryBean = gson.fromJson(jsonObject.toString(), ShopByCategoryBean.class);
+//
+//                    System.out.println("RESPONSE MODEL CATEGORY" + shopByCategoryBean.getResult());
+//                    System.out.println("RESPONSE MODEL CATEGORY1" + shopByCategoryBean.getArrayList().size());
+//
+//                    JSONObject jsonO = new JSONObject(bundle.getString("json"));
+//                    jsonO.getString("Result");
+//                    JSONArray jsonArrayCategory = jsonO.getJSONArray("category");
+//                    JSONArray jsonArrayBanner = jsonO.getJSONArray("banner");
+//                    JSONArray jsonDealType = jsonO.getJSONArray("deal_type");
+//
+//                    JSONObject jsonOCategory= new JSONObject();
+//                    jsonOCategory.put("category",jsonArrayCategory);
+//                    Gson gson1 = new Gson();
+//                    shopByCategoryBean = gson1.fromJson(jsonOCategory.toString(), ShopByCategoryBean.class);       //
+//
+//                    JSONObject jsonOBanner= new JSONObject();
+//                    jsonOBanner.put("banner",jsonArrayBanner);
+//                    Gson gson2 = new Gson();
+//                    homeBannerBean = gson2.fromJson(jsonOBanner.toString(), HomeBannerBean.class);             //
+//
+//                    JSONObject jsonODealType= new JSONObject();
+//                    jsonODealType.put("deal_type",jsonDealType);
+//                    Gson gson3 = new Gson();
+//                    shopByDealsBean = gson3.fromJson(jsonODealType.toString(), ShopByDealsBean.class);
+//
+//                } else if (action.equals(MyReceiverActions.GET_SHOP_BY_DEALS)) {
+//                    System.out.println("RESPONSE" + bundle.getString("json"));
+//                    JSONObject jsonObject = new JSONObject(bundle.getString("json"));
+//                    Gson gson = new Gson();
+//                    shopByDealsBean = gson.fromJson(jsonObject.toString(), ShopByDealsBean.class);
+//
+//                    System.out.println("RESPONSE MODEL" + shopByDealsBean.getResult());
+//                    System.out.println("RESPONSE MODEL" + shopByDealsBean.getArrayList().size());
+//                } else if (action.equals(MyReceiverActions.GET_BANNER)) {
+//                    System.out.println("RESPONSE" + bundle.getString("json"));
+//                    JSONObject jsonObject = new JSONObject(bundle.getString("json"));
+//                    Gson gson = new Gson();
+//                    homeBannerBean = gson.fromJson(jsonObject.toString(), HomeBannerBean.class);
+//                }
+//
+//                if (shopByCategoryBean != null && shopByDealsBean != null && homeBannerBean != null) {
+//                    HomeFragment fragment = new HomeFragment();
+//                    dismissDialog();
+//                    android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+////                fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//                    fragmentTransaction.replace(R.id.frame, fragment);
+//                    Bundle data = new Bundle();
+//                    data.putSerializable(Constants.SHOP_BY_CATEGORY_MODEL, shopByCategoryBean);
+//                    data.putSerializable(Constants.SHOP_BY_DEALS_MODEL, shopByDealsBean);
+//                    data.putSerializable(Constants.HOME_BANNER, homeBannerBean);
+//                    fragment.setArguments(data);
+//                    fragmentTransaction.commit();
+//
+//                    Bundle call_bundle = new Bundle();
+//                    call_bundle.putSerializable("Categories", catObj);
+//                    call_bundle.putSerializable(Constants.SHOP_BY_DEALS_MODEL, shopByDealsBean);
+//                    call_bundle.putString("Title", "Home");
+//                    call_bundle.putBoolean("isListView", true);
+//                    MenuFragment fragment1 = new MenuFragment();
+//                    android.support.v4.app.FragmentTransaction fragmentTransact = getSupportFragmentManager().beginTransaction();
+//                    fragmentTransact.add(R.id.menu, fragment1);
+//                    fragment1.setArguments(call_bundle);
+//                    fragmentTransact.commit();
+//
+//                    progress.dismiss();
+//                }
+//
+//
+//            }
+            else if (action.equals(MyReceiverActions.OFFER_BY_DEALTYPE)) {
 
                 dismissDialog();
                 System.out.println("RESPONSE OFFER" + bundle.getString("json"));
@@ -339,7 +425,9 @@ public class HotOffersActivity extends BaseActivity {
 //            findViewById(R.id.header).setVisibility(View.VISIBLE);
 //            findViewById(R.id.header_left).setVisibility(View.GONE);
 //        }
-        progress.dismiss();
+
+
+//        progress.dismiss();
     }
 
     public ShopByDealsBean getShopByDeals() {
@@ -422,7 +510,7 @@ public class HotOffersActivity extends BaseActivity {
         if(strType.equalsIgnoreCase("dealproductlisting")){
             addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
             String url = UrlsConstants.NEW_BASE_URL;
-           showDialog();
+            showDialog();
             myApi.reqProductListingByDealType(url + strLinkurl);
         } else if (strType.equalsIgnoreCase("dealsbydealtype")) {
             addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);
@@ -468,6 +556,8 @@ public class HotOffersActivity extends BaseActivity {
 
     public void setHomePage()
     {
+
+
         progress = new ProgressDialog(this);
         progress.setTitle(null);
         progress.setMessage("Please Wait");
@@ -489,10 +579,14 @@ public class HotOffersActivity extends BaseActivity {
             myApi.reqCategorySubCategoryList(url);
 
         }
-        myApi.reqGetShopByCategories(UrlsConstants.SHOP_BY_CATEGORY_TYPE);
-        myApi.reqGetShopByDeals(UrlsConstants.SHOP_BY_DEAL_TYPE);
-        myApi.reqGetHomePageBanner(UrlsConstants.GET_BANNER);
+//        myApi.reqGetShopByCategories(UrlsConstants.SHOP_BY_CATEGORY_TYPE);
+//        myApi.reqGetShopByDeals(UrlsConstants.SHOP_BY_DEAL_TYPE);
+//        myApi.reqGetHomePageBanner(UrlsConstants.GET_BANNER);
 
+//        myApi.reqGetShopByCategories(UrlsConstants.NEW_BASE_URL+"homepage");
+
+//        myApi.reqGetShopByCategories(UrlsConstants.GET_HOME_PAGE);
+        myApi.reqHome(UrlsConstants.GET_HOME_PAGE);
 
 //        Bundle call_bundle = new Bundle();
 //        call_bundle.putSerializable("Categories", catObj);

@@ -40,7 +40,7 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
         this.context = activity;
         this.fragment = fragment;
         this.activity = activity;
-
+        ((BaseActivity) activity).initImageLoaderMCtegoryDeal();
     }
 
     public void setListData(ArrayList<OfferByDealTypeSubModel> data) {
@@ -62,7 +62,6 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
         public ViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.img);
-
 
 //            parentLayout = (CardView) itemView.findViewById(R.id.layoutParent);
 //            footer = (TextView) itemView.findViewById(R.id.footer);
@@ -125,8 +124,7 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
 
 //                  AppConstants.strTitleHotDeal = "Offer Detail";
                 DealListScreen.strDealHeading  = "Offer Detail";
-
-                    ((HotOffersActivity) context).isFromFragment = true;
+                ((HotOffersActivity) context).isFromFragment = true;
 //                String str1 = data.get(position).getDealName();
 //                String str2 = data.get(position).getName();
 //                String str3 = data.get(position).getTitle();

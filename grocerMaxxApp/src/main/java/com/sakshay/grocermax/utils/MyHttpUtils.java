@@ -34,8 +34,10 @@ public enum MyHttpUtils {
 
 				HttpParams params = new BasicHttpParams();
 				ConnManagerParams.setMaxTotalConnections(params, 20);
-				HttpConnectionParams.setConnectionTimeout(params, 30000);
-				HttpConnectionParams.setSoTimeout(params, 30000);
+//				HttpConnectionParams.setConnectionTimeout(params, 30000);
+//				HttpConnectionParams.setSoTimeout(params, 30000);
+				HttpConnectionParams.setConnectionTimeout(params, 60000);    //1 minute
+				HttpConnectionParams.setSoTimeout(params, 90000);           //1.5 minute
 				HttpConnectionParams.setSocketBufferSize(params, 8192);
 				HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
 				HttpProtocolParams.setContentCharset(params, HTTP.UTF_8);

@@ -205,7 +205,7 @@ public class AddressDetail extends BaseActivity{
 	public void goToAddress(Address address,int position) {          //edit address for Shipping in MyProfile
 		try{
 		if (ShippingLocationLoader.alLocationShipping == null || ShippingLocationLoader.alLocationShipping.size() == 0) {                //first time call this service for getting states
-			System.out.println("=============Id============"+MySharedPrefs.INSTANCE.getSelectedStateId());
+//			System.out.println("=============Id============"+MySharedPrefs.INSTANCE.getSelectedStateId());
 //			new ShippingLocationLoader(AddressDetail.this, address, "profilenewaddress", String.valueOf(position)).execute(UrlsConstants.GET_LOCATION_SHIPPING + AppConstants.strSelectedStateId);
 			new ShippingLocationLoader(AddressDetail.this, address, "profilenewaddress", String.valueOf(position)).execute(UrlsConstants.GET_LOCATION_SHIPPING + MySharedPrefs.INSTANCE.getSelectedStateId());
 		} else {

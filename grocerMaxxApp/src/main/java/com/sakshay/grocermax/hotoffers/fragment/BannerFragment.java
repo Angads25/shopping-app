@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sakshay.grocermax.BaseActivity;
+import com.sakshay.grocermax.DealListScreen;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.api.MyReceiverActions;
 import com.sakshay.grocermax.api.SearchLoader;
@@ -153,7 +154,11 @@ public class BannerFragment extends Fragment {
                     ((HotOffersActivity) context).addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
 //                    String PRODUCTLISTING_BY_DEAL_TYPE = UrlsConstants.NEW_BASE_URL+"dealproductlisting?deal_id=";
 //                    String url = UrlsConstants.PRODUCTLISTING_BY_DEAL_TYPE;
-                    AppConstants.strTitleHotDeal = "Offer Detail";
+
+
+//                    AppConstants.strTitleHotDeal = "Offer Detail";
+                    DealListScreen.strDealHeading = "Offer Detail";
+
                     String url = UrlsConstants.NEW_BASE_URL;
                     ((HotOffersActivity) context).showDialog();
                     ((HotOffersActivity) context).myApi.reqProductListingByDealType(url + linkurl);
@@ -162,6 +167,8 @@ public class BannerFragment extends Fragment {
 //                    String dealId = "1";
                     ((HotOffersActivity) context).addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);
                     ((HotOffersActivity) context).showDialog();
+
+
 //                    public final static String DEAL_BY_DEAL_TYPE = NEW_BASE_URL+"dealsbydealtype?deal_type_id=";
 //                    String url = UrlsConstants.DEAL_BY_DEAL_TYPE;
                     String url = UrlsConstants.NEW_BASE_URL;

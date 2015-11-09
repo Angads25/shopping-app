@@ -117,32 +117,57 @@ public class ExpandableMenuFragment extends Fragment {
                 boolean expand = false;
 //                expandableListView.c
                 //Toast.makeText(getActivity(), "Size :" + catObj.get(groupPosition).getChildren().size(), Toast.LENGTH_SHORT).show();
-                for (int i = 0; i < catObj.get(groupPosition).getChildren().size(); i++) {
-                    if (catObj.get(groupPosition).getChildren().get(i).getChildren().size() > 0) {
 
-                        //Toast.makeText(getActivity(), "Name : "+ catObj.get(groupPosition).getChildren().get(i).getCategory()+"Size :" + catObj.get(groupPosition).getChildren().get(i).getChildren().size(), Toast.LENGTH_SHORT).show();
-                        expand = true;
-                        break;
-                    }
+                if(catObj.get(groupPosition).getChildren().size() > 0) {
+
+                    for (int i = 0; i < catObj.get(groupPosition).getChildren().size(); i++) {
+                        if (catObj.get(groupPosition).getChildren().size() > 0) {
+//                       String asa =  catObj.get(groupPosition).getCategory();
+//                        String asa1 =  catObj.get(groupPosition).getCategoryId();
+                            if (catObj.get(groupPosition).getChildren().get(i).getChildren().size() > 0) {
+                                //Toast.makeText(getActivity(), "Name : "+ catObj.get(groupPosition).getChildren().get(i).getCategory()+"Size :" + catObj.get(groupPosition).getChildren().get(i).getChildren().size(), Toast.LENGTH_SHORT).show();
+                                expand = true;
+                                break;
+                            }
+                        }
 
 
-                    if (!expand) {
-                        //Toast.makeText(getActivity(), " Will not open "+catObj.get(groupPosition).getCategory(), Toast.LENGTH_SHORT).show();
-                        expandableListView.collapseGroup(groupPosition);
+//                    for (int i = 0; i < catObj.get(mainCatPosition).getChildren().get(selectedIndex).getChildren().size(); i++) {
+//                    if (catObj.get(mainCatPosition).getChildren().get(selectedIndex).getChildren().get(i).getChildren().size() > 0) {
+
+
+                        if (!expand) {
+                            //Toast.makeText(getActivity(), " Will not open "+catObj.get(groupPosition).getCategory(), Toast.LENGTH_SHORT).show();
+                            expandableListView.collapseGroup(groupPosition);
 //                            startActivity(catObj.get(groupPosition));
-                        ((HotOffersActivity) getActivity()).isFromFragment = false;
-                        ((HotOffersActivity) getActivity()).showDialog();
-                        ((HotOffersActivity) getActivity()).getDrawerLayout().closeDrawers();
+                            ((HotOffersActivity) getActivity()).isFromFragment = false;
+                            ((HotOffersActivity) getActivity()).showDialog();
+                            ((HotOffersActivity) getActivity()).getDrawerLayout().closeDrawers();
 //                        String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(groupPosition).getCategoryId();
-                        String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(groupPosition).getCategoryId();
-                        AppConstants.strTitleHotDeal = catObj.get(groupPosition).getCategory();
-                        System.out.println(catObj.get(groupPosition).getCategory() + "==========id==========" + catObj.get(groupPosition).getCategoryId());
-                        ((HotOffersActivity) getActivity()).myApi.reqAllProductsCategory(url);
-                    }
+                            String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(groupPosition).getCategoryId();
+                            AppConstants.strTitleHotDeal = catObj.get(groupPosition).getCategory();
+                            System.out.println(catObj.get(groupPosition).getCategory() + "==========id==========" + catObj.get(groupPosition).getCategoryId());
+                            ((HotOffersActivity) getActivity()).myApi.reqAllProductsCategory(url);
+                        }
 
-                    //todo
+                        return true;
+                    }
+                }else{
+                    expandableListView.collapseGroup(groupPosition);
+//                            startActivity(catObj.get(groupPosition));
+                    ((HotOffersActivity) getActivity()).isFromFragment = false;
+                    ((HotOffersActivity) getActivity()).showDialog();
+                    ((HotOffersActivity) getActivity()).getDrawerLayout().closeDrawers();
+//                        String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(groupPosition).getCategoryId();
+                    String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(groupPosition).getCategoryId();
+                    AppConstants.strTitleHotDeal = catObj.get(groupPosition).getCategory();
+                    System.out.println(catObj.get(groupPosition).getCategory() + "==========id==========" + catObj.get(groupPosition).getCategoryId());
+                    ((HotOffersActivity) getActivity()).myApi.reqAllProductsCategory(url);
                     return true;
                 }
+
+
+
                 return false;
             }
         });

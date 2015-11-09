@@ -17,7 +17,9 @@ import com.sakshay.grocermax.AddressDetail;
 import com.sakshay.grocermax.R;
 import com.sakshay.grocermax.bean.Address;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
+import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.CustomFonts;
+import com.sakshay.grocermax.utils.UtilityMethods;
 
 import org.w3c.dom.Text;
 
@@ -163,7 +165,17 @@ public class AddressListAdapter extends BaseAdapter{
 			
 			@Override
 			public void onClick(View v) {
-				((AddressDetail)mContext).goToAddress(obj,position);
+				try{
+					if (obj.getRegionId() != null && MySharedPrefs.INSTANCE.getSelectedStateRegionId() != null) {
+						if (!obj.getRegionId().equals(MySharedPrefs.INSTANCE.getSelectedStateRegionId())) {
+							UtilityMethods.customToast("Your Selected location is " + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + ".Kindly select add new address", mContext);
+						}else{
+							((AddressDetail)mContext).goToAddress(obj, position);
+						}
+					}
+				}catch(Exception e){}
+
+//				((AddressDetail)mContext).goToAddress(obj, position);
 			}
 		});
        holder.llDeleteAddress.setOnClickListener(new OnClickListener() {

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:scrollbars="none"
     android:orientation="vertical">
 
     <!-- android:background="#f6f6f6" -->
@@ -147,6 +148,51 @@
                 android:layout_width="match_parent"
                 android:layout_height="205dp"
                 android:layout_marginLeft="@dimen/ten_dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="30dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/black"
+                    />
+
+                <TextView
+                    android:id="@+id/txt_promises"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="o&#160;u&#160;r&#160;&#160;&#160;p&#160;r&#160;o&#160;m&#160;i&#160;s&#160;e&#160;s"
+                    android:gravity="center_horizontal"
+                    android:textAllCaps="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="30dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/black" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginRight="@dimen/ten_dp"
+                android:layout_gravity="center"
+                android:src="@drawable/promises"/>
+
+
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

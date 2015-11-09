@@ -148,14 +148,23 @@
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
                     android:singleLine="true"
+                    android:background="@null"
                     android:textColorHint="#c38e8e"
                     android:textSize="@dimen/text_size_14" />
+
+                <View
+                    android:id="@+id/view_mail_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@color/grey" />
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical" >
 
                 <EditText
@@ -171,7 +180,15 @@
                     android:textColor="@color/white"
                     android:layout_marginTop="10dp"
                     android:textColorHint="#c38e8e"
+                    android:background="@null"
                     android:textSize="@dimen/text_size_14" />
+
+                <View
+                    android:id="@+id/view_pwd_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@color/grey" />
 
                 <TextView
                     android:id="@+id/login"

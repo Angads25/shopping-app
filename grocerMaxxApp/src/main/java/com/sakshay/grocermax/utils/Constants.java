@@ -88,6 +88,13 @@ public class Constants {
 		public static final String FNAME_BLANCK = "First name can not be blank";
 		public static final String LNAME_BLANCK = "Last name can not be blank";
 		public static final String MOB_BLANCK = "Mobile number can not be blank";
+
+		public static final String HOUSE_NO_BLANCK = "House no can't be blank";
+		public static final String LOCATION_BLANCK = "Location can't be blank";
+		public static final String LANDMARK_BLANCK = "Landmark can't be blank";
+		public static final String CITY_BLANCK = "City can't be blank";
+		public static final String STATE_BLANCK = "State can't be blank";
+
 		public static final String MOB_NUMBER_DIGIT = "Mobile number should be 10 digit number";
 		public static final String ADDR_BLANCK = "Address can not be blank";
 		public static final String PIN_BLANCK = "Pincode can not be blank";

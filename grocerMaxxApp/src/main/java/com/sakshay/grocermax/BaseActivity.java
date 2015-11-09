@@ -466,6 +466,8 @@ public abstract class BaseActivity extends FragmentActivity {
 			if (!search_key.equals("")) {
 				UtilityMethods.hideKeyBoard(BaseActivity.this);
 
+				AppConstants.bBack = true;
+
 				if(search_key.length() < 3){
 					UtilityMethods.customToast(ToastConstant.APPROPRIATE_QUERY,mContext);
 					return;
@@ -1485,17 +1487,15 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 	};
 
-	public abstract void OnResponse(Bundle bundle);
-
 	public void initImageLoaderMCtegoryDeal() {
 		try {
 			baseImageoptions = new DisplayImageOptions.Builder()
-					.showImageOnLoading(R.drawable.cat_deals_holder)
-					.showImageForEmptyUri(R.drawable.cat_deals_holder)
-					.showImageOnFail(R.drawable.cat_deals_holder)
-//					.showImageOnLoading(R.drawable.category_bottom_border)
-//					.showImageForEmptyUri(R.drawable.category_bottom_border)
-//					.showImageOnFail(R.drawable.category_bottom_border)
+					.showImageOnLoading(R.drawable.cat_deal_detail_holder)
+					.showImageForEmptyUri(R.drawable.cat_deal_detail_holder)
+					.showImageOnFail(R.drawable.cat_deal_detail_holder)
+//					.showImageOnLoading(R.drawable.cat_deals_holder)
+//					.showImageForEmptyUri(R.drawable.cat_deals_holder)
+//					.showImageOnFail(R.drawable.cat_deals_holder)
 					.cacheInMemory(true).cacheOnDisk(true).considerExifParams(true)
 					.build();
 
@@ -1503,13 +1503,17 @@ public abstract class BaseActivity extends FragmentActivity {
 					mContext).threadPriority(Thread.NORM_PRIORITY - 2)
 					.denyCacheImageMultipleSizesInMemory()
 					.diskCacheFileNameGenerator(new Md5FileNameGenerator())
-					.diskCacheSize(5 * 1024 * 1024) // 50 Mb
+					.diskCacheSize(5 * 1024 * 1024)
 					.tasksProcessingOrder(QueueProcessingType.LIFO).build();
 			ImageLoader.getInstance().init(config);
 		}catch(Exception e){
 			new GrocermaxBaseException("BaseActivity", "initImageLoaderM", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 	}
+
+	public abstract void OnResponse(Bundle bundle);
+
+
 
 	public void initImageLoaderM() {
 		try {

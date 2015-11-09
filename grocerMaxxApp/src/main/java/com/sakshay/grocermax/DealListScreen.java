@@ -73,6 +73,9 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
                 header = bundle.getString("Header");
                 cat_id = bundle.getString("cat_id");
             }
+            if (header.equals("")) {
+                header = DealListScreen.strDealHeading;
+            }
             setContentView(R.layout.activity_deal_list_screen);
 
 //            if(!header.equals("")){

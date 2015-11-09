@@ -169,8 +169,6 @@ public class CartAdapter extends BaseAdapter{
 //				}
 //			}
 
-
-
 			if(obj.getStatus().equals("1")){  //product available
 				holder.rlOutofStock.setVisibility(View.GONE);
 				holder.rlOutofStock.setEnabled(true);
@@ -194,7 +192,18 @@ public class CartAdapter extends BaseAdapter{
 					holder.increase_quantity.setVisibility(View.INVISIBLE);
 					holder.decrease_quantity.setVisibility(View.INVISIBLE);
 					holder.tvOffers.setVisibility(View.VISIBLE);
-					holder.tvOffers.setText(AppConstants.ToastConstant.REMOVE_ITEM_FOR_PROCEED);
+					try {
+						if (obj.getWebQty() != null) {
+							if (Integer.parseInt(obj.getWebQty()) > 0) {
+								holder.tvOffers.setText(AppConstants.ToastConstant.REDUCE_QUANT_FIRST_PART+obj.getWebQty()+ AppConstants.ToastConstant.REDUCE_QUANT_SECOND_PART);
+							} else {
+								holder.tvOffers.setText(AppConstants.ToastConstant.REMOVE_ITEM_FOR_PROCEED);
+							}
+						}else{
+								holder.tvOffers.setText(AppConstants.ToastConstant.REMOVE_ITEM_FOR_PROCEED);
+						}
+					}catch(Exception e){}
+
 					if(obj.getPromotionLevel() != null){
 						holder.offerImage.setVisibility(View.VISIBLE);
 //						holder.tvOffers.setVisibility(View.VISIBLE);
@@ -256,14 +265,24 @@ public class CartAdapter extends BaseAdapter{
 				holder.decrease_quantity.setVisibility(View.INVISIBLE);
 				holder.delete_item.setVisibility(View.INVISIBLE);
 				holder.llCancel.setVisibility(View.INVISIBLE);
+
+//				if(obj.getStatus().equals("0")){  //product not available user can delete
+//					holder.delete_item.setVisibility(View.VISIBLE);
+//					holder.llCancel.setVisibility(View.VISIBLE);
+//				}else{
+//					holder.delete_item.setVisibility(View.INVISIBLE);
+//					holder.llCancel.setVisibility(View.INVISIBLE);
+//				}
+
+
 			}else{
 				holder.increase_quantity.setVisibility(View.VISIBLE);
 				holder.decrease_quantity.setVisibility(View.VISIBLE);
 				holder.delete_item.setVisibility(View.VISIBLE);
 				holder.llCancel.setVisibility(View.VISIBLE);
 				if(obj.getStatus().equals("0")){      //product not available
-					holder.increase_quantity.setVisibility(View.INVISIBLE);
-					holder.decrease_quantity.setVisibility(View.INVISIBLE);
+					holder.increase_quantity.setVisibility(View.VISIBLE);
+					holder.decrease_quantity.setVisibility(View.VISIBLE);
 					holder.delete_item.setVisibility(View.VISIBLE);
 					holder.llCancel.setVisibility(View.VISIBLE);
 				}

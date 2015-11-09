@@ -306,13 +306,20 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 			try {
 				HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
 				String strURL = params[0];
-				if(strURL.contains("?")) {
-					strURL += "&version=1.0";
-				}else{
-					strURL += "?version=1.0";
-				}
+//				if(strURL.contains("?")) {
+//					strURL += "&version=1.0";
+//				}else{
+//					strURL += "?version=1.0";
+//				}
 				HttpGet httpGet = new HttpGet(strURL);
-				httpGet.setHeader("Content-Type", "application/json");
+				httpGet.setHeader("device", getResources().getString(R.string.app_device));
+				httpGet.setHeader("version", getResources().getString(R.string.app_version));
+				if(MySharedPrefs.INSTANCE.getSelectedStateId() != null) {
+					httpGet.setHeader("storeid", MySharedPrefs.INSTANCE.getSelectedStoreId());
+				}
+
+
+//				httpGet.setHeader("Content-Type", "application/json");
 				HttpResponse response = null;
 
 				response = client.execute(httpGet);

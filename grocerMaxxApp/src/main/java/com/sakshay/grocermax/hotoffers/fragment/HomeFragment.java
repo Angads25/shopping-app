@@ -49,6 +49,7 @@ public class HomeFragment extends Fragment {
     private int pos;
     ImageView iv[];
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -97,10 +98,12 @@ public class HomeFragment extends Fragment {
                 pos = position;
                 for(int i=0;i<homeBannerBean.getBanner().size();i++){
                     if(i == position){
-                        iv[i].setImageResource(R.drawable.progress_green);
+                        iv[i].setImageResource(R.drawable.banner_carausal_selected);
                     }else{
-                        iv[i].setImageResource(R.drawable.progress_grey);
+                        iv[i].setImageResource(R.drawable.banner_carausal_unselected);
                     }
+
+
 //                    if(i <= position) {
 //                        iv[i].setImageResource(R.drawable.progress_green);
 //                    }else{
@@ -121,9 +124,9 @@ public class HomeFragment extends Fragment {
             View view1 = inflater.inflate(R.layout.banner_single_image, null);
             iv[i] = (ImageView) view1.findViewById(R.id.banner_indicator);
             if(i==0) {
-                iv[i].setImageResource(R.drawable.progress_green);
+                iv[i].setImageResource(R.drawable.banner_carausal_selected);
             }else {
-                iv[i].setImageResource(R.drawable.progress_grey);
+                iv[i].setImageResource(R.drawable.banner_carausal_unselected);
             }
             ll.addView(view1);
         }

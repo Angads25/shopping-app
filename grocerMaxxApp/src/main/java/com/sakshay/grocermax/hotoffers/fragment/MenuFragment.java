@@ -210,16 +210,18 @@ public class MenuFragment extends Fragment {
                 //Toast.makeText(getActivity(), "Size :" + catObj.get(groupPosition).getChildren().size(), Toast.LENGTH_SHORT).show();
                 for (int i = 0; i < catObj.get(groupPosition).getChildren().size(); i++) {
                     if (catObj.get(groupPosition).getChildren().get(i).getChildren().size() > 0) {
-
                         //Toast.makeText(getActivity(), "Name : "+ catObj.get(groupPosition).getChildren().get(i).getCategory()+"Size :" + catObj.get(groupPosition).getChildren().get(i).getChildren().size(), Toast.LENGTH_SHORT).show();
                         expand = true;
                         break;
                     }
 
+                    System.out.println("====catobj parent1111111========"+catObj.get(groupPosition));
+
                     if (!expand) {
                         //Toast.makeText(getActivity(), " Will not open "+catObj.get(groupPosition).getCategory(), Toast.LENGTH_SHORT).show();
                         expandableListView.collapseGroup(groupPosition);
                         startActivity(catObj.get(groupPosition));
+                        System.out.println("====catobj parent========"+catObj.get(groupPosition));
                         return true;
                     }
                 }
@@ -231,6 +233,7 @@ public class MenuFragment extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
+                System.out.println("====catobj child========"+catObj.get(groupPosition));
                 startActivity(catObj.get(groupPosition).getChildren().get(childPosition));
                 return false;
             }

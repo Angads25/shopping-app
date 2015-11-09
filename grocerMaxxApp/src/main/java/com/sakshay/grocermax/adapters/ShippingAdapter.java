@@ -174,7 +174,10 @@ public class ShippingAdapter extends BaseAdapter{
                 try {
                     if (obj.getRegionId() != null && MySharedPrefs.INSTANCE.getSelectedStateRegionId() != null) {
                         if (!obj.getRegionId().equals(MySharedPrefs.INSTANCE.getSelectedStateRegionId())) {
-                            UtilityMethods.customToast("We deliver only in " + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + ".Kindly select add new address", mContext);
+//                            UtilityMethods.customToast("We deliver only in " + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + ".Kindly select add new address", mContext);
+                            UtilityMethods.customToast("AppConstants.ToastConstant.EDIT_DIFFERENT_ADDRESS_FIRST" + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + "AppConstants.ToastConstant.EDIT_DIFFERENT_ADDRESS_SECOND", mContext);
+                        }else{
+                            ((ShippingAddress)mContext).goToAddress(obj,position);
                         }
                     }
                 }catch(Exception e){}

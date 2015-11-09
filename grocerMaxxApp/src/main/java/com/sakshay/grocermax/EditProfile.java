@@ -496,6 +496,18 @@ public class EditProfile extends BaseActivity{
 					if(contact.getText().toString().length() > 0 && contact != null) {
 						MySharedPrefs.INSTANCE.putMobileNo(contact.getText().toString());
 					}
+
+					if(UserHeaderProfile.tvUserName != null) {
+						UserHeaderProfile.tvUserName.setText(MySharedPrefs.INSTANCE.getFirstName()+" "+MySharedPrefs.INSTANCE.getLastName());
+					}
+					if(UserHeaderProfile.tvUserEmail != null) {
+						UserHeaderProfile.tvUserEmail.setText(MySharedPrefs.INSTANCE.getUserEmail());
+					}
+					if(UserHeaderProfile.tvUserMobileNo != null) {
+						UserHeaderProfile.tvUserMobileNo.setText(MySharedPrefs.INSTANCE.getMobileNo());
+					}
+
+//					setResult(RESULT_OK);
 					finish();
 				} else {
 					UtilityMethods.customToast(userDataBean.getResult(), mContext);
@@ -544,9 +556,5 @@ public class EditProfile extends BaseActivity{
 			FlurryAgent.onEndSession(this);
     	}catch(Exception e){}
     }
-	
-	
-	
-	
 	
 }

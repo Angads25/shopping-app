@@ -822,35 +822,35 @@ public class CreateNewAddress extends BaseActivity{
 				return;
 			}
 			if (tvHouseNo.getText().toString().equals("")) {
-				UtilityMethods.customToast("House no can't be blank", mContext);
+				UtilityMethods.customToast(ToastConstant.HOUSE_NO_BLANCK, mContext);
 				return;
 			}
 
 
 			if(strShippingorBilling.equalsIgnoreCase("shipping") || strShippingorBilling.equalsIgnoreCase("profilenewaddress")) {
 				if (strSelectedSpinnerLocationShipping.equals("")) {
-					UtilityMethods.customToast("Location can't be blank", mContext);
+					UtilityMethods.customToast(ToastConstant.LOCATION_BLANCK, mContext);
 					return;
 				}
 			}else {
 				if (tvLocation.getText().toString().equals("")) {
-					UtilityMethods.customToast("Location can't be blank", mContext);
+					UtilityMethods.customToast(ToastConstant.LOCATION_BLANCK, mContext);
 					return;
 				}
 			}
 
 			if (tvLandMark.getText().toString().equals("")) {
-				UtilityMethods.customToast("Landmark can't be blank", mContext);
+				UtilityMethods.customToast(ToastConstant.LANDMARK_BLANCK, mContext);
 				return;
 			}
 			if (tvCity.getText().toString().equals("")) {
-				UtilityMethods.customToast("City can't be blank", mContext);
+				UtilityMethods.customToast(ToastConstant.CITY_BLANCK, mContext);
 				return;
 			}
 
 			if(strShippingorBilling.equalsIgnoreCase("billing") || strShippingorBilling.equalsIgnoreCase("profilenewaddressbilling")) {
 				if (strSelectedSpinnerState.equals("")) {
-					UtilityMethods.customToast("State can't be blank", mContext);
+					UtilityMethods.customToast(ToastConstant.STATE_BLANCK, mContext);
 					return;
 				}
 			}
@@ -1113,9 +1113,9 @@ public class CreateNewAddress extends BaseActivity{
 		super.onResume();
 		try {
 			if (address == null){
-				initHeader(findViewById(R.id.header), true, "CREATE NEW ADDRESS");
+				initHeader(findViewById(R.id.header), true, "Create New Address");
 			}else{
-				initHeader(findViewById(R.id.header), true, "UPDATE ADDRESS");
+				initHeader(findViewById(R.id.header), true, "Update Address");
 			}
 		}catch(Exception e){
 			new GrocermaxBaseException("CreateNewAddress","onResume",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");

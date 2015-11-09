@@ -165,6 +165,11 @@ public class LoginActivity extends BaseActivity
 			});
 			forgot_pwd.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 
+
+			final View viewMail = (View) findViewById(R.id.view_mail_line);
+			final View viewPwd = (View) findViewById(R.id.view_pwd_line);
+
+
 			username = (EditText) findViewById(R.id.username);
 			password = (EditText) findViewById(R.id.password);
 			username.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
@@ -177,6 +182,30 @@ public class LoginActivity extends BaseActivity
 //		{
 			username.setText(MySharedPrefs.INSTANCE.getRememberMeEmail());
 //		}
+
+			username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+				@Override
+				public void onFocusChange(View v, boolean hasFocus) {
+					// TODO Auto-generated method stub
+					if (hasFocus) {
+						viewPwd.setBackgroundColor(getResources().getColor(R.color.grey));
+						viewMail.setBackgroundColor(getResources().getColor(R.color.white));
+					}
+				}
+			});
+
+			password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+				@Override
+				public void onFocusChange(View v, boolean hasFocus) {
+					// TODO Auto-generated method stub
+					if (hasFocus) {
+						viewMail.setBackgroundColor(getResources().getColor(R.color.grey));
+						viewPwd.setBackgroundColor(getResources().getColor(R.color.white));
+					}
+				}
+			});
 
 			button_facebook = (ImageView) findViewById(R.id.button_facebook);
 			button_facebook.setOnClickListener(fb_signin_listener);
@@ -370,7 +399,14 @@ public class LoginActivity extends BaseActivity
 						System.out.println("==jsonobject==" + jsonObject);
 
 					}
-
+					try {
+						MySharedPrefs.INSTANCE.putFirstName(null);          //
+						MySharedPrefs.INSTANCE.putLastName(null);           //
+						Registration.googleName = null;                     //
+						MySharedPrefs.INSTANCE.putGoogleName(null);         //
+						Registration.facebookName = null;                   //
+						MySharedPrefs.INSTANCE.putFacebookName(null);       //
+					}catch(Exception e){}
 					myApi.reqLogin(url,jsonObject);
 					//String url = UrlsConstants.LOGIN_URL+"uemail="+ userN + "&password=" + pwd;
 
@@ -743,8 +779,6 @@ public class LoginActivity extends BaseActivity
 					}
 
 //					}
-
-
 
 //					}
 

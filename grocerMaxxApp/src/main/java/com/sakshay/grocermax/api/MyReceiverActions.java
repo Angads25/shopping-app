@@ -93,6 +93,8 @@ public interface MyReceiverActions {
 	String GET_SHOP_BY_CATEGORIES = PKG_NAME + ".get_shop_by_categories";
 	String GET_SHOP_BY_DEALS = PKG_NAME + ".get_shop_by_deals";
 
+	String GET_HOME_PAGE = PKG_NAME + ".home_page";
+
 	String OFFER_BY_DEALTYPE = PKG_NAME + ".offer_by_deal_type";
 	String DEAL_BY_DEALTYPE = PKG_NAME + ".deal_by_deal_type";
 	String GET_BANNER = PKG_NAME + ".get_banner";

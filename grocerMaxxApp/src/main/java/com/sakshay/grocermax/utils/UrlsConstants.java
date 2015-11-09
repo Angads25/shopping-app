@@ -54,8 +54,6 @@ public class UrlsConstants {
 //	public final static String BASE_URL = "http://api.grocermax.com/gmx_api.php/";
 //	public final static String NEW_BASE_URL = "http://api.grocermax.com/gmx_api.php/";
 
-
-
 	// dev url
 //	public final static String BASE_URL = "http://dev.api.grocermax.com/";
 //	public final static String NEW_BASE_URL = "http://dev.api.grocermax.com/";
@@ -126,6 +124,8 @@ public class UrlsConstants {
 	public final static String SHOP_BY_CATEGORY_TYPE = NEW_BASE_URL + "shopbycategory";
 
 	public final static String GET_BANNER = NEW_BASE_URL + "homebanner";
+
+	public final static String GET_HOME_PAGE = NEW_BASE_URL + "homepage";
 
 	public final static String FB_LOGIN_URL = NEW_BASE_URL + "fbregister?";
 
@@ -249,8 +249,12 @@ public class UrlsConstants {
 
 //	public final static String SET_PAYTM_ORDER_STATUS_SUCCESS = NEW_BASE_URL
 //			+ "setstatus?status=success&orderid=";
+
+//	public final static String SET_PAYTM_ORDER_STATUS_SUCCESS = NEW_BASE_URL
+//		+ "setstatus";
+
 	public final static String SET_PAYTM_ORDER_STATUS_SUCCESS = NEW_BASE_URL
-		+ "setstatus";
+	+ "paytmsuccess.php";
 
 	public final static String GET_MOBILE_HASH = NEW_BASE_URL
 			+ "getmobilehash?";

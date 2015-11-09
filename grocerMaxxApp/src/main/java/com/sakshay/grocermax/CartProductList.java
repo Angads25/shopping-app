@@ -189,6 +189,9 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 						totalcount += cartBean.getItems().get(i).getQty();
 					}
 
+
+
+
 					System.out.println(totalcount+"==size is========="+cartList.size());
 					try {
 //						cart_count_txt.setText(String.valueOf(totalcount));
@@ -273,18 +276,41 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				mAdapter = new CartAdapter(CartProductList.this);
 				mList.setAdapter(mAdapter);
 
+
+
 				mList.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 						//				showDialog();
 					}
 				});
-				place_order.setVisibility(View.VISIBLE);
-				place_order.setOnClickListener(this);
-				update_cart.setVisibility(View.GONE);
-				update_cart.setOnClickListener(this);
-			} else {
-				UtilityMethods.customToast(ToastConstant.CART_EMPTY, mContext);
+				boolean boolupdate = false;
+				for (int i = 0; i < cartList.size(); i++) {
+					try {
+						if (cartBean.getItems().get(i).getStatus().equals("0")) {
+							boolupdate = true;
+							CartProductList.getInstance().update_cart.setBackgroundColor(activity.getResources().getColor(R.color.updateshade));
+						}
+					}catch(Exception e){}
+				}
+				if(boolupdate){
+					update_cart.setVisibility(View.VISIBLE);
+					update_cart.setOnClickListener(this);
+					place_order.setVisibility(View.GONE);
+					place_order.setOnClickListener(this);
+				}else{
+					place_order.setVisibility(View.VISIBLE);
+					place_order.setOnClickListener(this);
+					update_cart.setVisibility(View.GONE);
+					update_cart.setOnClickListener(this);
+				}
+
+//				place_order.setVisibility(View.VISIBLE);
+//				place_order.setOnClickListener(this);
+//				update_cart.setVisibility(View.GONE);
+//				update_cart.setOnClickListener(this);
+				}else{
+					UtilityMethods.customToast(ToastConstant.CART_EMPTY, mContext);
 				ll_total.setVisibility(View.GONE);
 				Intent intent = new Intent(mContext, HotOffersActivity.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
