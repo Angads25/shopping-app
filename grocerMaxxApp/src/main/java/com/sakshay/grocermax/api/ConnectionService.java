@@ -252,7 +252,6 @@ public class ConnectionService extends IntentService {
 				}
 			}catch(Exception e){}
 		}
-
 		try {
 			Intent broadcastIntent = new Intent(mAction);
 			broadcastIntent.putExtra(DATA, bundle);
@@ -329,11 +328,11 @@ public class ConnectionService extends IntentService {
 					Log.i(TAG, "URL:::" + urlString);
 				}
 
-				HttpParams httpParameters = new BasicHttpParams();
-				int timeoutConnection = 0;
-				HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
-				int timeoutSocket = 5000;
-				HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+//				HttpParams httpParameters = new BasicHttpParams();
+//				int timeoutConnection = 0;
+//				HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+//				int timeoutSocket = 5000;
+//				HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 
 
 //				httpGet.setHeader("Content-Type", "application/json");

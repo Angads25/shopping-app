@@ -165,6 +165,7 @@ public class CartDetail extends BaseResponseBean implements Serializable,Parcela
 		no_discount = in.readString();
 		product_thumbnail = in.readString();
 		Status = in.readString();
+		webqty = in.readString();
     }
 
     @Override
@@ -187,6 +188,7 @@ public class CartDetail extends BaseResponseBean implements Serializable,Parcela
 		dest.writeString(no_discount);
         dest.writeString(product_thumbnail);
 		dest.writeString(Status);
+		dest.writeString(webqty);
     }
 
     @SuppressWarnings("unused")

@@ -7,6 +7,8 @@ import com.paymentsdk.android.MyApp;
 import com.sakshay.grocermax.BaseActivity;
 import com.sakshay.grocermax.LocationActivity;
 import com.sakshay.grocermax.MyApplication;
+import com.sakshay.grocermax.R;
+import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.MyHttpUtils;
 import com.sakshay.grocermax.utils.UrlsConstants;
 import com.sakshay.grocermax.utils.UtilityMethods;
@@ -52,8 +54,8 @@ public class GrocermaxBaseException extends Exception {
     public GrocermaxBaseException(String strClassName, String strMethodName,String strMessage,String strErrorCode,String strServerResponse) {
         super();
         try {
-//            String strUrl = UrlsConstants.NEW_BASE_URL + "errorlog?error=";
-//            new AppCrash(MyApplication.getInstance(), strClassName, strMethodName, strMessage, strErrorCode, strServerResponse).execute(strUrl);
+            String strUrl = UrlsConstants.NEW_BASE_URL + "errorlog?error=";
+            new AppCrash(MyApplication.getInstance(), strClassName, strMethodName, strMessage, strErrorCode, strServerResponse).execute(strUrl);
 
 //        String strUrl = "http://staging.grocermax.com/webservice/new_services/errorlog?error=";
 //          UtilityMethods.customToast(strClassName+"=ERROR="+strMethodName, MyApplication.getInstance());
@@ -97,13 +99,19 @@ class AppCrash extends AsyncTask<String, String, String>
             HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
             String strExceptionReport = params[0];
             strExceptionReport += "CLASSNAME:" + strClassName + ",METHODNAME:" + strMethodName + ",APPERROR:" + strMessage + ",SERVERRESPONSE:" + strServerResponse;
-            if (strExceptionReport.contains("?")) {
-                strExceptionReport += "&version=1.0";
-            } else {
-                strExceptionReport += "?version=1.0";
-            }
+//            if (strExceptionReport.contains("?")) {
+//                strExceptionReport += "&version=1.0";
+//            } else {
+//                strExceptionReport += "?version=1.0";
+//            }
             HttpGet httpGet = new HttpGet(strExceptionReport);                        //getting URL
-            httpGet.setHeader("Content-Type", "application/json");
+//            httpGet.setHeader("Content-Type", "application/json");
+            httpGet.setHeader("device", context.getResources().getString(R.string.app_device));
+            httpGet.setHeader("version", context.getResources().getString(R.string.app_version));
+            if(MySharedPrefs.INSTANCE.getSelectedStateId() != null) {
+                httpGet.setHeader("storeid", MySharedPrefs.INSTANCE.getSelectedStoreId());
+            }
+
             HttpResponse response = null;
             try {
                 response = client.execute(httpGet);

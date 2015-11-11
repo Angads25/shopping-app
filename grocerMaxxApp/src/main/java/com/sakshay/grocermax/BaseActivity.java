@@ -692,13 +692,13 @@ public abstract class BaseActivity extends FragmentActivity {
 					case R.id.checkout:
 						setFooterSelected(4);
 						if (AppConstants.token != "") {
-							showDialog();
-
-							String url = UrlsConstants.ACTIVE_ORDER_URL
-									+ MySharedPrefs.INSTANCE.getUserEmail();
-							myApi.reqActiveOrder(url);
-							intent = new Intent(mContext, ChooseAddress.class);
-							startActivity(intent);
+//							showDialog();
+//
+//							String url = UrlsConstants.ACTIVE_ORDER_URL
+//									+ MySharedPrefs.INSTANCE.getUserEmail();
+//							myApi.reqActiveOrder(url);
+//							intent = new Intent(mContext, ChooseAddress.class);
+//							startActivity(intent);
 						}
 						break;
 					default:

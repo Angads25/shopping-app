@@ -136,11 +136,11 @@ public class AppConstants {
 		public static final String BILL_PHONE_VALID = "Phone number should be of 10 digit in billing address";
 		public static final String BILL_PINCODE_VALID = "Pincode should be of 6 digit in billing address";
 
-		public static final String REDUCE_QUANT_FIRST_PART = "Sorry, only";
-		public static final String REDUCE_QUANT_SECOND_PART = "items in stock. Please reduce quantity to proceed period";
+		public static final String REDUCE_QUANT_FIRST_PART = "Sorry, only ";
+		public static final String REDUCE_QUANT_SECOND_PART = " items in stock. Please reduce quantity to proceed period";
 
 		public static final String EDIT_DIFFERENT_ADDRESS_FIRST = "You've chosen ";
-		public static final String EDIT_DIFFERENT_ADDRESS_SECOND = "location. Like to change/add new address?\"";
+		public static final String EDIT_DIFFERENT_ADDRESS_SECOND = "location. Like to change/add new address?";
 
 		
 	}

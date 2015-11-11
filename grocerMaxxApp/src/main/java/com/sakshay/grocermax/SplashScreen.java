@@ -70,6 +70,7 @@ public class SplashScreen extends BaseActivity
 		super.onCreate(savedInstanceState);
 		super.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.splash_screen);
+		System.out.println("======pxdp=====");
 		addActionsInFilter(MyReceiverActions.LOCATION);
 
 //		String sd = String.valueOf(pxToDp(420));
@@ -82,6 +83,7 @@ public class SplashScreen extends BaseActivity
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
+				String str = Base64.encodeToString(md.digest(), Base64.DEFAULT);
                 Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
                 }
         } catch (NameNotFoundException e) {
@@ -153,6 +155,13 @@ public class SplashScreen extends BaseActivity
 	@Override
 	public void onResume() {
 		super.onResume();
+
+		if(!UtilityMethods.isInternetAvailable(activity)) {
+			UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, activity);
+			handler = new Handler();
+			handler.postDelayed(runningThread, 4000);
+			return;
+		}
 		if(MySharedPrefs.INSTANCE.getSelectedCity() != null){
 //			showDialog();
 			String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;
@@ -173,6 +182,26 @@ public class SplashScreen extends BaseActivity
 				handler.postDelayed(runningThread, 4000);
 			}
 		}
+
+//		if(MySharedPrefs.INSTANCE.getSelectedCity() != null){
+//			Intent call = new Intent(SplashScreen.this, HotOffersActivity.class);
+////			Bundle call_bundle = new Bundle();
+////			call_bundle.putSerializable("Categories", category);
+////			call.putExtras(call_bundle);
+//			startActivity(call);
+//			registerGCM();
+//			finish();
+//		}else{
+//			String url = UrlsConstants.GET_LOCATION;
+//			if(UtilityMethods.isInternetAvailable(activity)) {
+//				myApi.reqLocation(url);
+//			}else{
+//				UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, activity);
+//				handler = new Handler();
+//				handler.postDelayed(runningThread, 4000);
+//			}
+//		}
+
 	}
 
 	public void onBackPressed() {

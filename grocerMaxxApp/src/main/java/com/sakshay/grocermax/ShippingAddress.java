@@ -746,13 +746,14 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
 
                         try{
                         if (ship_add.getRegionId() != null && MySharedPrefs.INSTANCE.getSelectedStateRegionId() != null) {
-                            if (!ship_add.getRegionId().equals(MySharedPrefs.INSTANCE.getSelectedStateRegionId())) {
+                            if (!ship_add.getRegionId().equals(MySharedPrefs.INSTANCE.getSelectedStateRegionId()) && !ship_add.getRegionId().equals("0")) {
 //                                UtilityMethods.customToast("We deliver only in " + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + ".Kindly select add new address", mContext);
-                                UtilityMethods.customToast("AppConstants.ToastConstant.EDIT_DIFFERENT_ADDRESS_FIRST" + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + "AppConstants.ToastConstant.EDIT_DIFFERENT_ADDRESS_SECOND", mContext);
-
+                                UtilityMethods.customToast(AppConstants.ToastConstant.EDIT_DIFFERENT_ADDRESS_FIRST + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + AppConstants.ToastConstant.EDIT_DIFFERENT_ADDRESS_SECOND, mContext);
+                                return;
                             }
                         }
                         }catch(Exception e){}
+
 //                        if (!ship_add.getCity().equalsIgnoreCase(MySharedPrefs.INSTANCE.getSelectedCity())) {
 //                            UtilityMethods.customToast("We deliver only in " + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + ".Kindly select add new address", mContext);
 //                            return;
@@ -1501,9 +1502,9 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
 
                 try {
                     if (ship_add.getRegionId() != null && MySharedPrefs.INSTANCE.getSelectedStateRegionId() != null) {
-                        if (!ship_add.getRegionId().equals(MySharedPrefs.INSTANCE.getSelectedStateRegionId())) {
+                        if (!ship_add.getRegionId().equals(MySharedPrefs.INSTANCE.getSelectedStateRegionId()) && !ship_add.getRegionId().equals("0")) {
 //                            UtilityMethods.customToast("We deliver only in " + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + ".Kindly select add new address", mContext);
-                            UtilityMethods.customToast("AppConstants.ToastConstant.EDIT_DIFFERENT_ADDRESS_FIRST" + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + "AppConstants.ToastConstant.EDIT_DIFFERENT_ADDRESS_SECOND", mContext);
+                            UtilityMethods.customToast(AppConstants.ToastConstant.EDIT_DIFFERENT_ADDRESS_FIRST + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + AppConstants.ToastConstant.EDIT_DIFFERENT_ADDRESS_SECOND, mContext);
                             return;
                         }
                     }

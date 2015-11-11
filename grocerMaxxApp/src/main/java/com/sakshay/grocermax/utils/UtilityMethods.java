@@ -293,6 +293,7 @@ public class UtilityMethods {
 		String content = "Try out GrocerMax app, order groceries online and get hot offers on hundreds of products sitting at home.";
 		String link_val = "https://play.google.com/store/apps/details?id="
 				+ AppConstants.PKG_NAME;
+
 		final String body = content + "\n<a href=\"" + link_val + "\">"
 				+ "Download Now." + "</a>" + "\n Thanks.";
 

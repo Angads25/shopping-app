@@ -479,6 +479,7 @@ public class ReviewOrderAndPay extends BaseActivity
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
+
 					bCash = false;
 					bOnline = false;
 					bMobiKwik = false;
@@ -610,6 +611,10 @@ public class ReviewOrderAndPay extends BaseActivity
 						UtilityMethods.customToast(ToastConstant.SELECT_PAYMENT_MODE, mContext);
 						return;
 					}else
+
+					//in case user click once but server timed out occured then btn should disable for next time.
+					button_pay.setEnabled(false);
+					button_pay.setVisibility(View.GONE);
 
 //					if (!bCash && !bOnline) {
 //						UtilityMethods.customToast(ToastConstant.SELECT_PAYMENT_MODE, mContext);
@@ -1016,6 +1021,7 @@ public class ReviewOrderAndPay extends BaseActivity
 					}
 				}
 			}
+
 
 //		if (bundle.getString("ACTION").equals(MyReceiverActions.GET_ORDER_STATUS)) {
 //			String response= (String) bundle.getSerializable(ConnectionService.RESPONSE);

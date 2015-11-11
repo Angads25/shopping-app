@@ -40,6 +40,27 @@ public class PayTMActivity extends BaseActivity
 	private int randomInt = 0;
 	private PaytmPGService Service = null;
 	String amount,order_id,order_db_id;
+
+
+	public void check(){
+
+		try {
+			addActionsInFilter(MyReceiverActions.SET_ORDER_STATUS);
+			addActionsInFilter(MyReceiverActions.SET_PAYTM_ORDER_STATUS_SUCCESS);
+			String url = UrlsConstants.SET_PAYTM_ORDER_STATUS_SUCCESS+"?orderid="+"145041138&"+"status="+"success";
+//			JSONObject jsonObject = new JSONObject();
+//			jsonObject.put("status", "success");
+//			jsonObject.put("orderid", "145041138");
+//			jsonObject.put("orderdbid", "41331");
+//					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//			myApi.reqSetOrderStatusPaytmSuccess(url, jsonObject);
+			myApi.reqSetOrderStatusPaytmSuccess(url);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -124,14 +145,38 @@ public class PayTMActivity extends BaseActivity
 					showDialog();
 //					myApi.reqSetOrderStatusPaytmSuccess(UrlsConstants.SET_PAYTM_ORDER_STATUS_SUCCESS + order_db_id);
 
-					String url = UrlsConstants.SET_PAYTM_ORDER_STATUS_SUCCESS;
-					JSONObject jsonObject = new JSONObject();
+//					String url = UrlsConstants.SET_PAYTM_ORDER_STATUS_SUCCESS;
+//					JSONObject jsonObject = new JSONObject();
+//
+//					jsonObject.put("status","success");
+//					jsonObject.put("orderid",order_id);
+//					jsonObject.put("orderdbid",order_db_id);
+////					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+//					myApi.reqSetOrderStatusPaytmSuccess(url, jsonObject);
 
-					jsonObject.put("status","success");
-					jsonObject.put("orderid",order_id);
-					jsonObject.put("orderdbid",order_db_id);
-//					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
-					myApi.reqSetOrderStatusPaytmSuccess(url, jsonObject);
+
+					String url = UrlsConstants.SET_PAYTM_ORDER_STATUS_SUCCESS+"?orderid="+order_id+"&status="+"success";
+					myApi.reqSetOrderStatusPaytmSuccess(url);
+
+
+					dismissDialog();
+					MySharedPrefs.INSTANCE.putTotalItem("0");
+					MySharedPrefs.INSTANCE.clearQuote();
+					//					UtilityMethods.customToast(finalCheckoutBean.getResult(), PayTMActivity.this);
+					Intent intent = new Intent(PayTMActivity.this, CODConfirmation.class);
+					Bundle call_bundle = new Bundle();
+					call_bundle.putString("orderid", order_id);
+					call_bundle.putString("status", "success");
+					intent.putExtras(call_bundle);
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
+					finish();
+
+
+
+
+
+
 				}catch(Exception e){}
 
 				}
@@ -178,6 +223,23 @@ public class PayTMActivity extends BaseActivity
 					jsonObject.put("orderdbid",order_db_id);
 //					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 					myApi.reqSetOrderStatus(url, jsonObject);
+
+
+
+					dismissDialog();
+					MySharedPrefs.INSTANCE.putTotalItem("0");
+					MySharedPrefs.INSTANCE.clearQuote();
+					Intent intent = new Intent(PayTMActivity.this, CODConfirmation.class);
+					Bundle call_bundle = new Bundle();
+					call_bundle.putString("orderid", order_id);
+					call_bundle.putString("status", "fail");
+					//					call_bundle.putString("status", "success");
+					intent.putExtras(call_bundle);
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
+					finish();
+
+
 					}catch(Exception e){}
 
 				}
@@ -217,40 +279,40 @@ public class PayTMActivity extends BaseActivity
 	@Override
 	public void OnResponse(Bundle bundle) {
 		try {
-		if (bundle.getString("ACTION").equals(MyReceiverActions.SET_ORDER_STATUS)) {                     //PAYTM FAILURE
-			String response= (String) bundle.getSerializable(ConnectionService.RESPONSE);
-				JSONObject resJsonObject = new JSONObject(response);
-				if (resJsonObject.getInt("flag") == 1) {
-					dismissDialog();
-					MySharedPrefs.INSTANCE.putTotalItem("0");
-					MySharedPrefs.INSTANCE.clearQuote();
-					Intent intent = new Intent(PayTMActivity.this, CODConfirmation.class);
-					Bundle call_bundle = new Bundle();
-					call_bundle.putString("orderid", order_id);
-					call_bundle.putString("status", "fail");
-			//					call_bundle.putString("status", "success");
-					intent.putExtras(call_bundle);
-					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(intent);
-					finish();
-				}
-		}else if(bundle.getString("ACTION").equals(MyReceiverActions.SET_PAYTM_ORDER_STATUS_SUCCESS)) {                     //PAYTM SUCCESS
-			String response= (String) bundle.getSerializable(ConnectionService.RESPONSE);
-			JSONObject resJsonObject = new JSONObject(response);
-			if (resJsonObject.getInt("flag") == 1) {
-				MySharedPrefs.INSTANCE.putTotalItem("0");
-				MySharedPrefs.INSTANCE.clearQuote();
-				//					UtilityMethods.customToast(finalCheckoutBean.getResult(), PayTMActivity.this);
-				Intent intent = new Intent(PayTMActivity.this, CODConfirmation.class);
-				Bundle call_bundle = new Bundle();
-				call_bundle.putString("orderid", order_id);
-				call_bundle.putString("status", "success");
-				intent.putExtras(call_bundle);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				finish();
-			}
-		}
+//		if (bundle.getString("ACTION").equals(MyReceiverActions.SET_ORDER_STATUS)) {                     //PAYTM FAILURE
+//			String response= (String) bundle.getSerializable(ConnectionService.RESPONSE);
+//				JSONObject resJsonObject = new JSONObject(response);
+//				if (resJsonObject.getInt("flag") == 1) {
+//					dismissDialog();
+//					MySharedPrefs.INSTANCE.putTotalItem("0");
+//					MySharedPrefs.INSTANCE.clearQuote();
+//					Intent intent = new Intent(PayTMActivity.this, CODConfirmation.class);
+//					Bundle call_bundle = new Bundle();
+//					call_bundle.putString("orderid", order_id);
+//					call_bundle.putString("status", "fail");
+//			//					call_bundle.putString("status", "success");
+//					intent.putExtras(call_bundle);
+//					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//					startActivity(intent);
+//					finish();
+//				}
+//		}else if(bundle.getString("ACTION").equals(MyReceiverActions.SET_PAYTM_ORDER_STATUS_SUCCESS)) {                     //PAYTM SUCCESS
+//			String response= (String) bundle.getSerializable(ConnectionService.RESPONSE);
+//			JSONObject resJsonObject = new JSONObject(response);
+//			if (resJsonObject.getInt("flag") == 1) {
+//				MySharedPrefs.INSTANCE.putTotalItem("0");
+//				MySharedPrefs.INSTANCE.clearQuote();
+//				//					UtilityMethods.customToast(finalCheckoutBean.getResult(), PayTMActivity.this);
+//				Intent intent = new Intent(PayTMActivity.this, CODConfirmation.class);
+//				Bundle call_bundle = new Bundle();
+//				call_bundle.putString("orderid", order_id);
+//				call_bundle.putString("status", "success");
+//				intent.putExtras(call_bundle);
+//				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//				startActivity(intent);
+//				finish();
+//			}
+//		}
 		}catch(Exception e){
 			new GrocermaxBaseException("PayTMActivity","OnResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
 		}

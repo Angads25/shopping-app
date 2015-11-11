@@ -10,18 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.sakshay.grocermax.AddressDetail;
 import com.sakshay.grocermax.BillingAddress;
-import com.sakshay.grocermax.ChooseAddress;
 import com.sakshay.grocermax.R;
-import com.sakshay.grocermax.ShippingAddress;
 import com.sakshay.grocermax.bean.Address;
-import com.sakshay.grocermax.bean.OrderReviewBean;
 import com.sakshay.grocermax.exception.GrocermaxBaseException;
-import com.sakshay.grocermax.preference.MySharedPrefs;
 import com.sakshay.grocermax.utils.CustomFonts;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 

@@ -229,7 +229,6 @@ public class HotOffersActivity extends BaseActivity {
                     System.out.println("RESPONSE MODEL CATEGORY1" + shopByCategoryBean.getArrayList().size());
 
                     JSONObject jsonO = new JSONObject(bundle.getString("json"));
-                    jsonO.getString("Result");
                     JSONArray jsonArrayCategory = jsonO.getJSONArray("category");
                     JSONArray jsonArrayBanner = jsonO.getJSONArray("banner");
                     JSONArray jsonDealType = jsonO.getJSONArray("deal_type");
@@ -577,16 +576,14 @@ public class HotOffersActivity extends BaseActivity {
         {
             String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;
             myApi.reqCategorySubCategoryList(url);
-
         }
+
 //        myApi.reqGetShopByCategories(UrlsConstants.SHOP_BY_CATEGORY_TYPE);
 //        myApi.reqGetShopByDeals(UrlsConstants.SHOP_BY_DEAL_TYPE);
 //        myApi.reqGetHomePageBanner(UrlsConstants.GET_BANNER);
 
 //        myApi.reqGetShopByCategories(UrlsConstants.NEW_BASE_URL+"homepage");
-
-//        myApi.reqGetShopByCategories(UrlsConstants.GET_HOME_PAGE);
-        myApi.reqHome(UrlsConstants.GET_HOME_PAGE);
+          myApi.reqHome(UrlsConstants.GET_HOME_PAGE);
 
 //        Bundle call_bundle = new Bundle();
 //        call_bundle.putSerializable("Categories", catObj);
