@@ -414,7 +414,8 @@ public class LoginActivity extends BaseActivity
 //					myApi.reqLogin(url, hashMap);
 
 				} else {
-					Toast.makeText(mContext, ToastConstant.msgNoInternet ,Toast.LENGTH_LONG).show();
+					UtilityMethods.customToast(ToastConstant.msgNoInternet, this);
+//					Toast.makeText(mContext, ToastConstant.msgNoInternet ,Toast.LENGTH_LONG).show();
 				}
 			}
 		}catch(Exception e){
@@ -517,8 +518,7 @@ public class LoginActivity extends BaseActivity
 					jsonObject.put("lname", USER_LNAME);
 					jsonObject.put("number", 0000000000);
 //					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
-					System.out.println("==jsonobject==" + jsonObject);
-
+//					System.out.println("==jsonobject==" + jsonObject);
 				}
 				myApi.reqLogin(url,jsonObject);
 
@@ -538,8 +538,6 @@ public class LoginActivity extends BaseActivity
 	 * FB Methods
 	 * */
 
-
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //		64206 requestCode
@@ -548,14 +546,18 @@ public class LoginActivity extends BaseActivity
 			switch (requestCode) {
 				case RC_SIGN_IN:
 					try{
+//						Toast.makeText(mContext, "b1b1b1b1b1b1b1b1b1b1"+requestCode, Toast.LENGTH_SHORT).show();
 						if (resultCode == RESULT_OK) {
+//							Toast.makeText(mContext, "c1c1c1c1c1c1c1", Toast.LENGTH_SHORT).show();
 							signedInUser = false;
 						}
 						mIntentInProgress = false;
 						if (!mGoogleApiClient.isConnecting()) {
+//							Toast.makeText(mContext, "d1d1d1d1d1d1d1d1", Toast.LENGTH_SHORT).show();
 							mGoogleApiClient.connect();
 						}
 					}catch(Exception e){
+//						Toast.makeText(mContext, "exception===="+e.getStackTrace(), Toast.LENGTH_SHORT).show();
 						new GrocermaxBaseException("LoginAactivity","OnResponseRcSignIn",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 					}
 
@@ -568,6 +570,7 @@ public class LoginActivity extends BaseActivity
 						new GrocermaxBaseException("LoginActivity","OnResponseFbSignIn",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 					}
 			}
+
 			if(requestCode==111)
 			{
 				if(resultCode==RESULT_OK)
@@ -901,6 +904,7 @@ public class LoginActivity extends BaseActivity
 				if (UtilityMethods.isInternetAvailable(mContext)) {
 //					if (tv_google_btn.getText().toString().equalsIgnoreCase("Login with Google")) {
 					if(MySharedPrefs.INSTANCE.getGoogleEmail() == null) {
+//						Toast.makeText(mContext, "1111111111111111111", Toast.LENGTH_SHORT).show();
 						googleLoginWithEmailPermission();
 //					} else if (tv_google_btn.getText().toString().equalsIgnoreCase("Logout with Google")) {
 					}else if(MySharedPrefs.INSTANCE.getGoogleEmail() != null){
@@ -923,26 +927,30 @@ public class LoginActivity extends BaseActivity
 		// TODO Auto-generated method stub
 		try {
 			//save the result and resolve the connection failure upon a user click.
-
+//			Toast.makeText(mContext, "onConnectionFailed", Toast.LENGTH_SHORT).show();
 //		if (!result.hasResolution()) {
 			if (!mIntentInProgress && signedInUser && result.hasResolution()) {                         //pop up comes when user press on login with google and user click on cancel
 //            GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this, 0).show();
+//				Toast.makeText(mContext, "onConnectionFailed11111", Toast.LENGTH_SHORT).show();
 				return;
 			}
 			if (!result.hasResolution()) {
-				GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this, 0).show();
+//				GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this, 0).show();
+//				Toast.makeText(mContext, "onConnectionFailed2222222", Toast.LENGTH_SHORT).show();
 				return;
 
 			}
 			if (!mIntentInProgress) {
+//				Toast.makeText(mContext, "onConnectionFailed33333333", Toast.LENGTH_SHORT).show();
 				// store mConnectionResult
 				mConnectionResult = result;
 				if (signedInUser) {
+//					Toast.makeText(mContext, "onConnectionFailed4444444", Toast.LENGTH_SHORT).show();
 					resolveSignInError();
 				}
 			}
 		}catch(Exception e){
-			new GrocermaxBaseException("LoginActivity","onConnectionFailed",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+			new GrocermaxBaseException("LoginActivity","onConnectionFailederror",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
 
@@ -950,6 +958,7 @@ public class LoginActivity extends BaseActivity
 	public void onConnected(Bundle arg0) {
 		// TODO Auto-generated method stub
 		try {
+//			Toast.makeText(mContext, "onConnected", Toast.LENGTH_SHORT).show();
 			AppLoadingScreen.getInstance(context).dismissDialog();
 			signedInUser = false;
 //        Toast.makeText(this, "Connected", Toast.LENGTH_LONG).show();
@@ -981,6 +990,7 @@ public class LoginActivity extends BaseActivity
 //        googlePlusLogin();
 
 //		new GooglePlus((Activity)context,context);
+//			Toast.makeText(mContext, "2222222222222222222", Toast.LENGTH_SHORT).show();
 			googlePlusLogin();
 
 //        Toast.makeText(context,"5555", Toast.LENGTH_SHORT).show();
@@ -993,13 +1003,17 @@ public class LoginActivity extends BaseActivity
 
 	private void googlePlusLogin() {
 		try {
+//			Toast.makeText(mContext, "333333333333333333", Toast.LENGTH_SHORT).show();
 			if (mGoogleApiClient != null) {
+//				Toast.makeText(mContext, "444444444444444444", Toast.LENGTH_SHORT).show();
 				if (!mGoogleApiClient.isConnecting()) {
+//					Toast.makeText(mContext, "555555555555555555", Toast.LENGTH_SHORT).show();
 					signedInUser = true;
 					resolveSignInError();
 				}
 //				UtilityMethods.customToast("googlewkwk plus login else", context);
 			} else {
+//				Toast.makeText(mContext, "66666666666666666", Toast.LENGTH_SHORT).show();
 //        	Toast.makeText(context,"google plus login else", Toast.LENGTH_SHORT).show();
 //				UtilityMethods.customToast("google plus login else", context);
 			}
@@ -1014,9 +1028,11 @@ public class LoginActivity extends BaseActivity
 			if(mConnectionResult != null){
 				if (mConnectionResult.hasResolution()) {
 					try {
+//						Toast.makeText(mContext, "a1a1a1a1a1a1a1a1a1a1", Toast.LENGTH_SHORT).show();
 						mIntentInProgress = true;
 						mConnectionResult.startResolutionForResult(this, RC_SIGN_IN);
 					} catch (SendIntentException e) {
+//						Toast.makeText(mContext, "a2a2a2a2a2a2a2a2a2a2", Toast.LENGTH_SHORT).show();
 						mIntentInProgress = false;
 						mGoogleApiClient.connect();
 					}
@@ -1031,8 +1047,10 @@ public class LoginActivity extends BaseActivity
 
 	private void getProfileInformation() {
 		try {
+//			Toast.makeText(mContext, "a3a3a3a3a3a3a3a3a3", Toast.LENGTH_SHORT).show();
 			if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
 //				tv_google_btn.setText("Logout with Google");
+//				Toast.makeText(mContext, "a4a4a4a4a4a4a4a4a4", Toast.LENGTH_SHORT).show();
 				Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
 				saveGoogleUserData(currentPerson);
 

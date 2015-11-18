@@ -1,18 +1,27 @@
 apply plugin: 'com.android.library'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'grocermax'
+            keyPassword 'abhishek'
+            storeFile file('C:/GIT_android_grocermax/Grocer_Saksh/GrocerKeystore/grocerkeystore.jks')
+            storePassword 'abhishek'
+        }
+    }
     compileSdkVersion 21
-    buildToolsVersion '21.1.1'
-
+    buildToolsVersion '21.1.2'
     defaultConfig {
         minSdkVersion 8
         targetSdkVersion 21
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+        debug {
+            signingConfig signingConfigs.config
         }
     }
 }

@@ -560,13 +560,21 @@ public class Registration extends BaseActivity implements
 
 					MySharedPrefs.INSTANCE.putUserId(userDataBean.getUserID());
 //					if(MySharedPrefs.INSTANCE.isUserDataSet()){                        //when login through FACEBOOK and GOOGLE.
-					if(fbORgoogle){                                                    //when login through FACEBOOK and GOOGLE.
-                               //already saved name during to call saveUserData()
-					}else{                                                             //Simple login
+
+//					if(fbORgoogle){                                                    //when login through FACEBOOK and GOOGLE.
+////                               already saved name during to call saveUserData()
+//					}else{                                                           //Simple login
+//						MySharedPrefs.INSTANCE.putFirstName(userDataBean.getFirstName());
+//						MySharedPrefs.INSTANCE.putLastName(userDataBean.getLastName());
+//					}
+
+					if(MySharedPrefs.INSTANCE.getFirstName() == null){//if(MySharedPrefs.INSTANCE.getFirstName() != null){    //changed 17/9/15
 						MySharedPrefs.INSTANCE.putFirstName(userDataBean.getFirstName());
+					}
+					if(MySharedPrefs.INSTANCE.getLastName() == null){//if(MySharedPrefs.INSTANCE.getLastName() != null){      //changed 17/9/15
 						MySharedPrefs.INSTANCE.putLastName(userDataBean.getLastName());
 					}
-
+//
 					MySharedPrefs.INSTANCE.putMobileNo(userDataBean.getMobile());
 
 					BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon);  //login icon
@@ -1016,6 +1024,11 @@ public class Registration extends BaseActivity implements
 		USER_MNAME = user.getMiddleName();
 		USER_LNAME = user.getLastName();
 
+		try{
+			MySharedPrefs.INSTANCE.putFirstName(USER_FNAME);
+			MySharedPrefs.INSTANCE.putLastName(USER_LNAME);
+		}catch(Exception e){}
+
 		USER_EMAIL = user.getProperty("email").toString();
 
 
@@ -1429,6 +1442,10 @@ public class Registration extends BaseActivity implements
 //			USER_NAME = USER_NAME + " " + USER_MNAME;
 //		if (USER_LNAME != null && USER_LNAME.length() > 0)
 //			USER_NAME = USER_NAME + " " + USER_LNAME;
+
+			try{
+				MySharedPrefs.INSTANCE.putFirstName(USER_NAME);
+			}catch(Exception e){}
 
 		if (USER_NAME != null && USER_NAME.length() > 0)
 			MySharedPrefs.INSTANCE.putGoogleName(USER_NAME);

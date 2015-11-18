@@ -3,14 +3,15 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         config {
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
-            storePassword 'android'
-            storeFile file('C:/Users/Abhishek/.android/debug.keystore')
+            keyAlias 'grocermax'
+            keyPassword 'abhishek'
+            storePassword 'abhishek'
+            storeFile file('C:/GIT_android_grocermax/Grocer_Saksh/GrocerKeystore/grocerkeystore.jks')
         }
     }
     compileSdkVersion 21
     buildToolsVersion '21.1.2'
+
     defaultConfig {
         applicationId "com.sakshay.grocermax"
         minSdkVersion 11
@@ -20,12 +21,11 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             signingConfig signingConfigs.config
         }
         debug {
-            zipAlignEnabled true
+            signingConfig signingConfigs.config
         }
     }
     productFlavors {

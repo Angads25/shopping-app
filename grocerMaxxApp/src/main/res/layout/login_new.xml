@@ -64,7 +64,6 @@
                 android:layout_marginRight="2dp"
                 android:paddingBottom="14dp" >
 
-
                 <ImageView
                     android:id="@+id/button_facebook"
                     android:layout_width="0dp"

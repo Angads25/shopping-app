@@ -83,7 +83,6 @@ public class SplashScreen extends BaseActivity
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
-				String str = Base64.encodeToString(md.digest(), Base64.DEFAULT);
                 Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
                 }
         } catch (NameNotFoundException e) {
