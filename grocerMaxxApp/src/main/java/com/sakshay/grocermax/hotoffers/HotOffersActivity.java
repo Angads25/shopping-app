@@ -615,7 +615,10 @@ public class HotOffersActivity extends BaseActivity {
 
         getSupportFragmentManager().addOnBackStackChangedListener(getListener());
 
-        actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
+        try {
+                actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
+        }catch(Exception e){}
+
         menuIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -641,7 +644,10 @@ public class HotOffersActivity extends BaseActivity {
         //Setting the actionbarToggle to drawer layout
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
 
-        //calling sync state is necessay or else your hamburger icon wont show up
-        actionBarDrawerToggle.syncState();
+        try{
+            //calling sync state is necessay or else your hamburger icon wont show up
+            actionBarDrawerToggle.syncState();
+        }catch(Exception e){}
+
     }
 }
