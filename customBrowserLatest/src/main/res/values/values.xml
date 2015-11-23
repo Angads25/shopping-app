@@ -31,6 +31,7 @@
     <dimen name="thirtytwo">32dp</dimen>
     <dimen name="twelve">12dp</dimen>
     <dimen name="twelveScaled">12sp</dimen>
+    <dimen name="thirteenScaled">13sp</dimen>
     <dimen name="twentyfour">24dp</dimen>
     <dimen name="two">2dp</dimen>
     <!-- From: file:/home/franklin/AndroidStudioProjects/test%20for%20mulitple%20instances/android-sdk-test-project/CustomBrowser/res/values/strings.xml -->

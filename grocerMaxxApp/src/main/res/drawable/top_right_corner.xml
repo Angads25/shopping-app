@@ -8,10 +8,7 @@
         android:startColor="#d44d1e"
         android:type="linear" /> -->
 
-   
-    
-    <corners 
-        
+    <corners
         android:topRightRadius="3dp"
         />
     
@@ -25,8 +22,6 @@
    <!--   <solid android:color="#dc5d1d"/>  
    <solid android:color="#e5390e"/> 
    !-->
-  
- 
     <solid android:color="@color/choose_address_top_color"/> 
 
 </shape>

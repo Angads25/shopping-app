@@ -12,7 +12,8 @@
     <string name="drawer_fifth">Contact Us</string>
     <string name="drawer_sixth">Settings</string>
     <string name="drawer_seventh">Seven</string>
-
+    <string name="open">open</string>
+    <string name="close">close</string>
     <!-- facebook id for app demo -->
     <string name="no_internet_msg">No Internet Connection.</string>
     <string name="drawer_open">Open navigation drawer</string>

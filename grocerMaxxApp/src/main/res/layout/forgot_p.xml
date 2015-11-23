@@ -7,6 +7,10 @@
     android:background="@color/app_background"
     android:orientation="vertical" >
 
+    <include
+        android:id="@+id/header"
+        layout="@layout/mart_header_2" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,6 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:visibility="gone"
 	        android:textColor="@color/pallete_black"
 	        android:textSize="@dimen/text_size_16"
             android:text="Forgot Password" />

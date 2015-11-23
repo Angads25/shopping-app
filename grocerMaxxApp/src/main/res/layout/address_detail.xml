@@ -67,8 +67,9 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text=""
+                android:singleLine="true"
                 android:textColor="@color/light_Gray"
-                android:layout_toLeftOf="@+id/editaddress"
+                android:layout_toLeftOf="@+id/ll_delete_address"
                 android:layout_alignParentLeft="true"
                 android:textSize="@dimen/text_size_12"  />
 
@@ -77,7 +78,7 @@
                 android:layout_width="15dp"
                 android:layout_height="20dp"
                 android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@+id/deleteAddress"
+                android:layout_toLeftOf="@+id/ll_delete_address"
                 android:layout_centerVertical="true"
                 android:src="@drawable/edit_address"
                 android:visibility="gone"/>
@@ -232,6 +233,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=""
+                android:maxLines="3"
                 android:textColor="@color/pallete_black"
                 android:layout_marginRight="30dp"
                 android:textSize="@dimen/text_size_14" />

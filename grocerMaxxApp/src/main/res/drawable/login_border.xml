@@ -9,13 +9,13 @@
         android:type="linear" /> -->
 
     <padding
-        android:bottom="10dip"
+        android:bottom="13dip"
         android:left="20dip"
         android:right="20dip"
-        android:top="10dip" /> 
+        android:top="13dip" />
     
     <corners 
-        android:radius="3dp"/>
+        android:radius="2dp"/>
 
     <!-- <stroke
         android:dashWidth="1dip"
@@ -26,7 +26,7 @@
     <solid android:color="#de2c01"/> !-->
 
 
-    <solid android:color="#3b5998"/>
+    <solid android:color="#0e69ef"/>
     
     
     

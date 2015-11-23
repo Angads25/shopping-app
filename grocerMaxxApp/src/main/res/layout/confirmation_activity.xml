@@ -3,10 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <!--<include
-        android:id="@+id/header"
-        layout="@layout/mart_header" />-->
+
     
       <RelativeLayout 
           android:layout_width="match_parent"
@@ -37,7 +34,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1" >
-            
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/cloud_order_sucess_failure"
+                />
+
         </RelativeLayout>
         
         <RelativeLayout 
@@ -49,7 +53,6 @@
     <RelativeLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        
         android:layout_weight="1" 
         android:layout_gravity="center_horizontal" >
 
@@ -62,7 +65,7 @@
             android:gravity="center_horizontal"
             android:text="Success!!"
             android:textColor="@color/primaryColor"
-            android:textSize="@dimen/text_size_18" />
+            android:textSize="@dimen/text_size_32" />
         
         <TextView 
             android:id="@+id/tv_order"
@@ -70,25 +73,48 @@
             android:layout_height="wrap_content"
             android:text="YOUR ORDER HAS BEEN PLACED"
             android:layout_below="@+id/tv_success"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="7dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:gravity="center_horizontal"
             android:textColor="@color/primaryColor"
             android:layout_centerHorizontal="true"
-            android:textSize="@dimen/text_size_12" />
-        
-        <TextView 
-            android:id="@+id/tv_order_id"
+            android:textSize="@dimen/text_size_14" />
+
+        <LinearLayout
+            android:id="@+id/ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Order ID is 14509951"
             android:layout_centerHorizontal="true"
-            android:paddingTop="15dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:textColor="@color/pallete_black"
-            android:textSize="@dimen/text_size_12"
-            android:layout_below="@+id/tv_order" />
+            android:orientation="horizontal"
+            android:layout_below="@+id/tv_order" >
+
+            <TextView
+                android:id="@+id/tv_order_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Order ID is "
+                android:paddingTop="15dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="#2a2727"
+                android:textSize="@dimen/text_size_14"
+                android:layout_below="@+id/tv_order" />
+
+            <TextView
+                android:id="@+id/tv_order_id_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="15dp"
+                android:text="14509951"
+                android:textColor="#2a2727"
+                android:textSize="@dimen/text_size_16"
+                android:layout_below="@+id/tv_order" />
+
+
+        </LinearLayout>
+
+
+
         
         <TextView 
             android:id="@+id/tv_check_mail_for_details"
@@ -99,9 +125,10 @@
             android:padding="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:textColor="@color/pallete_black"
-            android:textSize="@dimen/text_size_12"
-            android:layout_below="@+id/tv_order_id" />
+            android:gravity="center_horizontal"
+            android:textColor="#2a2727"
+            android:textSize="@dimen/text_size_14"
+            android:layout_below="@+id/ll" />
         
     <LinearLayout
         android:id="@+id/ll_button"
@@ -132,7 +159,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/continueButton"
-            android:background="@drawable/sucess_failure_button"
+            android:background="@drawable/order_history_button"
             android:gravity="center"
             android:text="Order History"
             android:textColor="@color/white"
@@ -152,7 +179,9 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:gravity="center_horizontal"
-            android:text="Tell your friends! they BUY,you EARN - simple!" />
+            android:layout_marginTop="15dp"
+            android:textSize="@dimen/text_size_12"
+            android:text="Tell your friends! they BUY, you EARN - simple!" />
         
         
         
@@ -183,6 +212,7 @@
                 android:id="@+id/facebook_success"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:layout_marginRight="15dp"
                 android:src="@drawable/facebook_success"
                 android:layout_weight="1"
                 android:gravity="center"
@@ -194,6 +224,7 @@
                 android:layout_height="30dp"
                 android:src="@drawable/google_success"
                 android:layout_weight="1"
+                android:layout_marginRight="15dp"
                 android:gravity="center"
                 />
             
@@ -203,6 +234,7 @@
                 android:layout_height="30dp"
                 android:src="@drawable/whatsapp_success"
                 android:layout_weight="1"
+                android:layout_marginRight="15dp"
                 android:gravity="center"
                 />
             
@@ -215,8 +247,7 @@
                 />
             
         </LinearLayout>
-    
-    
+
     </RelativeLayout>
 
 </LinearLayout>
