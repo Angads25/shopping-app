@@ -17,6 +17,11 @@
     <color name="m_color_0a0a0a">#0a0a0a</color>
     <color name="m_color_00ff00">#00ff00</color>
     <color name="m_color_717171">#717171</color>
+    <color name="grey">#d7d6db</color>
+    <color name="grey_dark">#afafaf</color>
+    <color name="grey_view">#413634</color>
+    <!--<color name="grey_view_top">#1effffff</color>-->
+    <!--<color name="color_white_seventy">#46ffffff</color>-->
     <color name="m_color_fe1b1c">#fe1b1c</color>
     <color name="m_color_0ac26a">#0ac26a</color>
     <color name="m_color_cccccc">#cccccc</color>
@@ -33,6 +38,7 @@
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="red">#FF0000</color>
+    <color name="updateshade">#f08d00</color>
     <color name="flag_top_btn">#ff8610</color>
     <color name="flag_center_btn">#d6ffd6</color>
     <color name="flag_bottom_btn">#10ff10</color>
@@ -93,6 +99,8 @@
     <color name="light_gray">#C4CBC6</color>
     <color name="user_menu_text_color">#3a3838</color>
     <color name="transparent">#00000000</color>
+
+    <color name="signup">#ffa700</color>
     
     <color name="tabs_bg_color">#0e69e5</color>
     <color name="text_tab_selected">#ffffff</color>
@@ -125,7 +133,9 @@
     <color name="choose_address_corner_color">#e5390e</color>
     <color name="choose_address_top_color">#e5390e</color>
     <color name="choose_address_backgroundcolor">#fbf9f9</color>
-    
+
+    <color name="register_line_color">#eeeeee</color>
+
     <color name="register_address_text_unselected_color">#bebebe</color>
     <color name="register_address_text_selected_color">#000000</color>
     <color name="register_address_line_color">#f1f1f1</color>

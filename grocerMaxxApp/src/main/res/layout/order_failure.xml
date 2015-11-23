@@ -1,21 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/order_failed">
+    android:layout_height="match_parent" >
 
-    <include
-        android:id="@+id/header"
-        layout="@layout/mart_header" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="2"
+        >
+
+        <include
+            android:id="@+id/header"
+            layout="@layout/mart_header" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.3" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/order_failed" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
 
     <TextView
         android:id="@+id/tv_payment_failed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:layout_gravity="center_horizontal"
+        android:textSize="@dimen/text_size_20"
         android:text="PAYMENT FAILED :("
-        android:textColor="@color/primaryColorDark"
-        android:textSize="@dimen/text_size_18" />
+        android:textColor="#2c5770" />
 
     <TextView
         android:id="@+id/tv_failure_msg"
@@ -24,10 +50,11 @@
         android:layout_below="@+id/tv_payment_failed"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:gravity="center"
+        android:textSize="@dimen/text_size_14"
         android:text="Your payment was processed unsuccessfully."
-        android:textColor="@color/pallete_black" />
+        android:textColor="#2c5770" />
 
     <TextView
         android:id="@+id/tv_failure_msg_part2"
@@ -36,10 +63,11 @@
         android:layout_below="@+id/tv_failure_msg"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
+        android:textSize="@dimen/text_size_14"
         android:text="Please try one of the following options."
-        android:textColor="@color/pallete_black" />
+        android:textColor="#2c5770" />
 
     <LinearLayout
         android:id="@+id/ll_button"
@@ -49,8 +77,6 @@
         android:layout_margin="10dp"
         android:orientation="vertical">
 
-        <!--android:text="Retry Payment"-->
-        //TODO, this is no longer a continue button it is a retry payment
         <TextView
             android:id="@+id/continueButton"
             android:layout_width="match_parent"
@@ -58,13 +84,12 @@
             android:background="@drawable/sucess_failure_button"
             android:gravity="center"
             android:text="Continue Shopping"
-
+            android:layout_marginTop="15dp"
             android:textAllCaps="true"
+            android:layout_marginBottom="10dp"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_16" />
 
-        <!--android:text="Pay via Cash on Delivery"-->
-        //TODO, this is no longer orderhistroy, it is pay via cash on delivery
         <TextView
             android:id="@+id/orderHistory"
             android:layout_width="match_parent"
@@ -74,10 +99,13 @@
             android:background="@drawable/pay_via_cash_on_delivery"
             android:gravity="center"
             android:text="Order History"
-
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_16" />
+
+    </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

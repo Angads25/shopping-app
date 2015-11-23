@@ -215,6 +215,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:padding="10dp"
+                    android:singleLine="true"
                     android:text="08:0 am - 11:00 a"
                     android:textSize="@dimen/text_size_14" />
 
@@ -259,6 +260,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:padding="10dp"
+                    android:singleLine="true"
                     android:text="11:0 am - 2:0 pm"
                     android:textSize="@dimen/text_size_14" />
 
@@ -298,6 +300,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:padding="10dp"
+                    android:singleLine="true"
                     android:text="08:0 am - 11:0 am"
                     android:textColor="@color/darker_Gray"
                     android:textSize="@dimen/text_size_14" />
@@ -330,6 +333,7 @@
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
                     android:padding="10dp"
+                    android:singleLine="true"
                     android:text="11:0 am - 2:0 pm"
                     android:textSize="@dimen/text_size_14" />
 
@@ -407,7 +411,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/pallete_blue"
-        android:text="Select payment method"
+        android:text="Proceed"
         android:textAllCaps="true"
         android:textColor="@color/white" />
 </RelativeLayout>

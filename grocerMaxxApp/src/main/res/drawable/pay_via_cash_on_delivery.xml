@@ -25,6 +25,6 @@
    <!--   <solid android:color="#dc5d1d"/>-->
   
  
-    <solid android:color="@color/pallete_black"/>
+    <solid android:color="#2a2727"/>
 
 </shape>

@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:background="@color/primaryColor"
     android:clipToPadding="false"
-    android:elevation="@dimen/action_bar_elevation"
     app:popupTheme="@style/CustomToolBarTheme"
     app:theme="@style/CustomToolBarTheme"
     app:contentInsetLeft="0dp"
@@ -21,16 +20,25 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="15dp"
+
             android:gravity="center_vertical"
             android:visibility="gone">
 
+            <ImageView
+            android:id="@+id/icon_header_logo_with_search"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+
+            android:contentDescription="@string/image_content_desc"
+            android:src="@drawable/carat_left_white" />
+            <!--
             <ImageView
                 android:id="@+id/icon_header_logo_with_search"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:contentDescription="@string/image_content_desc"
                 android:src="@drawable/header_icon_1" />
+                -->
         </LinearLayout>
 
         <LinearLayout
@@ -61,7 +69,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
-                    android:text="Path"
+                    android:text=""
                     android:gravity="center_vertical"
                     android:textSize="@dimen/mart_header_text_size"
                     android:singleLine="true"
@@ -79,7 +87,7 @@
                 android:layout_weight="1"
                 android:src="@drawable/user_icon" />
 -->
-            <!-- TODO wire this Abhi after removing whatever is causing placeholder ovewrite in background -->
+
             <LinearLayout
                 android:id="@+id/ll_placeholder_profileIcon_appBar"
                 android:layout_width="wrap_content"
@@ -111,7 +119,7 @@
                 android:src="@drawable/search_icon"
                 />
 -->
-            <!-- TODO wire this Abhi after removing whatever is causing placeholder ovewrite in background -->
+
             <LinearLayout
                 android:id="@+id/ll_placeholder_searchIcon_appBar"
                 android:layout_width="wrap_content"
@@ -122,11 +130,11 @@
 
                 <ImageView
                     android:id="@+id/icon_header_search"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
                     android:contentDescription="@string/image_content_desc"
+                    android:background="@drawable/selector_search_appbar"/>
 
-                    android:src="@drawable/search" />
             </LinearLayout>
 
             <!-- android:src="@drawable/ic_menu_search_holo_light" -->
@@ -152,11 +160,11 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="0dp" />-->
 
-                <!--TODO wire this Abhi after removing whatever is causing placeholder ovewrite in background -->
+
                 <ImageButton
                     android:id="@+id/icon_header_cart"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="-10dp"
                     android:background="@drawable/selector_carticon_appbar"
@@ -226,7 +234,7 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
-                        <com.sakshay.grocermax.preference.CustomEditSearch
+                        <com.rgretail.grocermax.preference.CustomEditSearch
                             android:id="@+id/edtSearch"
                             android:layout_width="0dp"
                             android:layout_height="35dp"
