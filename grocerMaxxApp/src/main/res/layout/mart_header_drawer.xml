@@ -210,7 +210,7 @@
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
 
-                            <com.sakshay.grocermax.preference.CustomEditSearch
+                            <com.rgretail.grocermax.preference.CustomEditSearch
                                 android:id="@+id/edtSearch"
                                 android:layout_width="0dp"
                                 android:layout_height="35dp"

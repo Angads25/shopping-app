@@ -6,7 +6,7 @@
     android:background="@android:color/white"
     android:orientation="vertical">
 
-    <com.sakshay.grocermax.hotoffers.MyPagerSlidingTabStrip
+    <com.rgretail.grocermax.hotoffers.MyPagerSlidingTabStrip
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="50dp"

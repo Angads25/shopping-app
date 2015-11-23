@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sakshay.grocermax"
+    package="com.rgretail.grocermax"
     android:versionCode="1"
     android:versionName="1.0"
     >
@@ -37,7 +37,7 @@
     <uses-permission android:name="com.example.gcm.permission.C2D_MESSAGE" />
 
     <application
-        android:name=".MyApplication"
+        android:name="com.rgretail.grocermax.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
@@ -49,7 +49,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".SplashScreen"
+            android:name="com.rgretail.grocermax.SplashScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -60,78 +60,78 @@
         </activity>
 
         <activity
-            android:name=".hotoffers.HotOffersActivity"
+            android:name="com.rgretail.grocermax.hotoffers.HotOffersActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".LocationActivity"
+            android:name="com.rgretail.grocermax.LocationActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".DealListScreen"
+            android:name="com.rgretail.grocermax.DealListScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".DeliveryDetails"
+            android:name="com.rgretail.grocermax.DeliveryDetails"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".UserHeaderProfile"
+            android:name="com.rgretail.grocermax.UserHeaderProfile"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".BillingAddress"
+            android:name="com.rgretail.grocermax.BillingAddress"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".ShippingAddress"
+            android:name="com.rgretail.grocermax.ShippingAddress"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".CODConfirmation"
+            android:name="com.rgretail.grocermax.CODConfirmation"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".LoginActivity"
+            android:name="com.rgretail.grocermax.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".CategoryTabs"
+            android:name="com.rgretail.grocermax.CategoryTabs"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/StyledIndicators"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".AddressDetail"
+            android:name="com.rgretail.grocermax.AddressDetail"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".UserProfile"
+            android:name="com.rgretail.grocermax.UserProfile"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".OrderHistory"
+            android:name="com.rgretail.grocermax.OrderHistory"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".EditProfile"
+            android:name="com.rgretail.grocermax.EditProfile"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".OrderDetail"
+            android:name="com.rgretail.grocermax.OrderDetail"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
@@ -143,47 +143,47 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
             -->
         <activity
-            android:name=".ProductDetailScreen"
+            android:name="com.rgretail.grocermax.ProductDetailScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".BrowseActivity"
+            android:name="com.rgretail.grocermax.BrowseActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".CategoryList"
+            android:name="com.rgretail.grocermax.CategoryList"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".ProductListScreen"
+            android:name="com.rgretail.grocermax.ProductListScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".Registration"
+            android:name="com.rgretail.grocermax.Registration"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".CreateNewAddress"
+            android:name="com.rgretail.grocermax.CreateNewAddress"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".CartProductList"
+            android:name="com.rgretail.grocermax.CartProductList"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".ReviewOrderAndPay"
+            android:name="com.rgretail.grocermax.ReviewOrderAndPay"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".OffersPromoCode"
+            android:name="com.rgretail.grocermax.OffersPromoCode"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
@@ -200,17 +200,17 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".PayTMActivity"
+            android:name="com.rgretail.grocermax.PayTMActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".MobiKwikWallet"
+            android:name="com.rgretail.grocermax.MobiKwikWallet"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".SearchTabs"
+            android:name="com.rgretail.grocermax.SearchTabs"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/StyledIndicators"
@@ -229,8 +229,8 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <service android:name=".api.ConnectionService" />
-        <service android:name=".api.ConnectionCartService" />
+        <service android:name="com.rgretail.grocermax.api.ConnectionService" />
+        <service android:name="com.rgretail.grocermax.api.ConnectionCartService" />
 
         <meta-data
             android:name="payu_merchant_id"
@@ -359,12 +359,12 @@
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
 
-                <category android:name="com.sakshay.grocermax" />
+                <category android:name="com.rgretail.grocermax" />
             </intent-filter>
         </receiver>
 
         <service
-            android:name=".GCM.GCMIntentService"
+            android:name="com.rgretail.grocermax.GCM.GCMIntentService"
             android:exported="true" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
@@ -372,11 +372,11 @@
         </service>
 
         <activity
-            android:name=".OneTimePassword"
+            android:name="com.rgretail.grocermax.OneTimePassword"
             android:label="@string/title_activity_one_time_password" >
         </activity>
         <activity
-            android:name=".CategoryActivity"
+            android:name="com.rgretail.grocermax.CategoryActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden">
