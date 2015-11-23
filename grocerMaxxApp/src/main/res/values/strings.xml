@@ -56,5 +56,6 @@
     <string name="title_activity_one_time_password">OneTimePassword</string>
     <string name="title_activity_deal_list_screen">DealListScreen</string>
     <string name="title_activity_category">CategoryActivity</string>
+    <string name="title_activity_product_sorting">ProductSorting</string>
 
 </resources>

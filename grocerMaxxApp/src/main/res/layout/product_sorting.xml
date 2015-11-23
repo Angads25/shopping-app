@@ -3,37 +3,214 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/white">
-
-    <include
-        android:id="@+id/header"
-        layout="@layout/mart_header_2" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible">
 
-        <LinearLayout
+        <include
+            android:id="@+id/header"
+            layout="@layout/mart_header_2"/>
+
+
+        <RelativeLayout
+            android:id="@+id/rl_popularity"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
 
             <TextView
+                android:id="@+id/txt_popularity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="Popularity"
                 android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv_popularity"
+                android:text="Popularity"
+                android:layout_marginLeft="5dp"
                 android:textColor="@color/black"/>
 
             <ImageView
+                android:id="@+id/iv_popularity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/drawerlogo"/>
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/sort_product_select"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/rl_discounts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/txt_discounts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv_discounts"
+                android:text="Discounts"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/black"/>
+
+            <ImageView
+                android:id="@+id/iv_discounts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/sort_product_unselect"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_title_atoz"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/txt_title_atoz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv_title_atoz"
+                android:text="Title A to Z"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/black"/>
+
+            <ImageView
+                android:id="@+id/iv_title_atoz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/sort_product_unselect"/>
+
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:id="@+id/rl_title_ztoa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/txt_title_ztoa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv_title_ztoa"
+                android:text="Title Z to A"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/black"/>
+
+            <ImageView
+                android:id="@+id/iv_title_ztoa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/sort_product_unselect"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_price_ltoh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/txt_price_ltoh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv_price_ltoh"
+                android:text="Price low to high"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/black"/>
+
+            <ImageView
+                android:id="@+id/iv_price_ltoh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/sort_product_unselect"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_price_htol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/txt_price_htol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv_price_htol"
+                android:text="Price high to low"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/black"/>
+
+            <ImageView
+                android:id="@+id/iv_price_htol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/sort_product_unselect"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_apply"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/account_create_border"
+            android:padding="14dp"
+            android:text="A&#160;P&#160;P&#160;L&#160;Y"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_16" />
+
+    </RelativeLayout>
 
 </LinearLayout>
