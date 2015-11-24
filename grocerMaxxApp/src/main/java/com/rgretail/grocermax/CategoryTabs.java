@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.melnykov.fab.FloatingActionButton;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.bean.BaseResponseBean;
 import com.rgretail.grocermax.bean.CategoriesProducts;
@@ -167,6 +168,20 @@ public class CategoryTabs extends BaseActivity {
 				ProductListFragments.CallAPI callapi=new ProductListFragments().new CallAPI();
 				asyncTasks.add(callapi);
 			}*/
+
+
+                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+                fab.setOnClickListener(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        // TODO Auto-generated method stub
+                        Intent intent = new Intent(mContext, ProductSorting.class);
+                        startActivity(intent);
+                    }
+                });
+
+
             }
 
             iconHeaderHome = (ImageView) findViewById(R.id.icon_header_home);

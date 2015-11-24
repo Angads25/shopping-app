@@ -148,12 +148,21 @@ public class SplashScreen extends BaseActivity
 			}
 		});
 	}
+
+	Runnable runningThread4Minutes = new Runnable() {
+		public void run() {
+			Intent call = new Intent(SplashScreen.this, HotOffersActivity.class);
+			startActivity(call);
+			registerGCM();
+			finish();
+		}
+	};
 	
 	@Override
 	public void onResume() {
 		super.onResume();
 
-		if(!UtilityMethods.isInternetAvailable(activity)) {
+		if(!UtilityMethods.isInternetAvailable(activity)) {                 //exit app after 4 sec
 			UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, activity);
 			handler = new Handler();
 			handler.postDelayed(runningThread, 4000);
@@ -162,8 +171,10 @@ public class SplashScreen extends BaseActivity
 		if(MySharedPrefs.INSTANCE.getSelectedCity() != null){
 //			showDialog();
 			String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;
-			if(UtilityMethods.isInternetAvailable(activity)) {
-				myApi.reqCategorySubCategoryList(url);
+			if(UtilityMethods.isInternetAvailable(activity)) {                //start app after 4 sec
+//				myApi.reqCategorySubCategoryList(url);
+				handler = new Handler();
+				handler.postDelayed(runningThread4Minutes, 4000);
 			}else{
 				UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, activity);
 				handler = new Handler();
@@ -171,7 +182,7 @@ public class SplashScreen extends BaseActivity
 			}
 		}else {
 			String url = UrlsConstants.GET_LOCATION;
-			if(UtilityMethods.isInternetAvailable(activity)) {
+			if(UtilityMethods.isInternetAvailable(activity)) {             //call location api
 				myApi.reqLocation(url);
 			}else{
 				UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, activity);

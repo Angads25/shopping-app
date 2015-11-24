@@ -34,6 +34,8 @@ android {
 
 dependencies {
     compile 'com.android.support:multidex:1.0.0'
+
+    compile 'com.melnykov:floatingactionbutton:1.3.0'
     compile project(':facebookSDK')
     compile project(':androidSDK')
     compile project(':view_pager_indicator')

@@ -225,10 +225,25 @@ public class HotOffersActivity extends BaseActivity {
                     System.out.println("RESPONSE MODEL CATEGORY" + shopByCategoryBean.getResult());
                     System.out.println("RESPONSE MODEL CATEGORY1" + shopByCategoryBean.getArrayList().size());
 
+
+
                     JSONObject jsonO = new JSONObject(bundle.getString("json"));
+                    Constants.base_url_category_image = jsonObject.getString("urlImg");                                                           //
+                    JSONObject jsonArrayCccategory = jsonO.getJSONObject("Category");                                                             //
                     JSONArray jsonArrayCategory = jsonO.getJSONArray("category");
                     JSONArray jsonArrayBanner = jsonO.getJSONArray("banner");
                     JSONArray jsonDealType = jsonO.getJSONArray("deal_type");
+
+
+                    JSONObject jsonOCccategory = new JSONObject();                                                                                  //
+                    jsonOCccategory.put("Category", jsonArrayCccategory);                                                                           //
+                    ArrayList<CategorySubcategoryBean> categoryi = UtilityMethods.getCategorySubCategory(String.valueOf(jsonOCccategory));          //
+//                    if (!jsonResponse.trim().equals("") && categoryi.size() > 0) {                                                               //
+                    if(categoryi.size() > 0){                                                                                                      //
+//                        UtilityMethods.writeCategoryResponse(HotOffersActivity.this, AppConstants.categoriesFile, String.valueOf(categoryi));      //
+//                        catObj = UtilityMethods.getCategorySubCategory(String.valueOf(categoryi));
+                        catObj = categoryi;                                                                                                          //
+                    }
 
                     JSONObject jsonOCategory = new JSONObject();
                     jsonOCategory.put("category", jsonArrayCategory);
@@ -246,7 +261,7 @@ public class HotOffersActivity extends BaseActivity {
                     shopByDealsBean = gson3.fromJson(jsonODealType.toString(), ShopByDealsBean.class);
 
 
-                    if (shopByCategoryBean != null && shopByDealsBean != null && homeBannerBean != null) {
+                    if (shopByCategoryBean != null && shopByDealsBean != null && homeBannerBean != null && catObj != null) {
                         HomeFragment fragment = new HomeFragment();
                         dismissDialog();
                         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -561,19 +576,19 @@ public class HotOffersActivity extends BaseActivity {
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.show();
 
-        Bundle bundle1 = getIntent().getExtras();
-        if (bundle1 != null) {
-            catObj = (ArrayList<CategorySubcategoryBean>) bundle1.getSerializable("Categories");
-        } else {
-            String response = UtilityMethods.readCategoryResponse(this, AppConstants.categoriesFile);
-            catObj = UtilityMethods.getCategorySubCategory(response);
-        }
-
-        if(catObj==null)
-        {
-            String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;
-            myApi.reqCategorySubCategoryList(url);
-        }
+//        Bundle bundle1 = getIntent().getExtras();                                                          //
+//        if (bundle1 != null) {                                                                             //
+//            catObj = (ArrayList<CategorySubcategoryBean>) bundle1.getSerializable("Categories");         //
+//        } else {                                                                                        //
+//            String response = UtilityMethods.readCategoryResponse(this, AppConstants.categoriesFile);     //
+//            catObj = UtilityMethods.getCategorySubCategory(response);                                    //
+//        }                                                                                             //
+//
+//        if(catObj==null)                                                                             //
+//        {                                                                                             //
+//            String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;                            //
+//            myApi.reqCategorySubCategoryList(url);                                                //
+//        }                                                                                        //
 
 //        myApi.reqGetShopByCategories(UrlsConstants.SHOP_BY_CATEGORY_TYPE);
 //        myApi.reqGetShopByDeals(UrlsConstants.SHOP_BY_DEAL_TYPE);

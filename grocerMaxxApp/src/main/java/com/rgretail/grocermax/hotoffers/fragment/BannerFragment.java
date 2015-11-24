@@ -78,8 +78,10 @@ public class BannerFragment extends Fragment {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
                 linkurl = (((HomeFragment) frag).getHomeBannerBean()).getBanner().get(((HomeFragment) frag).getPosition()).getLinkurl();
                 name = (((HomeFragment) frag).getHomeBannerBean()).getBanner().get(((HomeFragment) frag).getPosition()).getName();
+
                 ////////////// 1.search ///////////////////
 //                linkurl = "search?keyword=atta";
 //                String strAtta = "atta";
@@ -131,7 +133,7 @@ public class BannerFragment extends Fragment {
 //5                "productlistall?cat_id=2402"                      //
 //6                linkurl = "offerbydealtype?cat_id=2483";
 
-                try {
+
 
                     int index = 0;
                     String strType = "";
@@ -209,7 +211,7 @@ public class BannerFragment extends Fragment {
                         int indexequal = linkurl.indexOf("=");
                         if (linkurl.length() >= index) {
                             strId = linkurl.substring(indexequal + 1, linkurl.length());
-                            System.out.println("====indexequals is====>>" + strId);
+//                            System.out.println("====indexequals is====>>" + strId);
                         }
                         ((HotOffersActivity) context).addActionsInFilter(MyReceiverActions.OFFER_BY_DEALTYPE);
                         ((HotOffersActivity) context).hitForShopByCategory(strId);

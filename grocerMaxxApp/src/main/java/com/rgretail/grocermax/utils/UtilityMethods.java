@@ -758,7 +758,11 @@ public class UtilityMethods {
 			CategorySubcategoryBean categoryOb;
 			JSONObject jsonObject = new JSONObject(content.trim());
 
-			Constants.base_url_category_image = jsonObject.getString("urlImg");
+			try {
+				if(jsonObject.getString("urlImg") != null) {
+					Constants.base_url_category_image = jsonObject.getString("urlImg");
+				}
+			}catch(Exception e){}
 
 			jsonObject=jsonObject.getJSONObject(ListConstant.TAG_CATEGORY).getJSONArray("children").getJSONObject(0);
 
