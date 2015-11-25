@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.facebook.internal.Utility;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
@@ -162,34 +163,41 @@ public class SplashScreen extends BaseActivity
 	public void onResume() {
 		super.onResume();
 
-		if(!UtilityMethods.isInternetAvailable(activity)) {                 //exit app after 4 sec
-			UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, activity);
-			handler = new Handler();
-			handler.postDelayed(runningThread, 4000);
-			return;
-		}
-		if(MySharedPrefs.INSTANCE.getSelectedCity() != null){
+			try {
+				if (AppConstants.strUpgradeValue.equals("1")) {
+					UtilityMethods.downloadPopUp(this);
+				} else {
+					if (!UtilityMethods.isInternetAvailable(activity)) {                 //exit app after 4 sec
+						UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, activity);
+						handler = new Handler();
+						handler.postDelayed(runningThread, 4000);
+						return;
+					}
+
+					if (MySharedPrefs.INSTANCE.getSelectedCity() != null) {
 //			showDialog();
-			String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;
-			if(UtilityMethods.isInternetAvailable(activity)) {                //start app after 4 sec
+						String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;
+						if (UtilityMethods.isInternetAvailable(activity)) {                //start app after 4 sec
 //				myApi.reqCategorySubCategoryList(url);
-				handler = new Handler();
-				handler.postDelayed(runningThread4Minutes, 4000);
-			}else{
-				UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, activity);
-				handler = new Handler();
-				handler.postDelayed(runningThread, 4000);
-			}
-		}else {
-			String url = UrlsConstants.GET_LOCATION;
-			if(UtilityMethods.isInternetAvailable(activity)) {             //call location api
-				myApi.reqLocation(url);
-			}else{
-				UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, activity);
-				handler = new Handler();
-				handler.postDelayed(runningThread, 4000);
-			}
-		}
+							handler = new Handler();
+							handler.postDelayed(runningThread4Minutes, 4000);
+						} else {
+							UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, activity);
+							handler = new Handler();
+							handler.postDelayed(runningThread, 4000);
+						}
+					} else {
+						String url = UrlsConstants.GET_LOCATION;
+						if (UtilityMethods.isInternetAvailable(activity)) {             //call location api
+							myApi.reqLocation(url);
+						} else {
+							UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, activity);
+							handler = new Handler();
+							handler.postDelayed(runningThread, 4000);
+						}
+					}
+				}
+			}catch(Exception e){}
 
 //		if(MySharedPrefs.INSTANCE.getSelectedCity() != null){
 //			Intent call = new Intent(SplashScreen.this, HotOffersActivity.class);

@@ -16,6 +16,7 @@ public class AppConstants {
 //			strSelectedStateRegionId;                                   //state id for create new address
 	public static float densityPhone = 0;
 	public static boolean bBack = false;
+	public static String strUpgradeValue = "0";                 //1-> will show to user an update dialog box to download app forcibly.
 	public static LocationListBean locationBean;
 
 

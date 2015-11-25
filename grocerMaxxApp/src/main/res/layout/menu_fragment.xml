@@ -184,6 +184,24 @@
             android:id="@+id/div5"
             android:layout_width="match_parent"
             android:layout_height="0.8dp"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:background="@color/grey_view" />
+
+        <TextView
+            android:id="@+id/txv_rate_app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:layout_marginLeft="@dimen/twenty_dp"
+            android:text="R&#160;A&#160;T&#160;E&#160;&#160; T&#160;H&#160;I&#160;S&#160; A&#160;P&#160;P&#160;"
+            android:textColor="@color/white"
+            android:alpha="0.7"
+            android:textSize="@dimen/twelveScaled" />
+
+        <View
+            android:id="@+id/div6"
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
             android:visibility="gone"
             android:background="@color/grey_view" />
 

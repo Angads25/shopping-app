@@ -274,6 +274,19 @@ public class UtilityMethods {
 		context.startActivity(goToMarket);
 	}
 
+	public static void downloadPopUp(final Context context){
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setMessage("Update Version Available!")
+				.setCancelable(false)
+				.setPositiveButton("Download", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						UtilityMethods.rateApp(context);
+					}
+				});
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
+
 	public static void rateApp(Context context) {
 		Intent goToMarket = null;
 		goToMarket = new Intent(Intent.ACTION_VIEW,

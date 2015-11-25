@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.internal.Utility;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
 import com.rgretail.grocermax.api.BillingStateCityLoader;
 import com.rgretail.grocermax.api.ConnectionService;
@@ -281,6 +282,16 @@ public class LocationActivity extends BaseActivity {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            if(AppConstants.strUpgradeValue.equals("1")) {
+                UtilityMethods.downloadPopUp(this);
+            }
+        }catch(Exception e){}
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_location, menu);
@@ -350,6 +361,7 @@ public class LocationActivity extends BaseActivity {
         try{
         dismissDialog();
         String jsonResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);
+
 		//UtilityMethods.write("response",jsonResponse,SplashScreen.this);
 		ArrayList<CategorySubcategoryBean> category = UtilityMethods.getCategorySubCategory(jsonResponse);
 		if (!jsonResponse.trim().equals("") && category.size() > 0) {

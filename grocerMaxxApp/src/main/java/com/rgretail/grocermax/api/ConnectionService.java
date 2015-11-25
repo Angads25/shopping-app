@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -41,6 +42,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.preference.PreferenceActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -201,6 +203,8 @@ public class ConnectionService extends IntentService {
 				Log.i(TAG, "RESPONSE:::" + response_str);
 			}
 
+
+
 			parseData(response_str, intent.getIntExtra(PARSE_TYPE, -1), bundle);
 			bundle.putString(ERROR, null);
 			bundle.putString(JSON, response_str);
@@ -341,6 +345,32 @@ public class ConnectionService extends IntentService {
 				// Base64.NO_WRAP));
 				response = client.execute(httpGet);
 			}
+
+			try {
+				Header upgradeHeader = response.getFirstHeader("upgrade-app");
+				String strHeader = upgradeHeader.getName();
+				if(strHeader != null) {
+					if (strHeader.equals("upgrade-app")) {
+//					if(upgradeHeader.getValue().equals("1")){
+						AppConstants.strUpgradeValue = upgradeHeader.getValue();
+//					}
+					}
+				}
+//				Header header[] = response.getAllHeaders();
+//				for (int i = 0; i < header.length; i++) {
+//					String strHeader = header[i].getName();
+//					if(strHeader.equals("upgrade-app")){
+//						if (AppConstants.DEBUG) {
+//							Log.i(TAG, "RESPONSE FOR PARSE:::" + strHeader);
+//							String strHeaderValue = header[i].getValue();
+//						}
+//					}else{
+//						if (AppConstants.DEBUG) {
+//							Log.i(TAG, "RESPONSE FOR PARSE:::" + header);
+//						}
+//					}
+//				}
+			}catch(Exception e){}
 
 			HttpEntity resEntity = response.getEntity();
 			return EntityUtils.toString(resEntity);

@@ -41,7 +41,7 @@ public class MenuFragment extends Fragment {
     private ImageView imgBack;
     private String title;
     private Boolean isListView;
-    private TextView txvTitle, txvShopByDeals, txvGetInTouch, txvShopByCategories;
+    private TextView txvTitle, txvShopByDeals, txvGetInTouch, txvShopByCategories,txvRateThisApp;
     public static TextView txvSelectLocation;
     private TextView txvLocation;
     private ImageView ivLocation;
@@ -84,6 +84,7 @@ public class MenuFragment extends Fragment {
         txvShopByCategories = (TextView) view.findViewById(R.id.txvShopByCategories);
         txvShopByDeals = (TextView) view.findViewById(R.id.txvShopByDeals);
         txvGetInTouch = (TextView) view.findViewById(R.id.txvGetInTouch);
+        txvRateThisApp = (TextView) view.findViewById(R.id.txv_rate_app);
         txvSelectLocation = (TextView) view.findViewById(R.id.txvSelectLocation);
         ivLocation = (ImageView) view.findViewById(R.id.ivLocation);
 //        txvLocation = (TextView) view.findViewById(R.id.txvLocation);
@@ -111,6 +112,7 @@ public class MenuFragment extends Fragment {
             lstShopByDealsMenu.setAdapter(shopByDealsListADapter);
             txvShopByDeals.setVisibility(View.VISIBLE);
             txvGetInTouch.setVisibility(View.VISIBLE);
+            txvRateThisApp.setVisibility(View.VISIBLE);
             txvSelectLocation.setVisibility(View.VISIBLE);
 //            txvLocation.setVisibility(View.VISIBLE);
             ivLocation.setVisibility(View.VISIBLE);
@@ -124,6 +126,7 @@ public class MenuFragment extends Fragment {
             expandableListView.setAdapter(expandableMenuListAdapter);
             txvShopByDeals.setVisibility(View.GONE);
             txvGetInTouch.setVisibility(View.GONE);
+            txvRateThisApp.setVisibility(View.GONE);
             txvSelectLocation.setVisibility(View.GONE);
 //            txvLocation.setVisibility(View.GONE);
             ivLocation.setVisibility(View.GONE);
@@ -173,6 +176,13 @@ public class MenuFragment extends Fragment {
                 intent.putExtra(Intent.EXTRA_TEXT, "Check out the new awesome Grocermax! https://grocermax.com");
                 startActivity(Intent.createChooser(intent, "How do you want to share ?"));
                 ((HotOffersActivity)getActivity()).isFromFragment=false;
+            }
+        });
+
+        txvRateThisApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UtilityMethods.rateApp(getActivity());
             }
         });
 
