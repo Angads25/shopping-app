@@ -68,6 +68,7 @@ dependencies {
     //better the above
     compile files('libs/androidmarketapi-0.6.jar')
     compile files('libs/androidmarketapi-0.5.jar')
+    compile files('libs/protobuf-java-2.2.0.jar')
 }
 
 

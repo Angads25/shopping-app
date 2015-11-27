@@ -1,16 +1,21 @@
 package com.rgretail.grocermax;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.List;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Base64;
@@ -25,21 +30,37 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.facebook.internal.ImageRequest;
 import com.facebook.internal.Utility;
+import com.gc.android.market.api.MarketSession;
+import com.gc.android.market.api.model.Market;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
+import com.rgretail.grocermax.bean.CartDetail;
 import com.rgretail.grocermax.bean.LocationListBean;
+import com.rgretail.grocermax.bean.OrderReviewBean;
+import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.hotoffers.HotOffersActivity;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
+import com.rgretail.grocermax.utils.MyHttpUtils;
 import com.rgretail.grocermax.utils.UtilityMethods;
 import com.rgretail.grocermax.GCM.GCMClientManager;
 
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
 import com.rgretail.grocermax.utils.UrlsConstants;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 public class SplashScreen extends BaseActivity 
 {
@@ -337,5 +358,119 @@ public class SplashScreen extends BaseActivity
 	}
 
 
+
+
+
+//	class PlayStoreInfn extends AsyncTask<String, String, String> {
+//		Context context;
+//		String strResponse;
+//		String strCheck = "test";
+//		boolean bHadResponse = false;
+//
+//		public PlayStoreInfn(Context mContext) {
+//			try {
+//				context = mContext;
+//			} catch (Exception e) {
+//			}
+//		}
+//
+//		@Override
+//		protected void onPreExecute() {
+//			super.onPreExecute();
+//		}
+//
+//		@Override
+//		protected String doInBackground(String... params) {
+//			try {
+//				MarketSession session = new MarketSession();
+//				String androidId= Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+//				session.getContext().setAndroidId(androidId);
+//
+//
+////				String query = "maps";
+//				String query = "com.rgretail.grocermax";
+//				Market.AppsRequest appsRequest = Market.AppsRequest.newBuilder()
+//						.setQuery(query)
+//						.setStartIndex(0).setEntriesCount(1)
+//						.setWithExtendedInfo(true)
+//						.build();
+//
+//				session.append(appsRequest, new MarketSession.Callback<Market.AppsResponse>() {
+//					@Override
+//					public void onResult(Market.ResponseContext context, Market.AppsResponse response) {
+//						// Your code here
+//						// response.getApp(0).getCreator() ...
+//						// see AppsResponse class definition for more infos
+//						Log.i(context.toString(),response.toString());
+//						strResponse = String.valueOf(response);
+//						strCheck = response.getApp(0).getRating();
+//					}
+//				});
+//				session.flush();
+//
+//
+////				MarketSession session = new MarketSession();
+//////				session.login(email, password);
+////				String androidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+////				androidId = "dead00beef";
+////				session.getContext().setAndroidId(androidId);
+////
+////				String query = "maps";
+////				Market.AppsRequest appsRequest = Market.AppsRequest.newBuilder()
+////						.setQuery(query)
+////						.setStartIndex(0).setEntriesCount(10)
+////						.setWithExtendedInfo(true)
+////						.build();
+////
+////				session.append(appsRequest, new MarketSession.Callback<Market.AppsResponse>() {
+////					@Override
+////					public void onResult(Market.ResponseContext context, Market.AppsResponse response) {
+////						bHadResponse = true;
+////						Toast.makeText(SplashScreen.this, "response====" + response, Toast.LENGTH_LONG).show();
+////						strCheck = response.getApp(0).getRating();
+////						strResponse = String.valueOf(response);
+////						// Your code here
+////						// response.getApp(0).getCreator() ...
+////						// see AppsResponse class definition for more infos
+////					}
+////				});
+////
+////				if(bHadResponse) {
+////					session.flush();
+////				}
+//
+//
+////				MarketSession session = new MarketSession();
+////
+////				Market.CommentsRequest commentsRequest = Market.CommentsRequest.newBuilder()
+////						.setAppId("7065399193137006744")
+////						.setStartIndex(0)
+////						.setEntriesCount(10)
+////						.build();
+////
+////				session.append(commentsRequest, new MarketSession.Callback<Market.CommentsResponse>() {
+////					@Override
+////					public void onResult(Market.ResponseContext context, Market.CommentsResponse response) {
+////						System.out.println("Response : " + response);
+////						int rate = response.getComments(0).getRating();
+////						// response.getComments(0).getAuthorName()
+////						// response.getComments(0).getCreationTime()
+////						// ...
+////					}
+////				});
+//
+////				session.flush();
+//			}catch(Exception e){
+//				e.printStackTrace();
+//			}
+//			return strResponse;
+//		}
+//
+//		@Override
+//		protected void onPostExecute(String str) {
+//			super.onPostExecute(str);
+//			Toast.makeText(SplashScreen.this, strCheck+"response onpostexecute====" + str, Toast.LENGTH_LONG).show();
+//		}
+//	}
 
 	}
