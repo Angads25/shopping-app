@@ -30,8 +30,12 @@ import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.payu.sdk.Params;
 import com.payu.sdk.PayU;
 import com.payu.sdk.Payment;
+import com.payu.sdk.ProcessPaymentActivity;
+import com.payu.sdk.exceptions.HashException;
+import com.payu.sdk.exceptions.MissingParameterException;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.CartDetail;
@@ -40,6 +44,7 @@ import com.rgretail.grocermax.bean.OrderReviewBean;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
+import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.MyHttpUtils;
 import com.rgretail.grocermax.utils.UrlsConstants;
@@ -78,6 +83,72 @@ public class ReviewOrderAndPay extends BaseActivity
 	String strRemoveCoupon;
 	Button llFirstPage;
 	Button llSecondPage;
+
+
+	public void payumoneyMakePayment(String orderid,double total) throws PackageManager.NameNotFoundException, MissingParameterException, HashException {
+		// oops handle it here.
+
+		Payment.Builder builder = new Payment().new Builder();
+		Params requiredParams = new Params();
+//		builder.set(PayU.PRODUCT_INFO, defaultParam.getString(PayU.PRODUCT_INFO));
+		builder.set(PayU.PRODUCT_INFO, "GrocerMax Product Info");
+		builder.set(PayU.AMOUNT, String.valueOf(total));
+		builder.set(PayU.TXNID, orderid);
+		builder.set(PayU.EMAIL, MySharedPrefs.INSTANCE.getUserEmail());
+		builder.set(PayU.FIRSTNAME, MySharedPrefs.INSTANCE.getFirstName() + " " + MySharedPrefs.INSTANCE.getLastName());
+		builder.set("user_credentials", "yPnUG6:test");
+//		builder.set(PayU.SURL, defaultParam.getString(PayU.SURL));
+//		builder.set(PayU.FURL, defaultParam.getString(PayU.FURL));
+		builder.set(PayU.SURL, "https://payu.herokuapp.com/success");
+		builder.set(PayU.FURL, "https://payu.herokuapp.com/failure");
+		builder.set(PayU.MODE, String.valueOf(PayU.PaymentMode.PAYU_MONEY));
+
+
+		requiredParams.put(PayU.AMOUNT, builder.get(PayU.AMOUNT));
+		requiredParams.put(PayU.PRODUCT_INFO, builder.get(PayU.PRODUCT_INFO));
+		requiredParams.put(PayU.TXNID, builder.get(PayU.TXNID));
+		requiredParams.put(PayU.SURL, builder.get(PayU.SURL));
+
+		requiredParams.put(PayU.EMAIL, MySharedPrefs.INSTANCE.getUserEmail());
+		requiredParams.put(PayU.FIRSTNAME, MySharedPrefs.INSTANCE.getFirstName() + " " + MySharedPrefs.INSTANCE.getLastName());
+		requiredParams.put("user_credentials", "yPnUG6:test");
+		requiredParams.put(PayU.SURL, builder.get(PayU.SURL));
+		requiredParams.put(PayU.FURL, builder.get(PayU.FURL));
+		requiredParams.put(PayU.MODE,builder.get(PayU.MODE));
+
+//		builder.set(PayU.MODE, String.valueOf(PayU.PaymentMode.PAYU_MONEY));
+//		for(String key : getIntent().getExtras().keySet()) {
+//			builder.set(key, String.valueOf(getIntent().getExtras().get(key)));
+//			requiredParams.put(key, builder.get(key));
+//		}
+
+		Bundle bundle = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA).metaData;
+		requiredParams.put(PayU.MERCHANT_KEY, bundle.getString("payu_merchant_id"));
+
+
+		Payment payment = builder.create();
+
+		String postData = PayU.getInstance(ReviewOrderAndPay.this).createPayment(payment, requiredParams);
+
+		Intent intent = new Intent(this, ProcessPaymentActivity.class);
+//		intent.putExtra(Constants.POST_DATA, postData);
+
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+		startActivityForResult(intent, PayU.RESULT);
+
+	}
+
+
+
+
+
+
+
+
+
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
