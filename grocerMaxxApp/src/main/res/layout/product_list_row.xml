@@ -72,7 +72,8 @@
                             android:text="SECO FRUITO"
                             android:textAllCaps="true"
                             android:textColor="@color/primaryColor"
-                            android:textSize="@dimen/text_size_12" />
+                            android:textSize="12dp"
+                            />
 
                         <RelativeLayout
                             android:id="@+id/item_count_prod"
@@ -122,7 +123,7 @@
                             android:layout_marginTop="5dp"
                             android:text="product name"
                             android:textColor="@color/pallete_black"
-                            android:textSize="@dimen/text_size_14" />
+                            android:textSize="14dp" />
 
                         <TextView
                             android:id="@+id/product_gram_or_ml"
@@ -135,7 +136,7 @@
                             android:layout_marginTop="5dp"
 
                             android:textColor="@color/light_Gray"
-                            android:textSize="@dimen/text_size_14" />
+                            android:textSize="14dp" />
 
                         <!--<TextView
                             android:id="@+id/amount"
@@ -205,7 +206,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:id="@+id/sale_price"
-                                    android:textSize="@dimen/text_size_14"
+                                    android:textSize="14dp"
                                     android:textColor="@color/primaryColor"
                                     android:text="price"/>
                                 <TextView
@@ -223,7 +224,7 @@
                                     android:text="discounted rate"
                                     android:textColor="@color/pallete_black"
                                     android:id="@+id/amount"
-                                    android:textSize="@dimen/text_size_14"/>
+                                    android:textSize="14dp"/>
                             </LinearLayout>
 
 

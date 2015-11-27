@@ -66,6 +66,10 @@ public class LocationActivity extends BaseActivity {
         setContentView(R.layout.location_screen);
         addActionsInFilter(MyReceiverActions.CATEGORY_LIST);
 
+//        try {
+//            UtilityMethods.schedulerStart(this);
+//        }catch(Exception e){}
+
 //        DisplayMetrics metrics = getResources().getDisplayMetrics();
 //        float xAxis = metrics.xdpi;
 //        float yAxis = metrics.ydpi;
@@ -284,11 +288,6 @@ public class LocationActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        try {
-            if(AppConstants.strUpgradeValue.equals("1")) {
-                UtilityMethods.downloadPopUp(this);
-            }
-        }catch(Exception e){}
     }
 
     @Override
@@ -337,17 +336,17 @@ public class LocationActivity extends BaseActivity {
             MySharedPrefs.INSTANCE.putSelectedStateRegionId(locationList.getItems().get(position).getStateId());  //selected state region id;
             MySharedPrefs.INSTANCE.putSelectedStoreId(locationList.getItems().get(position).getStoreId());  //selected store id;
 
-            System.out.println(locationList.getItems().get(position).getCityName() + "=1111111===" +
-                    locationList.getItems().get(position).getStateName() + "====" +
-                    locationList.getItems().get(position).getId() + "====" +
-                    locationList.getItems().get(position).getStateId() + "====" +
-                    locationList.getItems().get(position).getStoreId() + "====");
+//            System.out.println(locationList.getItems().get(position).getCityName() + "=1111111===" +
+//                    locationList.getItems().get(position).getStateName() + "====" +
+//                    locationList.getItems().get(position).getId() + "====" +
+//                    locationList.getItems().get(position).getStateId() + "====" +
+//                    locationList.getItems().get(position).getStoreId() + "====");
 
-            System.out.println(MySharedPrefs.INSTANCE.getSelectedCity() + "==22222222==" +
-                    MySharedPrefs.INSTANCE.getSelectedState() + "====" +
-                    MySharedPrefs.INSTANCE.getSelectedStoreId() + "====" +
-                    MySharedPrefs.INSTANCE.getSelectedStateId() + "====" +
-                    MySharedPrefs.INSTANCE.getSelectedStateRegionId() + "====");
+//            System.out.println(MySharedPrefs.INSTANCE.getSelectedCity() + "==22222222==" +
+//                    MySharedPrefs.INSTANCE.getSelectedState() + "====" +
+//                    MySharedPrefs.INSTANCE.getSelectedStoreId() + "====" +
+//                    MySharedPrefs.INSTANCE.getSelectedStateId() + "====" +
+//                    MySharedPrefs.INSTANCE.getSelectedStateRegionId() + "====");
 
             ivLocation[position].setImageResource(R.drawable.select_location);
         }catch(Exception e){

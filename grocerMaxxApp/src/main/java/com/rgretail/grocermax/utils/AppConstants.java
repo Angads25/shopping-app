@@ -17,6 +17,8 @@ public class AppConstants {
 	public static float densityPhone = 0;
 	public static boolean bBack = false;
 	public static String strUpgradeValue = "0";                 //1-> will show to user an update dialog box to download app forcibly.
+	public static String strCompareUpgradeValue = "1";
+	public static boolean b2DaysUpdateDialog = false;
 	public static LocationListBean locationBean;
 
 

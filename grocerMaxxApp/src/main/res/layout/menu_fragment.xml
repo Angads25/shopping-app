@@ -193,7 +193,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/ten_dp"
             android:layout_marginLeft="@dimen/twenty_dp"
-            android:text="R&#160;A&#160;T&#160;E&#160;&#160; T&#160;H&#160;I&#160;S&#160; A&#160;P&#160;P&#160;"
+            android:text="R&#160;A&#160;T&#160;E&#160;&#160; U&#160;S&#160; 5&#160; S&#160;T&#160;A&#160;R&#160;S&#160; N&#160;O&#160;W&#160;!&#160;"
             android:textColor="@color/white"
             android:alpha="0.7"
             android:textSize="@dimen/twelveScaled" />

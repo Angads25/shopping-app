@@ -38,24 +38,24 @@ public class PayTMActivity extends BaseActivity
 	String amount,order_id,order_db_id;
 
 
-	public void check(){
-
-		try {
-			addActionsInFilter(MyReceiverActions.SET_ORDER_STATUS);
-			addActionsInFilter(MyReceiverActions.SET_PAYTM_ORDER_STATUS_SUCCESS);
-			String url = UrlsConstants.SET_PAYTM_ORDER_STATUS_SUCCESS+"?orderid="+"145041138&"+"status="+"success";
-//			JSONObject jsonObject = new JSONObject();
-//			jsonObject.put("status", "success");
-//			jsonObject.put("orderid", "145041138");
-//			jsonObject.put("orderdbid", "41331");
-//					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
-//			myApi.reqSetOrderStatusPaytmSuccess(url, jsonObject);
-			myApi.reqSetOrderStatusPaytmSuccess(url);
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
+//	public void check(){
+//
+//		try {
+//			addActionsInFilter(MyReceiverActions.SET_ORDER_STATUS);
+//			addActionsInFilter(MyReceiverActions.SET_PAYTM_ORDER_STATUS_SUCCESS);
+//			String url = UrlsConstants.SET_PAYTM_ORDER_STATUS_SUCCESS+"?orderid="+"145041138&"+"status="+"success";
+////			JSONObject jsonObject = new JSONObject();
+////			jsonObject.put("status", "success");
+////			jsonObject.put("orderid", "145041138");
+////			jsonObject.put("orderdbid", "41331");
+////					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+////			myApi.reqSetOrderStatusPaytmSuccess(url, jsonObject);
+//			myApi.reqSetOrderStatusPaytmSuccess(url);
+//		}catch(Exception e)
+//		{
+//			e.printStackTrace();
+//		}
+//	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

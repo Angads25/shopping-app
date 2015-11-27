@@ -48,9 +48,12 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
+import com.gc.android.market.api.MarketSession;
+import com.gc.android.market.api.model.Market;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -1146,7 +1149,50 @@ public abstract class BaseActivity extends FragmentActivity {
 	public void onResume() {
 		super.onResume();
 		try{
-			registerReceiver();
+				registerReceiver();
+//			MarketSession session = new MarketSession();
+////					session.login(email,password);
+////					session.getContext.setAndroidId(myAndroidId);
+//			Market.AppsRequest appsRequest = Market.AppsRequest.newBuilder()
+//					.setAppId("12019947837114647752")
+//					.setStartIndex(0)
+//					.setEntriesCount(10)
+//					.build();
+//
+//			session.append(appsRequest, new MarketSession.Callback<Market.AppsResponse>() {
+//				@Override
+//				public void onResult(Market.ResponseContext context, Market.AppsResponse response) {
+//					Toast.makeText(BaseActivity.this, "response===="+response, Toast.LENGTH_LONG).show();
+//					// Your code here
+//					// response.getApp(0).getCreator() ...
+//					// see AppsResponse class definition for more infos
+//				}
+//			});
+
+
+//			session.append(commentsRequest, new MarketSession.Callback<Market.CommentsResponse>() {
+//				@Override
+//				public void onResult(Market.ResponseContext context, Market.CommentsResponse response) {
+////					System.out.println("Response : " + response);
+////					Toast.makeText(BaseActivity.this, "response===="+response, Toast.LENGTH_LONG).show();
+//					// response.getComments(0).getAuthorName()
+//					// response.getComments(0).getCreationTime()
+//					// ...
+//				}
+//			});
+//			session.flush();
+
+			try{
+				if(AppConstants.strUpgradeValue.equals("1")) {
+					UtilityMethods.downloadPopUp(this);
+				}
+			}catch(Exception e){}
+//			try{
+//				if(AppConstants.b2DaysUpdateDialog) {
+//					AppConstants.b2DaysUpdateDialog = false;
+//					UtilityMethods.download2DaysPopUp(this);
+//				}
+//			}catch(Exception e){}
 		}catch(Exception e){
 			new GrocermaxBaseException("BaseActivity", "onResume", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}

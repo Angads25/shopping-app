@@ -164,9 +164,6 @@ public class SplashScreen extends BaseActivity
 		super.onResume();
 
 			try {
-				if (AppConstants.strUpgradeValue.equals("1")) {
-					UtilityMethods.downloadPopUp(this);
-				} else {
 					if (!UtilityMethods.isInternetAvailable(activity)) {                 //exit app after 4 sec
 						UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, activity);
 						handler = new Handler();
@@ -196,7 +193,6 @@ public class SplashScreen extends BaseActivity
 							handler.postDelayed(runningThread, 4000);
 						}
 					}
-				}
 			}catch(Exception e){}
 
 //		if(MySharedPrefs.INSTANCE.getSelectedCity() != null){

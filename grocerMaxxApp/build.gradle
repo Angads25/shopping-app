@@ -34,7 +34,6 @@ android {
 
 dependencies {
     compile 'com.android.support:multidex:1.0.0'
-
     compile 'com.melnykov:floatingactionbutton:1.3.0'
     compile project(':facebookSDK')
     compile project(':androidSDK')
@@ -67,6 +66,8 @@ dependencies {
     //       compile 'com.viewpagerindicator:library:2.4.1@aar'// viewpager.Indicator
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     //better the above
+    compile files('libs/androidmarketapi-0.6.jar')
+    compile files('libs/androidmarketapi-0.5.jar')
 }
 
 

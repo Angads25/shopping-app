@@ -14,6 +14,7 @@ import java.io.Writer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,7 +22,9 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -52,6 +55,7 @@ import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
 import com.rgretail.grocermax.bean.CartDetail;
 import com.rgretail.grocermax.bean.CartDetailBean;
+import com.rgretail.grocermax.preference.AlarmService;
 import com.rgretail.grocermax.utils.ListSublistConstants.ListConstant;
 
 public class UtilityMethods {
@@ -285,6 +289,45 @@ public class UtilityMethods {
 				});
 		AlertDialog alert = builder.create();
 		alert.show();
+	}
+
+	public static void download2DaysPopUp(final Context context){
+		AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+		alertDialog.setTitle("We value your feedback.Love the app?");
+//		alertDialog.setMessage("You are using old version\n"+"Updated version is available.\nDo you wish to download it?");
+		alertDialog.setPositiveButton("Rate us 5 stars now!", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				try
+				{
+					UtilityMethods.rateApp(context);
+				}
+				catch (android.content.ActivityNotFoundException anfe){}
+			}
+		});
+		alertDialog.setNegativeButton("Remind Later", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		});
+		alertDialog.show();
+	}
+
+	public static void schedulerStart(Context context)
+	{
+		PendingIntent pendingIntent;
+		try
+		{
+			Intent myIntent = new Intent(context, AlarmService.class);
+			pendingIntent = PendingIntent.getService(context, 0, myIntent, 0);
+			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTimeInMillis(System.currentTimeMillis());
+			calendar.add(Calendar.SECOND, 50);
+//			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 10 * 1, pendingIntent);  //after 10 seconds
+//			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60, pendingIntent);  //after 60 minutes
+			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24, pendingIntent);  //after 24 hours
+//	        Toast.makeText(context, "Starting an Alarm", Toast.LENGTH_LONG).show();
+		}
+		catch(Exception e){}
 	}
 
 	public static void rateApp(Context context) {
