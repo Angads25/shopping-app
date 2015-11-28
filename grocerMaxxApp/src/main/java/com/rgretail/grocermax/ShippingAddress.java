@@ -118,6 +118,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                 Intent intent = new Intent(mContext, CreateNewAddress.class);
                 intent.putExtra("address", address);
                 intent.putExtra("shippingorbillingaddress","shipping");
+
                 intent.putExtra("editindex",String.valueOf(position));                                    //means editing the address not adding.
                 startActivityForResult(intent, requestNewAddress);
             }
@@ -131,6 +132,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.checkout_shipping_1);
         try {
+
             addActionsInFilter(MyReceiverActions.ADD_ADDRESS);
             addActionsInFilter(MyReceiverActions.ADD_BILL_ADDRESS);
             addActionsInFilter(MyReceiverActions.CHECKOUT_ADDRESS);

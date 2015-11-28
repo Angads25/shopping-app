@@ -131,23 +131,13 @@ public class ReviewOrderAndPay extends BaseActivity
 		String postData = PayU.getInstance(ReviewOrderAndPay.this).createPayment(payment, requiredParams);
 
 		Intent intent = new Intent(this, ProcessPaymentActivity.class);
-//		intent.putExtra(Constants.POST_DATA, postData);
+		intent.putExtra(com.payu.sdk.Constants.POST_DATA, postData);
 
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 		startActivityForResult(intent, PayU.RESULT);
 
 	}
-
-
-
-
-
-
-
-
-
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
