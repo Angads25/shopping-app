@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rgretail.grocermax.R;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
 
 import java.util.List;
@@ -83,7 +83,7 @@ public class MenuListAdapter extends BaseAdapter {
 				if(offerList.get(position).getChildren().size()>0) {
 //					setListData(offerList.get(position).getChildren());
 //					((MenuFragment)frag).setData(offerList.get(position).getChildren());
-					((HotOffersActivity)mContext).setMenu(offerList.get(position).getChildren(),offerList.get(position).getCategory());
+					((HomeScreen)mContext).setMenu(offerList.get(position).getChildren(),offerList.get(position).getCategory());
 				}else{
 
 //					Toast.makeText(mContext,"Last Level",Toast.LENGTH_SHORT).show();

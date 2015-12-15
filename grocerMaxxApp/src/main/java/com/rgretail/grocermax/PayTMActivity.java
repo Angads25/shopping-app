@@ -9,8 +9,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 
+import com.appsflyer.AppsFlyerLib;
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.paytm.pgsdk.PaytmMerchant;
 import com.paytm.pgsdk.PaytmOrder;
 import com.paytm.pgsdk.PaytmPGService;
@@ -32,7 +33,7 @@ public class PayTMActivity extends BaseActivity
 	public static String PAYTM_CUSTOMER_ID = "cust_009";
 	public static String PAYTM_MERCHANT_kEY = "A7%mB8UWj7D!JIkj";
 	public static String PAYTM_MERCHANT_ID = "grocer28494183264317";
-	EasyTracker tracker;
+//	EasyTracker tracker;
 	private int randomInt = 0;
 	private PaytmPGService Service = null;
 	String amount,order_id,order_db_id;
@@ -63,6 +64,11 @@ public class PayTMActivity extends BaseActivity
 		Log.d("LOG", "onCreate of MainActivity");
 		getWindow().requestFeature(Window.FEATURE_PROGRESS);
 		setContentView(R.layout.paytm);
+		try{
+			AppsFlyerLib.setCurrencyCode("INR");
+			AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
+			AppsFlyerLib.sendTracking(getApplicationContext());
+		}catch(Exception e){}
 		try {
 			amount = getIntent().getStringExtra("amount");
 			order_id = getIntent().getStringExtra("order_id");
@@ -273,6 +279,23 @@ public class PayTMActivity extends BaseActivity
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+
+		try{
+			AppsFlyerLib.onActivityResume(this);
+		}catch(Exception e){}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		try{
+			AppsFlyerLib.onActivityPause(this);
+		}catch(Exception e){}
+	}
+
+	@Override
 	public void OnResponse(Bundle bundle) {
 		try {
 //		if (bundle.getString("ACTION").equals(MyReceiverActions.SET_ORDER_STATUS)) {                     //PAYTM FAILURE
@@ -329,8 +352,11 @@ public class PayTMActivity extends BaseActivity
     protected void onStart() {
     	// TODO Auto-generated method stub
     	super.onStart();
+		try{
+			AppsFlyerLib.onActivityResume(this);
+		}catch(Exception e){}
     	try{
-			EasyTracker.getInstance(this).activityStart(this);
+//			EasyTracker.getInstance(this).activityStart(this);
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){}
@@ -340,8 +366,11 @@ public class PayTMActivity extends BaseActivity
     protected void onStop() {
     	// TODO Auto-generated method stub
     	super.onStop();
+		try{
+			AppsFlyerLib.onActivityPause(this);
+		}catch(Exception e){}
     	try{
-			EasyTracker.getInstance(this).activityStop(this);
+//			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
     	}catch(Exception e){}
     }

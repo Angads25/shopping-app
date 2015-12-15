@@ -12,8 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rgretail.grocermax.MyApplication;
+import com.rgretail.grocermax.OrderHistory;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.Orderhistory;
+import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 
@@ -130,6 +132,24 @@ public class OrderHistoryAdapter extends BaseAdapter {
 		holder.amnt_paid.setText("Rs. "+String.format("%.2f",Float.parseFloat(obj.getGrand_total())));
 		holder.status.setText(obj.getStatus().substring(0, 1).toUpperCase() + obj.getStatus().substring(1));
 		holder.no_of_items.setText("" + obj.getTotal_item_count());
+
+		/// code added by Ishan///////////////////
+		holder.tv_reorder=(TextView)convertView.findViewById(R.id.tv_reorder);
+		holder.tv_noLocation=(TextView)convertView.findViewById(R.id.tv_noLocation);
+		if(MySharedPrefs.INSTANCE.getSelectedStoreId().equals(obj.getStore_id()))
+		{
+			holder.tv_reorder.setVisibility(View.VISIBLE);
+			holder.tv_noLocation.setVisibility(View.GONE);
+			holder.tv_reorder.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					((OrderHistory)activity).reOrderItems(obj.getIncrement_id().trim());
+				}
+			});
+		}else{
+			holder.tv_reorder.setVisibility(View.GONE);
+			holder.tv_noLocation.setVisibility(View.VISIBLE);
+		}
 		}catch(Exception e){
 			new GrocermaxBaseException("OrderHistorytAdapter","getView",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
@@ -138,7 +158,7 @@ public class OrderHistoryAdapter extends BaseAdapter {
 
 	private class ViewHolder {
 
-		TextView order_date, order_no, amnt_paid, status, no_of_items;
+		TextView order_date, order_no, amnt_paid, status, no_of_items,tv_reorder,tv_noLocation;
 //		TextView name;
 		ImageView arrowImage, product_image;
 		TextView tv1,tv2,tv3,tv5,tv6;

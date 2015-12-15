@@ -64,6 +64,9 @@ public class UrlsConstants {
 	/*public final static String CATEGORY_COLLECTION_LISTING_URL = BASE_URL
 			+ "categorycollection.php";*/
 
+	public final static String ORDER_REORDER_URL = NEW_BASE_URL
+			+ "reorder?orderid=";
+
 	public final static String LOGIN_URL = NEW_BASE_URL + "login?";
 
 //	public final static String LOGIN_URL = NEW_BASE_URL + "loginnew";

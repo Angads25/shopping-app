@@ -15,8 +15,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.ShopByDealModel;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.utils.AppConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,7 @@ public class ShopByDealsListAdapter extends RecyclerView.Adapter<ShopByDealsList
     private Activity context;
     private Fragment fragment;
     private ArrayList<ShopByDealModel> data;
+    private String SCREENNAME = "ShopByDealsListAdapter-";
     public ShopByDealsListAdapter(Activity activity, Fragment fragment) {
 //        this.context = context;
         this.context = activity;
@@ -85,6 +87,10 @@ public class ShopByDealsListAdapter extends RecyclerView.Adapter<ShopByDealsList
             holder.view2Space.setVisibility(View.VISIBLE);
         }
 
+        try{
+            UtilityMethods.clickCapture(context, "", "", data.get(position).getId(),data.get(position).getDealType(), SCREENNAME + AppConstants.SHOP_BY_DEAL_SCROLLING);
+        }catch(Exception e){}
+
         holder.footer.setText(data.get(position).getDealType());
         holder.footer.setVisibility(View.GONE);
         holder.ll_.setVisibility(View.GONE);
@@ -95,8 +101,10 @@ public class ShopByDealsListAdapter extends RecyclerView.Adapter<ShopByDealsList
 //                ShopByDealDetailListAdapter.strDealListDeatilHeading = data.get(position).getDealType();
                 AppConstants.strTitleHotDeal = "";
                 AppConstants.strTitleHotDeal = data.get(position).getDealType();
-                ((HotOffersActivity) context).hitForShopByDeals(data.get(position).getId());
-
+                ((HomeScreen) context).hitForShopByDeals(data.get(position).getId());
+                try{
+                    UtilityMethods.clickCapture(context, "", "", data.get(position).getId(),data.get(position).getDealType(), SCREENNAME + AppConstants.SHOP_BY_DEAL_CLICK);
+                }catch(Exception e){}
             }
         });
 

@@ -50,6 +50,7 @@
     <string name="makeitdefaultaddress">Make it my default billing address</string>
     <string name="makeitmydefaultshipping">Make it my default shipping address</string>
     <string name="title_activity_location">LocationActivity</string>
+    <string name="no_order_id_success_message">Order details sent by email &#38; sms</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>

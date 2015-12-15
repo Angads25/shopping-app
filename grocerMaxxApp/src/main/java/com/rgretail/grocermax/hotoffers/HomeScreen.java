@@ -1,6 +1,7 @@
 package com.rgretail.grocermax.hotoffers;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.google.gson.Gson;
 import com.rgretail.grocermax.DealListScreen;
 import com.rgretail.grocermax.R;
@@ -45,7 +47,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class HotOffersActivity extends BaseActivity {
+public class HomeScreen extends BaseActivity {
 
 
     public ShopByCategoryBean shopByCategoryBean;
@@ -66,6 +68,8 @@ public class HotOffersActivity extends BaseActivity {
     public static boolean isFromFragment = false;
     boolean isFromNotification = false;
     public static boolean bFromHome = false;          //track for home screen(1st level fragment) fragment and deal detail fragment(2nd level fragment)
+    public static Context mContext;
+    public static String SCREENNAME = "HomeScreen-";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +77,13 @@ public class HotOffersActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_hot_offer);
+        mContext = this;
+
+        try{
+
+        }catch(Exception e){}
+
+
         addActionsInFilter(MyReceiverActions.GET_HOME_PAGE);
         addActionsInFilter(MyReceiverActions.GET_SHOP_BY_CATEGORIES);
         addActionsInFilter(MyReceiverActions.GET_SHOP_BY_DEALS);
@@ -171,8 +182,36 @@ public class HotOffersActivity extends BaseActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        try{
+            AppsFlyerLib.onActivityResume(this);
+        }catch(Exception e){}
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        try{
+            AppsFlyerLib.onActivityPause(this);
+        }catch(Exception e){}
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try{
+            AppsFlyerLib.onActivityPause(this);
+        }catch(Exception e){}
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+
+        try{
+            AppsFlyerLib.onActivityResume(this);
+        }catch(Exception e){}
 
         if(isFromNotification)
         {
@@ -204,16 +243,16 @@ public class HotOffersActivity extends BaseActivity {
 
         try {
             String action = bundle.getString("ACTION");
-            if(action.equals(MyReceiverActions.CATEGORY_LIST)) {
-                dismissDialog();
-                String jsonResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);
-                //UtilityMethods.write("response",jsonResponse,SplashScreen.this);
-                ArrayList<CategorySubcategoryBean> category = UtilityMethods.getCategorySubCategory(jsonResponse);
-                if (!jsonResponse.trim().equals("") && category.size() > 0) {
-                    UtilityMethods.writeCategoryResponse(HotOffersActivity.this, AppConstants.categoriesFile, jsonResponse);
-                    catObj = UtilityMethods.getCategorySubCategory(jsonResponse);
-                }
-            }
+//            if(action.equals(MyReceiverActions.CATEGORY_LIST)) {
+//                dismissDialog();
+//                String jsonResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);
+//                //UtilityMethods.write("response",jsonResponse,SplashScreen.this);
+//                ArrayList<CategorySubcategoryBean> category = UtilityMethods.getCategorySubCategory(jsonResponse);
+//                if (!jsonResponse.trim().equals("") && category.size() > 0) {
+//                    UtilityMethods.writeCategoryResponse(HomeScreen.this, AppConstants.categoriesFile, jsonResponse);
+//                    catObj = UtilityMethods.getCategorySubCategory(jsonResponse);
+//                }
+//            }
 
             if(action.equals(MyReceiverActions.GET_HOME_PAGE)){
                 try {
@@ -240,7 +279,7 @@ public class HotOffersActivity extends BaseActivity {
                     ArrayList<CategorySubcategoryBean> categoryi = UtilityMethods.getCategorySubCategory(String.valueOf(jsonOCccategory));          //
 //                    if (!jsonResponse.trim().equals("") && categoryi.size() > 0) {                                                               //
                     if(categoryi.size() > 0){                                                                                                      //
-//                        UtilityMethods.writeCategoryResponse(HotOffersActivity.this, AppConstants.categoriesFile, String.valueOf(categoryi));      //
+//                        UtilityMethods.writeCategoryResponse(HomeScreen.this, AppConstants.categoriesFile, String.valueOf(categoryi));      //
 //                        catObj = UtilityMethods.getCategorySubCategory(String.valueOf(categoryi));
                         catObj = categoryi;                                                                                                          //
                     }
@@ -262,7 +301,7 @@ public class HotOffersActivity extends BaseActivity {
 
 
                     if (shopByCategoryBean != null && shopByDealsBean != null && homeBannerBean != null && catObj != null) {
-                        HomeFragment fragment = new HomeFragment();
+                        HomeFragment fragment = new HomeFragment();                                    //displaying home screen
                         dismissDialog();
                         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 //                fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -279,7 +318,7 @@ public class HotOffersActivity extends BaseActivity {
                         call_bundle.putSerializable(Constants.SHOP_BY_DEALS_MODEL, shopByDealsBean);
                         call_bundle.putString("Title", "Home");
                         call_bundle.putBoolean("isListView", true);
-                        MenuFragment fragment1 = new MenuFragment();
+                        MenuFragment fragment1 = new MenuFragment();                                  //displaying drawer
                         android.support.v4.app.FragmentTransaction fragmentTransact = getSupportFragmentManager().beginTransaction();
                         fragmentTransact.add(R.id.menu, fragment1);
                         fragment1.setArguments(call_bundle);
@@ -366,7 +405,7 @@ public class HotOffersActivity extends BaseActivity {
 //
 //
 //            }
-            else if (action.equals(MyReceiverActions.OFFER_BY_DEALTYPE)) {
+            else if (action.equals(MyReceiverActions.OFFER_BY_DEALTYPE)) {       //responsible for getting data after click of offers [which is showing on bottom of Shop by categories]
 
                 dismissDialog();
                 System.out.println("RESPONSE OFFER" + bundle.getString("json"));
@@ -379,7 +418,7 @@ public class HotOffersActivity extends BaseActivity {
                 data.putSerializable(Constants.OFFER_BY_DEAL, offerByDealTypeBean);
                 fragment.setArguments(data);
                 changeFragment(fragment);
-            } else if (action.equals(MyReceiverActions.DEAL_BY_DEALTYPE)) {
+            } else if (action.equals(MyReceiverActions.DEAL_BY_DEALTYPE)) {     //responsible for click of deals [which is showing on shop by deals]
                 dismissDialog();
                 System.out.println("RESPONSE OFFER" + bundle.getString("json"));
                 JSONObject jsonObject = new JSONObject(bundle.getString("json"));
@@ -394,7 +433,7 @@ public class HotOffersActivity extends BaseActivity {
                 fragment.setArguments(data);
                 changeFragment(fragment);
 
-            } else if (action.equals(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE)) {
+            } else if (action.equals(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE)) {         //responsible for product listing through deals [ShopByDealItemDetailFragment -> DealListScreen]
 
 //                DealListBean dealListBean = (DealListBean) bundle
                 //                      .getSerializable(ConnectionService.RESPONSE);
@@ -445,6 +484,7 @@ public class HotOffersActivity extends BaseActivity {
         return shopByDealsBean;
     }
 
+    //responsible for opening offers of shop by category
     public void hitForShopByCategory(String categoryId) {
         String url = UrlsConstants.OFFER_BY_DEAL_TYPE;
         showDialog();
@@ -455,6 +495,8 @@ public class HotOffersActivity extends BaseActivity {
         return drawerLayout;
     }
 
+
+    //responsible for opening deals category
     public void hitForShopByDeals(String dealId) {
 
         showDialog();
@@ -463,7 +505,7 @@ public class HotOffersActivity extends BaseActivity {
         myApi.reqDealByDealType(url + dealId);
     }
 
-    public void hitForDealsByDeals(String dealId) {
+    public void hitForDealsByDeals(String dealId) {            //responsible for clicking of [shop by deals -> ShopByDealItemDetailFragment -> DealListScreen]
 
         String url = UrlsConstants.PRODUCTLISTING_BY_DEAL_TYPE;
         showDialog();
@@ -595,7 +637,7 @@ public class HotOffersActivity extends BaseActivity {
 //        myApi.reqGetHomePageBanner(UrlsConstants.GET_BANNER);
 
 //        myApi.reqGetShopByCategories(UrlsConstants.NEW_BASE_URL+"homepage");
-          myApi.reqHome(UrlsConstants.GET_HOME_PAGE);
+        myApi.reqHome(UrlsConstants.GET_HOME_PAGE);
 
 //        Bundle call_bundle = new Bundle();
 //        call_bundle.putSerializable("Categories", catObj);
@@ -628,7 +670,7 @@ public class HotOffersActivity extends BaseActivity {
         getSupportFragmentManager().addOnBackStackChangedListener(getListener());
 
         try {
-                actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
+            actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
         }catch(Exception e){}
 
         menuIcon.setOnClickListener(new View.OnClickListener() {
@@ -636,22 +678,24 @@ public class HotOffersActivity extends BaseActivity {
             public void onClick(View v) {
                 if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
                     drawerLayout.closeDrawers();
+                    try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.CLOSE_DRAWER_MENU);}catch(Exception e){}
                 } else {
                     drawerLayout.openDrawer(Gravity.LEFT);
+                    try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.OPEN_DRAWER_MENU);}catch(Exception e){}
                 }
             }
         });
 
-        homeDrawer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
-                    drawerLayout.closeDrawers();
-                } else {
-                    drawerLayout.openDrawer(Gravity.LEFT);
-                }
-            }
-        });
+//        homeDrawer.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+//                    drawerLayout.closeDrawers();
+//                } else {
+//                    drawerLayout.openDrawer(Gravity.LEFT);
+//                }
+//            }
+//        });
 
         //Setting the actionbarToggle to drawer layout
         drawerLayout.setDrawerListener(actionBarDrawerToggle);

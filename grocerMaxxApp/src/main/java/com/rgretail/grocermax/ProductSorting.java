@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.appsflyer.AppsFlyerLib;
+
 
 public class ProductSorting extends BaseActivity implements View.OnClickListener{
 
@@ -22,6 +24,11 @@ public class ProductSorting extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_sorting);
 
+        try{
+            AppsFlyerLib.setCurrencyCode("INR");
+            AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");
+            AppsFlyerLib.sendTracking(getApplicationContext());
+        }catch(Exception e){}
         context = this;
 
         RelativeLayout rlPopularity = (RelativeLayout)findViewById(R.id.rl_popularity);
@@ -49,12 +56,42 @@ public class ProductSorting extends BaseActivity implements View.OnClickListener
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        try{
+            AppsFlyerLib.onActivityResume(this);
+        }catch(Exception e){}
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-        initHeader(findViewById(R.id.header), true, "Sort");
-        icon_header_search.setVisibility(View.GONE);
-        icon_header_cart.setVisibility(View.GONE);
-        cart_count_txt.setVisibility(View.GONE);
+        try{
+            initHeader(findViewById(R.id.header), true, "Sort");
+            AppsFlyerLib.onActivityResume(this);
+        }catch(Exception e){}
+
+        try {
+            icon_header_search.setVisibility(View.GONE);
+            icon_header_cart.setVisibility(View.GONE);
+            cart_count_txt.setVisibility(View.GONE);
+        }catch(Exception e){}
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try{
+            AppsFlyerLib.onActivityPause(this);
+        }catch(Exception e){}
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        try{
+            AppsFlyerLib.onActivityPause(this);
+        }catch(Exception e){}
     }
 
     @Override

@@ -13,7 +13,7 @@ import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.DealListScreen;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.OfferByDealTypeSubModel;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.utils.AppConstants;
 
 import java.util.ArrayList;
@@ -92,8 +92,8 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((HotOffersActivity) context).hitForDealsByDeals(data.get(position).getId());
-                ((HotOffersActivity) context).isFromFragment = true;
+                ((HomeScreen) context).hitForDealsByDeals(data.get(position).getId());
+                ((HomeScreen) context).isFromFragment = true;
 //                    AppConstants.strTitleHotDeal = data.get(position).getName();
 //                AppConstants.strTitleHotDeal = "Offer Detail";
                 DealListScreen.strDealHeading  = "Offer Detail";
@@ -105,7 +105,7 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
 //        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                ((HotOffersActivity) context).hitForDealsByDeals(data.get(position).getId());
+//                ((HomeScreen) context).hitForDealsByDeals(data.get(position).getId());
 //
 //                AppConstants.strTitleHotDeal = data.get(position).getName();
 //

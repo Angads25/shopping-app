@@ -1,21 +1,16 @@
 package com.rgretail.grocermax;
 
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.List;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Base64;
@@ -30,37 +25,21 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.facebook.internal.ImageRequest;
-import com.facebook.internal.Utility;
-import com.gc.android.market.api.MarketSession;
-import com.gc.android.market.api.model.Market;
-import com.google.analytics.tracking.android.EasyTracker;
+import com.appsflyer.AppsFlyerLib;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
-import com.rgretail.grocermax.bean.CartDetail;
 import com.rgretail.grocermax.bean.LocationListBean;
-import com.rgretail.grocermax.bean.OrderReviewBean;
-import com.rgretail.grocermax.exception.GrocermaxBaseException;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
-import com.rgretail.grocermax.utils.MyHttpUtils;
 import com.rgretail.grocermax.utils.UtilityMethods;
 import com.rgretail.grocermax.GCM.GCMClientManager;
 
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
 import com.rgretail.grocermax.utils.UrlsConstants;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONObject;
 
 public class SplashScreen extends BaseActivity 
 {
@@ -69,11 +48,12 @@ public class SplashScreen extends BaseActivity
 
 	private TextView txvTitle;
 	private TextView txvMessage;
-	EasyTracker tracker;
+//	EasyTracker tracker;
 	private Button btnGoShoping;
 
 	private GCMClientManager pushClientManager;
 	private String DeviceRegistrationId;
+	private String SCREENNAME = "SplashScreen-";
 
 	public int pxToDp(int px) {
 		DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
@@ -81,15 +61,48 @@ public class SplashScreen extends BaseActivity
 		return dp;
 	}
 
-
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		super.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.splash_screen);
-		System.out.println("======pxdp=====");
+//		System.out.println("======pxdp=====");
 		addActionsInFilter(MyReceiverActions.LOCATION);
+
+//Your Dev Key: XNjhQZD7Yhe2dFs8kL7bpn  -  appsflyer dev key
+		//////////// AppsFlyer code //////////
+		//		6.1 �Set�Currency�Code
+		AppsFlyerLib.setCurrencyCode("INR");
+//		4
+		AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
+		AppsFlyerLib.sendTracking(getApplicationContext());        //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
+//		5 /Example�2:�?Purchase�Event/
+//		Map<String, Object> eventValue = new HashMap<String, Object>();
+//		eventValue.put(AFInAppEventParameterName.PRICE,200);
+////		eventValue.put(AFInAppEventParameterName.REVENUE,200);
+//		eventValue.put(AFInAppEventParameterName.CONTENT_TYPE,"category_a");
+//		eventValue.put(AFInAppEventParameterName.CONTENT_ID,"1234567");
+//		eventValue.put(AFInAppEventParameterName.CURRENCY, "INR");
+//		AppsFlyerLib.trackEvent(getApplicationContext(), AFInAppEventType.ADD_TO_CART, eventValue);
+
+//		6.2 �Get�AppsFlyer�Unique�ID�(Optional)�
+//		String appsFlyerId = AppsFlyerLib.getAppsFlyerUID(this);         //�unique�ID�is�created�for�every�new�install�of�an�app
+//      6.3 Set�Customer�User�ID
+//		AppsFlyerLib.setCustomerUserId("myId");
+
+//      6.6 Reporting�Deeplinks�for�Re�Targeting�Attribution�(Optional)�
+//		AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");        //place in onCreate   //6.6   from report�launches�initiated�through�deeplinks
+//		Intent intent = ((Activity)this).getIntent();
+//		String action = intent.getAction();
+//		if (action == Intent.ACTION_VIEW) {
+//			AppsFlyerLib.sendTracking(this);
+//		}                                                              //place in onCreate   //6.6  to report�launches�initiated�through�deeplinks
+
+			//////////// AppsFlyer code //////////
+
+		try{
+			UtilityMethods.clickCapture(this,"","","","",SCREENNAME+AppConstants.SPLASH_SCREEN);
+		}catch(Exception e){}
 
 //		String sd = String.valueOf(pxToDp(420));
 //		System.out.println("======pxdp=====" + sd);
@@ -173,16 +186,28 @@ public class SplashScreen extends BaseActivity
 
 	Runnable runningThread4Minutes = new Runnable() {
 		public void run() {
-			Intent call = new Intent(SplashScreen.this, HotOffersActivity.class);
+			Intent call = new Intent(SplashScreen.this, HomeScreen.class);
 			startActivity(call);
 			registerGCM();
 			finish();
 		}
 	};
-	
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		try{
+			AppsFlyerLib.onActivityPause(this);
+		}catch(Exception e){}
+	}
+
 	@Override
 	public void onResume() {
 		super.onResume();
+
+		try{
+			AppsFlyerLib.onActivityResume(this);
+		}catch(Exception e){}
 
 			try {
 					if (!UtilityMethods.isInternetAvailable(activity)) {                 //exit app after 4 sec
@@ -217,7 +242,7 @@ public class SplashScreen extends BaseActivity
 			}catch(Exception e){}
 
 //		if(MySharedPrefs.INSTANCE.getSelectedCity() != null){
-//			Intent call = new Intent(SplashScreen.this, HotOffersActivity.class);
+//			Intent call = new Intent(SplashScreen.this, HomeScreen.class);
 ////			Bundle call_bundle = new Bundle();
 ////			call_bundle.putSerializable("Categories", category);
 ////			call.putExtras(call_bundle);
@@ -263,7 +288,7 @@ public class SplashScreen extends BaseActivity
 			AppConstants.locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
 			if(AppConstants.locationBean.getFlag().equals("1")) {
 
-				Intent call = new Intent(SplashScreen.this, LocationActivity.class);
+				Intent call = new Intent(SplashScreen.this, CityActivity.class);
 				Bundle call_bundle = new Bundle();
 //				call_bundle.putSerializable("Location", locationBean);
 				call_bundle.putSerializable("Location", AppConstants.locationBean);
@@ -284,7 +309,7 @@ public class SplashScreen extends BaseActivity
 			ArrayList<CategorySubcategoryBean> category = UtilityMethods.getCategorySubCategory(jsonResponse);
 			if (!jsonResponse.trim().equals("") && category.size() > 0) {
 				UtilityMethods.writeCategoryResponse(SplashScreen.this, AppConstants.categoriesFile, jsonResponse);
-				Intent call = new Intent(SplashScreen.this, HotOffersActivity.class);
+				Intent call = new Intent(SplashScreen.this, HomeScreen.class);
 				Bundle call_bundle = new Bundle();
 				call_bundle.putSerializable("Categories", category);
 				call.putExtras(call_bundle);
@@ -313,6 +338,14 @@ public class SplashScreen extends BaseActivity
 //		}
 
 	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		AppsFlyerLib.onActivityResume(this);
+	}
+
+
 	
 //	@Override
 //    protected void onStart() {
@@ -335,6 +368,12 @@ public class SplashScreen extends BaseActivity
 //	    	FlurryAgent.onEndSession(this);
 //    	}catch(Exception e){}
 //    }
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		AppsFlyerLib.onActivityPause(this);
+	}
 
 	public void registerGCM() {
 		pushClientManager = new GCMClientManager(this, Constants.GCM_SENDER_KEY);

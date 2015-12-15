@@ -8,12 +8,15 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.bean.BaseResponseBean;
 import com.rgretail.grocermax.bean.Product;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
+import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 import com.rgretail.grocermax.adapters.ProductListAdapter;
@@ -21,7 +24,6 @@ import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.DealListBean;
 import com.rgretail.grocermax.bean.ProductDetailsListBean;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
 import com.rgretail.grocermax.utils.UrlsConstants;
 
 import java.util.List;
@@ -47,12 +49,18 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
     public static int clickStatus=0;
 //    TextView tv_bradcrum;
     View hrc;
-    EasyTracker tracker;
+//    EasyTracker tracker;
     public static String strDealHeading = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try{
+            AppsFlyerLib.setCurrencyCode("INR");
+            AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
+            AppsFlyerLib.sendTracking(getApplicationContext());
+        }catch(Exception e){}
+
         try {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
@@ -267,6 +275,7 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
 //            this.currentFirstVisibleItem = firstVisibleItem;
 //            this.currentVisibleItemCount = visibleItemCount;
 //            this.totalItemCount = totalItemCount;
+            try{UtilityMethods.clickCapture(this,"","","","", AppConstants.GA_EVENT_DEAL_LISTING_SCROLLING);}catch(Exception e){}
         }catch(Exception e){
             new GrocermaxBaseException("ProductListScreen","onScroll",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
         }
@@ -335,6 +344,9 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
         // TODO Auto-generated method stub
         super.onResume();
         try{
+            AppsFlyerLib.onActivityResume(this);
+        }catch(Exception e){}
+        try{
             initHeader(findViewById(R.id.header), true, header);
             clickStatus=0;
         }catch(Exception e){
@@ -343,11 +355,22 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        try{
+            AppsFlyerLib.onActivityPause(this);
+        }catch(Exception e){}
+    }
+
+    @Override
     protected void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
         try{
-            EasyTracker.getInstance(this).activityStart(this);
+            AppsFlyerLib.onActivityResume(this);
+        }catch(Exception e){}
+        try{
+//            EasyTracker.getInstance(this).activityStart(this);
             FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
             FlurryAgent.onPageView();         //Use onPageView to report page view count.
         }catch(Exception e){}
@@ -358,7 +381,10 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
         // TODO Auto-generated method stub
         super.onStop();
         try{
-            EasyTracker.getInstance(this).activityStop(this);
+            AppsFlyerLib.onActivityPause(this);
+        }catch(Exception e){}
+        try{
+//            EasyTracker.getInstance(this).activityStop(this);
             FlurryAgent.onEndSession(this);
         }catch(Exception e){}
     }
@@ -367,10 +393,10 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
     public void onBackPressed() {
         super.onBackPressed();
         try {
-            if(HotOffersActivity.bFromHome) {
-                HotOffersActivity.isFromFragment = false;    //work fine for home
+            if(HomeScreen.bFromHome) {
+                HomeScreen.isFromFragment = false;    //work fine for home
             }else{
-                HotOffersActivity.isFromFragment = true;
+                HomeScreen.isFromFragment = true;
             }
         }catch(Exception e){}
     }

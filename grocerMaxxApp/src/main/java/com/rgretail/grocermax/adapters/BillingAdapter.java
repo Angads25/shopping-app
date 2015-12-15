@@ -12,10 +12,12 @@ import android.widget.TextView;
 
 import com.rgretail.grocermax.BillingAddress;
 import com.rgretail.grocermax.R;
+import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.CustomFonts;
 
 import com.rgretail.grocermax.bean.Address;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
+import com.rgretail.grocermax.utils.UtilityMethods;
 
 import java.util.ArrayList;
 
@@ -149,6 +151,7 @@ public class BillingAdapter extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 ((BillingAddress) mContext).goToAddress(obj,position);          //edit address and edit index
+                try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_EXISTING_BILLING_EDIT);}catch(Exception e){}
             }
         });
 
@@ -168,6 +171,9 @@ public class BillingAdapter extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 try {
+
+                    try{
+                        UtilityMethods.clickCapture(mContext, "", "", "", "", AppConstants.GA_EVENT_EXISTING_BILLING_SELECT);}catch(Exception e){}
                     ((BillingAddress) mContext).selectedPosition = (Integer) v.getTag();
                     notifyDataSetChanged();
                 }catch(Exception e){}

@@ -13,8 +13,9 @@ import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.DealListScreen;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.OfferByDealTypeSubModel;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.utils.AppConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,7 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
     private Fragment fragment;
     private ArrayList<OfferByDealTypeSubModel> data;
     private static  Activity activity;
+    private String SCREENNAME = "ShopByDealDetailListAdapter-";
 //    public static String strDealListDeatilHeading;
     public ShopByDealDetailListAdapter(Activity activity, Fragment fragment) {
 //        this.context = context;
@@ -31,6 +33,7 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
         this.fragment = fragment;
         this.activity = activity;
         ((BaseActivity) activity).initImageLoaderMCtegoryDeal();
+
     }
 
     public void setListData(ArrayList<OfferByDealTypeSubModel> data) {
@@ -86,7 +89,7 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
 
 //        ((BaseActivity) context).initHeader(context.findViewById(R.id.header_left), true, ShopByDealDetailListAdapter.strDealListDeatilHeading);
 
-//        ((HotOffersActivity) context).isFromFragment = true;
+//        ((HomeScreen) context).isFromFragment = true;
 //        ((BaseActivity) context).showSearchView(false);
 
         ((BaseActivity) context).initHeader(context.findViewById(R.id.header_left), true, AppConstants.strTitleHotDeal);
@@ -109,12 +112,14 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((HotOffersActivity)context).hitForDealsByDeals(data.get(position).getPromo_id());
+                ((HomeScreen)context).hitForDealsByDeals(data.get(position).getPromo_id());
 //                AppConstants.strTitleHotDeal = data.get(position).getTitle();
 
 //                  AppConstants.strTitleHotDeal = "Offer Detail";
                 DealListScreen.strDealHeading  = "Offer Detail";
-                ((HotOffersActivity) context).isFromFragment = true;
+                ((HomeScreen) context).isFromFragment = true;
+
+                try{UtilityMethods.clickCapture(context,"","",data.get(position).getPromo_id(),"",SCREENNAME+data.get(position).getName()+"-"+AppConstants.GA_EVENT_DEAL_SELECTION);}catch(Exception e){}
 //                String str1 = data.get(position).getDealName();
 //                String str2 = data.get(position).getName();
 //                String str3 = data.get(position).getTitle();
@@ -122,9 +127,12 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
 
 //                ItemDetailFragment fragment = new ItemDetailFragment();
 //                fragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.explode));
-//                ((HotOffersActivity)context).hitForDealsByDeals(data.get(position).getId());
+//                ((HomeScreen)context).hitForDealsByDeals(data.get(position).getId());
             }
         });
+
+
+        try{UtilityMethods.clickCapture(context, "", "", data.get(position).getPromo_id(),"",SCREENNAME+data.get(position).getName()+"-"+ AppConstants.GA_EVENT_DEAL_SCROLLER);}catch(Exception e){}
 
     }
 

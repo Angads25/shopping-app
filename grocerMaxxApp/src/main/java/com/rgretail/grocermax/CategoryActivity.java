@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
@@ -20,6 +21,7 @@ import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.UrlsConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
 
 import java.util.ArrayList;
 
@@ -38,75 +40,86 @@ public class CategoryActivity extends BaseActivity {
     ArrayList<CategorySubcategoryBean> alcatObjSend;
     public ArrayList<CategorySubcategoryBean> catObj;
     private LayoutInflater inflater = null;
+    private String SCREENNAME = "HomeScreen-";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category);
-        scrollView = (ScrollView) findViewById(R.id.scroll_view);
-        llParent = (LinearLayout) findViewById(R.id.ll_main_layout);
-        String strCatIdByCat="";
+        try {
+            setContentView(R.layout.activity_category);
 
-        addActionsInFilter(MyReceiverActions.ALL_PRODUCTS_CATEGORY);
+            try{
+                AppsFlyerLib.setCurrencyCode("INR");
+                AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
+                AppsFlyerLib.sendTracking(getApplicationContext());
+            }catch(Exception e){}
 
-        Bundle bundle = getIntent().getExtras();
-        ArrayList<CategorySubcategoryBean> alSubCat;
-        if (bundle != null) {
-            try {
-                catObj = (ArrayList<CategorySubcategoryBean>) bundle.getSerializable("Categories");              //main category name on left side like staples
-                strCatName = bundle.getString("CategoryName");
-                strCatIdByCat = bundle.getString("CategoryId");
-                String str = bundle.getString("maincategoryposition");
-                mainCatPosition = Integer.parseInt(str);
-            }catch(Exception e){
-                e.printStackTrace();
+            scrollView = (ScrollView) findViewById(R.id.scroll_view);
+            llParent = (LinearLayout) findViewById(R.id.ll_main_layout);
+            String strCatIdByCat = "";
+
+            addActionsInFilter(MyReceiverActions.ALL_PRODUCTS_CATEGORY);
+
+            Bundle bundle = getIntent().getExtras();
+            ArrayList<CategorySubcategoryBean> alSubCat;
+            if (bundle != null) {
+                try {
+                    catObj = (ArrayList<CategorySubcategoryBean>) bundle.getSerializable("Categories");              //main category name on left side like staples
+                    strCatName = bundle.getString("CategoryName");
+                    strCatIdByCat = bundle.getString("CategoryId");
+                    String str = bundle.getString("maincategoryposition");
+                    mainCatPosition = Integer.parseInt(str);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        }
 
-        for(int i=0;i<catObj.size();i++){
-            if(catObj.get(i).getCategoryId().equals(strCatIdByCat)){
-                mainCatPosition = i;
-                strCatName = catObj.get(i).getCategory();
+            try{UtilityMethods.clickCapture(mContext, "", "", strCatIdByCat, "", SCREENNAME+strCatName+"-"+AppConstants.GA_EVENT_CATEGORY_OPENED);}catch(Exception e){}
+
+            for (int i = 0; i < catObj.size(); i++) {
+                if (catObj.get(i).getCategoryId().equals(strCatIdByCat)) {
+                    mainCatPosition = i;
+                    strCatName = catObj.get(i).getCategory();
+                }
             }
-        }
 
 //        alSubCat = catObj.get(mainCatPosition).getChildren();                   //under main category [right side top category e.g. dryfruits]
-        alSubCat = catObj.get(mainCatPosition).getChildren();                   //under main category [right side top category e.g. dryfruits]
+            alSubCat = catObj.get(mainCatPosition).getChildren();                   //under main category [right side top category e.g. dryfruits]
 
-        alcatObjSend = new ArrayList<CategorySubcategoryBean>();
-        for(int i=0;i<alSubCat.size();i++){
+            alcatObjSend = new ArrayList<CategorySubcategoryBean>();
+            for (int i = 0; i < alSubCat.size(); i++) {
 //            String str = alSubCat.get(i).getCategory();
 //            String str1 = alSubCat.get(i).getCategory();
 //            alSubCat.get(i).getIsActive()
-            if(alSubCat.get(i).getIsActive().equals("1")){
-                alcatObjSend.add(alSubCat.get(i));
+                if (alSubCat.get(i).getIsActive().equals("1")) {
+                    alcatObjSend.add(alSubCat.get(i));
+                }
             }
-        }
-        if(alcatObjSend.size() > 0){
+            if (alcatObjSend.size() > 0) {
 //            mainCatLength = alSubCat.size();
-            mainCatLength = alcatObjSend.size();
-        }
+                mainCatLength = alcatObjSend.size();
+            }
 
-        LayoutInflater inflater = this.getLayoutInflater();
+            LayoutInflater inflater = this.getLayoutInflater();
 //        ImageView imgArr[] = new ImageView[15];
 //        TextView tvName[] = new TextView[15];
 
-        llChild = new LinearLayout[mainCatLength];
-        for(int i=0 ; i < mainCatLength ; i++){
-            View view = inflater.inflate(R.layout.cat_child, null);
-            ImageView ivCat = (ImageView) view.findViewById(R.id.cat_icon);
-            TextView tvCatName = (TextView) view.findViewById(R.id.cat_name);
-            TextView tvName = (TextView) view.findViewById(R.id.tv_name);
+            llChild = new LinearLayout[mainCatLength];
+            for (int i = 0; i < mainCatLength; i++) {
+                View view = inflater.inflate(R.layout.cat_child, null);
+                ImageView ivCat = (ImageView) view.findViewById(R.id.cat_icon);
+                TextView tvCatName = (TextView) view.findViewById(R.id.cat_name);
+                TextView tvName = (TextView) view.findViewById(R.id.tv_name);
 //            view.findViewById(R.id.ll_child_expandable_category);
 
 //            String strurlImage = "http://staging.grocermax.com/media/mobile_images/category/2506.png";
 //            String strurlImage = "http://staging.grocermax.com/media/mobile_images/category/"+alcatObjSend.get(i).getCategoryId()+".png";
 
-            String strurlImage = Constants.base_url_category_image+alcatObjSend.get(i).getCategoryId()+".png";
+                String strurlImage = Constants.base_url_category_image + alcatObjSend.get(i).getCategoryId() + ".png";
 
 //            ImageLoader.getInstance().displayImage(data.get(position).getImages(),
 //                    holder.imageView, ((BaseActivity) context).baseImageoptions);
-            ImageLoader.getInstance().displayImage(strurlImage,
-                    ivCat, ((BaseActivity) this).baseImageoptions);
+                ImageLoader.getInstance().displayImage(strurlImage,
+                        ivCat, ((BaseActivity) this).baseImageoptions);
 
 //            if (catObj.get(i).getChildren().get(0).getChildren().size() > 0) {  //sub-sub-sub category present
 //                tvName.setVisibility(View.VISIBLE);
@@ -114,30 +127,40 @@ public class CategoryActivity extends BaseActivity {
 //                tvName.setVisibility(View.GONE);
 //            }
 
-            tvCatName.setText(alcatObjSend.get(i).getCategory());
+                tvCatName.setText(alcatObjSend.get(i).getCategory());
 
-            llChild[i] = (LinearLayout) view.findViewById(R.id.ll_child_expandable_category);
+                llChild[i] = (LinearLayout) view.findViewById(R.id.ll_child_expandable_category);
 
-            if(i ==  selectedIndex){
+                if (i == selectedIndex) {
 //                llChild[i].setVisibility(View.VISIBLE);
 //                updateUi(selectedIndex);
-                llChild[i].setVisibility(View.GONE);
-            }else{
-                llChild[i].setVisibility(View.GONE);
-            }
+                    llChild[i].setVisibility(View.GONE);
+                } else {
+                    llChild[i].setVisibility(View.GONE);
+                }
 
-            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(
-                    (int) ViewGroup.LayoutParams.MATCH_PARENT,(int) ViewGroup.LayoutParams.WRAP_CONTENT);
-            try{
-                view.setTag(i);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        (int) ViewGroup.LayoutParams.MATCH_PARENT, (int) ViewGroup.LayoutParams.WRAP_CONTENT);
+                try {
+                    view.setTag(i);
 //                view.setLayoutParams(params);
-                view.setOnClickListener(listener);
-                llParent.addView(view);
-            }catch(Exception e){
+                    view.setOnClickListener(listener);
+                    llParent.addView(view);
+                } catch (Exception e) {
 //                Toast.makeText(CategoryActivity.this,"second",Toast.LENGTH_SHORT).show();
+                }
             }
-        }
-        initHeader(findViewById(R.id.app_bar_header), true, strCatName);
+            initHeader(findViewById(R.id.app_bar_header), true, strCatName);
+
+        }catch(Exception e){}
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        try{
+            AppsFlyerLib.onActivityResume(this);
+        }catch(Exception e){}
     }
 
     @Override
@@ -150,7 +173,27 @@ public class CategoryActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        initHeader(findViewById(R.id.app_bar_header), true, strCatName);
+        try{
+            initHeader(findViewById(R.id.app_bar_header), true, strCatName);
+            AppsFlyerLib.onActivityResume(this);
+        }catch(Exception e){}
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try{
+            AppsFlyerLib.onActivityPause(this);
+        }catch(Exception e){}
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        try{
+            AppsFlyerLib.onActivityPause(this);
+        }catch(Exception e){}
     }
 
     @Override
@@ -209,6 +252,8 @@ public class CategoryActivity extends BaseActivity {
                     String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(mainCatPosition).getChildren().get(selectedIndex).getCategoryId();
                     myApi.reqAllProductsCategory(url);
                 }
+                try{UtilityMethods.clickCapture(mContext, "", "", alcatObjSend.get(selectedIndex).getCategoryId(), "", SCREENNAME+strCatName+"-"+alcatObjSend.get(selectedIndex).getCategory()+"-"+
+                        AppConstants.GA_EVENT_SUB_CATEGORY);}catch(Exception e){}
             }catch(Exception e){
                 new GrocermaxBaseException("HomeScreen","listener",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
             }
@@ -228,6 +273,8 @@ public class CategoryActivity extends BaseActivity {
                 String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(mainCatPosition).getChildren().get(selectedIndex).getChildren().get(pos).getCategoryId();
                 myApi.reqAllProductsCategory(url);
 //    			UtilityMethods.customToast(String.valueOf(pos) + "====", MyApplication.getInstance());
+                try{UtilityMethods.clickCapture(mContext, "", "", alcatObjSend.get(selectedIndex).getChildren().get(pos).getCategoryId(), "", SCREENNAME+strCatName+"-"+alcatObjSend.get(selectedIndex).getCategory()+"-"+
+                        alcatObjSend.get(selectedIndex).getChildren().get(pos).getCategory()+"-"+AppConstants.GA_EVENT_SUB_SUB_CATEGORY);}catch(Exception e){}
 			}catch(Exception e){
 				new GrocermaxBaseException("ChooseAddress","listener",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 			}

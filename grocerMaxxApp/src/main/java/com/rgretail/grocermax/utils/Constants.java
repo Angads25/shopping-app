@@ -61,7 +61,8 @@ public class Constants {
 	
 	
 	public static class ToastConstant{
-		
+
+		public static final String QUOTE_FAIL = "Some items in this order is out of stock";
 		public static final String PRODUCT_REMOVED = "Product removed successfully";
 		public static final String PRODUCT_ADDED_CART = "Product successfully added to cart";
 		public static final String UNABLE_TO_WRITE = "Unable to write to external storage.";
@@ -119,7 +120,8 @@ public class Constants {
 		public static final String SELECT_GENDER = "Please select gender";
 		public static final String REGISTER_SUCCESSFULL = "User registered Successfully";
 		public static final String SELECT_PAYMENT_MODE = "Please select payment method";
-		public static final String VIEW_CART_EMPTY = "All products have deleted";
+//		public static final String VIEW_CART_EMPTY = "All products have deleted";
+		public static final String VIEW_CART_EMPTY = "Your cart is now empty";
 		
 		public static final String SHIP_FNAME = "Please enter first name in shipping address";
 		public static final String SHIP_LNAME = "Please enter last name in shipping address";

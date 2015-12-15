@@ -7,8 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.appsflyer.AppsFlyerLib;
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.CartDetail;
@@ -35,8 +36,11 @@ public class OneTimePassword extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        try{
+            AppsFlyerLib.onActivityResume(this);
+        }catch(Exception e){}
         try {
-            EasyTracker.getInstance(this).activityStart(this);
+//            EasyTracker.getInstance(this).activityStart(this);
             FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
             FlurryAgent.onPageView();         //Use onPageView to report page view count.
         }catch(Exception e){}
@@ -46,6 +50,11 @@ public class OneTimePassword extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.otp);
+        try{
+            AppsFlyerLib.setCurrencyCode("INR");
+            AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
+            AppsFlyerLib.sendTracking(getApplicationContext());
+        }catch(Exception e){}
         try{
                 Bundle bundle = getIntent().getExtras();
                 addActionsInFilter(MyReceiverActions.REGISTER_USER);
@@ -61,24 +70,25 @@ public class OneTimePassword extends BaseActivity {
                 btnOTP.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(etOTP.getText().toString().equals("")){
+                        if (etOTP.getText().toString().equals("")) {
                             UtilityMethods.customToast("Please enter valid otp", OneTimePassword.this);
                             return;
                         }
                         String str = otpDataBean.getOTP();
                         String str1 = etOTP.getText().toString();
-                        if(otpDataBean.getOTP().equals(etOTP.getText().toString())){
+                        if (otpDataBean.getOTP().equals(etOTP.getText().toString())) {
                             if (UtilityMethods.isInternetAvailable(mContext)) {
                                 showDialog();
-                                if(!params.equals("")){
+                                if (!params.equals("")) {
                                     String url = UrlsConstants.REGESTRATION_URL;
 //                                  url += params;
                                     try {
                                         if (!params.equals("")) {
                                             JSONObject json = new JSONObject(params);
-                                            myApi.reqUserRegistration(url,json);
+                                            myApi.reqUserRegistration(url, json);
                                         }
-                                    }catch(Exception e){}
+                                    } catch (Exception e) {
+                                    }
                                 }
 
 //                                try {
@@ -87,11 +97,11 @@ public class OneTimePassword extends BaseActivity {
 //                                    myApi.reqUserRegistrationOTP(url, jsonObject);
 //                                }catch(Exception e){}
                             }
-                        }else{
+                        } else {
                             UtilityMethods.customToast("Please enter valid otp", OneTimePassword.this);
                         }
-                        }
-        });
+                    }
+                });
             initHeader(findViewById(R.id.header), true, null);
         }catch(Exception e){
             new GrocermaxBaseException("OneTimePassword","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
@@ -110,7 +120,10 @@ public class OneTimePassword extends BaseActivity {
         // TODO Auto-generated method stub
         super.onStop();
         try{
-            EasyTracker.getInstance(this).activityStop(this);
+            AppsFlyerLib.onActivityPause(this);
+        }catch(Exception e){}
+        try{
+//            EasyTracker.getInstance(this).activityStop(this);
             FlurryAgent.onEndSession(this);
         }catch(Exception e){}
     }
@@ -123,6 +136,7 @@ public class OneTimePassword extends BaseActivity {
             LoginResponse userDataBean = (LoginResponse) bundle.getSerializable(ConnectionService.RESPONSE);
 
             if (userDataBean.getFlag().equalsIgnoreCase("1")) {
+                try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_REGISTER_EMAIL);}catch(Exception e){}
                 UtilityMethods.customToast(AppConstants.ToastConstant.REGISTER_SUCCESSFULL, mContext);
                 //finish();
                 MySharedPrefs.INSTANCE.putUserId(userDataBean.getUserID());
@@ -179,7 +193,18 @@ public class OneTimePassword extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        initHeader(findViewById(R.id.header), true, null);
+        try{
+            initHeader(findViewById(R.id.header), true, null);
+            AppsFlyerLib.onActivityResume(this);
+        }catch(Exception e){}
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try{
+            AppsFlyerLib.onActivityPause(this);
+        }catch(Exception e){}
     }
 
     @Override

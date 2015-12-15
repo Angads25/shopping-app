@@ -15,7 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.ShippingLocationLoader;
 
@@ -59,7 +59,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
     private ArrayList<String> profileNames;
     private CheckoutAddressBean address_obj;
     LinearLayout llTop;
-    EasyTracker tracker;
+//    EasyTracker tracker;
     ImageView imgDateSlot[];
     TextView tvDateSlot[];
     TextView tvHeaderMsg;
@@ -540,6 +540,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                             bShippingAsBilling = false;
                             ivShippingBilling.setImageResource(R.drawable.chkbox_unselected);
                         }else{
+                            try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_PROCEED_SHIPPING_BILLING);}catch(Exception e){}
                             bShippingAsBilling = true;
                             ivShippingBilling.setImageResource(R.drawable.chkbox_selected);
                         }
@@ -564,10 +565,12 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                         // TODO Auto-generated method stub
                         try {
                             if (ShippingLocationLoader.alLocationShipping == null || ShippingLocationLoader.alLocationShipping.size() == 0) {                //first time call this service for getting states
+                                try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_NEW_SHIPPING_ADDRESS_SELECT);}catch(Exception e){}
                                 Address addres = null;
 //                                new ShippingLocationLoader(ShippingAddress.this, addres, "shipping", "-1").execute(UrlsConstants.GET_LOCATION_SHIPPING + AppConstants.strSelectedStateId);
                                 new ShippingLocationLoader(ShippingAddress.this, addres, "shipping", "-1").execute(UrlsConstants.GET_LOCATION_SHIPPING + MySharedPrefs.INSTANCE.getSelectedStateId());
                             } else {
+                                try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_NEW_SHIPPING_ADDRESS_SELECT);}catch(Exception e){}
                                 Intent intent = new Intent(mContext, CreateNewAddress.class);
                                 intent.putExtra("shippingorbillingaddress", "shipping");
                                 intent.putExtra("editindex", "-1");                                    //means adding the address not editing.
@@ -741,6 +744,8 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                             UtilityMethods.customToast(AppConstants.ToastConstant.SHIPPING_ADDRESS_EMPTY, mContext);
                             return;
                         }
+
+                        try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_PROCEED_SHIPPING);}catch(Exception e){}
 
                         Address ship_add = addressList.get(selectedPosition);
 
@@ -1893,7 +1898,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
         // TODO Auto-generated method stub
         super.onStart();
         try{
-            EasyTracker.getInstance(this).activityStart(this);
+//            EasyTracker.getInstance(this).activityStart(this);
             FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
             FlurryAgent.onPageView();         //Use onPageView to report page view count.
         }catch(Exception e){}
@@ -1904,7 +1909,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
         // TODO Auto-generated method stub
         super.onStop();
         try{
-            EasyTracker.getInstance(this).activityStop(this);
+//            EasyTracker.getInstance(this).activityStop(this);
             FlurryAgent.onEndSession(this);
         }catch(Exception e){}
     }

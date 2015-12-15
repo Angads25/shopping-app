@@ -17,13 +17,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.bean.BaseResponseBean;
 import com.rgretail.grocermax.bean.CartDetailBean;
 import com.rgretail.grocermax.bean.CheckoutAddressBean;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
@@ -58,7 +59,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 //	TextView tvCartItemCount,tvCartTotalTop;
 //	TextView txtItems,txtTotal;
 	LinearLayout ll_total,ll_discount,ll_shipping,ll_coupon;
-	EasyTracker tracker;
+//	EasyTracker tracker;
 	//	public JSONArray jsonArray ;
 	public JSONObject jsonObjectUpdate = null;
 	public StringBuilder sbDeleteProdId;
@@ -67,6 +68,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	private boolean bIsEdit = false;   //true if user plus or minus anything in cart otherwise false and use in onDestroy.
 
 	String strUserIdtemp,strQuoteIdtemp;
+	private String SCREENNAME = "CartProductList-";
 //	public String strCouponCode,
 //				  strSubTotal,
 //				  strSubtotalWithDiscount;
@@ -86,6 +88,13 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_categoty_list);
+
+		try{
+			AppsFlyerLib.setCurrencyCode("INR");
+			AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
+			AppsFlyerLib.sendTracking(getApplicationContext());
+		}catch(Exception e){}
+
 		try {
 			user_id = MySharedPrefs.INSTANCE.getUserId();
 			sbDeleteProdId = new StringBuilder();
@@ -99,6 +108,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			addActionsInFilter(MyReceiverActions.VIEW_CART_GO_HOME_SCREEN);
 
 			addActionsInFilter(MyReceiverActions.VIEW_CART_ERROR_ON_CART);                          //uses when on local update SLIM APPLICATION ERROR comes then call VIEWCART just to update cart
+
 
 //		addActionsInFilter(MyReceiverActions.VIEW_CART);
 			addActionsInFilter(MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
@@ -306,7 +316,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				}else{
 					UtilityMethods.customToast(Constants.ToastConstant.CART_EMPTY, mContext);
 				ll_total.setVisibility(View.GONE);
-				Intent intent = new Intent(mContext, HotOffersActivity.class);
+				Intent intent = new Intent(mContext, HomeScreen.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				finish();
@@ -606,11 +616,14 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 						callAddressApi();
 					}
 
+					try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.BOTTOM_CART_PROCEED_BUTTON_PRESSED);}catch(Exception e){}
+
 					break;
 
 				case R.id.button_update_cart1:
 					updateItemInCartBackToCart();
 					bIsEdit = false;
+					try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.BOTTOM_CART_UPDATE_BUTTON_PRESSED);}catch(Exception e){}
 					break;
 
 			}
@@ -934,6 +947,10 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		try{
+			AppsFlyerLib.onActivityResume(this);
+		}catch(Exception e){}
+
 		try {
 			if (cartList != null && cartList.size() > 0) {
 				ll_total.setVisibility(View.VISIBLE);
@@ -1052,6 +1069,9 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	public void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
+		try{
+			AppsFlyerLib.onActivityPause(this);
+		}catch(Exception e){}
 	}
 
 	@Override
@@ -1059,7 +1079,11 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		// TODO Auto-generated method stub
 		super.onStart();
 		try{
-			EasyTracker.getInstance(this).activityStart(this);
+			AppsFlyerLib.onActivityResume(this);
+		}catch(Exception e){}
+
+		try{
+//			EasyTracker.getInstance(this).activityStart(this);
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
 		}catch(Exception e){}
@@ -1070,7 +1094,10 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		// TODO Auto-generated method stub
 		super.onStop();
 		try{
-			EasyTracker.getInstance(this).activityStop(this);
+			AppsFlyerLib.onActivityPause(this);
+		}catch(Exception e){}
+		try{
+//			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
 		}catch(Exception e){}
 	}
@@ -1093,10 +1120,10 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	public void onBackPressed() {
 		super.onBackPressed();
 		try {
-			if(HotOffersActivity.bFromHome) {
-				HotOffersActivity.isFromFragment = false;    //work fine for home
+			if(HomeScreen.bFromHome) {
+				HomeScreen.isFromFragment = false;    //work fine for home
 			}else{
-				HotOffersActivity.isFromFragment = true;
+				HomeScreen.isFromFragment = true;
 			}
 		}catch(Exception e){}
 	}

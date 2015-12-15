@@ -31,6 +31,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.rgretail.grocermax.bean.CategoriesProducts;
 import com.rgretail.grocermax.bean.Product;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
@@ -65,6 +66,7 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 	public static ImageView imgAddedProductCount;           //will update product listing screen if on product description page quantity has been changed and user press back btn OR cross btn
 
 	private CategoriesProducts categoryData;
+	private String SCREENNAME = "ProductListFragments-";
 
 //    public static ProductListFragments newInstance(CategorySubcategoryBean categorySubcategoryBean) {
 //    	ProductListFragments fragment = new ProductListFragments();
@@ -145,6 +147,12 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 
 							String url = UrlsConstants.PRODUCT_DETAIL_URL + categoryTabs.product.getProductid();
 							categoryTabs.myApi.reqProductContentList(url);
+						}
+						if (productListBean.getProduct().get(position).getPromotionLevel() != null) {
+							try {
+								UtilityMethods.clickCapture(HomeScreen.mContext, "", "", "", "", SCREENNAME+AppConstants.GA_EVENT_OFFER_IN_CATEGORY);
+							} catch (Exception e) {
+							}
 						}
 					}
 				}
@@ -441,6 +449,8 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 					new CallAPI().execute(url);
 					//callApi.execute(url);
 					//startMyTask(callApi, url);
+					try{UtilityMethods.clickCapture(getActivity(),"","","","",SCREENNAME+AppConstants.CATEGORY_SCROLL_BROWSING_CATEGORIES);}catch(Exception e){}
+
 				} else {
 //				Toast.makeText(categoryTabs.mContext, ToastConstant.listFull, Toast.LENGTH_SHORT).show();
 					UtilityMethods.customToast(AppConstants.ToastConstant.listFull, categoryTabs.mContext);

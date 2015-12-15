@@ -54,7 +54,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=": "
-                        android:textColor="@color/light_Gray"/>
+                        android:textColor="@color/light_Gray" />
 
                     <TextView
                         android:id="@+id/order_no"
@@ -85,7 +85,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=": "
-                        android:textColor="@color/light_Gray"/>
+                        android:textColor="@color/light_Gray" />
 
                     <TextView
                         android:id="@+id/order_date"
@@ -115,7 +115,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=": "
-                        android:textColor="@color/light_Gray"/>
+                        android:textColor="@color/light_Gray" />
 
                     <TextView
                         android:id="@+id/amnt_paid"
@@ -125,65 +125,115 @@
                         android:textColor="@color/pallete_black"
                         android:textSize="@dimen/text_size_14" />
                 </LinearLayout>
-
+                <!-- code added by Ishan  -->
                 <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Status"
-                        android:textColor="@color/light_Gray"
-                        android:textSize="@dimen/text_size_14" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=": "
-                        android:textColor="@color/light_Gray"/>
-
-                    <TextView
-                        android:id="@+id/status"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:textColor="@color/pallete_black"
-                        android:textSize="@dimen/text_size_14" />
-                </LinearLayout>
-
-                <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tv6"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Items"
-                        android:textColor="@color/light_Gray"
-                        android:textSize="@dimen/text_size_14" />
+                        android:orientation="vertical"
+                        android:layout_weight="1">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=": "
-                        android:textColor="@color/light_Gray"/>
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/no_of_items"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:textColor="@color/pallete_black"
-                        android:textSize="@dimen/text_size_14" />
+                            <TextView
+                                android:id="@+id/tv5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Status"
+                                android:textColor="@color/light_Gray"
+                                android:textSize="@dimen/text_size_14" />
 
-                </TableRow>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=": "
+                                android:textColor="@color/light_Gray" />
+
+                            <TextView
+                                android:id="@+id/status"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:textColor="@color/pallete_black"
+                                android:textSize="@dimen/text_size_14" />
+                        </LinearLayout>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tv6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Items"
+                                android:textColor="@color/light_Gray"
+                                android:textSize="@dimen/text_size_14" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=": "
+                                android:textColor="@color/light_Gray" />
+
+                            <TextView
+                                android:id="@+id/no_of_items"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:textColor="@color/pallete_black"
+                                android:textSize="@dimen/text_size_14" />
+
+                        </TableRow>
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/tv_reorder"
+                            android:layout_width="100dp"
+                            android:layout_height="@dimen/plus_minus_buttons"
+                            android:text="Reorder"
+                            android:textAllCaps="false"
+                            android:visibility="visible"
+                            android:gravity="center"
+                            android:layout_gravity="bottom|right"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_16"
+                            android:background="@drawable/blue_rounded"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true" />
+                        <TextView
+                            android:id="@+id/tv_noLocation"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/plus_minus_buttons"
+                            android:text="Change location to reorder"
+                            android:textAllCaps="false"
+                            android:visibility="gone"
+                            android:gravity="center"
+                            android:layout_gravity="bottom|right"
+                            android:textColor="@color/red"
+                            android:textSize="@dimen/text_size_12"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true" />
+                    </FrameLayout>
+
+
+                </LinearLayout>
+                <!-- End code here -->
             </TableLayout>
 
             <ImageView

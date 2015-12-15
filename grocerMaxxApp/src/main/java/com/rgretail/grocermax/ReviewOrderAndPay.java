@@ -2,6 +2,7 @@ package com.rgretail.grocermax;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,7 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.payu.sdk.Params;
 import com.payu.sdk.PayU;
 import com.payu.sdk.Payment;
@@ -67,7 +69,7 @@ public class ReviewOrderAndPay extends BaseActivity
 	public static String order_id;
 	public static String order_db_id;
 	private boolean bOnline,bCash,bPayTM,bMobiKwik;
-	EasyTracker tracker;
+//	EasyTracker tracker;
 	private String[] payment_modes = {"Online Payment", "Cash on Delivery"};
 	OrderReviewBean orderReviewBean;
 	String payment_mode;
@@ -83,6 +85,10 @@ public class ReviewOrderAndPay extends BaseActivity
 	String strRemoveCoupon;
 	Button llFirstPage;
 	Button llSecondPage;
+	public static List<CartDetail> cartListGA;
+	public static String strTempAmount,strTempSelectedState,strTempTotal,strTempTaxAmount,strTempShippingAmount;
+	private String SCREENNAME = "ReviewOrderAndPay-";
+	Handler handler = new Handler();
 
 
 	public void payumoneyMakePayment(String orderid,double total) throws PackageManager.NameNotFoundException, MissingParameterException, HashException {
@@ -202,6 +208,8 @@ public class ReviewOrderAndPay extends BaseActivity
 			tvYouSaved.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 			tvTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 
+
+
 			etCouponCode = (EditText) findViewById(R.id.edit_coupon_code);
 //		orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 			List<CartDetail> cartList = orderReviewBean.getProduct();
@@ -249,6 +257,7 @@ public class ReviewOrderAndPay extends BaseActivity
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
+					try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_CODE_APPLIED);}catch(Exception e){}
 					if (etCouponCode.getText().toString().length() > 0) {
 						// need to change the keyboardVisibility here
 						getKeyBoardVisibility();
@@ -266,6 +275,7 @@ public class ReviewOrderAndPay extends BaseActivity
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
+					try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_REMOVE_CODE);}catch(Exception e){}
 					if (etCouponCode.getText().toString().length() > 0) {
 						new Coupon(mContext, "Remove").execute(strRemoveCoupon + etCouponCode.getText().toString());
 					} else {
@@ -658,6 +668,7 @@ public class ReviewOrderAndPay extends BaseActivity
 			button_pay.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
+					try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_PLACE_ORDER);}catch(Exception e){}
 					orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 //					float str1 = Float.parseFloat(orderReviewBean.getGrandTotal());
 //					float str2 = Float.parseFloat(orderReviewBean.getShipping_ammount());
@@ -681,10 +692,13 @@ public class ReviewOrderAndPay extends BaseActivity
 
 						if(bPayTM){
 							payment_mode="paytm_cc";
+							try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_PAYTM);}catch(Exception e){}
 						}else if (bOnline) {
 							payment_mode = "payucheckout_shared";
+							try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_PAYU);}catch(Exception e){}
 						} else if (bCash) {
 							payment_mode = "cashondelivery";
+							try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_CASH_ON_DELIVERY);}catch(Exception e){}
 						}
 
 
@@ -728,6 +742,28 @@ public class ReviewOrderAndPay extends BaseActivity
 						System.out.println("====payment json format====" + jsonObject);
 
 						myApi.reqFinalCheckout(strurl.replaceAll(" ", "%20"), jsonObject);
+						///////code added by ishan///////
+						if(payment_mode.equals("cashondelivery")) {
+							handler.postDelayed(new Runnable() {
+								@Override
+								public void run() {
+									//Do something after 10 sec
+
+									MySharedPrefs.INSTANCE.putTotalItem("0");
+									MySharedPrefs.INSTANCE.clearQuote();
+									Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
+									Bundle call_bundle = new Bundle();
+									call_bundle.putString("orderid", "no_order_id");
+									call_bundle.putString("status", "success");
+									intent.putExtras(call_bundle);
+									startActivity(intent);
+									finish();
+								}
+
+							}, 10000);
+						}
+						///////////---------/////////////////
+
 						////////////////POST/////////////
 					}catch(Exception e){}
 
@@ -812,7 +848,7 @@ public class ReviewOrderAndPay extends BaseActivity
 				params.remove("amount");
 				final double finalAmount = amount;
 
-				System.out.println("============params================="+params);
+//				System.out.println("============params================="+params);
 
            /* String txnId = orderid;
 			String merchant_key =  "yPnUG6";
@@ -876,9 +912,9 @@ public class ReviewOrderAndPay extends BaseActivity
                         JSONObject response = new JSONObject(EntityUtils.toString(httpclient.execute(httppost).getEntity()));*/
 
 							HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
-							HttpGet httpGet = new HttpGet(UrlsConstants.GET_MOBILE_HASH + "txnid=" + orderid + "&amount=" + String.valueOf(finalAmount) + "&email=" + MySharedPrefs.INSTANCE.getUserEmail() + "&fname=" + MySharedPrefs.INSTANCE.getFirstName());
+							HttpGet httpGet = new HttpGet(UrlsConstants.GET_MOBILE_HASH + "txnid=" + orderid + "&amount=" + String.valueOf(finalAmount) + "&email=" + MySharedPrefs.INSTANCE.getUserEmail() + "&fname=" + MySharedPrefs.INSTANCE.getFirstName().replaceAll(" ", "%20"));
 //							HttpGet httpGet = new HttpGet(UrlsConstants.GET_MOBILE_HASH + "txnid=" + orderid + "&amount=" + String.valueOf(finalAmount) + "&email=" + MySharedPrefs.INSTANCE.getUserEmail() + "&fname=" + MySharedPrefs.INSTANCE.getUserEmail());
-							System.out.println("genrate hash service = "+UrlsConstants.GET_MOBILE_HASH + "txnid=" + orderid + "&amount=" + String.valueOf(finalAmount) + "&email=" + MySharedPrefs.INSTANCE.getUserEmail() + "&fname=" + MySharedPrefs.INSTANCE.getFirstName().replace(" ", "%20"));
+//							System.out.println("genrate hash service = "+UrlsConstants.GET_MOBILE_HASH + "txnid=" + orderid + "&amount=" + String.valueOf(finalAmount) + "&email=" + MySharedPrefs.INSTANCE.getUserEmail() + "&fname=" + MySharedPrefs.INSTANCE.getFirstName().replace(" ", "%20"));
 							httpGet.setHeader("Content-Type", "application/json");
 							HttpResponse response1 = null;
             			/*try {*/
@@ -970,7 +1006,7 @@ public class ReviewOrderAndPay extends BaseActivity
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		System.out.println(requestCode+"======0000==========="+resultCode+"=========data=========="+data);
+//		System.out.println(requestCode+"======0000==========="+resultCode+"=========data=========="+data);
 		try{
 			if(requestCode==123)                  //uses when coming from OneTimePassword screen after to register successfully this will finish and go back to loginactivity and loginactivity also uses same funct
 			{
@@ -1051,8 +1087,34 @@ public class ReviewOrderAndPay extends BaseActivity
 				finalCheckoutBean= (FinalCheckoutBean) bundle.getSerializable(ConnectionService.RESPONSE);
 				if (finalCheckoutBean.getFlag().equalsIgnoreCase("1")) {
 					UtilityMethods.deleteCloneCart(this);
+
+					orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
+					 strTempAmount = orderReviewBean.getShipping_ammount();
+					 strTempSelectedState = MySharedPrefs.INSTANCE.getSelectedState();
+					 strTempTotal = orderReviewBean.getGrandTotal();
+					 strTempTaxAmount = orderReviewBean.getTax_ammount();
+					strTempShippingAmount = orderReviewBean.getShipping_ammount();
+
+					cartListGA = orderReviewBean.getProduct();           //make temporary copy of products,below step delete all infn.
+
 					if(payment_mode.equals("cashondelivery"))
 					{
+
+//						Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
+//						Bundle call_bundle = new Bundle();
+//						call_bundle.putString("orderid", finalCheckoutBean.getOrderId());
+//						call_bundle.putString("status", "success");
+
+//						call_bundle.putString("shippingamount", orderReviewBean.getShipping_ammount());
+//						call_bundle.putString("state", MySharedPrefs.INSTANCE.getSelectedState());
+//						call_bundle.putString("grandtotal", orderReviewBean.getGrandTotal());
+//						call_bundle.putString("taxamount", orderReviewBean.getTax_ammount());
+
+						//////code added by Ishan//////////
+						handler.removeCallbacksAndMessages(null);
+						handler.getLooper().quit();
+						//////////////////////////////////
+
 						MySharedPrefs.INSTANCE.putTotalItem("0");
 						MySharedPrefs.INSTANCE.clearQuote();
 						UtilityMethods.customToast(finalCheckoutBean.getResult(), ReviewOrderAndPay.this);
@@ -1061,6 +1123,13 @@ public class ReviewOrderAndPay extends BaseActivity
 						call_bundle.putString("orderid", finalCheckoutBean.getOrderId());
 						call_bundle.putString("status", "success");
 						intent.putExtras(call_bundle);
+
+//						orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
+//						call_bundle.putString("shippingamount", orderReviewBean.getShipping_ammount());
+//						call_bundle.putString("state", MySharedPrefs.INSTANCE.getSelectedState());
+//						call_bundle.putString("grandtotal", orderReviewBean.getGrandTotal());
+//						call_bundle.putString("taxamount", orderReviewBean.getTax_ammount());
+
 						startActivity(intent);
 						finish();
 					}else if(payment_mode.equalsIgnoreCase("payucheckout_shared")){
@@ -1151,7 +1220,7 @@ public class ReviewOrderAndPay extends BaseActivity
 		// TODO Auto-generated method stub
 		super.onStart();
 		try{
-			EasyTracker.getInstance(this).activityStart(this);
+//			EasyTracker.getInstance(this).activityStart(this);
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
 		}catch(Exception e){}
@@ -1162,7 +1231,7 @@ public class ReviewOrderAndPay extends BaseActivity
 		// TODO Auto-generated method stub
 		super.onStop();
 		try{
-			EasyTracker.getInstance(this).activityStop(this);
+//			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
 		}catch(Exception e){}
 	}

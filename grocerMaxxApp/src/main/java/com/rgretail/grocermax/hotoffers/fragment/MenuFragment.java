@@ -17,10 +17,10 @@ import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.UtilityMethods;
-import com.rgretail.grocermax.LocationActivity;
+import com.rgretail.grocermax.CityActivity;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
 import com.rgretail.grocermax.bean.ShopByDealsBean;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.hotoffers.adapter.ExpandableMenuListAdapter;
 import com.rgretail.grocermax.hotoffers.adapter.MenuListAdapter;
 import com.rgretail.grocermax.hotoffers.adapter.ShopByDealsMenuListAdapter;
@@ -53,6 +53,7 @@ public class MenuFragment extends Fragment {
     private View div1,div2,div3,div4;
 
     ShopByDealsBean shopByDealsBean;
+    private String SCREENNAME = "Drawer-";
 
 
     @Override
@@ -145,7 +146,7 @@ public class MenuFragment extends Fragment {
                 if (getActivity().getSupportFragmentManager().getBackStackEntryCount() > 0) {
                     getActivity().getSupportFragmentManager().popBackStack();
                 } else {
-                    ((HotOffersActivity) getActivity()).getDrawerLayout().closeDrawers();
+                    ((HomeScreen) getActivity()).getDrawerLayout().closeDrawers();
                 }
             }
         });
@@ -156,6 +157,8 @@ public class MenuFragment extends Fragment {
                 lstMenu.setVisibility(View.GONE);
                 div3.setVisibility(View.GONE);
                 div4.setVisibility(View.VISIBLE);
+                try{UtilityMethods.clickCapture(HomeScreen.mContext,"","","","",SCREENNAME+AppConstants.DRAWER_SHOP_BY_DEALS);}catch(Exception e){}
+
             }
         });
         txvShopByCategories.setOnClickListener(new View.OnClickListener() {
@@ -165,6 +168,7 @@ public class MenuFragment extends Fragment {
                 lstMenu.setVisibility(View.VISIBLE);
                 div1.setVisibility(View.GONE);
                 div2.setVisibility(View.VISIBLE);
+                try{UtilityMethods.clickCapture(HomeScreen.mContext,"","","","",SCREENNAME+AppConstants.DRAWER_SHOP_BY_CATEGORY);}catch(Exception e){}
             }
         });
         txvGetInTouch.setOnClickListener(new View.OnClickListener() {
@@ -175,7 +179,8 @@ public class MenuFragment extends Fragment {
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra(Intent.EXTRA_TEXT, "Check out the new awesome Grocermax! https://grocermax.com");
                 startActivity(Intent.createChooser(intent, "How do you want to share ?"));
-                ((HotOffersActivity)getActivity()).isFromFragment=false;
+                ((HomeScreen)getActivity()).isFromFragment=false;
+                try{UtilityMethods.clickCapture(HomeScreen.mContext,"","","","",SCREENNAME+AppConstants.DRAWER_GET_IN_TOUCH_WITH_US);}catch(Exception e){}
             }
         });
 
@@ -183,6 +188,7 @@ public class MenuFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 UtilityMethods.rateApp(getActivity());
+                try{UtilityMethods.clickCapture(HomeScreen.mContext,"","","","",SCREENNAME+AppConstants.DRAWER_RATE_US);}catch(Exception e){}
             }
         });
 
@@ -191,7 +197,7 @@ public class MenuFragment extends Fragment {
             public void onClick(View v) {
                 if(AppConstants.locationBean != null) {
                     if (AppConstants.locationBean.getFlag().equals("1")) {
-                        Intent call = new Intent(getActivity(), LocationActivity.class);
+                        Intent call = new Intent(getActivity(), CityActivity.class);
                         Bundle call_bundle = new Bundle();
                         call_bundle.putSerializable("Location", AppConstants.locationBean);
                         call_bundle.putSerializable("FromDrawer", "fromdrawyer");
@@ -199,11 +205,11 @@ public class MenuFragment extends Fragment {
                         startActivity(call);
                     }
                 }else{
-                    ((HotOffersActivity)getActivity()).showDialog();
+                    ((HomeScreen)getActivity()).showDialog();
                     String url = UrlsConstants.GET_LOCATION;
-                    ((HotOffersActivity)getActivity()).myApi.reqLocation(url);
+                    ((HomeScreen)getActivity()).myApi.reqLocation(url);
                 }
-
+                try{UtilityMethods.clickCapture(HomeScreen.mContext,"","","","",SCREENNAME+AppConstants.DRAWER_STORE);}catch(Exception e){}
 //                Intent intent = new Intent(Intent.ACTION_SEND);
 //                intent.setType("text/plain");
 //                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -222,6 +228,7 @@ public class MenuFragment extends Fragment {
                     if (catObj.get(groupPosition).getChildren().get(i).getChildren().size() > 0) {
                         //Toast.makeText(getActivity(), "Name : "+ catObj.get(groupPosition).getChildren().get(i).getCategory()+"Size :" + catObj.get(groupPosition).getChildren().get(i).getChildren().size(), Toast.LENGTH_SHORT).show();
                         expand = true;
+                        try{UtilityMethods.clickCapture(getActivity(),"","",catObj.get(groupPosition).getCategoryId(),"",SCREENNAME+catObj.get(groupPosition)+"-"+AppConstants.GA_EVENT_DRAWER_EXPANDABLE);}catch(Exception e){}
                         break;
                     }
 
@@ -231,6 +238,7 @@ public class MenuFragment extends Fragment {
                         //Toast.makeText(getActivity(), " Will not open "+catObj.get(groupPosition).getCategory(), Toast.LENGTH_SHORT).show();
                         expandableListView.collapseGroup(groupPosition);
                         startActivity(catObj.get(groupPosition));
+                        try{UtilityMethods.clickCapture(getActivity(),"","",catObj.get(groupPosition).getCategoryId(),"",SCREENNAME+catObj.get(groupPosition)+"-"+AppConstants.GA_EVENT_DRAWER_SUB_CATEGORY_CLICK);}catch(Exception e){}
                         System.out.println("====catobj parent========"+catObj.get(groupPosition));
                         return true;
                     }

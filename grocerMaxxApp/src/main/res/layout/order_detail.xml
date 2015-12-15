@@ -53,6 +53,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:layout_marginTop="5dp"
 
         >
@@ -350,7 +351,7 @@
                     android:textSize="@dimen/text_size_14" />
             </LinearLayout>
 
-//TODO, remove this safely, no longer in design
+            //TODO, remove this safely, no longer in design
             <LinearLayout
                 android:id="@+id/ll_header"
                 android:layout_width="match_parent"
@@ -398,198 +399,208 @@
                     android:textColor="@color/headmultiplepage" />
             </LinearLayout>
 
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:orientation="vertical"
-               android:background="@color/white"
-               android:padding="8dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:padding="8dp">
 
-               //TODO this is order list
-               <LinearLayout
-                   android:id="@+id/ll_product_list"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:background="@color/white"
-                   android:orientation="vertical"
-                   ></LinearLayout>
-
-
-               <LinearLayout
-                   android:id="@+id/ll_subtotal"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="5dp"
-                   android:orientation="horizontal">
-
-                   <RelativeLayout
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content">
-                       <TextView
-                           android:id="@+id/txt_subtotal"
-                           android:layout_width="wrap_content"
-                           android:layout_height="match_parent"
-                           android:gravity="center_vertical"
-                           android:text="Sub Total"
-                           android:textColor="@color/pallete_black"
-                           android:textSize="@dimen/text_size_14" />
-
-                       <TextView
-                           android:id="@+id/tv_subtotal_2"
-                           android:layout_width="match_parent"
-                           android:layout_height="match_parent"
-                           android:gravity="center_vertical|right"
-                           android:text="Rs 0.0"
-                           android:layout_alignParentRight="true"
-                           android:textColor="@color/pallete_black"
-                           android:textSize="@dimen/text_size_14" />
-                   </RelativeLayout>
-
-               </LinearLayout>
-
-               <LinearLayout
-                   android:id="@+id/ll_shipping"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:orientation="horizontal"
-                   android:layout_marginTop="5dp">
-
-                   <RelativeLayout
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content">
-                       <TextView
-                           android:id="@+id/txt_shipping"
-                           android:layout_width="wrap_content"
-                           android:layout_height="match_parent"
-                           android:gravity="center_vertical"
-                           android:text="Delivery Charges"
-                           android:textColor="@color/pallete_black"
-                           android:textSize="@dimen/text_size_14" />
-
-                       <TextView
-                           android:id="@+id/tv_shipping"
-                           android:layout_width="match_parent"
-                           android:layout_height="match_parent"
-                           android:gravity="center_vertical|right"
-                           android:text="Rs 0.0"
-                           android:layout_alignParentRight="true"
-                           android:textColor="@color/pallete_black"
-                           android:textSize="@dimen/text_size_14" />
-                   </RelativeLayout>
-
-               </LinearLayout>
+                //TODO this is order list
+                <LinearLayout
+                    android:id="@+id/ll_product_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    ></LinearLayout>
 
 
-               <LinearLayout
-                   android:id="@+id/ll_coupon"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:orientation="horizontal"
-                   android:layout_marginTop="5dp">
+                <LinearLayout
+                    android:id="@+id/ll_subtotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
 
-                   <RelativeLayout
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content">
-                       <TextView
-                           android:id="@+id/txt_coupon"
-                           android:layout_width="wrap_content"
-                           android:layout_height="match_parent"
-                           android:gravity="center_vertical"
-                           android:text="Discount Coupon"
-                           android:textColor="@color/pallete_black"
-                           android:textSize="@dimen/text_size_14" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/txt_subtotal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="Sub Total"
+                            android:textColor="@color/pallete_black"
+                            android:textSize="@dimen/text_size_14" />
 
-                       <TextView
-                           android:id="@+id/tv_coupon"
-                           android:layout_width="match_parent"
-                           android:layout_height="match_parent"
-                           android:gravity="center_vertical|right"
-                           android:text="Rs. 0.0"
-                           android:layout_alignParentRight="true"
-                           android:textColor="@color/pallete_black"
-                           android:textSize="@dimen/text_size_14" />
-                   </RelativeLayout>
+                        <TextView
+                            android:id="@+id/tv_subtotal_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical|right"
+                            android:text="Rs 0.0"
+                            android:layout_alignParentRight="true"
+                            android:textColor="@color/pallete_black"
+                            android:textSize="@dimen/text_size_14" />
+                    </RelativeLayout>
 
-               </LinearLayout>
+                </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/ll_shipping"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
 
-               <LinearLayout
-                   android:id="@+id/ll_discount"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:orientation="horizontal"
-                   android:visibility="gone"
-                   android:layout_marginTop="5dp">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/txt_shipping"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="Delivery Charges"
+                            android:textColor="@color/pallete_black"
+                            android:textSize="@dimen/text_size_14" />
 
-                   <RelativeLayout
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content">
-                       <TextView
-                           android:layout_width="wrap_content"
-                           android:layout_height="match_parent"
-                           android:gravity="center_vertical"
-                           android:text="You Saved"
-                           android:textColor="@color/accentColor"
-                           android:textSize="@dimen/text_size_14" />
+                        <TextView
+                            android:id="@+id/tv_shipping"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical|right"
+                            android:text="Rs 0.0"
+                            android:layout_alignParentRight="true"
+                            android:textColor="@color/pallete_black"
+                            android:textSize="@dimen/text_size_14" />
+                    </RelativeLayout>
 
-                       <TextView
-                           android:id="@+id/tv_discount"
-                           android:layout_width="match_parent"
-                           android:layout_height="match_parent"
-                           android:gravity="center_vertical|right"
-                           android:text="Rs 10"
-                           android:layout_alignParentRight="true"
-                           android:textColor="@color/accentColor"
-                           android:textSize="@dimen/text_size_14" />
-                   </RelativeLayout>
-
-               </LinearLayout>
-
+                </LinearLayout>
 
 
-               <View
-                   android:layout_width="match_parent"
-                   android:layout_height="1dp"
-                   android:layout_marginTop="8dp"
-                   android:background="@color/register_address_text_unselected_color"></View>
+                <LinearLayout
+                    android:id="@+id/ll_coupon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
 
-               <LinearLayout
-                   android:id="@+id/ll_youpay"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="5dp"
-                   android:orientation="horizontal">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/txt_coupon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="Discount Coupon"
+                            android:textColor="@color/pallete_black"
+                            android:textSize="@dimen/text_size_14" />
 
-                   <RelativeLayout
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content">
-                       <TextView
-                           android:id="@+id/txt_grand_total"
-                           android:layout_width="wrap_content"
-                           android:layout_height="match_parent"
-                           android:gravity="center_vertical"
-                           android:text="TOTAL"
-                           android:textColor="@color/pallete_black"
-                           android:textStyle="bold"
-                           android:textSize="@dimen/text_size_16" />
+                        <TextView
+                            android:id="@+id/tv_coupon"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical|right"
+                            android:text="Rs. 0.0"
+                            android:layout_alignParentRight="true"
+                            android:textColor="@color/pallete_black"
+                            android:textSize="@dimen/text_size_14" />
+                    </RelativeLayout>
 
-                       <TextView
-                           android:id="@+id/tv_youpay"
-                           android:layout_width="match_parent"
-                           android:layout_height="match_parent"
-                           android:gravity="center_vertical|right"
-                           android:text="Rs 10"
-                           android:layout_alignParentRight="true"
-                           android:textColor="@color/pallete_black"
-                           android:textStyle="bold"
-                           android:textSize="@dimen/text_size_16" />
-                   </RelativeLayout>
+                </LinearLayout>
 
-               </LinearLayout>
-           </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_discount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:layout_marginTop="5dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="You Saved"
+                            android:textColor="@color/accentColor"
+                            android:textSize="@dimen/text_size_14" />
+
+                        <TextView
+                            android:id="@+id/tv_discount"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical|right"
+                            android:text="Rs 10"
+                            android:layout_alignParentRight="true"
+                            android:textColor="@color/accentColor"
+                            android:textSize="@dimen/text_size_14" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/register_address_text_unselected_color"></View>
+
+                <LinearLayout
+                    android:id="@+id/ll_youpay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/txt_grand_total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="TOTAL"
+                            android:textColor="@color/pallete_black"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/text_size_16" />
+
+                        <TextView
+                            android:id="@+id/tv_youpay"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical|right"
+                            android:text="Rs 10"
+                            android:layout_alignParentRight="true"
+                            android:textColor="@color/pallete_black"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/text_size_16" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </LinearLayout>
 
 
         </LinearLayout>
     </ScrollView>
+    <Button
+        android:id="@+id/btn_reOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reorder"
+        android:textColor="@color/white"
+        android:textAllCaps="true"
+        android:layout_alignParentBottom="true"
+        android:background="@color/pallete_blue"
+        android:visibility="gone"/>
 
 </LinearLayout>

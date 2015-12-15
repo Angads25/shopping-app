@@ -33,11 +33,17 @@ public class Orderhistory implements Serializable{
 	private String total_item_count;
 	
 	static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	
-	
-	
-	
-	
+
+	@Expose
+	private String store_id;
+
+	public String getStore_id() {
+		return store_id;
+	}
+
+	public void setStore_id(String store_id) {
+		this.store_id = store_id;
+	}
 
 	public String getOrder_id() {
 		return order_id;

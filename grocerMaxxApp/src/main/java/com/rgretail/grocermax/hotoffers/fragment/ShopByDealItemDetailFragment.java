@@ -14,10 +14,11 @@ import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.DealByDealTypeBean;
 import com.rgretail.grocermax.bean.OfferByDealTypeSubModel;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.hotoffers.MyPagerSlidingTabStrip;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
+import com.rgretail.grocermax.utils.UtilityMethods;
 import com.rgretail.grocermax.utils.Worker;
 
 import java.util.ArrayList;
@@ -48,9 +49,9 @@ public class ShopByDealItemDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         Bundle data = getArguments();
-        ((HotOffersActivity) getActivity()).isFromFragment = true;
-        HotOffersActivity.bFromHome = false;
-//        ((HotOffersActivity)getActivity()).setHeader("activity start");
+        ((HomeScreen) getActivity()).isFromFragment = true;
+        HomeScreen.bFromHome = false;
+//        ((HomeScreen)getActivity()).setHeader("activity start");
 //        itemDetailGrid = new ItemDetailGrid();
         try {
 
@@ -70,6 +71,8 @@ public class ShopByDealItemDetailFragment extends Fragment {
 //                    dealcategory.put(" All ",dealByDealTypeBean.getDealcategory().getAll());
 //                }
 ///////////    responsible for All tab in starting   ////////////////////
+
+                try{ UtilityMethods.clickCapture(getActivity(), "", "", "", "", AppConstants.GA_EVENT_DEAL_CATEGORY_OPENED);}catch(Exception e){}
 
                 if(dealByDealTypeBean.getDealcategory().getCategory().size()>0)
                 {

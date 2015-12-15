@@ -23,13 +23,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.melnykov.fab.FloatingActionButton;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.bean.BaseResponseBean;
 import com.rgretail.grocermax.bean.CategoriesProducts;
 import com.rgretail.grocermax.bean.Product;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.CustomFonts;
@@ -39,7 +41,6 @@ import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.ProductDetailsListBean;
 import com.rgretail.grocermax.bean.Simple;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
 import com.rgretail.grocermax.utils.UrlsConstants;
 import com.viewpagerindicator.TabPageIndicator;
 
@@ -59,12 +60,20 @@ public class CategoryTabs extends BaseActivity {
     String selectedCatId;
     private ArrayList<CategoriesProducts> alCategory;
     private boolean isFromDrawer;
+    public static String SCREENNAME = "CategoryTabs-";
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.s_category_tabs);
+
+        try{
+            AppsFlyerLib.setCurrencyCode("INR");
+            AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
+            AppsFlyerLib.sendTracking(getApplicationContext());
+        }catch(Exception e){}
+
         try {
             addActionsInFilter(MyReceiverActions.PRODUCT_CONTENT_LIST);
             addActionsInFilter(MyReceiverActions.ADD_TO_CART);
@@ -191,7 +200,7 @@ public class CategoryTabs extends BaseActivity {
                 public void onClick(View v) {
                     // TODO Auto-generated method stub
 
-                    Intent intent = new Intent(mContext, HotOffersActivity.class);
+                    Intent intent = new Intent(mContext, HomeScreen.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();
@@ -457,6 +466,9 @@ public class CategoryTabs extends BaseActivity {
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
+        try{
+            AppsFlyerLib.onActivityResume(this);
+        }catch(Exception e){}
         try {
 //			if (MySharedPrefs.INSTANCE.getBradecrum() != null) {
 //				String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");
@@ -476,11 +488,19 @@ public class CategoryTabs extends BaseActivity {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        try{
+            AppsFlyerLib.onActivityPause(this);
+        }catch(Exception e){}
+    }
+
+    @Override
     public void onBackPressed() {
         // TODO Auto-generated method stub
         super.onBackPressed();
         try {
-            HotOffersActivity.isFromFragment = false;
+            HomeScreen.isFromFragment = false;
         }catch(Exception e){}
 
         isFromCategoryTabs = true;
@@ -532,8 +552,11 @@ public class CategoryTabs extends BaseActivity {
     protected void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
+        try{
+            AppsFlyerLib.onActivityResume(this);
+        }catch(Exception e){}
         try {
-            EasyTracker.getInstance(this).activityStart(this);
+//            EasyTracker.getInstance(this).activityStart(this);
             FlurryAgent.onStartSession(this, getResources().getString(R.string.flurry_api_key));
             FlurryAgent.onPageView();         //Use onPageView to report page view count.
         } catch (Exception e) {
@@ -544,8 +567,11 @@ public class CategoryTabs extends BaseActivity {
     protected void onStop() {
         // TODO Auto-generated method stub
         super.onStop();
+        try{
+            AppsFlyerLib.onActivityPause(this);
+        }catch(Exception e){}
         try {
-            EasyTracker.getInstance(this).activityStop(this);
+//            EasyTracker.getInstance(this).activityStop(this);
             FlurryAgent.onEndSession(this);
         } catch (Exception e) {
         }

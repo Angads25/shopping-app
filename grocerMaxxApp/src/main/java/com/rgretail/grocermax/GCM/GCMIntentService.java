@@ -29,7 +29,7 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
 import com.rgretail.grocermax.R;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -75,7 +75,7 @@ public class GCMIntentService extends GcmListenerService {
      * @param message GCM message received.
      */
     private void sendNotification(String message,Bundle data) {
-        Intent intent = new Intent(this, HotOffersActivity.class);
+        Intent intent = new Intent(this, HomeScreen.class);
         data.putBoolean("IS_FROM_NOTIFICATION",true);
         intent.putExtras(data);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.OfferByDealTypeSubModel;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.hotoffers.adapter.DetailListAdapter;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.onPageChange;
@@ -45,7 +45,7 @@ public class ItemDetailGrid extends Fragment {
             }
         });
 
-        HotOffersActivity.bFromHome = false;
+        HomeScreen.bFromHome = false;
 //        addArrayData();
 //        offerList = ((ItemDetailFragment) frag).getOfferData(0);
 

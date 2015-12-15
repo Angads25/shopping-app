@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.rgretail.grocermax.CategoryTabs;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.ShopByDealsBean;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.hotoffers.adapter.MenuListAdapter;
 import com.rgretail.grocermax.hotoffers.adapter.ShopByDealsMenuListAdapter;
 import com.rgretail.grocermax.utils.AppConstants;
@@ -94,7 +94,7 @@ public class ExpandableMenuFragment extends Fragment {
                 if (getActivity().getSupportFragmentManager().getBackStackEntryCount() > 0) {
                     getActivity().getSupportFragmentManager().popBackStack();
                 } else {
-                    ((HotOffersActivity) getActivity()).getDrawerLayout().closeDrawers();
+                    ((HomeScreen) getActivity()).getDrawerLayout().closeDrawers();
                 }
             }
         });
@@ -140,14 +140,14 @@ public class ExpandableMenuFragment extends Fragment {
                             //Toast.makeText(getActivity(), " Will not open "+catObj.get(groupPosition).getCategory(), Toast.LENGTH_SHORT).show();
                             expandableListView.collapseGroup(groupPosition);
 //                            startActivity(catObj.get(groupPosition));
-                            ((HotOffersActivity) getActivity()).isFromFragment = false;
-                            ((HotOffersActivity) getActivity()).showDialog();
-                            ((HotOffersActivity) getActivity()).getDrawerLayout().closeDrawers();
+                            ((HomeScreen) getActivity()).isFromFragment = false;
+                            ((HomeScreen) getActivity()).showDialog();
+                            ((HomeScreen) getActivity()).getDrawerLayout().closeDrawers();
 //                        String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(groupPosition).getCategoryId();
                             String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(groupPosition).getCategoryId();
                             AppConstants.strTitleHotDeal = catObj.get(groupPosition).getCategory();
                             System.out.println(catObj.get(groupPosition).getCategory() + "==========id==========" + catObj.get(groupPosition).getCategoryId());
-                            ((HotOffersActivity) getActivity()).myApi.reqAllProductsCategory(url);
+                            ((HomeScreen) getActivity()).myApi.reqAllProductsCategory(url);
                         }
 
                         return true;
@@ -155,14 +155,14 @@ public class ExpandableMenuFragment extends Fragment {
                 }else{
                     expandableListView.collapseGroup(groupPosition);
 //                            startActivity(catObj.get(groupPosition));
-                    ((HotOffersActivity) getActivity()).isFromFragment = false;
-                    ((HotOffersActivity) getActivity()).showDialog();
-                    ((HotOffersActivity) getActivity()).getDrawerLayout().closeDrawers();
+                    ((HomeScreen) getActivity()).isFromFragment = false;
+                    ((HomeScreen) getActivity()).showDialog();
+                    ((HomeScreen) getActivity()).getDrawerLayout().closeDrawers();
 //                        String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(position).getChildren().get(groupPosition).getCategoryId();
                     String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(groupPosition).getCategoryId();
                     AppConstants.strTitleHotDeal = catObj.get(groupPosition).getCategory();
                     System.out.println(catObj.get(groupPosition).getCategory() + "==========id==========" + catObj.get(groupPosition).getCategoryId());
-                    ((HotOffersActivity) getActivity()).myApi.reqAllProductsCategory(url);
+                    ((HomeScreen) getActivity()).myApi.reqAllProductsCategory(url);
                     return true;
                 }
 
@@ -177,12 +177,12 @@ public class ExpandableMenuFragment extends Fragment {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
 //                startActivity(catObj.get(groupPosition).getChildren().get(childPosition));
-                ((HotOffersActivity) getActivity()).showDialog();
-                ((HotOffersActivity) getActivity()).getDrawerLayout().closeDrawers();
+                ((HomeScreen) getActivity()).showDialog();
+                ((HomeScreen) getActivity()).getDrawerLayout().closeDrawers();
                 String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(groupPosition).getChildren().get(childPosition).getCategoryId();
                 AppConstants.strTitleHotDeal = catObj.get(groupPosition).getChildren().get(childPosition).getCategory();
                 System.out.println(catObj.get(groupPosition).getChildren().get(childPosition).getCategory() + "==========id111==========" + catObj.get(groupPosition).getChildren().get(childPosition).getCategoryId());
-                ((HotOffersActivity) getActivity()).myApi.reqAllProductsCategory(url);
+                ((HomeScreen) getActivity()).myApi.reqAllProductsCategory(url);
                 return false;
             }
         });
@@ -251,7 +251,7 @@ public class ExpandableMenuFragment extends Fragment {
         call_bundle.putBoolean("isFromDrawerMenu", true);
         call.putExtras(call_bundle);
         startActivity(call);
-        ((HotOffersActivity) getActivity()).getDrawerLayout().closeDrawers();
+        ((HomeScreen) getActivity()).getDrawerLayout().closeDrawers();
     }
 
     public boolean isExpandable(int position) {

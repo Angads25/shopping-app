@@ -15,8 +15,9 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.api.BillingStateCityLoader;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
@@ -64,7 +65,7 @@ public class CreateNewAddress extends BaseActivity{
 	private EditText text_city, text_state;
 	private EditText edit_contact;
 	private EditText edit_pin;
-	EasyTracker tracker;
+//	EasyTracker tracker;
 	Address address = null;
 	TextView txtHeaderAddres;
 //	TextView tvFirstNameLeft,tvFirstNameMiddle,tvFirstNameRight,
@@ -89,6 +90,11 @@ public class CreateNewAddress extends BaseActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.create_new_address);
+		try{
+			AppsFlyerLib.setCurrencyCode("INR");
+			AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
+			AppsFlyerLib.sendTracking(getApplicationContext());
+		}catch(Exception e){}
 		try {
 			String header = "";
 
@@ -402,7 +408,7 @@ public class CreateNewAddress extends BaseActivity{
 						 R.layout.spinner_textview, ShippingLocationLoader.alLocationShipping);
 				 spinnerLocationShipping.setAdapter(dataAdapter);
 //				 for(int i=0;i<ShippingLocationLoader.alLocationShipping.size();i++){
-//					 if(LocationActivity.strSelectedState.equalsIgnoreCase(ShippingLocationLoader.alLocationShipping.get(i))){
+//					 if(CityActivity.strSelectedState.equalsIgnoreCase(ShippingLocationLoader.alLocationShipping.get(i))){
 //						 indexTempLocation = i;
 //					 }
 //				 }
@@ -502,12 +508,12 @@ public class CreateNewAddress extends BaseActivity{
 					rlStateSpinner.setVisibility(View.GONE);
 
 					try {
-						for (int i = 0; i < LocationActivity.locationList.getItems().size(); i++) {
+						for (int i = 0; i < CityActivity.locationList.getItems().size(); i++) {
 
 //							String str1 = address.getRegionId();
-//							String str2 = LocationActivity.locationList.getItems().get(i).getStateId();
-							if (address.getRegionId().equals(LocationActivity.locationList.getItems().get(i).getStateId())) {
-								tvState.setText(LocationActivity.locationList.getItems().get(i).getStateName());
+//							String str2 = CityActivity.locationList.getItems().get(i).getStateId();
+							if (address.getRegionId().equals(CityActivity.locationList.getItems().get(i).getStateId())) {
+								tvState.setText(CityActivity.locationList.getItems().get(i).getStateName());
 							}
 						}
 					}catch(Exception e){}
@@ -516,8 +522,8 @@ public class CreateNewAddress extends BaseActivity{
 //				tvState.setText("Haryana");
 
 				tvPhone.setText(MySharedPrefs.INSTANCE.getMobileNo());
-//				LocationActivity.strSelectedCity
-//						LocationActivity.strSelectedState
+//				CityActivity.strSelectedCity
+//						CityActivity.strSelectedState
 				header = "Create New Address";
 				txtHeaderAddres.setText(header);
 
@@ -547,12 +553,12 @@ public class CreateNewAddress extends BaseActivity{
 				tvState.setEnabled(false);
 
 				if(strShippingorBilling.equalsIgnoreCase("shipping") || strShippingorBilling.equalsIgnoreCase("profilenewaddress")){
-//					if(tvCity.getText().toString().equalsIgnoreCase(LocationActivity.strSelectedCity)){
+//					if(tvCity.getText().toString().equalsIgnoreCase(CityActivity.strSelectedCity)){
 
 
 						tvCity.setEnabled(false);
 //					}
-//					if(tvState.getText().toString().equalsIgnoreCase(LocationActivity.strSelectedState)){
+//					if(tvState.getText().toString().equalsIgnoreCase(CityActivity.strSelectedState)){
 						tvState.setEnabled(false);
 						rlState.setVisibility(View.GONE);
 
@@ -571,12 +577,12 @@ public class CreateNewAddress extends BaseActivity{
 				 	spinnerIndexLocationShipping = indexTempLocation;
 
 					try {
-						for (int i = 0; i < LocationActivity.locationList.getItems().size(); i++) {
+						for (int i = 0; i < CityActivity.locationList.getItems().size(); i++) {
 
 //							String str1 = address.getRegionId();
-//							String str2 = LocationActivity.locationList.getItems().get(i).getStateId();
-							if (address.getRegionId().equals(LocationActivity.locationList.getItems().get(i).getStateId())) {
-								tvState.setText(LocationActivity.locationList.getItems().get(i).getStateName());
+//							String str2 = CityActivity.locationList.getItems().get(i).getStateId();
+							if (address.getRegionId().equals(CityActivity.locationList.getItems().get(i).getStateId())) {
+								tvState.setText(CityActivity.locationList.getItems().get(i).getStateName());
 							}
 						}
 					}catch(Exception e){}
@@ -1107,6 +1113,9 @@ public class CreateNewAddress extends BaseActivity{
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		try{
+			AppsFlyerLib.onActivityResume(this);
+		}catch(Exception e){}
 		try {
 			if (address == null){
 				initHeader(findViewById(R.id.header), true, "Create New Address");
@@ -1117,13 +1126,24 @@ public class CreateNewAddress extends BaseActivity{
 			new GrocermaxBaseException("CreateNewAddress","onResume",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		try{
+			AppsFlyerLib.onActivityPause(this);
+		}catch(Exception e){}
+	}
 	
 	@Override
     protected void onStart() {
     	// TODO Auto-generated method stub
     	super.onStart();
+		try{
+			AppsFlyerLib.onActivityResume(this);
+		}catch(Exception e){}
     	try{
-			EasyTracker.getInstance(this).activityStart(this);
+//			EasyTracker.getInstance(this).activityStart(this);
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){}
@@ -1133,8 +1153,11 @@ public class CreateNewAddress extends BaseActivity{
     protected void onStop() {
     	// TODO Auto-generated method stub
     	super.onStop();
+		try{
+			AppsFlyerLib.onActivityPause(this);
+		}catch(Exception e){}
     	try{
-			EasyTracker.getInstance(this).activityStop(this);
+//			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
     	}catch(Exception e){}
     }

@@ -1,5 +1,6 @@
 package com.rgretail.grocermax.utils;
 
+import com.rgretail.grocermax.CategoryTabs;
 import com.rgretail.grocermax.bean.LocationListBean;
 
 import java.util.ArrayList;
@@ -50,10 +51,77 @@ public class AppConstants {
 	
 	public static final String customer_care = "tel:+91 8010500700";
 
-	
-	
 	public static final String categoriesFile = "categories.txt";
-	
+
+	//  event handling //
+	public static final String SPLASH_SCREEN = "Splash screen";
+	public static final String OPEN_DRAWER_MENU = "open Drawer";
+	public static final String CLOSE_DRAWER_MENU = "Close Drawer";
+	public static final String DRAWER_SHOP_BY_CATEGORY = "Drawer shop by category selection";
+	public static final String DRAWER_SHOP_BY_DEALS = "Drawer shop by deal selection";
+	public static final String DRAWER_GET_IN_TOUCH_WITH_US = "Drawer get in touch with us";
+	public static final String DRAWER_RATE_US = "Drawer rate us";
+	public static final String DRAWER_STORE = "Drawer store";
+	public static final String SEARCH_BUTTON = "Bottom Search Button Pressed";
+	public static final String CATEGORY_SCROLL_BROWSING_CATEGORIES = "Scrolling through browse categories";   //like staples,dry fruits
+	public static final String CATEGORY_SELECTION_MAIN = "Category Selection main";   //like staples,dry fruits
+	public static final String BOTTOM_CART_PROCEED_BUTTON_PRESSED = "Bottom cart proceed button pressed";
+	public static final String BOTTOM_CART_UPDATE_BUTTON_PRESSED = "Bottom cart update button pressed";
+	public static final String BANNER_SCROLLING = "Banner scroll";
+	public static final String BANNER_CLICK = "Banner Selection";
+	public static final String SHOP_BY_CATEGORY_IMAGE_CLICK = "SHOPBYCATEGORYIMAGE";
+	public static final String SHOP_BY_CATEGORY_FOOTER_CLICK = "SHOPBYCATEGORYFOOTER";
+	public static final String SHOP_BY_CATEGORY_SCROLLING = "SHOPBYCATEGORYSCROLLING";
+	public static final String SHOP_BY_DEAL_CLICK = "SHOPBYDEALCLICK";
+	public static final String SHOP_BY_DEAL_SCROLLING = "SHOPBYDEALSCROLLING";
+	public static final String SELECTED_STORE = "Track the button for city selection";
+	public static final String SELECTED_STORE_BUTTON = "Save selected City";
+	public static final String GA_EVENT_OFFER_IN_CATEGORY = "Offer In Category Selection";
+	public static final String GA_EVENT_DEAL_SCROLLER = "Deal Scroll";
+	public static final String GA_EVENT_DEAL_SELECTION = "Deal Selection";
+	public static final String GA_EVENT_DEAL_LISTING_SCROLLING = "Deal list scrolling";         //ShopByDealItemDetailFragment->ShopByDealItemDetailGrid->ShopByDealDetailListAdapter
+	public static final String GA_EVENT_DRAWER_EXPANDABLE = "Drawer category expanding";
+	public static final String GA_EVENT_DRAWER_SUB_CATEGORY_CLICK = "Drawer sub category selection";
+	public static final String GA_EVENT_CATEGORY_OPENED = "Category opened";
+	public static final String GA_EVENT_SUB_CATEGORY = "next level of subcategory selection";
+	public static final String GA_EVENT_SUB_SUB_CATEGORY = "next level of sub sub category selection";
+	public static final String GA_EVENT_ADD_CART_ITEMS = "Item added in cart";
+	public static final String GA_EVENT_PRODUCT_HAVING_OFFER = "Product having Offers";
+	public static final String GA_EVENT_DEAL_CATEGORY_OPENED = "Deal category opened";
+	public static final String GA_EVENT_SELECTION_OF_DEAL_CATEGORY = "Selection of deal category";
+	public static final String GA_EVENT_PRODUCT_LISTING_THROUGH_HOME_BANNER = "Productlistng through HomeBanner";
+	public static final String GA_EVENT_DEALS_THROUGH_HOME_BANNER = "Deallistng through HomeBanner";
+	public static final String GA_EVENT_DEALS_OFFER_THROUGH_HOME_BANNER = "Offer by dealtype";
+	public static final String GA_EVENT_DEALS_PRODUCT_LISTING_THROUGH_HOME_BANNER = "Deal product listng through HomeBanner";
+	public static final String GA_EVENT_SEARCH_LISTING_THROUGH_HOME_BANNER = "Search listng through HomeBanner";
+	public static final String GA_EVENT_OPEN_SEARCH = "Opening of the search option";
+	public static final String GA_EVENT_FACEBOOK_LOGIN = "Login By Facebook";
+	public static final String GA_EVENT_GOOGLE_LOGIN = "Login By Google";
+	public static final String GA_EVENT_EMAIL_LOGIN = "Login By Email";
+	public static final String GA_EVENT_REGISTER_EMAIL = "Register By Email";
+	public static final String GA_EVENT_CART_SCROLLER = "Scrolling behavior";
+	public static final String GA_EVENT_CART_UPDATE = "Cart Update behavior";
+	public static final String GA_EVENT_EXISTING_SHIPPING_SELECT = "Existing Shipping Address Selected";
+	public static final String GA_EVENT_EXISTING_SHIPPING_EDIT = "Existing Shipping Address Edit";
+	public static final String GA_EVENT_NEW_SHIPPING_ADDRESS_SELECT = "New Shipping Address Selected";
+	public static final String GA_EVENT_PROCEED_SHIPPING = "Proceed to billing address button selection";
+	public static final String GA_EVENT_PROCEED_SHIPPING_BILLING = "Proceed to billing address selection button selection";
+	public static final String GA_EVENT_PROCEED_BILLING_CLICK = "Proceed to delivery details button selection";
+	public static final String GA_EVENT_EXISTING_BILLING_SELECT = "Existing Billing Address Selected";
+	public static final String GA_EVENT_EXISTING_BILLING_EDIT = "Existing Billing Address Edit";
+	public static final String GA_EVENT_NEW_BILLING_ADDRESS_SELECT = "New Billing Address Selected";
+	public static final String GA_EVENT_PROCEED_BILLING = "Proceed to payment method button selection";
+	public static final String GA_EVENT_DATE_SELECT = "Date selection";
+	public static final String GA_EVENT_TIME_SLOT_SELECT = "Slot selection";
+	public static final String GA_EVENT_CASH_ON_DELIVERY = "Cash on delivery";
+	public static final String GA_EVENT_PAYU = "PayU";
+	public static final String GA_EVENT_PAYTM = "PayTM";
+	public static final String GA_EVENT_CODE_APPLIED = "Code applied";
+	public static final String GA_EVENT_REMOVE_CODE = "Code removed";
+	public static final String GA_EVENT_PLACE_ORDER = "Place Order button selected";
+	public static final String GA_EVENT_ORDER_SUCCESS = "Order success screen displayed";
+	public static final String GA_EVENT_ORDER_FAILURE = "Order failure screen displayed";
+	//  event handling //
 	
 	public static class ToastConstant{
 
@@ -145,7 +213,28 @@ public class AppConstants {
 		public static final String EDIT_DIFFERENT_ADDRESS_FIRST = "You've chosen ";
 		public static final String EDIT_DIFFERENT_ADDRESS_SECOND = "location. Like to change/add new address?";
 
-		
+		public static final String BANNER_SCREEN = "BANNER_SCREEN";
+		public static final String SHOP_BY_CATEGORY_SCREEN = "SHOP_BY_CATEGORY_SCREEN";
+		public static final String SHOP_BY_DEALS_SCREEN = "SHOP_BY_DEALS_SCREEN";
+		public static final String SHOP_BY_CATEGORY_OFFERS_SCREEN = "SHOP_BY_CATEGORY_OFFERS_SCREEN";
+		public static final String MAIN_CATEGORY_SCREEN = "MAIN_CATEGORY_SCREEN";                            //categoryactivity
+		public static final String MAIN_CATEGORY_DRAWER_SCREEN = "MAIN_CATEGORY_DRAWER_SCREEN";
+		public static final String MENU_DRAWER_SCREEN = "MENU_DRAWER_SCREEN";
+		public static final String CATEGORY_TABS_SCREEN = "CATEGORY_TABS_SCREEN";
+		public static final String SEARCH_SCREEN = "SEARCH_SCREEN";
+		public static final String CART_SCREEN = "CART_SCREEN";
+		public static final String SHIPPING_SCREEN = "SHIPPING_SCREEN";
+		public static final String BILLING_SCREEN = "BILLING_SCREEN";
+		public static final String DELIVERY_DETAILS_SCREEN = "DELIVERY_DETAILS_SCREEN";
+		public static final String PAYMENT_SCREEN = "PAYMENT_SCREEN";
+		public static final String PROFILE_SCREEN_ORDER_HISTORY = "PROFILE_SCREEN_ORDER_HISTORY";
+		public static final String PROFILE_SCREEN_ADDRESSES = "PROFILE_SCREEN_ADDRESSES";
+		public static final String PROFILE_EDIT = "PROFILE_EDIT";
+		public static final String PROFILE_INVITE_FRIENDS = "PROFILE_INVITE_FRIENDS";
+		public static final String PROFILE_CALL_US = "PROFILE_CALL_US";
+		public static final String PROFILE_WRITE_TO_US = "PROFILE_WRITE_TO_US";
+		public static final String PROFILE_SIGN_OUT = "PAYMENTPAGE";
+
 	}
 
 }

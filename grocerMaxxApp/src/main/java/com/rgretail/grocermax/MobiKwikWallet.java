@@ -15,8 +15,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.EditText;
 
+import com.appsflyer.AppsFlyerLib;
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.utils.MyHttpUtils;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 
@@ -28,8 +29,11 @@ public class MobiKwikWallet extends BaseActivity{
 	@Override
 	protected void onStart() {
 		super.onStart();
+		try{
+			AppsFlyerLib.onActivityResume(this);
+		}catch(Exception e){}
 		try {
-			EasyTracker.getInstance(this).activityStart(this);
+//			EasyTracker.getInstance(this).activityStart(this);
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
 		}catch(Exception e){
@@ -38,9 +42,31 @@ public class MobiKwikWallet extends BaseActivity{
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+
+		try{
+			AppsFlyerLib.onActivityResume(this);
+		}catch(Exception e){}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		try{
+			AppsFlyerLib.onActivityPause(this);
+		}catch(Exception e){}
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		try{
+			AppsFlyerLib.setCurrencyCode("INR");
+			AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
+			AppsFlyerLib.sendTracking(getApplicationContext());
+		}catch(Exception e){}
 		setContentView(R.layout.activity_wallet_response);
 		try {
 			Intent intent = getIntent();
@@ -81,7 +107,10 @@ public class MobiKwikWallet extends BaseActivity{
 		// TODO Auto-generated method stub
 		super.onStop();
 		try{
-			EasyTracker.getInstance(this).activityStop(this);
+			AppsFlyerLib.onActivityPause(this);
+		}catch(Exception e){}
+		try{
+//			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
 		}catch(Exception e){}
 	}

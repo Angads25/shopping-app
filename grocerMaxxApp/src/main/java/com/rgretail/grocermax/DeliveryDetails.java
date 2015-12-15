@@ -13,8 +13,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.CheckoutAddressBean;
 import com.rgretail.grocermax.bean.DateObject;
@@ -44,7 +45,7 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
     private int requestNewAddress = 111;
     private ArrayList<Address> addressList;
     private CheckoutAddressBean address_obj;
-    EasyTracker tracker;
+//    EasyTracker tracker;
 
     ArrayList<String> date_list;
     String date;
@@ -58,11 +59,17 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
     private TextView tvCurrentDate,tvSelectedDate;
     int selectedDatePosition = 0;
     Button btnCheckoutDateTime;
+    private String SCREENNAME = "DeliveryDetails-";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.checkout_shipping_3);
+        try{
+            AppsFlyerLib.setCurrencyCode("INR");
+            AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
+            AppsFlyerLib.sendTracking(getApplicationContext());
+        }catch(Exception e){}
         try {
             addActionsInFilter(MyReceiverActions.ADD_ADDRESS);
             addActionsInFilter(MyReceiverActions.ADD_BILL_ADDRESS);
@@ -161,6 +168,10 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                 public void onClick(View v) {                                                  //calling for adding new address.
                     // TODO Auto-generated method stub
                     try{
+
+                        try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+tvSelectedTime.getText()+AppConstants.GA_EVENT_TIME_SLOT_SELECT);}catch(Exception e){}
+                        try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+tvSelectedDate.getText()+AppConstants.GA_EVENT_DATE_SELECT);}catch(Exception e){}
+                        try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_PROCEED_BILLING);}catch(Exception e){}
                         if(time.equals(""))
                         {
                             UtilityMethods.customToast(AppConstants.ToastConstant.SELECT_TIME, mContext);
@@ -1279,7 +1290,18 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        initHeader(findViewById(R.id.app_bar_header), true, "Delivery Details");
+        try{
+            initHeader(findViewById(R.id.app_bar_header), true, "Delivery Details");
+            AppsFlyerLib.onActivityResume(this);
+        }catch(Exception e){}
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try{
+            AppsFlyerLib.onActivityPause(this);
+        }catch(Exception e){}
     }
 
 
@@ -1500,7 +1522,10 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
         // TODO Auto-generated method stub
         super.onStart();
         try{
-            EasyTracker.getInstance(this).activityStart(this);
+            AppsFlyerLib.onActivityResume(this);
+        }catch(Exception e){}
+        try{
+//            EasyTracker.getInstance(this).activityStart(this);
             FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
             FlurryAgent.onPageView();         //Use onPageView to report page view count.
         }catch(Exception e){}
@@ -1511,7 +1536,10 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
         // TODO Auto-generated method stub
         super.onStop();
         try{
-            EasyTracker.getInstance(this).activityStop(this);
+            AppsFlyerLib.onActivityPause(this);
+        }catch(Exception e){}
+        try{
+//            EasyTracker.getInstance(this).activityStop(this);
             FlurryAgent.onEndSession(this);
         }catch(Exception e){}
     }

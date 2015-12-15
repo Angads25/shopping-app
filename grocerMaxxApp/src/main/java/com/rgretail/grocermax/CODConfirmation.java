@@ -5,27 +5,88 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.Tracker;
+//import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
+import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.CustomFonts;
+import com.google.android.gms.analytics.Tracker;
+import com.rgretail.grocermax.utils.UtilityMethods;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CODConfirmation extends BaseActivity implements OnClickListener{
 	
 	String orderid = "", status = "";
-	EasyTracker tracker;
+//	EasyTracker tracker;
+	Map<String, String> params;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		try{
+//			((AnalyticsSampleApp) getApplication()).getTracker(AnalyticsSampleApp.TrackerName.APP_TRACKER);
+			AppsFlyerLib.setCurrencyCode("INR");
+			AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");
+			AppsFlyerLib.sendTracking(getApplicationContext());
+		}catch(Exception e){}
+
+		try{
+				UtilityMethods.screenView(this,"CODConfirmation");
+			}catch(Exception e){}
+
 		try {
 			Bundle bundle = getIntent().getExtras();
 			orderid = bundle.getString("orderid");
 			status = bundle.getString("status");
+
+//			strTempAmount,strTempSelectedState,strTempTotal,strTempTaxAmount
+
+//			shippingamount = ReviewOrderAndPay.strTempAmount;
+//			state = bundle.getString("shippingamount");
+//			grandtotal = bundle.getString("grandtotal");
+//			taxamount = bundle.getString("grandtotal");
+
+
+
+
+			if (ReviewOrderAndPay.cartListGA != null) {
+				for (int i = 0; i < ReviewOrderAndPay.cartListGA.size(); i++) {
+					try {
+						params = new HashMap<String,String>();
+						params.put("id", String.valueOf(ReviewOrderAndPay.cartListGA.get(i).getItem_id()));
+						params.put("name", String.valueOf(ReviewOrderAndPay.cartListGA.get(i).getProductName()));
+						params.put("sku", String.valueOf(ReviewOrderAndPay.cartListGA.get(i).getSku()));
+						params.put("category", String.valueOf(ReviewOrderAndPay.cartListGA.get(i).getBrand()));
+						params.put("price", String.valueOf(ReviewOrderAndPay.cartListGA.get(i).getPrice()));
+						params.put("quantity", String.valueOf(ReviewOrderAndPay.cartListGA.get(i).getQty()));
+					}catch(Exception e){
+						e.printStackTrace();
+						try {
+							String str1 = ReviewOrderAndPay.cartListGA.get(i).getItem_id();
+							String str2 = ReviewOrderAndPay.cartListGA.get(i).getProductName();
+							String str3 = ReviewOrderAndPay.cartListGA.get(i).getSku();
+							String str4 = ReviewOrderAndPay.cartListGA.get(i).getBrand();
+							String str5 = ReviewOrderAndPay.cartListGA.get(i).getPrice();
+							String str6 = String.valueOf(ReviewOrderAndPay.cartListGA.get(i).getQty());
+						}catch(Exception w){
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+
 
 			if (status.equals("success")) {
 				setContentView(R.layout.confirmation_activity);
@@ -35,6 +96,15 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 				TextView tvOrderIdCode = (TextView) findViewById(R.id.tv_order_id_code);
 				TextView tvCheckMailDetails = (TextView) findViewById(R.id.tv_check_mail_for_details);
 				TextView tvTellYourFriends = (TextView) findViewById(R.id.tv_tell_your_friends);
+
+				//////code added by ishan///////
+				if(orderid.equals("no_order_id")){
+					LinearLayout ll=(LinearLayout)findViewById(R.id.ll);
+					ll.setVisibility(View.GONE);
+					tvCheckMailDetails.setText(getResources().getString(R.string.no_order_id_success_message));
+				}
+				/////////////////////////////
+
 //			String msg="Your order has been successfully placed.Order ID is <b>"+orderid+"</b>.Please check your mail for details.";
 				String msg = "Order ID is <b>" + orderid + "</b>";
 //				tvOrderId.setText(Html.fromHtml(msg));
@@ -53,6 +123,9 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 				tvOrderIdCode.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 				tvCheckMailDetails.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 				tvTellYourFriends.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+
+//				try{UtilityMethods.clickCapture(mContext,"","","","", AppConstants.GA_EVENT_ORDER_SUCCESS);}catch(Exception e){}
+//				sendDataToTwoTrackers(params);
 
 			} else {
 				setContentView(R.layout.order_failure);
@@ -94,10 +167,93 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 
 //		 initHeader(findViewById(R.id.header), true, "Order Confirmation");
 			initHeader(findViewById(R.id.header), true, null);
+
+			try{UtilityMethods.clickCapture(mContext,"","","","", AppConstants.GA_EVENT_ORDER_FAILURE);}catch(Exception e){}
 		}catch(Exception e){
 			new GrocermaxBaseException("CODConfirmation","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
+
+	// Sends the ecommerce data.
+	private void sendDataToTwoTrackers(Map<String, String> params) {
+
+//		String PROPERTY_ID = getResources().getString(R.string.ga_trackingId);
+//		AnalyticsSampleApp application = (AnalyticsSampleApp)getApplication();
+//		application.getTracker(AnalyticsSampleApp.TrackerName.APP_TRACKER);
+
+//		MyApplication.tracker()
+
+		// Build the transaction.
+		sendDataToTwoTrackers(new HitBuilders.TransactionBuilder()
+				.setTransactionId(orderid)
+				.setAffiliation(ReviewOrderAndPay.strTempSelectedState)
+				.setRevenue(Double.parseDouble(ReviewOrderAndPay.strTempTotal))
+				.setShipping(Double.parseDouble(ReviewOrderAndPay.strTempShippingAmount))
+				.setTax(Double.parseDouble(ReviewOrderAndPay.strTempTaxAmount))
+				.setCurrencyCode("INR")
+				.build());
+
+
+
+// Build an item.
+//		sendDataToTwoTrackers(new HitBuilders.ItemBuilder()
+//				.setTransactionId(orderid)
+//				.setName(getItemName(1))
+//				.setSku(getItemSku(1))
+//				.setCategory(getItemCategory(1))
+//				.setPrice(getItemPrice(getView(), 1))
+//				.setQuantity(getItemQuantity(getView(), 1))
+//				.setCurrencyCode("INR")
+//				.build());
+
+
+
+//		AnalyticsSampleApp app = ((AnalyticsSampleApp) getActivity().getApplication());
+
+
+//		AnalyticsSampleApp app = ((AnalyticsSampleApp) this.getApplication());
+//		Tracker appTracker = app.getTracker(AnalyticsSampleApp.TrackerName.APP_TRACKER);
+//		Tracker ecommerceTracker = app.getTracker(AnalyticsSampleApp.TrackerName.ECOMMERCE_TRACKER);
+//		appTracker.send(params);
+//		ecommerceTracker.send(params);
+	}
+
+	// Sends the ecommerce data.
+//	private void sendDataToTwoTrackers(Map<String, String> params) {
+//
+//		HitBuild
+//
+//		// Build the transaction.
+//		sendDataToTwoTrackers(new HitBuilders.TransactionBuilder()
+//				.setTransactionId(getOrderId())
+//				.setAffiliation(getStoreName())
+//				.setRevenue(getTotalOrder())
+//				.setTax(getTotalTax())
+//				.setShipping(getShippingCost())
+//				.setCurrencyCode("INR")
+//				.build());
+//
+//		// Build an item.
+//		sendDataToTwoTrackers(new HitBuilders.ItemBuilder()
+//				.setTransactionId(getOrderId())
+//				.setName(getItemName(1))
+//				.setSku(getItemSku(1))
+//				.setCategory(getItemCategory(1))
+//				.setPrice(getItemPrice(getView(), 1))
+//				.setQuantity(getItemQuantity(getView(), 1))
+//				.setCurrencyCode("USD")
+//				.build());
+//
+//		// Get tracker.
+////		Tracker t = ((AnalyticsSampleApp) getActivity().getApplication()).getTracker(
+////				TrackerName.APP_TRACKER);
+////		AnalyticsSampleApp app = ((AnalyticsSampleApp) getActivity().getApplication());
+////		CODConfirmation app = ((CODConfirmation) this.getApplication());
+////		Tracker appTracker = app.getTracker(TrackerName.APP_TRACKER);
+////		Tracker ecommerceTracker = app.getTracker(TrackerName.ECOMMERCE_TRACKER);
+////		appTracker.send(params);
+////		ecommerceTracker.send(params);
+//	}
 
 	@Override
 	public void OnResponse(Bundle bundle) {
@@ -111,7 +267,7 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 		switch(v.getId())
 		{
 			case R.id.continueButton:
-				Intent intent = new Intent(mContext, HotOffersActivity.class);
+				Intent intent = new Intent(mContext, HomeScreen.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				finish();
@@ -135,10 +291,21 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 		// TODO Auto-generated method stub
 		super.onResume();
 		try{
+			AppsFlyerLib.onActivityResume(this);
+		}catch(Exception e){}
+		try{
 			initHeader(findViewById(R.id.header), true, null);
 		}catch(Exception e){
 			new GrocermaxBaseException("CODConfirmation","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		try{
+			AppsFlyerLib.onActivityPause(this);
+		}catch(Exception e){}
 	}
 	
 	@Override
@@ -146,7 +313,7 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 		// TODO Auto-generated method stub
 		super.onBackPressed();
 		try {
-			Intent intent = new Intent(mContext, HotOffersActivity.class);
+			Intent intent = new Intent(mContext, HomeScreen.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 			finish();
@@ -164,8 +331,12 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
     protected void onStart() {
     	// TODO Auto-generated method stub
     	super.onStart();
+		try{
+//			GoogleAnalytics.getInstance(this).reportActivityStart(this);
+			AppsFlyerLib.onActivityResume(this);
+		}catch(Exception e){}
     	try{
-			EasyTracker.getInstance(this).activityStart(this);
+//			EasyTracker.getInstance(this).activityStart(this);
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){
@@ -176,8 +347,12 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
     protected void onStop() {
     	// TODO Auto-generated method stub
     	super.onStop();
+		try{
+			GoogleAnalytics.getInstance(this).reportActivityStop(this);
+			AppsFlyerLib.onActivityPause(this);
+		}catch(Exception e){}
     	try{
-			EasyTracker.getInstance(this).activityStop(this);
+//			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
     	}catch(Exception e){
 		}

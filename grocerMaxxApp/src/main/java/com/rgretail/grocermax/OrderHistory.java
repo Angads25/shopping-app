@@ -12,19 +12,26 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
+import com.payu.sdk.Constants;
+import com.rgretail.grocermax.api.ConnectionService;
+import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.adapters.OrderHistoryAdapter;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.OrderHistoryBean;
 import com.rgretail.grocermax.bean.Orderhistory;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
+import com.rgretail.grocermax.utils.UrlsConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
+
+import org.json.JSONObject;
 
 public class OrderHistory extends BaseActivity{
 	private String header;
 	private ListView mList;
 	OrderHistoryBean orderHistoryBean;
-	EasyTracker tracker;
+//	EasyTracker tracker;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +47,10 @@ public class OrderHistory extends BaseActivity{
 		
 		TextView tvHeaderOrderHistory = (TextView) findViewById(R.id.msg);
 		tvHeaderOrderHistory.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-        
+
 		addActionsInFilter(MyReceiverActions.ORDER_HISTORY);
+		addActionsInFilter(MyReceiverActions.ORDER_REORDER);
+		addActionsInFilter(MyReceiverActions.VIEW_CART);
 		
 		if(orderHistoryBean.getOrderhistory() != null && orderHistoryBean.getOrderhistory().size() > 0){
 			mList = (ListView) findViewById(R.id.category_list);
@@ -68,14 +77,48 @@ public class OrderHistory extends BaseActivity{
 		
 		initHeader(findViewById(R.id.header), true, "Order History");
 		}catch(Exception e){
-			new GrocermaxBaseException("OrderHistory","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+			new GrocermaxBaseException("OrderHistory","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
+
 	}
+
+
+	/////code added by Ishan///////////
+	public void reOrderItems(String order_id){
+
+		showDialog();
+		myApi.reqReorder(UrlsConstants.ORDER_REORDER_URL + order_id);
+
+	}
+	///////end code here////////////////
 
 	@Override
 	public void OnResponse(Bundle bundle) {
 		// TODO Auto-generated method stub
-		
+		////code added by Ishan//////////////
+		dismissDialog();
+		if (bundle.getString("ACTION").equals(MyReceiverActions.ORDER_REORDER)) {
+			try
+			{
+				String quoteResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);
+				//System.out.println("reorder Response = "+quoteResponse);
+				JSONObject reOrderJSON=new JSONObject(quoteResponse);
+				if(reOrderJSON.getInt("flag")==1){
+					String quote_id=reOrderJSON.getString("QuoteId");
+					MySharedPrefs.INSTANCE.putQuoteId(quote_id);
+					showDialog();
+					String url = UrlsConstants.VIEW_CART_URL + MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
+					myApi.reqViewCart(url);
+
+				}else{
+					UtilityMethods.customToast(com.rgretail.grocermax.utils.Constants.ToastConstant.QUOTE_FAIL, OrderHistory.this);
+				}
+			}catch(Exception e)
+			{
+				new GrocermaxBaseException("Reorder","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"no quote id");
+			}
+		}
+		/////////////////code ends here/////////////////////////////
 	}
 	
 	@Override
@@ -94,7 +137,7 @@ public class OrderHistory extends BaseActivity{
     	// TODO Auto-generated method stub
     	super.onStart();
     	try{
-			EasyTracker.getInstance(this).activityStart(this);
+//			EasyTracker.getInstance(this).activityStart(this);
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){
@@ -106,7 +149,7 @@ public class OrderHistory extends BaseActivity{
     	// TODO Auto-generated method stub
     	super.onStop();
     	try{
-			EasyTracker.getInstance(this).activityStop(this);
+//			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
     	}catch(Exception e){}
     }

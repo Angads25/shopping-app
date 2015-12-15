@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.bean.CartDetail;
 import com.rgretail.grocermax.bean.OrderReviewBean;
 import com.rgretail.grocermax.preference.MySharedPrefs;
@@ -24,7 +24,7 @@ import com.rgretail.grocermax.utils.UtilityMethods;
 public class OffersPromoCode extends BaseActivity implements OnClickListener{
 	
 	private String header;
-	EasyTracker tracker;
+//	EasyTracker tracker;
 	EditText etCouponCode;
 	Button btnApplyCoupon,btnApplyCode,btnRemoveCode,btnPay;
 	Context mContext;
@@ -145,7 +145,7 @@ public class OffersPromoCode extends BaseActivity implements OnClickListener{
     	// TODO Auto-generated method stub
     	super.onStart();
     	try{
-	    	tracker.activityStart(this);
+//	    	tracker.activityStart(this);
 	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){}
@@ -156,7 +156,7 @@ public class OffersPromoCode extends BaseActivity implements OnClickListener{
     	// TODO Auto-generated method stub
     	super.onStop();
     	try{
-	    	tracker.activityStop(this);
+//	    	tracker.activityStop(this);
 	    	FlurryAgent.onEndSession(this);
     	}catch(Exception e){}
     }

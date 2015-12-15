@@ -13,10 +13,10 @@ import android.widget.TextView;
 
 import com.facebook.Session;
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
@@ -32,7 +32,7 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
 //    rlViewProfile
     TextView tvLogin,tvOrderHistory,tvMyAddresses,tvEditProfile,tvInviteFriends,tvCallToUs,tvWriteToUs,tvSignOut;
 //    tvViewProfile
-    EasyTracker tracker;
+//    EasyTracker tracker;
 //    private static int LOGIN_SIGNUP = 555;
 
     @Override
@@ -319,7 +319,7 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                     }
 
                     UtilityMethods.customToast(AppConstants.ToastConstant.LOGOUT_SUCCESS, mContext);
-                    Intent intent = new Intent(mContext, HotOffersActivity.class);
+                    Intent intent = new Intent(mContext, HomeScreen.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();
@@ -350,7 +350,7 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
         else {
 //        if (resultCode == LOGIN_SIGNUP) {
 
-            Intent intent = new Intent(mContext, HotOffersActivity.class);
+            Intent intent = new Intent(mContext, HomeScreen.class);
             startActivity(intent);
 //            Intent intent = new Intent(this, HomeScreen.class);
 //            startActivity(intent);
@@ -381,7 +381,7 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
         // TODO Auto-generated method stub
         super.onStart();
         try{
-            EasyTracker.getInstance(this).activityStart(this);
+//            EasyTracker.getInstance(this).activityStart(this);
             FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
             FlurryAgent.onPageView();         //Use onPageView to report page view count.
         }catch(Exception e){}
@@ -392,7 +392,7 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
         // TODO Auto-generated method stub
         super.onStop();
         try{
-            EasyTracker.getInstance(this).activityStop(this);
+//            EasyTracker.getInstance(this).activityStop(this);
             FlurryAgent.onEndSession(this);
         }catch(Exception e){}
     }

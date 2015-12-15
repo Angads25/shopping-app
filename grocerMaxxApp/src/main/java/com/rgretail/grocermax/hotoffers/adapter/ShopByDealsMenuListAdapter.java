@@ -10,9 +10,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.rgretail.grocermax.R;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.bean.ShopByDealModel;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
 
 import java.util.List;
 
@@ -85,8 +85,8 @@ public class ShopByDealsMenuListAdapter extends BaseAdapter {
 
 				AppConstants.strTitleHotDeal = "";
 				AppConstants.strTitleHotDeal = offerList.get(position).getDealType();
-				((HotOffersActivity)mContext).hitForShopByDeals(offerList.get(position).getId());
-				((HotOffersActivity) mContext).getDrawerLayout().closeDrawers();
+				((HomeScreen)mContext).hitForShopByDeals(offerList.get(position).getId());
+				((HomeScreen) mContext).getDrawerLayout().closeDrawers();
 //				ShopByDealDetailListAdapter.strDealListDeatilHeading = offerList.get(position).getDealType();
 			}
 		});

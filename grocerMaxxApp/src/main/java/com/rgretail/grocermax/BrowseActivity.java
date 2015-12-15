@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.utils.Constants;
 
@@ -34,7 +34,7 @@ public class BrowseActivity extends BaseActivity implements OnClickListener {
 
 	private String header;
 	LinearLayout main_lay;
-	EasyTracker tracker;
+//	EasyTracker tracker;
 
 	String[] browse_cat = { "Browse by Categories", "Browse by Offers",
 			"Shopping Lists" };
@@ -264,7 +264,7 @@ public class BrowseActivity extends BaseActivity implements OnClickListener {
     	// TODO Auto-generated method stub
     	super.onStart();
 		try{
-			EasyTracker.getInstance(this).activityStart(this);
+//			EasyTracker.getInstance(this).activityStart(this);
 //	    	tracker.activityStart(this);
 	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
@@ -276,7 +276,7 @@ public class BrowseActivity extends BaseActivity implements OnClickListener {
     	// TODO Auto-generated method stub
     	super.onStop();
     	try{
-	    	tracker.activityStop(this);
+//	    	tracker.activityStop(this);
 	    	FlurryAgent.onEndSession(this);
 		}catch(Exception e){}
     }

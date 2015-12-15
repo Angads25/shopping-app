@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.BaseActivity;
+import com.rgretail.grocermax.CategoryTabs;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.Product;
 import com.rgretail.grocermax.preference.MySharedPrefs;
@@ -158,10 +159,13 @@ public class ProductListAdapter extends BaseAdapter {
                 holder.tvOffers.setText(obj.getPromotionLevel());
                 holder.tvOffers.setVisibility(View.VISIBLE);
                 holder.iv_offer_image.setVisibility(View.VISIBLE);
+                try{UtilityMethods.clickCapture(activity,obj.getPrice(),"",obj.getProductid(),"",CategoryTabs.SCREENNAME+"-"+obj.getProductName()+"-"+AppConstants.GA_EVENT_PRODUCT_HAVING_OFFER);}catch(Exception e){}
             } else {
                 holder.tvOffers.setVisibility(View.GONE);
                 holder.iv_offer_image.setVisibility(View.GONE);
             }
+
+
 
 
             if(obj.getPrice().toString() != null) {
@@ -304,6 +308,8 @@ public class ProductListAdapter extends BaseAdapter {
                     added_product_count.setText(String.valueOf(edit_quantity));
                     added_product_count.setVisibility(View.VISIBLE);
                     img_added_product_count.setVisibility(View.VISIBLE);
+
+                    try{UtilityMethods.clickCapture(activity,obj.getPrice(),"",obj.getProductid(),"", CategoryTabs.SCREENNAME+"-"+obj.getProductName()+"-"+AppConstants.GA_EVENT_ADD_CART_ITEMS);}catch(Exception e){}
                 }
             });
 

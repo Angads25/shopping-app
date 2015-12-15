@@ -2,6 +2,7 @@
 
 package com.rgretail.grocermax;
 
+import com.appsflyer.AppsFlyerLib;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.BaseResponseBean;
@@ -24,7 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.utils.UrlsConstants;
 
 import org.json.JSONObject;
@@ -40,7 +41,7 @@ public class EditProfile extends BaseActivity{
 	CheckBox chb;
 	LinearLayout ll_pwd;
 	TextView change;
-	EasyTracker tracker;
+//	EasyTracker tracker;
 	private TextView tvHeader;
 	
 //	private TextView leftLineFirstName,middleLineFirstName,rightLineFirstName,
@@ -54,6 +55,13 @@ public class EditProfile extends BaseActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_profile);
+
+		try{
+			AppsFlyerLib.setCurrencyCode("INR");
+			AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
+			AppsFlyerLib.sendTracking(getApplicationContext());
+		}catch(Exception e){}
+
         try {
 			addActionsInFilter(MyReceiverActions.EDIT_PROFILE);
 			addActionsInFilter(MyReceiverActions.USER_DETAILS1);
@@ -526,6 +534,9 @@ public class EditProfile extends BaseActivity{
 		// TODO Auto-generated method stub
 		super.onResume();
 		try{
+			AppsFlyerLib.onActivityResume(this);
+		}catch(Exception e){}
+		try{
 			initHeader(findViewById(R.id.header), true, "Edit Profile");
 		}catch(Exception e){
 			new GrocermaxBaseException("EditProfile","onResume",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
@@ -533,11 +544,22 @@ public class EditProfile extends BaseActivity{
 	}
 
 	@Override
+	public void onPause() {
+		super.onPause();
+		try{
+			AppsFlyerLib.onActivityPause(this);
+		}catch(Exception e){}
+	}
+
+	@Override
     protected void onStart() {
     	// TODO Auto-generated method stub
     	super.onStart();
+		try{
+			AppsFlyerLib.onActivityResume(this);
+		}catch(Exception e){}
     	try{
-			EasyTracker.getInstance(this).activityStart(this);
+//			EasyTracker.getInstance(this).activityStart(this);
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){}
@@ -547,8 +569,11 @@ public class EditProfile extends BaseActivity{
     protected void onStop() {
     	// TODO Auto-generated method stub
     	super.onStop();
+		try{
+			AppsFlyerLib.onActivityPause(this);
+		}catch(Exception e){}
     	try{
-			EasyTracker.getInstance(this).activityStop(this);
+//			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
     	}catch(Exception e){}
     }

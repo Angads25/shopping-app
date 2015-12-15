@@ -28,7 +28,7 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -57,7 +57,7 @@ import com.rgretail.grocermax.utils.UrlsConstants;
 
 public class Registration extends BaseActivity implements
 		GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-	String SCREEN_NAME = "Registration";
+	public static String SCREEN_NAME = "Registration";
 	public static boolean fbORgoogle = false;              //uses b/c putUserDataSet sets true when login with FB or GOOGLE but when uses after to get response from LOGIN in onResponse() returns false always.
 	public static String facebookName = null;
 	public static String googleName = null;
@@ -70,7 +70,7 @@ public class Registration extends BaseActivity implements
 	String QUOTE_ID_AFTER_FB = "";
 	ImageView iv_googlePlus;
 	Context context = this;
-	EasyTracker tracker;
+//	EasyTracker tracker;
 	ImageView ivFacebook;
 	TextView tvFacebook;
 	private static final int FB_SIGN_IN = 64206;
@@ -873,7 +873,7 @@ public class Registration extends BaseActivity implements
     	// TODO Auto-generated method stub
     	super.onStart();
     	try{
-			EasyTracker.getInstance(this).activityStart(this);
+//			EasyTracker.getInstance(this).activityStart(this);
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){}
@@ -884,7 +884,7 @@ public class Registration extends BaseActivity implements
     	// TODO Auto-generated method stub
     	super.onStop();
     	try{
-			EasyTracker.getInstance(this).activityStop(this);
+//			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
     	}catch(Exception e){}
     }

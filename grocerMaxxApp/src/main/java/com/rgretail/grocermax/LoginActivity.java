@@ -18,13 +18,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
@@ -33,12 +34,12 @@ import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.bean.BaseResponseBean;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.CartDetailBean;
 import com.rgretail.grocermax.bean.LoginResponse;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.AppLoadingScreen;
@@ -70,8 +71,9 @@ public class LoginActivity extends BaseActivity
 	private boolean signedInUser;                            //
 	private ConnectionResult mConnectionResult;
 	String USER_EMAIL = "";          //common for facebook and google plus
+	private String SCREENNAME = "LoginActivity-";
 
-	EasyTracker tracker;
+//	EasyTracker tracker;
 	int requestcodecart = 00;  //uses for gettng separation of whether calling from cartactivity or from home screen.
 
 	public static LoginActivity instance = null;
@@ -94,6 +96,13 @@ public class LoginActivity extends BaseActivity
 //		setContentView(R.layout.confirmation_activity);
 //		setContentView(R.layout.order_failure);
 
+
+		try{
+			AppsFlyerLib.setCurrencyCode("INR");
+			AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
+			AppsFlyerLib.sendTracking(getApplicationContext());
+		}catch(Exception e){}
+
 		try {
 			//context = this;
 
@@ -103,7 +112,7 @@ public class LoginActivity extends BaseActivity
 
 			}
 
-			tracker = EasyTracker.getInstance(this);
+//			tracker = EasyTracker.getInstance(this);
 
 			try {
 				mGoogleApiClient = new GoogleApiClient.Builder(LoginActivity.this).
@@ -235,7 +244,7 @@ public class LoginActivity extends BaseActivity
 	public void gotoHome(View v)
 	{
 		try{
-			Intent intent = new Intent(mContext, HotOffersActivity.class);
+			Intent intent = new Intent(mContext, HomeScreen.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 			finish();
@@ -364,6 +373,7 @@ public class LoginActivity extends BaseActivity
 				if (UtilityMethods.isInternetAvailable(mContext)) {
 					showDialog();
 					String url;
+					try{UtilityMethods.clickCapture(context,"","","","",SCREENNAME+AppConstants.GA_EVENT_EMAIL_LOGIN);}catch(Exception e){}
 //					HashMap<String, String> hashMap = new HashMap<String,String>();
 					JSONObject jsonObject = new JSONObject();
 					if(MySharedPrefs.INSTANCE.getQuoteId()==null||MySharedPrefs.INSTANCE.getQuoteId().equals(""))
@@ -421,6 +431,8 @@ public class LoginActivity extends BaseActivity
 			String USER_LNAME = "";
 
 			String USER_NAME = "";
+
+			try{UtilityMethods.clickCapture(context,"","","","",SCREENNAME+AppConstants.GA_EVENT_FACEBOOK_LOGIN);}catch(Exception e){}
 
 			Registration.googleName = null;
 			MySharedPrefs.INSTANCE.putGoogleName(null);
@@ -756,13 +768,13 @@ public class LoginActivity extends BaseActivity
 							setResult(RESULT_OK);
 							finish();
 						}else{                                                                  //move on to homescreen
-							Intent intent = new Intent(mContext, HotOffersActivity.class);
+							Intent intent = new Intent(mContext, HomeScreen.class);
 							intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
 							finish();
 						}
 					}else {                                                                   //move on to homescreen
-						Intent intent = new Intent(mContext, HotOffersActivity.class);
+						Intent intent = new Intent(mContext, HomeScreen.class);
 						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(intent);
 						finish();
@@ -839,9 +851,29 @@ public class LoginActivity extends BaseActivity
 		// TODO Auto-generated method stub
 		super.onStart();
 		try{
-			EasyTracker.getInstance(this).activityStart(this);
+			AppsFlyerLib.onActivityResume(this);
+		}catch(Exception e){}
+		try{
+//			EasyTracker.getInstance(this).activityStart(this);
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
+		}catch(Exception e){}
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		try{
+			AppsFlyerLib.onActivityResume(this);
+		}catch(Exception e){}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		try{
+			AppsFlyerLib.onActivityPause(this);
 		}catch(Exception e){}
 	}
 
@@ -850,7 +882,10 @@ public class LoginActivity extends BaseActivity
 		// TODO Auto-generated method stub
 		super.onStop();
 		try{
-			EasyTracker.getInstance(this).activityStop(this);
+			AppsFlyerLib.onActivityPause(this);
+		}catch(Exception e){}
+		try{
+//			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
 			googlePlusLogout();
 			if(mGoogleApiClient != null){
@@ -1142,6 +1177,8 @@ public class LoginActivity extends BaseActivity
 
 			USER_EMAIL = "";
 			String USER_NAME = "";
+
+			try{UtilityMethods.clickCapture(context,"","","","",SCREENNAME+AppConstants.GA_EVENT_GOOGLE_LOGIN);}catch(Exception e){}
 
 			Registration.facebookName = null;
 			MySharedPrefs.INSTANCE.putFacebookName(null);

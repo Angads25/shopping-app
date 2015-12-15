@@ -11,5 +11,6 @@
  
     <!--Enable automatic exception tracking-->
     <bool name="ga_reportUncaughtExceptions">true</bool>
-    
+
+
 </resources>

@@ -16,8 +16,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.Tracker;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.bean.BaseResponseBean;
 import com.rgretail.grocermax.utils.Constants;
@@ -43,7 +45,7 @@ public class AddressDetail extends BaseActivity{
 	AddressListAdapter mAdapter;
 	public static int requestNewAddress = 111;
 	public static int delete_address_position;
-	EasyTracker tracker;
+//	EasyTracker tracker;
 	TextView tvAddressHeader;
 	boolean bIsBilling = false;  //true when billing address true
 	int indexBilling = 0;       //holds the position of billing address
@@ -52,6 +54,13 @@ public class AddressDetail extends BaseActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.address_details);
+
+		try{
+			AppsFlyerLib.setCurrencyCode("INR");
+			AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");
+			AppsFlyerLib.sendTracking(getApplicationContext());
+		}catch(Exception e){}
+
 		try {
 			addActionsInFilter(MyReceiverActions.DELETE_ADDRESS);
 			Bundle bundle = getIntent().getExtras();
@@ -359,19 +368,34 @@ public class AddressDetail extends BaseActivity{
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		try{
+			AppsFlyerLib.onActivityResume(this);
+		}catch(Exception e){}
+
 		try {
 			initHeader(findViewById(R.id.header), true, "My Addresses");
 		}catch(Exception e){
 			new GrocermaxBaseException("AddressDetail","onResume",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		try{
+			AppsFlyerLib.onActivityPause(this);
+		}catch(Exception e){}
+	}
 	
 	@Override
     protected void onStart() {
     	// TODO Auto-generated method stub
     	super.onStart();
+		try{
+			AppsFlyerLib.onActivityResume(this);
+		}catch(Exception e){}
 		try {
-			EasyTracker.getInstance(this).activityStart(this);
+//			EasyTracker.getInstance(this).activityStart(this);
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
 		}catch(Exception e){}
@@ -380,9 +404,12 @@ public class AddressDetail extends BaseActivity{
     @Override
     protected void onStop() {
     	// TODO Auto-generated method stub
-    		super.onStop();
+		super.onStop();
 		try{
-			EasyTracker.getInstance(this).activityStop(this);
+			AppsFlyerLib.onActivityPause(this);
+		}catch(Exception e){}
+		try{
+//			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
 		}catch(Exception e){}
     }

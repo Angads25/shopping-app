@@ -9,19 +9,23 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.google.gson.Gson;
 import com.rgretail.grocermax.api.ConnectionService;
+import com.rgretail.grocermax.preference.MySharedPrefs;
+import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.OrderDetailItem;
 import com.rgretail.grocermax.bean.OrderedProductList;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.utils.UrlsConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
 
 public class OrderDetail extends BaseActivity{
 
@@ -34,12 +38,11 @@ public class OrderDetail extends BaseActivity{
 	TextView tvShippingCharges;
 	TextView tvCoupon;
 
-
 	//	LinearLayout ll_header;
 	LinearLayout ll_subtotal,ll_shipping,ll_youpay;
 	TextView tv_delivery_time;
-	EasyTracker tracker;
-
+	Button btn_reOrder;
+//	EasyTracker tracker;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,8 @@ public class OrderDetail extends BaseActivity{
 			order_id = getIntent().getStringExtra("order_id");
 			order_increement_id = getIntent().getStringExtra("order_increement_id");
 			addActionsInFilter(MyReceiverActions.ORDER_DETAIL);
+			addActionsInFilter(MyReceiverActions.ORDER_REORDER);
+			addActionsInFilter(MyReceiverActions.VIEW_CART);
 			initHeader(findViewById(R.id.header), true, "Order Detail");
 			initViews();
 			showDialog();
@@ -155,6 +160,17 @@ public class OrderDetail extends BaseActivity{
 		tv_youpay.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 		tvCoupon.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 
+			///// code added by Ishan/////////////////////////////////
+			btn_reOrder=(Button)findViewById(R.id.btn_reOrder);
+			btn_reOrder.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					showDialog();
+					myApi.reqReorder(UrlsConstants.ORDER_REORDER_URL + order_increement_id);
+				}
+			});
+			/////////code ends here//////////////////
+
 		}catch(Exception e){
 			new GrocermaxBaseException("OrderDetail","initViews",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
 		}
@@ -256,6 +272,16 @@ public class OrderDetail extends BaseActivity{
 					}
 					tv_youpay.setText("Rs. "+String.format("%.2f",Float.parseFloat(orderDetailJson.getJSONObject("payment").getString("amount_ordered"))));
 
+					/////////code added by Ishan//////////////////////////
+					String store_id=orderDetailJson.getString("store_id");
+					//System.out.println("id by server="+orderDetailJson.getString("store_id"));
+					//System.out.println("id saved="+MySharedPrefs.INSTANCE.getSelectedStoreId());
+					if(store_id.equals(MySharedPrefs.INSTANCE.getSelectedStoreId())){
+						btn_reOrder.setVisibility(View.VISIBLE);
+					}else{
+						btn_reOrder.setVisibility(View.GONE);
+					}
+					/////////////////////////////////////////////////
 				}
 				else{
 //					TextView msg = (TextView) findViewById(R.id.msg);
@@ -264,7 +290,35 @@ public class OrderDetail extends BaseActivity{
 //					tvOrderId.setVisibility(View.VISIBLE);
 //					tvOrderId.setText("No order detail available");
 				}
+
 		}
+
+
+			////// code added by Ishan//////////////////////////
+			if (bundle.getString("ACTION").equals(MyReceiverActions.ORDER_REORDER)) {
+				try
+				{
+					String quoteResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);
+					//System.out.println("reorder Response = "+quoteResponse);
+					JSONObject reOrderJSON=new JSONObject(quoteResponse);
+					if(reOrderJSON.getInt("flag")==1){
+						String quote_id=reOrderJSON.getString("QuoteId");
+						MySharedPrefs.INSTANCE.putQuoteId(quote_id);
+						showDialog();
+						String url = UrlsConstants.VIEW_CART_URL + MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
+						myApi.reqViewCart(url);
+
+					}else{
+						UtilityMethods.customToast(Constants.ToastConstant.QUOTE_FAIL, OrderDetail.this);
+					}
+				}catch(Exception e)
+				{
+					new GrocermaxBaseException("Reorder","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"no quote id");
+				}
+			}
+			/////code ends here////////////////
+
+
 		}catch(Exception e)
 		{
 			new GrocermaxBaseException("OrderDetail","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
@@ -295,18 +349,21 @@ public class OrderDetail extends BaseActivity{
 	public void setPaymentMethod(String method)
 	{
 		try{
-			if(method.equalsIgnoreCase("cashondelivery"))
-			{
-	//			String value="<font color='black'><b>Payment Method : </b>Cash On Delivery/Sodexo</font>";
-	//			tv_payment_mode.setText(Html.fromHtml(value));
-				tv_payment_mode.setText(Html.fromHtml("Cash On Delivery/Sodexo"));
-			}
-			else
-			{
-	//			String value="<font color='black'><b>Payment Method : </b>Credit Card/Debit Card/Net Banking</font>";
-	//			tv_payment_mode.setText(Html.fromHtml(value));
-				tv_payment_mode.setText(Html.fromHtml("Credit Card/Debit Card/Net Banking"));
-			}
+			/////added by Ishan//////////////
+			tv_payment_mode.setText(Html.fromHtml(method));
+			/////////end here////////////////////
+//			if(method.equalsIgnoreCase("cashondelivery"))
+//			{
+//	//			String value="<font color='black'><b>Payment Method : </b>Cash On Delivery/Sodexo</font>";
+//	//			tv_payment_mode.setText(Html.fromHtml(value));
+//				tv_payment_mode.setText(Html.fromHtml("Cash On Delivery/Sodexo"));
+//			}
+//			else
+//			{
+//	//			String value="<font color='black'><b>Payment Method : </b>Credit Card/Debit Card/Net Banking</font>";
+//	//			tv_payment_mode.setText(Html.fromHtml(value));
+//				tv_payment_mode.setText(Html.fromHtml("Credit Card/Debit Card/Net Banking"));
+//			}
 		}catch(Exception e){
 			new GrocermaxBaseException("OrderDetail","setPaymentMethod",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
 		}
@@ -446,7 +503,7 @@ public class OrderDetail extends BaseActivity{
 		// TODO Auto-generated method stub
 		super.onStart();
 		try{
-			EasyTracker.getInstance(this).activityStart(this);
+//			EasyTracker.getInstance(this).activityStart(this);
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
 		}catch(Exception e){}
@@ -457,7 +514,7 @@ public class OrderDetail extends BaseActivity{
 		// TODO Auto-generated method stub
 		super.onStop();
 		try{
-			EasyTracker.getInstance(this).activityStop(this);
+//			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
 		}catch(Exception e){}
 	}

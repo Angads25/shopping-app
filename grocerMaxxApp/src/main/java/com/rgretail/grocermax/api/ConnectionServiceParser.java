@@ -71,6 +71,7 @@ public class ConnectionServiceParser {
 		int DEAL_BY_DEAL_TYPE = 131;
 		int HOME_BANNER = 132;
 		int PRODUCT_LISTING_BY_DEALTYPE = 133;
+		int ORDER_REORDER = 134;
 	}
 
 	public static BaseResponseBean parseSimpleResponse(String jsonString)

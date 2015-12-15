@@ -14,7 +14,7 @@ import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.DealByDealTypeBean;
 import com.rgretail.grocermax.bean.OfferByDealTypeModel;
 import com.rgretail.grocermax.bean.OfferByDealTypeSubModel;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.bean.OfferByDealTypeBean;
@@ -50,8 +50,8 @@ public class ItemDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         Bundle data = getArguments();
-        ((HotOffersActivity) getActivity()).isFromFragment = true;
-        HotOffersActivity.bFromHome = false;
+        ((HomeScreen) getActivity()).isFromFragment = true;
+        HomeScreen.bFromHome = false;
 //        itemDetailGrid = new ItemDetailGrid();
 
 

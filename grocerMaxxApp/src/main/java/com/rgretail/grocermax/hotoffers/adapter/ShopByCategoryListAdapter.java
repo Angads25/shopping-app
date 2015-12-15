@@ -18,8 +18,9 @@ import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.CategoryActivity;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.ShopByCategoryModel;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.utils.AppConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,7 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
     private Fragment fragment;
     private ArrayList<ShopByCategoryModel> data;
     private static Activity activity;
+    private String SCREENNAME = "ShopByCategoryListAdapter-";
 //    public static String strDealListCategoryHeading;
     public ShopByCategoryListAdapter(Activity activity, Fragment fragment) {
 //        this.context = context;
@@ -90,6 +92,8 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
 //        position
 //        data.size()
 
+        try{UtilityMethods.clickCapture(context, "", "", data.get(position).getCategory_id(),"", SCREENNAME+data.get(position).getName()+"-"+AppConstants.SHOP_BY_CATEGORY_SCROLLING);}catch(Exception e){}
+
         if(position == data.size()-1){
             holder.view1Space.setVisibility(View.GONE);
             holder.viewVerticalLine.setVisibility(View.GONE);
@@ -106,60 +110,65 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ((HotOffersActivity) context).hitForShopByCategory(data.get(position).getCategory_id());
+//                ((HomeScreen) context).hitForShopByCategory(data.get(position).getCategory_id());
 //                ShopByCategoryListAdapter.strDealListCategoryHeading = data.get(position).getName();
 
 
 //                ArrayList<CategorySubcategoryBean> catObjSend = new ArrayList<CategorySubcategoryBean>();
-//                int size = ((HotOffersActivity) context).catObj.get(position).getChildren().size();
+//                int size = ((HomeScreen) context).catObj.get(position).getChildren().size();
 //
-//                for (int i = 0; i < ((HotOffersActivity) context).catObj.get(position).getChildren().size(); i++) {
-//                    if (((HotOffersActivity) context).catObj.get(position).getChildren().get(i).getIsActive().equals("1")) {
-//                           catObjSend.add((((HotOffersActivity) context).catObj.get(i)));
+//                for (int i = 0; i < ((HomeScreen) context).catObj.get(position).getChildren().size(); i++) {
+//                    if (((HomeScreen) context).catObj.get(position).getChildren().get(i).getIsActive().equals("1")) {
+//                           catObjSend.add((((HomeScreen) context).catObj.get(i)));
 //                    }
 //                    .get(0).getcategory
-//                    if (((HotOffersActivity) context).catObj.get(position).getChildren().get(i).getIsActive().equals("1")){
-//                        catObjSend.add((((HotOffersActivity) context).catObj.get(i)));
+//                    if (((HomeScreen) context).catObj.get(position).getChildren().get(i).getIsActive().equals("1")){
+//                        catObjSend.add((((HomeScreen) context).catObj.get(i)));
 //                    }
 //                }
 
 
-                Intent intent = new Intent(((HotOffersActivity) context), CategoryActivity.class);
+                Intent intent = new Intent(((HomeScreen) context), CategoryActivity.class);
                 Bundle call_bundle = new Bundle();
-                call_bundle.putSerializable("Categories", (((HotOffersActivity) context).catObj));
+                call_bundle.putSerializable("Categories", (((HomeScreen) context).catObj));
 //                call_bundle.putSerializable("Categories", catObjSend);
                 call_bundle.putSerializable("maincategoryposition", String.valueOf(position));
                 call_bundle.putSerializable("CategoryName", data.get(position).getName());
                 call_bundle.putSerializable("CategoryId", data.get(position).getCategory_id());           //catid of shop deals
                 intent.putExtras(call_bundle);
-                ((HotOffersActivity) context).startActivity(intent);
-                ((HotOffersActivity)context).isFromFragment=false;
+                ((HomeScreen) context).startActivity(intent);
+                ((HomeScreen)context).isFromFragment=false;
 
 
-                System.out.println("=====idss1111111===" + data.get(position).getCategory_id());
+                try{UtilityMethods.clickCapture(context, "", "", data.get(position).getCategory_id(),"", SCREENNAME+data.get(position).getName()+"-"+AppConstants.SHOP_BY_CATEGORY_IMAGE_CLICK);}catch(Exception e){}
+
+//                System.out.println("=====idss1111111===" + data.get(position).getCategory_id());
 
                 //fragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.explode));
-//                ((HotOffersActivity)context).hitForShopByCategory(data.get(position).getCategory_id());
+//                ((HomeScreen)context).hitForShopByCategory(data.get(position).getCategory_id());
             }
         });
 
         holder.footer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
             try {
+                int clickedFooter = 0;
                 if (Integer.parseInt(data.get(position).getOffercount()) > 0) {
 
-                    ((HotOffersActivity) context).hitForShopByCategory(data.get(position).getCategory_id());
-                    for (int i = 0; i < ((HotOffersActivity) context).catObj.size(); i++) {
-                        if (((HotOffersActivity) context).catObj.get(i).getCategoryId().equals(data.get(position).getCategory_id())) {
+                    ((HomeScreen) context).hitForShopByCategory(data.get(position).getCategory_id());
+                    for (int i = 0; i < ((HomeScreen) context).catObj.size(); i++) {
+                        if (((HomeScreen) context).catObj.get(i).getCategoryId().equals(data.get(position).getCategory_id())) {
 //                        strCatName = catObj.get(i).getCategory();
-//                        ShopByCategoryListAdapter.strDealListCategoryHeading = ((HotOffersActivity) context).catObj.get(i).getCategory();
+//                        ShopByCategoryListAdapter.strDealListCategoryHeading = ((HomeScreen) context).catObj.get(i).getCategory();
 
-//                        AppConstants.strTitleHotDeal = ((HotOffersActivity) context).catObj.get(i).getCategory();
-                            AppConstants.strTitleHotDeal = ((HotOffersActivity) context).catObj.get(i).getCategory();
+//                        AppConstants.strTitleHotDeal = ((HomeScreen) context).catObj.get(i).getCategory();
+                            AppConstants.strTitleHotDeal = ((HomeScreen) context).catObj.get(i).getCategory();
                         }
                     }
                 }
+                try{UtilityMethods.clickCapture(context, "", "", ((HomeScreen) context).catObj.get(clickedFooter).getCategoryId(),"", SCREENNAME+((HomeScreen) context).catObj.get(clickedFooter).getCategory()+"-"+AppConstants.SHOP_BY_CATEGORY_FOOTER_CLICK);}catch(Exception e){}
             }catch(Exception e){}
             }
         });

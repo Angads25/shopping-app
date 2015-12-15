@@ -99,4 +99,6 @@ public interface MyReceiverActions {
 	String DEAL_BY_DEALTYPE = PKG_NAME + ".deal_by_deal_type";
 	String GET_BANNER = PKG_NAME + ".get_banner";
 	String PRODUCT_LISTING_BY_DEALTYPE = PKG_NAME + ".product_listing_by_deal_type";
+
+	String ORDER_REORDER = PKG_NAME + ".order_reorder";
 }

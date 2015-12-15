@@ -22,11 +22,13 @@ import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.ShopByCategoryBean;
 import com.rgretail.grocermax.bean.ShopByCategoryModel;
 import com.rgretail.grocermax.bean.ShopByDealsBean;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.hotoffers.adapter.ShopByCategoryListAdapter;
 import com.rgretail.grocermax.hotoffers.adapter.ShopByDealsListAdapter;
+import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.bean.HomeBannerBean;
+import com.rgretail.grocermax.utils.UtilityMethods;
 
 import java.util.ArrayList;
 
@@ -49,8 +51,8 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        HotOffersActivity.bFromHome = true;
-        HotOffersActivity.isFromFragment = false;
+        HomeScreen.bFromHome = true;
+        HomeScreen.isFromFragment = false;
 
         progress = new ProgressDialog(getActivity());
         progress.setTitle(null);
@@ -83,10 +85,11 @@ public class HomeFragment extends Fragment {
 
 
 
+        //BANNER LISTENER//
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                try{UtilityMethods.clickCapture(getActivity(), "", "", "", "", HomeScreen.SCREENNAME+homeBannerBean.getBanner().get(position).getName()+"-"+AppConstants.BANNER_SCROLLING);}catch(Exception e){}
             }
 
             @Override
@@ -138,21 +141,21 @@ public class HomeFragment extends Fragment {
 
         ArrayList<ShopByCategoryModel> alfinal = new ArrayList<ShopByCategoryModel>();
         ArrayList<ShopByCategoryModel> al = shopByCategoryBean.getArrayList();
-        for (int i = 0; i < ((HotOffersActivity) getActivity()).catObj.size(); i++) {
+        for (int i = 0; i < ((HomeScreen) getActivity()).catObj.size(); i++) {
             boolean b_id_found = false;
             for (int j = 0; j < al.size(); j++) {
-                if (((HotOffersActivity) getActivity()).catObj.get(i).getCategoryId().equalsIgnoreCase(al.get(j).getCategory_id())) {
+                if (((HomeScreen) getActivity()).catObj.get(i).getCategoryId().equalsIgnoreCase(al.get(j).getCategory_id())) {
                     alfinal.add(al.get(j));
                     b_id_found = true;
                 }
             }
             if(!b_id_found){
                 ShopByCategoryModel shopByCategoryModel = new ShopByCategoryModel();
-                    String strurlImage = Constants.base_url_category_image+((HotOffersActivity) getActivity()).catObj.get(i).getCategoryId()+".png";
-                    shopByCategoryModel.setCategory_id(((HotOffersActivity) getActivity()).catObj.get(i).getCategoryId());
-                    shopByCategoryModel.setName(((HotOffersActivity) getActivity()).catObj.get(i).getCategory());
+                    String strurlImage = Constants.base_url_category_image+((HomeScreen) getActivity()).catObj.get(i).getCategoryId()+".png";
+                    shopByCategoryModel.setCategory_id(((HomeScreen) getActivity()).catObj.get(i).getCategoryId());
+                    shopByCategoryModel.setName(((HomeScreen) getActivity()).catObj.get(i).getCategory());
                     shopByCategoryModel.setImages(strurlImage);
-                    shopByCategoryModel.setIs_active(((HotOffersActivity) getActivity()).catObj.get(i).getIsActive());
+                    shopByCategoryModel.setIs_active(((HomeScreen) getActivity()).catObj.get(i).getIsActive());
                     shopByCategoryModel.setOffercount("0");
                 alfinal.add(shopByCategoryModel);
             }
@@ -160,8 +163,8 @@ public class HomeFragment extends Fragment {
 
 //            for (int i = 0; i < al.size(); i++) {
 //                boolean b_id_found = false;
-//                for (int j = 0; j < ((HotOffersActivity) getActivity()).catObj.size(); j++) {
-//                    if(al.get(i).getCategory_id().equalsIgnoreCase(((HotOffersActivity) getActivity()).catObj.get(j).getCategoryId())) {
+//                for (int j = 0; j < ((HomeScreen) getActivity()).catObj.size(); j++) {
+//                    if(al.get(i).getCategory_id().equalsIgnoreCase(((HomeScreen) getActivity()).catObj.get(j).getCategoryId())) {
 //                        alfinal.add(al.get(i));
 //                        b_id_found = true;
 //                    }
@@ -199,6 +202,8 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+
+    // responsible for Home screen Banner  //
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);

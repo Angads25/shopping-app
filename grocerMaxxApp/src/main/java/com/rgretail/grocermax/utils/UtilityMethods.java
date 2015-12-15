@@ -15,6 +15,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,7 +50,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.appsflyer.AFInAppEventParameterName;
+import com.appsflyer.AFInAppEventType;
+import com.appsflyer.AppsFlyerLib;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.rgretail.grocermax.AnalyticsSampleApp;
 import com.rgretail.grocermax.BaseActivity;
+import com.rgretail.grocermax.MyApp;
 import com.rgretail.grocermax.MyApplication;
 
 import com.rgretail.grocermax.R;
@@ -59,6 +68,12 @@ import com.rgretail.grocermax.preference.AlarmService;
 import com.rgretail.grocermax.utils.ListSublistConstants.ListConstant;
 
 public class UtilityMethods {
+
+	public static final String GA_PRICE = "ga_price";
+	public static final String GA_CONTENT_TYPE = "ga_content_type";
+	public static final String GA_CONTENT_ID = "ga_content_id";
+	public static final String GA_CURRENCY = "ga_currency";
+	public static final String GA_EVENTNAME = "ga_eventname";
 
 //	private static UtilityMethods instance;
 //	public static UtilityMethods getInstance(){
@@ -1025,17 +1040,17 @@ public class UtilityMethods {
 		    Canvas canvas = new Canvas(targetBitmap);
 		    Path path = new Path();
 		    path.addCircle(((float) targetWidth - 1) / 2,
-		        ((float) targetHeight - 1) / 2,
-		        (Math.min(((float) targetWidth), 
-		        ((float) targetHeight)) / 2),
-		        Path.Direction.CCW);
+					((float) targetHeight - 1) / 2,
+					(Math.min(((float) targetWidth),
+							((float) targetHeight)) / 2),
+					Path.Direction.CCW);
 
 		    canvas.clipPath(path);
 		    Bitmap sourceBitmap = scaleBitmapImage;
-		    canvas.drawBitmap(sourceBitmap, 
-		        new Rect(0, 0, sourceBitmap.getWidth(),
-		        sourceBitmap.getHeight()), 
-		        new Rect(0, 0, targetWidth, targetHeight), null);
+		    canvas.drawBitmap(sourceBitmap,
+					new Rect(0, 0, sourceBitmap.getWidth(),
+							sourceBitmap.getHeight()),
+					new Rect(0, 0, targetWidth, targetHeight), null);
 		    return targetBitmap;
 		}
 
@@ -1070,4 +1085,108 @@ public class UtilityMethods {
 			file.delete();
 		}
 	}
+
+
+	public static void clickCapture(Context context,String strPrice,String strContentType,String strContentId,String strName,String strEventName){
+		//		5 /Example 2: ​Purchase Event/
+		Map<String, Object> eventValue = new HashMap<String, Object>();
+		eventValue.put(AFInAppEventParameterName.PRICE,strPrice);
+//		eventValue.put(AFInAppEventParameterName.REVENUE,200);
+		eventValue.put(AFInAppEventParameterName.CONTENT_TYPE,strContentType);
+		eventValue.put(AFInAppEventParameterName.CONTENT_ID,strContentId);
+		eventValue.put("NAME", strName);
+		eventValue.put(AFInAppEventParameterName.CURRENCY, "INR");;
+		AppsFlyerLib.trackEvent(context, strEventName, eventValue);
+//		eventValue.put(AFInAppEventParameterName.PRICE,200);
+////		eventValue.put(AFInAppEventParameterName.REVENUE,200);
+//		eventValue.put(AFInAppEventParameterName.CONTENT_TYPE,"category_a");
+//		eventValue.put(AFInAppEventParameterName.CONTENT_ID,"1234567");
+//		eventValue.put(AFInAppEventParameterName.CURRENCY, "INR");
+//		AppsFlyerLib.trackEvent(getApplicationContext(), AFInAppEventType.ADD_TO_CART, eventValue);
+
+		try {
+			// Get tracker.
+//Tracker t = ((AnalyticsSampleApp) ((Activity)context).getApplication()).getTracker(AnalyticsSampleApp.TrackerName.APP_TRACKER);
+			// Set screen name.
+//			t.setScreenName(screenName);
+			// Send a screen view.
+//			t.send(new HitBuilders.ScreenViewBuilder().build());
+
+
+			Map<String,String> params = new HashMap<String,String>();
+			params.put(GA_PRICE, strPrice);
+			params.put(GA_CONTENT_TYPE,strContentType);
+			params.put(GA_CONTENT_ID, strContentId);
+			params.put(GA_CURRENCY, "INR");
+
+//			t.send(new HitBuilders.EventBuilder()
+//					.set(UtilityMethods.GA_EVENTNAME, strEventName)
+//					.setAll(params)
+//					.build());
+
+
+//			MyApp.tracker().send(new HitBuilders.EventBuilder("ui", "open")
+//					.setLabel("settings")
+//					.build());
+
+//			MyApplication.tracker().send(new HitBuilders.EventBuilder()
+			MyApp.tracker().send(new HitBuilders.EventBuilder()
+					.set(UtilityMethods.GA_EVENTNAME, strEventName)
+					.setAll(params)
+					.build());
+
+		}catch(Exception e){
+			e.getMessage();
+		}
+	}
+
+	public static void eventCapture(Context context,String strPrice,String strContentType,String strContentId){
+		Map<String,Object> event = new HashMap<String,Object>();
+		event.put(AFInAppEventParameterName.PRICE, strPrice);
+		event.put(AFInAppEventParameterName.CONTENT_TYPE,strContentType);
+		event.put(AFInAppEventParameterName.CONTENT_ID,strContentId);
+		event.put(AFInAppEventParameterName.CURRENCY,"INR");
+//		event.put(AFInAppEventParameterName.QUANTITY,1);
+		AppsFlyerLib.trackEvent(context, AFInAppEventType.ADD_TO_WISH_LIST,event);
+	}
+
+    public static void screenView(Activity activity,String screenName){                //screen count of GA
+		try{
+			// Get tracker.
+//			Tracker t = ((AnalyticsSampleApp) activity.getApplication()).getTracker(
+//					AnalyticsSampleApp.TrackerName.APP_TRACKER);
+//			// Set screen name.
+//			t.setScreenName(screenName);
+//			// Send a screen view.
+//			t.send(new HitBuilders.ScreenViewBuilder().build());
+
+		}catch(Exception e){}
+
+	}
+
+
+//	public static void GAClickCapture(Activity activity,String strPrice,String strContentType,String strContentId,String strEventName)
+//	{
+//		try {
+//			// Get tracker.
+//			Tracker t = ((AnalyticsSampleApp) activity.getApplication()).getTracker(
+//					AnalyticsSampleApp.TrackerName.APP_TRACKER);
+//			// Set screen name.
+////			t.setScreenName(screenName);
+//			// Send a screen view.
+////			t.send(new HitBuilders.ScreenViewBuilder().build());
+//			Map<String,String> params = new HashMap<String,String>();
+//			params.put(GA_PRICE, strPrice);
+//			params.put(GA_CONTENT_TYPE,strContentType);
+//			params.put(GA_CONTENT_ID, strContentId);
+//			params.put(GA_CURRENCY, "INR");
+//
+//			t.send(new HitBuilders.EventBuilder()
+//					.set(UtilityMethods.GA_EVENTNAME, strEventName)
+//					.setAll(params)
+//					.build());
+//
+//		}catch(Exception e){}
+//	}
+
 }

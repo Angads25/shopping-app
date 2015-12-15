@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.facebook.internal.Utility;
+import com.appsflyer.AppsFlyerLib;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
 import com.rgretail.grocermax.api.BillingStateCityLoader;
 import com.rgretail.grocermax.api.ConnectionService;
@@ -22,7 +22,7 @@ import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.api.ShippingLocationLoader;
 import com.rgretail.grocermax.bean.LocationListBean;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.hotoffers.fragment.MenuFragment;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
@@ -32,7 +32,7 @@ import com.rgretail.grocermax.utils.UtilityMethods;
 import java.util.ArrayList;
 
 
-public class LocationActivity extends BaseActivity {
+public class CityActivity extends BaseActivity {
     public static LocationListBean locationList = null;
     private ImageView []ivLocation;
     private TextView []tvLocation;
@@ -41,6 +41,7 @@ public class LocationActivity extends BaseActivity {
     TextView tvSelctionLoc;           //previously selected color change to bluish
     ImageView ivSelectionLoc;
     String strFromWhereToCome;                      //used for check whether to come from drawyer or from starting the app.
+    private String SCREENNAME = "CityActivity-";
 //    public static String strSelectedCity,strSelectedState,
 //            strSelectedStateId,                                          //store id
 //            strSelectedStateRegionId;                                   //state id for create new address
@@ -57,11 +58,24 @@ public class LocationActivity extends BaseActivity {
 //        FlurryAgent.onPageView();         //Use onPageView to report page view count.
 //    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        try{
+            AppsFlyerLib.onActivityResume(this);
+        }catch(Exception e){}
+    }
+
     String strTempSelectedCity = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try{
+            AppsFlyerLib.setCurrencyCode("INR");
+            AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
+            AppsFlyerLib.sendTracking(getApplicationContext());
+        }catch(Exception e){}
         try{
         setContentView(R.layout.location_screen);
         addActionsInFilter(MyReceiverActions.CATEGORY_LIST);
@@ -136,6 +150,9 @@ public class LocationActivity extends BaseActivity {
                         myApi.reqCategorySubCategoryList(url);
                     }
                 }
+
+                try{UtilityMethods.clickCapture(mContext,"","",MySharedPrefs.INSTANCE.getSelectedStateId(),""
+                        ,SCREENNAME+MySharedPrefs.INSTANCE.getSelectedCity()+"-"+AppConstants.SELECTED_STORE);}catch(Exception e){}
             }
         });
 
@@ -281,13 +298,24 @@ public class LocationActivity extends BaseActivity {
             }
         }
         }catch(Exception e){
-            new GrocermaxBaseException("LocationActivity","onCreate",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+            new GrocermaxBaseException("CityActivity","onCreate",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        try{
+            AppsFlyerLib.onActivityResume(this);
+        }catch(Exception e){}
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try{
+            AppsFlyerLib.onActivityPause(this);
+        }catch(Exception e){}
     }
 
     @Override
@@ -349,8 +377,13 @@ public class LocationActivity extends BaseActivity {
 //                    MySharedPrefs.INSTANCE.getSelectedStateRegionId() + "====");
 
             ivLocation[position].setImageResource(R.drawable.select_location);
+
+
+            try{UtilityMethods.clickCapture(mContext,"","",locationList.getItems().get(position).getStoreId(),""
+                    ,SCREENNAME+locationList.getItems().get(position).getCityName()+"-"+AppConstants.SELECTED_STORE_BUTTON);}catch(Exception e){}
+
         }catch(Exception e){
-            new GrocermaxBaseException("LocationActivity","listener",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+            new GrocermaxBaseException("CityActivity","listener",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
         }
         }
     };
@@ -364,8 +397,8 @@ public class LocationActivity extends BaseActivity {
 		//UtilityMethods.write("response",jsonResponse,SplashScreen.this);
 		ArrayList<CategorySubcategoryBean> category = UtilityMethods.getCategorySubCategory(jsonResponse);
 		if (!jsonResponse.trim().equals("") && category.size() > 0) {
-			UtilityMethods.writeCategoryResponse(LocationActivity.this, AppConstants.categoriesFile, jsonResponse);
-			Intent call = new Intent(LocationActivity.this, HotOffersActivity.class);
+			UtilityMethods.writeCategoryResponse(CityActivity.this, AppConstants.categoriesFile, jsonResponse);
+			Intent call = new Intent(CityActivity.this, HomeScreen.class);
 			Bundle call_bundle = new Bundle();
 			call_bundle.putSerializable("Categories", category);
 			call.putExtras(call_bundle);
@@ -375,7 +408,7 @@ public class LocationActivity extends BaseActivity {
 			UtilityMethods.customToast(AppConstants.ToastConstant.DATA_NOT_FOUND, mContext);
 		}
         }catch(Exception e){
-            new GrocermaxBaseException("LocationActivity","onResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+            new GrocermaxBaseException("CityActivity","onResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
         }
     }
 
@@ -390,6 +423,14 @@ public class LocationActivity extends BaseActivity {
 //            new GrocermaxBaseException("CreateNewAddress","onStop",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 //        }
 //    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        try{
+            AppsFlyerLib.onActivityPause(this);
+        }catch(Exception e){}
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

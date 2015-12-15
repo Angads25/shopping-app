@@ -16,17 +16,18 @@ import android.view.View;
 import android.view.Window;
 
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.SearchLoader;
 import com.rgretail.grocermax.bean.BaseResponseBean;
+import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
 
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.Product;
 import com.rgretail.grocermax.bean.ProductDetailsListBean;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.UtilityMethods;
 import com.viewpagerindicator.TabPageIndicator;
@@ -55,7 +56,7 @@ public class SearchTabs extends BaseActivity{
 //	public static int clickStatus=0;
 //	public static ArrayList<ProductListFragments.CallAPI> asyncTasks=new ArrayList<ProductListFragments.CallAPI>();
 //	HorizontalScrollView horizontalScrollView;
-	EasyTracker tracker;
+//	EasyTracker tracker;
 	public JSONObject json[];
 	public List<HashMap<String, String>> listCategoryHashMap;
 	int size;
@@ -70,6 +71,8 @@ public class SearchTabs extends BaseActivity{
 			searchString = intent.getStringExtra("SEARCHSTRING");
 //			Bundle bundle = intent.getExtras();
 //			JSONObject[] strw = (JSONObject[])bundle.getSerializable("searchdata");
+
+			try{UtilityMethods.clickCapture(context,"","","","", AppConstants.GA_EVENT_OPEN_SEARCH);}catch(Exception e){}
 
 			size = SearchLoader.jsonObjectTop.length;
 
@@ -465,10 +468,10 @@ public class SearchTabs extends BaseActivity{
 	public void onBackPressed() {
 		super.onBackPressed();
 		try {
-			if(HotOffersActivity.bFromHome) {
-				HotOffersActivity.isFromFragment = false;    //work fine for home
+			if(HomeScreen.bFromHome) {
+				HomeScreen.isFromFragment = false;    //work fine for home
 			}else{
-				HotOffersActivity.isFromFragment = true;
+				HomeScreen.isFromFragment = true;
 			}
 		}catch(Exception e){}
 	}
@@ -543,7 +546,7 @@ protected void onStart() {
 ////    	tracker.activityStart(this);
 //    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 //    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-		EasyTracker.getInstance(this).activityStart(this);
+//		EasyTracker.getInstance(this).activityStart(this);
 		FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 		FlurryAgent.onPageView();         //Use onPageView to report page view count.
 	}catch(Exception e){}
@@ -554,7 +557,7 @@ protected void onStop() {
 	// TODO Auto-generated method stub
 	super.onStop();
 	try{
-		EasyTracker.getInstance(this).activityStop(this);
+//		EasyTracker.getInstance(this).activityStop(this);
 		FlurryAgent.onEndSession(this);
 	}catch(Exception e){}
 }

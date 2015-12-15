@@ -16,9 +16,10 @@ import com.rgretail.grocermax.DealListScreen;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.api.SearchLoader;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.UrlsConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
 
 
 /**
@@ -32,6 +33,7 @@ public class BannerFragment extends Fragment {
     private static String linkurl = "";
     private static String name = "";
     Context context;
+
 
 //    public static BannerFragment newInstance(HomeBannerBean homeBannerBean) {
 //        try {
@@ -63,7 +65,7 @@ public class BannerFragment extends Fragment {
         ImageView imageView = (ImageView) view.findViewById(R.id.image);
         context = getActivity();
 
-        HotOffersActivity.bFromHome = true;
+        HomeScreen.bFromHome = true;
 
 
         url = getArguments().getString("imgUrl");
@@ -82,6 +84,7 @@ public class BannerFragment extends Fragment {
                 linkurl = (((HomeFragment) frag).getHomeBannerBean()).getBanner().get(((HomeFragment) frag).getPosition()).getLinkurl();
                 name = (((HomeFragment) frag).getHomeBannerBean()).getBanner().get(((HomeFragment) frag).getPosition()).getName();
 
+
                 ////////////// 1.search ///////////////////
 //                linkurl = "search?keyword=atta";
 //                String strAtta = "atta";
@@ -97,10 +100,10 @@ public class BannerFragment extends Fragment {
                 ////////////////////// 2.dealproductlisting?deal_id=? ///////////////////
 
 //                String dealId = "270";
-//                ((HotOffersActivity) context).addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
+//                ((HomeScreen) context).addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);home
 //                String url = UrlsConstants.PRODUCTLISTING_BY_DEAL_TYPE;
-//                ((HotOffersActivity)context).showDialog();
-//                ((HotOffersActivity)context).myApi.reqProductListingByDealType(url + dealId);
+//                ((HomeScreen)context).showDialog();
+//                ((HomeScreen)context).myApi.reqProductListingByDealType(url + dealId);
 //                System.out.println(dealId);
 
 //                http://staging.grocermax.com/webservice/new_services/dealproductlisting?deal_id=270&version=1.0
@@ -108,11 +111,11 @@ public class BannerFragment extends Fragment {
                 ////////////////////// 3. dealsbydealtype?deal_type_id=? ////////////////////////
 
 //                String dealId = "1";
-//                ((HotOffersActivity) context).addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);
-//                ((HotOffersActivity)context).showDialog();
+//                ((HomeScreen) context).addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);
+//                ((HomeScreen)context).showDialog();
 //                String url = UrlsConstants.DEAL_BY_DEAL_TYPE;
 //                System.out.print("==my work=="+url);
-//                ((HotOffersActivity)context).myApi.reqDealByDealType(url+ dealId);
+//                ((HomeScreen)context).myApi.reqDealByDealType(url+ dealId);
 
                 ////////////////http://staging.grocermax.com/webservice/new_services/dealsbydealtype?deal_type_id=1&version=1.0////////////////////
 
@@ -123,7 +126,7 @@ public class BannerFragment extends Fragment {
 
 //                category?parentid=2402
 
-                System.out.println("====values is====" + linkurl);
+//                System.out.println("====values is====" + linkurl);
 
 //                types of banner in android
 //1                "search?keyword=dairy"                             //
@@ -141,7 +144,7 @@ public class BannerFragment extends Fragment {
                         index = linkurl.indexOf("?");
                         if (linkurl.length() >= index) {
                             strType = linkurl.substring(0, index);
-                            System.out.println("====result is====" + strType);
+//                            System.out.println("====result is====" + strType);
                         }
                     } else {
                         strType = linkurl;
@@ -154,7 +157,7 @@ public class BannerFragment extends Fragment {
 //                    String dealId = "270";
 //                    String dealId = linkurl.substring(index+1,linkurl.length()-1);
 //                    System.out.println("===========dealproductlisting=============dealid===================="+dealId);
-                        ((HotOffersActivity) context).addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
+                        ((HomeScreen) context).addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
 //                    String PRODUCTLISTING_BY_DEAL_TYPE = UrlsConstants.NEW_BASE_URL+"dealproductlisting?deal_id=";
 //                    String url = UrlsConstants.PRODUCTLISTING_BY_DEAL_TYPE;
 
@@ -163,26 +166,31 @@ public class BannerFragment extends Fragment {
                         DealListScreen.strDealHeading = "Offer Detail";
 
                         String url = UrlsConstants.NEW_BASE_URL;
-                        ((HotOffersActivity) context).showDialog();
-                        ((HotOffersActivity) context).myApi.reqProductListingByDealType(url + linkurl);
+                        ((HomeScreen) context).showDialog();
+                        ((HomeScreen) context).myApi.reqProductListingByDealType(url + linkurl);
+
+                        try{UtilityMethods.clickCapture(context,"","","","",HomeScreen.SCREENNAME+name+"-"+AppConstants.GA_EVENT_DEALS_PRODUCT_LISTING_THROUGH_HOME_BANNER);}catch(Exception e){}
+
 //                    System.out.println(dealId);
                     } else if (strType.equalsIgnoreCase("dealsbydealtype")) {
 //                    String dealId = "1";
-                        ((HotOffersActivity) context).addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);
-                        ((HotOffersActivity) context).showDialog();
+                        ((HomeScreen) context).addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);
+                        ((HomeScreen) context).showDialog();
 
 
 //                    public final static String DEAL_BY_DEAL_TYPE = NEW_BASE_URL+"dealsbydealtype?deal_type_id=";
 //                    String url = UrlsConstants.DEAL_BY_DEAL_TYPE;
                         String url = UrlsConstants.NEW_BASE_URL;
-                        ((HotOffersActivity) context).myApi.reqDealByDealType(url + linkurl);
+
+                        try{UtilityMethods.clickCapture(context,"","","","",HomeScreen.SCREENNAME+name+"-"+AppConstants.GA_EVENT_DEALS_THROUGH_HOME_BANNER);}catch(Exception e){}
                     } else if (strType.equalsIgnoreCase("productlistall")) {
                         //                    public final static String GET_ALL_PRODUCTS_OF_CATEGORY = NEW_BASE_URL + "productlistall?cat_id=";
-                        ((HotOffersActivity) context).addActionsInFilter(MyReceiverActions.ALL_PRODUCTS_CATEGORY);
-                        ((HotOffersActivity) context).showDialog();
+                        ((HomeScreen) context).addActionsInFilter(MyReceiverActions.ALL_PRODUCTS_CATEGORY);
+                        ((HomeScreen) context).showDialog();
                         String strUrl = UrlsConstants.NEW_BASE_URL;
-                        ((HotOffersActivity) context).myApi.reqAllProductsCategory(strUrl + linkurl);
-                        System.out.println("===complete url====" + strUrl + linkurl);
+                        ((HomeScreen) context).myApi.reqAllProductsCategory(strUrl + linkurl);
+                        try{UtilityMethods.clickCapture(context,"",linkurl,"","",HomeScreen.SCREENNAME+name+"-"+AppConstants.GA_EVENT_PRODUCT_LISTING_THROUGH_HOME_BANNER);}catch(Exception e){}
+//                        System.out.println("===complete url====" + strUrl + linkurl);
                     } else if (strType.equalsIgnoreCase("shopbydealtype")) {
 
 
@@ -193,7 +201,7 @@ public class BannerFragment extends Fragment {
                         int indexequal = linkurl.indexOf("=");
                         if (linkurl.length() >= index) {
                             strSearch = linkurl.substring(indexequal + 1, linkurl.length());
-                            System.out.println("====indexequals is====>>" + strSearch);
+//                            System.out.println("====indexequals is====>>" + strSearch);
                         }
 
 //                    String strAtta = "atta";
@@ -204,6 +212,7 @@ public class BannerFragment extends Fragment {
                         SearchLoader searchLoader = new SearchLoader(context, strSearch);
                         searchLoader.execute(url);
                         Log.i("Banner Through Search", "URL::" + url);
+                        try{UtilityMethods.clickCapture(context,"","","","",HomeScreen.SCREENNAME+name+"-"+AppConstants.GA_EVENT_SEARCH_LISTING_THROUGH_HOME_BANNER);}catch(Exception e){}
                     } else if (strType.equalsIgnoreCase("offerbydealtype")) {
 //                    http://staging.grocermax.com/api/offerbydealtype?cat_id=2180&version=1.0
                         String strId = "";
@@ -213,10 +222,12 @@ public class BannerFragment extends Fragment {
                             strId = linkurl.substring(indexequal + 1, linkurl.length());
 //                            System.out.println("====indexequals is====>>" + strId);
                         }
-                        ((HotOffersActivity) context).addActionsInFilter(MyReceiverActions.OFFER_BY_DEALTYPE);
-                        ((HotOffersActivity) context).hitForShopByCategory(strId);
+                        ((HomeScreen) context).addActionsInFilter(MyReceiverActions.OFFER_BY_DEALTYPE);
+                        ((HomeScreen) context).hitForShopByCategory(strId);
+                        try{UtilityMethods.clickCapture(context,"","","","",HomeScreen.SCREENNAME+name+"-"+AppConstants.GA_EVENT_DEALS_OFFER_THROUGH_HOME_BANNER);}catch(Exception e){}
                     }
                 }catch(Exception e){}
+
 
 
 //                String str = linkurl.split("?")[0];

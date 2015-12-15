@@ -148,6 +148,7 @@ public class CartAdapter extends BaseAdapter{
 
 		final CartDetail obj = getItem(position);
 
+		try{UtilityMethods.clickCapture(activity,"","","","",AppConstants.GA_EVENT_CART_SCROLLER);}catch(Exception e){}
 
 
 //		if(obj.getStatus().equals("1")){  //product available

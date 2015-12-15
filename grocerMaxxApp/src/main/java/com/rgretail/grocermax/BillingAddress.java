@@ -14,8 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.adapters.BillingAdapter;
 import com.rgretail.grocermax.api.BillingStateCityLoader;
@@ -58,7 +59,7 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
     private ArrayList<String> profileNames;
     private CheckoutAddressBean address_obj;
     LinearLayout llTop;
-    EasyTracker tracker;
+//    EasyTracker tracker;
     ImageView imgDateSlot[];
     TextView tvDateSlot[];
     TextView tvHeaderMsg;
@@ -137,6 +138,13 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.checkout_billing_2);
+
+        try{
+            AppsFlyerLib.setCurrencyCode("INR");
+            AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
+            AppsFlyerLib.sendTracking(getApplicationContext());
+        }catch(Exception e){}
+
         try {
             addActionsInFilter(MyReceiverActions.ADD_ADDRESS);
             addActionsInFilter(MyReceiverActions.ADD_BILL_ADDRESS);
@@ -551,6 +559,8 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
                             return;
                         }
 
+                        try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_PROCEED_BILLING_CLICK);}catch(Exception e){}
+
                         OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
                         JSONObject billing_json_obj = new JSONObject();
                         Address billing_add = addressList.get(selectedPosition);
@@ -590,9 +600,11 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
                     // TODO Auto-generated method stub
                     try {
                         if(BillingStateCityLoader.alState == null || BillingStateCityLoader.alState.size() == 0){                //first time call this service for getting states
+                            try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_NEW_BILLING_ADDRESS_SELECT);}catch(Exception e){}
                             Address addres = null;
                             new BillingStateCityLoader(BillingAddress.this,addres,"billing","-1").execute(UrlsConstants.GET_STATE);
                         }else {
+                            try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_NEW_BILLING_ADDRESS_SELECT);}catch(Exception e){}
                             Intent intent = new Intent(mContext, CreateNewAddress.class);
                             intent.putExtra("shippingorbillingaddress", "billing");
                             intent.putExtra("editindex", "-1");                                    //means adding the address not editing.
@@ -1483,9 +1495,21 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
+        try{
+            AppsFlyerLib.onActivityResume(this);
+        }catch(Exception e){}
+
         initHeader(findViewById(R.id.app_bar_header), true, "Select Billing Address");
         LinearLayout llIcon = (LinearLayout)findViewById(R.id.ll_placeholder_logoIcon_appBar);
         llIcon.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 7f));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try{
+            AppsFlyerLib.onActivityPause(this);
+        }catch(Exception e){}
     }
 
 
@@ -1778,7 +1802,10 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
         // TODO Auto-generated method stub
         super.onStart();
         try{
-            EasyTracker.getInstance(this).activityStart(this);
+            AppsFlyerLib.onActivityResume(this);
+        }catch(Exception e){}
+        try{
+//            EasyTracker.getInstance(this).activityStart(this);
             FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
             FlurryAgent.onPageView();         //Use onPageView to report page view count.
         }catch(Exception e){}
@@ -1789,7 +1816,11 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
         // TODO Auto-generated method stub
         super.onStop();
         try{
-            EasyTracker.getInstance(this).activityStop(this);
+            AppsFlyerLib.onActivityPause(this);
+        }catch(Exception e){}
+
+        try{
+//            EasyTracker.getInstance(this).activityStop(this);
             FlurryAgent.onEndSession(this);
         }catch(Exception e){}
     }

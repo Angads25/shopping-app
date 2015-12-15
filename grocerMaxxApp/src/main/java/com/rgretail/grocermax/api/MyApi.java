@@ -94,6 +94,19 @@ public class MyApi {
 	}
 
 
+	public void reqReorder(String url) {
+		try{
+			Intent reqIntent = new Intent(m_context, ConnectionService.class);
+			reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.ORDER_REORDER);
+			reqIntent.putExtra(ConnectionService.URL, url);
+			reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+			reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.ORDER_REORDER);
+			m_context.startService(reqIntent);
+		}catch(Exception e){
+			new GrocermaxBaseException("MyApi","reqOrderReorder",e.getMessage(), GrocermaxBaseException.EXCEPTION,url);
+		}
+	}
+
 
 	/**This is used to get register.
 	 * @param url

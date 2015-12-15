@@ -48,13 +48,10 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-import android.widget.Toast;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
-import com.gc.android.market.api.MarketSession;
-import com.gc.android.market.api.model.Market;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -68,7 +65,7 @@ import com.rgretail.grocermax.bean.CartDetailBean;
 import com.rgretail.grocermax.bean.DealListBean;
 import com.rgretail.grocermax.bean.LocationListBean;
 import com.rgretail.grocermax.bean.UserDetailBean;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
@@ -113,7 +110,7 @@ public abstract class BaseActivity extends FragmentActivity {
 
 	private String search_key;
 	public static boolean keyboardVisibility=false;
-	EasyTracker tracker;
+//	EasyTracker tracker;
 
 
 	@Override
@@ -289,7 +286,7 @@ public abstract class BaseActivity extends FragmentActivity {
 					case R.id.icon_header_logo_with_search:
 
 						showSearchView(false);
-//							Intent intent = new Intent(mContext, HotOffersActivity.class);
+//							Intent intent = new Intent(mContext, HomeScreen.class);
 //							intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //							startActivity(intent);
 //							finish();
@@ -297,7 +294,7 @@ public abstract class BaseActivity extends FragmentActivity {
 						break;
 					case R.id.icon_header_logo_without_search:
 
-						Intent intent1 = new Intent(mContext, HotOffersActivity.class);
+						Intent intent1 = new Intent(mContext, HomeScreen.class);
 						intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(intent1);
 						finish();
@@ -319,7 +316,7 @@ public abstract class BaseActivity extends FragmentActivity {
 //						imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 						break;
 					case R.id.icon_header_user:
-						HotOffersActivity.isFromFragment=false;
+						HomeScreen.isFromFragment=false;
 						if (keyboardVisibility)
 							UtilityMethods.hideKeyBoard(BaseActivity.this);
 //							showMoreOption(icon_header_user);
@@ -337,12 +334,12 @@ public abstract class BaseActivity extends FragmentActivity {
 						break;
 					case R.id.nom_producte:
 //						goToCart();
-						HotOffersActivity.isFromFragment=false;
+						HomeScreen.isFromFragment=false;
 						viewCart();
 						break;
 					case R.id.icon_header_cart:
 //						goToCart();
-						HotOffersActivity.isFromFragment=false;
+						HomeScreen.isFromFragment=false;
 						viewCart();
 						break;
 					case R.id.imgSearchIcon:
@@ -466,7 +463,7 @@ public abstract class BaseActivity extends FragmentActivity {
 				}
 
 				String url = UrlsConstants.SEARCH_PRODUCT + search_key;
-				url = url.replace(" ", "%20");
+				url = url.replaceAll(" ", "%20");
 				SearchLoader searchLoader  = new SearchLoader(this,search_key);
 				searchLoader.execute(url);
 
@@ -474,6 +471,7 @@ public abstract class BaseActivity extends FragmentActivity {
 			} else {
 				UtilityMethods.customToast(AppConstants.ToastConstant.ENTER_TEXT, mContext);
 			}
+			try{UtilityMethods.clickCapture(mContext,"","","",search_key,AppConstants.SEARCH_BUTTON);}catch(Exception e){}
 		}catch(Exception e){
 			new GrocermaxBaseException("BaseActivity", "goforsearch", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
@@ -1031,7 +1029,7 @@ public abstract class BaseActivity extends FragmentActivity {
 
 
 						UtilityMethods.customToast(AppConstants.ToastConstant.LOGOUT_SUCCESS, mContext);
-						Intent intent = new Intent(mContext, HotOffersActivity.class);
+						Intent intent = new Intent(mContext, HomeScreen.class);
 						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(intent);
 						finish();
@@ -1477,7 +1475,7 @@ public abstract class BaseActivity extends FragmentActivity {
 //			LocationListBean locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
 						AppConstants.locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
 						if(AppConstants.locationBean.getFlag().equals("1")) {
-							Intent call = new Intent(BaseActivity.this, LocationActivity.class);
+							Intent call = new Intent(BaseActivity.this, CityActivity.class);
 							Bundle call_bundle = new Bundle();
 							call_bundle.putSerializable("Location", AppConstants.locationBean);
 							call_bundle.putSerializable("FromDrawer", "fromdrawyer");

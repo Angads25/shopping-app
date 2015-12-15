@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
-import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.utils.CustomFonts;
@@ -34,7 +34,7 @@ public class UserProfile extends BaseActivity{
 	LayoutInflater inflater = null;
 	View convertView = null;
 	AddressViewHolder holder = null;
-	EasyTracker tracker;
+//	EasyTracker tracker;
 	TextView tvHeaderProfile;
 	ImageView imgUser;
 	Activity activity;
@@ -396,7 +396,7 @@ public class UserProfile extends BaseActivity{
     	// TODO Auto-generated method stub
     	super.onStart();
     	try{
-			EasyTracker.getInstance(this).activityStart(this);
+//			EasyTracker.getInstance(this).activityStart(this);
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){
@@ -408,7 +408,7 @@ public class UserProfile extends BaseActivity{
     	// TODO Auto-generated method stub
     	super.onStop();
     	try{
-			EasyTracker.getInstance(this).activityStop(this);
+//			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
     	}catch(Exception e){
 		}

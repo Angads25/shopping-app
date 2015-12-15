@@ -572,7 +572,12 @@ public class ConnectionService extends IntentService {
 							(Serializable) ConnectionServiceParser
 									.parseOrderHistoryResponse(response));
 					break;
+
 				case MyParserType.ORDER_DETAIL:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) response);
+					break;
+				case MyParserType.ORDER_REORDER:
 					bundle.putSerializable(RESPONSE,
 							(Serializable) response);
 					break;

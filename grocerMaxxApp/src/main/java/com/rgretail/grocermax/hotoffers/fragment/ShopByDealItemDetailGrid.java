@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.OfferByDealTypeSubModel;
-import com.rgretail.grocermax.hotoffers.HotOffersActivity;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.hotoffers.adapter.ShopByDealDetailListAdapter;
 import com.rgretail.grocermax.utils.Worker;
 
@@ -35,7 +35,7 @@ public class ShopByDealItemDetailGrid extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        HotOffersActivity.bFromHome = false;
+        HomeScreen.bFromHome = false;
 //        View view = inflater.inflate(R.layout.item_grid, container, false);
 //        recyclerView = (RecyclerView) view.findViewById(R.id.gridView);
 //        GridLayoutManager gridLayout = new GridLayoutManager(getActivity(), 2);
