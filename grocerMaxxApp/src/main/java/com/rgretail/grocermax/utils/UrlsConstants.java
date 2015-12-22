@@ -1,6 +1,7 @@
 package com.rgretail.grocermax.utils;
 
 import com.rgretail.grocermax.MyApplication;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 
 /**
  * Class to Hold the Url AppConstants
@@ -108,7 +109,7 @@ public class UrlsConstants {
 			+ "errorlog?error=";
 
 	//public final static String LOGIN_URL = BASE_URL + "login.php?";// uemail=suman.ditm07@gmail.com&password=XHqvaHnW
-	String PKG_NAME = MyApplication.getInstance().getPackageName();
+	String PKG_NAME = HomeScreen.mContext.getPackageName();
 
 	String GET_SHOP_BY_CATEGORIES = PKG_NAME + ".get_shop_by_categories";
 	String GET_SHOP_BY_DEALS = PKG_NAME + ".get_shop_by_deals";

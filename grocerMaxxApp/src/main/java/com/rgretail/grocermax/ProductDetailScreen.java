@@ -26,6 +26,7 @@ import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.BaseResponseBean;
 import com.rgretail.grocermax.bean.Product;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
@@ -152,8 +153,8 @@ public class ProductDetailScreen extends BaseActivity implements
 //		tvCancelPrice.setTypeface(face);
 //		tvCancelPrice.setText("`"+ productDetail.getProductPrice());
 
-            Typeface font2 = Typeface.createFromAsset(MyApplication.getInstance().getAssets(), "Roboto-Regular.ttf");
-            Typeface font1 = Typeface.createFromAsset(MyApplication.getInstance().getAssets(), "Rupee.ttf");
+            Typeface font2 = Typeface.createFromAsset(HomeScreen.mContext.getAssets(), "Roboto-Regular.ttf");
+            Typeface font1 = Typeface.createFromAsset(HomeScreen.mContext.getAssets(), "Rupee.ttf");
             SpannableStringBuilder SS = new SpannableStringBuilder("`" + productDetail.getProductPrice());
             SS.setSpan(new CustomTypefaceSpan("", font1), 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             SS.setSpan(new CustomTypefaceSpan("", font2), 1, productDetail.getProductPrice().toString().length() - (productDetail.getProductPrice().toString().length() - 1), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
@@ -161,8 +162,8 @@ public class ProductDetailScreen extends BaseActivity implements
 //        SS.setSpan (new CustomTypefaceSpan("", font2), 1, productDetail.getProductPrice().toString().length()+1,Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
             tvCancelPrice.setText(SS);
 
-            font1 = Typeface.createFromAsset(MyApplication.getInstance().getAssets(), "Rupee.ttf");
-            font2 = Typeface.createFromAsset(MyApplication.getInstance().getAssets(), "Roboto-Regular.ttf");
+            font1 = Typeface.createFromAsset(HomeScreen.mContext.getAssets(), "Rupee.ttf");
+            font2 = Typeface.createFromAsset(HomeScreen.mContext.getAssets(), "Roboto-Regular.ttf");
             SS = new SpannableStringBuilder("`" + productDetail.getSale_price());
             SS.setSpan(new CustomTypefaceSpan("", font1), 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 //        SS.setSpan (new CustomTypefaceSpan("", font2), 1, productDetail.getSale_price().length()-(productDetail.getSale_price().length()-1),Spanned.SPAN_EXCLUSIVE_INCLUSIVE);

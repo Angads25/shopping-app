@@ -15,6 +15,7 @@ import com.rgretail.grocermax.MyApplication;
 import com.rgretail.grocermax.OrderHistory;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.Orderhistory;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
@@ -78,12 +79,12 @@ public class OrderHistoryAdapter extends BaseAdapter {
 			holder.product_image = (ImageView) convertView
 					.findViewById(R.id.product_image);
 			
-			holder.order_date.setTypeface(CustomFonts.getInstance().getRobotoMedium(MyApplication.getInstance()));
-			holder.order_no.setTypeface(CustomFonts.getInstance().getRobotoMedium(MyApplication.getInstance()));
-			holder.amnt_paid.setTypeface(CustomFonts.getInstance().getRobotoMedium(MyApplication.getInstance()));
-			holder.status.setTypeface(CustomFonts.getInstance().getRobotoMedium(MyApplication.getInstance()));
-//			holder.name.setTypeface(CustomFonts.getInstance().getRobotoMedium(MyApplication.getInstance()));
-			holder.no_of_items.setTypeface(CustomFonts.getInstance().getRobotoMedium(MyApplication.getInstance()));
+			holder.order_date.setTypeface(CustomFonts.getInstance().getRobotoMedium(HomeScreen.mContext));
+			holder.order_no.setTypeface(CustomFonts.getInstance().getRobotoMedium(HomeScreen.mContext));
+			holder.amnt_paid.setTypeface(CustomFonts.getInstance().getRobotoMedium(HomeScreen.mContext));
+			holder.status.setTypeface(CustomFonts.getInstance().getRobotoMedium(HomeScreen.mContext));
+//			holder.name.setTypeface(CustomFonts.getInstance().getRobotoMedium(HomeScreen.mContext));
+			holder.no_of_items.setTypeface(CustomFonts.getInstance().getRobotoMedium(HomeScreen.mContext));
 			
 			holder.tv1 = (TextView) convertView.findViewById(R.id.tv1);
 			holder.tv2 = (TextView) convertView.findViewById(R.id.tv2);
@@ -91,11 +92,11 @@ public class OrderHistoryAdapter extends BaseAdapter {
 			holder.tv5 = (TextView) convertView.findViewById(R.id.tv5);
 			holder.tv6 = (TextView) convertView.findViewById(R.id.tv6);
 			
-			holder.tv1.setTypeface(CustomFonts.getInstance().getRobotoBold(MyApplication.getInstance()));
-			holder.tv2.setTypeface(CustomFonts.getInstance().getRobotoBold(MyApplication.getInstance()));
-			holder.tv3.setTypeface(CustomFonts.getInstance().getRobotoBold(MyApplication.getInstance()));
-			holder.tv5.setTypeface(CustomFonts.getInstance().getRobotoBold(MyApplication.getInstance()));
-			holder.tv6.setTypeface(CustomFonts.getInstance().getRobotoBold(MyApplication.getInstance()));
+			holder.tv1.setTypeface(CustomFonts.getInstance().getRobotoBold(HomeScreen.mContext));
+			holder.tv2.setTypeface(CustomFonts.getInstance().getRobotoBold(HomeScreen.mContext));
+			holder.tv3.setTypeface(CustomFonts.getInstance().getRobotoBold(HomeScreen.mContext));
+			holder.tv5.setTypeface(CustomFonts.getInstance().getRobotoBold(HomeScreen.mContext));
+			holder.tv6.setTypeface(CustomFonts.getInstance().getRobotoBold(HomeScreen.mContext));
 
 			convertView.setTag(holder);
 		} else {

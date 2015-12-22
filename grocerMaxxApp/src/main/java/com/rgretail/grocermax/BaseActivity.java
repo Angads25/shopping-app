@@ -52,6 +52,7 @@ import android.widget.TextView.OnEditorActionListener;
 import com.facebook.Session;
 import com.facebook.SessionState;
 //import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.analytics.Tracker;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -83,7 +84,7 @@ import com.rgretail.grocermax.utils.UrlsConstants;
 
 public abstract class BaseActivity extends FragmentActivity {
 //	public static boolean bBack = false;
-	protected Context mContext = this;
+	public static Context mContext ;
 	EditText etSearchBckup;  //when press on search icon and it came you to previous screen.
 	public static Activity activity;
 	public DisplayImageOptions baseImageoptions;
@@ -111,12 +112,14 @@ public abstract class BaseActivity extends FragmentActivity {
 	private String search_key;
 	public static boolean keyboardVisibility=false;
 //	EasyTracker tracker;
+	public static Tracker mTracker;
 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		activity = this;
+		mContext=this;
 		try {
 			etSearchBckup = new EditText(this);
 			addActionsInFilter(MyReceiverActions.CHECKOUT);
@@ -142,7 +145,7 @@ public abstract class BaseActivity extends FragmentActivity {
 			getKeyBoardVisibility();
 
 //			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//
+//kill
 //			if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
 //				if(!keyboardVisibility)
 //					imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);

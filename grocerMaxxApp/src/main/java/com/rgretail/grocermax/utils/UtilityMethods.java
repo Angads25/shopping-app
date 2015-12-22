@@ -64,6 +64,7 @@ import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
 import com.rgretail.grocermax.bean.CartDetail;
 import com.rgretail.grocermax.bean.CartDetailBean;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.AlarmService;
 import com.rgretail.grocermax.utils.ListSublistConstants.ListConstant;
 
@@ -1014,7 +1015,7 @@ public class UtilityMethods {
 	 {
 		 ActivityManager am = (ActivityManager) con.getSystemService(Context.ACTIVITY_SERVICE);
 //		    List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
-		 ActivityManager mActivityManager =(ActivityManager) MyApplication.getInstance().getSystemService(Context.ACTIVITY_SERVICE);
+		 ActivityManager mActivityManager =(ActivityManager) BaseActivity.mContext.getSystemService(Context.ACTIVITY_SERVICE);
 		 String asa = con.getApplicationContext().getPackageName();
 		 String mPackageName = "";
 		 if(Build.VERSION.SDK_INT > 20){
@@ -1089,51 +1090,27 @@ public class UtilityMethods {
 
 	public static void clickCapture(Context context,String strPrice,String strContentType,String strContentId,String strName,String strEventName){
 		//		5 /Example 2: ​Purchase Event/
-		Map<String, Object> eventValue = new HashMap<String, Object>();
-		eventValue.put(AFInAppEventParameterName.PRICE,strPrice);
-//		eventValue.put(AFInAppEventParameterName.REVENUE,200);
-		eventValue.put(AFInAppEventParameterName.CONTENT_TYPE,strContentType);
-		eventValue.put(AFInAppEventParameterName.CONTENT_ID,strContentId);
-		eventValue.put("NAME", strName);
-		eventValue.put(AFInAppEventParameterName.CURRENCY, "INR");;
-		AppsFlyerLib.trackEvent(context, strEventName, eventValue);
-//		eventValue.put(AFInAppEventParameterName.PRICE,200);
-////		eventValue.put(AFInAppEventParameterName.REVENUE,200);
-//		eventValue.put(AFInAppEventParameterName.CONTENT_TYPE,"category_a");
-//		eventValue.put(AFInAppEventParameterName.CONTENT_ID,"1234567");
-//		eventValue.put(AFInAppEventParameterName.CURRENCY, "INR");
-//		AppsFlyerLib.trackEvent(getApplicationContext(), AFInAppEventType.ADD_TO_CART, eventValue);
-
 		try {
-			// Get tracker.
-//Tracker t = ((AnalyticsSampleApp) ((Activity)context).getApplication()).getTracker(AnalyticsSampleApp.TrackerName.APP_TRACKER);
-			// Set screen name.
-//			t.setScreenName(screenName);
-			// Send a screen view.
-//			t.send(new HitBuilders.ScreenViewBuilder().build());
+			Map<String, Object> eventValue = new HashMap<String, Object>();
+			eventValue.put(AFInAppEventParameterName.PRICE, strPrice);
+//		eventValue.put(AFInAppEventParameterName.REVENUE,200);
+			eventValue.put(AFInAppEventParameterName.CONTENT_TYPE, strContentType);
+			eventValue.put(AFInAppEventParameterName.CONTENT_ID, strContentId);
+			eventValue.put("NAME", strName);
+			eventValue.put(AFInAppEventParameterName.CURRENCY, "INR");
+			;
+			AppsFlyerLib.trackEvent(context, strEventName, eventValue);
+		}catch(Exception e){}
+		try {
 
+			if(BaseActivity.mTracker != null) {
+				BaseActivity.mTracker.send(new HitBuilders.EventBuilder()
+						.setCategory(strPrice)  //2nd parameter - price
+						.setAction(strEventName)    //last parameter
+						.setLabel(strContentId)    //3rd parameter - id
+						.build());
 
-			Map<String,String> params = new HashMap<String,String>();
-			params.put(GA_PRICE, strPrice);
-			params.put(GA_CONTENT_TYPE,strContentType);
-			params.put(GA_CONTENT_ID, strContentId);
-			params.put(GA_CURRENCY, "INR");
-
-//			t.send(new HitBuilders.EventBuilder()
-//					.set(UtilityMethods.GA_EVENTNAME, strEventName)
-//					.setAll(params)
-//					.build());
-
-
-//			MyApp.tracker().send(new HitBuilders.EventBuilder("ui", "open")
-//					.setLabel("settings")
-//					.build());
-
-//			MyApplication.tracker().send(new HitBuilders.EventBuilder()
-			MyApp.tracker().send(new HitBuilders.EventBuilder()
-					.set(UtilityMethods.GA_EVENTNAME, strEventName)
-					.setAll(params)
-					.build());
+			}
 
 		}catch(Exception e){
 			e.getMessage();
