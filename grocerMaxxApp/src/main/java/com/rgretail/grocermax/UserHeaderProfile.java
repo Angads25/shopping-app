@@ -28,7 +28,7 @@ import com.rgretail.grocermax.utils.UrlsConstants;
  */
 public class UserHeaderProfile extends BaseActivity implements View.OnClickListener{
     public static TextView tvUserName,tvUserEmail,tvUserMobileNo;
-    RelativeLayout rlLogin,rlOrderHistory,rlMyAddresses,rlEditProfile,rlInviteFriends,rlCallToUs,rlWriteToUs,rlSignOut;
+    RelativeLayout rlLogin,rlOrderHistory,rl_wallet,rlMyAddresses,rlEditProfile,rlInviteFriends,rlCallToUs,rlWriteToUs,rlSignOut;
 //    rlViewProfile
     TextView tvLogin,tvOrderHistory,tvMyAddresses,tvEditProfile,tvInviteFriends,tvCallToUs,tvWriteToUs,tvSignOut;
 //    tvViewProfile
@@ -56,6 +56,7 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
 
         rlLogin = (RelativeLayout) findViewById(R.id.rl_login_signup);
         rlOrderHistory = (RelativeLayout) findViewById(R.id.rl_orderhistory);
+        rl_wallet = (RelativeLayout) findViewById(R.id.rl_wallet);
         rlMyAddresses = (RelativeLayout) findViewById(R.id.rl_myaddresses);
 //        rlViewProfile = (RelativeLayout) findViewById(R.id.rl_viewprofile);
         rlEditProfile = (RelativeLayout) findViewById(R.id.rl_editprofile);
@@ -76,6 +77,7 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
 
         rlLogin.setOnClickListener(this);
         rlOrderHistory.setOnClickListener(this);
+        rl_wallet.setOnClickListener(this);
         rlMyAddresses.setOnClickListener(this);
 //        rlViewProfile.setOnClickListener(this);
         rlEditProfile.setOnClickListener(this);
@@ -191,6 +193,19 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                         startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
                     }
                 }
+                }catch(Exception e){}
+                break;
+            case R.id.rl_wallet:
+                try{
+                    if (!UtilityMethods.getCurrentClassName(UserHeaderProfile.this).equals(getApplicationContext().getPackageName() + ".WalletActivity")) {
+                        if (userId != null && userId.trim().length() > 0) {
+                            Intent intent = new Intent(mContext, WalletActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Intent intent = new Intent(mContext, LoginActivity.class);
+                            startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
+                        }
+                    }
                 }catch(Exception e){}
                 break;
             case R.id.rl_myaddresses:

@@ -8,10 +8,10 @@ import com.flurry.android.FlurryAgent;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 
-import java.util.HashMap;
-
 public class MyApplication extends Application {
-    
+
+
+
 	private static MyApplication mApplication;
 	Context context;
 //	private static String PROPERTY_ID;

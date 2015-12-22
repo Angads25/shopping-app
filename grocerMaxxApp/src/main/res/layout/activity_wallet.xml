@@ -1,17 +1,149 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.rgretail.grocermax.WalletActivity">
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <!--<include
+        android:id="@+id/header"
+        layout="@layout/mart_header_2"/>-->
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/primaryColor"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/icon_header_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/carat_left_white" />
+
+        <ImageView
+            android:id="@+id/icon_wallet_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/wallet_image" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="My Wallet"
+            android:textColor="@color/white"
+            android:textSize="@dimen/mart_header_text_size"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="5dp"
+            android:id="@+id/tv" />
+
+    </LinearLayout>
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="visible"/>
+        android:layout_below="@+id/ll"
+        android:background="@color/primaryColor"
+        android:paddingBottom="10dp"
+        android:layout_alignParentRight="true">
 
-        <include
-            android:id="@+id/header"
-            layout="@layout/mart_header_2"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your Balance"
+            android:textColor="@color/grey"
+            android:textSize="25dp"
+            android:gravity="center"
+            android:id="@+id/textView" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/Rs"
+                android:textColor="@color/grey"
+                android:textSize="30dp"
+                android:layout_gravity="bottom"
+                android:gravity="bottom"
+                android:layout_marginRight="2dp"
+                android:paddingBottom="3dp"
+                android:id="@+id/tv2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.00"
+                android:gravity="bottom"
+                android:textColor="@color/white"
+                android:textSize="40dp"
+                android:id="@+id/tv_walletAmount" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="Transactions"
+            android:textColor="@color/white"
+            android:textSize="17dp"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_transaction"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            android:id="@+id/tv_transactions" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/icon_friend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/friends"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Liked shopping with us?"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_24"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:id="@+id/txt" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/msg"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_18"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/txt1" />
+
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Share"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal|bottom"
+        android:background="@drawable/button_orange"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:id="@+id/tv_share" />
 
 
-</RelativeLayout>
+</LinearLayout>

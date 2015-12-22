@@ -168,6 +168,18 @@ need this in relative layout when price details need to be shown below -->
 
     </RelativeLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_bill_buster"
+        android:text=""
+        android:background="#fec70d"
+        android:gravity="center"
+        android:padding="5dp"
+        android:visibility="gone"
+        android:textColor="#e5111e"
+        android:textSize="@dimen/text_size_13"/>
+
     <LinearLayout
         android:id="@+id/ll_total"
         android:layout_width="match_parent"

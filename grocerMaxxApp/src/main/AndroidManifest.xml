@@ -406,6 +406,10 @@
             android:name=".WalletActivity"
             android:label="@string/title_activity_wallet" >
         </activity>
+        <activity
+            android:name=".WalletTransaction"
+            android:label="@string/title_activity_wallet" >
+        </activity>
     </application>
 
 </manifest>

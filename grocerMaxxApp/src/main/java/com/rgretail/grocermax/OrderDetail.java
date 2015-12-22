@@ -1,9 +1,5 @@
 package com.rgretail.grocermax;
 
-import java.util.List;
-
-import org.json.JSONObject;
-
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
@@ -14,18 +10,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
 import com.google.gson.Gson;
 import com.rgretail.grocermax.api.ConnectionService;
-import com.rgretail.grocermax.preference.MySharedPrefs;
-import com.rgretail.grocermax.utils.Constants;
-import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.OrderDetailItem;
 import com.rgretail.grocermax.bean.OrderedProductList;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
+import com.rgretail.grocermax.preference.MySharedPrefs;
+import com.rgretail.grocermax.utils.Constants;
+import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
+
+import org.json.JSONObject;
+
+import java.util.List;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 
 public class OrderDetail extends BaseActivity{
 
@@ -33,8 +34,8 @@ public class OrderDetail extends BaseActivity{
 	//	TextView tvOrderId;
 	String order_id,order_increement_id;
 	List<OrderDetailItem> items;
-	LinearLayout ll_product,ll_discount;
-	TextView tv_subtotal_2,tv_shipping,tv_youpay,tv_discount;
+	LinearLayout ll_product,ll_discount,ll_wallet;
+	TextView tv_subtotal_2,tv_shipping,tv_youpay,tv_discount,tv_wallet,txt_wallet;
 	TextView tvShippingCharges;
 	TextView tvCoupon;
 
@@ -110,6 +111,8 @@ public class OrderDetail extends BaseActivity{
 		tv_billing_address=(TextView)findViewById(R.id.tv_billing_address);
 		tvShippingCharges = (TextView)findViewById(R.id.tv_shipping_charges);
 		tvCoupon = (TextView) findViewById(R.id.tv_coupon);
+        tv_wallet=(TextView)findViewById(R.id.tv_wallet);
+        txt_wallet=(TextView)findViewById(R.id.txt_wallet);
 
 		tv_about_order.setTypeface(CustomFonts.getInstance().getRobotoLight(this));
 		tv_shipping_method.setTypeface(CustomFonts.getInstance().getRobotoLight(this));
@@ -119,6 +122,8 @@ public class OrderDetail extends BaseActivity{
 		tv_shipping_address.setTypeface(CustomFonts.getInstance().getRobotoLight(this));
 		tv_billing_address.setTypeface(CustomFonts.getInstance().getRobotoLight(this));
 		tvShippingCharges.setTypeface(CustomFonts.getInstance().getRobotoLight(this));
+        tv_wallet.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+        txt_wallet.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 
 		tv_discount=(TextView)findViewById(R.id.tv_discount);
 		ll_product=(LinearLayout)findViewById(R.id.ll_product_list);
@@ -127,6 +132,7 @@ public class OrderDetail extends BaseActivity{
 		ll_subtotal=(LinearLayout)findViewById(R.id.ll_subtotal);
 		ll_youpay=(LinearLayout)findViewById(R.id.ll_youpay);
 		ll_shipping=(LinearLayout)findViewById(R.id.ll_shipping);
+        ll_wallet=(LinearLayout)findViewById(R.id.ll_wallet);
 
 //		ll_header=(LinearLayout)findViewById(R.id.ll_header);
 
@@ -270,7 +276,23 @@ public class OrderDetail extends BaseActivity{
 						ll_discount.setVisibility(View.GONE);
 						tv_discount.setText("Rs. "+String.format("%.2f",Float.parseFloat(orderDetailJson.getString("discount_amount"))));
 					}
-					tv_youpay.setText("Rs. "+String.format("%.2f",Float.parseFloat(orderDetailJson.getJSONObject("payment").getString("amount_ordered"))));
+                    tv_youpay.setText("Rs. "+String.format("%.2f",Float.parseFloat(orderDetailJson.getJSONObject("payment").getString("amount_ordered"))));
+                    double wallet_credit=Double.parseDouble(orderDetailJson.getString("customer_credit_amount"));
+                    if(wallet_credit==0){
+                        ll_wallet.setVisibility(View.GONE);
+                    }else{
+                        double total_amount=Double.parseDouble(orderDetailJson.getJSONObject("payment").getString("amount_ordered"));
+                        ll_wallet.setVisibility(View.VISIBLE);
+                        tv_wallet.setText("Rs. "+String.format("%.2f",wallet_credit));
+                        if(total_amount>wallet_credit){
+                            total_amount=total_amount-wallet_credit;
+                            tv_youpay.setText("Rs. "+String.format("%.2f",total_amount));
+                        }else{
+                            tv_youpay.setText("Rs. 0.00");
+                        }
+                    }
+
+
 
 					/////////code added by Ishan//////////////////////////
 					String store_id=orderDetailJson.getString("store_id");

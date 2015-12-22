@@ -1,11 +1,5 @@
 package com.rgretail.grocermax;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -25,7 +19,6 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
@@ -33,20 +26,28 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.rgretail.grocermax.api.ConnectionService;
-import com.rgretail.grocermax.bean.BaseResponseBean;
-import com.rgretail.grocermax.hotoffers.HomeScreen;
-import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.api.MyReceiverActions;
+import com.rgretail.grocermax.bean.BaseResponseBean;
 import com.rgretail.grocermax.bean.CartDetailBean;
 import com.rgretail.grocermax.bean.LoginResponse;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.AppLoadingScreen;
 import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.Constants.ToastConstant;
+import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 //import android.widget.Toast;
 
 
@@ -397,6 +398,8 @@ public class LoginActivity extends BaseActivity
 
 					}
 					try {
+                        jsonObject.put("device_token",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
+                        jsonObject.put("device_id",UtilityMethods.getDeviceId(LoginActivity.this));
 						MySharedPrefs.INSTANCE.putFirstName(null);          //
 						MySharedPrefs.INSTANCE.putLastName(null);           //
 						Registration.googleName = null;                     //
@@ -519,6 +522,8 @@ public class LoginActivity extends BaseActivity
 //					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 //					System.out.println("==jsonobject==" + jsonObject);
 				}
+                jsonObject.put("device_token",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
+                jsonObject.put("device_id",UtilityMethods.getDeviceId(LoginActivity.this));
 				myApi.reqLogin(url,jsonObject);
 
 //				myApi.reqLogin(url);
@@ -1258,7 +1263,8 @@ public class LoginActivity extends BaseActivity
 //					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 					System.out.println("==jsonobject==" + jsonObject);
 				}
-
+                jsonObject.put("device_token",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
+                jsonObject.put("device_id",UtilityMethods.getDeviceId(LoginActivity.this));
 				myApi.reqLogin(url,jsonObject);
 //			String url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getGoogleEmail() + "&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
 //			String url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getGoogleEmail() + "&fname=" + USER_NAME+"&number=0000000000";

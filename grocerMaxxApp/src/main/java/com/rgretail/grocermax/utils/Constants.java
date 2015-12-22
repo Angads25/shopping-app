@@ -35,7 +35,8 @@ public class Constants {
 
 	public static ArrayList<String> quantity = new ArrayList<String>(Arrays.asList("1", "2", "3", "4", "5"));
 
-	public static final String GCM_SENDER_KEY = "441080484159";
+	//public static final String GCM_SENDER_KEY = "441080484159";
+    public static final String GCM_SENDER_KEY = "713088329910";
 
 	public static final String localCartFileCount = "localcartcount.txt";
 	
@@ -61,7 +62,6 @@ public class Constants {
 	
 	
 	public static class ToastConstant{
-
 		public static final String QUOTE_FAIL = "Some items in this order is out of stock";
 		public static final String PRODUCT_REMOVED = "Product removed successfully";
 		public static final String PRODUCT_ADDED_CART = "Product successfully added to cart";

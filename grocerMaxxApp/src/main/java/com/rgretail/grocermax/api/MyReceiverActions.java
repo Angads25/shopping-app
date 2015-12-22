@@ -101,4 +101,6 @@ public interface MyReceiverActions {
 	String PRODUCT_LISTING_BY_DEALTYPE = PKG_NAME + ".product_listing_by_deal_type";
 
 	String ORDER_REORDER = PKG_NAME + ".order_reorder";
+    String WALLET_INFO = PKG_NAME + ".wallet_info";
+    String WALLET_TRANSACTIONS = PKG_NAME + ".wallet_transactions";
 }

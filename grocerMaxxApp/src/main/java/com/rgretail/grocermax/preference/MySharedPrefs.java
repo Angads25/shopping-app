@@ -28,6 +28,8 @@ public enum MySharedPrefs {
 	private final String USER_ID = "user_id";
 	private final String USER_CITY = "user_city";
 	private final String IS_LOGIN = "is_login";
+    private final String GCM_DEVICE_TOKEN_FIRST = "gcm_device_token_first";
+    private final String GCM_DEVICE_TOKEN = "gcm_device_token";
 	
 	private final String FIRST_NAME = "first_name";
 	private final String LAST_NAME = "last_name";
@@ -197,6 +199,24 @@ public enum MySharedPrefs {
 	public String getUserId() {
 		return getAppPreference().getString(USER_ID, null);
 	}
+
+    public String getGCMDeviceTocken() {
+        return getAppPreference().getString(GCM_DEVICE_TOKEN, null);
+    }
+
+    public void putGCMDeviceTocken(String device_token) {
+        getAppPreference().edit().putString(GCM_DEVICE_TOKEN, device_token).commit();
+    }
+
+    public String getGCMDeviceTockenFirst() {
+        return getAppPreference().getString(GCM_DEVICE_TOKEN_FIRST, null);
+    }
+
+    public void putGCMDeviceTockenFirst(String device_token) {
+        getAppPreference().edit().putString(GCM_DEVICE_TOKEN_FIRST, device_token).commit();
+    }
+
+
 	
 	public void putQuoteId(String ouoteId) {
 		getAppPreference().edit().putString(QUOTE_ID, ouoteId).commit();

@@ -1,5 +1,4 @@
 package com.rgretail.grocermax.GCM;
-import java.io.IOException;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,10 +6,13 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
 import android.util.Log;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.*;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.rgretail.grocermax.preference.MySharedPrefs;
+
+import java.io.IOException;
 
 public class GCMClientManager {
 	// Constants
@@ -37,7 +39,7 @@ public class GCMClientManager {
 		}
 	}
 
-	public GCMClientManager(Activity activity, String projectNumber) {
+    public GCMClientManager(Activity activity, String projectNumber) {
             this.activity = activity;
             this.projectNumber = projectNumber;
             this.gcm = GoogleCloudMessaging.getInstance(activity);
@@ -47,7 +49,7 @@ public class GCMClientManager {
 	public void registerIfNeeded(final RegistrationCompletedHandler handler) {
             if (checkPlayServices()) {
                 regid = getRegistrationId(getContext());
-
+                MySharedPrefs.INSTANCE.putGCMDeviceTocken(regid);
                 if (regid.isEmpty()) {
                     registerInBackground(handler);
                 } else { // got id from cache
@@ -75,9 +77,11 @@ public class GCMClientManager {
 					}
 					regid = gcm.register(projectNumber);
 					Log.i(TAG, regid);
+                    MySharedPrefs.INSTANCE.putGCMDeviceTocken(regid);
 
 					// Persist the regID - no need to register again.
 					storeRegistrationId(getContext(), regid);
+
 
 				} catch (IOException ex) {
 					// If there is an error, don't just keep trying to register.
@@ -91,6 +95,7 @@ public class GCMClientManager {
 			@Override
 			protected void onPostExecute(String regId) {
 			    if (regId != null) {
+                    MySharedPrefs.INSTANCE.putGCMDeviceTocken(regId);
 			        handler.onSuccess(regId, true);
 			    }
 			}
@@ -105,7 +110,7 @@ public class GCMClientManager {
 	 * @return registration ID, or empty string if there is no existing
 	 *         registration ID.
 	 */
-	private String getRegistrationId(Context context) {
+    public String getRegistrationId(Context context) {
 	    final SharedPreferences prefs = getGCMPreferences(context);
 	    String registrationId = prefs.getString(PROPERTY_REG_ID, "");
 	    if (registrationId.isEmpty()) {
@@ -157,11 +162,10 @@ public class GCMClientManager {
 	    }
 	}
 
-	private SharedPreferences getGCMPreferences(Context context) {
+	public SharedPreferences getGCMPreferences(Context context) {
 	    // This sample app persists the registration ID in shared preferences, but
 	    // how you store the regID in your app is up to you.
-	    return getContext().getSharedPreferences(context.getPackageName(),
-	            Context.MODE_PRIVATE);
+	    return getContext().getSharedPreferences(context.getPackageName(),Context.MODE_PRIVATE);
 	}
 
 	/**

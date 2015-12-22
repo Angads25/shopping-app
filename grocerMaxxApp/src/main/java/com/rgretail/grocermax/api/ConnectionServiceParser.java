@@ -1,12 +1,5 @@
 package com.rgretail.grocermax.api;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.google.gson.Gson;
 import com.rgretail.grocermax.CartProductList;
 import com.rgretail.grocermax.UpdateCartbg;
@@ -29,8 +22,16 @@ import com.rgretail.grocermax.bean.ProductDetailsListBean;
 import com.rgretail.grocermax.bean.ProductListBean;
 import com.rgretail.grocermax.bean.Simple;
 import com.rgretail.grocermax.bean.UserDetailBean;
+import com.rgretail.grocermax.bean.WalletTranactionList;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.preference.MySharedPrefs;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ConnectionServiceParser {
 
@@ -72,6 +73,8 @@ public class ConnectionServiceParser {
 		int HOME_BANNER = 132;
 		int PRODUCT_LISTING_BY_DEALTYPE = 133;
 		int ORDER_REORDER = 134;
+        int WALLET_INFO = 135;
+        int WALLET_TRANSACTION = 136;
 	}
 
 	public static BaseResponseBean parseSimpleResponse(String jsonString)
@@ -550,6 +553,18 @@ public class ConnectionServiceParser {
 		}
 		return bean;
 	}
+
+    public static WalletTranactionList parseWalletTransactionResponse(String jsonString)
+            throws JSONException {
+        WalletTranactionList bean = null;
+        try{
+            Gson gson = new Gson();
+            bean = gson.fromJson(jsonString, WalletTranactionList.class);
+        }catch(Exception e){
+            new GrocermaxBaseException("ConnectionServiceParser","parseWalletTransactionResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"notransaction");
+        }
+        return bean;
+    }
 
 	public static CheckoutAddressBean parseCheckoutAddressResponse(
 			String jsonString) throws JSONException {

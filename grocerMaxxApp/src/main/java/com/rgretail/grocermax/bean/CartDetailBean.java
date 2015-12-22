@@ -1,9 +1,9 @@
 package com.rgretail.grocermax.bean;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import com.google.gson.annotations.Expose;
 
 public class CartDetailBean extends BaseResponseBean implements Serializable{
 
@@ -26,12 +26,19 @@ public class CartDetailBean extends BaseResponseBean implements Serializable{
 	
 	@Expose
 	private String mrp;
-	
 
-	
+    @Expose
+    private String Bill_buster;
 
-	
-	public String getMrp() {
+    public String getBill_buster() {
+        return Bill_buster;
+    }
+
+    public void setBill_buster(String bill_buster) {
+        Bill_buster = bill_buster;
+    }
+
+    public String getMrp() {
 		return mrp;
 	}
 

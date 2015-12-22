@@ -1,11 +1,5 @@
 package com.rgretail.grocermax;
 
-import java.net.URLEncoder;
-import java.util.ArrayList;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,23 +13,30 @@ import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
+import com.rgretail.grocermax.adapters.CartAdapter;
 import com.rgretail.grocermax.api.ConnectionService;
+import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.BaseResponseBean;
+import com.rgretail.grocermax.bean.CartDetail;
 import com.rgretail.grocermax.bean.CartDetailBean;
 import com.rgretail.grocermax.bean.CheckoutAddressBean;
+import com.rgretail.grocermax.bean.OrderReviewBean;
+import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.CustomFonts;
-import com.rgretail.grocermax.utils.UtilityMethods;
-import com.rgretail.grocermax.adapters.CartAdapter;
-import com.rgretail.grocermax.api.MyReceiverActions;
-import com.rgretail.grocermax.bean.CartDetail;
-import com.rgretail.grocermax.bean.OrderReviewBean;
-import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.utils.UrlsConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.net.URLEncoder;
+import java.util.ArrayList;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 
 public class CartProductList extends BaseActivity implements OnClickListener{
 
@@ -47,7 +48,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	OrderReviewBean orderReviewBean;
 	CartAdapter mAdapter;
 	int position = -1;
-	TextView txt_subTotal,txt_shipping,txt_grand_total,txt_discount,txt_yousaved;
+	TextView txt_subTotal,txt_shipping,txt_grand_total,txt_discount,txt_yousaved,tv_bill_buster;
 	public TextView tv_subTotal,tv_discount;
 	public TextView tv_grandTotal,tv_shipping;
 	//	TextView tv_yousave;
@@ -122,6 +123,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			tv_shipping = (TextView) findViewById(R.id.tv_shipping);
 //		tv_yousave=(TextView)findViewById(R.id.tv_yousave);
 			tvYourCart = (TextView) findViewById(R.id.tv_your_cart);
+            tv_bill_buster=(TextView)findViewById(R.id.tv_bill_buster);
 //			tvCartItemCount = (TextView) findViewById(R.id.tv_cart_item_count);
 //			tvCartTotalTop = (TextView) findViewById(R.id.tv_cart_total);
 //			txtItems = (TextView) findViewById(R.id.txt_items);
@@ -219,6 +221,19 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				ll_discount.setVisibility(View.VISIBLE);*/
 //					tv_shipping.setText("Rs." + Float.parseFloat(orderReviewBean.getShipping_ammount()));
 					tv_shipping.setText("Rs."+String.format("%.2f", Float.parseFloat(orderReviewBean.getShipping_ammount())));
+
+
+                    /*set data on view for bill buster*/
+                    if(cartBean.getBill_buster()!=null) {
+                        if (cartBean.getBill_buster().equals("")) {
+                            tv_bill_buster.setVisibility(View.GONE);
+                        } else {
+                            tv_bill_buster.setText(cartBean.getBill_buster());
+                            tv_bill_buster.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    /*-----------------*/
+
 
 			if(Float.parseFloat(orderReviewBean.getShipping_ammount())==0)
 			{

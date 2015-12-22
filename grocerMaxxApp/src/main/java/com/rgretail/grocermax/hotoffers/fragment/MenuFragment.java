@@ -13,7 +13,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.rgretail.grocermax.CategoryTabs;
+import com.rgretail.grocermax.LoginActivity;
 import com.rgretail.grocermax.R;
+import com.rgretail.grocermax.WalletActivity;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.UtilityMethods;
@@ -41,7 +43,7 @@ public class MenuFragment extends Fragment {
     private ImageView imgBack;
     private String title;
     private Boolean isListView;
-    private TextView txvTitle, txvShopByDeals, txvGetInTouch, txvShopByCategories,txvRateThisApp;
+    private TextView txvTitle, txvShopByDeals, txvGetInTouch, txvShopByCategories,txvRateThisApp,txvYourWallet;
     public static TextView txvSelectLocation;
     private TextView txvLocation;
     private ImageView ivLocation;
@@ -87,6 +89,7 @@ public class MenuFragment extends Fragment {
         txvGetInTouch = (TextView) view.findViewById(R.id.txvGetInTouch);
         txvRateThisApp = (TextView) view.findViewById(R.id.txv_rate_app);
         txvSelectLocation = (TextView) view.findViewById(R.id.txvSelectLocation);
+        txvYourWallet=(TextView)view.findViewById(R.id.txvYourWallet);
         ivLocation = (ImageView) view.findViewById(R.id.ivLocation);
 //        txvLocation = (TextView) view.findViewById(R.id.txvLocation);
         imgBack = (ImageView) view.findViewById(R.id.imgBack);
@@ -191,6 +194,27 @@ public class MenuFragment extends Fragment {
                 try{UtilityMethods.clickCapture(HomeScreen.mContext,"","","","",SCREENNAME+AppConstants.DRAWER_RATE_US);}catch(Exception e){}
             }
         });
+
+        /* click event on your wallet to reach on wallet screen */
+        txvYourWallet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(MySharedPrefs.INSTANCE.getLoginStatus()){
+                  Intent i=new Intent(getActivity(), WalletActivity.class);
+                    startActivity(i);
+
+                }else{
+                    //UtilityMethods.customToast("Not login",HomeScreen.mContext);
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
+
+
+        /*///////////////////////////////////////////*/
+
 
         ivLocation.setOnClickListener(new View.OnClickListener() {
             @Override

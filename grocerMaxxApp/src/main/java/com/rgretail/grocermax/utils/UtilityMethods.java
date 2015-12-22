@@ -41,6 +41,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Parcel;
+import android.provider.Settings;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -1163,6 +1164,11 @@ public class UtilityMethods {
 		}catch(Exception e){}
 
 	}
+
+    public static String getDeviceId(Context con) {
+        String deviceId = Settings.Secure.getString(con.getContentResolver(), Settings.Secure.ANDROID_ID);
+        return deviceId;
+    }
 
 
 //	public static void GAClickCapture(Activity activity,String strPrice,String strContentType,String strContentId,String strEventName)

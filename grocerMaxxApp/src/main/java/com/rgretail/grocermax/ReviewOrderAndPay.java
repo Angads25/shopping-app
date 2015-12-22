@@ -1,21 +1,5 @@
 package com.rgretail.grocermax;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -31,7 +15,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
 import com.payu.sdk.Params;
 import com.payu.sdk.PayU;
 import com.payu.sdk.Payment;
@@ -46,11 +29,27 @@ import com.rgretail.grocermax.bean.OrderReviewBean;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
-import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.MyHttpUtils;
 import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.List;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 
 //import com.payu.sdk.PayU;
 //import com.payu.sdk.Payment;
@@ -77,7 +76,7 @@ public class ReviewOrderAndPay extends BaseActivity
 	Intent intent;
 	//	ProgressDialog mProgressDialog;
 	String txnId;
-	TextView txtItemCount,txtSubTotal,txtShippingCharges,txtYouSaved,txtTotal,txtCouponDiscount;
+	TextView txtItemCount,txtSubTotal,txtShippingCharges,txtYouSaved,txtTotal,txtCouponDiscount,txtWalletDiscount;
 	TextView tvItemCount,tvSubTotal,tvShippingCharges,tvYouSaved,tvTotal,tvCouponDiscount;
 	EditText etCouponCode;
 	float saving=0;
@@ -89,6 +88,15 @@ public class ReviewOrderAndPay extends BaseActivity
 	public static String strTempAmount,strTempSelectedState,strTempTotal,strTempTaxAmount,strTempShippingAmount;
 	private String SCREENNAME = "ReviewOrderAndPay-";
 	Handler handler = new Handler();
+
+    /*declearation for wallet*/
+    TextView tv_my_wallet,tv_wallet_discount;
+    ImageView iv_my_wallet;
+    RelativeLayout llWallet,rl_wallet_discount;
+    double wallet_amount=0.0;
+    boolean wallet_checked_status=false;
+    View v_my_wallet;
+    double t_amount;
 
 
 	public void payumoneyMakePayment(String orderid,double total) throws PackageManager.NameNotFoundException, MissingParameterException, HashException {
@@ -158,6 +166,7 @@ public class ReviewOrderAndPay extends BaseActivity
 			addActionsInFilter(MyReceiverActions.FINAL_CHECKOUT);
 			addActionsInFilter(MyReceiverActions.GET_ORDER_STATUS);
 			addActionsInFilter(MyReceiverActions.SET_ORDER_STATUS);
+            addActionsInFilter(MyReceiverActions.WALLET_INFO);
 
 			setContentView(R.layout.checkout_process_3);
 
@@ -171,6 +180,7 @@ public class ReviewOrderAndPay extends BaseActivity
 //			RelativeLayout llCashOnDelivery = (RelativeLayout) findViewById(R.id.ll_cash_on_delivery);
 //			RelativeLayout llPayTM = (RelativeLayout) findViewById(R.id.ll_paytm);
 //			RelativeLayout llMobiKwik = (RelativeLayout) findViewById(R.id.ll_mobikwik);
+
 			RelativeLayout llOnlinePayment = (RelativeLayout) findViewById(R.id.rl_online_payment);
 			RelativeLayout llCashOnDelivery = (RelativeLayout) findViewById(R.id.rl_cash_on_delivery);
 			RelativeLayout llPayTM = (RelativeLayout) findViewById(R.id.rl_paytm);
@@ -209,7 +219,6 @@ public class ReviewOrderAndPay extends BaseActivity
 			tvTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 
 
-
 			etCouponCode = (EditText) findViewById(R.id.edit_coupon_code);
 //		orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 			List<CartDetail> cartList = orderReviewBean.getProduct();
@@ -224,6 +233,7 @@ public class ReviewOrderAndPay extends BaseActivity
 					tvShippingCharges.setText("Rs." + Float.parseFloat(orderReviewBean.getShipping_ammount()));
 				}
 				tvTotal.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getGrandTotal())));
+               // setTotolAfterWalletSelectUnSelect(orderReviewBean.getGrandTotal());
 				tvItemCount.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getGrandTotal())));
 				if (MySharedPrefs.INSTANCE.getTotalItem() != null) {
 					txtItemCount.setText(MySharedPrefs.INSTANCE.getTotalItem() + " item");
@@ -669,16 +679,38 @@ public class ReviewOrderAndPay extends BaseActivity
 				@Override
 				public void onClick(View arg0) {
 					try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_PLACE_ORDER);}catch(Exception e){}
+
 					orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 //					float str1 = Float.parseFloat(orderReviewBean.getGrandTotal());
 //					float str2 = Float.parseFloat(orderReviewBean.getShipping_ammount());
 //					float str3 = Float.parseFloat(orderReviewBean.getDiscount_amount());
 					total = Float.parseFloat(orderReviewBean.getGrandTotal());
 //					+ Float.parseFloat(orderReviewBean.getShipping_ammount())		+ Float.parseFloat(orderReviewBean.getDiscount_amount());
-					if(!bCash && !bOnline && !bPayTM ){             //!bMobiKwik
+
+                     /*for checking that if payable amount =0 user should not select a payment method*/
+                    if(Double.parseDouble(tvTotal.getText().toString().replace("Rs.","").trim())==0){
+                        if(bCash || bOnline || bPayTM ){             //!bMobiKwik
+                            UtilityMethods.customToast(AppConstants.ToastConstant.NO_NEED_SELECT_PAYMENT_MODE, mContext);
+                            return;
+                        }else{
+                            payment_mode = "cashondelivery";
+                        }
+                    }else{
+                        if(!bCash && !bOnline && !bPayTM ){             //!bMobiKwik
+                            UtilityMethods.customToast(AppConstants.ToastConstant.SELECT_PAYMENT_MODE, mContext);
+                            return;
+                        }
+                    }
+
+                    /*end here*/
+
+
+
+
+                   /* if(!bCash && !bOnline && !bPayTM ){             //!bMobiKwik
 						UtilityMethods.customToast(AppConstants.ToastConstant.SELECT_PAYMENT_MODE, mContext);
 						return;
-					}else
+					}else*/
 
 					//in case user click once but server timed out occured then btn should disable for next time.
 					button_pay.setEnabled(false);
@@ -738,6 +770,13 @@ public class ReviewOrderAndPay extends BaseActivity
 						jsonObject.put("date", orderReviewBean.getDate());
 						jsonObject.put("payment_method", payment_mode);
 						jsonObject.put("shipping_method", "tablerate_bestway");
+                        if(wallet_checked_status==true){
+                            String total=tvItemCount.getText().toString().replace("Rs.","").trim();
+                            jsonObject.put("payment_method_Wallet", "customercredit");
+                            jsonObject.put("wallet", "1");
+                            jsonObject.put("internalWalletAmount",String.valueOf(wallet_amount));
+                            jsonObject.put("totalAmount", total);
+                        }
 
 						System.out.println("====payment json format====" + jsonObject);
 
@@ -809,6 +848,49 @@ public class ReviewOrderAndPay extends BaseActivity
 			icon_header_search.setVisibility(View.GONE);
 			icon_header_cart.setVisibility(View.GONE);
 			cart_count_txt.setVisibility(View.GONE);
+
+
+              /*initialization of view for wallet*/
+            t_amount=Double.parseDouble(orderReviewBean.getGrandTotal());
+            llWallet = (RelativeLayout) findViewById(R.id.rl_wallet);
+            rl_wallet_discount=(RelativeLayout)findViewById(R.id.rl_wallet_discount);
+            tv_wallet_discount=(TextView)findViewById(R.id.tv_wallet_discount);
+            txtWalletDiscount=(TextView)findViewById(R.id.txt_wallet_discount);
+            txtWalletDiscount.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+            tv_my_wallet=(TextView)findViewById(R.id.btn_my_wallet);
+            tv_my_wallet.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+            iv_my_wallet=(ImageView)findViewById(R.id.iv_my_wallet);
+            v_my_wallet=(View)findViewById(R.id.v_my_wallet);
+            llWallet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(wallet_checked_status==false){
+                        /*if wallet get selected*/
+                        iv_my_wallet.setImageResource(R.drawable.chkbox_selected);
+                        wallet_checked_status=true;
+                        rl_wallet_discount.setVisibility(View.VISIBLE);
+                        v_my_wallet.setVisibility(View.VISIBLE);
+                        setTotolAfterWalletSelectUnSelect(t_amount);
+                    }else{
+                        /*if wallet get unselected*/
+                        iv_my_wallet.setImageResource(R.drawable.chkbox_unselected);
+                        wallet_checked_status=false;
+                        rl_wallet_discount.setVisibility(View.GONE);
+                        v_my_wallet.setVisibility(View.GONE);
+                        //t_amount=Double.parseDouble(orderReviewBean.getGrandTotal());
+                        setTotolAfterWalletSelectUnSelect(t_amount);
+                    }
+                }
+            });
+
+            try {
+                showDialog();
+                myApi.reqWallet(UrlsConstants.WALLET_INFO_URL + MySharedPrefs.INSTANCE.getUserId());
+            } catch (Exception e) {
+                new GrocermaxBaseException("ReviewOrderAndPay","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION, "error in getting wallet amount");
+            }
+            /*end*/
+
 		}catch(Exception e){
 			new GrocermaxBaseException("ReviewOrderAndPay","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
@@ -1004,6 +1086,27 @@ public class ReviewOrderAndPay extends BaseActivity
 		return "";
 	}
 
+    public void setTotolAfterWalletSelectUnSelect(double total_amount){
+        t_amount=total_amount;
+        if(wallet_checked_status==true){
+                        /*if wallet is selected*/
+            if(t_amount<=wallet_amount){
+                tv_wallet_discount.setText("Rs."+String.format("%.2f",total_amount));
+                //t_amount=0.0;
+                tvTotal.setText("Rs.0.00");
+            }else{
+                //t_amount=t_amount-wallet_amount;
+                tvTotal.setText("Rs."+String.format("%.2f",(t_amount-wallet_amount)));
+                tv_wallet_discount.setText("Rs."+String.format("%.2f",wallet_amount));
+            }
+        }else{
+                        /*if wallet is unselected*/
+            tvTotal.setText("Rs."+String.format("%.2f",t_amount));
+            tv_wallet_discount.setText("Rs.0.00");
+        }
+
+    }
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //		System.out.println(requestCode+"======0000==========="+resultCode+"=========data=========="+data);
@@ -1195,6 +1298,37 @@ public class ReviewOrderAndPay extends BaseActivity
 					finish();
 				}
 			}
+
+             if (bundle.getString("ACTION").equals(MyReceiverActions.WALLET_INFO)) {
+                 dismissDialog();
+                try
+                {
+                    String walletResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);
+                    //System.out.println("reorder Response = "+quoteResponse);
+                    JSONObject reOrderJSON=new JSONObject(walletResponse);
+                    if(reOrderJSON.getInt("flag")==1){
+                        wallet_amount=reOrderJSON.getDouble("Balance");
+                        if(wallet_amount==0){
+                            //tv_walletAmount.setText("0.00");
+                            tv_my_wallet.setText("My Wallet ("+getResources().getString(R.string.Rs)+"0.00)");
+                            iv_my_wallet.setVisibility(View.GONE);
+                        }
+                        else{
+                            String w_amount=String.format("%.2f",wallet_amount);
+                            tv_my_wallet.setText("My Wallet ("+getResources().getString(R.string.Rs)+" "+w_amount+")");
+                            //tv_my_wallet.setText("My Wallet ("+getResources().getString(R.string.Rs)+String.format('"&.2f",wallet_amount)+")");
+                            iv_my_wallet.setVisibility(View.VISIBLE);
+                        }
+                    }else{
+                        tv_my_wallet.setText("My Wallet ("+getResources().getString(R.string.Rs)+"0.00)");
+                        iv_my_wallet.setVisibility(View.GONE);
+                    }
+                }catch(Exception e)
+                {
+                    new GrocermaxBaseException("WalletActivity","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"error in wallet");
+                }
+            }
+
 		}catch(Exception e){
 			new GrocermaxBaseException("ReviewOrderAndPay","onResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
@@ -1379,6 +1513,7 @@ class Coupon extends AsyncTask<String, String, String>
 						((ReviewOrderAndPay)context).tvShippingCharges.setText("Rs."+Float.parseFloat(orderReviewBean1.getShipping_ammount()));
 						((ReviewOrderAndPay)context).tvYouSaved.setText("Rs."+String.format("%.2f",savee));
 						((ReviewOrderAndPay)context).tvTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(orderReviewBean1.getGrandTotal())));
+                        ((ReviewOrderAndPay)context).setTotolAfterWalletSelectUnSelect(Double.parseDouble(orderReviewBean1.getGrandTotal()));
 						((ReviewOrderAndPay)context).tvItemCount.setText("Rs."+String.format("%.2f",Float.parseFloat(orderReviewBean1.getGrandTotal())));
 
 						((ReviewOrderAndPay)context).llFirstPage.setVisibility(View.GONE);
@@ -1433,6 +1568,7 @@ class Coupon extends AsyncTask<String, String, String>
 					((ReviewOrderAndPay)context).tvShippingCharges.setText("Rs."+Float.parseFloat(orderReviewBean2.getShipping_ammount()));
 					((ReviewOrderAndPay)context).tvYouSaved.setText("Rs."+String.format("%.2f",savee2));
 					((ReviewOrderAndPay)context).tvTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(String.valueOf(totalremove))));
+                    ((ReviewOrderAndPay)context).setTotolAfterWalletSelectUnSelect(Double.parseDouble(String.valueOf(totalremove)));
 					((ReviewOrderAndPay)context).tvItemCount.setText("Rs."+String.format("%.2f",Float.parseFloat(String.valueOf(totalremove))));
 
 					((ReviewOrderAndPay)context).llFirstPage.setVisibility(View.VISIBLE);

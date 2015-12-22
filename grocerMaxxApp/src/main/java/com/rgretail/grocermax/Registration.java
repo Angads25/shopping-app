@@ -1,13 +1,5 @@
 package com.rgretail.grocermax;
 
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,11 +8,11 @@ import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.view.View.OnClickListener;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -28,28 +20,36 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.rgretail.grocermax.api.ConnectionService;
-import com.rgretail.grocermax.bean.BaseResponseBean;
-import com.rgretail.grocermax.bean.OTPResponse;
-import com.rgretail.grocermax.preference.MySharedPrefs;
-import com.rgretail.grocermax.utils.AppConstants;
-import com.rgretail.grocermax.utils.Constants;
-import com.rgretail.grocermax.utils.CustomFonts;
-import com.rgretail.grocermax.utils.UtilityMethods;
-
 import com.rgretail.grocermax.api.MyReceiverActions;
+import com.rgretail.grocermax.bean.BaseResponseBean;
 import com.rgretail.grocermax.bean.CartDetail;
 import com.rgretail.grocermax.bean.CartDetailBean;
 import com.rgretail.grocermax.bean.LoginResponse;
+import com.rgretail.grocermax.bean.OTPResponse;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
+import com.rgretail.grocermax.preference.MySharedPrefs;
+import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.AppLoadingScreen;
+import com.rgretail.grocermax.utils.Constants;
+import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.UrlsConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 
 /**
  * @author Pratyesh Singh
@@ -439,6 +439,8 @@ public class Registration extends BaseActivity implements
 								jsonObject.put("password", _password);
 								jsonObject.put("quote_id", "no");
 								jsonObject.put("otp", "0");
+                                jsonObject.put("device_token",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
+                                jsonObject.put("device_id",UtilityMethods.getDeviceId(Registration.this));
 //								jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 
 								myApi.reqUserRegistrationOTP(url, jsonObject);
@@ -474,6 +476,8 @@ public class Registration extends BaseActivity implements
 								jsonObject.put("password", _password);
 								jsonObject.put("quote_id", MySharedPrefs.INSTANCE.getQuoteId());
 								jsonObject.put("otp", "0");
+                                jsonObject.put("device_token",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
+                                jsonObject.put("device_id",UtilityMethods.getDeviceId(Registration.this));
 //								jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 								myApi.reqUserRegistrationOTP(url, jsonObject);
 							} catch (Exception e) {
@@ -1082,6 +1086,8 @@ public class Registration extends BaseActivity implements
 				System.out.println("==jsonobject==" + jsonObject);
 			}
 //			myApi.reqLogin(url);
+            jsonObject.put("device_id",UtilityMethods.getDeviceId(Registration.this));
+            jsonObject.put("device_token",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
 			myApi.reqLogin(url,jsonObject);
 
 //			if (UtilityMethods.isInternetAvailable(mContext)) {
@@ -1491,6 +1497,8 @@ public class Registration extends BaseActivity implements
 //			String url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getGoogleEmail() + "&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
 //			String url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getGoogleEmail() + "&fname=" + USER_NAME+"&number=0000000000";
 //			myApi.reqLogin(url);
+            jsonObject.put("device_id",UtilityMethods.getDeviceId(Registration.this));
+            jsonObject.put("device_token",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
 			myApi.reqLogin(url,jsonObject);
 
 		} else {

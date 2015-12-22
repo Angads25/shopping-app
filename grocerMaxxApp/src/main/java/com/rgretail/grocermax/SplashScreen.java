@@ -1,9 +1,5 @@
 package com.rgretail.grocermax;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -27,7 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
-//import com.google.analytics.tracking.android.EasyTracker;
+import com.rgretail.grocermax.GCM.GCMClientManager;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.LocationListBean;
@@ -35,11 +31,13 @@ import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
-import com.rgretail.grocermax.utils.UtilityMethods;
-import com.rgretail.grocermax.GCM.GCMClientManager;
-
-import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
 import com.rgretail.grocermax.utils.UrlsConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 
 public class SplashScreen extends BaseActivity 
 {
@@ -50,6 +48,7 @@ public class SplashScreen extends BaseActivity
 	private TextView txvMessage;
 //	EasyTracker tracker;
 	private Button btnGoShoping;
+
 
 	private GCMClientManager pushClientManager;
 	private String DeviceRegistrationId;
@@ -66,7 +65,12 @@ public class SplashScreen extends BaseActivity
 		super.onCreate(savedInstanceState);
 		super.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.splash_screen);
-//		System.out.println("======pxdp=====");
+
+        /*registering device on GCM server*/
+        System.out.println("ishahhh=="+MySharedPrefs.INSTANCE.getGCMDeviceTocken());
+        if(MySharedPrefs.INSTANCE.getGCMDeviceTocken()==null)
+        registerGCM();
+
 		addActionsInFilter(MyReceiverActions.LOCATION);
 
 //Your Dev Key: XNjhQZD7Yhe2dFs8kL7bpn  -  appsflyer dev key
@@ -188,7 +192,9 @@ public class SplashScreen extends BaseActivity
 		public void run() {
 			Intent call = new Intent(SplashScreen.this, HomeScreen.class);
 			startActivity(call);
-			registerGCM();
+			/*comment by ishan*/
+            //registerGCM();
+            /*-----*/
 			finish();
 		}
 	};
@@ -219,7 +225,7 @@ public class SplashScreen extends BaseActivity
 
 					if (MySharedPrefs.INSTANCE.getSelectedCity() != null) {
 //			showDialog();
-						String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;
+						//String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;
 						if (UtilityMethods.isInternetAvailable(activity)) {                //start app after 4 sec
 //				myApi.reqCategorySubCategoryList(url);
 							handler = new Handler();
@@ -230,7 +236,7 @@ public class SplashScreen extends BaseActivity
 							handler.postDelayed(runningThread, 4000);
 						}
 					} else {
-						String url = UrlsConstants.GET_LOCATION;
+                        String url = UrlsConstants.GET_LOCATION;
 						if (UtilityMethods.isInternetAvailable(activity)) {             //call location api
 							myApi.reqLocation(url);
 						} else {
@@ -239,7 +245,9 @@ public class SplashScreen extends BaseActivity
 							handler.postDelayed(runningThread, 4000);
 						}
 					}
-			}catch(Exception e){}
+			}catch(Exception e){
+                Log.d("getting reg", e.getMessage());
+            }
 
 //		if(MySharedPrefs.INSTANCE.getSelectedCity() != null){
 //			Intent call = new Intent(SplashScreen.this, HomeScreen.class);
@@ -287,7 +295,6 @@ public class SplashScreen extends BaseActivity
 //			LocationListBean locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
 			AppConstants.locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
 			if(AppConstants.locationBean.getFlag().equals("1")) {
-
 				Intent call = new Intent(SplashScreen.this, CityActivity.class);
 				Bundle call_bundle = new Bundle();
 //				call_bundle.putSerializable("Location", locationBean);
@@ -295,15 +302,19 @@ public class SplashScreen extends BaseActivity
 				call_bundle.putSerializable("FromDrawer", "");
 				call.putExtras(call_bundle);
 				startActivity(call);
-				registerGCM();
+				/*comment by ishan*/
+                //registerGCM();
+                /*-----*/
 				finish();
 			}else{
-				registerGCM();
+				/*comment by ishan*/
+                //registerGCM();
+               /*-----*/
 				UtilityMethods.customToast(AppConstants.ToastConstant.DATA_NOT_FOUND, mContext);
 			}
 
 		}else{                   //category
-			dismissDialog();
+			/*dismissDialog();
 			String jsonResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);
 			//UtilityMethods.write("response",jsonResponse,SplashScreen.this);
 			ArrayList<CategorySubcategoryBean> category = UtilityMethods.getCategorySubCategory(jsonResponse);
@@ -314,12 +325,16 @@ public class SplashScreen extends BaseActivity
 				call_bundle.putSerializable("Categories", category);
 				call.putExtras(call_bundle);
 				startActivity(call);
-				registerGCM();
+                *//*comment by ishan*//*
+				//registerGCM();
+                *//*-----*//*
 				finish();
 			} else {
-				registerGCM();
+				*//*comment by ishan*//*
+                //registerGCM();
+                *//*-----*//*
 				UtilityMethods.customToast(AppConstants.ToastConstant.DATA_NOT_FOUND, mContext);
-			}
+			}*/
 		}
 
 //		String jsonResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);

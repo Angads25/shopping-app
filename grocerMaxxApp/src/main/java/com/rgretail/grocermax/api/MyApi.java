@@ -107,6 +107,32 @@ public class MyApi {
 		}
 	}
 
+    public void reqWallet(String url) {
+        try{
+            Intent reqIntent = new Intent(m_context, ConnectionService.class);
+            reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.WALLET_INFO);
+            reqIntent.putExtra(ConnectionService.URL, url);
+            reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+            reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.WALLET_INFO);
+            m_context.startService(reqIntent);
+        }catch(Exception e){
+            new GrocermaxBaseException("MyApi","reqWallet",e.getMessage(), GrocermaxBaseException.EXCEPTION,url);
+        }
+    }
+    public void reqWalletTransactions(String url) {
+        try{
+            Intent reqIntent = new Intent(m_context, ConnectionService.class);
+            reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.WALLET_TRANSACTIONS);
+            reqIntent.putExtra(ConnectionService.URL, url);
+            reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+            reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.WALLET_TRANSACTION);
+            m_context.startService(reqIntent);
+        }catch(Exception e){
+            new GrocermaxBaseException("MyApi","reqWalletTransaction",e.getMessage(), GrocermaxBaseException.EXCEPTION,url);
+        }
+    }
+
+
 
 	/**This is used to get register.
 	 * @param url

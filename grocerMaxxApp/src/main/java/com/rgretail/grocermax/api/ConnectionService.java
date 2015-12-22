@@ -1,14 +1,27 @@
 package com.rgretail.grocermax.api;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import android.app.IntentService;
+import android.content.Intent;
+import android.content.OperationApplicationException;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
-import javax.xml.parsers.ParserConfigurationException;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.rgretail.grocermax.CartProductList;
+import com.rgretail.grocermax.R;
+import com.rgretail.grocermax.api.ConnectionServiceParser.MyParserType;
+import com.rgretail.grocermax.bean.BaseResponseBean;
+import com.rgretail.grocermax.exception.GrocermaxBaseException;
+import com.rgretail.grocermax.preference.MySharedPrefs;
+import com.rgretail.grocermax.utils.AppConstants;
+import com.rgretail.grocermax.utils.MyHttpUtils;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -33,30 +46,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xml.sax.SAXException;
 
-import android.app.IntentService;
-import android.content.Intent;
-import android.content.OperationApplicationException;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
-import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.os.IBinder;
-import android.os.RemoteException;
-import android.preference.PreferenceActivity;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.rgretail.grocermax.CartProductList;
-
-import com.rgretail.grocermax.R;
-import com.rgretail.grocermax.api.ConnectionServiceParser.MyParserType;
-import com.rgretail.grocermax.bean.BaseResponseBean;
-import com.rgretail.grocermax.exception.GrocermaxBaseException;
-import com.rgretail.grocermax.preference.MySharedPrefs;
-import com.rgretail.grocermax.utils.AppConstants;
-import com.rgretail.grocermax.utils.MyHttpUtils;
+import javax.xml.parsers.ParserConfigurationException;
 
 public class ConnectionService extends IntentService {
 
@@ -612,6 +610,15 @@ public class ConnectionService extends IntentService {
 				case MyParserType.SET_PAYTM_ORDER_STATUS_SUCCESS:                            //paytm success
 					bundle.putSerializable(RESPONSE, (Serializable) response);
 					break;
+                case MyParserType.WALLET_INFO:
+                    bundle.putSerializable(RESPONSE,
+                            (Serializable) response);
+                    break;
+                case MyParserType.WALLET_TRANSACTION:
+                    bundle.putSerializable(RESPONSE,
+                            (Serializable)ConnectionServiceParser
+                                    .parseWalletTransactionResponse(response));
+                    break;
 
 			}
 

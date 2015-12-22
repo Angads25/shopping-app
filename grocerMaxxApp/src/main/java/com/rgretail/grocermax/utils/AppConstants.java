@@ -1,6 +1,5 @@
 package com.rgretail.grocermax.utils;
 
-import com.rgretail.grocermax.CategoryTabs;
 import com.rgretail.grocermax.bean.LocationListBean;
 
 import java.util.ArrayList;
@@ -184,6 +183,7 @@ public class AppConstants {
 		public static final String REGISTER_SUCCESSFULL = "You're registered with us successfully";
 		public static final String SELECT_PAYMENT_MODE = "Please select payment method";
 		public static final String SELECT_COUPON_CODE = "Please enter coupon code";
+        public static final String NO_NEED_SELECT_PAYMENT_MODE = "You have sufficient balance in your wallet. Dont need to select any payment method";
 		
 		public static final String SHIP_FNAME = "Please enter first name in shipping address";
 		public static final String SHIP_LNAME = "Please enter last name in shipping address";

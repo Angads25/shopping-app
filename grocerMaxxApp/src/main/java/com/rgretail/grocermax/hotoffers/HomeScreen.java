@@ -16,30 +16,30 @@ import android.widget.ImageView;
 
 import com.appsflyer.AppsFlyerLib;
 import com.google.gson.Gson;
+import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.DealListScreen;
 import com.rgretail.grocermax.R;
-import com.rgretail.grocermax.api.ConnectionService;
-import com.rgretail.grocermax.api.SearchLoader;
-import com.rgretail.grocermax.bean.DealListBean;
-import com.rgretail.grocermax.bean.DealProductListingBean;
-import com.rgretail.grocermax.bean.ShopByCategoryBean;
-import com.rgretail.grocermax.hotoffers.fragment.MenuFragment;
-import com.rgretail.grocermax.hotoffers.fragment.ShopByDealItemDetailFragment;
-import com.rgretail.grocermax.utils.AppConstants;
-import com.rgretail.grocermax.utils.Constants;
-import com.rgretail.grocermax.utils.UtilityMethods;
-import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
 import com.rgretail.grocermax.api.MyReceiverActions;
+import com.rgretail.grocermax.api.SearchLoader;
 import com.rgretail.grocermax.bean.DealByDealTypeBean;
+import com.rgretail.grocermax.bean.DealListBean;
+import com.rgretail.grocermax.bean.DealProductListingBean;
 import com.rgretail.grocermax.bean.HomeBannerBean;
 import com.rgretail.grocermax.bean.OfferByDealTypeBean;
 import com.rgretail.grocermax.bean.OfferByDealTypeModel;
+import com.rgretail.grocermax.bean.ShopByCategoryBean;
 import com.rgretail.grocermax.bean.ShopByDealsBean;
 import com.rgretail.grocermax.hotoffers.fragment.ExpandableMenuFragment;
 import com.rgretail.grocermax.hotoffers.fragment.HomeFragment;
 import com.rgretail.grocermax.hotoffers.fragment.ItemDetailFragment;
+import com.rgretail.grocermax.hotoffers.fragment.MenuFragment;
+import com.rgretail.grocermax.hotoffers.fragment.ShopByDealItemDetailFragment;
+import com.rgretail.grocermax.preference.MySharedPrefs;
+import com.rgretail.grocermax.utils.AppConstants;
+import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.UrlsConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -66,7 +66,7 @@ public class HomeScreen extends BaseActivity {
     public static boolean isFirstFragment = true;
     private ArrayList<String> menuArray = new ArrayList<>();
     public static boolean isFromFragment = false;
-    boolean isFromNotification = false;
+    boolean isFromNotification=false;
     public static boolean bFromHome = false;          //track for home screen(1st level fragment) fragment and deal detail fragment(2nd level fragment)
     public static Context mContext;
     public static String SCREENNAME = "HomeScreen-";
@@ -98,15 +98,15 @@ public class HomeScreen extends BaseActivity {
         menuIcon = (ImageView) findViewById(R.id.menuIcon);
         homeDrawer = (ImageView) findViewById(R.id.homedrawer);
 //        martHeader.setVisibility(View.VISIBLE);
-
-        Bundle bundle = getIntent().getExtras();
+       /* Bundle bundle = getIntent().getExtras();
         if (bundle != null && bundle.getBoolean("IS_FROM_NOTIFICATION", false)) {
             getNotificationData(bundle);
             isFromNotification = true;
         }
         else {
             setHomePage();
-        }
+        }*/
+        setHomePage();
     }
 
     private android.support.v4.app.FragmentManager.OnBackStackChangedListener getListener()
@@ -213,12 +213,12 @@ public class HomeScreen extends BaseActivity {
             AppsFlyerLib.onActivityResume(this);
         }catch(Exception e){}
 
-        if(isFromNotification)
+       /* if(isFromNotification)
         {
             setHomePage();
             isFromNotification = false;
         }
-
+*/
         if(!isFromFragment) {
             initHeader(findViewById(R.id.header), true, null);
             findViewById(R.id.header).setVisibility(View.VISIBLE);
@@ -323,8 +323,17 @@ public class HomeScreen extends BaseActivity {
                         fragmentTransact.add(R.id.menu, fragment1);
                         fragment1.setArguments(call_bundle);
                         fragmentTransact.commit();
-
                         progress.dismiss();
+
+
+
+                        Bundle bundle1 = getIntent().getExtras();
+                        if (bundle1 != null && bundle1.getBoolean("IS_FROM_NOTIFICATION", false)) {
+                            getNotificationData(bundle1);
+                           // isFromNotification = true;
+                        }
+
+
                     }
                 }catch(Exception e){}
             }
@@ -606,11 +615,8 @@ public class HomeScreen extends BaseActivity {
         }
     }
 
-
     public void setHomePage()
     {
-
-
         progress = new ProgressDialog(this);
         progress.setTitle(null);
         progress.setMessage("Please Wait");
@@ -637,7 +643,12 @@ public class HomeScreen extends BaseActivity {
 //        myApi.reqGetHomePageBanner(UrlsConstants.GET_BANNER);
 
 //        myApi.reqGetShopByCategories(UrlsConstants.NEW_BASE_URL+"homepage");
-        myApi.reqHome(UrlsConstants.GET_HOME_PAGE);
+        if(MySharedPrefs.INSTANCE.getGCMDeviceTockenFirst()==null){
+            myApi.reqHome(UrlsConstants.GET_HOME_PAGE+"?device_token="+ MySharedPrefs.INSTANCE.getGCMDeviceTocken()+"&device_id="+UtilityMethods.getDeviceId(HomeScreen.this));
+            MySharedPrefs.INSTANCE.putGCMDeviceTockenFirst(MySharedPrefs.INSTANCE.getGCMDeviceTocken());
+        }else{
+          myApi.reqHome(UrlsConstants.GET_HOME_PAGE+"?device_token=");
+        }
 
 //        Bundle call_bundle = new Bundle();
 //        call_bundle.putSerializable("Categories", catObj);
