@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Roboto-Regular"
+        android:gravity="center"
+        android:id="@+id/tv_msg"
+        android:textSize="20dp"
+        android:alpha=".7"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:lineSpacingExtra="10dp"
+        android:textColor="@color/black"
+        android:layout_gravity="center_horizontal" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal|bottom">
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="Not now"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="14dp"
+            android:textColor="@color/black"
+            android:background="@color/lighter_gray"
+            android:id="@+id/tv_skip" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="UPGRADE"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="14dp"
+            android:textColor="@color/white"
+            android:background="@color/primaryColor"
+            android:id="@+id/tv_update" />
+    </LinearLayout>
+</LinearLayout>
+

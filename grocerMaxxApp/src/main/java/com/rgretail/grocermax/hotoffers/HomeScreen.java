@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.DealListScreen;
 import com.rgretail.grocermax.R;
+import com.rgretail.grocermax.UnderMaintanance;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.api.SearchLoader;
@@ -242,6 +243,7 @@ public class HomeScreen extends BaseActivity {
     public void OnResponse(Bundle bundle) {
 
         try {
+
             String action = bundle.getString("ACTION");
 //            if(action.equals(MyReceiverActions.CATEGORY_LIST)) {
 //                dismissDialog();
@@ -254,8 +256,9 @@ public class HomeScreen extends BaseActivity {
 //                }
 //            }
 
-            if(action.equals(MyReceiverActions.GET_HOME_PAGE)){
+            if (action.equals(MyReceiverActions.GET_HOME_PAGE)) {
                 try {
+                    if(AppConstants.strUpgradeValue.equals("0") || AppConstants.strUpgradeValue.equals("2")){
                     System.out.println("RESPONSE" + bundle.getString("json"));
                     JSONObject jsonObject = new JSONObject(bundle.getString("json"));
                     Gson gson = new Gson();
@@ -263,7 +266,6 @@ public class HomeScreen extends BaseActivity {
 
                     System.out.println("RESPONSE MODEL CATEGORY" + shopByCategoryBean.getResult());
                     System.out.println("RESPONSE MODEL CATEGORY1" + shopByCategoryBean.getArrayList().size());
-
 
 
                     JSONObject jsonO = new JSONObject(bundle.getString("json"));
@@ -278,7 +280,7 @@ public class HomeScreen extends BaseActivity {
                     jsonOCccategory.put("Category", jsonArrayCccategory);                                                                           //
                     ArrayList<CategorySubcategoryBean> categoryi = UtilityMethods.getCategorySubCategory(String.valueOf(jsonOCccategory));          //
 //                    if (!jsonResponse.trim().equals("") && categoryi.size() > 0) {                                                               //
-                    if(categoryi.size() > 0){                                                                                                      //
+                    if (categoryi.size() > 0) {                                                                                                      //
 //                        UtilityMethods.writeCategoryResponse(HomeScreen.this, AppConstants.categoriesFile, String.valueOf(categoryi));      //
 //                        catObj = UtilityMethods.getCategorySubCategory(String.valueOf(categoryi));
                         catObj = categoryi;                                                                                                          //
@@ -326,16 +328,29 @@ public class HomeScreen extends BaseActivity {
                         progress.dismiss();
 
 
-
                         Bundle bundle1 = getIntent().getExtras();
                         if (bundle1 != null && bundle1.getBoolean("IS_FROM_NOTIFICATION", false)) {
                             getNotificationData(bundle1);
-                           // isFromNotification = true;
+                            // isFromNotification = true;
+                        }
+                    }
+
+                        if(AppConstants.strUpgradeValue.equals("2")){
+                            dismissDialog();
+                            UtilityMethods.downloadPopUpNew(this, AppConstants.strUpgradeValue);
                         }
 
-
+                }else if(AppConstants.strUpgradeValue.equals("1")){
+                    dismissDialog();
+                    UtilityMethods.downloadPopUpNew(this,AppConstants.strUpgradeValue);
+                }else if(AppConstants.strUpgradeValue.equals("3")){
+                        dismissDialog();
+                       // UtilityMethods.underMaintanancePopUp(this);
+                        startActivity(new Intent(this, UnderMaintanance.class));
                     }
-                }catch(Exception e){}
+
+                } catch (Exception e) {
+                }
             }
 
 //            if (action.equals(MyReceiverActions.GET_SHOP_BY_CATEGORIES) || action.equals(MyReceiverActions.GET_SHOP_BY_DEALS) || action.equals(MyReceiverActions.GET_BANNER)) {
@@ -476,6 +491,7 @@ public class HomeScreen extends BaseActivity {
 //                fragment.setArguments(data);
 //                changeFragment(fragment);
             }
+
 
         } catch (Exception e) {
             e.printStackTrace();

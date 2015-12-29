@@ -3,8 +3,11 @@ package com.rgretail.grocermax.preference;
 import android.content.Context;
 import android.content.SharedPreferences;
 import com.google.gson.Gson;
+import com.rgretail.grocermax.BaseActivity;
+import com.rgretail.grocermax.MyApp;
 import com.rgretail.grocermax.MyApplication;
 import com.rgretail.grocermax.bean.OrderReviewBean;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 
 public enum MySharedPrefs {
 	INSTANCE;
@@ -56,8 +59,7 @@ public enum MySharedPrefs {
 	private final String SELECTED_STOREID = "selected_store_id";
 
 	private SharedPreferences getAppPreference() {
-		SharedPreferences preferences = MyApplication
-				.getInstance()
+		SharedPreferences preferences = BaseActivity.mContext
 				.getSharedPreferences(APP_PREFERENCE_NAME, Context.MODE_PRIVATE);
 		return preferences;
 	}

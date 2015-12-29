@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import com.rgretail.grocermax.MyApplication;
 import com.rgretail.grocermax.R;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.MyHttpUtils;
 import com.rgretail.grocermax.utils.UrlsConstants;
@@ -49,7 +50,7 @@ public class GrocermaxBaseException extends Exception {
         super();
         try {
             String strUrl = UrlsConstants.NEW_BASE_URL + "errorlog?error=";
-            new AppCrash(MyApplication.getInstance(), strClassName, strMethodName, strMessage, strErrorCode, strServerResponse).execute(strUrl);
+            new AppCrash(HomeScreen.mContext, strClassName, strMethodName, strMessage, strErrorCode, strServerResponse).execute(strUrl);
 
 //        String strUrl = "http://staging.grocermax.com/webservice/new_services/errorlog?error=";
 //          UtilityMethods.customToast(strClassName+"=ERROR="+strMethodName, MyApplication.getInstance());

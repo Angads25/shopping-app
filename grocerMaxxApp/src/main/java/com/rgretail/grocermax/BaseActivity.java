@@ -1,13 +1,5 @@
 package com.rgretail.grocermax;
 
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -51,39 +43,48 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
-//import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.analytics.Tracker;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.rgretail.grocermax.api.ConnectionService;
+import com.rgretail.grocermax.api.MyApi;
+import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.api.SearchLoader;
 import com.rgretail.grocermax.bean.AddressList;
 import com.rgretail.grocermax.bean.BaseResponseBean;
+import com.rgretail.grocermax.bean.CartDetail;
 import com.rgretail.grocermax.bean.CartDetailBean;
 import com.rgretail.grocermax.bean.DealListBean;
 import com.rgretail.grocermax.bean.LocationListBean;
+import com.rgretail.grocermax.bean.OrderHistoryBean;
+import com.rgretail.grocermax.bean.ProductListBean;
+import com.rgretail.grocermax.bean.Simple;
 import com.rgretail.grocermax.bean.UserDetailBean;
+import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
+import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
-import com.rgretail.grocermax.api.MyApi;
-import com.rgretail.grocermax.api.MyReceiverActions;
-import com.rgretail.grocermax.bean.CartDetail;
-import com.rgretail.grocermax.bean.OrderHistoryBean;
-import com.rgretail.grocermax.bean.ProductListBean;
-import com.rgretail.grocermax.bean.Simple;
-import com.rgretail.grocermax.exception.GrocermaxBaseException;
-import com.rgretail.grocermax.utils.UrlsConstants;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 //import android.widget.Toast;
 
 public abstract class BaseActivity extends FragmentActivity {
 //	public static boolean bBack = false;
-	protected Context mContext = this;
+	public static Context mContext ;
 	EditText etSearchBckup;  //when press on search icon and it came you to previous screen.
 	public static Activity activity;
 	public DisplayImageOptions baseImageoptions;
@@ -111,12 +112,14 @@ public abstract class BaseActivity extends FragmentActivity {
 	private String search_key;
 	public static boolean keyboardVisibility=false;
 //	EasyTracker tracker;
+	public static Tracker mTracker;
 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		activity = this;
+		mContext=this;
 		try {
 			etSearchBckup = new EditText(this);
 			addActionsInFilter(MyReceiverActions.CHECKOUT);
@@ -142,7 +145,7 @@ public abstract class BaseActivity extends FragmentActivity {
 			getKeyBoardVisibility();
 
 //			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//
+//kill
 //			if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
 //				if(!keyboardVisibility)
 //					imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
@@ -1117,14 +1120,14 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 	}
 
-	private ProgressDialog mProgressDialog;
+	private  ProgressDialog mProgressDialog;
 	private IntentFilter intentFilter = new IntentFilter();
 	public static MyApi myApi;
 	private boolean isRegister = false;
 
 	public void showDialog() {
 		try {
-			mProgressDialog = new ProgressDialog(mContext);
+			mProgressDialog = new ProgressDialog(BaseActivity.this);
 			mProgressDialog.setMessage("Loading...");
 			mProgressDialog.show();
 			mProgressDialog.setCancelable(false);
@@ -1133,7 +1136,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 	}
 
-	public void dismissDialog() {
+	public  void dismissDialog() {
 		try{
 			if (mProgressDialog != null && mProgressDialog.isShowing()) {
 				mProgressDialog.dismiss();
@@ -1182,8 +1185,11 @@ public abstract class BaseActivity extends FragmentActivity {
 
 			try{
 				if(AppConstants.strUpgradeValue.equals("1")) {
-					UtilityMethods.downloadPopUp(this);
+					UtilityMethods.downloadPopUpNew(this,AppConstants.strUpgradeValue);
 				}
+                if(AppConstants.strUpgradeValue.equals("3")){
+                    startActivity(new Intent(this, UnderMaintanance.class));
+                }
 			}catch(Exception e){}
 //			try{
 //				if(AppConstants.b2DaysUpdateDialog) {

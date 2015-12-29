@@ -15,16 +15,16 @@ import android.widget.TextView;
 
 import com.rgretail.grocermax.CategoryTabs;
 import com.rgretail.grocermax.R;
+import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
 import com.rgretail.grocermax.bean.ShopByDealsBean;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
+import com.rgretail.grocermax.hotoffers.adapter.ExpandableMenuListAdapter;
 import com.rgretail.grocermax.hotoffers.adapter.MenuListAdapter;
 import com.rgretail.grocermax.hotoffers.adapter.ShopByDealsMenuListAdapter;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
-import com.rgretail.grocermax.utils.UtilityMethods;
-import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
-import com.rgretail.grocermax.hotoffers.adapter.ExpandableMenuListAdapter;
 import com.rgretail.grocermax.utils.UrlsConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
 
 import java.util.ArrayList;
 import java.util.HashMap;

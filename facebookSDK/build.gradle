@@ -10,9 +10,9 @@ android {
         }
     }
     compileSdkVersion 21
-    buildToolsVersion '21.1.2'
+    buildToolsVersion '21.0.2'
     defaultConfig {
-        minSdkVersion 9
+        minSdkVersion 11
         targetSdkVersion 21
     }
     buildTypes {
@@ -23,6 +23,8 @@ android {
         debug {
             signingConfig signingConfigs.config
         }
+    }
+    productFlavors {
     }
 }
 

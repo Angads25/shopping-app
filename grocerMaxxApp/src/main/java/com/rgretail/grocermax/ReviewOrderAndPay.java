@@ -1475,7 +1475,8 @@ class Coupon extends AsyncTask<String, String, String>
 			String strFlag = jsonObject.getString("flag");
 //			JSONArray jsonArray = jsonObject.getJSONArray("CartDetails");
 
-			UtilityMethods.customToast(strResult, context);
+			//UtilityMethods.customToast(strResult, context);
+            UtilityMethods.customToastLong(strResult,context);
 			if(strApplyorRemove.equalsIgnoreCase("Apply"))
 			{
 				if(strFlag.equalsIgnoreCase("1")){  											//success

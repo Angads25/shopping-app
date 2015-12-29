@@ -35,7 +35,7 @@ public class WalletTransactionAdapter extends RecyclerView.Adapter<WalletTransac
         viewHolder.tv_dateTime.setText(walletTranactionListBean.walletTransactionsList.get(i).actionDate);
         viewHolder.tv_amount.setText(walletTranactionListBean.walletTransactionsList.get(i).valueChange);
         String description = walletTranactionListBean.walletTransactionsList.get(i).comment;
-        if(walletTranactionListBean.walletTransactionsList.get(i).orderId.equals("")){
+        if(walletTranactionListBean.walletTransactionsList.get(i).orderId==null || walletTranactionListBean.walletTransactionsList.get(i).orderId.equals("")){
             viewHolder.tv_description.setText(description);
         }else {
                description=description

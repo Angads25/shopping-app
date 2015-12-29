@@ -1,5 +1,55 @@
 package com.rgretail.grocermax.utils;
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint.FontMetrics;
+import android.graphics.Path;
+import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.os.Parcel;
+import android.provider.Settings;
+import android.text.Html;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.appsflyer.AFInAppEventParameterName;
+import com.appsflyer.AFInAppEventType;
+import com.appsflyer.AppsFlyerLib;
+import com.google.android.gms.analytics.HitBuilders;
+import com.rgretail.grocermax.BaseActivity;
+import com.rgretail.grocermax.R;
+import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
+import com.rgretail.grocermax.bean.CartDetail;
+import com.rgretail.grocermax.bean.CartDetailBean;
+import com.rgretail.grocermax.preference.AlarmService;
+import com.rgretail.grocermax.utils.ListSublistConstants.ListConstant;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,56 +67,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.AlarmManager;
-import android.app.AlertDialog;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint.FontMetrics;
-import android.graphics.Path;
-import android.graphics.Rect;
-import android.net.ConnectivityManager;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
-import android.os.Parcel;
-import android.provider.Settings;
-import android.text.Html;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.appsflyer.AFInAppEventParameterName;
-import com.appsflyer.AFInAppEventType;
-import com.appsflyer.AppsFlyerLib;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-import com.rgretail.grocermax.AnalyticsSampleApp;
-import com.rgretail.grocermax.BaseActivity;
-import com.rgretail.grocermax.MyApp;
-import com.rgretail.grocermax.MyApplication;
-
-import com.rgretail.grocermax.R;
-import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
-import com.rgretail.grocermax.bean.CartDetail;
-import com.rgretail.grocermax.bean.CartDetailBean;
-import com.rgretail.grocermax.preference.AlarmService;
-import com.rgretail.grocermax.utils.ListSublistConstants.ListConstant;
 
 public class UtilityMethods {
 
@@ -306,6 +306,71 @@ public class UtilityMethods {
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
+    public static void underMaintanancePopUp(final Context context){
+        ImageView image = new ImageView(context);
+        image.setImageResource(R.drawable.maintenence_screen);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setView(image);
+        final AlertDialog alert = builder.create();
+        alert.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                ((Activity)context).finish();
+            }
+        });
+        /*builder.setMessage("Update Version Available!")
+                .setCancelable(false)
+                .setView(image)
+                .setPositiveButton("Download", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        alert.dismiss();
+                    }
+                });*/
+
+        alert.show();
+    }
+
+    public static void downloadPopUpNew(final Context context,String value){
+        Typeface typeface=Typeface.createFromAsset(context.getAssets(),"Roboto-Regular.ttf");
+        Typeface typeface1=Typeface.createFromAsset(context.getAssets(),"Roboto-Light.ttf");
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View dialogView = inflater.inflate(R.layout.update_available_dialog, null);
+        builder.setView(dialogView);
+        builder.setCancelable(false);
+        final AlertDialog alert = builder.create();
+        TextView tv_msg=(TextView)dialogView.findViewById(R.id.tv_msg);
+        tv_msg.setTypeface(typeface1);
+        TextView tv_skip=(TextView)dialogView.findViewById(R.id.tv_skip);
+        tv_skip.setTypeface(typeface);
+        TextView tv_update=(TextView)dialogView.findViewById(R.id.tv_update);
+        tv_update.setTypeface(typeface);
+        if(value.equals("1")){
+            tv_msg.setText("Update the app for a fresher, faster experience!");
+            tv_skip.setVisibility(View.INVISIBLE);
+        }else if(value.equals("2")){
+            tv_msg.setText("Update the app for a fresher, faster experience!");
+            tv_skip.setVisibility(View.VISIBLE);
+        }
+
+        tv_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+                UtilityMethods.rateApp(context);
+            }
+        });
+
+        tv_skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+            }
+        });
+
+
+        alert.show();
+    }
 
 	public static void download2DaysPopUp(final Context context){
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
@@ -1010,12 +1075,33 @@ public class UtilityMethods {
          toast.setGravity(Gravity.BOTTOM|Gravity.CENTER|Gravity.FILL_HORIZONTAL, 0, 0);
          toast.show();
 	 }
+
+    public static void customToastLong(String strMsg,Context context)
+    {
+        TextView textview = new TextView(context);
+        textview.setText(strMsg);
+        textview.setGravity(1);
+        textview.setBackgroundColor(Color.WHITE);
+        textview.setTextColor(Color.WHITE);
+        textview.setPadding(10, 10, 10, 10);
+        Toast toast = new Toast(context);
+        toast.setView(textview);
+
+//         toast.getView().setBackgroundDrawable(new ColorDrawable(0xff123456));
+        toast.getView().setBackgroundColor(Color.parseColor("#ee2d09"));
+//		 android:background="@color/primaryColor"
+        toast.setDuration(6000);
+        toast.setGravity(Gravity.BOTTOM|Gravity.CENTER|Gravity.FILL_HORIZONTAL, 0, 0);
+        toast.show();
+    }
+
+
 	 
 	 public static String getCurrentClassName(Context con)
 	 {
 		 ActivityManager am = (ActivityManager) con.getSystemService(Context.ACTIVITY_SERVICE);
 //		    List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
-		 ActivityManager mActivityManager =(ActivityManager) MyApplication.getInstance().getSystemService(Context.ACTIVITY_SERVICE);
+		 ActivityManager mActivityManager =(ActivityManager) BaseActivity.mContext.getSystemService(Context.ACTIVITY_SERVICE);
 		 String asa = con.getApplicationContext().getPackageName();
 		 String mPackageName = "";
 		 if(Build.VERSION.SDK_INT > 20){
@@ -1090,51 +1176,27 @@ public class UtilityMethods {
 
 	public static void clickCapture(Context context,String strPrice,String strContentType,String strContentId,String strName,String strEventName){
 		//		5 /Example 2: ​Purchase Event/
-		Map<String, Object> eventValue = new HashMap<String, Object>();
-		eventValue.put(AFInAppEventParameterName.PRICE,strPrice);
-//		eventValue.put(AFInAppEventParameterName.REVENUE,200);
-		eventValue.put(AFInAppEventParameterName.CONTENT_TYPE,strContentType);
-		eventValue.put(AFInAppEventParameterName.CONTENT_ID,strContentId);
-		eventValue.put("NAME", strName);
-		eventValue.put(AFInAppEventParameterName.CURRENCY, "INR");;
-		AppsFlyerLib.trackEvent(context, strEventName, eventValue);
-//		eventValue.put(AFInAppEventParameterName.PRICE,200);
-////		eventValue.put(AFInAppEventParameterName.REVENUE,200);
-//		eventValue.put(AFInAppEventParameterName.CONTENT_TYPE,"category_a");
-//		eventValue.put(AFInAppEventParameterName.CONTENT_ID,"1234567");
-//		eventValue.put(AFInAppEventParameterName.CURRENCY, "INR");
-//		AppsFlyerLib.trackEvent(getApplicationContext(), AFInAppEventType.ADD_TO_CART, eventValue);
-
 		try {
-			// Get tracker.
-//Tracker t = ((AnalyticsSampleApp) ((Activity)context).getApplication()).getTracker(AnalyticsSampleApp.TrackerName.APP_TRACKER);
-			// Set screen name.
-//			t.setScreenName(screenName);
-			// Send a screen view.
-//			t.send(new HitBuilders.ScreenViewBuilder().build());
+			Map<String, Object> eventValue = new HashMap<String, Object>();
+			eventValue.put(AFInAppEventParameterName.PRICE, strPrice);
+//		eventValue.put(AFInAppEventParameterName.REVENUE,200);
+			eventValue.put(AFInAppEventParameterName.CONTENT_TYPE, strContentType);
+			eventValue.put(AFInAppEventParameterName.CONTENT_ID, strContentId);
+			eventValue.put("NAME", strName);
+			eventValue.put(AFInAppEventParameterName.CURRENCY, "INR");
+			;
+			AppsFlyerLib.trackEvent(context, strEventName, eventValue);
+		}catch(Exception e){}
+		try {
 
+			if(BaseActivity.mTracker != null) {
+				BaseActivity.mTracker.send(new HitBuilders.EventBuilder()
+						.setCategory(strPrice)  //2nd parameter - price
+						.setAction(strEventName)    //last parameter
+						.setLabel(strContentId)    //3rd parameter - id
+						.build());
 
-			Map<String,String> params = new HashMap<String,String>();
-			params.put(GA_PRICE, strPrice);
-			params.put(GA_CONTENT_TYPE,strContentType);
-			params.put(GA_CONTENT_ID, strContentId);
-			params.put(GA_CURRENCY, "INR");
-
-//			t.send(new HitBuilders.EventBuilder()
-//					.set(UtilityMethods.GA_EVENTNAME, strEventName)
-//					.setAll(params)
-//					.build());
-
-
-//			MyApp.tracker().send(new HitBuilders.EventBuilder("ui", "open")
-//					.setLabel("settings")
-//					.build());
-
-//			MyApplication.tracker().send(new HitBuilders.EventBuilder()
-			MyApp.tracker().send(new HitBuilders.EventBuilder()
-					.set(UtilityMethods.GA_EVENTNAME, strEventName)
-					.setAll(params)
-					.build());
+			}
 
 		}catch(Exception e){
 			e.getMessage();
@@ -1169,6 +1231,19 @@ public class UtilityMethods {
         String deviceId = Settings.Secure.getString(con.getContentResolver(), Settings.Secure.ANDROID_ID);
         return deviceId;
     }
+
+    public static String getVersion(Context con){
+        String version;
+        try {
+            PackageInfo pInfo = con.getPackageManager().getPackageInfo(con.getPackageName(), 0);
+            version = pInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            version=con.getResources().getString(R.string.app_version);
+        }
+        return version;
+    }
+
 
 
 //	public static void GAClickCapture(Activity activity,String strPrice,String strContentType,String strContentId,String strEventName)

@@ -1,6 +1,9 @@
 package com.rgretail.grocermax.api;
 
+import com.rgretail.grocermax.BaseActivity;
+import com.rgretail.grocermax.MyApp;
 import com.rgretail.grocermax.MyApplication;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 
 /**
  * For Holding The Receiver Actions
@@ -8,7 +11,7 @@ import com.rgretail.grocermax.MyApplication;
  */
 public interface MyReceiverActions {
 
-	String PKG_NAME = MyApplication.getInstance().getPackageName();
+	String PKG_NAME = BaseActivity.mContext.getPackageName();
 
 	String LOGIN = PKG_NAME + ".login";
 

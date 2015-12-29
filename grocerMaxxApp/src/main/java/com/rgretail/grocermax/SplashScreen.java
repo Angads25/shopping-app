@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
+import com.google.android.gms.analytics.HitBuilders;
 import com.rgretail.grocermax.GCM.GCMClientManager;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
@@ -39,6 +40,9 @@ import java.security.NoSuchAlgorithmException;
 
 //import com.google.analytics.tracking.android.EasyTracker;
 
+//import com.google.analytics.tracking.android.EasyTracker;
+
+//https://developers.google.com/analytics/devguides/collection/android/v4/        //ga v4 eg
 public class SplashScreen extends BaseActivity 
 {
 	private Handler handler;
@@ -54,6 +58,7 @@ public class SplashScreen extends BaseActivity
 	private String DeviceRegistrationId;
 	private String SCREENNAME = "SplashScreen-";
 
+
 	public int pxToDp(int px) {
 		DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
 		int dp = Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
@@ -66,6 +71,9 @@ public class SplashScreen extends BaseActivity
 		super.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.splash_screen);
 
+
+
+
         /*registering device on GCM server*/
         System.out.println("ishahhh=="+MySharedPrefs.INSTANCE.getGCMDeviceTocken());
         if(MySharedPrefs.INSTANCE.getGCMDeviceTocken()==null)
@@ -73,10 +81,17 @@ public class SplashScreen extends BaseActivity
 
 		addActionsInFilter(MyReceiverActions.LOCATION);
 
+
+		MyApplication application = (MyApplication) getApplication();
+		mTracker = application.getDefaultTracker();
+//		Log.i(TAG, "Setting screen name: " + "SplashScreen");
+
+
+
 //Your Dev Key: XNjhQZD7Yhe2dFs8kL7bpn  -  appsflyer dev key
-		//////////// AppsFlyer code //////////
-		//		6.1 �Set�Currency�Code
-		AppsFlyerLib.setCurrencyCode("INR");
+				//////////// AppsFlyer code //////////
+				//		6.1 �Set�Currency�Code
+				AppsFlyerLib.setCurrencyCode("INR");
 //		4
 		AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
 		AppsFlyerLib.sendTracking(getApplicationContext());        //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
@@ -210,6 +225,16 @@ public class SplashScreen extends BaseActivity
 	@Override
 	public void onResume() {
 		super.onResume();
+
+		mTracker.setScreenName(SCREENNAME);
+		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+//		mTracker.send(new HitBuilders.EventBuilder()
+//				.setCategory("Actionssss")
+//				.setAction("Sharessss")
+//				.setLabel("labelssss")
+////				.set(UtilityMethods.GA_EVENTNAME, "event passed")
+////				.setAll(params)
+//				.build());
 
 		try{
 			AppsFlyerLib.onActivityResume(this);

@@ -1,9 +1,5 @@
 package com.rgretail.grocermax;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +7,6 @@ import android.view.Window;
 
 import com.appsflyer.AppsFlyerLib;
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
 import com.paytm.pgsdk.PaytmMerchant;
 import com.paytm.pgsdk.PaytmOrder;
 import com.paytm.pgsdk.PaytmPGService;
@@ -23,6 +18,12 @@ import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 
 public class PayTMActivity extends BaseActivity
 {
@@ -107,6 +108,8 @@ public class PayTMActivity extends BaseActivity
 			paramMap.put("THEME", THEME);
 			paramMap.put("EMAIL", MySharedPrefs.INSTANCE.getUserEmail());
 			paramMap.put("MOBILE_NO", MySharedPrefs.INSTANCE.getMobileNo());
+
+           // Log.i("orderpremap",order_id+","+order_id+","+order_id+","+order_id+","+order_id+",");
 
 			PaytmOrder Order = new PaytmOrder(paramMap);
 

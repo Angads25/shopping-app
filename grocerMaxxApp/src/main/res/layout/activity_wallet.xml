@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -40,110 +39,123 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll"
-        android:background="@color/primaryColor"
-        android:paddingBottom="10dp"
-        android:layout_alignParentRight="true">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Your Balance"
-            android:textColor="@color/grey"
-            android:textSize="25dp"
-            android:gravity="center"
-            android:id="@+id/textView" />
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:gravity="center">
+            android:paddingBottom="10dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/Rs"
-                android:textColor="@color/grey"
-                android:textSize="30dp"
-                android:layout_gravity="bottom"
-                android:gravity="bottom"
-                android:layout_marginRight="2dp"
-                android:paddingBottom="3dp"
-                android:id="@+id/tv2" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll"
+                android:background="@color/primaryColor"
+                android:paddingBottom="10dp"
+                android:layout_alignParentRight="true">
 
-            <TextView
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Your Balance"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_size_24"
+                    android:gravity="center"
+                    android:id="@+id/textView" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/Rs"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/text_size_28"
+                        android:layout_gravity="bottom"
+                        android:gravity="bottom"
+                        android:layout_marginRight="2dp"
+                        android:paddingBottom="3dp"
+                        android:id="@+id/tv2" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.00"
+                        android:gravity="bottom"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_32"
+                        android:id="@+id/tv_walletAmount" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:text="Transactions"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_18"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/button_transaction"
+                    android:layout_marginTop="20dp"
+                    android:padding="10dp"
+                    android:id="@+id/tv_transactions" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/icon_friend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.00"
-                android:gravity="bottom"
+                android:src="@drawable/friends"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Liked shopping with us?"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_20"
+                android:gravity="center"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:id="@+id/txt" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_15"
+                android:gravity="center"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:layout_marginTop="5dp"
+                android:id="@+id/tv_msg" />
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Share"
                 android:textColor="@color/white"
-                android:textSize="40dp"
-                android:id="@+id/tv_walletAmount" />
+                android:textSize="@dimen/text_size_15"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal|bottom"
+                android:background="@drawable/button_orange"
+                android:layout_marginTop="20dp"
+                android:padding="10dp"
+                android:id="@+id/tv_share" />
+
         </LinearLayout>
-
-        <TextView
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:text="Transactions"
-            android:textColor="@color/white"
-            android:textSize="17dp"
-            android:gravity="center"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/button_transaction"
-            android:layout_marginTop="20dp"
-            android:padding="10dp"
-            android:id="@+id/tv_transactions" />
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/icon_friend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/friends"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Liked shopping with us?"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_size_24"
-        android:gravity="center"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:id="@+id/txt" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/msg"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_size_18"
-        android:gravity="center"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:layout_marginTop="5dp"
-        android:id="@+id/txt1" />
-
-    <TextView
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:text="Share"
-        android:textColor="@color/white"
-        android:textSize="15dp"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal|bottom"
-        android:background="@drawable/button_orange"
-        android:layout_marginTop="20dp"
-        android:padding="10dp"
-        android:id="@+id/tv_share" />
+    </ScrollView>
 
 
 </LinearLayout>

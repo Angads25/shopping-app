@@ -201,11 +201,14 @@ public class ConnectionService extends IntentService {
 				Log.i(TAG, "RESPONSE:::" + response_str);
 			}
 
+            parseData(response_str, intent.getIntExtra(PARSE_TYPE, -1), bundle);
+            bundle.putString(ERROR, null);
+            bundle.putString(JSON, response_str);
 
 
-			parseData(response_str, intent.getIntExtra(PARSE_TYPE, -1), bundle);
-			bundle.putString(ERROR, null);
-			bundle.putString(JSON, response_str);
+
+
+
 		} catch (IOException e) {
 			bundle.putString(ERROR, IO_EXCEPTION);
 			Log.e(TAG, "ERROR::" + e.getMessage());
@@ -252,6 +255,7 @@ public class ConnectionService extends IntentService {
 			}catch(Exception e){}
 		}
 		try {
+
 			Intent broadcastIntent = new Intent(mAction);
 			broadcastIntent.putExtra(DATA, bundle);
 			LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
@@ -285,7 +289,7 @@ public class ConnectionService extends IntentService {
 				//httpPost.setHeader("Content-Type", "application/json");
 //				if (accessToken != null) {
 				httpPost.setHeader("device", getResources().getString(R.string.app_device));
-				httpPost.setHeader("version", getResources().getString(R.string.app_version));
+				httpPost.setHeader("version",getResources().getString(R.string.app_version));
 				if(MySharedPrefs.INSTANCE.getSelectedStateId() != null) {
 					httpPost.setHeader("storeid", MySharedPrefs.INSTANCE.getSelectedStoreId());
 				}
@@ -319,7 +323,7 @@ public class ConnectionService extends IntentService {
 //				}
 				HttpGet httpGet = new HttpGet(urlString);
 				httpGet.setHeader("device", getResources().getString(R.string.app_device));
-				httpGet.setHeader("version", getResources().getString(R.string.app_version));
+				httpGet.setHeader("version",getResources().getString(R.string.app_version));
 				if(MySharedPrefs.INSTANCE.getSelectedStateId() != null) {
 					httpGet.setHeader("storeid", MySharedPrefs.INSTANCE.getSelectedStoreId());
 				}
@@ -344,13 +348,19 @@ public class ConnectionService extends IntentService {
 				response = client.execute(httpGet);
 			}
 
-			try {
+            System.out.println("App version new="+ getResources().getString(R.string.app_version));
+            try {
+                /*0 - Noramal
+                  1- Update available.You have to update
+                  2- Update available.You can skip.
+                  3- Under maintainance	*/
 				Header upgradeHeader = response.getFirstHeader("upgrade-app");
 				String strHeader = upgradeHeader.getName();
 				if(strHeader != null) {
 					if (strHeader.equals("upgrade-app")) {
 //					if(upgradeHeader.getValue().equals("1")){
 						AppConstants.strUpgradeValue = upgradeHeader.getValue();
+                       //AppConstants.strUpgradeValue="2";
 //					}
 					}
 				}
