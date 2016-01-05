@@ -9,10 +9,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.rgretail.grocermax.MyApplication;
 import com.rgretail.grocermax.R;
-import com.rgretail.grocermax.hotoffers.HomeScreen;
-import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.bean.ShopByDealModel;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
+import com.rgretail.grocermax.preference.MySharedPrefs;
+import com.rgretail.grocermax.utils.AppConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
 
 import java.util.List;
 
@@ -82,6 +85,15 @@ public class ShopByDealsMenuListAdapter extends BaseAdapter {
 		holder.txvMenuItem.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+
+                /*tracking GA event on Shop By Deal Item click from drawer*/
+                try{
+                    MyApplication.isFromDrawer=true;
+                    UtilityMethods.clickCapture(mContext, "Drawer - Deal Category L1", "", offerList.get(position).getDealType(), "", MySharedPrefs.INSTANCE.getSelectedCity());
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                /*--------------------------------------------------------*/
 
 				AppConstants.strTitleHotDeal = "";
 				AppConstants.strTitleHotDeal = offerList.get(position).getDealType();

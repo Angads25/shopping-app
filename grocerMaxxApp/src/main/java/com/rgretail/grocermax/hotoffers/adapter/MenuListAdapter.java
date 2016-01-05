@@ -11,8 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rgretail.grocermax.R;
-import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
+import com.rgretail.grocermax.preference.MySharedPrefs;
+import com.rgretail.grocermax.utils.UtilityMethods;
 
 import java.util.List;
 
@@ -83,7 +85,17 @@ public class MenuListAdapter extends BaseAdapter {
 				if(offerList.get(position).getChildren().size()>0) {
 //					setListData(offerList.get(position).getChildren());
 //					((MenuFragment)frag).setData(offerList.get(position).getChildren());
-					((HomeScreen)mContext).setMenu(offerList.get(position).getChildren(),offerList.get(position).getCategory());
+
+
+                    /*Tracking GA Event on click of top level category from drawer*/
+                    try{
+                        UtilityMethods.clickCapture(mContext, "Drawer - L1", "", offerList.get(position).getCategory(), "", MySharedPrefs.INSTANCE.getSelectedCity());
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                    /*-----------------------------------------------------------------------*/
+
+                    ((HomeScreen)mContext).setMenu(offerList.get(position).getChildren(), offerList.get(position).getCategory());
 				}else{
 
 //					Toast.makeText(mContext,"Last Level",Toast.LENGTH_SHORT).show();

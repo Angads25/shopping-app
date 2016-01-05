@@ -171,6 +171,14 @@ public class OrderDetail extends BaseActivity{
 			btn_reOrder.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
+
+                    /*tracking event for reorder*/
+                    try{
+                        UtilityMethods.clickCapture(activity,"Profile Activity","","Reorder","",MySharedPrefs.INSTANCE.getSelectedCity());
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                   /*------------------------*/
 					showDialog();
 					myApi.reqReorder(UrlsConstants.ORDER_REORDER_URL + order_increement_id);
 				}

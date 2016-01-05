@@ -120,7 +120,7 @@ public class SplashScreen extends BaseActivity
 			//////////// AppsFlyer code //////////
 
 		try{
-			UtilityMethods.clickCapture(this,"","","","",SCREENNAME+AppConstants.SPLASH_SCREEN);
+			//UtilityMethods.clickCapture(this,"","","","",SCREENNAME+AppConstants.SPLASH_SCREEN);
 		}catch(Exception e){}
 
 //		String sd = String.valueOf(pxToDp(420));
@@ -320,6 +320,7 @@ public class SplashScreen extends BaseActivity
 //			LocationListBean locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
 			AppConstants.locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
 			if(AppConstants.locationBean.getFlag().equals("1")) {
+                MyApplication.isFromDrawer=false;
 				Intent call = new Intent(SplashScreen.this, CityActivity.class);
 				Bundle call_bundle = new Bundle();
 //				call_bundle.putSerializable("Location", locationBean);

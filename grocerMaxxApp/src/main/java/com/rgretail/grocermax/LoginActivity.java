@@ -374,7 +374,8 @@ public class LoginActivity extends BaseActivity
 				if (UtilityMethods.isInternetAvailable(mContext)) {
 					showDialog();
 					String url;
-					try{UtilityMethods.clickCapture(context,"","","","",SCREENNAME+AppConstants.GA_EVENT_EMAIL_LOGIN);}catch(Exception e){}
+					try{UtilityMethods.clickCapture(context,"Login","","Regular","",MySharedPrefs.INSTANCE.getSelectedCity());
+                    }catch(Exception e){}
 //					HashMap<String, String> hashMap = new HashMap<String,String>();
 					JSONObject jsonObject = new JSONObject();
 					if(MySharedPrefs.INSTANCE.getQuoteId()==null||MySharedPrefs.INSTANCE.getQuoteId().equals(""))
@@ -435,7 +436,7 @@ public class LoginActivity extends BaseActivity
 
 			String USER_NAME = "";
 
-			try{UtilityMethods.clickCapture(context,"","","","",SCREENNAME+AppConstants.GA_EVENT_FACEBOOK_LOGIN);}catch(Exception e){}
+			try{UtilityMethods.clickCapture(context,"Login","","Facebook","",MySharedPrefs.INSTANCE.getSelectedCity());}catch(Exception e){}
 
 			Registration.googleName = null;
 			MySharedPrefs.INSTANCE.putGoogleName(null);
@@ -1183,7 +1184,7 @@ public class LoginActivity extends BaseActivity
 			USER_EMAIL = "";
 			String USER_NAME = "";
 
-			try{UtilityMethods.clickCapture(context,"","","","",SCREENNAME+AppConstants.GA_EVENT_GOOGLE_LOGIN);}catch(Exception e){}
+			try{UtilityMethods.clickCapture(context,"Login","","Google","",MySharedPrefs.INSTANCE.getSelectedCity());}catch(Exception e){}
 
 			Registration.facebookName = null;
 			MySharedPrefs.INSTANCE.putFacebookName(null);

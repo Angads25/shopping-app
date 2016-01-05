@@ -172,7 +172,7 @@ public class ShippingAdapter extends BaseAdapter{
                             UtilityMethods.customToast(AppConstants.ToastConstant.EDIT_DIFFERENT_ADDRESS_FIRST + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + AppConstants.ToastConstant.EDIT_DIFFERENT_ADDRESS_SECOND, mContext);
                             return;
                         }else{
-                            try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_EXISTING_SHIPPING_EDIT);}catch(Exception e){}
+                           // try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_EXISTING_SHIPPING_EDIT);}catch(Exception e){}
                             ((ShippingAddress) mContext).goToAddress(obj,position);
                         }
                     }
@@ -213,7 +213,7 @@ public class ShippingAdapter extends BaseAdapter{
             @Override
             public void onClick(View v) {
             try {
-                try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_EXISTING_SHIPPING_SELECT);}catch(Exception e){}
+               // try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_EXISTING_SHIPPING_SELECT);}catch(Exception e){}
                 ((ShippingAddress) mContext).selectedPosition = (Integer) v.getTag();
                 notifyDataSetChanged();
             }catch(Exception e){}

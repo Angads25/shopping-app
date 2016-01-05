@@ -12,13 +12,15 @@ import android.view.ViewGroup;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.DealByDealTypeBean;
+import com.rgretail.grocermax.bean.OfferByDealTypeBean;
 import com.rgretail.grocermax.bean.OfferByDealTypeModel;
 import com.rgretail.grocermax.bean.OfferByDealTypeSubModel;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
+import com.rgretail.grocermax.hotoffers.MyPagerSlidingTabStrip;
+import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
-import com.rgretail.grocermax.bean.OfferByDealTypeBean;
-import com.rgretail.grocermax.hotoffers.MyPagerSlidingTabStrip;
+import com.rgretail.grocermax.utils.UtilityMethods;
 import com.rgretail.grocermax.utils.Worker;
 
 import java.util.ArrayList;
@@ -97,25 +99,40 @@ public class ItemDetailFragment extends Fragment {
 ////        if(offerByDealTypeBean.getDealcategorylisting().size()>0)
 ////            itemDetailGrid.setData(offerByDealTypeBean.getDealcategorylisting().get(keyList.get(0)));
 //
-//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int i, float v, int i1) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int i) {
-//
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int i) {
-//
-//            }
-//        });
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+               // System.out.println("Item Name="+AppConstants.strTitleHotDeal+" - "+keyList.get(i));
+
+                sendDataToGA(AppConstants.strTitleHotDeal+" - "+keyList.get(i));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
         tabs.setViewPager(viewPager);
+        sendDataToGA(AppConstants.strTitleHotDeal+" - "+keyList.get(0));
+
+
+
         return view;
     }
+
+    public void sendDataToGA(String lavel){
+        try{
+            UtilityMethods.clickCapture(getActivity(), "Category Deals", "", lavel, "", MySharedPrefs.INSTANCE.getSelectedCity());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void onDestroyView() {

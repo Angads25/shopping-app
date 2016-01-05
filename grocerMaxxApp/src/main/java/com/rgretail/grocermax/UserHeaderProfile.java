@@ -187,6 +187,14 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                 try{
                 if (!UtilityMethods.getCurrentClassName(UserHeaderProfile.this).equals(getApplicationContext().getPackageName() + ".OrderHistory")) {
                     if (userId != null && userId.trim().length() > 0) {
+                        /* tracking GA events for Order History*/
+                        try{
+                            UtilityMethods.clickCapture(activity,"Profile Activity","","Order History","",MySharedPrefs.INSTANCE.getSelectedCity());
+                        }catch(Exception e){
+                            e.printStackTrace();
+                        }
+                        /*--------------*/
+
                         openOrderHistory();
                     } else {
                         Intent intent = new Intent(mContext, LoginActivity.class);
@@ -279,6 +287,15 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.rl_signout:
                 try {
+
+                    /*tracking GA event for logout action*/
+                    try{
+                        UtilityMethods.clickCapture(activity,"Profile Activity","","Logout","",MySharedPrefs.INSTANCE.getSelectedCity());
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                    /*--------------------------*/
+
                     MySharedPrefs.INSTANCE.clearUserInfo();
                     MySharedPrefs.INSTANCE.putTotalItem("0");
                     cart_count_txt.setText("0");

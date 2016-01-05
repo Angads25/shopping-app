@@ -1,12 +1,5 @@
 package com.rgretail.grocermax;
 
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,24 +18,32 @@ import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
 import com.melnykov.fab.FloatingActionButton;
+import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
 import com.rgretail.grocermax.api.ConnectionService;
+import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.BaseResponseBean;
 import com.rgretail.grocermax.bean.CategoriesProducts;
 import com.rgretail.grocermax.bean.Product;
+import com.rgretail.grocermax.bean.ProductDetailsListBean;
+import com.rgretail.grocermax.bean.Simple;
+import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.CustomFonts;
-import com.rgretail.grocermax.utils.UtilityMethods;
-import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
-import com.rgretail.grocermax.api.MyReceiverActions;
-import com.rgretail.grocermax.bean.ProductDetailsListBean;
-import com.rgretail.grocermax.bean.Simple;
-import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.utils.UrlsConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
 import com.viewpagerindicator.TabPageIndicator;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 
 public class CategoryTabs extends BaseActivity {
     private String header;
@@ -255,13 +256,36 @@ public class CategoryTabs extends BaseActivity {
 //			pager.setOffscreenPageLimit(alCategory.size());
             pager.setOffscreenPageLimit(0);
 
-            TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
+            final TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
             if (pager != null)
                 indicator.setViewPager(pager);
 
             View headerView = findViewById(R.id.header);
 
             initHeader(headerView, true, strHeader);
+
+            indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    //indicator.getChildAt(position).getT
+
+                    try{
+                        String catName=alCategory.get(position % alCategory.size()).getCategory_name();
+                        UtilityMethods.clickCapture(activity,"L4","",catName,"",MySharedPrefs.INSTANCE.getSelectedCity());
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+                }
+            });
 //			initHeader(headerView, true, header.replaceAll("/", " >> "));
 //			if (MySharedPrefs.INSTANCE.getBradecrum() != null) {
 //				String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");

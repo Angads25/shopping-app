@@ -10,21 +10,21 @@ import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
-//import com.google.analytics.tracking.android.Tracker;
-//import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
-import com.rgretail.grocermax.utils.AppConstants;
+import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.CustomFonts;
-import com.google.android.gms.analytics.Tracker;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
 import java.util.HashMap;
 import java.util.Map;
+
+//import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.Tracker;
+//import com.google.analytics.tracking.android.EasyTracker;
 
 public class CODConfirmation extends BaseActivity implements OnClickListener{
 	
@@ -106,7 +106,7 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 				/////////////////////////////
 
 //			String msg="Your order has been successfully placed.Order ID is <b>"+orderid+"</b>.Please check your mail for details.";
-				String msg = "Order ID is <b>" + orderid + "</b>";
+				String msg = "<b>" + orderid + "</b>";
 //				tvOrderId.setText(Html.fromHtml(msg));
 				tvOrderIdCode.setText(Html.fromHtml(msg));
 //			hint.setText(Html.fromHtml(msg));
@@ -124,7 +124,9 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 				tvCheckMailDetails.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 				tvTellYourFriends.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 
-//				try{UtilityMethods.clickCapture(mContext,"","","","", AppConstants.GA_EVENT_ORDER_SUCCESS);}catch(Exception e){}
+                /*Tracking the GA event for successful payment*/
+				try{UtilityMethods.clickCapture(mContext,"Order Successful","","","", MySharedPrefs.INSTANCE.getSelectedCity());}catch(Exception e){}
+                /*-------------------------------------------*/
 //				sendDataToTwoTrackers(params);
 
 			} else {
@@ -140,6 +142,10 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 				tvFailureMsg2.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 				tvContinueBtn.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 				tvOrderHistory.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+
+               /*Tracking the GA event for Failure payment*/
+                try{UtilityMethods.clickCapture(mContext,"Order Failed","","","", MySharedPrefs.INSTANCE.getSelectedCity());}catch(Exception e){}
+                /*-------------------------------------------*/
 
 //			setContentView(R.layout.confirmation_activity);
 //			TextView tvSuccess = (TextView) findViewById(R.id.tv_success);
@@ -168,7 +174,7 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 //		 initHeader(findViewById(R.id.header), true, "Order Confirmation");
 			initHeader(findViewById(R.id.header), true, null);
 
-			try{UtilityMethods.clickCapture(mContext,"","","","", AppConstants.GA_EVENT_ORDER_FAILURE);}catch(Exception e){}
+		//	try{UtilityMethods.clickCapture(mContext,"","","","", AppConstants.GA_EVENT_ORDER_FAILURE);}catch(Exception e){}
 		}catch(Exception e){
 			new GrocermaxBaseException("CODConfirmation","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}

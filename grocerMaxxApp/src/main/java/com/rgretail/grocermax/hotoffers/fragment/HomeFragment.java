@@ -19,15 +19,15 @@ import android.widget.TextView;
 
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.R;
+import com.rgretail.grocermax.bean.HomeBannerBean;
 import com.rgretail.grocermax.bean.ShopByCategoryBean;
 import com.rgretail.grocermax.bean.ShopByCategoryModel;
 import com.rgretail.grocermax.bean.ShopByDealsBean;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.hotoffers.adapter.ShopByCategoryListAdapter;
 import com.rgretail.grocermax.hotoffers.adapter.ShopByDealsListAdapter;
-import com.rgretail.grocermax.utils.AppConstants;
+import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.Constants;
-import com.rgretail.grocermax.bean.HomeBannerBean;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
 import java.util.ArrayList;
@@ -85,15 +85,18 @@ public class HomeFragment extends Fragment {
 
 
 
+
+
         //BANNER LISTENER//
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                try{UtilityMethods.clickCapture(getActivity(), "", "", "", "", HomeScreen.SCREENNAME+homeBannerBean.getBanner().get(position).getName()+"-"+AppConstants.BANNER_SCROLLING);}catch(Exception e){}
+                //try{UtilityMethods.clickCapture(getActivity(), "", "", "", "", HomeScreen.SCREENNAME+homeBannerBean.getBanner().get(position).getName()+"-"+AppConstants.BANNER_SCROLLING);}catch(Exception e){}
             }
 
             @Override
             public void onPageSelected(int position) {
+
                 pos = position;
                 for(int i=0;i<homeBannerBean.getBanner().size();i++){
                     if(i == position){
@@ -113,7 +116,11 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                try{
+                    UtilityMethods.clickCapture(getActivity(),"Banner Scroll","","","", MySharedPrefs.INSTANCE.getSelectedCity());
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
             }
         });
 

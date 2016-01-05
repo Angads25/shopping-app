@@ -13,9 +13,11 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.BaseActivity;
+import com.rgretail.grocermax.MyApplication;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.ShopByDealModel;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
+import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
@@ -87,9 +89,9 @@ public class ShopByDealsListAdapter extends RecyclerView.Adapter<ShopByDealsList
             holder.view2Space.setVisibility(View.VISIBLE);
         }
 
-        try{
+     /*   try{
             UtilityMethods.clickCapture(context, "", "", data.get(position).getId(),data.get(position).getDealType(), SCREENNAME + AppConstants.SHOP_BY_DEAL_SCROLLING);
-        }catch(Exception e){}
+        }catch(Exception e){}*/
 
         holder.footer.setText(data.get(position).getDealType());
         holder.footer.setVisibility(View.GONE);
@@ -102,9 +104,13 @@ public class ShopByDealsListAdapter extends RecyclerView.Adapter<ShopByDealsList
                 AppConstants.strTitleHotDeal = "";
                 AppConstants.strTitleHotDeal = data.get(position).getDealType();
                 ((HomeScreen) context).hitForShopByDeals(data.get(position).getId());
+
+                /*  tracking GA event for click on Shop By Deals from Home screen */
                 try{
-                    UtilityMethods.clickCapture(context, "", "", data.get(position).getId(),data.get(position).getDealType(), SCREENNAME + AppConstants.SHOP_BY_DEAL_CLICK);
+                    MyApplication.isFromDrawer=false;
+                    UtilityMethods.clickCapture(context, "Deal Category L1", "", data.get(position).getDealType(),"", MySharedPrefs.INSTANCE.getSelectedCity());
                 }catch(Exception e){}
+                /*-----------------------------------------------------*/
             }
         });
 

@@ -1,7 +1,5 @@
 package com.rgretail.grocermax;
 
-import java.util.ArrayList;
-
 import android.app.ProgressDialog;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -20,22 +18,25 @@ import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.BaseResponseBean;
+import com.rgretail.grocermax.bean.CartDetail;
 import com.rgretail.grocermax.bean.Product;
+import com.rgretail.grocermax.bean.ProductDetail;
+import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.CustomFonts;
-import com.rgretail.grocermax.utils.UtilityMethods;
-import com.rgretail.grocermax.bean.CartDetail;
-import com.rgretail.grocermax.bean.ProductDetail;
-import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.utils.CustomTypefaceSpan;
+import com.rgretail.grocermax.utils.UtilityMethods;
+
+import java.util.ArrayList;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 //import android.widget.Toast;
 
 public class ProductDetailScreen extends BaseActivity implements
@@ -44,7 +45,7 @@ public class ProductDetailScreen extends BaseActivity implements
     private TextView text_description;
     //	private TextView text_product_name;
     private TextView text_mow_price;
-    private TextView text_weight;
+    //private TextView text_weight;
     private TextView quantity;
     private TextView add_cart;
     private ImageView product_image;
@@ -96,7 +97,7 @@ public class ProductDetailScreen extends BaseActivity implements
 
             text_description = (TextView) findViewById(R.id.text_description);
             text_mow_price = (TextView) findViewById(R.id.text_mow_price);
-            text_weight = (TextView) findViewById(R.id.text_weight);
+            //text_weight = (TextView) findViewById(R.id.text_weight);
             quantity = (TextView) findViewById(R.id.quantity);
             add_cart = (TextView) findViewById(R.id.add_cart);
             rlOutOfStockDesc = (RelativeLayout) findViewById(R.id.rl_out_of_stock_desc);
@@ -207,7 +208,7 @@ public class ProductDetailScreen extends BaseActivity implements
                     productDetail.getProductThumbnail(), product_image,
                     baseImageoptions);
 
-            text_weight.setText("Weight ");
+           // text_weight.setText("Weight ");
 
 
             int edit_quantity = 0;
@@ -347,6 +348,18 @@ public class ProductDetailScreen extends BaseActivity implements
                                 UtilityMethods.customToast(Constants.ToastConstant.INTERNET_NOT_AVAILABLE, activity);
                             }
                         }
+
+                        /*code to track add to cart event */
+
+                        try{
+                            UtilityMethods.clickCapture(activity,"Add to Cart","",product.getName(),"",MySharedPrefs.INSTANCE.getSelectedCity());
+                        }catch(Exception e){
+                            e.printStackTrace();
+                        }
+                        /*--------------------------------------*/
+
+
+
 
                     } else {
 //								UtilityMethods.writeStackCart(activity, Constants.StackCartFile, cart_obj);

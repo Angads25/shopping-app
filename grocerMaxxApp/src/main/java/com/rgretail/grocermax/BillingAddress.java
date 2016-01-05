@@ -559,7 +559,7 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
                             return;
                         }
 
-                        try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_PROCEED_BILLING_CLICK);}catch(Exception e){}
+                        try{UtilityMethods.clickCapture(mContext,"Billing address","","","",MySharedPrefs.INSTANCE.getSelectedCity());}catch(Exception e){}
 
                         OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
                         JSONObject billing_json_obj = new JSONObject();
@@ -600,11 +600,11 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
                     // TODO Auto-generated method stub
                     try {
                         if(BillingStateCityLoader.alState == null || BillingStateCityLoader.alState.size() == 0){                //first time call this service for getting states
-                            try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_NEW_BILLING_ADDRESS_SELECT);}catch(Exception e){}
+                          //  try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_NEW_BILLING_ADDRESS_SELECT);}catch(Exception e){}
                             Address addres = null;
                             new BillingStateCityLoader(BillingAddress.this,addres,"billing","-1").execute(UrlsConstants.GET_STATE);
                         }else {
-                            try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_NEW_BILLING_ADDRESS_SELECT);}catch(Exception e){}
+                           // try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_NEW_BILLING_ADDRESS_SELECT);}catch(Exception e){}
                             Intent intent = new Intent(mContext, CreateNewAddress.class);
                             intent.putExtra("shippingorbillingaddress", "billing");
                             intent.putExtra("editindex", "-1");                                    //means adding the address not editing.

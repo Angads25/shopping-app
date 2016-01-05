@@ -169,9 +169,9 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                     // TODO Auto-generated method stub
                     try{
 
-                        try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+tvSelectedTime.getText()+AppConstants.GA_EVENT_TIME_SLOT_SELECT);}catch(Exception e){}
-                        try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+tvSelectedDate.getText()+AppConstants.GA_EVENT_DATE_SELECT);}catch(Exception e){}
-                        try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_PROCEED_BILLING);}catch(Exception e){}
+                        try{UtilityMethods.clickCapture(mContext,"Delivery details","","","",MySharedPrefs.INSTANCE.getSelectedCity());}catch(Exception e){}
+                        //try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+tvSelectedDate.getText()+AppConstants.GA_EVENT_DATE_SELECT);}catch(Exception e){}
+                        //try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_PROCEED_BILLING);}catch(Exception e){}
                         if(time.equals(""))
                         {
                             UtilityMethods.customToast(AppConstants.ToastConstant.SELECT_TIME, mContext);

@@ -18,6 +18,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
+import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.UrlsConstants;
@@ -73,7 +74,7 @@ public class CategoryActivity extends BaseActivity {
                 }
             }
 
-            try{UtilityMethods.clickCapture(mContext, "", "", strCatIdByCat, "", SCREENNAME+strCatName+"-"+AppConstants.GA_EVENT_CATEGORY_OPENED);}catch(Exception e){}
+           // try{UtilityMethods.clickCapture(mContext, "", "", strCatIdByCat, "", SCREENNAME+strCatName+"-"+AppConstants.GA_EVENT_CATEGORY_OPENED);}catch(Exception e){}
 
             for (int i = 0; i < catObj.size(); i++) {
                 if (catObj.get(i).getCategoryId().equals(strCatIdByCat)) {
@@ -252,8 +253,13 @@ public class CategoryActivity extends BaseActivity {
                     String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(mainCatPosition).getChildren().get(selectedIndex).getCategoryId();
                     myApi.reqAllProductsCategory(url);
                 }
-                try{UtilityMethods.clickCapture(mContext, "", "", alcatObjSend.get(selectedIndex).getCategoryId(), "", SCREENNAME+strCatName+"-"+alcatObjSend.get(selectedIndex).getCategory()+"-"+
-                        AppConstants.GA_EVENT_SUB_CATEGORY);}catch(Exception e){}
+
+                /*GA event Tracking for this event*/
+                try{
+                    UtilityMethods.clickCapture(mContext, "L2", "", alcatObjSend.get(selectedIndex).getCategory(), "", MySharedPrefs.INSTANCE.getSelectedCity());
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
             }catch(Exception e){
                 new GrocermaxBaseException("HomeScreen","listener",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
             }
@@ -273,8 +279,9 @@ public class CategoryActivity extends BaseActivity {
                 String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(mainCatPosition).getChildren().get(selectedIndex).getChildren().get(pos).getCategoryId();
                 myApi.reqAllProductsCategory(url);
 //    			UtilityMethods.customToast(String.valueOf(pos) + "====", MyApplication.getInstance());
-                try{UtilityMethods.clickCapture(mContext, "", "", alcatObjSend.get(selectedIndex).getChildren().get(pos).getCategoryId(), "", SCREENNAME+strCatName+"-"+alcatObjSend.get(selectedIndex).getCategory()+"-"+
-                        alcatObjSend.get(selectedIndex).getChildren().get(pos).getCategory()+"-"+AppConstants.GA_EVENT_SUB_SUB_CATEGORY);}catch(Exception e){}
+                try{
+                    UtilityMethods.clickCapture(mContext, "L3", "", alcatObjSend.get(selectedIndex).getChildren().get(pos).getCategory(), "", MySharedPrefs.INSTANCE.getSelectedCity());
+                }catch(Exception e){}
 			}catch(Exception e){
 				new GrocermaxBaseException("ChooseAddress","listener",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 			}

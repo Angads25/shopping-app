@@ -1,7 +1,5 @@
 package com.rgretail.grocermax.adapters;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Paint;
@@ -26,6 +24,7 @@ import com.rgretail.grocermax.CartProductList;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.UpdateCartbg;
 import com.rgretail.grocermax.bean.CartDetail;
+import com.rgretail.grocermax.bean.OrderReviewBean;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
@@ -34,7 +33,7 @@ import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.CustomTypefaceSpan;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
-import com.rgretail.grocermax.bean.OrderReviewBean;
+import java.util.ArrayList;
 
 public class CartAdapter extends BaseAdapter{
 
@@ -148,7 +147,7 @@ public class CartAdapter extends BaseAdapter{
 
 		final CartDetail obj = getItem(position);
 
-		try{UtilityMethods.clickCapture(activity,"","","","",AppConstants.GA_EVENT_CART_SCROLLER);}catch(Exception e){}
+		//try{UtilityMethods.clickCapture(activity,"","","","",AppConstants.GA_EVENT_CART_SCROLLER);}catch(Exception e){}
 
 
 //		if(obj.getStatus().equals("1")){  //product available

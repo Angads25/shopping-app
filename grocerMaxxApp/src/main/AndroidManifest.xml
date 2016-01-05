@@ -429,7 +429,8 @@
         </activity>
         <activity
             android:name=".WalletActivity"
-            android:label="@string/title_activity_wallet" >
+            android:label="@string/title_activity_wallet"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".WalletTransaction"

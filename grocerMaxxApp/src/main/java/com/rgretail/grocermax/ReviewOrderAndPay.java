@@ -267,7 +267,7 @@ public class ReviewOrderAndPay extends BaseActivity
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_CODE_APPLIED);}catch(Exception e){}
+				//	try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_CODE_APPLIED);}catch(Exception e){}
 					if (etCouponCode.getText().toString().length() > 0) {
 						// need to change the keyboardVisibility here
 						getKeyBoardVisibility();
@@ -285,7 +285,7 @@ public class ReviewOrderAndPay extends BaseActivity
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_REMOVE_CODE);}catch(Exception e){}
+				//	try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_REMOVE_CODE);}catch(Exception e){}
 					if (etCouponCode.getText().toString().length() > 0) {
 						new Coupon(mContext, "Remove").execute(strRemoveCoupon + etCouponCode.getText().toString());
 					} else {
@@ -678,7 +678,8 @@ public class ReviewOrderAndPay extends BaseActivity
 			button_pay.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_PLACE_ORDER);}catch(Exception e){}
+					try{UtilityMethods.clickCapture(mContext,"Review and Place order","","","",MySharedPrefs.INSTANCE.getSelectedCity());
+                    }catch(Exception e){}
 
 					orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 //					float str1 = Float.parseFloat(orderReviewBean.getGrandTotal());
@@ -724,13 +725,13 @@ public class ReviewOrderAndPay extends BaseActivity
 
 						if(bPayTM){
 							payment_mode="paytm_cc";
-							try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_PAYTM);}catch(Exception e){}
+							//try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_PAYTM);}catch(Exception e){}
 						}else if (bOnline) {
 							payment_mode = "payucheckout_shared";
-							try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_PAYU);}catch(Exception e){}
+							//try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_PAYU);}catch(Exception e){}
 						} else if (bCash) {
 							payment_mode = "cashondelivery";
-							try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_CASH_ON_DELIVERY);}catch(Exception e){}
+							//try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_CASH_ON_DELIVERY);}catch(Exception e){}
 						}
 
 
@@ -912,9 +913,11 @@ public class ReviewOrderAndPay extends BaseActivity
 				return;
 			} else if (bOnline) {
 				final HashMap<String, String> params = new HashMap<String, String>();
-				double amount = total;
+				//double amount = total;
+                double amount=Double.parseDouble(tvTotal.getText().toString().replace("Rs.",""));
 
-				params.put("amount", String.valueOf(total));
+				//params.put("amount", String.valueOf(total));
+                params.put("amount", String.valueOf(amount));
 				params.put("surl", UrlsConstants.CHANGE_ORDER_STATUS + "success.php?orderid=" + orderid);
 				params.put("furl", UrlsConstants.CHANGE_ORDER_STATUS + "fail.php?orderid=" + orderid);
 				params.put("user_credentials", "yPnUG6:test");
@@ -1374,7 +1377,8 @@ public class ReviewOrderAndPay extends BaseActivity
 	private void payTM(String orderid){
 		try {
 			Intent intent = new Intent(this, PayTMActivity.class);
-			intent.putExtra("amount", String.valueOf(total));
+			//intent.putExtra("amount", String.valueOf(total));
+            intent.putExtra("amount",tvTotal.getText().toString().replace("Rs.",""));
 			intent.putExtra("order_id", orderid);
 			intent.putExtra("order_db_id", order_db_id);
 			startActivity(intent);

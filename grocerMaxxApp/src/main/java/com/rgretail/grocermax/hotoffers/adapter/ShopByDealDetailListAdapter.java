@@ -14,6 +14,7 @@ import com.rgretail.grocermax.DealListScreen;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.OfferByDealTypeSubModel;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
+import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
@@ -119,7 +120,13 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
                 DealListScreen.strDealHeading  = "Offer Detail";
                 ((HomeScreen) context).isFromFragment = true;
 
-                try{UtilityMethods.clickCapture(context,"","",data.get(position).getPromo_id(),"",SCREENNAME+data.get(position).getName()+"-"+AppConstants.GA_EVENT_DEAL_SELECTION);}catch(Exception e){}
+                /*Tracking GA event for Offer click from Drawer->Shop By Deat Type*/
+                try{
+                    //System.out.println("offer Click="+data.get(position).getTitle());
+                    UtilityMethods.clickCapture(context,"Deal Click","",data.get(position).getTitle(),"", MySharedPrefs.INSTANCE.getSelectedCity());
+                }catch(Exception e){}
+                /*----------------------------------------------------------------*/
+
 //                String str1 = data.get(position).getDealName();
 //                String str2 = data.get(position).getName();
 //                String str3 = data.get(position).getTitle();
@@ -132,7 +139,7 @@ public class ShopByDealDetailListAdapter extends RecyclerView.Adapter<ShopByDeal
         });
 
 
-        try{UtilityMethods.clickCapture(context, "", "", data.get(position).getPromo_id(),"",SCREENNAME+data.get(position).getName()+"-"+ AppConstants.GA_EVENT_DEAL_SCROLLER);}catch(Exception e){}
+        //try{UtilityMethods.clickCapture(context, "", "", data.get(position).getPromo_id(),"",SCREENNAME+data.get(position).getName()+"-"+ AppConstants.GA_EVENT_DEAL_SCROLLER);}catch(Exception e){}
 
     }
 

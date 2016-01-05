@@ -410,16 +410,16 @@ public class Registration extends BaseActivity implements
 						//String params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password;
 
 						try {
-							jsonObjectParams = new JSONObject();
-							jsonObjectParams.put("fname", _fname);
-							jsonObjectParams.put("lname", _lname);
-							jsonObjectParams.put("uemail", _email_id);
-							jsonObjectParams.put("number", _mobile_no);
-							jsonObjectParams.put("password", _password);
-							jsonObjectParams.put("otp", "1");
+                            jsonObjectParams = new JSONObject();
+                            jsonObjectParams.put("fname", _fname);
+                            jsonObjectParams.put("lname", _lname);
+                            jsonObjectParams.put("uemail", _email_id);
+                            jsonObjectParams.put("number", _mobile_no);
+                            jsonObjectParams.put("password", _password);
+                            jsonObjectParams.put("otp", "1");
 //							jsonObjectParams.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
-						} catch (Exception e) {
-						}
+                        } catch (Exception e) {
+                        }
 
 						params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password;
 						if (MySharedPrefs.INSTANCE.getQuoteId() == null || MySharedPrefs.INSTANCE.getQuoteId().equals("")) {
@@ -427,7 +427,9 @@ public class Registration extends BaseActivity implements
 //							url += params;
 //						myApi.reqUserRegistration(url);
 //							myApi.reqUserRegistrationOTP(url);
-							MySharedPrefs.INSTANCE.putMobileNo(_mobile_no);                           //14/09/15
+							MySharedPrefs.INSTANCE.putMobileNo(_mobile_no);//14/09/15
+                            MySharedPrefs.INSTANCE.putFirstName(_fname);
+                            MySharedPrefs.INSTANCE.putLastName(_lname);
 
 							try {
 								JSONObject jsonObject = new JSONObject();
@@ -466,6 +468,9 @@ public class Registration extends BaseActivity implements
 //						myApi.reqUserRegistration(url);
 //							myApi.reqUserRegistrationOTP(url);
 							MySharedPrefs.INSTANCE.putMobileNo(_mobile_no);                           //14/09/15
+                            MySharedPrefs.INSTANCE.putFirstName(_fname);
+                            MySharedPrefs.INSTANCE.putLastName(_lname);
+
 
 							try {
 								JSONObject jsonObject = new JSONObject();

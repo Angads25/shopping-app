@@ -11,11 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rgretail.grocermax.BaseActivity;
+import com.rgretail.grocermax.MyApplication;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.DealByDealTypeBean;
 import com.rgretail.grocermax.bean.OfferByDealTypeSubModel;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.hotoffers.MyPagerSlidingTabStrip;
+import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.UtilityMethods;
@@ -72,7 +74,7 @@ public class ShopByDealItemDetailFragment extends Fragment {
 //                }
 ///////////    responsible for All tab in starting   ////////////////////
 
-                try{ UtilityMethods.clickCapture(getActivity(), "", "", "", "", AppConstants.GA_EVENT_DEAL_CATEGORY_OPENED);}catch(Exception e){}
+              //  try{ UtilityMethods.clickCapture(getActivity(), "", "", "", "", AppConstants.GA_EVENT_DEAL_CATEGORY_OPENED);}catch(Exception e){}
 
                 if(dealByDealTypeBean.getDealcategory().getCategory().size()>0)
                 {
@@ -118,24 +120,39 @@ public class ShopByDealItemDetailFragment extends Fragment {
 //        if(offerByDealTypeBean.getDealcategorylisting().size()>0)
 //            itemDetailGrid.setData(offerByDealTypeBean.getDealcategorylisting().get(keyList.get(0)));
 
-//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int i, float v, int i1) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int i) {
-//            }
-//
-//
-//            @Override
-//            public void onPageScrollStateChanged(int i) {
-//
-//            }
-//        });
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+            //   System.out.println("print name="+AppConstants.strTitleHotDeal+"-"+keyList.get(i));
+                senDataToGA(AppConstants.strTitleHotDeal+"-"+keyList.get(i));
+            }
+
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
         tabs.setViewPager(viewPager);
+
+        senDataToGA(AppConstants.strTitleHotDeal + "-" + keyList.get(0));
         return view;
+    }
+
+    public void senDataToGA(String label){
+        try{
+            if(MyApplication.isFromDrawer==true)
+            UtilityMethods.clickCapture(getActivity(), "Drawer - Deal Category L2", "", label, "", MySharedPrefs.INSTANCE.getSelectedCity());
+            else
+            UtilityMethods.clickCapture(getActivity(), "Deal Category L2", "", label, "", MySharedPrefs.INSTANCE.getSelectedCity());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
 

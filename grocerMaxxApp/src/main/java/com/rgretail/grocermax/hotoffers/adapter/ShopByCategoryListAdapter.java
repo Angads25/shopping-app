@@ -19,6 +19,7 @@ import com.rgretail.grocermax.CategoryActivity;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.ShopByCategoryModel;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
+import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
@@ -86,13 +87,14 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        System.out.println("IMage url="+data.get(position).getImages());
         ImageLoader.getInstance().displayImage(data.get(position).getImages(),
                 holder.imageView, ((BaseActivity) activity).baseImageoptions);
 
 //        position
 //        data.size()
 
-        try{UtilityMethods.clickCapture(context, "", "", data.get(position).getCategory_id(),"", SCREENNAME+data.get(position).getName()+"-"+AppConstants.SHOP_BY_CATEGORY_SCROLLING);}catch(Exception e){}
+      //  try{UtilityMethods.clickCapture(context, "", "", data.get(position).getCategory_id(),"", SCREENNAME+data.get(position).getName()+"-"+AppConstants.SHOP_BY_CATEGORY_SCROLLING);}catch(Exception e){}
 
         if(position == data.size()-1){
             holder.view1Space.setVisibility(View.GONE);
@@ -140,7 +142,32 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
                 ((HomeScreen)context).isFromFragment=false;
 
 
-                try{UtilityMethods.clickCapture(context, "", "", data.get(position).getCategory_id(),"", SCREENNAME+data.get(position).getName()+"-"+AppConstants.SHOP_BY_CATEGORY_IMAGE_CLICK);}catch(Exception e){}
+                /*This is done by Ishan Because No category name is available in data list*/
+
+                String GA_Label="";
+                if(data.get(position).getCategory_id().equals("2180")){
+                    GA_Label="Beverages";
+                }else if(data.get(position).getCategory_id().equals("2211")){
+                    GA_Label="Dairy, Bakery & Eggs";
+                }else if(data.get(position).getCategory_id().equals("2247")){
+                    GA_Label="Family Care";
+                }else if(data.get(position).getCategory_id().equals("2277")){
+                    GA_Label="Frozen";
+                }else if(data.get(position).getCategory_id().equals("2334")){
+                    GA_Label="Home Care";
+                }else if(data.get(position).getCategory_id().equals("2359")){
+                    GA_Label="Home Needs";
+                }else if(data.get(position).getCategory_id().equals("2391")){
+                    GA_Label="Non-Veg";
+                }else if(data.get(position).getCategory_id().equals("2402")){
+                    GA_Label="Packaged Food";
+                }else if(data.get(position).getCategory_id().equals("2483")){
+                    GA_Label="Staples";
+                }
+
+                try{
+                    UtilityMethods.clickCapture(context, "L1", "",GA_Label,"", MySharedPrefs.INSTANCE.getSelectedCity());
+                }catch(Exception e){}
 
 //                System.out.println("=====idss1111111===" + data.get(position).getCategory_id());
 
@@ -168,7 +195,7 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
                         }
                     }
                 }
-                try{UtilityMethods.clickCapture(context, "", "", ((HomeScreen) context).catObj.get(clickedFooter).getCategoryId(),"", SCREENNAME+((HomeScreen) context).catObj.get(clickedFooter).getCategory()+"-"+AppConstants.SHOP_BY_CATEGORY_FOOTER_CLICK);}catch(Exception e){}
+                //try{UtilityMethods.clickCapture(context, "", "", ((HomeScreen) context).catObj.get(clickedFooter).getCategoryId(),"", SCREENNAME+((HomeScreen) context).catObj.get(clickedFooter).getCategory()+"-"+AppConstants.SHOP_BY_CATEGORY_FOOTER_CLICK);}catch(Exception e){}
             }catch(Exception e){}
             }
         });

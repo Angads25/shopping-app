@@ -14,6 +14,7 @@ public class MyApplication extends Application {
 
 	private static MyApplication mApplication;
 	Context context;
+    public static boolean isFromDrawer=false;
 //	private static String PROPERTY_ID;
 
 

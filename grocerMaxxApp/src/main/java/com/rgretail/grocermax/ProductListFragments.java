@@ -1,16 +1,5 @@
 package com.rgretail.grocermax;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.util.EntityUtils;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,17 +18,27 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.rgretail.grocermax.adapters.ProductListAdapter;
 import com.rgretail.grocermax.bean.CategoriesProducts;
 import com.rgretail.grocermax.bean.Product;
-import com.rgretail.grocermax.hotoffers.HomeScreen;
-import com.rgretail.grocermax.preference.MySharedPrefs;
-import com.rgretail.grocermax.utils.AppConstants;
-import com.rgretail.grocermax.utils.UtilityMethods;
-import com.rgretail.grocermax.adapters.ProductListAdapter;
 import com.rgretail.grocermax.bean.ProductListBean;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
+import com.rgretail.grocermax.preference.MySharedPrefs;
+import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.MyHttpUtils;
 import com.rgretail.grocermax.utils.UrlsConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.util.EntityUtils;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class ProductListFragments extends Fragment implements OnScrollListener
 {
@@ -67,6 +66,9 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 
 	private CategoriesProducts categoryData;
 	private String SCREENNAME = "ProductListFragments-";
+
+     /*for sending category name to GA when Tab clicked*/
+    public static String categogy_name;
 
 //    public static ProductListFragments newInstance(CategorySubcategoryBean categorySubcategoryBean) {
 //    	ProductListFragments fragment = new ProductListFragments();
@@ -108,10 +110,9 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 		super.onCreate(savedInstanceState);
 		try {
 			if ((savedInstanceState != null) && savedInstanceState.containsKey("ProductList")) {
-				productListBean = (ProductListBean) savedInstanceState
-						.getSerializable("ProductList");
+				productListBean = (ProductListBean) savedInstanceState.getSerializable("ProductList");
 				cat_id = savedInstanceState.getString("cat_id");
-			}
+            }
 		}catch(Exception e){
 			new GrocermaxBaseException("ProductListFragments","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
@@ -150,7 +151,7 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 						}
 						if (productListBean.getProduct().get(position).getPromotionLevel() != null) {
 							try {
-								UtilityMethods.clickCapture(HomeScreen.mContext, "", "", "", "", SCREENNAME+AppConstants.GA_EVENT_OFFER_IN_CATEGORY);
+								//UtilityMethods.clickCapture(HomeScreen.mContext, "", "", "", "", SCREENNAME+AppConstants.GA_EVENT_OFFER_IN_CATEGORY);
 							} catch (Exception e) {
 							}
 						}
@@ -206,6 +207,10 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 			listBean = new ProductListBean();
 			List<Product> lis = new ArrayList<Product>();
 			lis = categoryData.getItems();
+
+            /*get the name of category when tab item is clicked*/
+            categogy_name=categoryData.getCategory_name();
+            /*----------------------------*/
 
 			listBean.setProduct(lis);
 			////jsonarray parse in listbean////////////////
@@ -287,8 +292,9 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 				mAdapter = new ProductListAdapter(getActivity(), product_list);
 
 				mList.setAdapter(mAdapter);
-
 			}
+
+
 //			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -449,7 +455,7 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 					new CallAPI().execute(url);
 					//callApi.execute(url);
 					//startMyTask(callApi, url);
-					try{UtilityMethods.clickCapture(getActivity(),"","","","",SCREENNAME+AppConstants.CATEGORY_SCROLL_BROWSING_CATEGORIES);}catch(Exception e){}
+					//try{UtilityMethods.clickCapture(getActivity(),"","","","",SCREENNAME+AppConstants.CATEGORY_SCROLL_BROWSING_CATEGORIES);}catch(Exception e){}
 
 				} else {
 //				Toast.makeText(categoryTabs.mContext, ToastConstant.listFull, Toast.LENGTH_SHORT).show();

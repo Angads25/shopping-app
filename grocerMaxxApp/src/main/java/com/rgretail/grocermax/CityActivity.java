@@ -151,8 +151,8 @@ public class CityActivity extends BaseActivity {
                     }
                 }
 
-                try{UtilityMethods.clickCapture(mContext,"","",MySharedPrefs.INSTANCE.getSelectedStateId(),""
-                        ,SCREENNAME+MySharedPrefs.INSTANCE.getSelectedCity()+"-"+AppConstants.SELECTED_STORE);}catch(Exception e){}
+                /*try{UtilityMethods.clickCapture(mContext,"","",MySharedPrefs.INSTANCE.getSelectedStateId(),""
+                        ,SCREENNAME+MySharedPrefs.INSTANCE.getSelectedCity()+"-"+AppConstants.SELECTED_STORE);}catch(Exception e){}*/
             }
         });
 
@@ -379,8 +379,19 @@ public class CityActivity extends BaseActivity {
             ivLocation[position].setImageResource(R.drawable.select_location);
 
 
-            try{UtilityMethods.clickCapture(mContext,"","",locationList.getItems().get(position).getStoreId(),""
-                    ,SCREENNAME+locationList.getItems().get(position).getCityName()+"-"+AppConstants.SELECTED_STORE_BUTTON);}catch(Exception e){}
+            /*Tracking the event for city change if user came from drawer of from starting*/
+            if(MyApplication.isFromDrawer){
+                try {
+                    UtilityMethods.clickCapture(mContext, "City Change", "", "", "", MySharedPrefs.INSTANCE.getSelectedCity());
+                } catch (Exception e) {
+                }
+            }else {
+                try {
+                    UtilityMethods.clickCapture(mContext, "Profile Activity", "", "City Change", "", MySharedPrefs.INSTANCE.getSelectedCity());
+                } catch (Exception e) {
+                }
+            }
+            /*-----------------------------------------------------------------------------------------*/
 
         }catch(Exception e){
             new GrocermaxBaseException("CityActivity","listener",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");

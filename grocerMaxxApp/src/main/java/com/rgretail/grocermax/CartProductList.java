@@ -622,6 +622,16 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 						UtilityMethods.customToast(Constants.ToastConstant.ATLEAST_ONE_ITEM_IN_CART, mContext);
 						return;
 					}
+
+                    /* tracking the event for proceed to checkout*/
+                    try{
+                        UtilityMethods.clickCapture(activity,"Proceed to Checkout","","","",MySharedPrefs.INSTANCE.getSelectedCity());
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                    /*-----------------------------------------*/
+
+
 					String userId = MySharedPrefs.INSTANCE.getUserId();
 					if (userId == null || userId.length() == 0) {
 						Intent intent = new Intent(mContext, LoginActivity.class);
@@ -631,14 +641,13 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 						callAddressApi();
 					}
 
-					try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.BOTTOM_CART_PROCEED_BUTTON_PRESSED);}catch(Exception e){}
 
 					break;
 
 				case R.id.button_update_cart1:
 					updateItemInCartBackToCart();
 					bIsEdit = false;
-					try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.BOTTOM_CART_UPDATE_BUTTON_PRESSED);}catch(Exception e){}
+					//try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.BOTTOM_CART_UPDATE_BUTTON_PRESSED);}catch(Exception e){}
 					break;
 
 			}
@@ -855,6 +864,15 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 //					products.put(prod_obj);
 //				}
 //			}
+
+            /*-----track event for update cart-------*/
+            try{
+                UtilityMethods.clickCapture(activity,"Update Cart","","","",MySharedPrefs.INSTANCE.getSelectedCity());
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            /*----------------------*/
+
 
 			showDialog();
 			String strUserId = "";

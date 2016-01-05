@@ -21,6 +21,7 @@ import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.hotoffers.adapter.ExpandableMenuListAdapter;
 import com.rgretail.grocermax.hotoffers.adapter.MenuListAdapter;
 import com.rgretail.grocermax.hotoffers.adapter.ShopByDealsMenuListAdapter;
+import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.UrlsConstants;
@@ -118,6 +119,15 @@ public class ExpandableMenuFragment extends Fragment {
 //                expandableListView.c
                 //Toast.makeText(getActivity(), "Size :" + catObj.get(groupPosition).getChildren().size(), Toast.LENGTH_SHORT).show();
 
+                /*tracking GA event on click of second level category from drawer*/
+
+                try{
+                    UtilityMethods.clickCapture(getActivity(),"Drawer - L2","",catObj.get(groupPosition).getCategory(),"", MySharedPrefs.INSTANCE.getSelectedCity());
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                /*--------------------------------------------------------------*/
+
                 if(catObj.get(groupPosition).getChildren().size() > 0) {
 
                     for (int i = 0; i < catObj.get(groupPosition).getChildren().size(); i++) {
@@ -177,6 +187,14 @@ public class ExpandableMenuFragment extends Fragment {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
 //                startActivity(catObj.get(groupPosition).getChildren().get(childPosition));
+
+                /*tracking GA event on click of third level of category from drawer*/
+                try{
+                    UtilityMethods.clickCapture(getActivity(),"Drawer - L3","",catObj.get(groupPosition).getChildren().get(childPosition).getCategory(),"",MySharedPrefs.INSTANCE.getSelectedCity());
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                /*-----------------------------------------------------------------*/
                 ((HomeScreen) getActivity()).showDialog();
                 ((HomeScreen) getActivity()).getDrawerLayout().closeDrawers();
                 String url = UrlsConstants.GET_ALL_PRODUCTS_OF_CATEGORY + catObj.get(groupPosition).getChildren().get(childPosition).getCategoryId();

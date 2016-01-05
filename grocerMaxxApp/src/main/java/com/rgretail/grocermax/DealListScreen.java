@@ -10,23 +10,23 @@ import android.widget.ListView;
 
 import com.appsflyer.AppsFlyerLib;
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
-import com.rgretail.grocermax.api.ConnectionService;
-import com.rgretail.grocermax.bean.BaseResponseBean;
-import com.rgretail.grocermax.bean.Product;
-import com.rgretail.grocermax.hotoffers.HomeScreen;
-import com.rgretail.grocermax.preference.MySharedPrefs;
-import com.rgretail.grocermax.utils.AppConstants;
-import com.rgretail.grocermax.utils.Constants;
-import com.rgretail.grocermax.utils.UtilityMethods;
 import com.rgretail.grocermax.adapters.ProductListAdapter;
+import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
+import com.rgretail.grocermax.bean.BaseResponseBean;
 import com.rgretail.grocermax.bean.DealListBean;
+import com.rgretail.grocermax.bean.Product;
 import com.rgretail.grocermax.bean.ProductDetailsListBean;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
+import com.rgretail.grocermax.preference.MySharedPrefs;
+import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.UrlsConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
 
 import java.util.List;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 
 
 public class DealListScreen extends BaseActivity implements AbsListView.OnScrollListener {
@@ -275,7 +275,7 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
 //            this.currentFirstVisibleItem = firstVisibleItem;
 //            this.currentVisibleItemCount = visibleItemCount;
 //            this.totalItemCount = totalItemCount;
-            try{UtilityMethods.clickCapture(this,"","","","", AppConstants.GA_EVENT_DEAL_LISTING_SCROLLING);}catch(Exception e){}
+           // try{UtilityMethods.clickCapture(this,"","","","", AppConstants.GA_EVENT_DEAL_LISTING_SCROLLING);}catch(Exception e){}
         }catch(Exception e){
             new GrocermaxBaseException("ProductListScreen","onScroll",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
         }

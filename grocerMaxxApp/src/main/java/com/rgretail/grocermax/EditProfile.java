@@ -2,17 +2,6 @@
 
 package com.rgretail.grocermax;
 
-import com.appsflyer.AppsFlyerLib;
-import com.rgretail.grocermax.api.ConnectionService;
-import com.rgretail.grocermax.api.MyReceiverActions;
-import com.rgretail.grocermax.bean.BaseResponseBean;
-import com.rgretail.grocermax.bean.UserDetailBean;
-import com.rgretail.grocermax.exception.GrocermaxBaseException;
-import com.rgretail.grocermax.preference.MySharedPrefs;
-import com.rgretail.grocermax.utils.AppConstants;
-import com.rgretail.grocermax.utils.CustomFonts;
-import com.rgretail.grocermax.utils.UtilityMethods;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,11 +13,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
+import com.rgretail.grocermax.api.ConnectionService;
+import com.rgretail.grocermax.api.MyReceiverActions;
+import com.rgretail.grocermax.bean.BaseResponseBean;
+import com.rgretail.grocermax.bean.UserDetailBean;
+import com.rgretail.grocermax.exception.GrocermaxBaseException;
+import com.rgretail.grocermax.preference.MySharedPrefs;
+import com.rgretail.grocermax.utils.AppConstants;
+import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.UrlsConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
 
 import org.json.JSONObject;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 //import android.widget.Toast;
 
 public class EditProfile extends BaseActivity{
@@ -442,6 +442,16 @@ public class EditProfile extends BaseActivity{
 								jsonObject.put("lname",lname_n);
 								jsonObject.put("number",contact_n);
 //								jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+
+                                /*tracking GA event for edit profile and change password both*/
+                                try{
+                                    UtilityMethods.clickCapture(activity,"Profile Activity","","Edit Information","",MySharedPrefs.INSTANCE.getSelectedCity());
+                                    UtilityMethods.clickCapture(activity,"Profile Activity","","Change Password","",MySharedPrefs.INSTANCE.getSelectedCity());
+                                }catch(Exception e){
+                                    e.printStackTrace();
+                                }
+                                /*--------------------------------*/
+
 							} else {
 //								params = "userid=" + MySharedPrefs.INSTANCE.getUserId() + "uemail=" + MySharedPrefs.INSTANCE.getUserEmail() +
 //										"&fname=" + fname_n + "&lname=" + lname_n + "&number=" + contact_n;
@@ -451,6 +461,16 @@ public class EditProfile extends BaseActivity{
 								jsonObject.put("lname",lname_n);
 								jsonObject.put("number",contact_n);
 //								jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+
+                                /*tracking GA event only for Edit information*/
+                                try{
+                                    UtilityMethods.clickCapture(activity,"Profile Activity","","Edit Information","",MySharedPrefs.INSTANCE.getSelectedCity());
+                                }catch(Exception e){
+                                    e.printStackTrace();
+                                }
+                                /*--------------------------------*/
+
+
 							}
 //							url += params;
 //							myApi.reqEditProfile(url);

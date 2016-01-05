@@ -540,7 +540,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                             bShippingAsBilling = false;
                             ivShippingBilling.setImageResource(R.drawable.chkbox_unselected);
                         }else{
-                            try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_PROCEED_SHIPPING_BILLING);}catch(Exception e){}
+                           // try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_PROCEED_SHIPPING_BILLING);}catch(Exception e){}
                             bShippingAsBilling = true;
                             ivShippingBilling.setImageResource(R.drawable.chkbox_selected);
                         }
@@ -565,12 +565,12 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                         // TODO Auto-generated method stub
                         try {
                             if (ShippingLocationLoader.alLocationShipping == null || ShippingLocationLoader.alLocationShipping.size() == 0) {                //first time call this service for getting states
-                                try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_NEW_SHIPPING_ADDRESS_SELECT);}catch(Exception e){}
+                               // try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_NEW_SHIPPING_ADDRESS_SELECT);}catch(Exception e){}
                                 Address addres = null;
 //                                new ShippingLocationLoader(ShippingAddress.this, addres, "shipping", "-1").execute(UrlsConstants.GET_LOCATION_SHIPPING + AppConstants.strSelectedStateId);
                                 new ShippingLocationLoader(ShippingAddress.this, addres, "shipping", "-1").execute(UrlsConstants.GET_LOCATION_SHIPPING + MySharedPrefs.INSTANCE.getSelectedStateId());
                             } else {
-                                try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_NEW_SHIPPING_ADDRESS_SELECT);}catch(Exception e){}
+                                //try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_NEW_SHIPPING_ADDRESS_SELECT);}catch(Exception e){}
                                 Intent intent = new Intent(mContext, CreateNewAddress.class);
                                 intent.putExtra("shippingorbillingaddress", "shipping");
                                 intent.putExtra("editindex", "-1");                                    //means adding the address not editing.
@@ -745,7 +745,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                             return;
                         }
 
-                        try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_PROCEED_SHIPPING);}catch(Exception e){}
+                        try{UtilityMethods.clickCapture(mContext,"Shipping address","","","",MySharedPrefs.INSTANCE.getSelectedCity());}catch(Exception e){}
 
                         Address ship_add = addressList.get(selectedPosition);
 

@@ -426,7 +426,7 @@
                     android:textColor="#e5111e"
                     android:visibility="visible"
                     android:textSize="@dimen/text_size_13" />
-                <LinearLayout
+               <!-- <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -481,9 +481,9 @@
                         android:padding="3dp"
                         android:scaleType="fitXY"
                         android:src="@drawable/plus_icon" />
-                </LinearLayout>
+                </LinearLayout>-->
 
-                <LinearLayout
+               <!-- <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -514,7 +514,7 @@
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_14"
                         android:textStyle="bold" />
-                </LinearLayout>
+                </LinearLayout>-->
             </LinearLayout>
 
             <View

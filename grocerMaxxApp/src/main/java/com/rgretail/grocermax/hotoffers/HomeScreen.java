@@ -705,10 +705,10 @@ public class HomeScreen extends BaseActivity {
             public void onClick(View v) {
                 if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
                     drawerLayout.closeDrawers();
-                    try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.CLOSE_DRAWER_MENU);}catch(Exception e){}
+                    //try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.CLOSE_DRAWER_MENU);}catch(Exception e){}
                 } else {
                     drawerLayout.openDrawer(Gravity.LEFT);
-                    try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.OPEN_DRAWER_MENU);}catch(Exception e){}
+                    try{UtilityMethods.clickCapture(mContext,"Open Drawer","","","",MySharedPrefs.INSTANCE.getSelectedCity());}catch(Exception e){}
                 }
             }
         });

@@ -14,7 +14,9 @@ import com.rgretail.grocermax.DealListScreen;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.OfferByDealTypeSubModel;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
+import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
 
 import java.util.ArrayList;
 
@@ -92,6 +94,15 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                /*tracking GA Event for Offer click from HomeScreen->Shop By Category->23 Offers*/
+                try{
+                    UtilityMethods.clickCapture(activity, "Deal Click", "", data.get(position).getName(), "", MySharedPrefs.INSTANCE.getSelectedCity());
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                /*-------------------------------------------------------------------------*/
+
                 ((HomeScreen) context).hitForDealsByDeals(data.get(position).getId());
                 ((HomeScreen) context).isFromFragment = true;
 //                    AppConstants.strTitleHotDeal = data.get(position).getName();

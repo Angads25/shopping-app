@@ -74,8 +74,8 @@ public class OneTimePassword extends BaseActivity {
                             UtilityMethods.customToast("Please enter valid otp", OneTimePassword.this);
                             return;
                         }
-                        String str = otpDataBean.getOTP();
-                        String str1 = etOTP.getText().toString();
+                       // String str = otpDataBean.getOTP();
+                        //String str1 = etOTP.getText().toString();
                         if (otpDataBean.getOTP().equals(etOTP.getText().toString())) {
                             if (UtilityMethods.isInternetAvailable(mContext)) {
                                 showDialog();
@@ -136,7 +136,7 @@ public class OneTimePassword extends BaseActivity {
             LoginResponse userDataBean = (LoginResponse) bundle.getSerializable(ConnectionService.RESPONSE);
 
             if (userDataBean.getFlag().equalsIgnoreCase("1")) {
-                try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_REGISTER_EMAIL);}catch(Exception e){}
+               // try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_REGISTER_EMAIL);}catch(Exception e){}
                 UtilityMethods.customToast(AppConstants.ToastConstant.REGISTER_SUCCESSFULL, mContext);
                 //finish();
                 MySharedPrefs.INSTANCE.putUserId(userDataBean.getUserID());

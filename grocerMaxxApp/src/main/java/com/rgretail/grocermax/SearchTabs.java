@@ -1,10 +1,5 @@
 package com.rgretail.grocermax;
 
-import java.util.HashMap;
-import java.util.List;
-
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,21 +11,25 @@ import android.view.View;
 import android.view.Window;
 
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.api.ConnectionService;
+import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.api.SearchLoader;
 import com.rgretail.grocermax.bean.BaseResponseBean;
-import com.rgretail.grocermax.utils.AppConstants;
-import com.rgretail.grocermax.utils.Constants;
-
-import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.Product;
 import com.rgretail.grocermax.bean.ProductDetailsListBean;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
+import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 import com.viewpagerindicator.TabPageIndicator;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.List;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 
 public class SearchTabs extends BaseActivity{
 	private String searchString;
@@ -72,7 +71,7 @@ public class SearchTabs extends BaseActivity{
 //			Bundle bundle = intent.getExtras();
 //			JSONObject[] strw = (JSONObject[])bundle.getSerializable("searchdata");
 
-			try{UtilityMethods.clickCapture(context,"","","","", AppConstants.GA_EVENT_OPEN_SEARCH);}catch(Exception e){}
+			//try{UtilityMethods.clickCapture(context,"","","","", AppConstants.GA_EVENT_OPEN_SEARCH);}catch(Exception e){}
 
 			size = SearchLoader.jsonObjectTop.length;
 

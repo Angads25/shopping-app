@@ -1,8 +1,5 @@
 package com.rgretail.grocermax;
 
-import java.util.Collections;
-import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,20 +9,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
-import com.payu.sdk.Constants;
-import com.rgretail.grocermax.api.ConnectionService;
-import com.rgretail.grocermax.preference.MySharedPrefs;
-import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.adapters.OrderHistoryAdapter;
+import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.OrderHistoryBean;
 import com.rgretail.grocermax.bean.Orderhistory;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
+import com.rgretail.grocermax.preference.MySharedPrefs;
+import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
 import org.json.JSONObject;
+
+import java.util.Collections;
+import java.util.List;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 
 public class OrderHistory extends BaseActivity{
 	private String header;
@@ -85,6 +85,14 @@ public class OrderHistory extends BaseActivity{
 
 	/////code added by Ishan///////////
 	public void reOrderItems(String order_id){
+
+        /*tracking event for reorder*/
+        try{
+            UtilityMethods.clickCapture(activity,"Profile Activity","","Reorder","",MySharedPrefs.INSTANCE.getSelectedCity());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        /*------------------------*/
 
 		showDialog();
 		myApi.reqReorder(UrlsConstants.ORDER_REORDER_URL + order_id);

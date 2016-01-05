@@ -1,7 +1,5 @@
 package com.rgretail.grocermax;
 
-import org.json.JSONObject;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +15,6 @@ import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.api.BillingStateCityLoader;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
@@ -31,6 +28,10 @@ import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
+
+import org.json.JSONObject;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 
 /*
 USER can update address from MyAddresses ,their checkbox of shipping and billing address will be visible.
@@ -982,6 +983,16 @@ public class CreateNewAddress extends BaseActivity{
 //				System.out.println("====URL new address====" + url);
 //				myApi.reqAddAddress(url, MyReceiverActions.ADD_ADDRESS);
 
+                /*tracking GA event for create Address*/
+                try{
+                    UtilityMethods.clickCapture(activity,"Profile Activity","","Create Address","",MySharedPrefs.INSTANCE.getSelectedCity());
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                /*----------------------------------------*/
+
+
+
 				String url = UrlsConstants.ADD_ADDRESS;
 
 				JSONObject jsonObject = new JSONObject();
@@ -1032,7 +1043,16 @@ public class CreateNewAddress extends BaseActivity{
 //				String url = UrlsConstants.EDIT_ADDRESS + url_param + "&userid=" + MySharedPrefs.INSTANCE.getUserId() + "&addressid=" + address.getCustomer_address_id() + "&default_billing=" + default_billing + "&default_shipping=" + default_shipping;
 //				myApi.reqEditAddress(url);
 
-				String url = UrlsConstants.EDIT_ADDRESS;
+
+                /*tracking GA event for edit Address*/
+                try{
+                    UtilityMethods.clickCapture(activity,"Profile Activity","","Edit Address","",MySharedPrefs.INSTANCE.getSelectedCity());
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                /*----------------------------------------*/
+
+                String url = UrlsConstants.EDIT_ADDRESS;
 				JSONObject jsonObject = new JSONObject();
 				jsonObject.put("fname",fname);
 				jsonObject.put("lname",lname);

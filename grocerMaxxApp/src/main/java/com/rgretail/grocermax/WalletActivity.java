@@ -6,6 +6,7 @@ import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
 import com.rgretail.grocermax.api.ConnectionService;
@@ -22,6 +23,8 @@ public class WalletActivity extends BaseActivity {
     TextView tv_walletAmount,tv_transactions,tv_share,tv_msg;
     ImageView icon_header_back;
     double amount=0.00;
+    String shareSubject="";
+    String shareBody="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,18 +53,21 @@ public class WalletActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-                String shareSubject = MySharedPrefs.INSTANCE.getFirstName()+" Sent You Rs. 100 GrocerMax Coupon";
-                String shareBody="Hi,<br/><br/>I'm delighted with honest quality products and deals that GrocerMax.com offers. I believe you'll love them too. " +
-                        "Here's a Rs. 100 coupon just for you that you should use in your 1st purchase on GrocerMax.<br/><br/>Coupon Code - <b>APP100</b><br/><br/>"+
-                        "GrocerMax bundles groceries the way you need it, at the prices you always look for. " +
-                        "<a href='https://grocermax.com/noida/hotoffer?ref=hotoffer'>Please sample their hot offers</a> ,choose your pick, and do redeem the coupon.<br/><br/>Lovingly,<br/>"+MySharedPrefs.INSTANCE.getFirstName();
+//                shareSubject = MySharedPrefs.INSTANCE.getFirstName()+" Sent You Rs. 100 GrocerMax Coupon";
+//                shareBody="Hi,<br/><br/>I'm delighted with honest quality products and deals that GrocerMax.com offers. I believe you'll love them too. " +
+//                        "Here's a Rs. 100 coupon just for you that you should use in your 1st purchase on GrocerMax.<br/><br/>Coupon Code - <b>APP100</b><br/><br/>"+
+//                        "GrocerMax bundles groceries the way you need it, at the prices you always look for. " +
+//                        "<a href='https://grocermax.com/noida/hotoffer?ref=hotoffer'>Please sample their hot offers</a> ,choose your pick, and do redeem the coupon.<br/><br/>Lovingly,<br/>"+MySharedPrefs.INSTANCE.getFirstName();
 
-
+                if(!shareBody.equals("")){
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("text/html");
                 sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, shareSubject);
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, Html.fromHtml(shareBody));
                 startActivity(Intent.createChooser(sharingIntent, "Share via"));
+                }else{
+                    Toast.makeText(WalletActivity.this,"Nothing to share",Toast.LENGTH_SHORT).show();
+                }
 
                 /*for testint citrus library*/
 
@@ -114,6 +120,12 @@ public class WalletActivity extends BaseActivity {
                 //System.out.println("reorder Response = "+quoteResponse);
                 JSONObject reOrderJSON=new JSONObject(walletResponse);
                 tv_msg.setText(Html.fromHtml(reOrderJSON.getString("Massege").replace("Rs. ",getResources().getString(R.string.Rs))));
+
+                if(!reOrderJSON.optString("Mail_Subject").equals("") && !reOrderJSON.optString("Mail_Body").equals("")){
+                shareSubject=MySharedPrefs.INSTANCE.getFirstName()+" "+reOrderJSON.optString("Mail_Subject");
+                shareBody=reOrderJSON.optString("Mail_Body")+""+MySharedPrefs.INSTANCE.getFirstName();
+                }
+
                 if(reOrderJSON.getInt("flag")==1){
                     amount=reOrderJSON.getDouble("Balance");
                     if(amount==0)

@@ -465,6 +465,14 @@ public abstract class BaseActivity extends FragmentActivity {
 					return;
 				}
 
+                /*tracking GA event for search product*/
+                try{
+                    UtilityMethods.clickCapture(activity,"Search","",search_key,"",MySharedPrefs.INSTANCE.getSelectedCity());
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                /*------------------------------------*/
+
 				String url = UrlsConstants.SEARCH_PRODUCT + search_key;
 				url = url.replaceAll(" ", "%20");
 				SearchLoader searchLoader  = new SearchLoader(this,search_key);
@@ -474,7 +482,7 @@ public abstract class BaseActivity extends FragmentActivity {
 			} else {
 				UtilityMethods.customToast(AppConstants.ToastConstant.ENTER_TEXT, mContext);
 			}
-			try{UtilityMethods.clickCapture(mContext,"","","",search_key,AppConstants.SEARCH_BUTTON);}catch(Exception e){}
+			//try{UtilityMethods.clickCapture(mContext,"","","",search_key,AppConstants.SEARCH_BUTTON);}catch(Exception e){}
 		}catch(Exception e){
 			new GrocermaxBaseException("BaseActivity", "goforsearch", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
@@ -1705,6 +1713,17 @@ public abstract class BaseActivity extends FragmentActivity {
 		if (cart_count_txt.getText().toString().equals("0")) {
 			UtilityMethods.customToast(AppConstants.ToastConstant.CART_EMPTY, mContext);
 		} else {
+
+            /*track event for open cart*/
+            try{
+                UtilityMethods.clickCapture(activity,"Open Cart","","","",MySharedPrefs.INSTANCE.getSelectedCity());
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            /*-----------------*/
+
+
+
 			showDialog();
 			String url = UrlsConstants.VIEW_CART_URL + MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
 			myApi.reqViewCart(url);
