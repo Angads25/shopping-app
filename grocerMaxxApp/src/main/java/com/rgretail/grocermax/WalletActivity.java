@@ -46,6 +46,15 @@ public class WalletActivity extends BaseActivity {
                 Intent i=new Intent(WalletActivity.this,WalletTransaction.class);
                 i.putExtra("wallet_amount",amount);
                 startActivity(i);
+
+               /* CitrusFlowManager.initCitrusConfig("q4qz4sa1wq-signup",
+                        "915112088057be17d992162f88eeb7f9", "q4qz4sa1wq-signin",
+                        "dca4f2179ade2454aaee0194be186774",
+                        getResources().getColor(R.color.white), WalletActivity.this,
+                        Environment.SANDBOX,"q4qz4sa1wq", sandboxBillGeneratorURL, sandboxReturnURL);*/
+
+
+
             }
         });
 

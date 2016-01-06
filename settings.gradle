@@ -1,4 +1,4 @@
-include ':customBrowserLatest'
+include ':customBrowserLatest', ':citruspay-sdk-ui', ':citruslibrary'
 include ':androidSDK'
 include ':facebookSDK'
 include ':mobikwik_Payment_Android_SDK'
