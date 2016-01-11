@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.citrus.sdk.Environment;
+import com.citrus.sdk.ui.utils.CitrusFlowManager;
 import com.flurry.android.FlurryAgent;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
@@ -43,15 +45,17 @@ public class WalletActivity extends BaseActivity {
         tv_transactions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(WalletActivity.this,WalletTransaction.class);
+               /* Intent i=new Intent(WalletActivity.this,WalletTransaction.class);
                 i.putExtra("wallet_amount",amount);
-                startActivity(i);
+                startActivity(i);*/
 
-               /* CitrusFlowManager.initCitrusConfig("q4qz4sa1wq-signup",
+               CitrusFlowManager.initCitrusConfig("q4qz4sa1wq-signup",
                         "915112088057be17d992162f88eeb7f9", "q4qz4sa1wq-signin",
                         "dca4f2179ade2454aaee0194be186774",
                         getResources().getColor(R.color.white), WalletActivity.this,
-                        Environment.SANDBOX,"q4qz4sa1wq", sandboxBillGeneratorURL, sandboxReturnURL);*/
+                        Environment.SANDBOX, "q4qz4sa1wq", "http://staging.grocermax.com/citrus.php", "http://staging.grocermax.com/returncitrus.php");
+
+                CitrusFlowManager.startShoppingFlow(WalletActivity.this,"pradeep.gupta@grocermax.com","9540011301","100.00");
 
 
 
