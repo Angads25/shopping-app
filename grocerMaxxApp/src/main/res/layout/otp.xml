@@ -8,6 +8,7 @@
         layout="@layout/mart_header" />
 
     <TextView
+        android:id="@+id/tv_msg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -38,5 +39,17 @@
         android:background="@drawable/create_address_btn_border"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_16"/>
+
+    <TextView
+        android:id="@+id/tv_suggesion"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/black"
+        android:text="Please enter correct mobile no. as OTP will be sent to it."
+        android:textSize="@dimen/text_size_16" />
 
 </LinearLayout>

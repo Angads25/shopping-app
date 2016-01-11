@@ -33,6 +33,7 @@ import com.rgretail.grocermax.bean.CartDetailBean;
 import com.rgretail.grocermax.bean.LoginResponse;
 import com.rgretail.grocermax.bean.OTPResponse;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.AppLoadingScreen;
@@ -75,6 +76,7 @@ public class Registration extends BaseActivity implements
 	TextView tvFacebook;
 	private static final int FB_SIGN_IN = 64206;
 	private static final int RC_SIGN_IN = 0;
+    private static final int SOCIAL_LOGIN_PHONE_NUMBER = 333;
 	private static TextView tv_google_btn;
 	private boolean signedInUser;
 	private ConnectionResult mConnectionResult;
@@ -565,14 +567,7 @@ public class Registration extends BaseActivity implements
 				if (userDataBean.getFlag().equalsIgnoreCase("1")) {          //successful login
 
 					MySharedPrefs.INSTANCE.putUserId(userDataBean.getUserID());
-//					if(MySharedPrefs.INSTANCE.isUserDataSet()){                        //when login through FACEBOOK and GOOGLE.
 
-//					if(fbORgoogle){                                                    //when login through FACEBOOK and GOOGLE.
-////                               already saved name during to call saveUserData()
-//					}else{                                                           //Simple login
-//						MySharedPrefs.INSTANCE.putFirstName(userDataBean.getFirstName());
-//						MySharedPrefs.INSTANCE.putLastName(userDataBean.getLastName());
-//					}
 
 					if(MySharedPrefs.INSTANCE.getFirstName() == null){//if(MySharedPrefs.INSTANCE.getFirstName() != null){    //changed 17/9/15
 						MySharedPrefs.INSTANCE.putFirstName(userDataBean.getFirstName());
@@ -646,7 +641,19 @@ public class Registration extends BaseActivity implements
 //					}
 					}
 
-				} else {
+				}else if(userDataBean.getFlag().equalsIgnoreCase("2")){   /*this is for opening Phonenumberfor Otp page from social login*/
+
+                    if(MySharedPrefs.INSTANCE.getFirstName() == null){//if(MySharedPrefs.INSTANCE.getFirstName() != null){    //changed 17/9/15
+                        MySharedPrefs.INSTANCE.putFirstName(userDataBean.getFirstName());
+                    }
+                    if(MySharedPrefs.INSTANCE.getLastName() == null){//if(MySharedPrefs.INSTANCE.getLastName() != null){      //changed 17/9/15
+                        MySharedPrefs.INSTANCE.putLastName(userDataBean.getLastName());
+                    }
+                    MySharedPrefs.INSTANCE.putUserEmail(USER_EMAIL);
+                    Intent i=new Intent(Registration.this,PhoneNumberForOTP.class);
+                    startActivityForResult(i,SOCIAL_LOGIN_PHONE_NUMBER);
+
+                }else {
 					UtilityMethods.customToast(Constants.ToastConstant.LOGIN_FAIL, mContext);
 				}
 			}
@@ -662,6 +669,7 @@ public class Registration extends BaseActivity implements
 					call_bundle.putSerializable("USER_REGISTER_DATA", String.valueOf(jsonObjectParams));
 
 					call_bundle.putString("USER_EMAIL", strEmail);
+                    call_bundle.putString("REGISTRATION_METHOD", "regular");
 					intent.putExtras(call_bundle);
 //					startActivity(intent);
 					startActivityForResult(intent, 123);
@@ -937,6 +945,17 @@ public class Registration extends BaseActivity implements
 		}catch(Exception e){
 			new GrocermaxBaseException("Registeration","requestCode123",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
+        try{
+         /*Handing response from PhoneNumberforOTP activity page for social login otp generation*/
+        if(requestCode==SOCIAL_LOGIN_PHONE_NUMBER){
+            Intent intent = new Intent(mContext, HomeScreen.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        }
+        }catch(Exception e){
+            new GrocermaxBaseException("Registeration","for otp on registration page-requestcode=333",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
+        }
 
 //		if(requestCode == 64206){
 //			Session.getActiveSession().onActivityResult(LoginActivity.this, requestCode,resultCode, data);
@@ -1091,6 +1110,7 @@ public class Registration extends BaseActivity implements
 				System.out.println("==jsonobject==" + jsonObject);
 			}
 //			myApi.reqLogin(url);
+            jsonObject.put("otp", "0");
             jsonObject.put("device_id",UtilityMethods.getDeviceId(Registration.this));
             jsonObject.put("device_token",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
 			myApi.reqLogin(url,jsonObject);
@@ -1196,8 +1216,8 @@ public class Registration extends BaseActivity implements
 					if (tv_google_btn.getText().toString().equalsIgnoreCase("Join with Google")) {
 						googleLoginWithEmailPermission();
 					} else if (tv_google_btn.getText().toString().equalsIgnoreCase("LOGOUT WITH GOOGLE")) {
-//					googlePlusLogoutLocally();
-						googlePlusLogoutReg();
+						//googlePlusLogoutReg();
+                        googleLoginWithEmailPermission();
 					}
 				} else {
 //				Toast.makeText(mContext, ToastConstant.msgNoInternet, Toast.LENGTH_SHORT).show();
@@ -1502,6 +1522,7 @@ public class Registration extends BaseActivity implements
 //			String url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getGoogleEmail() + "&fname=" + USER_NAME+"&lname="+""+"&number=0000000000";
 //			String url = UrlsConstants.GOOGLE_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getGoogleEmail() + "&fname=" + USER_NAME+"&number=0000000000";
 //			myApi.reqLogin(url);
+            jsonObject.put("otp", "0");
             jsonObject.put("device_id",UtilityMethods.getDeviceId(Registration.this));
             jsonObject.put("device_token",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
 			myApi.reqLogin(url,jsonObject);

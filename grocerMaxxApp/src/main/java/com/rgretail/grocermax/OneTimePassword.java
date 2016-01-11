@@ -32,6 +32,7 @@ public class OneTimePassword extends BaseActivity {
     OTPResponse otpDataBean;
     String params = "";
     String strEmail;
+    String registraion_method;
 
     @Override
     protected void onStart() {
@@ -58,11 +59,13 @@ public class OneTimePassword extends BaseActivity {
         try{
                 Bundle bundle = getIntent().getExtras();
                 addActionsInFilter(MyReceiverActions.REGISTER_USER);
+                addActionsInFilter(MyReceiverActions.LOGIN);
 
                 if (bundle != null) {
                      otpDataBean = (OTPResponse)bundle.getSerializable("Otp");
                      params = bundle.getString("USER_REGISTER_DATA");
                      strEmail = bundle.getString("USER_EMAIL");
+                     registraion_method = bundle.getString("REGISTRATION_METHOD");
                 }
 
                 final EditText etOTP = (EditText)findViewById(R.id.et_otp);
@@ -74,28 +77,26 @@ public class OneTimePassword extends BaseActivity {
                             UtilityMethods.customToast("Please enter valid otp", OneTimePassword.this);
                             return;
                         }
-                       // String str = otpDataBean.getOTP();
-                        //String str1 = etOTP.getText().toString();
                         if (otpDataBean.getOTP().equals(etOTP.getText().toString())) {
                             if (UtilityMethods.isInternetAvailable(mContext)) {
                                 showDialog();
                                 if (!params.equals("")) {
-                                    String url = UrlsConstants.REGESTRATION_URL;
-//                                  url += params;
+                                    String url;
+                                    if(registraion_method.equals("regular"))  // for regular registration
+                                     url= UrlsConstants.REGESTRATION_URL;
+                                    else                                      // for social registration
+                                     url= UrlsConstants.FB_LOGIN_URL;//here GOOGLE_LOGIN_URL can also be used both are same for social login or register
                                     try {
                                         if (!params.equals("")) {
                                             JSONObject json = new JSONObject(params);
-                                            myApi.reqUserRegistration(url, json);
+                                            if(registraion_method.equals("regular")) // for regular registration
+                                              myApi.reqUserRegistration(url, json);
+                                            else                                    // for social registration
+                                              myApi.reqLogin(url,json);
                                         }
                                     } catch (Exception e) {
                                     }
                                 }
-
-//                                try {
-//                                    JSONObject jsonObject = new JSONObject();
-//                                    jsonObject.put("otp", "1");
-//                                    myApi.reqUserRegistrationOTP(url, jsonObject);
-//                                }catch(Exception e){}
                             }
                         } else {
                             UtilityMethods.customToast("Please enter valid otp", OneTimePassword.this);
@@ -184,7 +185,30 @@ public class OneTimePassword extends BaseActivity {
             } else {
                 UtilityMethods.customToast(userDataBean.getResult(), mContext);
             }
-        }
+        }else if (bundle.getString("ACTION").equals(MyReceiverActions.LOGIN)) {
+                dismissDialog();
+                LoginResponse userDataBean = (LoginResponse) bundle.getSerializable(ConnectionService.RESPONSE);
+                if (userDataBean.getFlag().equalsIgnoreCase("1")) {
+                    MySharedPrefs.INSTANCE.putUserId(userDataBean.getUserID());
+                    if(MySharedPrefs.INSTANCE.getFirstName() == null){//if(MySharedPrefs.INSTANCE.getFirstName() != null){    //changed 17/9/15
+                        MySharedPrefs.INSTANCE.putFirstName(userDataBean.getFirstName());
+                    }
+                    if(MySharedPrefs.INSTANCE.getLastName() == null){//if(MySharedPrefs.INSTANCE.getLastName() != null){      //changed 17/9/15
+                        MySharedPrefs.INSTANCE.putLastName(userDataBean.getLastName());
+                    }
+
+                    MySharedPrefs.INSTANCE.putMobileNo(userDataBean.getMobile());
+                    MySharedPrefs.INSTANCE.putUserEmail(MySharedPrefs.INSTANCE.getUserEmail());
+                    MySharedPrefs.INSTANCE.putLoginStatus(true);
+                    if(userDataBean.getQuoteId() != null && !userDataBean.getQuoteId().equals("")) {
+                        MySharedPrefs.INSTANCE.clearQuote();
+                        MySharedPrefs.INSTANCE.putQuoteId(userDataBean.getQuoteId());/////////last change
+                    }
+                    MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(userDataBean.getTotalItem()));
+                    setResult(RESULT_OK);
+                    finish();
+                }
+            }
         }catch(Exception e){
             new GrocermaxBaseException("LoginActivity","OnResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
         }

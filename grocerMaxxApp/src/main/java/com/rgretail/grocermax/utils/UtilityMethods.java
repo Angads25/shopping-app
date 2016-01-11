@@ -60,11 +60,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -1243,6 +1245,22 @@ public class UtilityMethods {
         }
         return version;
     }
+
+
+   public static void writeErrorInSdCard(Context con,String msg){
+       try {
+           File myFile = new File(Environment.getExternalStorageDirectory(),"/Grocermax_log/log.txt");
+           myFile.createNewFile();
+           FileOutputStream fOut = new FileOutputStream(myFile);
+           OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
+           myOutWriter.append(new Date().toString()+"-----"+ msg);
+           myOutWriter.close();
+           fOut.close();
+
+       } catch (Exception e) {
+
+       }
+   }
 
 
 
