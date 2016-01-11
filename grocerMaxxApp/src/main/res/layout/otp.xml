@@ -40,6 +40,19 @@
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_16"/>
 
+    <Button
+        android:id="@+id/btn_resendOtp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="RESEND OTP"
+        android:background="@drawable/create_address_btn_border"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        android:textSize="@dimen/text_size_16"/>
+
     <TextView
         android:id="@+id/tv_suggesion"
         android:visibility="gone"

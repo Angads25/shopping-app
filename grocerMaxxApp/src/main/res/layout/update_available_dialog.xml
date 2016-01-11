@@ -64,5 +64,21 @@
             android:background="@color/primaryColor"
             android:id="@+id/tv_update" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Resend OTP"
+        android:gravity="center"
+        android:id="@+id/tv_resendOtp"
+        android:textSize="20dp"
+        android:alpha=".7"
+        android:padding="10dp"
+        android:lineSpacingExtra="10dp"
+        android:textColor="@color/black"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal" />
+
+
 </LinearLayout>
 

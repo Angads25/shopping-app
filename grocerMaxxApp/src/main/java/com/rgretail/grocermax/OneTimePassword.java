@@ -18,6 +18,7 @@ import com.rgretail.grocermax.bean.OTPResponse;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
+import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
@@ -33,6 +34,8 @@ public class OneTimePassword extends BaseActivity {
     String params = "";
     String strEmail;
     String registraion_method;
+    private JSONObject jsonObjectParams;
+    String phone_number;
 
     @Override
     protected void onStart() {
@@ -60,12 +63,17 @@ public class OneTimePassword extends BaseActivity {
                 Bundle bundle = getIntent().getExtras();
                 addActionsInFilter(MyReceiverActions.REGISTER_USER);
                 addActionsInFilter(MyReceiverActions.LOGIN);
+                addActionsInFilter(MyReceiverActions.OTP);
 
                 if (bundle != null) {
                      otpDataBean = (OTPResponse)bundle.getSerializable("Otp");
                      params = bundle.getString("USER_REGISTER_DATA");
                      strEmail = bundle.getString("USER_EMAIL");
                      registraion_method = bundle.getString("REGISTRATION_METHOD");
+
+                     JSONObject paramObject=new JSONObject(params);
+                     phone_number=paramObject.getString("number");
+
                 }
 
                 final EditText etOTP = (EditText)findViewById(R.id.et_otp);
@@ -103,6 +111,49 @@ public class OneTimePassword extends BaseActivity {
                         }
                     }
                 });
+
+                /*this is click event for resending otp */
+                Button btnResend = (Button)findViewById(R.id.btn_resendOtp);
+            btnResend.setVisibility(View.VISIBLE);
+                btnResend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try{
+                            if (UtilityMethods.isInternetAvailable(mContext)) {
+                                showDialog();
+                                String url;
+
+                                JSONObject jsonObject = new JSONObject();
+                                if(MySharedPrefs.INSTANCE.getQuoteId()==null||MySharedPrefs.INSTANCE.getQuoteId().equals(""))
+                                {
+                                    url = UrlsConstants.FB_LOGIN_URL;
+                                    jsonObject.put("uemail",MySharedPrefs.INSTANCE.getUserEmail());
+                                    jsonObject.put("quote_id","no");
+                                    jsonObject.put("fname",MySharedPrefs.INSTANCE.getFirstName());
+                                    jsonObject.put("lname", MySharedPrefs.INSTANCE.getLastName());
+                                    jsonObject.put("number", phone_number);
+                                    System.out.println("==jsonobject==" + jsonObject);
+                                }else{
+                                    url = UrlsConstants.FB_LOGIN_URL;
+                                    jsonObject.put("uemail",MySharedPrefs.INSTANCE.getUserEmail());
+                                    jsonObject.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
+                                    jsonObject.put("fname",MySharedPrefs.INSTANCE.getFirstName());
+                                    jsonObject.put("lname", MySharedPrefs.INSTANCE.getLastName());
+                                    jsonObject.put("number", phone_number);
+                                }
+                                jsonObject.put("otp", "0");
+                                jsonObject.put("device_token",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
+                                jsonObject.put("device_id",UtilityMethods.getDeviceId(OneTimePassword.this));
+                                myApi.reqUserRegistrationOTP(url,jsonObject);
+                            } else {
+                                UtilityMethods.customToast(Constants.ToastConstant.msgNoInternet, mContext);
+                            }
+                        }catch (Exception e){}
+                    }
+                });
+
+
+
             initHeader(findViewById(R.id.header), true, null);
         }catch(Exception e){
             new GrocermaxBaseException("OneTimePassword","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
@@ -208,7 +259,16 @@ public class OneTimePassword extends BaseActivity {
                     setResult(RESULT_OK);
                     finish();
                 }
-            }
+            }else if(bundle.getString("ACTION").equals(MyReceiverActions.OTP)){
+                 dismissDialog();
+                 OTPResponse otpDataBean = (OTPResponse) bundle.getSerializable(ConnectionService.RESPONSE);
+                 if(otpDataBean.getFlag().equals("1")) {
+                     this.otpDataBean=otpDataBean;
+                     UtilityMethods.customToast("OTP has been sent to your mobile number", mContext);
+                 }else{
+                     UtilityMethods.customToast(otpDataBean.getResult(), mContext);
+                 }
+             }
         }catch(Exception e){
             new GrocermaxBaseException("LoginActivity","OnResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
         }
