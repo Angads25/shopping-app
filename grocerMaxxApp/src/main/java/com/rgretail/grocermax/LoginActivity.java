@@ -51,8 +51,7 @@ import java.util.List;
 //import android.widget.Toast;
 
 
-public class LoginActivity extends BaseActivity
-		implements ConnectionCallbacks, OnConnectionFailedListener
+public class LoginActivity extends BaseActivity implements ConnectionCallbacks, OnConnectionFailedListener
 {
 	ImageView button_facebook;
 	TextView button_skip;
@@ -66,6 +65,7 @@ public class LoginActivity extends BaseActivity
 
 	private static final int RC_SIGN_IN = 0;          //
 	private static final int FB_SIGN_IN = 64206;
+    private static final int SOCIAL_LOGIN_PHONE_NUMBER = 333;
 	// Google client to communicate with Google        //
 	public static GoogleApiClient mGoogleApiClient;            //
 	private boolean mIntentInProgress;                      //
@@ -523,6 +523,7 @@ public class LoginActivity extends BaseActivity
 //					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 //					System.out.println("==jsonobject==" + jsonObject);
 				}
+                jsonObject.put("otp", "0");
                 jsonObject.put("device_token",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
                 jsonObject.put("device_id",UtilityMethods.getDeviceId(LoginActivity.this));
 				myApi.reqLogin(url,jsonObject);
@@ -583,11 +584,13 @@ public class LoginActivity extends BaseActivity
 				finish();
 			}
 
-//		if(requestCode == 64206){
-//			Session.getActiveSession().onActivityResult(LoginActivity.this, requestCode,resultCode, data);
-//		}else{
-//
-//		}
+            /*Handing response from PhoneNumberforOTP activity page for social login otp generation*/
+            if(requestCode==SOCIAL_LOGIN_PHONE_NUMBER){
+                Intent intent = new Intent(mContext, HomeScreen.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
 
 		}catch(Exception e){
 			new GrocermaxBaseException("LoginActivity","onActivityResult",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
@@ -631,10 +634,6 @@ public class LoginActivity extends BaseActivity
 									saveUserData(user);
 //									button_facebook.setText("Sign out Facebook");
 									button_facebook.setOnClickListener(fb_sign_out_listener);
-									//TODO: Mohit Raheja
-									//								Intent intent = new Intent(mContext , HomeActivity.class);
-									//								startActivity(intent);
-									//								LoginActivity.this.finish();
 								}
 							}
 						}).executeAsync();
@@ -677,27 +676,6 @@ public class LoginActivity extends BaseActivity
 					}
 
 					MySharedPrefs.INSTANCE.putMobileNo(userDataBean.getMobile());
-//					boolean bbbb = MySharedPrefs.INSTANCE.isUserDataSet();
-//					String id = MySharedPrefs.INSTANCE.getFacebookId();
-//					if(MySharedPrefs.INSTANCE.getFacebookId() != null){
-//						System.out.print("");
-//					}else{
-//						System.out.print("");
-//					}
-
-//					MySharedPrefs.INSTANCE.putGoogleId(USER_ID);
-//					String id1 = MySharedPrefs.INSTANCE.getGoogleId();
-//					if(MySharedPrefs.INSTANCE.getGoogleId() != null){
-//						System.out.print("");
-//					}else{
-//						System.out.print("");
-//					}
-//					if(!MySharedPrefs.INSTANCE.isUserDataSet()) {                            //if true then no need to enter in it b/c from server first and last name not coming,So already saved when data getting from facebook api.
-//						MySharedPrefs.INSTANCE.putFirstName(userDataBean.getFirstName());
-//						MySharedPrefs.INSTANCE.putLastName(userDataBean.getLastName());
-//					}
-
-//					BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon);  //login icon
 					if (USER_EMAIL.equals("")) {
 						MySharedPrefs.INSTANCE.putUserEmail(username.getText().toString());
 						if(userDataBean.getQuoteId() != null && !userDataBean.getQuoteId().equals("") ) {
@@ -718,56 +696,6 @@ public class LoginActivity extends BaseActivity
 						MySharedPrefs.INSTANCE.putQuoteId(userDataBean.getQuoteId());/////////last change
 					}
 					MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(userDataBean.getTotalItem()));
-//					ArrayList<CartDetail> cart_products = UtilityMethods.readLocalCart(LoginActivity.this, AppConstants.localCartFile);  //send to server if local cart has products for adding.
-//					if (cart_products != null && cart_products.size() > 0)            //it will call when user has come from HOME | PRODUCT LISTING | DESCRIPTION only.
-//					{
-//						try {
-//							JSONArray products = new JSONArray();
-//							for (int i = 0; i < cart_products.size(); i++) {
-//								JSONObject prod_obj = new JSONObject();
-//								prod_obj.put("productid", cart_products.get(i).getItem_id());
-//								prod_obj.put("quantity", cart_products.get(i).getQty());
-//								products.put(prod_obj);
-//							}
-//							showDialog();
-//							String url;
-//							if (MySharedPrefs.INSTANCE.getQuoteId() == null || MySharedPrefs.INSTANCE.getQuoteId().equals("")) {
-//								System.out.println("without quote json=" + products.toString());
-//								url = UrlsConstants.ADD_TO_CART_URL
-//										+ userDataBean.getUserID() + "&products="
-//										+ URLEncoder.encode(products.toString(), "UTF-8");
-//							} else {
-//								System.out.println("with quote json=" + products.toString());
-//								url = UrlsConstants.ADD_TO_CART_URL
-//										+ userDataBean.getUserID() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId() + "&products="
-//										+ URLEncoder.encode(products.toString(), "UTF-8");
-//							}
-//							//String url = UrlsConstants.ADD_TO_CART_URL + userDataBean.getUserID() +"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+ "&products="+ URLEncoder.encode(products.toString(), "UTF-8");
-//							myApi.reqAddToCart(url);
-//							finish();                                         //added
-////								finishAffinity();
-//
-//						} catch (Exception e) {
-//							e.printStackTrace();
-//						}
-//					} else          //SIMPLE LOGIN AND FACEBOOK CASE : user can come here by [direct login] OR [from product listing] and [home screen] OR [from view cart].
-//					{             //quote id will not return from server in SIMPLE LOGIN case BUT quote id will return in case of FACEBOOK login.
-					//if calling from CartProductList then in BaseActivity startActivityForResult will call other wise simply finish will work .
-					int str = userDataBean.getTotalItem();
-					cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
-//					if(userDataBean.getTotalItem() > 0){            //means user has >= than 1 product
-//						showDialog();
-//						if(MySharedPrefs.INSTANCE.getQuoteId() != null && !MySharedPrefs.INSTANCE.getQuoteId().equals("")){    //not call in simple login but call in facebook as i am getting quote id in fb case
-//							String url = UrlsConstants.VIEW_CART_URL+ MySharedPrefs.INSTANCE.getUserId()+"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId();
-////							myApi.reqViewCart(url);
-//							myApi.reqViewCartGoHomeScreen(url);
-//						}else if(userDataBean.getQuoteId() != null && !userDataBean.getQuoteId().equals("")){   //not call in simple login but call in facebook as i am getting quote id in fb case
-//							String url = UrlsConstants.VIEW_CART_URL+ MySharedPrefs.INSTANCE.getUserId()+"&quote_id="+userDataBean.getQuoteId();
-////							myApi.reqViewCart(url);
-//							myApi.reqViewCartGoHomeScreen(url);
-//						}
-//					}else{                                   //if user has no total item that mean he will redirect to home screen or product listing or product description screen.
-
 
 					if (requestcodecart != 00) {
 						if (requestcodecart == AppConstants.LOGIN_REQUEST_CODE) {           //call from cartproductlist
@@ -785,12 +713,19 @@ public class LoginActivity extends BaseActivity
 						startActivity(intent);
 						finish();
 					}
+				}else if(userDataBean.getFlag().equalsIgnoreCase("2")){   /*this is for opening Phonenumberfor Otp page from social login*/
 
-//					}
+                    if(MySharedPrefs.INSTANCE.getFirstName() == null){//if(MySharedPrefs.INSTANCE.getFirstName() != null){    //changed 17/9/15
+                        MySharedPrefs.INSTANCE.putFirstName(userDataBean.getFirstName());
+                    }
+                    if(MySharedPrefs.INSTANCE.getLastName() == null){//if(MySharedPrefs.INSTANCE.getLastName() != null){      //changed 17/9/15
+                        MySharedPrefs.INSTANCE.putLastName(userDataBean.getLastName());
+                    }
+                    MySharedPrefs.INSTANCE.putUserEmail(USER_EMAIL);
+                    Intent i=new Intent(LoginActivity.this,PhoneNumberForOTP.class);
+                    startActivityForResult(i,SOCIAL_LOGIN_PHONE_NUMBER);
 
-//					}
-
-				} else {
+                } else {
 					UtilityMethods.customToast(ToastConstant.LOGIN_FAIL, mContext);
 				}
 			} else if (bundle.getString("ACTION").equals(MyReceiverActions.ADD_TO_CART))  //it will call when user has come from HOME | PRODUCT LISTING | DESCRIPTION only.
@@ -923,24 +858,15 @@ public class LoginActivity extends BaseActivity
 		@Override
 		public void onClick(View v) {
 			try {
-//			try{
-//				mGoogleApiClient = new GoogleApiClient.Builder(LoginActivity.this).
-//		        		addConnectionCallbacks(LoginActivity.this).addOnConnectionFailedListener(LoginActivity.this).
-//		        		addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
-//		        mGoogleApiClient.connect();
-//			}catch(Exception e){}
+
 				if (UtilityMethods.isInternetAvailable(mContext)) {
-//					if (tv_google_btn.getText().toString().equalsIgnoreCase("Login with Google")) {
 					if(MySharedPrefs.INSTANCE.getGoogleEmail() == null) {
-//						Toast.makeText(mContext, "1111111111111111111", Toast.LENGTH_SHORT).show();
 						googleLoginWithEmailPermission();
-//					} else if (tv_google_btn.getText().toString().equalsIgnoreCase("Logout with Google")) {
 					}else if(MySharedPrefs.INSTANCE.getGoogleEmail() != null){
-//					googlePlusLogoutLocally();
-						googlePlusLogout();
+						//googlePlusLogout();
+                        googleLoginWithEmailPermission();
 					}
 				} else {
-//				Toast.makeText(mContext, ToastConstant.msgNoInternet, Toast.LENGTH_SHORT).show();
 					UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
 				}
 			}catch(Exception e){
@@ -1264,6 +1190,7 @@ public class LoginActivity extends BaseActivity
 //					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
 					System.out.println("==jsonobject==" + jsonObject);
 				}
+                jsonObject.put("otp", "0");
                 jsonObject.put("device_token",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
                 jsonObject.put("device_id",UtilityMethods.getDeviceId(LoginActivity.this));
 				myApi.reqLogin(url,jsonObject);

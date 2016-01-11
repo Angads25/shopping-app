@@ -20,6 +20,21 @@
         android:textColor="@color/black"
         android:layout_gravity="center_horizontal" />
 
+    <EditText
+        android:id="@+id/edt_otp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/add_new_address"
+        android:hint="OTP Here"
+        android:textColorHint="@color/grey"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        android:visibility="gone"/><!--this edit text is used for entering otp in edit profile activity-->
+
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"

@@ -1,8 +1,8 @@
 package com.rgretail.grocermax.bean;
 
-import java.io.Serializable;
-
 import com.google.gson.annotations.Expose;
+
+import java.io.Serializable;
 
 public class BaseResponseBean implements Serializable{
 
@@ -18,14 +18,27 @@ public class BaseResponseBean implements Serializable{
 	private String QuoteId;
 	@Expose
 	private int TotalItem;
+
+    @Expose
+    private String otp;   /*used for otp on edit profile screen*/
+
 	/**
 	 *
 	 * @return The flag
 	 */
 	@Expose
 	private String Mobile;
-	
-	public String getMobile(){
+
+
+    public String getOtp() {
+        return otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
+    }
+
+    public String getMobile(){
 		return Mobile;
 	}
 	

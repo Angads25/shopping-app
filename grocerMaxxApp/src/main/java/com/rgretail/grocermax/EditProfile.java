@@ -2,7 +2,11 @@
 
 package com.rgretail.grocermax;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
@@ -26,6 +30,7 @@ import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 //import com.google.analytics.tracking.android.EasyTracker;
@@ -43,14 +48,10 @@ public class EditProfile extends BaseActivity{
 	TextView change;
 //	EasyTracker tracker;
 	private TextView tvHeader;
+    String otp="";
+    JSONObject jsonObject;
+    String url = UrlsConstants.EDIT_PROFILE_URL;
 	
-//	private TextView leftLineFirstName,middleLineFirstName,rightLineFirstName,
-//				     leftLineLastName,middleLineLastName,rightLineLastName,
-//				     leftLineMobileName,middleLineMobileName,rightLineMobileName,
-//				     leftLineoldPwd,middleLineOldPwd,rightLineOldPwd,
-//				     leftLineNewPwd,middleLineNewPwd,rightLineNewPwd,
-//				     leftLineConfirmPwd,middleLineConfirmPwd,rightLineConfirmPwd;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -89,228 +90,6 @@ public class EditProfile extends BaseActivity{
 			ivCBChangePwd = (ImageView) findViewById(R.id.cb_iv_change_pwd);
 			tvCBChangePwd = (TextView) findViewById(R.id.cb_tv_change_pwd);
 
-//			leftLineFirstName = (TextView) findViewById(R.id.left_line_first_name);
-//			middleLineFirstName = (TextView) findViewById(R.id.middle_line_first_name);
-//			rightLineFirstName = (TextView) findViewById(R.id.right_line_first_name);
-
-			//leftLineLastName = (TextView) findViewById(R.id.left_line_last_name);
-			//middleLineLastName = (TextView) findViewById(R.id.middle_line_last_name);
-			//rightLineLastName = (TextView) findViewById(R.id.right_line_last_name);
-
-			//leftLineMobileName = (TextView) findViewById(R.id.left_line_mobile_name);
-			//middleLineMobileName = (TextView) findViewById(R.id.middle_line_mobile_name);
-			//rightLineMobileName = (TextView) findViewById(R.id.right_line_mobile_name);
-
-//			leftLineoldPwd = (TextView) findViewById(R.id.left_line_old_pwd);
-//			middleLineOldPwd = (TextView) findViewById(R.id.middle_line_old_pwd);
-//			rightLineOldPwd = (TextView) findViewById(R.id.right_line_old_pwd);
-
-//			leftLineNewPwd = (TextView) findViewById(R.id.left_line_new_pwd);
-//			middleLineNewPwd = (TextView) findViewById(R.id.middle_line_new_pwd);
-//			rightLineNewPwd = (TextView) findViewById(R.id.right_line_new_pwd);
-
-//			leftLineConfirmPwd = (TextView) findViewById(R.id.left_line_confirm_pwd);
-//			middleLineConfirmPwd = (TextView) findViewById(R.id.middle_line_confirm_pwd);
-//			rightLineConfirmPwd = (TextView) findViewById(R.id.right_line_confirm_pwd);
-
-
-//			fname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//
-//				@Override
-//				public void onFocusChange(View v, boolean hasFocus) {
-//					// TODO Auto-generated method stub
-//					if (hasFocus) {
-//						leftLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-//						middleLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-//						rightLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-//
-//						leftLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineoldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//					}
-//				}
-//			});
-
-//			lname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//
-//				@Override
-//				public void onFocusChange(View v, boolean hasFocus) {
-//					// TODO Auto-generated method stub
-//					if (hasFocus) {
-//						leftLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-//						middleLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-//						rightLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-//
-//						leftLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineoldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//					}
-//				}
-//			});
-
-//			contact.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//
-//				@Override
-//				public void onFocusChange(View v, boolean hasFocus) {
-//					// TODO Auto-generated method stub
-//					if (hasFocus) {
-//						leftLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-//						middleLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-//						rightLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-//
-//						leftLineoldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//					}
-//				}
-//			});
-
-//			old_pwd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//
-//				@Override
-//				public void onFocusChange(View v, boolean hasFocus) {
-//					// TODO Auto-generated method stub
-//					if (hasFocus) {
-//						leftLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineoldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-//						middleLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-//						rightLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-//
-//						leftLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//					}
-//				}
-//			});
-
-//			new_pwd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//
-//				@Override
-//				public void onFocusChange(View v, boolean hasFocus) {
-//					// TODO Auto-generated method stub
-//					if (hasFocus) {
-//						leftLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineoldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-//						middleLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-//						rightLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-//
-//						leftLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//					}
-//				}
-//			});
-
-//			conf_pwd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//
-//				@Override
-//				public void onFocusChange(View v, boolean hasFocus) {
-//					// TODO Auto-generated method stub
-//					if (hasFocus) {
-//						leftLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineFirstName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineLastName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineMobileName.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineoldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineOldPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						middleLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//						rightLineNewPwd.setBackgroundColor(getResources().getColor(R.color.register_address_line_color));
-//
-//						leftLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-//						middleLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-//						rightLineConfirmPwd.setBackgroundColor(getResources().getColor(R.color.register_address_selected_line_color));
-//					}
-//				}
-//			});
 
 
 			ivCBChangePwd.setOnClickListener(new View.OnClickListener() {
@@ -423,17 +202,12 @@ public class EditProfile extends BaseActivity{
 					}
 					if (UtilityMethods.isInternetAvailable(mContext)) {
 						showDialog();
-						String url = UrlsConstants.EDIT_PROFILE_URL;
 
-						//String params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password;
+
 						String params;
-						JSONObject jsonObject = new JSONObject();
-//					if(chb.isChecked())
+						jsonObject = new JSONObject();
 						try {
 							if (bChangePwd) {
-//								params = "userid=" + MySharedPrefs.INSTANCE.getUserId() + "uemail=" + MySharedPrefs.INSTANCE.getUserEmail() + "&password=" + new_p +
-//										"&old_password=" + old_p + "&fname=" + fname_n + "&lname=" + lname_n + "&number=" + contact_n;
-
 								jsonObject.put("userid", MySharedPrefs.INSTANCE.getUserId());
 								jsonObject.put("uemail",MySharedPrefs.INSTANCE.getUserEmail());
 								jsonObject.put("password",new_p);
@@ -441,7 +215,7 @@ public class EditProfile extends BaseActivity{
 								jsonObject.put("fname",fname_n);
 								jsonObject.put("lname",lname_n);
 								jsonObject.put("number",contact_n);
-//								jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+                                jsonObject.put("otp","0");
 
                                 /*tracking GA event for edit profile and change password both*/
                                 try{
@@ -453,14 +227,12 @@ public class EditProfile extends BaseActivity{
                                 /*--------------------------------*/
 
 							} else {
-//								params = "userid=" + MySharedPrefs.INSTANCE.getUserId() + "uemail=" + MySharedPrefs.INSTANCE.getUserEmail() +
-//										"&fname=" + fname_n + "&lname=" + lname_n + "&number=" + contact_n;
 								jsonObject.put("userid", MySharedPrefs.INSTANCE.getUserId());
 								jsonObject.put("uemail",MySharedPrefs.INSTANCE.getUserEmail());
 								jsonObject.put("fname",fname_n);
 								jsonObject.put("lname",lname_n);
 								jsonObject.put("number",contact_n);
-//								jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
+                                jsonObject.put("otp","0");
 
                                 /*tracking GA event only for Edit information*/
                                 try{
@@ -472,8 +244,6 @@ public class EditProfile extends BaseActivity{
 
 
 							}
-//							url += params;
-//							myApi.reqEditProfile(url);
 							myApi.reqEditProfile(url,jsonObject);
 						}catch(Exception e){}
 
@@ -493,6 +263,64 @@ public class EditProfile extends BaseActivity{
 			new GrocermaxBaseException("EditProfile","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
+
+    public void acceptOTP(final Context context){
+        Typeface typeface=Typeface.createFromAsset(context.getAssets(),"Roboto-Regular.ttf");
+        Typeface typeface1=Typeface.createFromAsset(context.getAssets(),"Roboto-Light.ttf");
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View dialogView = inflater.inflate(R.layout.update_available_dialog, null);
+        builder.setView(dialogView);
+        builder.setCancelable(false);
+        final AlertDialog alert = builder.create();
+        TextView tv_msg=(TextView)dialogView.findViewById(R.id.tv_msg);
+        tv_msg.setTypeface(typeface1);
+        TextView tv_skip=(TextView)dialogView.findViewById(R.id.tv_skip);
+        tv_skip.setTypeface(typeface);
+        TextView tv_update=(TextView)dialogView.findViewById(R.id.tv_update);
+        tv_update.setTypeface(typeface);
+        final EditText edt_otp=(EditText)dialogView.findViewById(R.id.edt_otp);
+        edt_otp.setTypeface(typeface);
+        edt_otp.setVisibility(View.VISIBLE);
+
+        tv_msg.setText("Enter your one time password(OTP)");
+        tv_skip.setText("CANCEL");
+        tv_update.setText("DONE");
+
+        tv_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               String user_entered_otp=edt_otp.getText().toString().trim();
+                if(user_entered_otp.equals("")){
+                  UtilityMethods.customToast("Please enter OTP sent to your mobile number.",EditProfile.this);
+                }else if(!user_entered_otp.equals(otp)){
+                    UtilityMethods.customToast("Please enter correct OTP.",EditProfile.this);
+                }else{
+                    try {
+                        alert.dismiss();
+                        showDialog();
+                        jsonObject.put("otp","1");
+                        myApi.reqEditProfile(url,jsonObject);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }catch (Exception e){
+                        new GrocermaxBaseException("EditProfile","editing profile after validating otp",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+                    }
+                }
+
+            }
+        });
+
+        tv_skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+            }
+        });
+
+
+        alert.show();
+    }
 	
 	
 	
@@ -504,14 +332,11 @@ public class EditProfile extends BaseActivity{
 				if (userDataBean.getFlag().equalsIgnoreCase("1")) {
 					UtilityMethods.customToast(AppConstants.ToastConstant.PROFILE_UPDATED, mContext);
 					if (UserProfile.textName != null) {
-						UserProfile.textName.setText(fname.getText() + " " + lname.getText());
+						UserProfile.textName.setText(fname.getText() + " " + lname.getText().toString().replace("Google","").replace("social",""));
 					}
 					if (UserProfile.textPhoneNo != null) {
 						UserProfile.textPhoneNo.setText(contact.getText());
 					}
-
-//					UserHeaderProfile.tvUserName = "";
-//					MySharedPrefs.INSTANCE.getMobileNo()
 					Registration.facebookName = fname.getText() + " " + lname.getText();    //just for displaying update on MyProfile screen.
 					if(fname.getText().toString().length() > 0 && fname != null) {
 						MySharedPrefs.INSTANCE.putFirstName(fname.getText().toString());
@@ -522,7 +347,7 @@ public class EditProfile extends BaseActivity{
 					}
 
 					if(UserHeaderProfile.tvUserName != null) {
-						UserHeaderProfile.tvUserName.setText(MySharedPrefs.INSTANCE.getFirstName()+" "+MySharedPrefs.INSTANCE.getLastName());
+						UserHeaderProfile.tvUserName.setText(MySharedPrefs.INSTANCE.getFirstName()+" "+MySharedPrefs.INSTANCE.getLastName().replace("Google","").replace("social",""));
 					}
 					if(UserHeaderProfile.tvUserEmail != null) {
 						UserHeaderProfile.tvUserEmail.setText(MySharedPrefs.INSTANCE.getUserEmail());
@@ -530,10 +355,12 @@ public class EditProfile extends BaseActivity{
 					if(UserHeaderProfile.tvUserMobileNo != null) {
 						UserHeaderProfile.tvUserMobileNo.setText(MySharedPrefs.INSTANCE.getMobileNo());
 					}
-
-//					setResult(RESULT_OK);
 					finish();
-				} else {
+				}else if(userDataBean.getFlag().equalsIgnoreCase("2")){
+                    otp=userDataBean.getOtp();
+                    acceptOTP(EditProfile.this);
+
+                }else {
 					UtilityMethods.customToast(userDataBean.getResult(), mContext);
 				}
 			}

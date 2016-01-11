@@ -13,15 +13,15 @@ import android.widget.TextView;
 
 import com.facebook.Session;
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
+import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
-import com.rgretail.grocermax.utils.UrlsConstants;
+//import com.google.analytics.tracking.android.EasyTracker;
 
 /**
  * Created by Abhishek on 8/25/2015.
@@ -116,7 +116,7 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
 
 
                 if (MySharedPrefs.INSTANCE.getFirstName() != null && MySharedPrefs.INSTANCE.getLastName() != null) {
-                    tvUserName.setText(MySharedPrefs.INSTANCE.getFirstName() + " " + MySharedPrefs.INSTANCE.getLastName());
+                    tvUserName.setText(MySharedPrefs.INSTANCE.getFirstName() + " " + MySharedPrefs.INSTANCE.getLastName().replace("Google","").replace("social",""));
                 }else if(MySharedPrefs.INSTANCE.getFirstName() != null){
                     tvUserName.setText(MySharedPrefs.INSTANCE.getFirstName());
                 }
@@ -355,7 +355,9 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();
-                }catch(Exception e){}
+                }catch(Exception e){
+                    UtilityMethods.writeErrorInSdCard(UserHeaderProfile.this,"On Click of Logout----"+e.getMessage());
+                }
 
 //                UtilityMethods.customToast(AppConstants.ToastConstant.LOGOUT_SUCCESS, mContext);
 //                Intent intent = new Intent(mContext, HomeScreen.class);
