@@ -386,30 +386,6 @@ public class SplashScreen extends BaseActivity
 		AppsFlyerLib.onActivityResume(this);
 	}
 
-
-	
-//	@Override
-//    protected void onStart() {
-//    	// TODO Auto-generated method stub
-//    	super.onStart();
-//    	try{
-//			EasyTracker.getInstance(this).activityStart(this);
-////	    	tracker.activityStart(this);
-//	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-//	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-//    	}catch(Exception e){}
-//    }
-    
-//    @Override
-//    protected void onStop() {
-//    	// TODO Auto-generated method stub
-//    	super.onStop();
-//    	try{
-//	    	tracker.activityStop(this);
-//	    	FlurryAgent.onEndSession(this);
-//    	}catch(Exception e){}
-//    }
-
 	@Override
 	public void onStop() {
 		super.onStop();
@@ -423,9 +399,6 @@ public class SplashScreen extends BaseActivity
 			public void onSuccess(String registrationId,
 								  boolean isNewRegistration) {
 				DeviceRegistrationId = registrationId;
-//				new PreferenceHelper(HoverSplashActivity.this)
-//						.putDeviceToken(registrationId);,
-//				Toast.makeText(SplashScreen.this,"RegistrationScreen"+DeviceRegistrationId,Toast.LENGTH_LONG).show();
 			}
 
 			@Override
