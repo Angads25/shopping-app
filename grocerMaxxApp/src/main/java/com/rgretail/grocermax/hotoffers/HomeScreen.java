@@ -640,42 +640,17 @@ public class HomeScreen extends BaseActivity {
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.show();
 
-//        Bundle bundle1 = getIntent().getExtras();                                                          //
-//        if (bundle1 != null) {                                                                             //
-//            catObj = (ArrayList<CategorySubcategoryBean>) bundle1.getSerializable("Categories");         //
-//        } else {                                                                                        //
-//            String response = UtilityMethods.readCategoryResponse(this, AppConstants.categoriesFile);     //
-//            catObj = UtilityMethods.getCategorySubCategory(response);                                    //
-//        }                                                                                             //
-//
-//        if(catObj==null)                                                                             //
-//        {                                                                                             //
-//            String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;                            //
-//            myApi.reqCategorySubCategoryList(url);                                                //
-//        }                                                                                        //
+         /*this code was used to send gcm registration id for first time only*/
 
-//        myApi.reqGetShopByCategories(UrlsConstants.SHOP_BY_CATEGORY_TYPE);
-//        myApi.reqGetShopByDeals(UrlsConstants.SHOP_BY_DEAL_TYPE);
-//        myApi.reqGetHomePageBanner(UrlsConstants.GET_BANNER);
-
-//        myApi.reqGetShopByCategories(UrlsConstants.NEW_BASE_URL+"homepage");
-        if(MySharedPrefs.INSTANCE.getGCMDeviceTockenFirst()==null){
+        /*if(MySharedPrefs.INSTANCE.getGCMDeviceTockenFirst()==null){
             myApi.reqHome(UrlsConstants.GET_HOME_PAGE+"?device_token="+ MySharedPrefs.INSTANCE.getGCMDeviceTocken()+"&device_id="+UtilityMethods.getDeviceId(HomeScreen.this));
             MySharedPrefs.INSTANCE.putGCMDeviceTockenFirst(MySharedPrefs.INSTANCE.getGCMDeviceTocken());
         }else{
           myApi.reqHome(UrlsConstants.GET_HOME_PAGE+"?device_token=");
-        }
+        }*/
 
-//        Bundle call_bundle = new Bundle();
-//        call_bundle.putSerializable("Categories", catObj);
-//        call_bundle.putString("Title", "Home");
-//        call_bundle.putBoolean("isListView",true);
-//
-//        MenuFragment fragment = new MenuFragment();
-//        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.add(R.id.menu, fragment);
-//        fragment.setArguments(call_bundle);
-//        fragmentTransaction.commit();
+        myApi.reqHome(UrlsConstants.GET_HOME_PAGE+"?device_token="+ MySharedPrefs.INSTANCE.getGCMDeviceTocken()+"&device_id="+UtilityMethods.getDeviceId(HomeScreen.this));
+
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, null, R.string.open, R.string.close) {
