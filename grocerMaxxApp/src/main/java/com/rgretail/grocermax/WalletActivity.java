@@ -55,7 +55,7 @@ public class WalletActivity extends BaseActivity {
                         getResources().getColor(R.color.white), WalletActivity.this,
                         Environment.SANDBOX, "q4qz4sa1wq", "http://staging.grocermax.com/citrus.php", "http://staging.grocermax.com/returncitrus.php");
 
-                CitrusFlowManager.startShoppingFlow(WalletActivity.this,"pradeep.gupta@grocermax.com","9540011301","100.00");
+                CitrusFlowManager.startShoppingFlow(WalletActivity.this,"pradeep.gupta@grocermax.com","9540011301","1.00");
 
 
 

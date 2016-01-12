@@ -56,6 +56,8 @@ public class GCMIntentService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
         try{
+            System.out.println("notification recieved");
+
             String message = data.getString("message");
             strName = data.getString("name");
             strLinkurl = data.getString("linkurl");
