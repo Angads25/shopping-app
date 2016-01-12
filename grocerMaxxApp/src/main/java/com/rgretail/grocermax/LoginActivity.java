@@ -116,6 +116,7 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 //			tracker = EasyTracker.getInstance(this);
 
 			try {
+
 				mGoogleApiClient = new GoogleApiClient.Builder(LoginActivity.this).
 						addConnectionCallbacks(LoginActivity.this).addOnConnectionFailedListener(LoginActivity.this).
 						addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
@@ -125,19 +126,9 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 
 			addActionsInFilter(MyReceiverActions.LOGIN);
 			addActionsInFilter(MyReceiverActions.ADD_TO_CART);
-//		addActionsInFilter(MyReceiverActions.VIEW_CART);
 			addActionsInFilter(MyReceiverActions.VIEW_CART_GO_HOME_SCREEN);
 
 			TextView register = (TextView) findViewById(R.id.register);
-			//Spannable word = new SpannableString("New Here? ");
-
-			//word.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.orange_text)), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-			//register.setText(word);
-			//Spannable wordTwo = new SpannableString("Register Now");
-
-			//wordTwo.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.text_grey)), 0, wordTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-			//register.append(wordTwo);
 
 			TextView txtHello = (TextView) findViewById(R.id.txt_hello);
 			txtHello.setTypeface(CustomFonts.getInstance().getRobotoLight(context));
@@ -171,15 +162,8 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 			password = (EditText) findViewById(R.id.password);
 			username.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
 			password.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
-		/*username.setText("suman.ditm07@gmail.com");
-		password.setText("XHqvaHnW");*/
 
-//		remember_me = (CheckBox) findViewById(R.id.remember_me);
-//		if(MySharedPrefs.INSTANCE.getRememberMe())
-//		{
 			username.setText(MySharedPrefs.INSTANCE.getRememberMeEmail());
-//		}
-
 			username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
 				@Override
@@ -207,25 +191,9 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 			button_facebook = (ImageView) findViewById(R.id.button_facebook);
 			button_facebook.setOnClickListener(fb_signin_listener);
 
-//			googlePlus = (ImageView) findViewById(R.id.google_plus_left_icon);
 			tv_google_btn = (ImageView) findViewById(R.id.button_google);
 
-//	    signinButton = (SignInButton) findViewById(R.id.google_plus_icon);
-
-//			googlePlus.setOnClickListener(google_signin_listener);
 			tv_google_btn.setOnClickListener(google_signin_listener);
-
-
-//	    signinButton.setOnClickListener(clickListener);
-
-//		Session session = Session.getActiveSession();
-//		if (session != null && session.isOpened()) {
-//			button_facebook.setText("Sign out Facebook");
-//			button_facebook.setOnClickListener(fb_sign_out_listener);
-//		} else {
-//			button_facebook.setText("Sign in with Facebook");
-//			button_facebook.setOnClickListener(fb_signin_listener);
-//		}
 
 			button_skip = (TextView) findViewById(R.id.login);
 			button_skip.setOnClickListener(new OnClickListener() {
@@ -250,28 +218,10 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 			startActivity(intent);
 			finish();
 
-//			Intent intent = new Intent(LoginActivity.this, HomeScreen.class);
-//			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//			startActivity(intent);
-//			finish();
 		}catch(Exception e){
 			new GrocermaxBaseException("LoginActivity","gotoHome",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
 		}
 	}
-
-
-//	android.view.View.OnClickListener clickListener = new  OnClickListener() {
-//
-//		@Override
-//		public void onClick(View v) {
-//			// TODO Auto-generated method stub
-//			if(v.getId()== R.id.google_plus_icon){
-//				googleLoginWithEmailPermission();
-//			}
-//
-//		}
-//	};
-
 
 	/**
 	 * facebook sign in listener
@@ -552,18 +502,14 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 			switch (requestCode) {
 				case RC_SIGN_IN:
 					try{
-//						Toast.makeText(mContext, "b1b1b1b1b1b1b1b1b1b1"+requestCode, Toast.LENGTH_SHORT).show();
 						if (resultCode == RESULT_OK) {
-//							Toast.makeText(mContext, "c1c1c1c1c1c1c1", Toast.LENGTH_SHORT).show();
 							signedInUser = false;
 						}
 						mIntentInProgress = false;
 						if (!mGoogleApiClient.isConnecting()) {
-//							Toast.makeText(mContext, "d1d1d1d1d1d1d1d1", Toast.LENGTH_SHORT).show();
 							mGoogleApiClient.connect();
 						}
 					}catch(Exception e){
-//						Toast.makeText(mContext, "exception===="+e.getStackTrace(), Toast.LENGTH_SHORT).show();
 						new GrocermaxBaseException("LoginAactivity","OnResponseRcSignIn",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 					}
 
@@ -815,6 +761,7 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 		super.onPause();
 		try{
 			AppsFlyerLib.onActivityPause(this);
+            System.out.println("Ishan onPAuse");
 		}catch(Exception e){}
 	}
 
@@ -822,34 +769,24 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
+        System.out.println("Ishan onStop");
 		try{
 			AppsFlyerLib.onActivityPause(this);
 		}catch(Exception e){}
 		try{
 //			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
-			googlePlusLogout();
+            googlePlusLogout();
 			if(mGoogleApiClient != null){
 				if (mGoogleApiClient.isConnected()) {
 					mGoogleApiClient.disconnect();
-				}
+                }
 			}
+
 		}catch(Exception e){}
 	}
 
 	/**************************************************  GOOGLE PLUS INTEGARTION *************************************************/
-
-//	@Override
-//	protected void onStop() {
-//		// TODO Auto-generated method stub
-//		super.onStop();
-////		googlePlusLogout();
-////		if(mGoogleApiClient != null){
-////			if (mGoogleApiClient.isConnected()) {
-////	            mGoogleApiClient.disconnect();
-////	        }
-////		}
-//	}
 
 	/**
 	 * google sign in listener
@@ -912,11 +849,9 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 	public void onConnected(Bundle arg0) {
 		// TODO Auto-generated method stub
 		try {
-//			Toast.makeText(mContext, "onConnected", Toast.LENGTH_SHORT).show();
+            System.out.println("Ishan onConnected");
 			AppLoadingScreen.getInstance(context).dismissDialog();
 			signedInUser = false;
-//        Toast.makeText(this, "Connected", Toast.LENGTH_LONG).show();
-//			UtilityMethods.customToast("Connected", this);
 			getProfileInformation();
 		}catch(Exception e){
 			new GrocermaxBaseException("LoginActivity","onConnected",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
@@ -927,7 +862,8 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 	public void onConnectionSuspended(int cause) {
 		// TODO Auto-generated method stub
 		try{
-			mGoogleApiClient.connect();
+            mGoogleApiClient.connect();
+            System.out.println("Ishan onConnection suspended");
 //	        updateProfile(false);
 		}catch(Exception e){
 			new GrocermaxBaseException("LoginActivity","onConnectionSuspended",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
@@ -957,19 +893,12 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 
 	private void googlePlusLogin() {
 		try {
-//			Toast.makeText(mContext, "333333333333333333", Toast.LENGTH_SHORT).show();
 			if (mGoogleApiClient != null) {
-//				Toast.makeText(mContext, "444444444444444444", Toast.LENGTH_SHORT).show();
 				if (!mGoogleApiClient.isConnecting()) {
-//					Toast.makeText(mContext, "555555555555555555", Toast.LENGTH_SHORT).show();
 					signedInUser = true;
 					resolveSignInError();
 				}
-//				UtilityMethods.customToast("googlewkwk plus login else", context);
 			} else {
-//				Toast.makeText(mContext, "66666666666666666", Toast.LENGTH_SHORT).show();
-//        	Toast.makeText(context,"google plus login else", Toast.LENGTH_SHORT).show();
-//				UtilityMethods.customToast("google plus login else", context);
 			}
 		}catch(Exception e){
 			new GrocermaxBaseException("LoginActivity","googlePlusLogin",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
@@ -1070,10 +999,8 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 				if (mGoogleApiClient.isConnected()) {
 					Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
 					mGoogleApiClient.disconnect();
-					mGoogleApiClient.connect();
-//					if(tv_google_btn != null){
-//						tv_google_btn.setText("Logout with Google");
-//					}
+					//mGoogleApiClient.connect();
+
 				}
 			}
 		}catch(Exception e){

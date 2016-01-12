@@ -328,9 +328,9 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                         }
                     }
                     if (MySharedPrefs.INSTANCE.getGoogleId() != null) {
-//					LoginActivity loginActivity = new LoginActivity();
-//					loginActivity.googlePlusLogoutLocally();
+
                         LoginActivity.googlePlusLogout();
+
                         Registration.googlePlusLogoutReg();
 //					loginActivity.googlePlusLogout();
 

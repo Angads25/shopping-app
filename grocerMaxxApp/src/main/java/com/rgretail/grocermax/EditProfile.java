@@ -153,103 +153,7 @@ public class EditProfile extends BaseActivity{
 			change.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					String old_p = old_pwd.getText().toString().trim();
-					String new_p = new_pwd.getText().toString().trim();
-					String conf_p = conf_pwd.getText().toString().trim();
-					String fname_n = fname.getText().toString().trim();
-					String lname_n = lname.getText().toString().trim();
-					String contact_n = contact.getText().toString().trim();
-
-					if (fname_n.equals("")) {
-						UtilityMethods.customToast(AppConstants.ToastConstant.FNAME_BLANCK, EditProfile.this);
-						return;
-					}
-					if (lname_n.equals("")) {
-						UtilityMethods.customToast(AppConstants.ToastConstant.LNAME_BLANCK, EditProfile.this);
-						return;
-					}
-					if (contact_n.equals("")) {
-						UtilityMethods.customToast(AppConstants.ToastConstant.MOB_BLANCK, EditProfile.this);
-						return;
-					}
-					if (contact_n.length() < 10 || contact_n.length() > 10) {
-						UtilityMethods.customToast(AppConstants.ToastConstant.MOB_NUMBER_DIGIT, EditProfile.this);
-						return;
-					}
-
-//				if(chb.isChecked())
-					if (bChangePwd) {
-						if (old_p.equals("")) {
-							UtilityMethods.customToast(AppConstants.ToastConstant.OPWD_BLANK, EditProfile.this);
-							return;
-						}
-						if (new_p.equals(" ")) {
-							UtilityMethods.customToast(AppConstants.ToastConstant.NPWD_BLANK, EditProfile.this);
-							return;
-						}
-						if (new_p.length() < 6) {
-							UtilityMethods.customToast(AppConstants.ToastConstant.PWD_NUMBER_DIGIT, EditProfile.this);
-							return;
-						}
-						if (conf_p.equalsIgnoreCase("")) {
-							UtilityMethods.customToast(AppConstants.ToastConstant.CPWD_BLANK, EditProfile.this);
-							return;
-						}
-						if (!new_p.equals(conf_p)) {
-							UtilityMethods.customToast(AppConstants.ToastConstant.PWD_NOT_MATCH, EditProfile.this);
-							return;
-						}
-					}
-					if (UtilityMethods.isInternetAvailable(mContext)) {
-						showDialog();
-
-
-						String params;
-						jsonObject = new JSONObject();
-						try {
-							if (bChangePwd) {
-								jsonObject.put("userid", MySharedPrefs.INSTANCE.getUserId());
-								jsonObject.put("uemail",MySharedPrefs.INSTANCE.getUserEmail());
-								jsonObject.put("password",new_p);
-								jsonObject.put("old_password",old_p);
-								jsonObject.put("fname",fname_n);
-								jsonObject.put("lname",lname_n);
-								jsonObject.put("number",contact_n);
-                                jsonObject.put("otp","0");
-
-                                /*tracking GA event for edit profile and change password both*/
-                                try{
-                                    UtilityMethods.clickCapture(activity,"Profile Activity","","Edit Information","",MySharedPrefs.INSTANCE.getSelectedCity());
-                                    UtilityMethods.clickCapture(activity,"Profile Activity","","Change Password","",MySharedPrefs.INSTANCE.getSelectedCity());
-                                }catch(Exception e){
-                                    e.printStackTrace();
-                                }
-                                /*--------------------------------*/
-
-							} else {
-								jsonObject.put("userid", MySharedPrefs.INSTANCE.getUserId());
-								jsonObject.put("uemail",MySharedPrefs.INSTANCE.getUserEmail());
-								jsonObject.put("fname",fname_n);
-								jsonObject.put("lname",lname_n);
-								jsonObject.put("number",contact_n);
-                                jsonObject.put("otp","0");
-
-                                /*tracking GA event only for Edit information*/
-                                try{
-                                    UtilityMethods.clickCapture(activity,"Profile Activity","","Edit Information","",MySharedPrefs.INSTANCE.getSelectedCity());
-                                }catch(Exception e){
-                                    e.printStackTrace();
-                                }
-                                /*--------------------------------*/
-
-
-							}
-							myApi.reqEditProfile(url,jsonObject);
-						}catch(Exception e){}
-
-					} else {
-						UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, mContext);
-					}
+                    editProfile();
 				}
 			});
 			initHeader(findViewById(R.id.header), true, "Edit Profile");
@@ -263,6 +167,108 @@ public class EditProfile extends BaseActivity{
 			new GrocermaxBaseException("EditProfile","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
+
+
+   public void editProfile(){
+       String old_p = old_pwd.getText().toString().trim();
+       String new_p = new_pwd.getText().toString().trim();
+       String conf_p = conf_pwd.getText().toString().trim();
+       String fname_n = fname.getText().toString().trim();
+       String lname_n = lname.getText().toString().trim();
+       String contact_n = contact.getText().toString().trim();
+
+       if (fname_n.equals("")) {
+           UtilityMethods.customToast(AppConstants.ToastConstant.FNAME_BLANCK, EditProfile.this);
+           return;
+       }
+       if (lname_n.equals("")) {
+           UtilityMethods.customToast(AppConstants.ToastConstant.LNAME_BLANCK, EditProfile.this);
+           return;
+       }
+       if (contact_n.equals("")) {
+           UtilityMethods.customToast(AppConstants.ToastConstant.MOB_BLANCK, EditProfile.this);
+           return;
+       }
+       if (contact_n.length() < 10 || contact_n.length() > 10) {
+           UtilityMethods.customToast(AppConstants.ToastConstant.MOB_NUMBER_DIGIT, EditProfile.this);
+           return;
+       }
+
+//				if(chb.isChecked())
+       if (bChangePwd) {
+           if (old_p.equals("")) {
+               UtilityMethods.customToast(AppConstants.ToastConstant.OPWD_BLANK, EditProfile.this);
+               return;
+           }
+           if (new_p.equals(" ")) {
+               UtilityMethods.customToast(AppConstants.ToastConstant.NPWD_BLANK, EditProfile.this);
+               return;
+           }
+           if (new_p.length() < 6) {
+               UtilityMethods.customToast(AppConstants.ToastConstant.PWD_NUMBER_DIGIT, EditProfile.this);
+               return;
+           }
+           if (conf_p.equalsIgnoreCase("")) {
+               UtilityMethods.customToast(AppConstants.ToastConstant.CPWD_BLANK, EditProfile.this);
+               return;
+           }
+           if (!new_p.equals(conf_p)) {
+               UtilityMethods.customToast(AppConstants.ToastConstant.PWD_NOT_MATCH, EditProfile.this);
+               return;
+           }
+       }
+       if (UtilityMethods.isInternetAvailable(mContext)) {
+           showDialog();
+
+
+           String params;
+           jsonObject = new JSONObject();
+           try {
+               if (bChangePwd) {
+                   jsonObject.put("userid", MySharedPrefs.INSTANCE.getUserId());
+                   jsonObject.put("uemail",MySharedPrefs.INSTANCE.getUserEmail());
+                   jsonObject.put("password",new_p);
+                   jsonObject.put("old_password",old_p);
+                   jsonObject.put("fname",fname_n);
+                   jsonObject.put("lname",lname_n);
+                   jsonObject.put("number",contact_n);
+                   jsonObject.put("otp","0");
+
+                                /*tracking GA event for edit profile and change password both*/
+                   try{
+                       UtilityMethods.clickCapture(activity,"Profile Activity","","Edit Information","",MySharedPrefs.INSTANCE.getSelectedCity());
+                       UtilityMethods.clickCapture(activity,"Profile Activity","","Change Password","",MySharedPrefs.INSTANCE.getSelectedCity());
+                   }catch(Exception e){
+                       e.printStackTrace();
+                   }
+                                /*--------------------------------*/
+
+               } else {
+                   jsonObject.put("userid", MySharedPrefs.INSTANCE.getUserId());
+                   jsonObject.put("uemail",MySharedPrefs.INSTANCE.getUserEmail());
+                   jsonObject.put("fname",fname_n);
+                   jsonObject.put("lname",lname_n);
+                   jsonObject.put("number",contact_n);
+                   jsonObject.put("otp","0");
+
+                                /*tracking GA event only for Edit information*/
+                   try{
+                       UtilityMethods.clickCapture(activity,"Profile Activity","","Edit Information","",MySharedPrefs.INSTANCE.getSelectedCity());
+                   }catch(Exception e){
+                       e.printStackTrace();
+                   }
+                                /*--------------------------------*/
+
+
+               }
+               myApi.reqEditProfile(url,jsonObject);
+           }catch(Exception e){}
+
+       } else {
+           UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, mContext);
+       }
+
+   }
 
     public void acceptOTP(final Context context){
         Typeface typeface=Typeface.createFromAsset(context.getAssets(),"Roboto-Regular.ttf");
@@ -279,13 +285,17 @@ public class EditProfile extends BaseActivity{
         tv_skip.setTypeface(typeface);
         TextView tv_update=(TextView)dialogView.findViewById(R.id.tv_update);
         tv_update.setTypeface(typeface);
+        TextView tv_resendOtp=(TextView)dialogView.findViewById(R.id.tv_resendOtp);
+        tv_resendOtp.setTypeface(typeface1);
+        tv_resendOtp.setVisibility(View.VISIBLE);
+
         final EditText edt_otp=(EditText)dialogView.findViewById(R.id.edt_otp);
         edt_otp.setTypeface(typeface);
         edt_otp.setVisibility(View.VISIBLE);
 
         tv_msg.setText("Enter your one time password(OTP)");
         tv_skip.setText("CANCEL");
-        tv_update.setText("DONE");
+        tv_update.setText("SUBMIT");
 
         tv_update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -315,6 +325,14 @@ public class EditProfile extends BaseActivity{
             @Override
             public void onClick(View v) {
                 alert.dismiss();
+            }
+        });
+
+        tv_resendOtp.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alert.dismiss();
+                editProfile();
             }
         });
 
