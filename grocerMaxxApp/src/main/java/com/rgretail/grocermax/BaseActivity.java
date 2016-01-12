@@ -1012,8 +1012,6 @@ public abstract class BaseActivity extends FragmentActivity {
 						}
 
 						if (MySharedPrefs.INSTANCE.getGoogleId() != null) {
-//					LoginActivity loginActivity = new LoginActivity();
-//					loginActivity.googlePlusLogoutLocally();
 							LoginActivity.googlePlusLogout();
 							Registration.googlePlusLogoutReg();
 //					loginActivity.googlePlusLogout();
