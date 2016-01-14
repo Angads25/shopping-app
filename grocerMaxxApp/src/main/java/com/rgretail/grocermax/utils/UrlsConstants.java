@@ -25,8 +25,8 @@ public class UrlsConstants {
 //	public final static String BASE_URL = "http://dev.grocermax.com/api/";
 //	public final static String NEW_BASE_URL = "http://dev.grocermax.com/api/";
 
-	public final static String BASE_URL = "http://staging.grocermax.com/api/";
-	public final static String NEW_BASE_URL = "http://staging.grocermax.com/api/";
+	//public final static String BASE_URL = "http://staging.grocermax.com/api/";
+	//public final static String NEW_BASE_URL = "http://staging.grocermax.com/api/";
 
 	// dev url
 //	public final static String BASE_URL = "http://dev.grocermax.com/webservice/";
@@ -47,6 +47,15 @@ public class UrlsConstants {
 
 //	public final static String BASE_URL = "http://multi.grocermax.com/api/";
 //	public final static String NEW_BASE_URL = "http://multi.grocermax.com/api/";
+
+
+    //public final static String BASE_URL = "https://multistore.grocermax.com/api/";
+    //public final static String NEW_BASE_URL = "https://multistore.grocermax.com/api/";
+
+
+    public final static String BASE_URL = "http://staging.grocermax.com/api/";
+    public final static String NEW_BASE_URL = "http://staging.grocermax.com/api/";
+
 
 	//public final static String BASE_URL = "https://grocermax.com/api/";
 	//public final static String NEW_BASE_URL = "https://grocermax.com/api/";
