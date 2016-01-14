@@ -14,13 +14,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.citrus.sdk.Environment;
+import com.citrus.sdk.ui.utils.CitrusFlowManager;
 import com.flurry.android.FlurryAgent;
-import com.payu.sdk.Params;
 import com.payu.sdk.PayU;
-import com.payu.sdk.Payment;
-import com.payu.sdk.ProcessPaymentActivity;
-import com.payu.sdk.exceptions.HashException;
-import com.payu.sdk.exceptions.MissingParameterException;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.CartDetail;
@@ -57,18 +54,13 @@ import java.util.List;
 
 public class ReviewOrderAndPay extends BaseActivity
 {
-	//	ListView mList;
 	private Button button_pay;
 	private FinalCheckoutBean finalCheckoutBean;
 	TextView billing_amt, shipping_amt, tax, grand_total;
-	//	TableRow tr_shipping,tr_discount;
-//	LinearLayout review_footer;
-//	RadioGroup radioGroup;
-//	private RadioButton radioTransactionButton;
+
 	public static String order_id;
 	public static String order_db_id;
-	private boolean bOnline,bCash,bPayTM,bMobiKwik;
-//	EasyTracker tracker;
+	private boolean bOnline,bCash,bPayTM,bMobiKwik,bCitrus;
 	private String[] payment_modes = {"Online Payment", "Cash on Delivery"};
 	OrderReviewBean orderReviewBean;
 	String payment_mode;
@@ -98,71 +90,10 @@ public class ReviewOrderAndPay extends BaseActivity
     View v_my_wallet;
     double t_amount;
 
-
-	public void payumoneyMakePayment(String orderid,double total) throws PackageManager.NameNotFoundException, MissingParameterException, HashException {
-		// oops handle it here.
-
-		Payment.Builder builder = new Payment().new Builder();
-		Params requiredParams = new Params();
-//		builder.set(PayU.PRODUCT_INFO, defaultParam.getString(PayU.PRODUCT_INFO));
-		builder.set(PayU.PRODUCT_INFO, "GrocerMax Product Info");
-		builder.set(PayU.AMOUNT, String.valueOf(total));
-		builder.set(PayU.TXNID, orderid);
-		builder.set(PayU.EMAIL, MySharedPrefs.INSTANCE.getUserEmail());
-		builder.set(PayU.FIRSTNAME, MySharedPrefs.INSTANCE.getFirstName() + " " + MySharedPrefs.INSTANCE.getLastName());
-		builder.set("user_credentials", "yPnUG6:test");
-//		builder.set(PayU.SURL, defaultParam.getString(PayU.SURL));
-//		builder.set(PayU.FURL, defaultParam.getString(PayU.FURL));
-		builder.set(PayU.SURL, "https://payu.herokuapp.com/success");
-		builder.set(PayU.FURL, "https://payu.herokuapp.com/failure");
-		builder.set(PayU.MODE, String.valueOf(PayU.PaymentMode.PAYU_MONEY));
-
-
-		requiredParams.put(PayU.AMOUNT, builder.get(PayU.AMOUNT));
-		requiredParams.put(PayU.PRODUCT_INFO, builder.get(PayU.PRODUCT_INFO));
-		requiredParams.put(PayU.TXNID, builder.get(PayU.TXNID));
-		requiredParams.put(PayU.SURL, builder.get(PayU.SURL));
-
-		requiredParams.put(PayU.EMAIL, MySharedPrefs.INSTANCE.getUserEmail());
-		requiredParams.put(PayU.FIRSTNAME, MySharedPrefs.INSTANCE.getFirstName() + " " + MySharedPrefs.INSTANCE.getLastName());
-		requiredParams.put("user_credentials", "yPnUG6:test");
-		requiredParams.put(PayU.SURL, builder.get(PayU.SURL));
-		requiredParams.put(PayU.FURL, builder.get(PayU.FURL));
-		requiredParams.put(PayU.MODE,builder.get(PayU.MODE));
-
-//		builder.set(PayU.MODE, String.valueOf(PayU.PaymentMode.PAYU_MONEY));
-//		for(String key : getIntent().getExtras().keySet()) {
-//			builder.set(key, String.valueOf(getIntent().getExtras().get(key)));
-//			requiredParams.put(key, builder.get(key));
-//		}
-
-		Bundle bundle = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA).metaData;
-		requiredParams.put(PayU.MERCHANT_KEY, bundle.getString("payu_merchant_id"));
-
-
-		Payment payment = builder.create();
-
-		String postData = PayU.getInstance(ReviewOrderAndPay.this).createPayment(payment, requiredParams);
-
-		Intent intent = new Intent(this, ProcessPaymentActivity.class);
-		intent.putExtra(com.payu.sdk.Constants.POST_DATA, postData);
-
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-		startActivityForResult(intent, PayU.RESULT);
-
-	}
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		try {
-//		setContentView(R.layout.review_order_and_pay);
-//			setContentView(R.layout.delete);
-
-//			mProgressDialog = new ProgressDialog(ReviewOrderAndPay.this);
-//		String str = MySharedPrefs.INSTANCE.getCouponApply();
-
 			addActionsInFilter(MyReceiverActions.FINAL_CHECKOUT);
 			addActionsInFilter(MyReceiverActions.GET_ORDER_STATUS);
 			addActionsInFilter(MyReceiverActions.SET_ORDER_STATUS);
@@ -175,16 +106,11 @@ public class ReviewOrderAndPay extends BaseActivity
 			TextView tv = (TextView) findViewById(R.id.tv_choose_to_pay);
 			tv.setTypeface(CustomFonts.getInstance().getRobotoBlack(this));
 
-			/****************** PROMO CODE *********************/
-//			RelativeLayout llOnlinePayment = (RelativeLayout) findViewById(R.id.ll_online_payment);
-//			RelativeLayout llCashOnDelivery = (RelativeLayout) findViewById(R.id.ll_cash_on_delivery);
-//			RelativeLayout llPayTM = (RelativeLayout) findViewById(R.id.ll_paytm);
-//			RelativeLayout llMobiKwik = (RelativeLayout) findViewById(R.id.ll_mobikwik);
-
 			RelativeLayout llOnlinePayment = (RelativeLayout) findViewById(R.id.rl_online_payment);
 			RelativeLayout llCashOnDelivery = (RelativeLayout) findViewById(R.id.rl_cash_on_delivery);
 			RelativeLayout llPayTM = (RelativeLayout) findViewById(R.id.rl_paytm);
 			RelativeLayout llMobiKwik = (RelativeLayout) findViewById(R.id.rl_mobikwik);
+            RelativeLayout llCitrus = (RelativeLayout) findViewById(R.id.rl_citrus);
 
 
 			llFirstPage = (Button) findViewById(R.id.ll_first_page);
@@ -220,7 +146,6 @@ public class ReviewOrderAndPay extends BaseActivity
 
 
 			etCouponCode = (EditText) findViewById(R.id.edit_coupon_code);
-//		orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 			List<CartDetail> cartList = orderReviewBean.getProduct();
 			if (cartList != null) {
 				for (int i = 0; i < cartList.size(); i++) {
@@ -305,58 +230,31 @@ public class ReviewOrderAndPay extends BaseActivity
 			final ImageView ivCashonDelivery = (ImageView) findViewById(R.id.iv_cash_on_delivery);
 			final ImageView ivPayTM = (ImageView) findViewById(R.id.iv_paytm);
 			final ImageView ivMobiKwik = (ImageView) findViewById(R.id.iv_mobikwik);
+            final ImageView ivCitrus = (ImageView) findViewById(R.id.iv_citrus);
 
 			final TextView btnOnlinePayment = (TextView) findViewById(R.id.btn_online_Payment);
 			final TextView btnCashonDelivery = (TextView) findViewById(R.id.btn_cash_on_delivery);
 			final ImageView btnPayTM = (ImageView) findViewById(R.id.btn_paytm);
 			final ImageView btnMobiKwik = (ImageView) findViewById(R.id.btn_mobikwik);
+            final ImageView btnCitrus = (ImageView) findViewById(R.id.btn_cirus);
 
 
-//		TextView txtSubTotal = (TextView) findViewById(R.id.txt_subtotal);
-//		TextView txtShipping = (TextView) findViewById(R.id.txt_shipping);
-//		TextView txtYouPay = (TextView) findViewById(R.id.txt_you_pay);
-//		TextView txtYouSaved = (TextView) findViewById(R.id.txt_you_saved);
-//		TextView txtDiscountReview = (TextView) findViewById(R.id.txt_discount_review);
 
-//		TextView tvSubTotal = (TextView) findViewById(R.id.tv_subTotal_payment);
-//		TextView tvShipping = (TextView) findViewById(R.id.tv_shipping_payment);
-//		TextView tvYouPay = (TextView) findViewById(R.id.tv_you_pay);
-//		TextView tvYouSaved = (TextView) findViewById(R.id.tv_you_saved);
-//		TextView tvDiscountReview = (TextView) findViewById(R.id.tv_discount_review);
 			TextView tvCreditCard = (TextView) findViewById(R.id.CreditCard);
 
 			ivOnlinePayment.setImageResource(R.drawable.chkbox_unselected);         //unselect
 			ivCashonDelivery.setImageResource(R.drawable.chkbox_unselected);        //unselect
 			ivPayTM.setImageResource(R.drawable.chkbox_unselected);         //unselect
 			ivMobiKwik.setImageResource(R.drawable.chkbox_unselected);         //unselect
+            ivCitrus.setImageResource(R.drawable.chkbox_unselected);         //unselect
 
-//		btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);       //unselect
-//		btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);      //unselect
-//		btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);       //unselect
-//		btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);       //unselect
 
-//		btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-//		btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));   //unselect
-//		btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-//		btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
+
 
 			btnOnlinePayment.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 			btnCashonDelivery.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-//			btnPayTM.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-//			btnMobiKwik.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 
 			tvCreditCard.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-//		tvSubTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-//		tvShipping.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-//		tvYouPay.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-//		tvYouSaved.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-//		tvDiscountReview.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-
-//		txtSubTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-//		txtShipping.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-//		txtYouPay.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-//		txtYouSaved.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
-//		txtDiscountReview.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 
 			btnOnlinePayment.setOnClickListener(new View.OnClickListener() {
 
@@ -366,6 +264,7 @@ public class ReviewOrderAndPay extends BaseActivity
 					bCash = false;
 					bPayTM = false;
 					bMobiKwik = false;
+                    bCitrus = false;
 					if (bOnline) {
 						bOnline = false;
 					} else {
@@ -377,20 +276,10 @@ public class ReviewOrderAndPay extends BaseActivity
 						ivCashonDelivery.setImageResource(R.drawable.chkbox_unselected);        //unselect
 						ivPayTM.setImageResource(R.drawable.chkbox_unselected);                  //unselect
 						ivMobiKwik.setImageResource(R.drawable.chkbox_unselected);                  //unselect
+                        ivCitrus.setImageResource(R.drawable.chkbox_unselected);                  //unselect
 
-//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_selected_btn);
-//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);
-
-//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_selected_text_color));      //select
-//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));   //unselect
-//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-//					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 					} else {
 						ivOnlinePayment.setImageResource(R.drawable.chkbox_unselected);           //unselect
-//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 					}
 				}
 			});
@@ -403,6 +292,7 @@ public class ReviewOrderAndPay extends BaseActivity
 					bCash = false;
 					bPayTM = false;
 					bMobiKwik = false;
+                    bCitrus = false;
 					if (bOnline) {
 						bOnline = false;
 					} else {
@@ -414,20 +304,10 @@ public class ReviewOrderAndPay extends BaseActivity
 						ivCashonDelivery.setImageResource(R.drawable.chkbox_unselected);        //unselect
 						ivPayTM.setImageResource(R.drawable.chkbox_unselected);         //unselect
 						ivMobiKwik.setImageResource(R.drawable.chkbox_unselected);         //unselect
+                        ivCitrus.setImageResource(R.drawable.chkbox_unselected);         //unselect
 
-//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_selected_btn);
-//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);
-
-//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_selected_text_color));      //select
-//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));   //unselect
-//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-//					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 					} else {
 						ivOnlinePayment.setImageResource(R.drawable.chkbox_unselected);           //unselect
-//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 					}
 
 				}
@@ -441,6 +321,7 @@ public class ReviewOrderAndPay extends BaseActivity
 					bOnline = false;
 					bPayTM = false;
 					bMobiKwik = false;
+                    bCitrus = false;
 					if (bCash) {
 						bCash = false;
 					} else {
@@ -452,21 +333,10 @@ public class ReviewOrderAndPay extends BaseActivity
 						ivOnlinePayment.setImageResource(R.drawable.chkbox_unselected);       //unselect
 						ivPayTM.setImageResource(R.drawable.chkbox_unselected);       //unselect
 						ivMobiKwik.setImageResource(R.drawable.chkbox_unselected);       //unselect
+                        ivCitrus.setImageResource(R.drawable.chkbox_unselected);       //unselect
 
-//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_selected_btn);
-//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);
-
-//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_selected_text_color));   //select
-//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));      //unselect
-//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-//					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 					} else {
 						ivCashonDelivery.setImageResource(R.drawable.chkbox_unselected);           //unselect
-//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnCashonDelivery.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
-//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 					}
 				}
 			});
@@ -479,6 +349,7 @@ public class ReviewOrderAndPay extends BaseActivity
 					bOnline = false;
 					bPayTM = false;
 					bMobiKwik = false;
+                    bCitrus = false;
 					if (bCash) {
 						bCash = false;
 					} else {
@@ -490,21 +361,9 @@ public class ReviewOrderAndPay extends BaseActivity
 						ivOnlinePayment.setImageResource(R.drawable.chkbox_unselected);       //unselect
 						ivPayTM.setImageResource(R.drawable.chkbox_unselected);       //unselect
 						ivMobiKwik.setImageResource(R.drawable.chkbox_unselected);       //unselect
-
-//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_selected_btn);
-//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);
-
-//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_selected_text_color));   //select
-//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));      //unselect
-//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
-//					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
+                        ivCitrus.setImageResource(R.drawable.chkbox_unselected);       //unselect
 					} else {
 						ivCashonDelivery.setImageResource(R.drawable.chkbox_unselected);           //unselect
-//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnCashonDelivery.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
-//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 					}
 
 				}
@@ -519,6 +378,7 @@ public class ReviewOrderAndPay extends BaseActivity
 					bCash = false;
 					bOnline = false;
 					bMobiKwik = false;
+                    bCitrus = false;
 					if (bPayTM) {
 						bPayTM = false;
 					} else {
@@ -527,25 +387,12 @@ public class ReviewOrderAndPay extends BaseActivity
 
 					if (bPayTM) {
 						ivPayTM.setImageResource(R.drawable.chkbox_selected);           //select
-//						ivPayTM.setImageResource(R.drawable.check_pay);           //select
 						ivOnlinePayment.setImageResource(R.drawable.chkbox_unselected);         //unselect
 						ivCashonDelivery.setImageResource(R.drawable.chkbox_unselected);        //unselect
 						ivMobiKwik.setImageResource(R.drawable.chkbox_unselected);        //unselect
-
-//					btnPayTM.setBackgroundResource(R.drawable.pay_selected_btn);
-//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);
-
-//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_selected_text_color));        //select
-//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));      //unselect
-//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
-//					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
+                        ivCitrus.setImageResource(R.drawable.chkbox_unselected);        //unselect
 					} else {
 						ivPayTM.setImageResource(R.drawable.chkbox_unselected);           //unselect
-//					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnPayTM.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
-//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 					}
 				}
 			});
@@ -560,6 +407,7 @@ public class ReviewOrderAndPay extends BaseActivity
 					bCash = false;
 					bOnline = false;
 					bMobiKwik = false;
+                    bCitrus = false;
 					if (bPayTM) {
 						bPayTM = false;
 					} else {
@@ -571,21 +419,9 @@ public class ReviewOrderAndPay extends BaseActivity
 						ivOnlinePayment.setImageResource(R.drawable.chkbox_unselected);         //unselect
 						ivCashonDelivery.setImageResource(R.drawable.chkbox_unselected);        //unselect
 						ivMobiKwik.setImageResource(R.drawable.chkbox_unselected);        //unselect
-
-//					btnPayTM.setBackgroundResource(R.drawable.pay_selected_btn);
-//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);
-
-//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_selected_text_color));        //select
-//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));      //unselect
-//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
-//					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
+                        ivCitrus.setImageResource(R.drawable.chkbox_unselected);        //unselect
 					} else {
 						ivPayTM.setImageResource(R.drawable.chkbox_unselected);           //unselect
-//					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnPayTM.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
-//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 					}
 
 				}
@@ -599,6 +435,7 @@ public class ReviewOrderAndPay extends BaseActivity
 					bCash = false;
 					bOnline = false;
 					bPayTM = false;
+                    bCitrus = false;
 					if (bMobiKwik) {
 						bMobiKwik = false;
 					} else {
@@ -610,21 +447,9 @@ public class ReviewOrderAndPay extends BaseActivity
 						ivOnlinePayment.setImageResource(R.drawable.chkbox_unselected);         //unselect
 						ivCashonDelivery.setImageResource(R.drawable.chkbox_unselected);        //unselect
 						ivPayTM.setImageResource(R.drawable.chkbox_unselected);        //unselect
-
-//					btnMobiKwik.setBackgroundResource(R.drawable.pay_selected_btn);
-//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
-
-//					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_selected_text_color));        //select
-//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));      //unselect
-//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
-//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
+                        ivCitrus.setImageResource(R.drawable.chkbox_unselected);        //unselect
 					} else {
 						ivMobiKwik.setImageResource(R.drawable.chkbox_unselected);           //unselect
-//					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnMobiKwik.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
-//					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 					}
 				}
 			});
@@ -637,6 +462,7 @@ public class ReviewOrderAndPay extends BaseActivity
 					bCash = false;
 					bOnline = false;
 					bPayTM = false;
+                    bCitrus = false;
 					if (bMobiKwik) {
 						bMobiKwik = false;
 					} else {
@@ -648,32 +474,74 @@ public class ReviewOrderAndPay extends BaseActivity
 						ivPayTM.setImageResource(R.drawable.chkbox_unselected);              //unselect
 						ivOnlinePayment.setImageResource(R.drawable.chkbox_unselected);         //unselect
 						ivCashonDelivery.setImageResource(R.drawable.chkbox_unselected);        //unselect
-
-//					btnMobiKwik.setBackgroundResource(R.drawable.pay_selected_btn);
-//					btnPayTM.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnCashonDelivery.setBackgroundResource(R.drawable.pay_unselected_btn);
-//					btnOnlinePayment.setBackgroundResource(R.drawable.pay_unselected_btn);
-
-//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_selected_text_color));                //select
-//					btnPayTM.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));              //unselect
-//					btnOnlinePayment.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));      //unselect
-//					btnCashonDelivery.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));     //unselect
+                        ivCitrus.setImageResource(R.drawable.chkbox_unselected);        //unselect
 
 					} else {
 						ivMobiKwik.setImageResource(R.drawable.chkbox_unselected);                                         //unselect
-//					btnMobiKwik.setBackgroundResource(R.drawable.pay_unselected_btn);                            //unselect
-//					btnMobiKwik.setBackgroundColor(getResources().getColor(R.color.payment_unselected_btn_bg));  //unselect
-//					btnMobiKwik.setTextColor(getResources().getColor(R.color.payment_unselected_text_color));    //unselect
 					}
 
 				}
 			});
 
+            btnCitrus.setOnClickListener(new View.OnClickListener() {
 
-//		mList = (ListView) findViewById(R.id.product_list);
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    bCash = false;
+                    bOnline = false;
+                    bPayTM = false;
+                    bMobiKwik = false;
+                    if (bCitrus) {
+                        bCitrus = false;
+                    } else {
+                        bCitrus = true;
+                    }
+
+                    if (bCitrus) {
+                        ivCitrus.setImageResource(R.drawable.chkbox_selected);           //select
+                        ivOnlinePayment.setImageResource(R.drawable.chkbox_unselected);         //unselect
+                        ivCashonDelivery.setImageResource(R.drawable.chkbox_unselected);        //unselect
+                        ivPayTM.setImageResource(R.drawable.chkbox_unselected);        //unselect
+                        ivMobiKwik.setImageResource(R.drawable.chkbox_unselected);        //unselect
+                    } else {
+                        ivCitrus.setImageResource(R.drawable.chkbox_unselected);           //unselect
+                    }
+                }
+            });
+
+            llCitrus.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    bCash = false;
+                    bOnline = false;
+                    bPayTM = false;
+                    bMobiKwik = false;
+                    if (bCitrus) {
+                        bCitrus = false;
+                    } else {
+                        bCitrus = true;
+                    }
+
+                    if (bCitrus) {
+                        ivCitrus.setImageResource(R.drawable.chkbox_selected);                  //select
+                        ivPayTM.setImageResource(R.drawable.chkbox_unselected);              //unselect
+                        ivOnlinePayment.setImageResource(R.drawable.chkbox_unselected);         //unselect
+                        ivCashonDelivery.setImageResource(R.drawable.chkbox_unselected);        //unselect
+                        ivMobiKwik.setImageResource(R.drawable.chkbox_unselected);        //unselect
+
+                    } else {
+                        ivCitrus.setImageResource(R.drawable.chkbox_unselected);                                         //unselect
+                    }
+
+                }
+            });
+
+
 
 			button_pay = (Button) findViewById(R.id.btn_apply_coupon);
-//		button_pay.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 
 			button_pay.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -682,22 +550,18 @@ public class ReviewOrderAndPay extends BaseActivity
                     }catch(Exception e){}
 
 					orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
-//					float str1 = Float.parseFloat(orderReviewBean.getGrandTotal());
-//					float str2 = Float.parseFloat(orderReviewBean.getShipping_ammount());
-//					float str3 = Float.parseFloat(orderReviewBean.getDiscount_amount());
 					total = Float.parseFloat(orderReviewBean.getGrandTotal());
-//					+ Float.parseFloat(orderReviewBean.getShipping_ammount())		+ Float.parseFloat(orderReviewBean.getDiscount_amount());
 
                      /*for checking that if payable amount =0 user should not select a payment method*/
                     if(Double.parseDouble(tvTotal.getText().toString().replace("Rs.","").trim())==0){
-                        if(bCash || bOnline || bPayTM ){             //!bMobiKwik
+                        if(bCash || bOnline || bPayTM || bCitrus){             //!bMobiKwik
                             UtilityMethods.customToast(AppConstants.ToastConstant.NO_NEED_SELECT_PAYMENT_MODE, mContext);
                             return;
                         }else{
                             payment_mode = "cashondelivery";
                         }
                     }else{
-                        if(!bCash && !bOnline && !bPayTM ){             //!bMobiKwik
+                        if(!bCash && !bOnline && !bPayTM && !bCitrus){             //!bMobiKwik
                             UtilityMethods.customToast(AppConstants.ToastConstant.SELECT_PAYMENT_MODE, mContext);
                             return;
                         }
@@ -706,58 +570,25 @@ public class ReviewOrderAndPay extends BaseActivity
                     /*end here*/
 
 
-
-
-                   /* if(!bCash && !bOnline && !bPayTM ){             //!bMobiKwik
-						UtilityMethods.customToast(AppConstants.ToastConstant.SELECT_PAYMENT_MODE, mContext);
-						return;
-					}else*/
-
 					//in case user click once but server timed out occured then btn should disable for next time.
 					button_pay.setEnabled(false);
 					button_pay.setVisibility(View.GONE);
 
-//					if (!bCash && !bOnline) {
-//						UtilityMethods.customToast(ToastConstant.SELECT_PAYMENT_MODE, mContext);
-//						return;
-//					}
-
-
 						if(bPayTM){
 							payment_mode="paytm_cc";
-							//try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_PAYTM);}catch(Exception e){}
 						}else if (bOnline) {
 							payment_mode = "payucheckout_shared";
-							//try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_PAYU);}catch(Exception e){}
 						} else if (bCash) {
 							payment_mode = "cashondelivery";
-							//try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_CASH_ON_DELIVERY);}catch(Exception e){}
-						}
+						}else if(bCitrus){
+                            payment_mode = "citrus_pay";
+                        }
 
-
-
-//				else if(bPayTM){
-//					payment_mode="paytm";
-//				}
-//				else if(bMobiKwik){
-//					payment_mode="mobikwik";
-//				}
 
 					showDialog();
 					OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 					String shipping = orderReviewBean.getShipping().toString();
 					String billing = orderReviewBean.getBilling().toString();
-
-//					String url;
-//					try {
-//						url = UrlsConstants.FINAL_CHECKOUT + URLEncoder.encode(shipping, "UTF-8") + "&billing=" + URLEncoder.encode(billing, "UTF-8") + "&userid=" + MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId() + "&timeslot=" + orderReviewBean.getTimeSlot() + "&date=" + orderReviewBean.getDate() + "&payment_method=" + payment_mode + "&shipping_method=tablerate_bestway";
-
-//						url = UrlsConstants.FINAL_CHECKOUT + URLEncoder.encode(shipping, "UTF-8") + "&billing=" +
-//								URLEncoder.encode(billing, "UTF-8") + "&userid=" + MySharedPrefs.INSTANCE.getUserId() +
-//								"&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId() + "&timeslot=" + orderReviewBean.getTimeSlot() +
-//								"&date=" + orderReviewBean.getDate() + "&payment_method=" + payment_mode + "&shipping_method=tablerate_bestway";
-//						System.out.println("=URL OUTPUT==" + url);
-//						myApi.reqFinalCheckout(url.replaceAll(" ", "%20"));
 
 					try {
 						////////////////POST/////////////
@@ -816,33 +647,7 @@ public class ReviewOrderAndPay extends BaseActivity
 				}
 			});
 
-		/*if(Float.parseFloat(orderReviewBean.getShipping_ammount())==0)
-		tr_shipping.setVisibility(View.GONE);
-		if(Float.parseFloat(orderReviewBean.getDiscount_amount())==0)
-		tr_discount.setVisibility(View.GONE);*/
-
-		/*
-		 * float total = Float.parseFloat(finalCheckoutBean.getGrandTotal()) +
-		 * Float.parseFloat(shipping_amt.getText().toString()) +
-		 * Float.parseFloat(tax.getText().toString());
-		 */
-
-//			float str1 = Float.parseFloat(orderReviewBean.getGrandTotal());
-//			float str2 = Float.parseFloat(orderReviewBean.getShipping_ammount());
-//			float str3 = Float.parseFloat(orderReviewBean.getDiscount_amount());
-
 			total = Float.parseFloat(orderReviewBean.getGrandTotal());
-//			+ Float.parseFloat(orderReviewBean.getShipping_ammount()) + Float.parseFloat(orderReviewBean.getDiscount_amount());
-
-
-//		tvSubTotal.setText("Rs. "+String.format("%.2f",Float.parseFloat(orderReviewBean.getGrandTotal())));
-//		tvShipping.setText("Rs. "+String.format("%.2f",Float.parseFloat(orderReviewBean.getShipping_ammount())));
-
-//		tvYouSaved.setText("Rs. "+String.format("%.2f",Float.parseFloat(orderReviewBean.getSaving())));
-//		tvYouSaved.setText("Rs. "+orderReviewBean.getSaving());
-//		tvYouSaved.setText("Rs. "+String.format("%.2f",Float.parseFloat(orderReviewBean.getDiscount_amount())));
-//		tvYouPay.setText("Rs. "+String.format("%.2f",Float.parseFloat(String.valueOf(total))));
-//		tvDiscountReview.setText("Rs. "+String.format("%.2f",Float.parseFloat(orderReviewBean.getDiscount_amount())));
 
 			initHeader(findViewById(R.id.app_bar_header), true, "Payment Method");
 			initFooter(findViewById(R.id.footer), 4, 3);
@@ -897,18 +702,10 @@ public class ReviewOrderAndPay extends BaseActivity
 		}
 	}
 
-	String cardNumber;
-	String expiryMonth;
-	String expiryYear;
-	String nameOnCard;
-	String cvv;
-	Payment payment;
-	Payment.Builder builder = new Payment().new Builder();
-
 	private void makePayment(final String orderid) {
 		try {
 
-			if (!bOnline && !bCash && !bPayTM) {
+			if (!bOnline && !bCash && !bPayTM && !bCitrus) {
 				UtilityMethods.customToast(AppConstants.ToastConstant.SELECT_PAYMENT_MODE, mContext);
 				return;
 			} else if (bOnline) {
@@ -933,84 +730,19 @@ public class ReviewOrderAndPay extends BaseActivity
 				params.remove("amount");
 				final double finalAmount = amount;
 
-//				System.out.println("============params================="+params);
-
-           /* String txnId = orderid;
-			String merchant_key =  "yPnUG6";
-			String amout = String.valueOf(total);
-
-			String product_info = "GrocerMax shopping";
-			String merchant_salt = "jJ0mWFKl";
-			String u_fname = "USER_FNAME";
-			String u_email = MySharedPrefs.INSTANCE.getUserEmail();
-
-
-
-            final double finalAmount = amount;
-            StringBuilder checkSumStr = new StringBuilder();
-		    MessageDigest digest=null;
-
-		    String hash = "";
-		    try {
-		        digest = MessageDigest.getInstance("SHA-512");
-		        checkSumStr.append(merchant_key);
-		        checkSumStr.append("|");
-
-		        checkSumStr.append(txnId);
-		        checkSumStr.append("|");
-		        checkSumStr.append(amout);
-		        checkSumStr.append("|");
-		        checkSumStr.append(product_info);
-
-		        checkSumStr.append("|");
-		        checkSumStr.append(u_fname);
-		        checkSumStr.append("|");
-		        checkSumStr.append(u_email);
-
-		        checkSumStr.append("|||||||||||"); // 11 times |
-		        checkSumStr.append(merchant_salt);
-		        digest.update(checkSumStr.toString().getBytes());
-		        hash = bytesToHexString(digest.digest());
-		    }
-
-		    catch(Exception e)
-		    {
-		    	e.printStackTrace();
-		    }
-		    PayU.paymentHash = hash;
-
-		    PayU.getInstance(ReviewOrderAndPay.this).startPaymentProcess(finalAmount, params);*/
-
 				new AsyncTask<Void, Void, Void>() {
 					@Override
 					protected Void doInBackground(Void... voids) {
 						try {
-                       /* HttpClient httpclient = new DefaultHttpClient();
-
-                        HttpPost httppost = new HttpPost("http://uat.grocermax.com/webservice/new_services/getmobilehash");
-                        List<NameValuePair> postParams = new ArrayList<NameValuePair>();
-                        postParams.add(new BasicNameValuePair("txnid", params.get("txnid")));
-                        postParams.add(new BasicNameValuePair("amount", String.valueOf(finalAmount)));
-                        postParams.add(new BasicNameValuePair("user_credentials",MySharedPrefs.INSTANCE.getUserEmail()));
-
-                        httppost.setEntity(new UrlEncodedFormEntity(postParams));
-                        JSONObject response = new JSONObject(EntityUtils.toString(httpclient.execute(httppost).getEntity()));*/
 
 							HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
 							HttpGet httpGet = new HttpGet(UrlsConstants.GET_MOBILE_HASH + "txnid=" + orderid + "&amount=" + String.valueOf(finalAmount) + "&email=" + MySharedPrefs.INSTANCE.getUserEmail() + "&fname=" + MySharedPrefs.INSTANCE.getFirstName().replaceAll(" ", "%20"));
-//							HttpGet httpGet = new HttpGet(UrlsConstants.GET_MOBILE_HASH + "txnid=" + orderid + "&amount=" + String.valueOf(finalAmount) + "&email=" + MySharedPrefs.INSTANCE.getUserEmail() + "&fname=" + MySharedPrefs.INSTANCE.getUserEmail());
 //							System.out.println("genrate hash service = "+UrlsConstants.GET_MOBILE_HASH + "txnid=" + orderid + "&amount=" + String.valueOf(finalAmount) + "&email=" + MySharedPrefs.INSTANCE.getUserEmail() + "&fname=" + MySharedPrefs.INSTANCE.getFirstName().replace(" ", "%20"));
 							httpGet.setHeader("Content-Type", "application/json");
 							HttpResponse response1 = null;
-            			/*try {*/
 							response1 = client.execute(httpGet);
 							HttpEntity resEntity = response1.getEntity();
 							JSONObject response = new JSONObject(EntityUtils.toString(resEntity));
-            			/*} catch (ClientProtocolException e) {
-            				e.printStackTrace();
-            			} catch (IOException e) {
-            				e.printStackTrace();
-            			}*/
 
 							// set the hash values here.
 
@@ -1028,36 +760,18 @@ public class ReviewOrderAndPay extends BaseActivity
 								}
 
 							}
-//                        if(mProgressDialog != null && mProgressDialog.isShowing())
-//                            mProgressDialog.dismiss();
 
 							PayU.getInstance(ReviewOrderAndPay.this).startPaymentProcess(finalAmount, params);
-//                            PayU.getInstance(MainActivity.this).startPaymentProcess(finalAmount, params, new PayU.PaymentMode[]{PayU.PaymentMode.CC, PayU.PaymentMode.NB});
 
 						} catch (UnsupportedEncodingException e) {
-//                        if(mProgressDialog != null && mProgressDialog.isShowing())
-//                            mProgressDialog.dismiss();
 							new GrocermaxBaseException("ReviewOrderAndPay", "doInBackground", e.getMessage(), GrocermaxBaseException.UnsupportedEncodingException, "nodetail");
-//                        Toast.makeText(ReviewOrderAndPay.this, e.getMessage(), Toast.LENGTH_LONG).show();
 						} catch (ClientProtocolException e) {
-//                        if(mProgressDialog != null && mProgressDialog.isShowing())
-//                            mProgressDialog.dismiss();
 							new GrocermaxBaseException("ReviewOrderAndPay", "doInBackground", e.getMessage(), GrocermaxBaseException.CLIENT_PROTOCOL_EXCEPTION, "nodetail");
-//                        Toast.makeText(ReviewOrderAndPay.this, e.getMessage(), Toast.LENGTH_LONG).show();
 						} catch (JSONException e) {
-//                        if(mProgressDialog != null && mProgressDialog.isShowing())
-//                            mProgressDialog.dismiss();
 							new GrocermaxBaseException("ReviewOrderAndPay", "doInBackground", e.getMessage(), GrocermaxBaseException.JSON_EXCEPTION, "nodetail");
 						} catch (IOException e) {
-//                        if(mProgressDialog != null && mProgressDialog.isShowing())
-//                            mProgressDialog.dismiss();
 							new GrocermaxBaseException("ReviewOrderAndPay", "doInBackground", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
-						} /*catch (PackageManager.NameNotFoundException e) {
-                        e.printStackTrace();
-
-                        if(mProgressDialog != null && mProgressDialog.isShowing())
-                            mProgressDialog.dismiss();
-                    }*/
+						}
 						return null;
 					}
 				}.execute();
@@ -1072,22 +786,7 @@ public class ReviewOrderAndPay extends BaseActivity
 		}
 
 	}
-	private String bytesToHexString(byte[] bytes) {
-		try {
-			StringBuffer sb = new StringBuffer();
-			for (int i = 0; i < bytes.length; i++) {
-				String hex = Integer.toHexString(0xFF & bytes[i]);
-				if (hex.length() == 1) {
-					sb.append('0');
-				}
-				sb.append(hex);
-			}
-			return sb.toString();
-		}catch(Exception e){
-			new GrocermaxBaseException("ReviewOrderAndPay", "bytesToHexString", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
-		}
-		return "";
-	}
+
 
     public void setTotolAfterWalletSelectUnSelect(double total_amount){
         t_amount=total_amount;
@@ -1136,20 +835,10 @@ public class ReviewOrderAndPay extends BaseActivity
 			if (requestCode == PayU.RESULT) {
 				if(resultCode == RESULT_OK) {
 					//success
-					System.out.println("======0000==========="+data);
-//					if(data != null )                     //success
-//					{
-//						System.out.println("======1111==========="+data);
-
-					//  Toast.makeText(this, "Success" + data.getStringExtra("result"), Toast.LENGTH_LONG).show();
 					dismissDialog();
 					MySharedPrefs.INSTANCE.putTotalItem("0");
 					MySharedPrefs.INSTANCE.clearQuote();
-					/*Intent intent = new Intent(ReviewOrderAndPay.this, HomeScreen.class);
 
-					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(intent);
-					finish();*/
 					Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
 					Bundle call_bundle = new Bundle();
 					call_bundle.putString("orderid", order_id);
@@ -1160,29 +849,119 @@ public class ReviewOrderAndPay extends BaseActivity
 //					}
 				}
 				if (resultCode == RESULT_CANCELED) {          //unsuccess payu
-					//failed
-//                if(data != null)
-//                {
-					// Toast.makeText(this, "Failed-ishan" + data.getStringExtra("result"), Toast.LENGTH_LONG).show();
 
 					showDialog();
-//					myApi.reqSetOrderStatus(UrlsConstants.SET_ORDER_STATUS+order_db_id);
 
 					String url = UrlsConstants.SET_ORDER_STATUS;
 					JSONObject jsonObject = new JSONObject();
 					jsonObject.put("status","canceled");
 					jsonObject.put("orderid",order_id);
 					jsonObject.put("orderdbid",order_db_id);
-//					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME, AppConstants.ToastConstant.VERSION);
 					myApi.reqSetOrderStatus(url, jsonObject);
-
-//                }
 				}
 			}
+            /*handle response from citrus payment*/
+            if(requestCode==10000){
+
+                String url = UrlsConstants.SET_ORDER_STATUS;
+                JSONObject jsonObject = new JSONObject();
+
+                if(resultCode==RESULT_OK)
+                jsonObject.put("status","success");
+                else
+                jsonObject.put("status","canceled");
+
+                jsonObject.put("orderid",order_id);
+                jsonObject.put("orderdbid",order_db_id);
+                myApi.reqSetOrderStatusForCitrus(url, jsonObject);
+
+                MySharedPrefs.INSTANCE.putTotalItem("0");
+                MySharedPrefs.INSTANCE.clearQuote();
+                Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
+                Bundle call_bundle = new Bundle();
+                call_bundle.putString("orderid", order_id);
+
+                if(resultCode==RESULT_OK)
+                call_bundle.putString("status", "success");
+                else
+                call_bundle.putString("status", "fail");
+
+                intent.putExtras(call_bundle);
+                startActivity(intent);
+                finish();
+
+
+
+
+
+
+                /*if(resultCode==RESULT_OK){
+                    String url = UrlsConstants.SET_ORDER_STATUS;
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("status","canceled");
+                    jsonObject.put("orderid",order_id);
+                    jsonObject.put("orderdbid",order_db_id);
+                    myApi.reqSetOrderStatusForCitrus(url, jsonObject);
+
+                    MySharedPrefs.INSTANCE.putTotalItem("0");
+                    MySharedPrefs.INSTANCE.clearQuote();
+                    Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
+                    Bundle call_bundle = new Bundle();
+                    call_bundle.putString("orderid", order_id);
+                    call_bundle.putString("status", "success");
+                    intent.putExtras(call_bundle);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    String url = UrlsConstants.SET_ORDER_STATUS;
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("status","canceled");
+                    jsonObject.put("orderid",order_id);
+                    jsonObject.put("orderdbid",order_db_id);
+                    myApi.reqSetOrderStatusForCitrus(url, jsonObject);
+
+                    MySharedPrefs.INSTANCE.putTotalItem("0");
+                    MySharedPrefs.INSTANCE.clearQuote();
+                    Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
+                    Bundle call_bundle = new Bundle();
+                    call_bundle.putString("orderid", order_id);
+                    call_bundle.putString("status", "fail");
+                    intent.putExtras(call_bundle);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
+
+                }*/
+            }
 		}catch(Exception e){
 			new GrocermaxBaseException("ReviewOrderAndPay","onActivityResult",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
+
+
+   public void citrusPayment(){
+      /* CitrusFlowManager.initCitrusConfig("q4qz4sa1wq-signup", "915112088057be17d992162f88eeb7f9",
+               "q4qz4sa1wq-signin", "dca4f2179ade2454aaee0194be186774",
+               getResources().getColor(R.color.citrus_white), ReviewOrderAndPay.this,
+               Environment.SANDBOX, "q4qz4sa1wq",
+               "http://staging.grocermax.com/citrus.php",
+               "http://staging.grocermax.com/returncitrus.php");*/
+
+
+       CitrusFlowManager.initCitrusConfig("8x5hn2kbpc-signup","2b591f683aa3cf1426fd2a1103c5d845",
+                                          "8x5hn2kbpc-signin","2996366165262aeb051533c6f7a78230",
+                                           getResources().getColor(R.color.citrus_white), ReviewOrderAndPay.this,
+                                           Environment.SANDBOX, "8x5hn2kbpc",
+                                           "https://salty-plateau-1529.herokuapp.com/billGenerator.sandbox.php",
+                                           "https://salty-plateau-1529.herokuapp.com/redirectURL.sandbox.php");
+
+
+
+       String amount=tvTotal.getText().toString().replace("Rs.","");
+
+       CitrusFlowManager.startShoppingFlow(ReviewOrderAndPay.this,"grocermaxtesting@gmail.com","8888888888",amount);
+   }
+
 
 
 	@Override
@@ -1206,16 +985,6 @@ public class ReviewOrderAndPay extends BaseActivity
 					if(payment_mode.equals("cashondelivery"))
 					{
 
-//						Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
-//						Bundle call_bundle = new Bundle();
-//						call_bundle.putString("orderid", finalCheckoutBean.getOrderId());
-//						call_bundle.putString("status", "success");
-
-//						call_bundle.putString("shippingamount", orderReviewBean.getShipping_ammount());
-//						call_bundle.putString("state", MySharedPrefs.INSTANCE.getSelectedState());
-//						call_bundle.putString("grandtotal", orderReviewBean.getGrandTotal());
-//						call_bundle.putString("taxamount", orderReviewBean.getTax_ammount());
-
 						//////code added by Ishan//////////
 						handler.removeCallbacksAndMessages(null);
 						handler.getLooper().quit();
@@ -1229,12 +998,6 @@ public class ReviewOrderAndPay extends BaseActivity
 						call_bundle.putString("orderid", finalCheckoutBean.getOrderId());
 						call_bundle.putString("status", "success");
 						intent.putExtras(call_bundle);
-
-//						orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
-//						call_bundle.putString("shippingamount", orderReviewBean.getShipping_ammount());
-//						call_bundle.putString("state", MySharedPrefs.INSTANCE.getSelectedState());
-//						call_bundle.putString("grandtotal", orderReviewBean.getGrandTotal());
-//						call_bundle.putString("taxamount", orderReviewBean.getTax_ammount());
 
 						startActivity(intent);
 						finish();
@@ -1250,37 +1013,14 @@ public class ReviewOrderAndPay extends BaseActivity
 						order_id=finalCheckoutBean.getOrderId();
 						order_db_id=finalCheckoutBean.getOrderDBID();
 						payMobiKwikWallet(order_id);
-					}
+					}else if(payment_mode.equalsIgnoreCase("citrus_pay")){
+                        order_id=finalCheckoutBean.getOrderId();
+                        order_db_id=finalCheckoutBean.getOrderDBID();
+                        citrusPayment();
+                    }
 				}
 			}
 
-
-//		if (bundle.getString("ACTION").equals(MyReceiverActions.GET_ORDER_STATUS)) {
-//			String response= (String) bundle.getSerializable(ConnectionService.RESPONSE);
-//			try {
-//				JSONObject resJsonObject=new JSONObject(response);
-//				if(resJsonObject.getString("flag").equals("1"))
-//				{
-//					if(resJsonObject.getString("Result").equals("payuprocess"))
-//					{
-//						showDialog();
-//						myApi.reqSetOrderStatus(UrlsConstants.SET_ORDER_STATUS+order_db_id);
-//					}
-//					else
-//					{
-//						dismissDialog();
-//						MySharedPrefs.INSTANCE.putTotalItem("0");
-//						MySharedPrefs.INSTANCE.clearQuote();
-//						Intent intent = new Intent(ReviewOrderAndPay.this, HomeScreen.class);
-//						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//						startActivity(intent);
-//						finish();
-//					}
-//				}
-//			} catch (Exception e) {
-//				// TODO: handle exception
-//			}
-//		}
 			if (bundle.getString("ACTION").equals(MyReceiverActions.SET_ORDER_STATUS)) {                     //FAILURE
 				String response= (String) bundle.getSerializable(ConnectionService.RESPONSE);
 
@@ -1294,7 +1034,6 @@ public class ReviewOrderAndPay extends BaseActivity
 					Bundle call_bundle = new Bundle();
 					call_bundle.putString("orderid", order_id);
 					call_bundle.putString("status", "fail");
-//					call_bundle.putString("status", "success");
 					intent.putExtras(call_bundle);
 					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);

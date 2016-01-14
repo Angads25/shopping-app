@@ -8,8 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.citrus.sdk.Environment;
-import com.citrus.sdk.ui.utils.CitrusFlowManager;
 import com.flurry.android.FlurryAgent;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
@@ -45,17 +43,21 @@ public class WalletActivity extends BaseActivity {
         tv_transactions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               /* Intent i=new Intent(WalletActivity.this,WalletTransaction.class);
+                Intent i=new Intent(WalletActivity.this,WalletTransaction.class);
                 i.putExtra("wallet_amount",amount);
-                startActivity(i);*/
+                startActivity(i);
 
-               CitrusFlowManager.initCitrusConfig("q4qz4sa1wq-signup",
-                        "915112088057be17d992162f88eeb7f9", "q4qz4sa1wq-signin",
-                        "dca4f2179ade2454aaee0194be186774",
-                        getResources().getColor(R.color.white), WalletActivity.this,
-                        Environment.SANDBOX, "q4qz4sa1wq", "http://staging.grocermax.com/citrus.php", "http://staging.grocermax.com/returncitrus.php");
+             /*  CitrusFlowManager.initCitrusConfig("q4qz4sa1wq-signup",
+                       "915112088057be17d992162f88eeb7f9", "q4qz4sa1wq-signin",
+                       "dca4f2179ade2454aaee0194be186774",
+                       getResources().getColor(R.color.white), WalletActivity.this,
+                       Environment.SANDBOX, "q4qz4sa1wq", "http://staging.grocermax.com/citrus.php", "http://staging.grocermax.com/returncitrus.php");*/
 
-                CitrusFlowManager.startShoppingFlow(WalletActivity.this,"pradeep.gupta@grocermax.com","9540011301","1.00");
+
+                /*CitrusFlowManager.initCitrusConfig("8x5hn2kbpc-signup","2b591f683aa3cf1426fd2a1103c5d845","8x5hn2kbpc-signin","2996366165262aeb051533c6f7a78230",
+                                                   getResources().getColor(R.color.citrus_white), WalletActivity.this, Environment.SANDBOX, "8x5hn2kbpc", "https://salty-plateau-1529.herokuapp.com/billGenerator.sandbox.php", "https://salty-plateau-1529.herokuapp.com/redirectURL.sandbox.php");
+*/
+                /*CitrusFlowManager.startShoppingFlow(WalletActivity.this,"grocermaxtesting@gmail.com","8888888888","1.00");*/
 
 
 
@@ -81,24 +83,6 @@ public class WalletActivity extends BaseActivity {
                 }else{
                     Toast.makeText(WalletActivity.this,"Nothing to share",Toast.LENGTH_SHORT).show();
                 }
-
-                /*for testint citrus library*/
-
-              /*  com.citrus.sdk.ui.utils.CitrusFlowManager.initCitrusConfig("test-signup",
-                        "c78ec84e389814a05d3ae46546d16d2e", "test-signin",
-                        "52f7e15efd4208cf5345dd554443fd99",
-                        getResources().getColor(R.color.white),YourActivity.this,
-                        Environment.SANDBOX,”prepaid”, sandboxBillGeneratorURL , sandboxReturnURL);*/
-
-
-                
-                /*----------------------*/
-
-
-
-
-
-
 
             }
         });
@@ -179,4 +163,12 @@ public class WalletActivity extends BaseActivity {
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        System.out.println("request code="+requestCode);
+        System.out.println("result code="+resultCode);
+
+    }
 }

@@ -1,9 +1,6 @@
 package com.rgretail.grocermax.api;
 
 import com.rgretail.grocermax.BaseActivity;
-import com.rgretail.grocermax.MyApp;
-import com.rgretail.grocermax.MyApplication;
-import com.rgretail.grocermax.hotoffers.HomeScreen;
 
 /**
  * For Holding The Receiver Actions
@@ -75,6 +72,7 @@ public interface MyReceiverActions {
 	String FINAL_CHECKOUT = PKG_NAME + ".final_checkout";
 	String GET_ORDER_STATUS = PKG_NAME + ".get_order_status";
 	String SET_ORDER_STATUS = PKG_NAME + ".set_order_status";
+    String SET_ORDER_STATUS_CITRUS = PKG_NAME + ".set_order_status_citrus";
 
 	String SET_PAYTM_ORDER_STATUS_SUCCESS = PKG_NAME + ".set_order_status_paytm_success";
 

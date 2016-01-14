@@ -865,6 +865,24 @@ public class MyApi {
 		}
 	}
 
+    public void reqSetOrderStatusForCitrus(String url,JSONObject jsonObject) {                                            //using in failed condition of payu and paytm
+        try{
+            Intent reqIntent = new Intent(m_context, ConnectionService.class);
+            reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.SET_ORDER_STATUS_CITRUS);
+            reqIntent.putExtra(ConnectionService.URL, url);
+            if(jsonObject.length() > 0){
+                reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "POST");
+                reqIntent.putExtra(ConnectionService.JSON_STRING, String.valueOf(jsonObject));
+            }else{
+                reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+            }
+            reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.GET_SET_ORDERSTATUS);
+            m_context.startService(reqIntent);
+        }catch(Exception e){
+            new GrocermaxBaseException("MyApi","reqSetOrderStatus",e.getMessage(), GrocermaxBaseException.EXCEPTION,url);
+        }
+    }
+
 	public void reqSetOrderStatusPaytmSuccess(String url) {
 		try{
 			Intent reqIntent = new Intent(m_context, ConnectionService.class);

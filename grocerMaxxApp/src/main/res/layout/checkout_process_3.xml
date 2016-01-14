@@ -217,8 +217,6 @@
                             android:layout_height="30dp"
                             android:layout_alignParentRight="true"
                             android:src="@drawable/chkbox_unselected"/>
-
-
                     </RelativeLayout>
                     <View
                         android:layout_width="match_parent"
@@ -293,6 +291,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:visibility="gone"
                         android:background="@color/lighter_gray"></View>
 
                     <RelativeLayout
@@ -317,6 +316,40 @@
                             />
                         <ImageView
                             android:id="@+id/iv_paytm"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/chkbox_unselected" />
+
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:visibility="visible"
+                        android:background="@color/lighter_gray"></View>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/rl_citrus"
+                        android:background="@color/white"
+                        android:padding="8dp"
+                        android:layout_above="@+id/btn_select_delivery_details"
+                        >
+                        //TODO, replace this with imageView with paytm image
+
+                        <ImageView
+                            android:id="@+id/btn_cirus"
+                            android:layout_width="100dp"
+                            android:layout_height="30dp"
+                            android:textColor="@color/pallete_black"
+                            android:layout_alignParentLeft="true"
+                            android:src="@drawable/citrus_icon"
+                            />
+                        <ImageView
+                            android:id="@+id/iv_citrus"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_alignParentRight="true"
