@@ -581,7 +581,7 @@ public class ReviewOrderAndPay extends BaseActivity
 						} else if (bCash) {
 							payment_mode = "cashondelivery";
 						}else if(bCitrus){
-                            payment_mode = "citrus_pay";
+                            payment_mode = "moto"; // for citrus pay
                         }
 
 
@@ -940,20 +940,20 @@ public class ReviewOrderAndPay extends BaseActivity
 
 
    public void citrusPayment(){
-      /* CitrusFlowManager.initCitrusConfig("q4qz4sa1wq-signup", "915112088057be17d992162f88eeb7f9",
+       CitrusFlowManager.initCitrusConfig("q4qz4sa1wq-signup", "915112088057be17d992162f88eeb7f9",
                "q4qz4sa1wq-signin", "dca4f2179ade2454aaee0194be186774",
                getResources().getColor(R.color.citrus_white), ReviewOrderAndPay.this,
                Environment.SANDBOX, "q4qz4sa1wq",
                "http://staging.grocermax.com/citrus.php",
-               "http://staging.grocermax.com/returncitrus.php");*/
+               "http://staging.grocermax.com/returncitrus.php");
 
 
-       CitrusFlowManager.initCitrusConfig("8x5hn2kbpc-signup","2b591f683aa3cf1426fd2a1103c5d845",
+      /* CitrusFlowManager.initCitrusConfig("8x5hn2kbpc-signup","2b591f683aa3cf1426fd2a1103c5d845",
                                           "8x5hn2kbpc-signin","2996366165262aeb051533c6f7a78230",
                                            getResources().getColor(R.color.citrus_white), ReviewOrderAndPay.this,
                                            Environment.SANDBOX, "8x5hn2kbpc",
                                            "https://salty-plateau-1529.herokuapp.com/billGenerator.sandbox.php",
-                                           "https://salty-plateau-1529.herokuapp.com/redirectURL.sandbox.php");
+                                           "https://salty-plateau-1529.herokuapp.com/redirectURL.sandbox.php");*/
 
 
 
@@ -1008,12 +1008,13 @@ public class ReviewOrderAndPay extends BaseActivity
 					}else if(payment_mode.equalsIgnoreCase("paytm_cc")){
 						order_id=finalCheckoutBean.getOrderId();
 						order_db_id=finalCheckoutBean.getOrderDBID();
-						payTM(order_id);
+						//payTM(order_id);
+                        citrusPayment();
 					}else if(payment_mode.equalsIgnoreCase("wallet")){     //mobikwik
 						order_id=finalCheckoutBean.getOrderId();
 						order_db_id=finalCheckoutBean.getOrderDBID();
 						payMobiKwikWallet(order_id);
-					}else if(payment_mode.equalsIgnoreCase("citrus_pay")){
+					}else if(payment_mode.equalsIgnoreCase("moto")){
                         order_id=finalCheckoutBean.getOrderId();
                         order_db_id=finalCheckoutBean.getOrderDBID();
                         citrusPayment();
