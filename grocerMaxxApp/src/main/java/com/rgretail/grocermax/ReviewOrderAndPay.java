@@ -944,8 +944,8 @@ public class ReviewOrderAndPay extends BaseActivity
                "q4qz4sa1wq-signin", "dca4f2179ade2454aaee0194be186774",
                getResources().getColor(R.color.citrus_white), ReviewOrderAndPay.this,
                Environment.SANDBOX, "q4qz4sa1wq",
-               "http://staging.grocermax.com/citrus.php",
-               "http://staging.grocermax.com/returncitrus.php");
+               "http://multistore.grocermax.com/tools/citrus.php",
+               "http://multistore.grocermax.com/tools/returncitrus.php");
 
 
       /* CitrusFlowManager.initCitrusConfig("8x5hn2kbpc-signup","2b591f683aa3cf1426fd2a1103c5d845",
