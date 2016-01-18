@@ -84,17 +84,18 @@ public class GCMIntentService extends GcmListenerService {
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
+
         NotificationCompat.BigPictureStyle notiStyle = new NotificationCompat.BigPictureStyle();
         //notiStyle.setBigContentTitle(strName);
         notiStyle.setSummaryText(message);
+            Bitmap remote_picture = null;
+            try {
+                remote_picture = BitmapFactory.decodeStream((InputStream) new URL(strImageUrl).getContent());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            notiStyle.bigPicture(remote_picture);
 
-        Bitmap remote_picture =  null;
-        try {
-            remote_picture = BitmapFactory.decodeStream((InputStream) new URL(strImageUrl).getContent());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        notiStyle.bigPicture(remote_picture);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.grocemax_cloud)
@@ -103,8 +104,12 @@ public class GCMIntentService extends GcmListenerService {
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
-                .setStyle(notiStyle)
+                //.setStyle(notiStyle)
                 .setContentIntent(pendingIntent);
+
+        if(!strImageUrl.equals("")) {
+           notificationBuilder.setStyle(notiStyle);
+        }
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
