@@ -269,6 +269,12 @@ public class ReviewOrderAndPay extends BaseActivity
 					// TODO Auto-generated method stub
 				//	try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_CODE_APPLIED);}catch(Exception e){}
 					if (etCouponCode.getText().toString().length() > 0) {
+
+                        /*  capturing event when coupon is applied*/
+                        try{UtilityMethods.clickCapture(mContext,"Coupon Apply","","Coupon-"+etCouponCode.getText().toString(),"",MySharedPrefs.INSTANCE.getSelectedCity());
+                        }catch(Exception e){}
+                        /*----------------------------------------*/
+
 						// need to change the keyboardVisibility here
 						getKeyBoardVisibility();
 						if (keyboardVisibility)
@@ -287,6 +293,12 @@ public class ReviewOrderAndPay extends BaseActivity
 					// TODO Auto-generated method stub
 				//	try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_REMOVE_CODE);}catch(Exception e){}
 					if (etCouponCode.getText().toString().length() > 0) {
+
+                        /*  capturing event when coupon is removed*/
+                        try{UtilityMethods.clickCapture(mContext,"Coupon Remove","","Coupon-"+etCouponCode.getText().toString(),"",MySharedPrefs.INSTANCE.getSelectedCity());
+                        }catch(Exception e){}
+                        /*----------------------------------------*/
+
 						new Coupon(mContext, "Remove").execute(strRemoveCoupon + etCouponCode.getText().toString());
 					} else {
 						UtilityMethods.customToast(AppConstants.ToastConstant.SELECT_COUPON_CODE, mContext);
