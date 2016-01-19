@@ -42,6 +42,7 @@ public class ResultFragment extends Fragment {
     LinearLayout walletAvailableLayout;
     Button retryButton;
     Button dismissButton;
+    Button retutn_button;
     boolean success = false;
     ResultModel resultModel;
 
@@ -88,6 +89,19 @@ public class ResultFragment extends Fragment {
         walletAvailableLayout = (LinearLayout) layout.findViewById(R.id.wallet_available_layout);
         retryButton = (Button) layout.findViewById(R.id.retry_transaction_button);
         dismissButton = (Button) layout.findViewById(R.id.dismiss_transaction_button);
+
+        /*Added by Ishan to get the control in application*/
+        retutn_button = (Button) layout.findViewById(R.id.retutn_button);
+        retutn_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((CitrusUIActivity) getActivity()).onBackPressed();
+
+
+            }
+        });
+        /*--------------------------------------------------*/
+
         retryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,6 +130,7 @@ public class ResultFragment extends Fragment {
                     transactionIdText.setText(resultModel.getTransactionResponse().getTransactionDetails
                             ().getTransactionId());
                     walletLoggedIn();
+
                 }else{
                     paymentResultImage.setImageResource(R.drawable.img_cross_red);
                     paymentResultText.setText(getString(R.string.text_payment_failure));

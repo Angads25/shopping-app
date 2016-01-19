@@ -320,7 +320,7 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 		super.onBackPressed();
 		try {
 			Intent intent = new Intent(mContext, HomeScreen.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 			finish();
 

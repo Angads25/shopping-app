@@ -140,6 +140,7 @@ public class ShopByDealItemDetailFragment extends Fragment {
         });
         tabs.setViewPager(viewPager);
 
+        if(keyList.size()>0)
         senDataToGA(AppConstants.strTitleHotDeal + "-" + keyList.get(0));
         return view;
     }

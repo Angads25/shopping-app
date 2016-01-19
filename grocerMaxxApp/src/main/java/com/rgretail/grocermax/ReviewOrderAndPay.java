@@ -7,6 +7,7 @@ import android.content.pm.ResolveInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,8 +15,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.citrus.sdk.Constants;
 import com.citrus.sdk.Environment;
+import com.citrus.sdk.TransactionResponse;
+import com.citrus.sdk.ui.fragments.ResultFragment;
 import com.citrus.sdk.ui.utils.CitrusFlowManager;
+import com.citrus.sdk.ui.utils.ResultModel;
 import com.flurry.android.FlurryAgent;
 import com.payu.sdk.PayU;
 import com.rgretail.grocermax.api.ConnectionService;
@@ -89,6 +94,7 @@ public class ReviewOrderAndPay extends BaseActivity
     boolean wallet_checked_status=false;
     View v_my_wallet;
     double t_amount;
+    public static final String TAG = "ReviewAndPay-Citrus";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -861,19 +867,73 @@ public class ReviewOrderAndPay extends BaseActivity
 				}
 			}
             /*handle response from citrus payment*/
-            if(requestCode==10000){
+            if(requestCode == Constants.REQUEST_CODE_PAYMENT ) {
+                int success_code=1; // 1 for payment fail
+                if (resultCode == RESULT_OK && data != null) {
 
+                    TransactionResponse transactionResponse=null;
+                    ResultModel resultModel=null;
+
+                    try {
+                        // You will get data here if transaction flow is started through pay options other than wallet
+                        transactionResponse = data.getParcelableExtra(Constants.INTENT_EXTRA_TRANSACTION_RESPONSE);
+                        // You will get data here if transaction flow is started through wallet
+                        resultModel = data.getParcelableExtra(ResultFragment.ARG_RESULT);
+                    } catch (Exception e) {
+                        String url = UrlsConstants.SET_ORDER_STATUS;
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("status","canceled");
+                        jsonObject.put("orderid",order_id);
+                        jsonObject.put("orderdbid",order_db_id);
+                        myApi.reqSetOrderStatusForCitrus(url, jsonObject);
+
+                        MySharedPrefs.INSTANCE.putTotalItem("0");
+                        MySharedPrefs.INSTANCE.clearQuote();
+                        Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
+                        Bundle call_bundle = new Bundle();
+                        call_bundle.putString("orderid", order_id);
+                        call_bundle.putString("status", "fail");
+                        intent.putExtras(call_bundle);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                    // Check which object is non-null
+                    if (transactionResponse != null && transactionResponse.getJsonResponse() != null) {
+                        // Decide what to do with this data
+                        Log.d(TAG, "transaction response" + transactionResponse.getJsonResponse());
+                        if(transactionResponse.getResponseCode().equals("0"))
+                            success_code=0; //success
+                        else
+                            success_code=1; //fail
+
+                    } else if (resultModel != null && resultModel.getTransactionResponse() != null) {
+                        // Decide what to do with this data
+                        Log.d(TAG, "result response" + resultModel.getTransactionResponse().getTransactionId());
+                        if(resultModel.getTransactionResponse().getResponseCode().equals("0"))
+                            success_code=0;  //success
+                        else
+                            success_code=1;  //fail
+
+
+                    } else {
+                        Log.d(TAG, "Both objects are null!");
+                        success_code=1;  //fail
+                    }
+                }
+
+                /* sending payment response to our server*/
                 String url = UrlsConstants.SET_ORDER_STATUS;
                 JSONObject jsonObject = new JSONObject();
 
-                if(resultCode==RESULT_OK)
-                jsonObject.put("status","success");
+                if(success_code==0)
+                    jsonObject.put("status","success");
                 else
-                jsonObject.put("status","canceled");
+                    jsonObject.put("status","canceled");
 
                 jsonObject.put("orderid",order_id);
                 jsonObject.put("orderdbid",order_db_id);
-                myApi.reqSetOrderStatusForCitrus(url, jsonObject);
+                //myApi.reqSetOrderStatusForCitrus(url, jsonObject);
 
                 MySharedPrefs.INSTANCE.putTotalItem("0");
                 MySharedPrefs.INSTANCE.clearQuote();
@@ -881,71 +941,33 @@ public class ReviewOrderAndPay extends BaseActivity
                 Bundle call_bundle = new Bundle();
                 call_bundle.putString("orderid", order_id);
 
-                if(resultCode==RESULT_OK)
-                call_bundle.putString("status", "success");
+                if(success_code==0)
+                    call_bundle.putString("status", "success");
                 else
-                call_bundle.putString("status", "fail");
+                    call_bundle.putString("status", "fail");
 
                 intent.putExtras(call_bundle);
                 startActivity(intent);
                 finish();
 
-
-
-
-
-
-                /*if(resultCode==RESULT_OK){
-                    String url = UrlsConstants.SET_ORDER_STATUS;
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("status","canceled");
-                    jsonObject.put("orderid",order_id);
-                    jsonObject.put("orderdbid",order_db_id);
-                    myApi.reqSetOrderStatusForCitrus(url, jsonObject);
-
-                    MySharedPrefs.INSTANCE.putTotalItem("0");
-                    MySharedPrefs.INSTANCE.clearQuote();
-                    Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
-                    Bundle call_bundle = new Bundle();
-                    call_bundle.putString("orderid", order_id);
-                    call_bundle.putString("status", "success");
-                    intent.putExtras(call_bundle);
-                    startActivity(intent);
-                    finish();
-                }else{
-                    String url = UrlsConstants.SET_ORDER_STATUS;
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("status","canceled");
-                    jsonObject.put("orderid",order_id);
-                    jsonObject.put("orderdbid",order_db_id);
-                    myApi.reqSetOrderStatusForCitrus(url, jsonObject);
-
-                    MySharedPrefs.INSTANCE.putTotalItem("0");
-                    MySharedPrefs.INSTANCE.clearQuote();
-                    Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
-                    Bundle call_bundle = new Bundle();
-                    call_bundle.putString("orderid", order_id);
-                    call_bundle.putString("status", "fail");
-                    intent.putExtras(call_bundle);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    finish();
-
-                }*/
+                /*----------------End of citrus payment handling --------------------------------------------*/
             }
+
+           /*-------------------------------------------------------*/
 		}catch(Exception e){
 			new GrocermaxBaseException("ReviewOrderAndPay","onActivityResult",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
 
 
-   public void citrusPayment(){
+   public void citrusPayment(String citrus_order_id){
+       System.out.println();
        CitrusFlowManager.initCitrusConfig("q4qz4sa1wq-signup", "915112088057be17d992162f88eeb7f9",
                "q4qz4sa1wq-signin", "dca4f2179ade2454aaee0194be186774",
                getResources().getColor(R.color.citrus_white), ReviewOrderAndPay.this,
                Environment.SANDBOX, "q4qz4sa1wq",
-               "http://multistore.grocermax.com/tools/citrus.php",
-               "http://multistore.grocermax.com/tools/returncitrus.php");
+               "https://multistore.grocermax.com/api/citrus.php?order_id="+citrus_order_id,
+               "https://multistore.grocermax.com/api/returncitrus.php?order_id="+citrus_order_id);
 
 
       /* CitrusFlowManager.initCitrusConfig("8x5hn2kbpc-signup","2b591f683aa3cf1426fd2a1103c5d845",
@@ -1008,8 +1030,8 @@ public class ReviewOrderAndPay extends BaseActivity
 					}else if(payment_mode.equalsIgnoreCase("paytm_cc")){
 						order_id=finalCheckoutBean.getOrderId();
 						order_db_id=finalCheckoutBean.getOrderDBID();
-						//payTM(order_id);
-                        citrusPayment();
+						payTM(order_id);
+                        //citrusPayment();
 					}else if(payment_mode.equalsIgnoreCase("wallet")){     //mobikwik
 						order_id=finalCheckoutBean.getOrderId();
 						order_db_id=finalCheckoutBean.getOrderDBID();
@@ -1017,7 +1039,7 @@ public class ReviewOrderAndPay extends BaseActivity
 					}else if(payment_mode.equalsIgnoreCase("moto")){
                         order_id=finalCheckoutBean.getOrderId();
                         order_db_id=finalCheckoutBean.getOrderDBID();
-                        citrusPayment();
+                        citrusPayment(order_id);
                     }
 				}
 			}
