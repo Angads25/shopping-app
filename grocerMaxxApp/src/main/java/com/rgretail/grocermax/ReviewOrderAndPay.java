@@ -269,7 +269,6 @@ public class ReviewOrderAndPay extends BaseActivity
 					// TODO Auto-generated method stub
 				//	try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_CODE_APPLIED);}catch(Exception e){}
 					if (etCouponCode.getText().toString().length() > 0) {
-
                         /*  capturing event when coupon is applied*/
                         try{UtilityMethods.clickCapture(mContext,"Coupon Apply","","Coupon-"+etCouponCode.getText().toString(),"",MySharedPrefs.INSTANCE.getSelectedCity());
                         }catch(Exception e){}
