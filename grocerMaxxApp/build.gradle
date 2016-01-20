@@ -19,8 +19,8 @@ android {
         applicationId 'com.rgretail.grocermax'
         minSdkVersion 11
         multiDexEnabled true
-        versionCode 5
         versionName '1.4.1'
+        versionCode 6
     }
     buildTypes {
         release {
