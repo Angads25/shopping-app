@@ -90,7 +90,7 @@
             android:layout_marginTop="@dimen/dp16"
             android:orientation="vertical"
             android:visibility="gone"
-            android:layout_below="@id/result_container"
+            android:layout_below="@id/retutn_button"
             >
             <Button
                 android:id="@+id/retry_transaction_button"
@@ -169,6 +169,7 @@
                 android:text="@string/text_setup_your_wallet_now"
                 android:textAllCaps="true"
                 android:textColor="?attr/colorPrimary"
+                android:visibility="gone"
                 android:textSize="12sp"/>
             <TextView
                 android:layout_width="wrap_content"
