@@ -121,6 +121,7 @@
                         android:id="@+id/rl_wallet"
                         android:background="@color/white"
                         android:padding="8dp"
+                        android:visibility="gone"
                         android:layout_above="@+id/btn_select_delivery_details"
                         >
 
@@ -133,6 +134,20 @@
                             android:text="@string/my_wallet"
                             android:layout_alignParentLeft="true"
                             />
+
+                        <TextView
+                            android:id="@+id/tv_my_wallet_offer"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_10"
+                            android:textColor="@color/pallete_black"
+                            android:text=""
+                            android:layout_toLeftOf="@+id/iv_my_wallet"
+                            android:layout_toRightOf="@+id/btn_my_wallet"
+                            android:paddingLeft="8dp"
+                            android:visibility="visible"
+                            />
+
                         <ImageView
                             android:id="@+id/iv_my_wallet"
                             android:layout_width="30dp"
@@ -148,16 +163,8 @@
                         android:id="@+id/v_my_wallet"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:visibility="gone"
                         android:background="@color/lighter_gray"></View>
-
-
-
-
-
-
-
-
-
 
                     <RelativeLayout
 
@@ -189,8 +196,10 @@
 
                     </RelativeLayout>
                     <View
+                        android:id="@+id/view_online_payment"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:visibility="gone"
                         android:background="@color/lighter_gray"></View>
 
                     <RelativeLayout
@@ -199,18 +208,34 @@
                         android:id="@+id/rl_online_payment"
                         android:background="@color/white"
                         android:padding="8dp"
+                        android:visibility="gone"
                         android:layout_above="@+id/btn_select_delivery_details"
                         >
 
                         <TextView
                             android:id="@+id/btn_online_Payment"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_14"
                             android:textColor="@color/pallete_black"
                             android:text="Online Payment"
                             android:layout_alignParentLeft="true"
                             />
+
+                        <TextView
+                            android:id="@+id/tv_online_Payment_offer"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_10"
+                            android:textColor="@color/pallete_black"
+                            android:text=""
+                            android:layout_toLeftOf="@+id/iv_online_payment"
+                            android:layout_toRightOf="@+id/btn_online_Payment"
+                            android:paddingLeft="8dp"
+                            android:visibility="visible"
+                            />
+
+
                         <ImageView
                             android:id="@+id/iv_online_payment"
                             android:layout_width="30dp"
@@ -221,6 +246,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:visibility="gone"
                         android:background="@color/lighter_gray"></View>
 
                     <RelativeLayout
@@ -289,6 +315,7 @@
                     </RelativeLayout>
 
                     <View
+                        android:id="@+id/view_paytm"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:visibility="gone"
@@ -300,7 +327,7 @@
                         android:id="@+id/rl_paytm"
                         android:background="@color/white"
                         android:padding="8dp"
-
+                        android:visibility="gone"
                         android:layout_above="@+id/btn_select_delivery_details"
                         >
                         //TODO, replace this with imageView with paytm image
@@ -314,6 +341,20 @@
                             android:layout_alignParentLeft="true"
                             android:src="@drawable/paytm"
                             />
+
+                        <TextView
+                            android:id="@+id/tv_paytm_offer"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_10"
+                            android:textColor="@color/pallete_black"
+                            android:text=""
+                            android:layout_toLeftOf="@+id/iv_paytm"
+                            android:layout_toRightOf="@+id/btn_paytm"
+                            android:paddingLeft="8dp"
+                            android:visibility="visible"
+                            />
+
                         <ImageView
                             android:id="@+id/iv_paytm"
                             android:layout_width="30dp"
@@ -325,6 +366,7 @@
                     </RelativeLayout>
 
                     <View
+                        android:id="@+id/view_citrus"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:visibility="visible"
@@ -337,7 +379,7 @@
                         android:background="@color/white"
                         android:padding="8dp"
                         android:layout_above="@+id/btn_select_delivery_details"
-                        >
+                        android:visibility="gone" >
                         //TODO, replace this with imageView with paytm image
 
                         <ImageView
@@ -348,6 +390,20 @@
                             android:layout_alignParentLeft="true"
                             android:src="@drawable/citrus_icon"
                             />
+
+                        <TextView
+                            android:id="@+id/tv_citrus_offer"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_10"
+                            android:textColor="@color/pallete_black"
+                            android:text=""
+                            android:layout_toLeftOf="@+id/iv_citrus"
+                            android:layout_toRightOf="@+id/btn_cirus"
+                            android:paddingLeft="8dp"
+                            android:visibility="visible"
+                            />
+
                         <ImageView
                             android:id="@+id/iv_citrus"
                             android:layout_width="30dp"

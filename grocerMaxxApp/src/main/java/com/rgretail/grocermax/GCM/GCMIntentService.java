@@ -42,8 +42,10 @@ import java.net.URL;
 public class GCMIntentService extends GcmListenerService {
 
     private static final String TAG = "MyGcmListenerService";
-    String strLinkurl,strName,strImageUrl;
+    String strLinkurl,strName,strImageUrl,strSubText;
     Context context = this;
+
+    public static int count,i;
 
     /**
      * Called when message is received.
@@ -62,6 +64,7 @@ public class GCMIntentService extends GcmListenerService {
             strName = data.getString("name");
             strLinkurl = data.getString("linkurl");
             strImageUrl = data.getString("imageurl");
+            strSubText = data.getString("subtext");
 
             String collapse_key = data.getString("collapse_key");
             Log.d(TAG, "From: " + from);
@@ -89,7 +92,7 @@ public class GCMIntentService extends GcmListenerService {
 
         NotificationCompat.BigPictureStyle notiStyle = new NotificationCompat.BigPictureStyle();
         //notiStyle.setBigContentTitle(strName);
-        notiStyle.setSummaryText(message);
+           //notiStyle.setSummaryText(message);
             Bitmap remote_picture = null;
             try {
                 remote_picture = BitmapFactory.decodeStream((InputStream) new URL(strImageUrl).getContent());
@@ -102,21 +105,40 @@ public class GCMIntentService extends GcmListenerService {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.grocemax_cloud)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),R.drawable.app_icon))
-                .setContentTitle("GrocerMax-Online Grocery")
+                .setContentTitle(strName)
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
-                //.setStyle(notiStyle)
                 .setContentIntent(pendingIntent);
 
+        if(!strSubText.equals("")){
+            notificationBuilder.setSubText(strSubText);
+        }
+
         if(!strImageUrl.equals("")) {
+            notiStyle.setSummaryText(message);
            notificationBuilder.setStyle(notiStyle);
+        }else{
+            notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(message));
         }
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+
+        /*if(count==1){
+            count ++;
+        }
+        else{
+            i++;
+
+        }*/
+       // notificationBuilder.build().number +=i;
+        count++;
+
+
+
+        notificationManager.notify( count /* ID of notification */, notificationBuilder.build());
     }
 
 

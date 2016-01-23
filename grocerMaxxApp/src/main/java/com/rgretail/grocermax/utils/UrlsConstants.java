@@ -280,6 +280,17 @@ public class UrlsConstants {
 	public final static String WALLET_SUCCESS_FAILURE = NEW_BASE_URL
 			+ "success.php?orderid=";
 
+
+    /*For citrus bill genrater*/
+    public final static String CITRUS_BILL_GENRATOR = NEW_BASE_URL
+            + "citruswallet/";
+
+    /*For citrus return url*/
+    public final static String CITRUS_RETURN_URL = NEW_BASE_URL
+            + "returncitrus.php";
+
+
+
 }
 
 

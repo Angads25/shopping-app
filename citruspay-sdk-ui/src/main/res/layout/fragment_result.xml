@@ -83,6 +83,24 @@
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/retutn_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/result_container"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp20"
+            android:background="#0e69ef"
+            android:paddingBottom="@dimen/dp10"
+            android:paddingLeft="@dimen/dp16"
+            android:paddingRight="@dimen/dp16"
+            android:paddingTop="11dp"
+            android:text="CLICK TO COMPLETE THE ORDER"
+            android:textAllCaps="true"
+            android:textColor="@color/citrus_white"
+            android:textStyle="bold"
+            android:textSize="15sp"/>
+
         <LinearLayout
             android:id="@+id/payment_failure_actions"
             android:layout_width="match_parent"
@@ -90,8 +108,7 @@
             android:layout_marginTop="@dimen/dp16"
             android:orientation="vertical"
             android:visibility="gone"
-            android:layout_below="@id/retutn_button"
-            >
+            android:layout_below="@id/retutn_button">
             <Button
                 android:id="@+id/retry_transaction_button"
                 android:layout_width="match_parent"
@@ -117,22 +134,7 @@
                 android:textSize="14sp"/>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/retutn_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/result_container"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp20"
-            android:background="@drawable/selector_button_secondary"
-            android:paddingBottom="@dimen/dp10"
-            android:paddingLeft="@dimen/dp16"
-            android:paddingRight="@dimen/dp16"
-            android:paddingTop="11dp"
-            android:text="Return To GrocerMax"
-            android:textAllCaps="true"
-            android:textColor="?attr/colorPrimary"
-            android:textSize="12sp"/>
+
 
         <LinearLayout
             android:id="@+id/no_wallet_layout"

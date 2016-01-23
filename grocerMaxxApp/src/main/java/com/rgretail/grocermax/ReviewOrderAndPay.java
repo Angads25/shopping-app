@@ -22,7 +22,14 @@ import com.citrus.sdk.ui.fragments.ResultFragment;
 import com.citrus.sdk.ui.utils.CitrusFlowManager;
 import com.citrus.sdk.ui.utils.ResultModel;
 import com.flurry.android.FlurryAgent;
+
+import com.payu.sdk.Params;
 import com.payu.sdk.PayU;
+import com.payu.sdk.Payment;
+import com.payu.sdk.ProcessPaymentActivity;
+import com.payu.sdk.exceptions.HashException;
+import com.payu.sdk.exceptions.MissingParameterException;
+
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.CartDetail;
@@ -86,6 +93,11 @@ public class ReviewOrderAndPay extends BaseActivity
 	private String SCREENNAME = "ReviewOrderAndPay-";
 	Handler handler = new Handler();
 
+    RelativeLayout llOnlinePayment,llCashOnDelivery,llPayTM,llMobiKwik,llCitrus;
+    View view_online_payment,view_paytm,view_citrus;
+    TextView tv_online_payment_offer,tv_paytm_offer,tv_citrus_offer,tv_my_wallet_offer;
+
+
     /*declearation for wallet*/
     TextView tv_my_wallet,tv_wallet_discount;
     ImageView iv_my_wallet;
@@ -112,11 +124,22 @@ public class ReviewOrderAndPay extends BaseActivity
 			TextView tv = (TextView) findViewById(R.id.tv_choose_to_pay);
 			tv.setTypeface(CustomFonts.getInstance().getRobotoBlack(this));
 
-			RelativeLayout llOnlinePayment = (RelativeLayout) findViewById(R.id.rl_online_payment);
-			RelativeLayout llCashOnDelivery = (RelativeLayout) findViewById(R.id.rl_cash_on_delivery);
-			RelativeLayout llPayTM = (RelativeLayout) findViewById(R.id.rl_paytm);
-			RelativeLayout llMobiKwik = (RelativeLayout) findViewById(R.id.rl_mobikwik);
-            RelativeLayout llCitrus = (RelativeLayout) findViewById(R.id.rl_citrus);
+			 llOnlinePayment = (RelativeLayout) findViewById(R.id.rl_online_payment);
+			 llCashOnDelivery = (RelativeLayout) findViewById(R.id.rl_cash_on_delivery);
+			 llPayTM = (RelativeLayout) findViewById(R.id.rl_paytm);
+			 llMobiKwik = (RelativeLayout) findViewById(R.id.rl_mobikwik);
+             llCitrus = (RelativeLayout) findViewById(R.id.rl_citrus);
+
+             view_online_payment=(View)findViewById(R.id.view_online_payment);
+             view_paytm=(View)findViewById(R.id.view_paytm);
+             view_citrus=(View)findViewById(R.id.view_citrus);
+
+            /*--------offer message on payment methods----------------*/
+            tv_online_payment_offer=(TextView)findViewById(R.id.tv_online_Payment_offer);
+            tv_paytm_offer=(TextView)findViewById(R.id.tv_paytm_offer);
+            tv_citrus_offer=(TextView)findViewById(R.id.tv_citrus_offer);
+            tv_my_wallet_offer=(TextView)findViewById(R.id.tv_my_wallet_offer);
+
 
 
 			llFirstPage = (Button) findViewById(R.id.ll_first_page);
@@ -719,6 +742,7 @@ public class ReviewOrderAndPay extends BaseActivity
 		}
 	}
 
+    /*-----------Make payment when online payment/PayU selected-------------*/
 	private void makePayment(final String orderid) {
 		try {
 
@@ -804,6 +828,57 @@ public class ReviewOrderAndPay extends BaseActivity
 
 	}
 
+    /*-----------make payment when PayUMoney is selected--------------------------*/
+    public void payumoneyMakePayment(String orderid) throws PackageManager.NameNotFoundException, MissingParameterException, HashException {
+        // oops handle it here.
+
+        double total=Double.parseDouble(tvTotal.getText().toString().replace("Rs.",""));
+        Payment.Builder builder = new Payment().new Builder();
+        Params requiredParams = new Params();
+//		builder.set(PayU.PRODUCT_INFO, defaultParam.getString(PayU.PRODUCT_INFO));
+        builder.set(PayU.PRODUCT_INFO, "GrocerMax Product Info");
+        builder.set(PayU.AMOUNT, String.valueOf(total));
+        builder.set(PayU.TXNID, orderid);
+        builder.set(PayU.EMAIL, MySharedPrefs.INSTANCE.getUserEmail());
+        builder.set(PayU.FIRSTNAME, MySharedPrefs.INSTANCE.getFirstName() + " " + MySharedPrefs.INSTANCE.getLastName());
+        builder.set("user_credentials", "yPnUG6:test");
+//		builder.set(PayU.SURL, defaultParam.getString(PayU.SURL));
+//		builder.set(PayU.FURL, defaultParam.getString(PayU.FURL));
+        builder.set(PayU.SURL, "https://payu.herokuapp.com/success");
+        builder.set(PayU.FURL, "https://payu.herokuapp.com/failure");
+        builder.set(PayU.MODE, String.valueOf(PayU.PaymentMode.PAYU_MONEY));
+
+
+        requiredParams.put(PayU.AMOUNT, builder.get(PayU.AMOUNT));
+        requiredParams.put(PayU.PRODUCT_INFO, builder.get(PayU.PRODUCT_INFO));
+        requiredParams.put(PayU.TXNID, builder.get(PayU.TXNID));
+        requiredParams.put(PayU.SURL, builder.get(PayU.SURL));
+
+        requiredParams.put(PayU.EMAIL, MySharedPrefs.INSTANCE.getUserEmail());
+        requiredParams.put(PayU.FIRSTNAME, MySharedPrefs.INSTANCE.getFirstName() + " " + MySharedPrefs.INSTANCE.getLastName());
+        requiredParams.put("user_credentials", "yPnUG6:test");
+        requiredParams.put(PayU.SURL, builder.get(PayU.SURL));
+        requiredParams.put(PayU.FURL, builder.get(PayU.FURL));
+        requiredParams.put(PayU.MODE,builder.get(PayU.MODE));
+
+        Bundle bundle = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA).metaData;
+        requiredParams.put(PayU.MERCHANT_KEY, bundle.getString("payu_merchant_id"));
+
+
+        Payment payment = builder.create();
+
+        String postData = PayU.getInstance(ReviewOrderAndPay.this).createPayment(payment, requiredParams);
+
+        Intent intent = new Intent(this, ProcessPaymentActivity.class);
+        intent.putExtra(com.payu.sdk.Constants.POST_DATA, postData);
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        startActivityForResult(intent, PayU.RESULT);
+
+    }
+
+
 
     public void setTotolAfterWalletSelectUnSelect(double total_amount){
         t_amount=total_amount;
@@ -849,6 +924,7 @@ public class ReviewOrderAndPay extends BaseActivity
 					finish();
 				}
 			}
+            /*handle response from PayUMoney payment*/
 			if (requestCode == PayU.RESULT) {
 				if(resultCode == RESULT_OK) {
 					//success
@@ -877,6 +953,10 @@ public class ReviewOrderAndPay extends BaseActivity
 					myApi.reqSetOrderStatus(url, jsonObject);
 				}
 			}
+            /*--------------End of PayUMoney payment handling-----------------------------------*/
+
+
+
             /*handle response from citrus payment*/
             if(requestCode == Constants.REQUEST_CODE_PAYMENT ) {
                 int success_code=1; // 1 for payment fail
@@ -938,13 +1018,13 @@ public class ReviewOrderAndPay extends BaseActivity
                 JSONObject jsonObject = new JSONObject();
 
                 if(success_code==0)
-                    jsonObject.put("status","success");
+                    jsonObject.put("status","paymentsuccess");
                 else
                     jsonObject.put("status","canceled");
 
                 jsonObject.put("orderid",order_id);
                 jsonObject.put("orderdbid",order_db_id);
-                //myApi.reqSetOrderStatusForCitrus(url, jsonObject);
+                myApi.reqSetOrderStatusForCitrus(url, jsonObject);
 
                 MySharedPrefs.INSTANCE.putTotalItem("0");
                 MySharedPrefs.INSTANCE.clearQuote();
@@ -972,13 +1052,13 @@ public class ReviewOrderAndPay extends BaseActivity
 
 
    public void citrusPayment(String citrus_order_id){
-       System.out.println();
+       System.out.println("citrus_order_id = " + citrus_order_id);
        CitrusFlowManager.initCitrusConfig("q4qz4sa1wq-signup", "915112088057be17d992162f88eeb7f9",
                "q4qz4sa1wq-signin", "dca4f2179ade2454aaee0194be186774",
                getResources().getColor(R.color.citrus_white), ReviewOrderAndPay.this,
                Environment.SANDBOX, "q4qz4sa1wq",
-               "https://multistore.grocermax.com/api/citrus.php?order_id="+citrus_order_id,
-               "https://multistore.grocermax.com/api/returncitrus.php?order_id="+citrus_order_id);
+               UrlsConstants.CITRUS_BILL_GENRATOR+""+citrus_order_id,
+               UrlsConstants.CITRUS_RETURN_URL);
 
 
       /* CitrusFlowManager.initCitrusConfig("8x5hn2kbpc-signup","2b591f683aa3cf1426fd2a1103c5d845",
@@ -1042,7 +1122,6 @@ public class ReviewOrderAndPay extends BaseActivity
 						order_id=finalCheckoutBean.getOrderId();
 						order_db_id=finalCheckoutBean.getOrderDBID();
 						payTM(order_id);
-                        //citrusPayment();
 					}else if(payment_mode.equalsIgnoreCase("wallet")){     //mobikwik
 						order_id=finalCheckoutBean.getOrderId();
 						order_db_id=finalCheckoutBean.getOrderDBID();
@@ -1051,6 +1130,7 @@ public class ReviewOrderAndPay extends BaseActivity
                         order_id=finalCheckoutBean.getOrderId();
                         order_db_id=finalCheckoutBean.getOrderDBID();
                         citrusPayment(order_id);
+                        //payumoneyMakePayment(order_id);
                     }
 				}
 			}
@@ -1079,11 +1159,11 @@ public class ReviewOrderAndPay extends BaseActivity
                  dismissDialog();
                 try
                 {
-                    String walletResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);
+                    String Response = (String) bundle.getSerializable(ConnectionService.RESPONSE);
                     //System.out.println("reorder Response = "+quoteResponse);
-                    JSONObject reOrderJSON=new JSONObject(walletResponse);
-                    if(reOrderJSON.getInt("flag")==1){
-                        wallet_amount=reOrderJSON.getDouble("Balance");
+                    JSONObject walletResponse=new JSONObject(Response);
+                    if(walletResponse.getInt("flag")==1){
+                        wallet_amount=walletResponse.getDouble("Balance");
                         if(wallet_amount==0){
                             //tv_walletAmount.setText("0.00");
                             tv_my_wallet.setText("My Wallet ("+getResources().getString(R.string.Rs)+"0.00)");
@@ -1099,9 +1179,56 @@ public class ReviewOrderAndPay extends BaseActivity
                         tv_my_wallet.setText("My Wallet ("+getResources().getString(R.string.Rs)+"0.00)");
                         iv_my_wallet.setVisibility(View.GONE);
                     }
+
+                    /*Displaying the payment option based on server response*/
+                        try{
+                         JSONObject payment=walletResponse.getJSONObject("payment");
+                          /*to check if payment with internal wallet will be available or not*/
+                            if(payment.has("customercredit")){
+                                llWallet.setVisibility(View.VISIBLE);
+                                v_my_wallet.setVisibility(View.VISIBLE);
+                                tv_my_wallet_offer.setText(payment.getJSONObject("customercredit").getString("mobile_label"));
+                            }else{
+                                llWallet.setVisibility(View.GONE);
+                                v_my_wallet.setVisibility(View.GONE);
+                            }
+
+                          /*to check if payment with paytm will be available or not*/
+                          if(payment.has("paytm_cc")){
+                            llPayTM.setVisibility(View.VISIBLE);
+                            view_paytm.setVisibility(View.VISIBLE);
+                            tv_paytm_offer.setText(payment.getJSONObject("paytm_cc").getString("mobile_label"));
+                          }else{
+                              llPayTM.setVisibility(View.GONE);
+                              view_paytm.setVisibility(View.GONE);
+                          }
+                         /*to check if payment with payU will be available or not*/
+                        if(payment.has("payucheckout_shared")){
+                            llOnlinePayment.setVisibility(View.VISIBLE);
+                            view_online_payment.setVisibility(View.VISIBLE);
+                            tv_online_payment_offer.setText(payment.getJSONObject("payucheckout_shared").getString("mobile_label"));
+                        }else{
+                            llOnlinePayment.setVisibility(View.GONE);
+                            view_online_payment.setVisibility(View.GONE);
+                        }
+                        /*to check if payment with Citrus will be available or not*/
+                        if(payment.has("moto")){
+                            llCitrus.setVisibility(View.VISIBLE);
+                            view_citrus.setVisibility(View.VISIBLE);
+                            tv_citrus_offer.setText(payment.getJSONObject("moto").getString("mobile_label"));
+                        }else{
+                            llCitrus.setVisibility(View.GONE);
+                            view_citrus.setVisibility(View.GONE);
+                        }
+
+                        }catch (Exception e){
+                            new GrocermaxBaseException("ReviewOrderAndPay","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"error in getting payment option to be displayed");
+                        }
+                    /*-----------------------------------------------------*/
+
                 }catch(Exception e)
                 {
-                    new GrocermaxBaseException("WalletActivity","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"error in wallet");
+                    new GrocermaxBaseException("ReviewOrderAndPay","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"error in wallet");
                 }
             }
 

@@ -2,6 +2,7 @@ package com.citrus.sdk.ui.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -115,6 +116,10 @@ public class ResultFragment extends Fragment {
                 ((CitrusUIActivity) getActivity()).finish();
             }
         });
+
+
+
+
         if (!resultModel.isWithdraw()) {
             if (resultModel.getTransactionResponse() != null) {
                 if (resultModel.getTransactionResponse().getTransactionStatus().equals(TransactionResponse.TransactionStatus.SUCCESSFUL)) {
@@ -137,18 +142,21 @@ public class ResultFragment extends Fragment {
                     transactionIdLabel.setText(getString(R.string.text_error_transaction_id));
                     amountPaidLabel.setText(getString(R.string.text_error_message));
                     amountPaidLabel.setVisibility(View.GONE);
-                    paymentFailureActions.setVisibility(View.VISIBLE);
+                    //paymentFailureActions.setVisibility(View.VISIBLE); //Done By Ishan to hide other action on faill payment
+                    paymentFailureActions.setVisibility(View.GONE);
                     noWalletLayout.setVisibility(View.GONE);
                     walletAvailableLayout.setVisibility(View.GONE);
                     amountPaidText.setText(resultModel.getTransactionResponse().getMessage());
                     Logger.d(TAG + " Transaction Error " + resultModel.getTransactionResponse().getMessage());
                 }
+
             } else {
                 paymentResultImage.setImageResource(R.drawable.img_cross_red);
                 paymentResultText.setText(getString(R.string.text_payment_failure));
                 transactionIdLabel.setText(getString(R.string.text_error_transaction_id));
                 amountPaidLabel.setText(getString(R.string.text_error_message));
-                paymentFailureActions.setVisibility(View.VISIBLE);
+                //paymentFailureActions.setVisibility(View.VISIBLE);  //Done By Ishan to hide other action on faill payment
+                paymentFailureActions.setVisibility(View.GONE);
                 noWalletLayout.setVisibility(View.GONE);
                 transactionIdText.setVisibility(View.GONE);
                 transactionIdLabel.setVisibility(View.GONE);
@@ -160,6 +168,7 @@ public class ResultFragment extends Fragment {
     //                transactionIdText.setText(resultModel.getError().);
                 }
             }
+            autoRedirectToGrocermax();
         }else{
             if(resultModel.getPaymentResponse() !=null){
                 paymentResultImage.setImageResource(R.drawable.img_checkmark_green);
@@ -196,6 +205,10 @@ public class ResultFragment extends Fragment {
             }
         }
 
+
+
+
+
         layout.findViewById(R.id.setup_wallet_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -216,15 +229,31 @@ public class ResultFragment extends Fragment {
     }
 
 
+     /*For Auto redirection Written By Ishan*/
+     Handler delayhandler = new Handler();
+    public void autoRedirectToGrocermax(){
+        delayhandler.postDelayed(mUpdateTimeTask, 1000);
+    }
+    private Runnable mUpdateTimeTask = new Runnable()
+    {   public void run()
+        {   // Todo
+            ((CitrusUIActivity) getActivity()).onBackPressed();
+        }
+    };
+    /*-------------------------------------------------------*/
+
+
     private void walletLoggedIn(){
         CitrusClient.getInstance(getActivity()).isUserSignedIn(new Callback<Boolean>() {
             @Override
             public void success(Boolean success) {
                 if (success) {
                     noWalletLayout.setVisibility(View.GONE);
-                    walletAvailableLayout.setVisibility(View.VISIBLE);
+                    //walletAvailableLayout.setVisibility(View.VISIBLE);  //Done By Ishan
+                    walletAvailableLayout.setVisibility(View.GONE);
                 } else {
-                    noWalletLayout.setVisibility(View.VISIBLE);
+                    //noWalletLayout.setVisibility(View.VISIBLE); //Done BY Ishan
+                    noWalletLayout.setVisibility(View.GONE);
                     walletAvailableLayout.setVisibility(View.GONE);
                 }
             }
