@@ -75,7 +75,6 @@ public class SplashScreen extends BaseActivity
 
 
         /*registering device on GCM server*/
-        System.out.println("ishahhh=="+MySharedPrefs.INSTANCE.getGCMDeviceTocken());
         if(MySharedPrefs.INSTANCE.getGCMDeviceTocken()==null)
         registerGCM();
 

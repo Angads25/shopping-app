@@ -116,7 +116,8 @@ public class GCMIntentService extends GcmListenerService {
         }
 
         if(!strImageUrl.equals("")) {
-            notiStyle.setSummaryText(message);
+            if(strSubText.equals(""))
+              notiStyle.setSummaryText(message);
            notificationBuilder.setStyle(notiStyle);
         }else{
             notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(message));

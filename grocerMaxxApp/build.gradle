@@ -18,7 +18,7 @@ android {
     defaultConfig {
         applicationId 'com.rgretail.grocermax'
         minSdkVersion 11
-        multiDexEnabled true
+        multiDexEnabled false
         versionName '1.4.1'
         versionCode 6
     }

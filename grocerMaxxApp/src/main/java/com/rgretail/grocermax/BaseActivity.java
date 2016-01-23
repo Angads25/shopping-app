@@ -13,6 +13,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -31,6 +32,7 @@ import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -49,6 +51,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.rgretail.grocermax.adapters.AutoCompleteAdapter;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyApi;
 import com.rgretail.grocermax.api.MyReceiverActions;
@@ -99,7 +102,8 @@ public abstract class BaseActivity extends FragmentActivity {
 	private PopupWindow popupMenuOption;
 	public LinearLayout llSearchLayout;
 	//	private ImageView ivSearchHeaderBack;
-	public EditText edtSearch;
+	//public EditText edtSearch;
+    public AutoCompleteTextView edtSearch;
 	private ImageView imgSearchIcon;
 	private ImageView imgSearchCloseIcon;
 	private RelativeLayout rlSearchLook;
@@ -113,6 +117,9 @@ public abstract class BaseActivity extends FragmentActivity {
 	public static boolean keyboardVisibility=false;
 //	EasyTracker tracker;
 	public static Tracker mTracker;
+    View v;
+
+    //String[] languages={"Android ","java","IOS","SQL","JDBC","Web services","jajaja","jmnfg","jokjkdjkjd","jkldmjop","jsolun","jdjdmcjcjdjd","jk","jl"};
 
 
 	@Override
@@ -143,6 +150,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	public void initHeader(View view, boolean showSearch, String name) {
 		try {
 			getKeyBoardVisibility();
+            this.v=view;
 
 //			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 //kill
@@ -164,7 +172,7 @@ public abstract class BaseActivity extends FragmentActivity {
 			icon_header_logo_with_search = (ImageView) view.findViewById(R.id.icon_header_logo_with_search);
 			llSearchLayout = (LinearLayout) view.findViewById(R.id.llSearchLayout);
 
-			edtSearch = (EditText) view.findViewById(R.id.edtSearch);
+			edtSearch = (AutoCompleteTextView) view.findViewById(R.id.edtSearch);
 			imgSearchIcon = (ImageView) view.findViewById(R.id.imgSearchIcon);
 			imgSearchCloseIcon = (ImageView) view
 					.findViewById(R.id.imgSearchCloseIcon);
@@ -242,6 +250,15 @@ public abstract class BaseActivity extends FragmentActivity {
 //					bBack = false;
 //				}
 //			});
+
+           /* Point pointSize = new Point();
+            getWindowManager().getDefaultDisplay().getSize(pointSize);
+            edtSearch.setDropDownWidth(pointSize.x);
+            edtSearch.setDropDownVerticalOffset(edtSearch.getBaseline());
+            //ArrayAdapter adapter=new ArrayAdapter(mContext,R.layout.listview_element,R.id.name,languages);
+            AutoCompleteAdapter adapter=new AutoCompleteAdapter(BaseActivity.this);
+            edtSearch.setAdapter(adapter);
+            edtSearch.setThreshold(1);*/
 
 			edtSearch.setOnEditorActionListener(new OnEditorActionListener() {
 
