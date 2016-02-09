@@ -5,11 +5,13 @@ import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -20,6 +22,7 @@ import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcel;
 import android.provider.Settings;
@@ -30,7 +33,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,11 +41,17 @@ import com.appsflyer.AFInAppEventType;
 import com.appsflyer.AppsFlyerLib;
 import com.google.android.gms.analytics.HitBuilders;
 import com.rgretail.grocermax.BaseActivity;
+import com.rgretail.grocermax.LoginActivity;
 import com.rgretail.grocermax.R;
+import com.rgretail.grocermax.UserHeaderProfile;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
+import com.rgretail.grocermax.api.SearchLoader;
 import com.rgretail.grocermax.bean.CartDetail;
 import com.rgretail.grocermax.bean.CartDetailBean;
+import com.rgretail.grocermax.exception.GrocermaxBaseException;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.AlarmService;
+import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.ListSublistConstants.ListConstant;
 
 import org.json.JSONArray;
@@ -58,12 +66,15 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -286,51 +297,195 @@ public class UtilityMethods {
 		context.startActivity(intent);
 	}
 
-	public static void moreApp(Context context) {
-		Intent goToMarket = null;
-		// goToMarket = new
-		// Intent(Intent.ACTION_VIEW,Uri.parse("market://details?id=com.manu.valentine"));
-		goToMarket = new Intent(
-				Intent.ACTION_VIEW,
-				Uri.parse("https://play.google.com/store/apps/developer?id=Manu+Dev(M.D.)"));
-		context.startActivity(goToMarket);
-	}
+    public static void popUpOnDemand(final Context ctx,String response)
+    {
+        try {
+            //response=loadJSONFromAsset(ctx,"notification.json");
+            boolean alertShouldShow=true;
+            JSONObject alertMessage=new JSONObject(response);
+            String message_id=alertMessage.getString("id");
+            long frequency=Long.parseLong(alertMessage.getString("frequency"));
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+            String current_time = dateFormat.format(new Date());
+            DataHandler db=new DataHandler(ctx);
+            db.Open();
+            Cursor cr=db.getMessageFrequencyBasedOnMessageId(message_id);
+            if(cr!=null && cr.getCount()>0){
+               cr.moveToNext();
+               String saved_time=cr.getString(cr.getColumnIndex(Constants.DatabaseConstant.C_MSG_TIME));
 
-	public static void downloadPopUp(final Context context){
-		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		builder.setMessage("Update Version Available!")
-				.setCancelable(false)
-				.setPositiveButton("Download", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						UtilityMethods.rateApp(context);
-					}
-				});
-		AlertDialog alert = builder.create();
-		alert.show();
-	}
-    public static void underMaintanancePopUp(final Context context){
-        ImageView image = new ImageView(context);
-        image.setImageResource(R.drawable.maintenence_screen);
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setView(image);
-        final AlertDialog alert = builder.create();
-        alert.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                ((Activity)context).finish();
+                Date d1 = null;
+                Date d2 = null;
+                try {
+                    d1 = dateFormat.parse(saved_time);
+                    d2 = dateFormat.parse(current_time);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                long diff = d2.getTime() - d1.getTime();
+                long diffHours = diff / (60 * 60 * 1000);
+                if(frequency>diffHours)
+                  alertShouldShow=false;
+                else
+                  alertShouldShow=true;
+            }else{
+                ContentValues cVal=new ContentValues();
+                cVal.put(Constants.DatabaseConstant.C_MSG_ID,message_id);
+                cVal.put(Constants.DatabaseConstant.C_MSG_TIME,current_time);
+                db.insertDataInTable(Constants.DatabaseConstant.T_MESSAGE_FREQUENCY,cVal);
+                alertShouldShow=true;
             }
-        });
-        /*builder.setMessage("Update Version Available!")
-                .setCancelable(false)
-                .setView(image)
-                .setPositiveButton("Download", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        alert.dismiss();
-                    }
-                });*/
+            if(alertShouldShow){
+                String message=alertMessage.getString("message");
+                String type=alertMessage.getString("type");
 
-        alert.show();
+                if (type.equals("popup")) {
+                    final JSONArray buttonArray=alertMessage.getJSONArray("action");
+                    Typeface typeface=Typeface.createFromAsset(ctx.getAssets(),"Roboto-Regular.ttf");
+                    Typeface typeface1=Typeface.createFromAsset(ctx.getAssets(),"Roboto-Light.ttf");
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                    LayoutInflater inflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View dialogView = inflater.inflate(R.layout.update_available_dialog, null);
+                    builder.setView(dialogView);
+                    builder.setCancelable(false);
+                    final AlertDialog alert = builder.create();
+                    TextView tv_msg=(TextView)dialogView.findViewById(R.id.tv_msg);
+                    tv_msg.setTypeface(typeface1);
+                    tv_msg.setText(message);
+
+                    TextView tv_skip=(TextView)dialogView.findViewById(R.id.tv_skip);
+                    tv_skip.setTypeface(typeface);
+                    TextView tv_update=(TextView)dialogView.findViewById(R.id.tv_update);
+                    tv_update.setTypeface(typeface);
+
+                    if(buttonArray.length()>0 && buttonArray.length()==1){
+                        tv_skip.setVisibility(View.GONE);
+                        tv_update.setText(buttonArray.getJSONObject(0).getString("text"));
+                    }else{
+                        tv_skip.setVisibility(View.VISIBLE);
+                        tv_update.setText(buttonArray.getJSONObject(0).getString("text"));
+                        tv_skip.setText(buttonArray.getJSONObject(1).getString("text"));
+                    }
+
+                    tv_update.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            popupOperations(ctx,buttonArray,0,alert);
+                        }
+                    });
+
+                    tv_skip.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            popupOperations(ctx,buttonArray,1,alert);
+                        }
+                    });
+                    alert.show();
+                } else {
+                    UtilityMethods.customToast(message,ctx);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+
+    public static void popupOperations(Context ctx,JSONArray buttonArray,int arrayPosition,AlertDialog alert){
+        try {
+            alert.dismiss();
+            String key=buttonArray.getJSONObject(arrayPosition).getString("key");
+            if (buttonArray.getJSONObject(arrayPosition).getString("key")!=null && !buttonArray.getJSONObject(arrayPosition).getString("key").equals("")) {
+                if(key.equals("upgrade")){
+                    alert.dismiss();
+                    UtilityMethods.rateApp(ctx);
+                }else if(key.equals("search")){
+                    AppConstants.strPopupData="";
+                    alert.dismiss();
+                    try {
+                        String url = UrlsConstants.SEARCH_PRODUCT + buttonArray.getJSONObject(arrayPosition).getString("page");
+                        url = url.replaceAll(" ", "%20");
+                        SearchLoader searchLoader  = new SearchLoader(ctx,buttonArray.getJSONObject(arrayPosition).getString("page"));
+                        searchLoader.execute(url);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        new GrocermaxBaseException("UtilityMethods.java", "search through popup", e.getMessage(), GrocermaxBaseException.EXCEPTION, "");
+                    }
+                }else if(key.equals("home")){
+                    AppConstants.strPopupData="";
+                    alert.dismiss();
+                    try {
+                        Intent intent = new Intent(ctx, HomeScreen.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        ((Activity)ctx).startActivity(intent);
+                        ((Activity)ctx).finish();
+                    }catch(Exception e){
+                        new GrocermaxBaseException("UtilityMethods.java","home page through popup",e.getMessage(), GrocermaxBaseException.EXCEPTION,"");
+                    }
+                }else if(key.equals("profile")){
+                    AppConstants.strPopupData="";
+                    alert.dismiss();
+                    HomeScreen.isFromFragment=false;
+                    Intent intent2 = null;
+                    if (MySharedPrefs.INSTANCE.getLoginStatus()) {
+                        intent2 = new Intent(ctx, UserHeaderProfile.class);
+                    }else{
+                        intent2 = new Intent(ctx, LoginActivity.class);
+                    }
+                    ((Activity)ctx).startActivity(intent2);
+
+                    if(UtilityMethods.getCurrentClassName(ctx).equals(ctx.getPackageName() + ".CartProductList")) {
+                        ((Activity)ctx).finish();
+                    }
+                }else if(key.equals("")){
+                    AppConstants.strPopupData="";
+                    alert.dismiss();
+                }else if(key.equals("offerbydealtype")){
+                    AppConstants.strPopupData="";
+                    gotoInternalPages(ctx,key,buttonArray.getJSONObject(arrayPosition).getString("page"));
+                }else if(key.equals("dealproductlisting")){
+                    AppConstants.strPopupData="";
+                    gotoInternalPages(ctx,key,buttonArray.getJSONObject(arrayPosition).getString("page"));
+                }else if(key.equals("productlistall")){
+                    AppConstants.strPopupData="";
+                    gotoInternalPages(ctx,key,buttonArray.getJSONObject(arrayPosition).getString("page"));
+                }else if(key.equals("shopbydealtype")){
+                    AppConstants.strPopupData="";
+                    gotoInternalPages(ctx,key,buttonArray.getJSONObject(arrayPosition).getString("page"));
+                }else if(key.equals("dealsbydealtype")){
+                    AppConstants.strPopupData="";
+                    gotoInternalPages(ctx,key,buttonArray.getJSONObject(arrayPosition).getString("page"));
+                }else if(key.equals("productdetail")){
+                    AppConstants.strPopupData="";
+                    ((BaseActivity)ctx).showDialog();
+                    String url = UrlsConstants.PRODUCT_DETAIL_URL + buttonArray.getJSONObject(arrayPosition).getString("page");
+                    ((BaseActivity)ctx).myApi.reqProductDetailFromNotification(url);
+                }else if(key.equals("viewcart")){
+                    AppConstants.strPopupData="";
+                    HomeScreen.isFromFragment=false;
+                    ((BaseActivity)ctx).viewCart();
+                }
+
+            }else{
+                AppConstants.strPopupData="";
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void gotoInternalPages(Context ctx,String key,String pageurl){
+        Bundle bundle2=new Bundle();
+        bundle2.putString("name", key);
+        bundle2.putString("linkurl", pageurl);
+        Intent intent = new Intent(ctx, HomeScreen.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        ((Activity)ctx).startActivity(intent);
+        ((Activity)ctx).finish();
+    }
+
+
 
     public static void downloadPopUpNew(final Context context,String value){
         Typeface typeface=Typeface.createFromAsset(context.getAssets(),"Roboto-Regular.ttf");
@@ -347,6 +502,7 @@ public class UtilityMethods {
         tv_skip.setTypeface(typeface);
         TextView tv_update=(TextView)dialogView.findViewById(R.id.tv_update);
         tv_update.setTypeface(typeface);
+
         if(value.equals("1")){
             tv_msg.setText("Update the app for a fresher, faster experience!");
             tv_skip.setVisibility(View.INVISIBLE);
@@ -1261,6 +1417,30 @@ public class UtilityMethods {
 
        }
    }
+
+    public static String loadJSONFromAsset(Context mContext, String fileName) {
+        String json = null;
+        try {
+
+            InputStream is = mContext.getAssets().open(fileName);
+
+            int size = is.available();
+
+            byte[] buffer = new byte[size];
+
+            is.read(buffer);
+
+            is.close();
+
+            json = new String(buffer, "UTF-8");
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+
+    }
 
 
 

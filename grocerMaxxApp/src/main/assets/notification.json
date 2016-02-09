@@ -1,0 +1,15 @@
+{
+	"id": 1,
+	"message": "30% on this product please check",
+	"type": "popup",
+	"action": [{
+		"text": "OK",
+		"key": "viewcart",
+		"page": ""
+	},{
+      		"text": "Cancel",
+      		"key": "",
+      		"page": ""
+      	}],
+	"frequency": -1
+}

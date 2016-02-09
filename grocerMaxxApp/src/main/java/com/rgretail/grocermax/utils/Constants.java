@@ -150,4 +150,12 @@ public class Constants {
 		
 	}
 
+    public static class DatabaseConstant{
+        public static final String T_MESSAGE_FREQUENCY = "message_frequency";
+        public static final String C_MSG_ID = "message_id";
+        public static final String C_MSG_TIME = "message_time";
+        public static final String DB_GROCERMAX_ALERT = "grocermax_alert";
+    }
+
+
 }

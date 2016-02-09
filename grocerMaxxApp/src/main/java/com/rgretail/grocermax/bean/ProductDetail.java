@@ -1,9 +1,9 @@
 package com.rgretail.grocermax.bean;
 
-import java.io.Serializable;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 public class ProductDetail implements Serializable{
 
@@ -37,14 +37,27 @@ public class ProductDetail implements Serializable{
 	@SerializedName("p_brand")
 	@Expose
 	private String productBrand;
+
+    @SerializedName("promotion_level")
+    @Expose
+    private String productPromotion;
+
 	
 	@Expose
 	private String p_name;
 	@SerializedName("p_pack")
 	@Expose
 	private String productPack;
-	
-	public String getProductBrand() {
+
+    public String getProductPromotion() {
+        return productPromotion;
+    }
+
+    public void setProductPromotion(String productPromotion) {
+        this.productPromotion = productPromotion;
+    }
+
+    public String getProductBrand() {
 		return productBrand;
 	}
 

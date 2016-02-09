@@ -38,6 +38,7 @@ public interface MyReceiverActions {
 	String DEAL_PRODUCT_LIST = PKG_NAME + ".dealproductlist";
 
 	String PRODUCT_CONTENT_LIST = PKG_NAME + ".proudct_content_list";
+    String PRODUCT_DETAIL_FROM_NOTIFICATION = PKG_NAME + ".product_detail_from_notification";
 
 	String ADD_TO_CART = PKG_NAME + ".add_to_cart";
 	

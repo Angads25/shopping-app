@@ -13,7 +13,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -51,7 +50,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.rgretail.grocermax.adapters.AutoCompleteAdapter;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyApi;
 import com.rgretail.grocermax.api.MyReceiverActions;
@@ -63,6 +61,8 @@ import com.rgretail.grocermax.bean.CartDetailBean;
 import com.rgretail.grocermax.bean.DealListBean;
 import com.rgretail.grocermax.bean.LocationListBean;
 import com.rgretail.grocermax.bean.OrderHistoryBean;
+import com.rgretail.grocermax.bean.Product;
+import com.rgretail.grocermax.bean.ProductDetailsListBean;
 import com.rgretail.grocermax.bean.ProductListBean;
 import com.rgretail.grocermax.bean.Simple;
 import com.rgretail.grocermax.bean.UserDetailBean;
@@ -138,6 +138,7 @@ public abstract class BaseActivity extends FragmentActivity {
 			addActionsInFilter(MyReceiverActions.ADD_TO_CART_GUEST);
 
 			addActionsInFilter(MyReceiverActions.DEAL_PRODUCT_LIST);
+            addActionsInFilter(MyReceiverActions.PRODUCT_DETAIL_FROM_NOTIFICATION); // to show product detail from notification popup
 
 //			addActionsInFilter(MyReceiverActions.SEARCH_BY_CATEGORY);           //search by category
 
@@ -1213,6 +1214,9 @@ public abstract class BaseActivity extends FragmentActivity {
                 if(AppConstants.strUpgradeValue.equals("3")){
                     startActivity(new Intent(this, UnderMaintanance.class));
                 }
+                if(!AppConstants.strPopupData.equals("")){
+                    UtilityMethods.popUpOnDemand(this,AppConstants.strPopupData);
+                }
 			}catch(Exception e){}
 //			try{
 //				if(AppConstants.b2DaysUpdateDialog) {
@@ -1516,6 +1520,40 @@ public abstract class BaseActivity extends FragmentActivity {
 
 					}
 
+                    else if (intent.getAction().equals(MyReceiverActions.PRODUCT_DETAIL_FROM_NOTIFICATION)) {
+                        ProductDetailsListBean contentListBean = (ProductDetailsListBean) bundle
+                                .getSerializable(ConnectionService.RESPONSE);
+                        if (contentListBean.getFlag().equalsIgnoreCase("1")) {
+                            Intent call = new Intent(mContext, ProductDetailScreen.class);
+                            Bundle call_bundle = new Bundle();
+                            call_bundle.putSerializable("ProductContent", contentListBean.getProductDetail().get(0));
+
+                            /*this code is written to math the similar pattern to view the product detail*/
+                            Product product=new Product(contentListBean.getProductDetail().get(0).getProductName());
+                            product.setImage(contentListBean.getProductDetail().get(0).getProductThumbnail());
+                            product.setName(contentListBean.getProductDetail().get(0).getProductName());
+                            product.setPrice(contentListBean.getProductDetail().get(0).getProductPrice());
+                            product.setStatus(contentListBean.getProductDetail().get(0).getStatus());
+                            product.setBrand(contentListBean.getProductDetail().get(0).getProductBrand());
+                            product.setProductName(contentListBean.getProductDetail().get(0).getProductSingleName());
+                            product.setGramsORml(contentListBean.getProductDetail().get(0).getProductPack());
+                            product.setProductid(contentListBean.getProductDetail().get(0).getProductId());
+                            product.setPromotionLevel(contentListBean.getProductDetail().get(0).getProductPromotion());
+                            product.setSalePrice(contentListBean.getProductDetail().get(0).getSale_price());
+                            product.setQuantity("1");
+                            /*----------------------------*/
+                            call_bundle.putSerializable("Product", product);
+                            call_bundle.putString("BRAND", product.getBrand());
+                            call_bundle.putString("NAME", product.getProductName());
+                            call_bundle.putString("GRAMSORML", product.getGramsORml());
+                            call_bundle.putString("PROMOTION", product.getPromotionLevel());
+                            call.putExtras(call_bundle);
+                            startActivity(call);
+                        } else {
+                            UtilityMethods.customToast(contentListBean.getResult(), mContext);
+                        }
+                    }
+
 
 
 
@@ -1712,7 +1750,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 	}
 
-	private void viewCart() {
+	public void viewCart() {
 		ArrayList<CartDetail> cart_products = UtilityMethods.readLocalCart(activity, Constants.StackCartFile);
 		if(cart_products.size()<=0) {
 			openCart();

@@ -2,11 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rgretail.grocermax"
     android:versionCode="5"
-    android:versionName="1.4" >
+    android:versionName="1.4">
 
     <!-- package="com.rgretail.grocermax.permission.MAPS_RECEIVE" -->
 
-   <!-- <uses-sdk android:minSdkVersion="14" />-->
+    <!-- <uses-sdk android:minSdkVersion="14" />-->
 
     <permission
         android:name="com.rgretail.grocermax.permission.C2D_MESSAGE"
@@ -30,7 +30,8 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- for flurry analytics -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- for flurry analytics -->
 
     <uses-feature
         android:name="android.hardware.TELEPHONY"
@@ -45,21 +46,21 @@
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
         <service android:name=".preference.AlarmService" />
 
-        <receiver android:name=".preference.AlarmReceiver" >
+        <receiver android:name=".preference.AlarmReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" >
-                </action>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
         </receiver>
 
-        <receiver android:name="com.appsflyer.MultipleInstallBroadcastReceiver"
+        <receiver
+            android:name="com.appsflyer.MultipleInstallBroadcastReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
@@ -69,7 +70,7 @@
         <activity
             android:name=".SplashScreen"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -80,7 +81,22 @@
             android:name=".hotoffers.HomeScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="grocermax"
+                    android:host="com.rgretail.grocermax"
+                    android:pathPrefix="/offerbydealtype?cat_id=2483" />
+            </intent-filter>
+
+
+        </activity>
         <activity
             android:name=".CityActivity"
             android:label="@string/app_name"
@@ -157,13 +173,6 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <!--
-        <activity
-            android:name=".DashBoardScreen"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-        -->
         <activity
             android:name=".ProductDetailScreen"
             android:label="@string/app_name"
@@ -277,7 +286,7 @@
             android:exported="false"
             android:label="Mobikwik Payments"
             android:theme="@style/LightErrorFix"
-            android:windowSoftInputMode="stateHidden" >
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="MobikwikSDK" />
 
@@ -292,87 +301,75 @@
             android:label="Secure Payment Gateway"
             android:launchMode="singleTop"
             android:theme="@style/LightErrorFix"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name="com.paymentsdk.android.CardOrNetbanking"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Payment Method"
             android:theme="@style/LightErrorFix"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name="com.paymentsdk.android.PGResponseHandler"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Payment Gateway Response"
             android:theme="@style/LightErrorFix"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name="com.paymentsdk.android.AddBalance"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Payment"
             android:theme="@style/LightErrorFix"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name="com.paymentsdk.android.PGWebView"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Secure Payment Gateway"
             android:theme="@style/LightErrorFix"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name="com.paymentsdk.android.WalletDebitConfirmation"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Payment Confirmation"
             android:theme="@style/LightErrorFix"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name="com.paymentsdk.android.PGPaymentConfirmation"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Payment Confirmation"
             android:theme="@style/LightErrorFix"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name="com.paymentsdk.android.WalletResponseHandler"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Payment Response"
             android:theme="@style/LightErrorFix"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name="com.paymentsdk.android.GetUserDetailsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Enter Details"
             android:theme="@style/LightErrorFix"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name="com.paymentsdk.android.DirectPayActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="DirectPay"
             android:launchMode="singleTop"
             android:theme="@style/Theme.Transparent"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name="com.paymentsdk.android.PaymentHostActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Payment"
             android:launchMode="singleTop"
             android:theme="@style/LightErrorFix"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name="com.paymentsdk.android.AddCardActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Add Card"
             android:theme="@style/LightErrorFix"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
 
 
         <!--for citrus integration-->
@@ -381,23 +378,21 @@
             android:label="@string/title_activity_citrus"
             android:theme="@style/CitrusAppTheme"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
+            android:windowSoftInputMode="adjustPan"></activity>
 
         <activity
             android:name="com.citrus.sdk.ui.activities.LoginFlowActivity"
             android:label="@string/title_activity_login_flow"
             android:theme="@style/CitrusAppTheme"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
+            android:windowSoftInputMode="adjustPan"></activity>
         <!---->
 
 
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
 
@@ -407,7 +402,7 @@
 
         <service
             android:name=".GCM.GCMIntentService"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
@@ -415,36 +410,30 @@
 
         <activity
             android:name=".OneTimePassword"
-            android:label="@string/title_activity_one_time_password" >
-        </activity>
+            android:label="@string/title_activity_one_time_password"></activity>
         <activity
             android:name=".CategoryActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
         <activity
             android:name=".ProductSorting"
-            android:label="@string/title_activity_product_sorting" >
-        </activity>
+            android:label="@string/title_activity_product_sorting"></activity>
         <activity
             android:name=".WalletActivity"
             android:label="@string/title_activity_wallet"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
         <activity
             android:name=".WalletTransaction"
             android:label="@string/title_activity_wallet"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
         <activity
             android:name=".PhoneNumberForOTP"
             android:label="@string/title_activity_wallet"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
     </application>
 
 </manifest>

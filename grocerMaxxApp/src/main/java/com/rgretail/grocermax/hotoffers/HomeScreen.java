@@ -331,8 +331,18 @@ public class HomeScreen extends BaseActivity {
                         Bundle bundle1 = getIntent().getExtras();
                         if (bundle1 != null && bundle1.getBoolean("IS_FROM_NOTIFICATION", false)) {
                             getNotificationData(bundle1);
-                            // isFromNotification = true;
                         }
+
+                        Intent intent = getIntent();
+                        if (intent != null || intent.getData() != null) {
+                            Bundle bundle2=new Bundle();
+                            bundle2.putString("name", "Offer");
+                            String path=intent.getData().getPath();
+                            path=path.substring(path.lastIndexOf('/')+1,path.length()-1);
+                            bundle2.putString("linkurl", path);
+                            getNotificationData(bundle2);
+                        }
+
                     }
 
                         if(AppConstants.strUpgradeValue.equals("2")){
@@ -345,7 +355,6 @@ public class HomeScreen extends BaseActivity {
                     UtilityMethods.downloadPopUpNew(this,AppConstants.strUpgradeValue);
                 }else if(AppConstants.strUpgradeValue.equals("3")){
                         dismissDialog();
-                       // UtilityMethods.underMaintanancePopUp(this);
                         startActivity(new Intent(this, UnderMaintanance.class));
                     }
 

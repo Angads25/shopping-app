@@ -21,8 +21,10 @@ public class AppConstants {
 	public static boolean b2DaysUpdateDialog = false;
 	public static LocationListBean locationBean;
 
+    public static String strPopupData = "";
 
-	public static String token = "gpjaic0pdzqsv3jyouqsu3cd";
+
+    public static String token = "gpjaic0pdzqsv3jyouqsu3cd";
 	
 	public static String user_id = "61723373-785e-407d-a966-ad3b2694ceef";
 	

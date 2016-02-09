@@ -268,6 +268,8 @@ public class ProductListAdapter extends BaseAdapter {
                     cart_obj.setGramsORml(obj.getGramsORml());
                     cart_obj.setProductName(obj.getProductName());
                     cart_obj.setPromotionLevel(obj.getPromotionLevel());
+
+                      /*Updating the cart count in sharedPreference and change the label in header*/
                     if (MySharedPrefs.INSTANCE.getTotalItem() != null) {
                         MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(Integer.parseInt(MySharedPrefs.INSTANCE.getTotalItem()) + Integer.parseInt(quantity.getText().toString())));
                         BaseActivity.cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
@@ -275,6 +277,7 @@ public class ProductListAdapter extends BaseAdapter {
                         MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(0 + Integer.parseInt(quantity.getText().toString())));
                         BaseActivity.cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
                     }
+                        /*---------------------------------------------------------------------*/
                     cart_obj.setProduct_thumbnail(obj.getImage());
                         boolean result = UtilityMethods.writeLocalCart(activity, Constants.localCartFile, cart_obj);
                         UtilityMethods.writeCloneCart(activity, Constants.localCloneFile, cart_obj);

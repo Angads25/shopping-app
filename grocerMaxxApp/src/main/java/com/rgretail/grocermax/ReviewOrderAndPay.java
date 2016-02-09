@@ -22,14 +22,12 @@ import com.citrus.sdk.ui.fragments.ResultFragment;
 import com.citrus.sdk.ui.utils.CitrusFlowManager;
 import com.citrus.sdk.ui.utils.ResultModel;
 import com.flurry.android.FlurryAgent;
-
 import com.payu.sdk.Params;
 import com.payu.sdk.PayU;
 import com.payu.sdk.Payment;
 import com.payu.sdk.ProcessPaymentActivity;
 import com.payu.sdk.exceptions.HashException;
 import com.payu.sdk.exceptions.MissingParameterException;
-
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.CartDetail;
@@ -73,7 +71,6 @@ public class ReviewOrderAndPay extends BaseActivity
 	public static String order_id;
 	public static String order_db_id;
 	private boolean bOnline,bCash,bPayTM,bMobiKwik,bCitrus;
-	private String[] payment_modes = {"Online Payment", "Cash on Delivery"};
 	OrderReviewBean orderReviewBean;
 	String payment_mode;
 	float total;
@@ -832,18 +829,16 @@ public class ReviewOrderAndPay extends BaseActivity
     public void payumoneyMakePayment(String orderid) throws PackageManager.NameNotFoundException, MissingParameterException, HashException {
         // oops handle it here.
 
+
         double total=Double.parseDouble(tvTotal.getText().toString().replace("Rs.",""));
         Payment.Builder builder = new Payment().new Builder();
         Params requiredParams = new Params();
-//		builder.set(PayU.PRODUCT_INFO, defaultParam.getString(PayU.PRODUCT_INFO));
         builder.set(PayU.PRODUCT_INFO, "GrocerMax Product Info");
         builder.set(PayU.AMOUNT, String.valueOf(total));
         builder.set(PayU.TXNID, orderid);
         builder.set(PayU.EMAIL, MySharedPrefs.INSTANCE.getUserEmail());
         builder.set(PayU.FIRSTNAME, MySharedPrefs.INSTANCE.getFirstName() + " " + MySharedPrefs.INSTANCE.getLastName());
         builder.set("user_credentials", "yPnUG6:test");
-//		builder.set(PayU.SURL, defaultParam.getString(PayU.SURL));
-//		builder.set(PayU.FURL, defaultParam.getString(PayU.FURL));
         builder.set(PayU.SURL, "https://payu.herokuapp.com/success");
         builder.set(PayU.FURL, "https://payu.herokuapp.com/failure");
         builder.set(PayU.MODE, String.valueOf(PayU.PaymentMode.PAYU_MONEY));
@@ -1026,6 +1021,7 @@ public class ReviewOrderAndPay extends BaseActivity
                 jsonObject.put("orderdbid",order_db_id);
                 myApi.reqSetOrderStatusForCitrus(url, jsonObject);
 
+                /*sending on confirmation page*/
                 MySharedPrefs.INSTANCE.putTotalItem("0");
                 MySharedPrefs.INSTANCE.clearQuote();
                 Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
@@ -1052,15 +1048,26 @@ public class ReviewOrderAndPay extends BaseActivity
 
 
    public void citrusPayment(String citrus_order_id){
-       System.out.println("citrus_order_id = " + citrus_order_id);
-       CitrusFlowManager.initCitrusConfig("q4qz4sa1wq-signup", "915112088057be17d992162f88eeb7f9",
+
+
+      /*This is the sand box credentials*/
+       /*CitrusFlowManager.initCitrusConfig("q4qz4sa1wq-signup", "915112088057be17d992162f88eeb7f9",
                "q4qz4sa1wq-signin", "dca4f2179ade2454aaee0194be186774",
                getResources().getColor(R.color.citrus_white), ReviewOrderAndPay.this,
                Environment.SANDBOX, "q4qz4sa1wq",
                UrlsConstants.CITRUS_BILL_GENRATOR+""+citrus_order_id,
+               UrlsConstants.CITRUS_RETURN_URL);*/
+
+      /*This is the live credentilas*/
+       CitrusFlowManager.initCitrusConfig("78s6jg7d4j-signup", "5e8816c36e20ee00fede9ac7b754b457",
+               "78s6jg7d4j-signin", "2113fba06ef2fc41cab120983c80c10d",
+               getResources().getColor(R.color.citrus_white), ReviewOrderAndPay.this,
+               Environment.PRODUCTION, "78s6jg7d4j",
+               UrlsConstants.CITRUS_BILL_GENRATOR+""+citrus_order_id,
                UrlsConstants.CITRUS_RETURN_URL);
 
 
+       /*This credential provided by citrus */
       /* CitrusFlowManager.initCitrusConfig("8x5hn2kbpc-signup","2b591f683aa3cf1426fd2a1103c5d845",
                                           "8x5hn2kbpc-signin","2996366165262aeb051533c6f7a78230",
                                            getResources().getColor(R.color.citrus_white), ReviewOrderAndPay.this,
@@ -1187,7 +1194,10 @@ public class ReviewOrderAndPay extends BaseActivity
                             if(payment.has("customercredit")){
                                 llWallet.setVisibility(View.VISIBLE);
                                 v_my_wallet.setVisibility(View.VISIBLE);
+                                if(payment.getJSONObject("customercredit").getString("mobile_label")!=null && !payment.getJSONObject("customercredit").getString("mobile_label").equals("null"))
                                 tv_my_wallet_offer.setText(payment.getJSONObject("customercredit").getString("mobile_label"));
+                                else
+                                tv_my_wallet_offer.setText("");
                             }else{
                                 llWallet.setVisibility(View.GONE);
                                 v_my_wallet.setVisibility(View.GONE);
@@ -1197,7 +1207,10 @@ public class ReviewOrderAndPay extends BaseActivity
                           if(payment.has("paytm_cc")){
                             llPayTM.setVisibility(View.VISIBLE);
                             view_paytm.setVisibility(View.VISIBLE);
-                            tv_paytm_offer.setText(payment.getJSONObject("paytm_cc").getString("mobile_label"));
+                              if(payment.getJSONObject("paytm_cc").getString("mobile_label")!=null && !payment.getJSONObject("paytm_cc").getString("mobile_label").equals("null"))
+                              tv_paytm_offer.setText(payment.getJSONObject("paytm_cc").getString("mobile_label"));
+                              else
+                              tv_paytm_offer.setText("");
                           }else{
                               llPayTM.setVisibility(View.GONE);
                               view_paytm.setVisibility(View.GONE);
@@ -1206,7 +1219,10 @@ public class ReviewOrderAndPay extends BaseActivity
                         if(payment.has("payucheckout_shared")){
                             llOnlinePayment.setVisibility(View.VISIBLE);
                             view_online_payment.setVisibility(View.VISIBLE);
+                            if(payment.getJSONObject("payucheckout_shared").getString("mobile_label")!=null && !payment.getJSONObject("payucheckout_shared").getString("mobile_label").equals("null"))
                             tv_online_payment_offer.setText(payment.getJSONObject("payucheckout_shared").getString("mobile_label"));
+                            else
+                            tv_online_payment_offer.setText("");
                         }else{
                             llOnlinePayment.setVisibility(View.GONE);
                             view_online_payment.setVisibility(View.GONE);
@@ -1215,7 +1231,10 @@ public class ReviewOrderAndPay extends BaseActivity
                         if(payment.has("moto")){
                             llCitrus.setVisibility(View.VISIBLE);
                             view_citrus.setVisibility(View.VISIBLE);
+                            if(payment.getJSONObject("moto").getString("mobile_label")!=null && !payment.getJSONObject("moto").getString("mobile_label").equals("null"))
                             tv_citrus_offer.setText(payment.getJSONObject("moto").getString("mobile_label"));
+                            else
+                            tv_citrus_offer.setText("");
                         }else{
                             llCitrus.setVisibility(View.GONE);
                             view_citrus.setVisibility(View.GONE);

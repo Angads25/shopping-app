@@ -354,16 +354,22 @@ public class ConnectionService extends IntentService {
                   1- Update available.You have to update
                   2- Update available.You can skip.
                   3- Under maintainance	*/
-				Header upgradeHeader = response.getFirstHeader("upgrade-app");
-				String strHeader = upgradeHeader.getName();
+
+				//Header upgradeHeader = response.getFirstHeader("upgrade-app");
+                Header header[] = response.getAllHeaders();
+				//String strHeader = upgradeHeader.getName();
+                String strHeader = header[6].getName();
 				if(strHeader != null) {
 					if (strHeader.equals("upgrade-app")) {
-//					if(upgradeHeader.getValue().equals("1")){
-						AppConstants.strUpgradeValue = upgradeHeader.getValue();
-                       //AppConstants.strUpgradeValue="2";
-//					}
+						AppConstants.strUpgradeValue = header[6].getValue();
 					}
 				}
+                String strHeaderNotification = header[7].getName();
+                if(strHeaderNotification != null) {
+                    if (strHeaderNotification.equals("notification")) {
+                        AppConstants.strPopupData = header[7].getValue();
+                    }
+                }
 //				Header header[] = response.getAllHeaders();
 //				for (int i = 0; i < header.length; i++) {
 //					String strHeader = header[i].getName();
@@ -661,4 +667,7 @@ public class ConnectionService extends IntentService {
 			}
 		}
 	};
+
+
+
 }

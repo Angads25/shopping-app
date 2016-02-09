@@ -1,11 +1,11 @@
 package com.rgretail.grocermax.bean;
 
-import java.io.Serializable;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
+
+import java.io.Serializable;
 
 public class Product implements Serializable, Parcelable {
 
@@ -63,7 +63,7 @@ public class Product implements Serializable, Parcelable {
 	public String getPromotionLevel(){
 		return promotion_level;
 	}
-	public void setPromotionLevel(String promotionLevel){
+	public void setPromotionLevel(String promotion_level){
 		this.promotion_level = promotion_level;
 	}
 	
