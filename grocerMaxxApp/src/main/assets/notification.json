@@ -1,15 +1,15 @@
 {
-	"id": 1,
-	"message": "30% on this product please check",
+	"id": 2,
+	"message": "Please logout",
 	"type": "popup",
 	"action": [{
 		"text": "OK",
-		"key": "viewcart",
-		"page": ""
+		"key": "pr",
+		"page": "10280"
 	},{
       		"text": "Cancel",
       		"key": "",
       		"page": ""
       	}],
-	"frequency": -1
+	"frequency": 2
 }

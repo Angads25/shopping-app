@@ -333,7 +333,8 @@ public class HomeScreen extends BaseActivity {
                             getNotificationData(bundle1);
                         }
 
-                        Intent intent = getIntent();
+
+                       /* Intent intent = getIntent();
                         if (intent != null || intent.getData() != null) {
                             Bundle bundle2=new Bundle();
                             bundle2.putString("name", "Offer");
@@ -341,7 +342,7 @@ public class HomeScreen extends BaseActivity {
                             path=path.substring(path.lastIndexOf('/')+1,path.length()-1);
                             bundle2.putString("linkurl", path);
                             getNotificationData(bundle2);
-                        }
+                        }*/
 
                     }
 
@@ -355,7 +356,7 @@ public class HomeScreen extends BaseActivity {
                     UtilityMethods.downloadPopUpNew(this,AppConstants.strUpgradeValue);
                 }else if(AppConstants.strUpgradeValue.equals("3")){
                         dismissDialog();
-                        startActivity(new Intent(this, UnderMaintanance.class));
+                        startActivity(new Intent(HomeScreen.this, UnderMaintanance.class));
                     }
 
                 } catch (Exception e) {

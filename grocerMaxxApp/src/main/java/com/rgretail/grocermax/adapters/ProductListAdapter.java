@@ -86,27 +86,18 @@ public class ProductListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.product_list_row, parent,
                     false);
             holder = new ViewHolder();
-            holder.sale_price = (TextView) convertView
-                    .findViewById(R.id.sale_price);
+            holder.sale_price = (TextView) convertView.findViewById(R.id.sale_price);
             holder.amount = (TextView) convertView.findViewById(R.id.amount);
-            holder.amount.setPaintFlags(holder.amount.getPaintFlags()
-                    | Paint.STRIKE_THRU_TEXT_FLAG);
-            holder.quantity = (TextView) convertView
-                    .findViewById(R.id.quantity);
-            holder.add_to_cart = (TextView) convertView
-                    .findViewById(R.id.add_cart_prod_list);
-            holder.prod_image = (ImageView) convertView
-                    .findViewById(R.id.product_image);
-            holder.increase_quantity = (ImageView) convertView
-                    .findViewById(R.id.increase_quantity);
-            holder.decrease_quantity = (ImageView) convertView
-                    .findViewById(R.id.decrease_quantity);
-            holder.tvOffers = (TextView) convertView
-                    .findViewById(R.id.tv_offers);
+            holder.amount.setPaintFlags(holder.amount.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.quantity = (TextView) convertView.findViewById(R.id.quantity);
+            holder.add_to_cart = (TextView) convertView.findViewById(R.id.add_cart_prod_list);
+            holder.prod_image = (ImageView) convertView.findViewById(R.id.product_image);
+            holder.increase_quantity = (ImageView) convertView.findViewById(R.id.increase_quantity);
+            holder.decrease_quantity = (ImageView) convertView.findViewById(R.id.decrease_quantity);
+            holder.tvOffers = (TextView) convertView.findViewById(R.id.tv_offers);
 
 
-            holder.tvVerticalBar = (TextView) convertView
-                    .findViewById(R.id.tv_vertical_bar);
+            holder.tvVerticalBar = (TextView) convertView.findViewById(R.id.tv_vertical_bar);
 
 
             holder.prod_brand = (TextView) convertView

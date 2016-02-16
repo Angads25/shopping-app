@@ -566,6 +566,7 @@ public class CreateNewAddress extends BaseActivity{
 					String addr = address.getStreet();
 					tvHouseNo.setText(addr.split("\n")[0]);
 //					tvLocation.setText(addr.split("\n")[1]);
+                    if(addr.split("\n").length==3)
 					tvLandMark.setText(addr.split("\n")[2]);
 
 					int indexTempLocation = 0;

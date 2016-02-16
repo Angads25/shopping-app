@@ -1,15 +1,13 @@
 package com.rgretail.grocermax;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-//import com.google.android.gms.analytics.GoogleAnalytics;
-//import com.google.android.gms.analytics.Tracker;
-
 import android.app.Application;
 
-import java.util.HashMap;
+import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
-import com.google.android.gms.analytics.HitBuilders;
+
+import java.util.HashMap;
+
+//import com.google.android.gms.analytics.GoogleAnalytics;
+//import com.google.android.gms.analytics.Tracker;
 
 /**
  * Created by Abhishek on 12/9/2015.

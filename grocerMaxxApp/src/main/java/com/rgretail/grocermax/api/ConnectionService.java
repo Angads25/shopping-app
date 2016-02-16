@@ -356,19 +356,25 @@ public class ConnectionService extends IntentService {
                   3- Under maintainance	*/
 
 				//Header upgradeHeader = response.getFirstHeader("upgrade-app");
+               // AppConstants.strUpgradeValue = "3";
                 Header header[] = response.getAllHeaders();
 				//String strHeader = upgradeHeader.getName();
-                String strHeader = header[6].getName();
+                for(int i=0;i<header.length;i++){
+                String strHeader = header[i].getName();
 				if(strHeader != null) {
 					if (strHeader.equals("upgrade-app")) {
-						AppConstants.strUpgradeValue = header[6].getValue();
+						AppConstants.strUpgradeValue = header[i].getValue();
 					}
+                    if (strHeader.equals("notification")) {
+                        AppConstants.strPopupData = header[i].getValue();
+                    }
 				}
-                String strHeaderNotification = header[7].getName();
+               /* String strHeaderNotification = header[i].getName();
                 if(strHeaderNotification != null) {
                     if (strHeaderNotification.equals("notification")) {
                         AppConstants.strPopupData = header[7].getValue();
                     }
+                }*/
                 }
 //				Header header[] = response.getAllHeaders();
 //				for (int i = 0; i < header.length; i++) {

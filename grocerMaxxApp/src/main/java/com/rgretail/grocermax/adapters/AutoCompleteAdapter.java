@@ -1,6 +1,10 @@
 package com.rgretail.grocermax.adapters;
 
 import android.content.Context;
+import android.graphics.Paint;
+import android.graphics.Typeface;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,9 +12,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.R;
+import com.rgretail.grocermax.bean.Product;
+import com.rgretail.grocermax.utils.CustomFonts;
+import com.rgretail.grocermax.utils.CustomTypefaceSpan;
+import com.rgretail.grocermax.utils.UrlsConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -37,18 +49,20 @@ import java.util.List;
  * Created by anchit-pc on 23-Jan-16.
  */
 public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
-    private ArrayList<String> mData;
+    private ArrayList<Product> autoSuggestList;
+   //private ArrayList<String> autoSuggestList;
     Context con;
 
 
     public AutoCompleteAdapter(Context context) {
-        mData = new ArrayList<String>();
+        autoSuggestList = new ArrayList<Product>();
+        //autoSuggestList = new ArrayList<String>();
         this.con=context;
     }
 
     @Override
     public int getCount() {
-        return mData.size();
+        return autoSuggestList.size();
     }
 
     @Override
@@ -57,21 +71,62 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         if(convertView==null){
             LayoutInflater inflater=(LayoutInflater)con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView=inflater.inflate(R.layout.listview_element,null);
+            //convertView=inflater.inflate(R.layout.listview_element,null);
+            convertView=inflater.inflate(R.layout.auto_suggest_search,null);
         }
-        TextView name=(TextView)convertView.findViewById(R.id.name);
-        name.setText(mData.get(position));
+        TextView name=(TextView)convertView.findViewById(R.id.product_name);
+        ImageView image=(ImageView)convertView.findViewById(R.id.product_image);
+        TextView prod_gram_or_ml = (TextView) convertView.findViewById(R.id.product_gram_or_ml);
+        TextView sale_price = (TextView) convertView.findViewById(R.id.sale_price);
+        TextView amount = (TextView) convertView.findViewById(R.id.amount);
+        amount.setPaintFlags(amount.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+        //TextView name=(TextView)convertView.findViewById(R.id.name);
+        Typeface font3 = Typeface.createFromAsset(con.getAssets(), "Roboto-Regular.ttf");
+        Typeface font4 =   Typeface.createFromAsset(con.getAssets(), "Rupee.ttf");
+
+        name.setText(autoSuggestList.get(position).getName());
+        name.setTypeface(CustomFonts.getInstance().getRobotoRegular(con));
+        prod_gram_or_ml.setText(autoSuggestList.get(position).getGramsORml());
+        prod_gram_or_ml.setTypeface(CustomFonts.getInstance().getRobotoRegular(con));
+        if(autoSuggestList.get(position).getSalePrice().toString() != null) {
+            SpannableStringBuilder SS = new SpannableStringBuilder("`" + autoSuggestList.get(position).getSalePrice().toString());
+            SS.setSpan(new CustomTypefaceSpan("", font4), 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            SS.setSpan(new CustomTypefaceSpan("", font3), 1, autoSuggestList.get(position).getSalePrice().toString().length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+            sale_price.setText(SS);
+        }
+        if(autoSuggestList.get(position).getPrice().toString() != null) {
+            SpannableStringBuilder SS = new SpannableStringBuilder("`" + autoSuggestList.get(position).getPrice().toString());
+            SS.setSpan(new CustomTypefaceSpan("", font4), 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            SS.setSpan(new CustomTypefaceSpan("", font3), 1, autoSuggestList.get(position).getPrice().toString().length() - (autoSuggestList.get(position).getPrice().toString().length() - 1), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+            amount.setText(SS);
+        }
+        //name.setText(autoSuggestList.get(position).split("@@@@")[0]);
+
+        ImageLoader.getInstance().displayImage(autoSuggestList.get(position).getImage(),
+                image, ((BaseActivity) con).baseImageoptions);
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((BaseActivity) con).showDialog();
+                String url = UrlsConstants.PRODUCT_DETAIL_URL + autoSuggestList.get(position).getProductid();
+                UtilityMethods.hideKeyboardFromContext(con);
+                //        String url = UrlsConstants.PRODUCT_DETAIL_URL + autoSuggestList.get(position).split("@@@@")[1];
+                ((BaseActivity) con).myApi.reqProductDetailFromNotification(url);
+            }
+        });
+
 
         return convertView;
     }
 
     @Override
-    public String getItem(int index) {
-        return mData.get(index);
+    public Object getItem(int index) {
+        return autoSuggestList.get(index);
     }
 
     @Override
@@ -84,14 +139,14 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
                     // A class that queries a web API, parses the data and returns an ArrayList<Style>
                     StyleFetcher fetcher = new StyleFetcher();
                     try {
-                        mData = fetcher.retrieveResults(constraint.toString(),"GET","https://maps.googleapis.com/maps/api/place/autocomplete/json?input=");
+                        autoSuggestList = fetcher.retrieveResults(constraint.toString(),"GET",UrlsConstants.SEARCH_PRODUCT);
                     }
                     catch(Exception e) {
                         Log.e("myException", e.getMessage());
                     }
                     // Now assign the values and count to the FilterResults object
-                    filterResults.values = mData;
-                    filterResults.count = mData.size();
+                    filterResults.values = autoSuggestList;
+                    filterResults.count = autoSuggestList.size();
                 }
                 return filterResults;
             }
@@ -113,8 +168,9 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
    public class StyleFetcher{
         InputStream httpResponseStream = null;
        String jsonString = "";
-       public ArrayList<String> retrieveResults(String data,String method,String url){
-           ArrayList<String> mList=new ArrayList<>();
+       public ArrayList<Product> retrieveResults(String data,String method,String url){
+           ArrayList<Product> mList=new ArrayList<>();
+           //ArrayList<String> mList=new ArrayList<>();
            List<NameValuePair> params=null;
            try {
                // get a Http client
@@ -138,7 +194,7 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
                    // Format the parameters correctly for HTTP transmission
                    //String paramString = URLEncodedUtils.format(params, "utf-8");
                    // Add parameters to url in GET format
-                     url += "" + URLEncoder.encode(data, "utf-8")+"&types=geocode&sensor=false&key=AIzaSyAUlshWWtBduQdUrTSA9VMThhWfGk3Hm9A";
+                     url += "" + URLEncoder.encode(data, "utf-8");
                    // Execute the request
                    HttpGet httpGet = new HttpGet(url);
                    // Execute the request and fetch Http response
@@ -180,9 +236,16 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
                // Create jsonObject from the jsonString and return it
                System.out.println("Response="+jsonString);
                JSONObject jsonData=new JSONObject(jsonString);
-               JSONArray dataArray=jsonData.getJSONArray("predictions");
+               JSONArray dataArray=jsonData.getJSONArray("Product");
                for(int i=0;i<dataArray.length();i++){
-                   mList.add(dataArray.getJSONObject(i).getString("description"));
+                   Product p=new Product(dataArray.getJSONObject(i).getString("Name"));
+                   p.setProductid(dataArray.getJSONObject(i).getString("productid"));
+                   p.setImage(dataArray.getJSONObject(i).getString("Image"));
+                   p.setGramsORml(dataArray.getJSONObject(i).getString("p_pack"));
+                   p.setSalePrice(dataArray.getJSONObject(i).getString("sale_price"));
+                   p.setPrice(dataArray.getJSONObject(i).getString("Price"));
+                   mList.add(p);
+                   //mList.add(dataArray.getJSONObject(i).getString("Name")+"@@@@"+dataArray.getJSONObject(i).getString("productid"));
                }
                return mList;
            } catch (JSONException e) {

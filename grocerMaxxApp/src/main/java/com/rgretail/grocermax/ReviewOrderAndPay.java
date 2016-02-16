@@ -583,11 +583,27 @@ public class ReviewOrderAndPay extends BaseActivity
 			button_pay.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
+
 					try{UtilityMethods.clickCapture(mContext,"Review and Place order","","","",MySharedPrefs.INSTANCE.getSelectedCity());
                     }catch(Exception e){}
 
 					orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 					total = Float.parseFloat(orderReviewBean.getGrandTotal());
+
+
+                     /*setting the order detail to send the ecommerce Data On GA at CODConfirmation page on success payment*/
+                    strTempAmount = orderReviewBean.getShipping_ammount();
+                    strTempSelectedState = MySharedPrefs.INSTANCE.getSelectedState();
+                    strTempTotal = orderReviewBean.getGrandTotal();
+                    strTempTaxAmount = orderReviewBean.getTax_ammount();
+                    strTempShippingAmount = orderReviewBean.getShipping_ammount();
+
+                    cartListGA = orderReviewBean.getProduct();
+                  /*---------------------------------------------------------------------------------------------*/
+
+
+
+
 
                      /*for checking that if payable amount =0 user should not select a payment method*/
                     if(Double.parseDouble(tvTotal.getText().toString().replace("Rs.","").trim())==0){
@@ -649,7 +665,22 @@ public class ReviewOrderAndPay extends BaseActivity
 
 						System.out.println("====payment json format====" + jsonObject);
 
+                        if(payment_mode.equals("moto")) {
+                            if (MySharedPrefs.INSTANCE.getMobileNo().equals("0000000000") || MySharedPrefs.INSTANCE.getMobileNo().equals("") || MySharedPrefs.INSTANCE.getMobileNo() == null){
+                                dismissDialog();
+                                button_pay.setEnabled(true);
+                                button_pay.setVisibility(View.VISIBLE);
+                                UtilityMethods.customToast("Your contact number is not valid.Please change your contact number", mContext);
+                                Intent intent = new Intent(mContext, EditProfile.class);
+                                startActivityForResult(intent,121);
+                            }else{
+                                myApi.reqFinalCheckout(strurl.replaceAll(" ", "%20"), jsonObject);
+                            }
+                        }else{
 						myApi.reqFinalCheckout(strurl.replaceAll(" ", "%20"), jsonObject);
+                        }
+
+
 						///////code added by ishan///////
 						if(payment_mode.equals("cashondelivery")) {
 							handler.postDelayed(new Runnable() {
@@ -755,7 +786,8 @@ public class ReviewOrderAndPay extends BaseActivity
                 params.put("amount", String.valueOf(amount));
 				params.put("surl", UrlsConstants.CHANGE_ORDER_STATUS + "success.php?orderid=" + orderid);
 				params.put("furl", UrlsConstants.CHANGE_ORDER_STATUS + "fail.php?orderid=" + orderid);
-				params.put("user_credentials", "yPnUG6:test");
+				//params.put("user_credentials", "yPnUG6:test");
+                params.put("user_credentials", "yPnUG6:"+MySharedPrefs.INSTANCE.getUserEmail());
 				params.put("key", "yPnUG6");
 				params.put("txnid", orderid);
 //				params.put("firstname", MySharedPrefs.INSTANCE.getFirstName() + " " + MySharedPrefs.INSTANCE.getLastName());
@@ -777,6 +809,11 @@ public class ReviewOrderAndPay extends BaseActivity
 							HttpGet httpGet = new HttpGet(UrlsConstants.GET_MOBILE_HASH + "txnid=" + orderid + "&amount=" + String.valueOf(finalAmount) + "&email=" + MySharedPrefs.INSTANCE.getUserEmail() + "&fname=" + MySharedPrefs.INSTANCE.getFirstName().replaceAll(" ", "%20"));
 //							System.out.println("genrate hash service = "+UrlsConstants.GET_MOBILE_HASH + "txnid=" + orderid + "&amount=" + String.valueOf(finalAmount) + "&email=" + MySharedPrefs.INSTANCE.getUserEmail() + "&fname=" + MySharedPrefs.INSTANCE.getFirstName().replace(" ", "%20"));
 							httpGet.setHeader("Content-Type", "application/json");
+                            httpGet.setHeader("device", getResources().getString(R.string.app_device));
+                            httpGet.setHeader("version",getResources().getString(R.string.app_version));
+                            if(MySharedPrefs.INSTANCE.getSelectedStateId() != null) {
+                                httpGet.setHeader("storeid", MySharedPrefs.INSTANCE.getSelectedStoreId());
+                            }
 							HttpResponse response1 = null;
 							response1 = client.execute(httpGet);
 							HttpEntity resEntity = response1.getEntity();
@@ -796,7 +833,6 @@ public class ReviewOrderAndPay extends BaseActivity
 									PayU.editUserCardHash = response.getJSONObject("Result").getString("editUserCardHash");
 									PayU.saveUserCardHash = response.getJSONObject("Result").getString("saveUserCardHash");
 								}
-
 							}
 
 							PayU.getInstance(ReviewOrderAndPay.this).startPaymentProcess(finalAmount, params);
@@ -900,6 +936,7 @@ public class ReviewOrderAndPay extends BaseActivity
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //		System.out.println(requestCode+"======0000==========="+resultCode+"=========data=========="+data);
 		try{
+
 			if(requestCode==123)                  //uses when coming from OneTimePassword screen after to register successfully this will finish and go back to loginactivity and loginactivity also uses same funct
 			{
 				System.out.println(requestCode+"======0000==========="+data);
@@ -1079,7 +1116,7 @@ public class ReviewOrderAndPay extends BaseActivity
 
        String amount=tvTotal.getText().toString().replace("Rs.","");
 
-       CitrusFlowManager.startShoppingFlow(ReviewOrderAndPay.this,"grocermaxtesting@gmail.com","8888888888",amount);
+       CitrusFlowManager.startShoppingFlow(ReviewOrderAndPay.this,MySharedPrefs.INSTANCE.getUserEmail(),MySharedPrefs.INSTANCE.getMobileNo(),amount);
    }
 
 

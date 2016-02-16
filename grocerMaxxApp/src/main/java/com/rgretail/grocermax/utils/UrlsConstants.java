@@ -49,8 +49,8 @@ public class UrlsConstants {
 	//public final static String NEW_BASE_URL = "https://multistore.grocermax.com/api/";
 
 
-    public final static String BASE_URL = "http://qa.grocermax.com/api/";
-    public final static String NEW_BASE_URL = "http://qa.grocermax.com/api/";
+    //public final static String BASE_URL = "http://qa.grocermax.com/api/";
+    //public final static String NEW_BASE_URL = "http://qa.grocermax.com/api/";
 
     //public final static String BASE_URL = "https://multistore.grocermax.com/api/";
     //public final static String NEW_BASE_URL = "https://multistore.grocermax.com/api/";
@@ -60,8 +60,8 @@ public class UrlsConstants {
     //public final static String NEW_BASE_URL = "http://staging.grocermax.com/api/";
 
 
-	//public final static String BASE_URL = "https://grocermax.com/api/";
-	//public final static String NEW_BASE_URL = "https://grocermax.com/api/";
+	public final static String BASE_URL = "https://grocermax.com/api/";
+	public final static String NEW_BASE_URL = "https://grocermax.com/api/";
 	public final static String BANNER_SEARCH_PRODUCT = NEW_BASE_URL ;
 //	public final static String BASE_URL = "http://api.grocermax.com/gmx_api.php/";
 //	public final static String NEW_BASE_URL = "http://api.grocermax.com/gmx_api.php/";
@@ -215,8 +215,11 @@ public class UrlsConstants {
 
 	/*public final static String ORDER_HISTORY_URL = BASE_URL
 			+ "orderhistory.php?email=";*/
-	public final static String ORDER_HISTORY_URL = NEW_BASE_URL
-			+ "orderhistory?email=";
+
+	/*public final static String ORDER_HISTORY_URL = NEW_BASE_URL
+			+ "orderhistory?email=";*/
+    public final static String ORDER_HISTORY_URL = NEW_BASE_URL
+            + "orderhistory?userid=";
 
 	public final static String ORDER_DETAIL_URL = NEW_BASE_URL
 			+ "getorderdetail?orderid=";

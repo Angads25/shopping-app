@@ -325,6 +325,7 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 					showDialog();
 					String url;
 					try{UtilityMethods.clickCapture(context,"Login","","Regular","",MySharedPrefs.INSTANCE.getSelectedCity());
+                        MySharedPrefs.INSTANCE.putLoginMethod("Regular");
                     }catch(Exception e){}
 //					HashMap<String, String> hashMap = new HashMap<String,String>();
 					JSONObject jsonObject = new JSONObject();
@@ -387,6 +388,9 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 			String USER_NAME = "";
 
 			try{UtilityMethods.clickCapture(context,"Login","","Facebook","",MySharedPrefs.INSTANCE.getSelectedCity());}catch(Exception e){}
+
+            MySharedPrefs.INSTANCE.putLoginMethod("Social");
+
 
 			Registration.googleName = null;
 			MySharedPrefs.INSTANCE.putGoogleName(null);
@@ -1038,7 +1042,7 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 			String USER_NAME = "";
 
 			try{UtilityMethods.clickCapture(context,"Login","","Google","",MySharedPrefs.INSTANCE.getSelectedCity());}catch(Exception e){}
-
+            MySharedPrefs.INSTANCE.putLoginMethod("Social");
 			Registration.facebookName = null;
 			MySharedPrefs.INSTANCE.putFacebookName(null);
 

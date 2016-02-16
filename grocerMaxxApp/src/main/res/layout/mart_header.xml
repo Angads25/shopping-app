@@ -235,7 +235,7 @@
                         android:singleLine="true"
                         android:textColor="#ffd0cb"
                         android:textColorHint="#ffa096"
-
+                        android:dropDownHeight="100dp"
                         android:textSize="13sp" />
 
                     <ImageView

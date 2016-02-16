@@ -83,10 +83,6 @@ public class HomeFragment extends Fragment {
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
-
-
-
-
         //BANNER LISTENER//
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

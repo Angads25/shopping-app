@@ -405,6 +405,9 @@ public class Registration extends BaseActivity implements
 					}
 					if (UtilityMethods.isInternetAvailable(mContext)) {
 						showDialog();
+
+                        MySharedPrefs.INSTANCE.putLoginMethod("Regular");
+
 //						String url = UrlsConstants.REGESTRATION_URL;
 						String url = UrlsConstants.REGESTRATION_URL_OTP;
 
@@ -432,6 +435,7 @@ public class Registration extends BaseActivity implements
 							MySharedPrefs.INSTANCE.putMobileNo(_mobile_no);//14/09/15
                             MySharedPrefs.INSTANCE.putFirstName(_fname);
                             MySharedPrefs.INSTANCE.putLastName(_lname);
+                            MySharedPrefs.INSTANCE.putUserEmail(_email_id);
 
 							try {
 								JSONObject jsonObject = new JSONObject();
@@ -472,6 +476,7 @@ public class Registration extends BaseActivity implements
 							MySharedPrefs.INSTANCE.putMobileNo(_mobile_no);                           //14/09/15
                             MySharedPrefs.INSTANCE.putFirstName(_fname);
                             MySharedPrefs.INSTANCE.putLastName(_lname);
+                            MySharedPrefs.INSTANCE.putUserEmail(_email_id);
 
 
 							try {
@@ -1055,7 +1060,7 @@ public class Registration extends BaseActivity implements
 		}catch(Exception e){}
 
 		USER_EMAIL = user.getProperty("email").toString();
-
+        MySharedPrefs.INSTANCE.putLoginMethod("Social");
 
 		USER_ID = user.getId();
 
@@ -1452,6 +1457,8 @@ public class Registration extends BaseActivity implements
 		USER_EMAIL = "";
 		String USER_NAME = "";
 		USER_NAME = currentPerson.getDisplayName();
+
+         MySharedPrefs.INSTANCE.putLoginMethod("Social");
 
 //		USER_FNAME = currentPerson.getName();
 //		USER_MNAME = user.getMiddleName();

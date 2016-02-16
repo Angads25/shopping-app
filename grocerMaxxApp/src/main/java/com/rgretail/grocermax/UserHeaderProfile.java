@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.facebook.Session;
 import com.flurry.android.FlurryAgent;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
@@ -286,84 +285,7 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                 }catch(Exception e){}
                 break;
             case R.id.rl_signout:
-                try {
-
-                    /*tracking GA event for logout action*/
-                    try{
-                        UtilityMethods.clickCapture(activity,"Profile Activity","","Logout","",MySharedPrefs.INSTANCE.getSelectedCity());
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
-                    /*--------------------------*/
-
-                    MySharedPrefs.INSTANCE.clearUserInfo();
-                    MySharedPrefs.INSTANCE.putTotalItem("0");
-                    cart_count_txt.setText("0");
-                    BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_logout);
-                    UtilityMethods.deleteCloneCart(UserHeaderProfile.this);
-
-                    ////Fb logout/////////
-                    if (MySharedPrefs.INSTANCE.getFacebookId() != null) {
-                        Session session = LoginActivity.getInstance().getSession();
-                        if (!session.isClosed()) {
-
-
-//                        MySharedPrefs.INSTANCE.clearAllData();
-                            String strCity = MySharedPrefs.INSTANCE.getSelectedCity();
-                            String strRegionId = MySharedPrefs.INSTANCE.getSelectedStateRegionId();
-                            String strState = MySharedPrefs.INSTANCE.getSelectedState();
-                            String strStoreId = MySharedPrefs.INSTANCE.getSelectedStoreId();
-                            String strStateId = MySharedPrefs.INSTANCE.getSelectedStateId();
-
-                            MySharedPrefs.INSTANCE.clearAllData();
-
-                            MySharedPrefs.INSTANCE.putSelectedCity(strCity);
-                            MySharedPrefs.INSTANCE.putSelectedStateRegionId(strRegionId);
-                            MySharedPrefs.INSTANCE.putSelectedState(strState);
-                            MySharedPrefs.INSTANCE.putSelectedStoreId(strStoreId);
-                            MySharedPrefs.INSTANCE.putSelectedStateId(strStateId);
-
-
-                            session.closeAndClearTokenInformation();
-                        }
-                    }
-                    if (MySharedPrefs.INSTANCE.getGoogleId() != null) {
-
-                        LoginActivity.googlePlusLogout();
-
-                        Registration.googlePlusLogoutReg();
-//					loginActivity.googlePlusLogout();
-
-//                    MySharedPrefs.INSTANCE.clearAllData();
-                        String strCity = MySharedPrefs.INSTANCE.getSelectedCity();
-                        String strRegionId = MySharedPrefs.INSTANCE.getSelectedStateRegionId();
-                        String strState = MySharedPrefs.INSTANCE.getSelectedState();
-                        String strStoreId = MySharedPrefs.INSTANCE.getSelectedStoreId();
-                        String strStateId = MySharedPrefs.INSTANCE.getSelectedStateId();
-
-                        MySharedPrefs.INSTANCE.clearAllData();
-
-                        MySharedPrefs.INSTANCE.putSelectedCity(strCity);
-                        MySharedPrefs.INSTANCE.putSelectedStateRegionId(strRegionId);
-                        MySharedPrefs.INSTANCE.putSelectedState(strState);
-                        MySharedPrefs.INSTANCE.putSelectedStoreId(strStoreId);
-                        MySharedPrefs.INSTANCE.putSelectedStateId(strStateId);
-                    }
-
-                    UtilityMethods.customToast(AppConstants.ToastConstant.LOGOUT_SUCCESS, mContext);
-                    Intent intent = new Intent(mContext, HomeScreen.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    finish();
-                }catch(Exception e){
-                    UtilityMethods.writeErrorInSdCard(UserHeaderProfile.this,"On Click of Logout----"+e.getMessage());
-                }
-
-//                UtilityMethods.customToast(AppConstants.ToastConstant.LOGOUT_SUCCESS, mContext);
-//                Intent intent = new Intent(mContext, HomeScreen.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                startActivity(intent);
-//                finish();
+                UtilityMethods.logout(UserHeaderProfile.this);
                 break;
         }
 

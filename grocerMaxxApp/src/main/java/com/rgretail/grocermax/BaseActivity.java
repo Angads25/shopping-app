@@ -255,11 +255,12 @@ public abstract class BaseActivity extends FragmentActivity {
            /* Point pointSize = new Point();
             getWindowManager().getDefaultDisplay().getSize(pointSize);
             edtSearch.setDropDownWidth(pointSize.x);
+            //edtSearch.setDropDownHeight(300);
             edtSearch.setDropDownVerticalOffset(edtSearch.getBaseline());
             //ArrayAdapter adapter=new ArrayAdapter(mContext,R.layout.listview_element,R.id.name,languages);
             AutoCompleteAdapter adapter=new AutoCompleteAdapter(BaseActivity.this);
             edtSearch.setAdapter(adapter);
-            edtSearch.setThreshold(1);*/
+            edtSearch.setThreshold(3);*/
 
 			edtSearch.setOnEditorActionListener(new OnEditorActionListener() {
 
@@ -269,7 +270,6 @@ public abstract class BaseActivity extends FragmentActivity {
 
 					if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 						UtilityMethods.hideKeyboardFromContext(BaseActivity.this);
-
 						goforsearch();
 					}
 					return false;
@@ -1108,9 +1108,11 @@ public abstract class BaseActivity extends FragmentActivity {
 	public void openOrderHistory()
 	{
 		try{
-			String email = MySharedPrefs.INSTANCE.getUserEmail();
+			//String email = MySharedPrefs.INSTANCE.getUserEmail();
+            String userid = MySharedPrefs.INSTANCE.getUserId();
 			showDialog();
-			String url = UrlsConstants.ORDER_HISTORY_URL+MySharedPrefs.INSTANCE.getUserEmail();//email;
+			//String url = UrlsConstants.ORDER_HISTORY_URL+MySharedPrefs.INSTANCE.getUserEmail();//email;
+            String url = UrlsConstants.ORDER_HISTORY_URL+MySharedPrefs.INSTANCE.getUserId();
 			myApi.reqOrderHistory(url);
 		}catch(NullPointerException e){
 			new GrocermaxBaseException("BaseActivity", "openOrderHistory", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");

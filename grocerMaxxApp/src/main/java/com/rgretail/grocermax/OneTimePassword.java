@@ -122,11 +122,15 @@ public class OneTimePassword extends BaseActivity {
                             if (UtilityMethods.isInternetAvailable(mContext)) {
                                 showDialog();
                                 String url;
-
+                                if(MySharedPrefs.INSTANCE.getLoginMethod().equalsIgnoreCase("Social")){
+                                    url = UrlsConstants.FB_LOGIN_URL;
+                                }else{
+                                    url = UrlsConstants.REGESTRATION_URL;
+                                }
                                 JSONObject jsonObject = new JSONObject();
                                 if(MySharedPrefs.INSTANCE.getQuoteId()==null||MySharedPrefs.INSTANCE.getQuoteId().equals(""))
                                 {
-                                    url = UrlsConstants.FB_LOGIN_URL;
+                                   // url = UrlsConstants.REGESTRATION_URL;
                                     jsonObject.put("uemail",MySharedPrefs.INSTANCE.getUserEmail());
                                     jsonObject.put("quote_id","no");
                                     jsonObject.put("fname",MySharedPrefs.INSTANCE.getFirstName());
@@ -134,7 +138,7 @@ public class OneTimePassword extends BaseActivity {
                                     jsonObject.put("number", phone_number);
                                     System.out.println("==jsonobject==" + jsonObject);
                                 }else{
-                                    url = UrlsConstants.FB_LOGIN_URL;
+                                   // url = UrlsConstants.REGESTRATION_URL;
                                     jsonObject.put("uemail",MySharedPrefs.INSTANCE.getUserEmail());
                                     jsonObject.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
                                     jsonObject.put("fname",MySharedPrefs.INSTANCE.getFirstName());

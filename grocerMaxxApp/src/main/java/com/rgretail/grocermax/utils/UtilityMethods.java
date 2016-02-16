@@ -37,12 +37,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appsflyer.AFInAppEventParameterName;
-import com.appsflyer.AFInAppEventType;
 import com.appsflyer.AppsFlyerLib;
+import com.facebook.Session;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.rgretail.grocermax.AnalyticsSampleApp;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.LoginActivity;
 import com.rgretail.grocermax.R;
+import com.rgretail.grocermax.Registration;
 import com.rgretail.grocermax.UserHeaderProfile;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
 import com.rgretail.grocermax.api.SearchLoader;
@@ -300,10 +303,12 @@ public class UtilityMethods {
     public static void popUpOnDemand(final Context ctx,String response)
     {
         try {
-            //response=loadJSONFromAsset(ctx,"notification.json");
+           // response=loadJSONFromAsset(ctx,"notification.json");
             boolean alertShouldShow=true;
             JSONObject alertMessage=new JSONObject(response);
             String message_id=alertMessage.getString("id");
+            String message=alertMessage.getString("message");
+            String type=alertMessage.getString("type");
             long frequency=Long.parseLong(alertMessage.getString("frequency"));
             SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
             String current_time = dateFormat.format(new Date());
@@ -323,8 +328,8 @@ public class UtilityMethods {
                     e.printStackTrace();
                 }
                 long diff = d2.getTime() - d1.getTime();
-                long diffHours = diff / (60 * 60 * 1000);
-                if(frequency>diffHours)
+                long diffMinuts = diff / (60 * 1000);
+                if(frequency>diffMinuts)
                   alertShouldShow=false;
                 else
                   alertShouldShow=true;
@@ -335,11 +340,18 @@ public class UtilityMethods {
                 db.insertDataInTable(Constants.DatabaseConstant.T_MESSAGE_FREQUENCY,cVal);
                 alertShouldShow=true;
             }
-            if(alertShouldShow){
-                String message=alertMessage.getString("message");
-                String type=alertMessage.getString("type");
+            db.close();
 
-                if (type.equals("popup")) {
+            if(type.equalsIgnoreCase("logout")){
+             if(MySharedPrefs.INSTANCE.getUserId()==null || MySharedPrefs.INSTANCE.getUserId().equals(""))
+                 alertShouldShow=false;
+            }
+
+            if(alertShouldShow){
+                db.Open();
+                db.updateTime(message_id,current_time);
+                db.close();
+                if (type.equalsIgnoreCase("popup")||type.equalsIgnoreCase("logout")) {
                     final JSONArray buttonArray=alertMessage.getJSONArray("action");
                     Typeface typeface=Typeface.createFromAsset(ctx.getAssets(),"Roboto-Regular.ttf");
                     Typeface typeface1=Typeface.createFromAsset(ctx.getAssets(),"Roboto-Light.ttf");
@@ -397,10 +409,10 @@ public class UtilityMethods {
             alert.dismiss();
             String key=buttonArray.getJSONObject(arrayPosition).getString("key");
             if (buttonArray.getJSONObject(arrayPosition).getString("key")!=null && !buttonArray.getJSONObject(arrayPosition).getString("key").equals("")) {
-                if(key.equals("upgrade")){
+                if(key.equalsIgnoreCase("upgrade")){
                     alert.dismiss();
                     UtilityMethods.rateApp(ctx);
-                }else if(key.equals("search")){
+                }else if(key.equalsIgnoreCase("search")){
                     AppConstants.strPopupData="";
                     alert.dismiss();
                     try {
@@ -412,7 +424,7 @@ public class UtilityMethods {
                         e.printStackTrace();
                         new GrocermaxBaseException("UtilityMethods.java", "search through popup", e.getMessage(), GrocermaxBaseException.EXCEPTION, "");
                     }
-                }else if(key.equals("home")){
+                }else if(key.equalsIgnoreCase("home")){
                     AppConstants.strPopupData="";
                     alert.dismiss();
                     try {
@@ -423,7 +435,7 @@ public class UtilityMethods {
                     }catch(Exception e){
                         new GrocermaxBaseException("UtilityMethods.java","home page through popup",e.getMessage(), GrocermaxBaseException.EXCEPTION,"");
                     }
-                }else if(key.equals("profile")){
+                }else if(key.equalsIgnoreCase("profile")){
                     AppConstants.strPopupData="";
                     alert.dismiss();
                     HomeScreen.isFromFragment=false;
@@ -438,33 +450,36 @@ public class UtilityMethods {
                     if(UtilityMethods.getCurrentClassName(ctx).equals(ctx.getPackageName() + ".CartProductList")) {
                         ((Activity)ctx).finish();
                     }
-                }else if(key.equals("")){
+                }else if(key.equalsIgnoreCase("")){
                     AppConstants.strPopupData="";
                     alert.dismiss();
-                }else if(key.equals("offerbydealtype")){
+                }else if(key.equalsIgnoreCase("offerbydealtype")){
                     AppConstants.strPopupData="";
                     gotoInternalPages(ctx,key,buttonArray.getJSONObject(arrayPosition).getString("page"));
-                }else if(key.equals("dealproductlisting")){
+                }else if(key.equalsIgnoreCase("dealproductlisting")){
                     AppConstants.strPopupData="";
                     gotoInternalPages(ctx,key,buttonArray.getJSONObject(arrayPosition).getString("page"));
-                }else if(key.equals("productlistall")){
+                }else if(key.equalsIgnoreCase("productlistall")){
                     AppConstants.strPopupData="";
                     gotoInternalPages(ctx,key,buttonArray.getJSONObject(arrayPosition).getString("page"));
-                }else if(key.equals("shopbydealtype")){
+                }else if(key.equalsIgnoreCase("shopbydealtype")){
                     AppConstants.strPopupData="";
                     gotoInternalPages(ctx,key,buttonArray.getJSONObject(arrayPosition).getString("page"));
-                }else if(key.equals("dealsbydealtype")){
+                }else if(key.equalsIgnoreCase("dealsbydealtype")){
                     AppConstants.strPopupData="";
                     gotoInternalPages(ctx,key,buttonArray.getJSONObject(arrayPosition).getString("page"));
-                }else if(key.equals("productdetail")){
+                }else if(key.equalsIgnoreCase("productdetail")){
                     AppConstants.strPopupData="";
                     ((BaseActivity)ctx).showDialog();
                     String url = UrlsConstants.PRODUCT_DETAIL_URL + buttonArray.getJSONObject(arrayPosition).getString("page");
                     ((BaseActivity)ctx).myApi.reqProductDetailFromNotification(url);
-                }else if(key.equals("viewcart")){
+                }else if(key.equalsIgnoreCase("viewcart")){
                     AppConstants.strPopupData="";
                     HomeScreen.isFromFragment=false;
                     ((BaseActivity)ctx).viewCart();
+                }else if(key.equalsIgnoreCase("logout")){
+                    AppConstants.strPopupData="";
+                    logout(ctx);
                 }
 
             }else{
@@ -479,10 +494,82 @@ public class UtilityMethods {
         Bundle bundle2=new Bundle();
         bundle2.putString("name", key);
         bundle2.putString("linkurl", pageurl);
+        bundle2.putBoolean("IS_FROM_NOTIFICATION",true);
         Intent intent = new Intent(ctx, HomeScreen.class);
+        intent.putExtras(bundle2);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
         ((Activity)ctx).startActivity(intent);
         ((Activity)ctx).finish();
+    }
+
+    public static void logout(Context ctx){
+        try {
+                    /*tracking GA event for logout action*/
+            try{
+                UtilityMethods.clickCapture((Activity)ctx,"Profile Activity","","Logout","",MySharedPrefs.INSTANCE.getSelectedCity());
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+                    /*--------------------------*/
+
+            MySharedPrefs.INSTANCE.clearUserInfo();
+            MySharedPrefs.INSTANCE.putTotalItem("0");
+            BaseActivity.cart_count_txt.setText("0");
+            BaseActivity.icon_header_user.setImageResource(R.drawable.user_icon_logout);
+            UtilityMethods.deleteCloneCart((Activity)ctx);
+
+            ////Fb logout/////////
+            if (MySharedPrefs.INSTANCE.getFacebookId() != null) {
+                Session session = LoginActivity.getInstance().getSession();
+                if (!session.isClosed()) {
+
+                    String strCity = MySharedPrefs.INSTANCE.getSelectedCity();
+                    String strRegionId = MySharedPrefs.INSTANCE.getSelectedStateRegionId();
+                    String strState = MySharedPrefs.INSTANCE.getSelectedState();
+                    String strStoreId = MySharedPrefs.INSTANCE.getSelectedStoreId();
+                    String strStateId = MySharedPrefs.INSTANCE.getSelectedStateId();
+
+                    MySharedPrefs.INSTANCE.clearAllData();
+
+                    MySharedPrefs.INSTANCE.putSelectedCity(strCity);
+                    MySharedPrefs.INSTANCE.putSelectedStateRegionId(strRegionId);
+                    MySharedPrefs.INSTANCE.putSelectedState(strState);
+                    MySharedPrefs.INSTANCE.putSelectedStoreId(strStoreId);
+                    MySharedPrefs.INSTANCE.putSelectedStateId(strStateId);
+
+
+                    session.closeAndClearTokenInformation();
+                }
+            }
+            if (MySharedPrefs.INSTANCE.getGoogleId() != null) {
+
+                LoginActivity.googlePlusLogout();
+
+                Registration.googlePlusLogoutReg();
+
+                String strCity = MySharedPrefs.INSTANCE.getSelectedCity();
+                String strRegionId = MySharedPrefs.INSTANCE.getSelectedStateRegionId();
+                String strState = MySharedPrefs.INSTANCE.getSelectedState();
+                String strStoreId = MySharedPrefs.INSTANCE.getSelectedStoreId();
+                String strStateId = MySharedPrefs.INSTANCE.getSelectedStateId();
+
+                MySharedPrefs.INSTANCE.clearAllData();
+
+                MySharedPrefs.INSTANCE.putSelectedCity(strCity);
+                MySharedPrefs.INSTANCE.putSelectedStateRegionId(strRegionId);
+                MySharedPrefs.INSTANCE.putSelectedState(strState);
+                MySharedPrefs.INSTANCE.putSelectedStoreId(strStoreId);
+                MySharedPrefs.INSTANCE.putSelectedStateId(strStateId);
+            }
+
+            UtilityMethods.customToast(AppConstants.ToastConstant.LOGOUT_SUCCESS, ctx);
+            Intent intent = new Intent(ctx, HomeScreen.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ((Activity)ctx).startActivity(intent);
+            ((Activity)ctx).finish();
+        }catch(Exception e){
+            UtilityMethods.writeErrorInSdCard(ctx,"On Click of Logout----"+e.getMessage());
+        }
     }
 
 
@@ -505,7 +592,7 @@ public class UtilityMethods {
 
         if(value.equals("1")){
             tv_msg.setText("Update the app for a fresher, faster experience!");
-            tv_skip.setVisibility(View.INVISIBLE);
+            tv_skip.setVisibility(View.GONE);
         }else if(value.equals("2")){
             tv_msg.setText("Update the app for a fresher, faster experience!");
             tv_skip.setVisibility(View.VISIBLE);
@@ -1337,7 +1424,6 @@ public class UtilityMethods {
 		try {
 			Map<String, Object> eventValue = new HashMap<String, Object>();
 			eventValue.put(AFInAppEventParameterName.PRICE, strPrice);
-//		eventValue.put(AFInAppEventParameterName.REVENUE,200);
 			eventValue.put(AFInAppEventParameterName.CONTENT_TYPE, strContentType);
 			eventValue.put(AFInAppEventParameterName.CONTENT_ID, strContentId);
 			eventValue.put("NAME", strName);
@@ -1361,15 +1447,55 @@ public class UtilityMethods {
 		}
 	}
 
-	public static void eventCapture(Context context,String strPrice,String strContentType,String strContentId){
-		Map<String,Object> event = new HashMap<String,Object>();
-		event.put(AFInAppEventParameterName.PRICE, strPrice);
-		event.put(AFInAppEventParameterName.CONTENT_TYPE,strContentType);
-		event.put(AFInAppEventParameterName.CONTENT_ID,strContentId);
-		event.put(AFInAppEventParameterName.CURRENCY,"INR");
-//		event.put(AFInAppEventParameterName.QUANTITY,1);
-		AppsFlyerLib.trackEvent(context, AFInAppEventType.ADD_TO_WISH_LIST,event);
+	public static void transactionCapture(Context context,String orderid,String storeName,String totalOrder,String shippingCharge,String taxCharge){
+        try {
+            if(BaseActivity.mTracker != null) {
+                BaseActivity.mTracker.send(new HitBuilders.TransactionBuilder()
+                        .setTransactionId(orderid)
+                        .setAffiliation(storeName)
+                        .setRevenue(Double.parseDouble(totalOrder))
+                        .setShipping(Double.parseDouble(shippingCharge))
+                        .setTax(Double.parseDouble(taxCharge))
+                        .setCurrencyCode("INR")
+                        .build());
+            }
+           /* Map<String, String> params=new HitBuilders.TransactionBuilder()
+                    .setTransactionId(orderid)
+                    .setAffiliation(storeName)
+                    .setRevenue(Double.parseDouble(totalOrder))
+                    .setShipping(Double.parseDouble(shippingCharge))
+                    .setTax(Double.parseDouble(taxCharge))
+                    .setCurrencyCode("INR")
+                    .build();
+            AnalyticsSampleApp app = ((AnalyticsSampleApp)((Activity)context).getApplication());
+            Tracker appTracker = app.getTracker(AnalyticsSampleApp.TrackerName.APP_TRACKER);
+            Tracker ecommerceTracker = app.getTracker(AnalyticsSampleApp.TrackerName.ECOMMERCE_TRACKER);
+            appTracker.send(params);
+            ecommerceTracker.send(params);*/
+
+        }catch(Exception e){
+            e.getMessage();
+        }
 	}
+
+    public static void captureItemsInAOrder(Context context,String orderid,String name,String sku,String category,String price,String qty){
+        try {
+            if(BaseActivity.mTracker != null) {
+                BaseActivity.mTracker.send(new HitBuilders.ItemBuilder()
+                        .setTransactionId(orderid)
+                        .setName(name)
+                        .setSku(sku)
+                        .setCategory(category)
+                        .setPrice(Double.parseDouble(price))
+                        .setQuantity(Long.parseLong(qty))
+                        .setCurrencyCode("INR")
+                        .build());
+            }
+
+        }catch(Exception e){
+            e.getMessage();
+        }
+    }
 
     public static void screenView(Activity activity,String screenName){                //screen count of GA
 		try{

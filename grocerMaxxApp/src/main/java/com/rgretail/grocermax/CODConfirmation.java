@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.appsflyer.AppsFlyerLib;
 import com.flurry.android.FlurryAgent;
 import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
@@ -19,7 +18,6 @@ import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
-import java.util.HashMap;
 import java.util.Map;
 
 //import com.google.analytics.tracking.android.EasyTracker;
@@ -51,43 +49,6 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 			orderid = bundle.getString("orderid");
 			status = bundle.getString("status");
 
-//			strTempAmount,strTempSelectedState,strTempTotal,strTempTaxAmount
-
-//			shippingamount = ReviewOrderAndPay.strTempAmount;
-//			state = bundle.getString("shippingamount");
-//			grandtotal = bundle.getString("grandtotal");
-//			taxamount = bundle.getString("grandtotal");
-
-
-
-
-			if (ReviewOrderAndPay.cartListGA != null) {
-				for (int i = 0; i < ReviewOrderAndPay.cartListGA.size(); i++) {
-					try {
-						params = new HashMap<String,String>();
-						params.put("id", String.valueOf(ReviewOrderAndPay.cartListGA.get(i).getItem_id()));
-						params.put("name", String.valueOf(ReviewOrderAndPay.cartListGA.get(i).getProductName()));
-						params.put("sku", String.valueOf(ReviewOrderAndPay.cartListGA.get(i).getSku()));
-						params.put("category", String.valueOf(ReviewOrderAndPay.cartListGA.get(i).getBrand()));
-						params.put("price", String.valueOf(ReviewOrderAndPay.cartListGA.get(i).getPrice()));
-						params.put("quantity", String.valueOf(ReviewOrderAndPay.cartListGA.get(i).getQty()));
-					}catch(Exception e){
-						e.printStackTrace();
-						try {
-							String str1 = ReviewOrderAndPay.cartListGA.get(i).getItem_id();
-							String str2 = ReviewOrderAndPay.cartListGA.get(i).getProductName();
-							String str3 = ReviewOrderAndPay.cartListGA.get(i).getSku();
-							String str4 = ReviewOrderAndPay.cartListGA.get(i).getBrand();
-							String str5 = ReviewOrderAndPay.cartListGA.get(i).getPrice();
-							String str6 = String.valueOf(ReviewOrderAndPay.cartListGA.get(i).getQty());
-						}catch(Exception w){
-							e.printStackTrace();
-						}
-					}
-				}
-			}
-
-
 			if (status.equals("success")) {
 				setContentView(R.layout.confirmation_activity);
 				TextView tvSuccess = (TextView) findViewById(R.id.tv_success);
@@ -105,11 +66,8 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 				}
 				/////////////////////////////
 
-//			String msg="Your order has been successfully placed.Order ID is <b>"+orderid+"</b>.Please check your mail for details.";
 				String msg = "<b>" + orderid + "</b>";
-//				tvOrderId.setText(Html.fromHtml(msg));
 				tvOrderIdCode.setText(Html.fromHtml(msg));
-//			hint.setText(Html.fromHtml(msg));
 				tvSuccess.setVisibility(View.VISIBLE);
 				tvOrder.setVisibility(View.VISIBLE);
 				tvOrderId.setVisibility(View.VISIBLE);
@@ -127,7 +85,40 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
                 /*Tracking the GA event for successful payment*/
 				try{UtilityMethods.clickCapture(mContext,"Order Successful","","","", MySharedPrefs.INSTANCE.getSelectedCity());}catch(Exception e){}
                 /*-------------------------------------------*/
-//				sendDataToTwoTrackers(params);
+
+                /*Tracking the GA ecommerce for successful transaction*/
+               /* try{
+                    System.out.println("Total="+ReviewOrderAndPay.strTempTotal);
+                    UtilityMethods.transactionCapture(mContext, orderid, "Grocermax Store", ReviewOrderAndPay.strTempTotal,
+                            ReviewOrderAndPay.strTempShippingAmount, ReviewOrderAndPay.strTempTaxAmount);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }*/
+                /*-------------------------------------------*/
+
+                   /*Tracking the GA ecommerce for Items in a success order transaction*/
+
+               /* if (ReviewOrderAndPay.cartListGA != null) {
+                    for (int i = 0; i < ReviewOrderAndPay.cartListGA.size(); i++) {
+                        try {
+                            try{
+                                System.out.println("Name="+ReviewOrderAndPay.cartListGA.get(i).getProductName());
+                                UtilityMethods.captureItemsInAOrder(mContext, orderid,ReviewOrderAndPay.cartListGA.get(i).getProductName(),
+                                        ReviewOrderAndPay.cartListGA.get(i).getSku(), ReviewOrderAndPay.cartListGA.get(i).getBrand(),
+                                        ReviewOrderAndPay.cartListGA.get(i).getPrice(),String.valueOf(ReviewOrderAndPay.cartListGA.get(i).getQty()));
+                                UtilityMethods.captureItemsInAOrder(mContext, orderid,"Basmati RIce",
+                                        "SKU-15RICE", "Brand-Rajdhani",
+                                        "500.50","2");
+                            }catch(Exception e){}
+                        }catch(Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }*/
+                  /*-------------------------------------------------*/
+
+
+
 
 			} else {
 				setContentView(R.layout.order_failure);
@@ -146,21 +137,6 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
                /*Tracking the GA event for Failure payment*/
                 try{UtilityMethods.clickCapture(mContext,"Order Failed","","","", MySharedPrefs.INSTANCE.getSelectedCity());}catch(Exception e){}
                 /*-------------------------------------------*/
-
-//			setContentView(R.layout.confirmation_activity);
-//			TextView tvSuccess = (TextView) findViewById(R.id.tv_success);
-//			TextView tvOrder = (TextView) findViewById(R.id.tv_order);
-//			TextView tvOrderId = (TextView) findViewById(R.id.tv_order_id);
-//			TextView tvCheckMailDetails = (TextView) findViewById(R.id.tv_check_mail_for_details);
-//			tvSuccess.setVisibility(View.GONE);
-//			tvOrder.setVisibility(View.GONE);
-//			tvOrderId.setVisibility(View.GONE);
-//			tvCheckMailDetails.setVisibility(View.GONE);
-
-//			TextView tvOrderFailure = (TextView) findViewById(R.id.order_failure);
-//			String msg="Your order has been failed";
-//			hint.setText(Html.fromHtml(msg));
-//			tvOrderFailure.setText(Html.fromHtml(msg));
 			}
 
 			addActionsInFilter(MyReceiverActions.ORDER_HISTORY);
@@ -180,86 +156,6 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 		}
 	}
 
-	// Sends the ecommerce data.
-	private void sendDataToTwoTrackers(Map<String, String> params) {
-
-//		String PROPERTY_ID = getResources().getString(R.string.ga_trackingId);
-//		AnalyticsSampleApp application = (AnalyticsSampleApp)getApplication();
-//		application.getTracker(AnalyticsSampleApp.TrackerName.APP_TRACKER);
-
-//		MyApplication.tracker()
-
-		// Build the transaction.
-		sendDataToTwoTrackers(new HitBuilders.TransactionBuilder()
-				.setTransactionId(orderid)
-				.setAffiliation(ReviewOrderAndPay.strTempSelectedState)
-				.setRevenue(Double.parseDouble(ReviewOrderAndPay.strTempTotal))
-				.setShipping(Double.parseDouble(ReviewOrderAndPay.strTempShippingAmount))
-				.setTax(Double.parseDouble(ReviewOrderAndPay.strTempTaxAmount))
-				.setCurrencyCode("INR")
-				.build());
-
-
-
-// Build an item.
-//		sendDataToTwoTrackers(new HitBuilders.ItemBuilder()
-//				.setTransactionId(orderid)
-//				.setName(getItemName(1))
-//				.setSku(getItemSku(1))
-//				.setCategory(getItemCategory(1))
-//				.setPrice(getItemPrice(getView(), 1))
-//				.setQuantity(getItemQuantity(getView(), 1))
-//				.setCurrencyCode("INR")
-//				.build());
-
-
-
-//		AnalyticsSampleApp app = ((AnalyticsSampleApp) getActivity().getApplication());
-
-
-//		AnalyticsSampleApp app = ((AnalyticsSampleApp) this.getApplication());
-//		Tracker appTracker = app.getTracker(AnalyticsSampleApp.TrackerName.APP_TRACKER);
-//		Tracker ecommerceTracker = app.getTracker(AnalyticsSampleApp.TrackerName.ECOMMERCE_TRACKER);
-//		appTracker.send(params);
-//		ecommerceTracker.send(params);
-	}
-
-	// Sends the ecommerce data.
-//	private void sendDataToTwoTrackers(Map<String, String> params) {
-//
-//		HitBuild
-//
-//		// Build the transaction.
-//		sendDataToTwoTrackers(new HitBuilders.TransactionBuilder()
-//				.setTransactionId(getOrderId())
-//				.setAffiliation(getStoreName())
-//				.setRevenue(getTotalOrder())
-//				.setTax(getTotalTax())
-//				.setShipping(getShippingCost())
-//				.setCurrencyCode("INR")
-//				.build());
-//
-//		// Build an item.
-//		sendDataToTwoTrackers(new HitBuilders.ItemBuilder()
-//				.setTransactionId(getOrderId())
-//				.setName(getItemName(1))
-//				.setSku(getItemSku(1))
-//				.setCategory(getItemCategory(1))
-//				.setPrice(getItemPrice(getView(), 1))
-//				.setQuantity(getItemQuantity(getView(), 1))
-//				.setCurrencyCode("USD")
-//				.build());
-//
-//		// Get tracker.
-////		Tracker t = ((AnalyticsSampleApp) getActivity().getApplication()).getTracker(
-////				TrackerName.APP_TRACKER);
-////		AnalyticsSampleApp app = ((AnalyticsSampleApp) getActivity().getApplication());
-////		CODConfirmation app = ((CODConfirmation) this.getApplication());
-////		Tracker appTracker = app.getTracker(TrackerName.APP_TRACKER);
-////		Tracker ecommerceTracker = app.getTracker(TrackerName.ECOMMERCE_TRACKER);
-////		appTracker.send(params);
-////		ecommerceTracker.send(params);
-//	}
 
 	@Override
 	public void OnResponse(Bundle bundle) {
@@ -278,10 +174,6 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 				startActivity(intent);
 				finish();
 
-//				Intent intent = new Intent(CODConfirmation.this, HomeScreen.class);
-//				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//				startActivity(intent);
-//				finish();
 				break;
 			case R.id.orderHistory:
 				openOrderHistory();
@@ -323,11 +215,6 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 			finish();
-
-//			Intent intent = new Intent(CODConfirmation.this, HomeScreen.class);
-//			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//			startActivity(intent);
-//			finish();
 		}catch(Exception e){
 			new GrocermaxBaseException("CODConfirmation","onBackPressed",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}

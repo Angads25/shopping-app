@@ -11,7 +11,7 @@ import com.rgretail.grocermax.utils.Constants.DatabaseConstant;
 
 public class DataHandler {
 
-	public static final int Version = 1;
+	public static final int Version = 2;
 
 	private static final String createTableMessageAlert = "create table if not exists "
 			+ DatabaseConstant.T_MESSAGE_FREQUENCY
@@ -19,7 +19,6 @@ public class DataHandler {
 			+ DatabaseConstant.C_MSG_ID
 			+ " text, "
 			+ DatabaseConstant.C_MSG_TIME + " text" + ");";
-
 
 	Context ctx;
 	DataBaseHelper dhelper;
@@ -89,6 +88,10 @@ public class DataHandler {
 
         Cursor cr=db.rawQuery("select * from "+DatabaseConstant.T_MESSAGE_FREQUENCY+" where "+DatabaseConstant.C_MSG_ID+"='"+message_id+"' ",null);
         return  cr;
+    }
+    public void updateTime(String message_id,String time){
+        String updateQuery="update "+DatabaseConstant.T_MESSAGE_FREQUENCY+" set "+DatabaseConstant.C_MSG_TIME+"= '"+time+"' where "+DatabaseConstant.C_MSG_ID+" ='"+message_id+"'";
+        db.execSQL(updateQuery);
     }
 
 

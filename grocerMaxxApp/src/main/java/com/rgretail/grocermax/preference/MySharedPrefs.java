@@ -2,12 +2,10 @@ package com.rgretail.grocermax.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import com.google.gson.Gson;
 import com.rgretail.grocermax.BaseActivity;
-import com.rgretail.grocermax.MyApp;
-import com.rgretail.grocermax.MyApplication;
 import com.rgretail.grocermax.bean.OrderReviewBean;
-import com.rgretail.grocermax.hotoffers.HomeScreen;
 
 public enum MySharedPrefs {
 	INSTANCE;
@@ -51,7 +49,7 @@ public enum MySharedPrefs {
 	private final String COUPON_APPLY = "coupon_apply";
 	private final String COUPON_AMOUNT = "coupon_amount";
 	private final String MOBILE_NUMBER = "mobile_no";
-
+    private final String LOGIN_REG_METHOD = "login_method";
 	private final String SELECTED_CITY = "selected_city";
 	private final String SELECTED_STATE = "selected_state";
 	private final String SELECTED_STATEID = "selected_state_id";
@@ -79,6 +77,14 @@ public enum MySharedPrefs {
 	public void putSelectedState(String strState) {
 		getAppPreference().edit().putString(SELECTED_STATE, strState).commit();
 	}
+
+    public String getLoginMethod() {
+        return getAppPreference().getString(LOGIN_REG_METHOD, null);
+    }
+
+    public void putLoginMethod(String loginMethod) {
+        getAppPreference().edit().putString(LOGIN_REG_METHOD, loginMethod).commit();
+    }
 
 	public String getSelectedState() {
 		return getAppPreference().getString(SELECTED_STATE, null);
