@@ -51,6 +51,7 @@ public class EditProfile extends BaseActivity{
     String otp="";
     JSONObject jsonObject;
     String url = UrlsConstants.EDIT_PROFILE_URL;
+    public static EditText edt_otp;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -289,7 +290,7 @@ public class EditProfile extends BaseActivity{
         tv_resendOtp.setTypeface(typeface1);
         tv_resendOtp.setVisibility(View.VISIBLE);
 
-        final EditText edt_otp=(EditText)dialogView.findViewById(R.id.edt_otp);
+        edt_otp=(EditText)dialogView.findViewById(R.id.edt_otp);
         edt_otp.setTypeface(typeface);
         edt_otp.setVisibility(View.VISIBLE);
 
@@ -339,6 +340,18 @@ public class EditProfile extends BaseActivity{
 
         alert.show();
     }
+    public void recivedSms(String message)
+    {
+        try
+        {
+            edt_otp.setText(message);
+        }
+        catch (Exception e)
+        {
+            System.out.println("OneTimePassword.recivedSms"+e.getMessage());
+            e.printStackTrace();
+        }
+    }
 	
 	
 	
@@ -375,6 +388,7 @@ public class EditProfile extends BaseActivity{
 					}
 					finish();
 				}else if(userDataBean.getFlag().equalsIgnoreCase("2")){
+                    MySharedPrefs.INSTANCE.putOTPScreenName("EditProfile");
                     otp=userDataBean.getOtp();
                     acceptOTP(EditProfile.this);
 

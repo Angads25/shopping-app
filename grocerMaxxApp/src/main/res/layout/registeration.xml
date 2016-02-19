@@ -2,14 +2,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_background"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <include
+   <!-- <include
         android:id="@+id/header"
-        layout="@layout/mart_header_2"
+        layout="@layout/mart_header_2"></include>-->
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/primaryColor"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
-        ></include>
+        <ImageView
+            android:id="@+id/icon_header_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/carat_left_white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Register"
+            android:textColor="@color/white"
+            android:textSize="@dimen/mart_header_text_size"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="5dp"
+            android:id="@+id/tv" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/header_register"
@@ -29,7 +52,8 @@
         android:layout_width="match_parent"
         android:layout_below="@+id/header_register"
         android:layout_above="@+id/account_create"
-        android:layout_height="wrap_content">
+        android:layout_marginTop="50dp"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,7 +83,7 @@
                         android:layout_weight="1"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="5dp"
-                        android:src="@drawable/register_facebook" />
+                        android:src="@drawable/facebook_login" />
 
 
                     <ImageView
@@ -69,7 +93,7 @@
                         android:layout_weight="1"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="10dp"
-                        android:src="@drawable/google_register" />
+                        android:src="@drawable/google_login" />
 
                     </LinearLayout>
 
@@ -141,13 +165,12 @@
                 <TextView
                     android:id="@+id/header_signup"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_height="30dp"
                     android:text="Or Signup Here"
                     android:textAllCaps="true"
                     android:textColor="#1d1d1d"
+                    android:gravity="center"
+                    android:background="@color/app_background"
                     android:textSize="@dimen/text_size_12" />
             </LinearLayout>
 
@@ -164,7 +187,7 @@
                     android:orientation="vertical"
                     android:padding="10dp">
 
-                    <LinearLayout
+                    <!--<LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -191,13 +214,43 @@
                             android:layout_height="1dp"
                             android:background="@color/register_line_color"></View>
 
-                    </LinearLayout>
+                    </LinearLayout>-->
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/usernameWrapper"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/et_register_first_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@null"
+                            android:hint="Name"
+                            android:singleLine="true"
+                            android:textColorHint="@color/register_address_text_unselected_color"
+                            android:textSize="@dimen/text_size_16" />
+                    </android.support.design.widget.TextInputLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/register_line_color"></View>
+
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -223,7 +276,66 @@
 
                     </LinearLayout>
 
+
+                    <!--<LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Email"
+                            android:paddingTop="10dp"
+                            android:textSize="@dimen/text_size_11" />
+
+                        <EditText
+                            android:id="@+id/et_register_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:background="@null"
+                            android:hint="required"
+                            android:singleLine="true"
+                            android:textColorHint="@color/register_address_text_unselected_color"
+                            android:textSize="@dimen/text_size_14" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/register_line_color"></View>
+
+                    </LinearLayout>-->
+
                     <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:layout_marginTop="10dp">
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/emailWrapper"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/et_register_email"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:background="@null"
+                                android:hint="Email"
+                                android:singleLine="true"
+                                android:textColorHint="@color/register_address_text_unselected_color"
+                                android:textSize="@dimen/text_size_16" />
+                        </android.support.design.widget.TextInputLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/register_line_color"></View>
+
+                    </LinearLayout>
+
+                    <!--<LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -253,31 +365,30 @@
                             android:layout_height="1dp"
                             android:background="@color/register_line_color"></View>
 
-                    </LinearLayout>
-
+                    </LinearLayout>-->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:orientation="vertical">
-
-                        <TextView
+                        android:orientation="vertical"
+                        android:layout_marginTop="10dp">
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/mobileNoWrapper"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Email"
-                            android:paddingTop="10dp"
-                            android:textSize="@dimen/text_size_11" />
+                            android:layout_height="wrap_content">
 
-                        <EditText
-                            android:id="@+id/et_register_email"
-                            android:layout_width="match_parent"
-                            android:layout_height="30dp"
-                            android:background="@null"
-                            android:hint="required"
-                            android:singleLine="true"
-                            android:textColorHint="@color/register_address_text_unselected_color"
-                            android:textSize="@dimen/text_size_14" />
-
+                            <EditText
+                                android:id="@+id/et_register_mobileno"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:background="@null"
+                                android:hint="Mobile No."
+                                android:inputType="number"
+                                android:maxLength="10"
+                                android:singleLine="true"
+                                android:textColorHint="@color/register_address_text_unselected_color"
+                                android:textSize="@dimen/text_size_16" />
+                        </android.support.design.widget.TextInputLayout>
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
@@ -285,7 +396,7 @@
 
                     </LinearLayout>
 
-                    <LinearLayout
+                    <!--<LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -313,14 +424,49 @@
                             android:layout_height="1dp"
                             android:background="@color/register_line_color"></View>
 
-                    </LinearLayout>
+                    </LinearLayout>-->
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:layout_marginTop="10dp">
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/passwordWrapper"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/et_register_password"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:background="@null"
+                                android:hint="Password"
+                                android:singleLine="true"
+                                android:textColorHint="@color/register_address_text_unselected_color"
+                                android:textSize="@dimen/text_size_16" />
+                        </android.support.design.widget.TextInputLayout>
+                        <ImageView
+                            android:id="@+id/img_changePwdType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_gravity="right|bottom"
+                            android:src="@drawable/show_pwd"/>
+                    </FrameLayout>
+                     <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/register_line_color"></View>
+
 
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -351,7 +497,7 @@
                         android:id="@+id/rl_gender"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/tv_regsiter_gender_heading"
@@ -471,12 +617,14 @@
                     </RelativeLayout>
 
                     <TextView
+                        android:id="@+id/tv_termandcond"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:layout_marginBottom="10dp"
                         android:layout_marginRight="10dp"
                         android:text="@string/agreement"
+                        android:gravity="center"
                         android:textColor="@color/register_address_text_unselected_color"
                         android:textSize="@dimen/text_size_12" />
 

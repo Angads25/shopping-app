@@ -58,6 +58,7 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 	EditText username, password;
 	//	ImageView googlePlus;
 	private ImageView tv_google_btn;
+    ImageView icon_header_back;
 	Context context=this;
 	//	CheckBox remember_me;
 	String QUOTE_ID_AFTER_FB = "";
@@ -124,14 +125,22 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 			} catch (Exception e) {
 			}
 
+            icon_header_back=(ImageView)findViewById(R.id.icon_header_back);
+            icon_header_back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
+
 			addActionsInFilter(MyReceiverActions.LOGIN);
 			addActionsInFilter(MyReceiverActions.ADD_TO_CART);
 			addActionsInFilter(MyReceiverActions.VIEW_CART_GO_HOME_SCREEN);
 
 			TextView register = (TextView) findViewById(R.id.register);
 
-			TextView txtHello = (TextView) findViewById(R.id.txt_hello);
-			txtHello.setTypeface(CustomFonts.getInstance().getRobotoLight(context));
+			/*TextView txtHello = (TextView) findViewById(R.id.txt_hello);
+			txtHello.setTypeface(CustomFonts.getInstance().getRobotoLight(context));*/
 
 			register.setOnClickListener(new OnClickListener() {
 
@@ -154,8 +163,8 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 			forgot_pwd.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 
 
-			final View viewMail = (View) findViewById(R.id.view_mail_line);
-			final View viewPwd = (View) findViewById(R.id.view_pwd_line);
+			/*final View viewMail = (View) findViewById(R.id.view_mail_line);
+			final View viewPwd = (View) findViewById(R.id.view_pwd_line);*/
 
 
 			username = (EditText) findViewById(R.id.username);
@@ -164,7 +173,7 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 			password.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
 
 			username.setText(MySharedPrefs.INSTANCE.getRememberMeEmail());
-			username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			/*username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
 				@Override
 				public void onFocusChange(View v, boolean hasFocus) {
@@ -186,7 +195,7 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 						viewPwd.setBackgroundColor(getResources().getColor(R.color.white));
 					}
 				}
-			});
+			});*/
 
 			button_facebook = (ImageView) findViewById(R.id.button_facebook);
 			button_facebook.setOnClickListener(fb_signin_listener);
@@ -529,9 +538,13 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 
 			if(requestCode==111)
 			{
+                if(resultCode==1221){
+
+                }else{
 				if(resultCode==RESULT_OK)
 					setResult(RESULT_OK);
 				finish();
+                }
 			}
 
             /*Handing response from PhoneNumberforOTP activity page for social login otp generation*/

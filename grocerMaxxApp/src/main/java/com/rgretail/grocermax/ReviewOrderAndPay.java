@@ -1099,7 +1099,7 @@ public class ReviewOrderAndPay extends BaseActivity
        CitrusFlowManager.initCitrusConfig("78s6jg7d4j-signup", "5e8816c36e20ee00fede9ac7b754b457",
                "78s6jg7d4j-signin", "2113fba06ef2fc41cab120983c80c10d",
                getResources().getColor(R.color.citrus_white), ReviewOrderAndPay.this,
-               Environment.PRODUCTION, "78s6jg7d4j",
+               Environment.PRODUCTION, "prepaid",
                UrlsConstants.CITRUS_BILL_GENRATOR+""+citrus_order_id,
                UrlsConstants.CITRUS_RETURN_URL);
 
@@ -1143,8 +1143,8 @@ public class ReviewOrderAndPay extends BaseActivity
 					{
 
 						//////code added by Ishan//////////
-						handler.removeCallbacksAndMessages(null);
-						handler.getLooper().quit();
+						/*handler.removeCallbacksAndMessages(null);
+						handler.getLooper().quit();*/
 						//////////////////////////////////
 
 						MySharedPrefs.INSTANCE.putTotalItem("0");

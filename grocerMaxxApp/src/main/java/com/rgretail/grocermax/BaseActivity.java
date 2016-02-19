@@ -13,6 +13,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -50,6 +51,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.rgretail.grocermax.adapters.AutoCompleteAdapter;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyApi;
 import com.rgretail.grocermax.api.MyReceiverActions;
@@ -252,15 +254,16 @@ public abstract class BaseActivity extends FragmentActivity {
 //				}
 //			});
 
-           /* Point pointSize = new Point();
+          /*  Point pointSize = new Point();
             getWindowManager().getDefaultDisplay().getSize(pointSize);
             edtSearch.setDropDownWidth(pointSize.x);
-            //edtSearch.setDropDownHeight(300);
             edtSearch.setDropDownVerticalOffset(edtSearch.getBaseline());
             //ArrayAdapter adapter=new ArrayAdapter(mContext,R.layout.listview_element,R.id.name,languages);
             AutoCompleteAdapter adapter=new AutoCompleteAdapter(BaseActivity.this);
             edtSearch.setAdapter(adapter);
             edtSearch.setThreshold(3);*/
+
+
 
 			edtSearch.setOnEditorActionListener(new OnEditorActionListener() {
 

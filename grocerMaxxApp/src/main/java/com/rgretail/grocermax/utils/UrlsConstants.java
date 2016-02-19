@@ -79,6 +79,9 @@ public class UrlsConstants {
     public final static String WALLET_INFO_URL = NEW_BASE_URL
             + "getwalletbalance?CustId=";
 
+    public final static String TERM_AND_CONDITION = NEW_BASE_URL
+            + "termandcondition";
+
     public final static String WALLET_TRANSACTION_URL = NEW_BASE_URL
             + "creditlog?userid=";
 
@@ -293,7 +296,7 @@ public class UrlsConstants {
 
     /*For citrus return url*/
     public final static String CITRUS_RETURN_URL = NEW_BASE_URL
-            + "returncitrus.php";
+            + "loadcitrus.php";
 
 
 

@@ -158,7 +158,7 @@ public class AppConstants {
 		public static final String SELECT_BILL_ADDR = "Please select billing address";
 		public static final String SELECT_TIME = "Please select time slot";
 		public static final String FNAME_BLANCK = "Enter your first name";
-		public static final String LNAME_BLANCK = "Enter your second name";
+		public static final String LNAME_BLANCK = "Enter your last name";
 		public static final String MOB_BLANCK = "Enter your mobile number";
 		public static final String MOB_NUMBER_DIGIT = "Mobile number should be of 10 digits";
 		public static final String ADDR_BLANCK = "Address can not be blank";

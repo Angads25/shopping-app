@@ -6,6 +6,7 @@ import android.text.method.DigitsKeyListener;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
@@ -30,6 +31,8 @@ public class PhoneNumberForOTP extends BaseActivity {
     EditText edt_phoneNumber;
     Button btnSendOtp;
     private JSONObject jsonObjectParams;
+    public static TextView tv;
+    ImageView icon_header_back;
 
 
     @Override
@@ -48,10 +51,21 @@ public class PhoneNumberForOTP extends BaseActivity {
         tv_suggesion=(TextView)findViewById(R.id.tv_suggesion);
         edt_phoneNumber=(EditText)findViewById(R.id.et_otp);
         btnSendOtp=(Button)findViewById(R.id.btn_submit);
+        tv=(TextView)findViewById(R.id.tv);
+        tv.setText("Enter Mobile Number");
+        btnSendOtp.setText("SUBMIT");
+        icon_header_back=(ImageView)findViewById(R.id.icon_header_back);
+        icon_header_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         tv_msg.setText("Enter your 10 digit mobile number.");
         tv_suggesion.setVisibility(View.VISIBLE);
         edt_phoneNumber.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
+        edt_phoneNumber.setHint("Enter number");
 
         btnSendOtp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,6 +196,7 @@ public class PhoneNumberForOTP extends BaseActivity {
                     jsonObjectParams.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
                 } catch (Exception e) {
                 }
+                MySharedPrefs.INSTANCE.putMobileNo(edt_phoneNumber.getText().toString().trim());
                 Intent intent = new Intent(this, OneTimePassword.class);
                 Bundle call_bundle = new Bundle();
                 call_bundle.putSerializable("Otp", otpDataBean);

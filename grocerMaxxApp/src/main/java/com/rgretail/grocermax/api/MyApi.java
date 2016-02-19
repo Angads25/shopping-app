@@ -119,6 +119,18 @@ public class MyApi {
             new GrocermaxBaseException("MyApi","reqWallet",e.getMessage(), GrocermaxBaseException.EXCEPTION,url);
         }
     }
+    public void reqTermAndCondition(String url) {
+        try{
+            Intent reqIntent = new Intent(m_context, ConnectionService.class);
+            reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.TERM_CONDITION);
+            reqIntent.putExtra(ConnectionService.URL, url);
+            reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+            reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.TERM_CONDITION);
+            m_context.startService(reqIntent);
+        }catch(Exception e){
+            new GrocermaxBaseException("MyApi","reqWallet",e.getMessage(), GrocermaxBaseException.EXCEPTION,url);
+        }
+    }
     public void reqWalletTransactions(String url) {
         try{
             Intent reqIntent = new Intent(m_context, ConnectionService.class);

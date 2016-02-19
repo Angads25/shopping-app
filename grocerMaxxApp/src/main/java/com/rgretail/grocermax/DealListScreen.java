@@ -166,8 +166,11 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
                 if (contentListBean.getFlag().equalsIgnoreCase("1")) {
                     Intent call = new Intent(mContext, ProductDetailScreen.class);
                     Bundle call_bundle = new Bundle();
-                    call_bundle.putSerializable("ProductContent", contentListBean
-                            .getProductDetail().get(0));
+                    call_bundle.putSerializable("ProductContent", contentListBean.getProductDetail().get(0));
+                    call_bundle.putSerializable("BRAND", contentListBean.getProductDetail().get(0).getProductBrand());
+                    call_bundle.putSerializable("NAME", contentListBean.getProductDetail().get(0).getProductName());
+                    call_bundle.putSerializable("GRAMSORML", contentListBean.getProductDetail().get(0).getProductPack());
+                    call_bundle.putSerializable("PROMOTION", contentListBean.getProductDetail().get(0).getProductPromotion());
                     call_bundle.putSerializable("Product", product);
                     call.putExtras(call_bundle);
                     startActivity(call);

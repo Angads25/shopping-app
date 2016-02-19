@@ -75,6 +75,7 @@ public class ConnectionServiceParser {
 		int ORDER_REORDER = 134;
         int WALLET_INFO = 135;
         int WALLET_TRANSACTION = 136;
+        int TERM_CONDITION = 137;
 	}
 
 	public static BaseResponseBean parseSimpleResponse(String jsonString)

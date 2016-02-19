@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
@@ -69,7 +70,7 @@ public class Registration extends BaseActivity implements
 	boolean clickOther = false;
 	String USER_EMAIL = "";
 	String QUOTE_ID_AFTER_FB = "";
-	ImageView iv_googlePlus;
+	ImageView iv_googlePlus,img_changePwdType;
 	Context context = this;
 //	EasyTracker tracker;
 	ImageView ivFacebook;
@@ -86,6 +87,9 @@ public class Registration extends BaseActivity implements
 
 	String params;               //used when navigate to OTP screen
 	String strEmail;            //used when navigate to OTP screen
+
+    boolean isPasswordShow=false;
+    ImageView icon_header_back;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -108,12 +112,34 @@ public class Registration extends BaseActivity implements
 			TextView tvHeaderForgot = (TextView) findViewById(R.id.tv_heading_forgot);
 			tvHeaderForgot.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			addActionsInFilter(MyReceiverActions.FORGOT_PWD);
+            icon_header_back=(ImageView)findViewById(R.id.icon_header_back);
+            icon_header_back.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
 			
 			displayForgotPasswordView();
 
 		} else if (SCREEN_NAME.equals("Registration")) {
 			setContentView(R.layout.registeration);
 			TextView tvHeaderRegister = (TextView) findViewById(R.id.header_register);
+            TextView tv_termandcond=(TextView)findViewById(R.id.tv_termandcond);
+            tv_termandcond.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i=new Intent(Registration.this,TermAndCondition.class);
+                    startActivityForResult(i,123);
+                }
+            });
+            icon_header_back=(ImageView)findViewById(R.id.icon_header_back);
+            icon_header_back.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
 			//TODO this ttf is not lookiap
 			//tvHeaderRegister.setTypeface(CustomFonts.getInstance().getRobotoBlack(this));
 			addActionsInFilter(MyReceiverActions.REGISTER_USER);
@@ -175,7 +201,13 @@ public class Registration extends BaseActivity implements
 		}
 	}
 
-	private void displayRegistrationView() {
+    @Override
+    public void onBackPressed() {
+        setResult(1221);
+        finish();
+    }
+
+    private void displayRegistrationView() {
 		try {
 			final EditText fName = (EditText) findViewById(R.id.et_register_first_name);
 			final EditText lName = (EditText) findViewById(R.id.et_register_last_name);
@@ -186,7 +218,7 @@ public class Registration extends BaseActivity implements
 
 			final ImageView iv_male = (ImageView) findViewById(R.id.img_male);
 			final ImageView iv_female = (ImageView) findViewById(R.id.img_female);
-//			final ImageView iv_other = (ImageView) findViewById(R.id.img_other);
+ 		    img_changePwdType = (ImageView) findViewById(R.id.img_changePwdType);
 
 			final CheckBox cbMale = (CheckBox) findViewById(R.id.cb_male);
 			final CheckBox cbFemale = (CheckBox) findViewById(R.id.cb_female);
@@ -223,6 +255,61 @@ public class Registration extends BaseActivity implements
 //			tvGoogle.setClickable(true);
 //			rlbtnGoogle.setClickable(true);
 //			rlbtnFB.setClickable(true);
+
+
+            /*password.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    final int DRAWABLE_LEFT = 0;
+                    final int DRAWABLE_TOP = 1;
+                    final int DRAWABLE_RIGHT = 2;
+                    final int DRAWABLE_BOTTOM = 3;
+
+                    if(event.getAction() == MotionEvent.ACTION_UP) {
+                        if(event.getX() >= (password.getRight() - password.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                            // your action here
+                            if(isPasswordShow){
+                                isPasswordShow=false;
+                                password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                                password.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.show_pwd, 0);
+                            }else{
+                                isPasswordShow=true;
+                                password.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                                password.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.hide_pwd, 0);
+                            }
+                            password.setSelection(password.length());
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            });*/
+
+            img_changePwdType.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //if(password.getText().toString().length()>0) {
+                        password.setSelection(password.length());
+                        if (isPasswordShow) {
+                            isPasswordShow = false;
+                            //password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                            password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                            img_changePwdType.setImageResource(R.drawable.show_pwd);
+                            //password.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.show_pwd, 0);
+                        } else {
+                            isPasswordShow = true;
+                            password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                            //password.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                            //password.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.hide_pwd, 0);
+                            img_changePwdType.setImageResource(R.drawable.hide_pwd);
+                        }
+
+                   // }
+                }
+            });
+
+
+
 
 			cbMale.setOnClickListener(new View.OnClickListener() {
 
@@ -336,13 +423,13 @@ public class Registration extends BaseActivity implements
 						UtilityMethods.customToast(Constants.ToastConstant.FNAME_BLANCK, Registration.this);
 						return;
 					}
-					if (_fname.contains(" ")) {
+					/*if (_fname.contains(" ")) {
 //					Toast.makeText(Registration.this,ToastConstant.FNAME_SINGLE_WORD, Toast.LENGTH_LONG).show();
 						UtilityMethods.customToast(Constants.ToastConstant.FNAME_SINGLE_WORD, Registration.this);
 						return;
-					}
-					if (_lname.equals("")) {
-//					Toast.makeText(Registration.this, ToastConstant.LNAME_BLANCK, Toast.LENGTH_LONG).show();
+					}*/
+                    // commented because of new design
+					/*if (_lname.equals("")) {
 						UtilityMethods.customToast(Constants.ToastConstant.LNAME_BLANCK, Registration.this);
 						return;
 					}
@@ -350,7 +437,7 @@ public class Registration extends BaseActivity implements
 //					Toast.makeText(Registration.this, ToastConstant.LNAME_SINGLE_WORD, Toast.LENGTH_LONG).show();
 						UtilityMethods.customToast(Constants.ToastConstant.LNAME_SINGLE_WORD, Registration.this);
 						return;
-					}
+					}*/
 
 					if (_mobile_no.equals("")) {
 						UtilityMethods.customToast(Constants.ToastConstant.MOB_BLANCK, Registration.this);
@@ -367,11 +454,11 @@ public class Registration extends BaseActivity implements
 //					Toast.makeText(Registration.this, ToastConstant.SELECT_GENDER, Toast.LENGTH_LONG).show();
 //					return;
 //				}
-					if (!clickMale && !clickFemale && !clickOther) {
-//					Toast.makeText(Registration.this, ToastConstant.SELECT_GENDER, Toast.LENGTH_LONG).show();
+                    // commented because of new design
+					/*if (!clickMale && !clickFemale && !clickOther) {
 						UtilityMethods.customToast(Constants.ToastConstant.SELECT_GENDER, Registration.this);
 						return;
-					}
+					}*/
 
 					if (_email_id.equalsIgnoreCase("")) {
 						UtilityMethods.customToast(Constants.ToastConstant.EMAIL_BLANCK, Registration.this);
@@ -394,7 +481,8 @@ public class Registration extends BaseActivity implements
 						return;
 					}
 
-					if (_confirmation.equalsIgnoreCase("")) {
+                    // commented because of new design
+					/*if (_confirmation.equalsIgnoreCase("")) {
 						UtilityMethods.customToast(Constants.ToastConstant.CPWD_BLANK, Registration.this);
 						return;
 					}
@@ -402,7 +490,7 @@ public class Registration extends BaseActivity implements
 					if (!_password.equals(_confirmation)) {
 						UtilityMethods.customToast(Constants.ToastConstant.PWD_NOT_MATCH, Registration.this);
 						return;
-					}
+					}*/
 					if (UtilityMethods.isInternetAvailable(mContext)) {
 						showDialog();
 
@@ -434,7 +522,8 @@ public class Registration extends BaseActivity implements
 //							myApi.reqUserRegistrationOTP(url);
 							MySharedPrefs.INSTANCE.putMobileNo(_mobile_no);//14/09/15
                             MySharedPrefs.INSTANCE.putFirstName(_fname);
-                            MySharedPrefs.INSTANCE.putLastName(_lname);
+                           // MySharedPrefs.INSTANCE.putLastName(_lname);
+                            MySharedPrefs.INSTANCE.putLastName(".");
                             MySharedPrefs.INSTANCE.putUserEmail(_email_id);
 
 							try {
@@ -943,9 +1032,13 @@ public class Registration extends BaseActivity implements
 		try{
 			if(requestCode==123)                  //uses when coming from OneTimePassword screen after to register successfully this will finish and go back to loginactivity and loginactivity also uses same funct
 			{
-				if(resultCode==RESULT_OK)
-					setResult(RESULT_OK);
-					finish();
+                if(resultCode==1221){
+
+                }else {
+                    if (resultCode == RESULT_OK)
+                        setResult(RESULT_OK);
+                    finish();
+                }
 			}
 		}catch(Exception e){
 			new GrocermaxBaseException("Registeration","requestCode123",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");

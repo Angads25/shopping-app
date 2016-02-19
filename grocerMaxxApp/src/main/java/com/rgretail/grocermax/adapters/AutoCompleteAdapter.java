@@ -73,41 +73,50 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
+        ViewHolder holder;
         if(convertView==null){
             LayoutInflater inflater=(LayoutInflater)con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             //convertView=inflater.inflate(R.layout.listview_element,null);
             convertView=inflater.inflate(R.layout.auto_suggest_search,null);
+            holder = new ViewHolder();
+            holder.name=(TextView)convertView.findViewById(R.id.product_name);
+            holder.image=(ImageView)convertView.findViewById(R.id.product_image);
+            holder.prod_gram_or_ml = (TextView) convertView.findViewById(R.id.product_gram_or_ml);
+            holder.sale_price = (TextView) convertView.findViewById(R.id.sale_price);
+            holder.amount = (TextView) convertView.findViewById(R.id.amount);
+            convertView.setTag(holder);
         }
-        TextView name=(TextView)convertView.findViewById(R.id.product_name);
-        ImageView image=(ImageView)convertView.findViewById(R.id.product_image);
-        TextView prod_gram_or_ml = (TextView) convertView.findViewById(R.id.product_gram_or_ml);
-        TextView sale_price = (TextView) convertView.findViewById(R.id.sale_price);
-        TextView amount = (TextView) convertView.findViewById(R.id.amount);
-        amount.setPaintFlags(amount.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+        else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+
+        holder.amount.setPaintFlags(holder.amount.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
         //TextView name=(TextView)convertView.findViewById(R.id.name);
         Typeface font3 = Typeface.createFromAsset(con.getAssets(), "Roboto-Regular.ttf");
         Typeface font4 =   Typeface.createFromAsset(con.getAssets(), "Rupee.ttf");
 
-        name.setText(autoSuggestList.get(position).getName());
-        name.setTypeface(CustomFonts.getInstance().getRobotoRegular(con));
-        prod_gram_or_ml.setText(autoSuggestList.get(position).getGramsORml());
-        prod_gram_or_ml.setTypeface(CustomFonts.getInstance().getRobotoRegular(con));
+        holder.name.setText(autoSuggestList.get(position).getName());
+        holder.name.setTypeface(CustomFonts.getInstance().getRobotoRegular(con));
+        holder.prod_gram_or_ml.setText(autoSuggestList.get(position).getGramsORml());
+        holder.prod_gram_or_ml.setTypeface(CustomFonts.getInstance().getRobotoRegular(con));
         if(autoSuggestList.get(position).getSalePrice().toString() != null) {
             SpannableStringBuilder SS = new SpannableStringBuilder("`" + autoSuggestList.get(position).getSalePrice().toString());
             SS.setSpan(new CustomTypefaceSpan("", font4), 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             SS.setSpan(new CustomTypefaceSpan("", font3), 1, autoSuggestList.get(position).getSalePrice().toString().length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-            sale_price.setText(SS);
+            holder.sale_price.setText(SS);
         }
         if(autoSuggestList.get(position).getPrice().toString() != null) {
             SpannableStringBuilder SS = new SpannableStringBuilder("`" + autoSuggestList.get(position).getPrice().toString());
             SS.setSpan(new CustomTypefaceSpan("", font4), 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             SS.setSpan(new CustomTypefaceSpan("", font3), 1, autoSuggestList.get(position).getPrice().toString().length() - (autoSuggestList.get(position).getPrice().toString().length() - 1), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-            amount.setText(SS);
+            holder.amount.setText(SS);
         }
         //name.setText(autoSuggestList.get(position).split("@@@@")[0]);
 
         ImageLoader.getInstance().displayImage(autoSuggestList.get(position).getImage(),
-                image, ((BaseActivity) con).baseImageoptions);
+                holder.image, ((BaseActivity) con).baseImageoptions);
+
+
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +131,15 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
 
 
         return convertView;
+    }
+
+
+    static class ViewHolder {
+        private TextView name;
+        private TextView prod_gram_or_ml;
+        private ImageView image;
+        private TextView sale_price;
+        private TextView amount;
     }
 
     @Override

@@ -87,7 +87,12 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
                 /*-------------------------------------------*/
 
                 /*Tracking the GA ecommerce for successful transaction*/
-               /* try{
+               /* if(orderid.equals("")){
+
+                }
+
+
+                try{
                     System.out.println("Total="+ReviewOrderAndPay.strTempTotal);
                     UtilityMethods.transactionCapture(mContext, orderid, "Grocermax Store", ReviewOrderAndPay.strTempTotal,
                             ReviewOrderAndPay.strTempShippingAmount, ReviewOrderAndPay.strTempTaxAmount);
@@ -98,7 +103,7 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 
                    /*Tracking the GA ecommerce for Items in a success order transaction*/
 
-               /* if (ReviewOrderAndPay.cartListGA != null) {
+              /*  if (ReviewOrderAndPay.cartListGA != null) {
                     for (int i = 0; i < ReviewOrderAndPay.cartListGA.size(); i++) {
                         try {
                             try{
@@ -106,9 +111,9 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
                                 UtilityMethods.captureItemsInAOrder(mContext, orderid,ReviewOrderAndPay.cartListGA.get(i).getProductName(),
                                         ReviewOrderAndPay.cartListGA.get(i).getSku(), ReviewOrderAndPay.cartListGA.get(i).getBrand(),
                                         ReviewOrderAndPay.cartListGA.get(i).getPrice(),String.valueOf(ReviewOrderAndPay.cartListGA.get(i).getQty()));
-                                UtilityMethods.captureItemsInAOrder(mContext, orderid,"Basmati RIce",
+                               *//* UtilityMethods.captureItemsInAOrder(mContext, orderid,"Basmati RIce",
                                         "SKU-15RICE", "Brand-Rajdhani",
-                                        "500.50","2");
+                                        "500.50","2");*//*
                             }catch(Exception e){}
                         }catch(Exception e){
                             e.printStackTrace();

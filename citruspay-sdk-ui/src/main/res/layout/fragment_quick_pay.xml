@@ -132,6 +132,7 @@
 
         </RelativeLayout>
 
+        <!--COMMENTED BY ISHAN-->
         <include android:id="@+id/payment_mode_container"
                  layout="@layout/layout_saved_cards"/>
         <include android:id="@+id/pay_with_card"

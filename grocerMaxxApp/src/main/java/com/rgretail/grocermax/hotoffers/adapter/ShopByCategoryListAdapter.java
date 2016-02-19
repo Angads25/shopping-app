@@ -144,7 +144,7 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
 
                 /*This is done by Ishan Because No category name is available in data list*/
 
-                String GA_Label="";
+              /*  String GA_Label="";
                 if(data.get(position).getCategory_id().equals("2180")){
                     GA_Label="Beverages";
                 }else if(data.get(position).getCategory_id().equals("2211")){
@@ -163,10 +163,11 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
                     GA_Label="Packaged Food";
                 }else if(data.get(position).getCategory_id().equals("2483")){
                     GA_Label="Staples";
-                }
+                }*/
 
                 try{
-                    UtilityMethods.clickCapture(context, "L1", "",GA_Label,"", MySharedPrefs.INSTANCE.getSelectedCity());
+                    //UtilityMethods.clickCapture(context, "L1", "",GA_Label,"", MySharedPrefs.INSTANCE.getSelectedCity());
+                    UtilityMethods.clickCapture(context, "L1", "",data.get(position).getName(), "", MySharedPrefs.INSTANCE.getSelectedCity());
                 }catch(Exception e){}
 
 //                System.out.println("=====idss1111111===" + data.get(position).getCategory_id());

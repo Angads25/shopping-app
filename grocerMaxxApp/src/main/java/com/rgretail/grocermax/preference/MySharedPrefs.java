@@ -34,6 +34,7 @@ public enum MySharedPrefs {
 	
 	private final String FIRST_NAME = "first_name";
 	private final String LAST_NAME = "last_name";
+    private final String OTP_SCREEN = "otp_screen";
 
 	private final String SEARCH_KEY = "search_key";
 	private final String TOTAL_ITEM = "total_item";
@@ -276,6 +277,15 @@ public enum MySharedPrefs {
 	public String getLastName() {
 		return getAppPreference().getString(LAST_NAME, null);
 	}
+
+    public void putOTPScreenName(String otp) {
+        getAppPreference().edit().putString(OTP_SCREEN, otp).commit();
+    }
+
+    public String getOTPScreenName() {
+        return getAppPreference().getString(OTP_SCREEN, "");
+    }
+
 	
 	public void putMobileNo(String strMobile) {                               
 		getAppPreference().edit().putString(MOBILE_NUMBER, strMobile).commit();

@@ -453,6 +453,8 @@ public class CitrusActivity extends ActionBarActivity {
                     sendResult(transactionResponse);
                 } else {
                     mPaymentWebview.loadUrl(mpiServletUrl);
+                    /*TransactionResponse transactionResponse = new TransactionResponse(TransactionResponse.TransactionStatus.CANCELLED, "Cancelled By User", mTransactionId);
+                    sendResult(transactionResponse);*/
                 }
             }
         });

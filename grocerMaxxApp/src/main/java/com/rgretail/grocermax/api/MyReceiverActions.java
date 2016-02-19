@@ -105,4 +105,5 @@ public interface MyReceiverActions {
 	String ORDER_REORDER = PKG_NAME + ".order_reorder";
     String WALLET_INFO = PKG_NAME + ".wallet_info";
     String WALLET_TRANSACTIONS = PKG_NAME + ".wallet_transactions";
+    String TERM_CONDITION = PKG_NAME + ".term_condition";
 }

@@ -69,7 +69,8 @@ public class QuickPayFragment extends Fragment {
     LinearLayout paymentModesContainer;
     RelativeLayout walletDetailsContainer;
     LinearLayout payWithCard;
-    LinearLayout payWithBank,payWithNew;
+    LinearLayout payWithBank;
+    LinearLayout       payWithNew;
     LinearLayout paymentModeList;
     LinearLayout layoutPayWithCard;
     LinearLayout brandingLayout;
@@ -119,23 +120,28 @@ public class QuickPayFragment extends Fragment {
         showMoreToggle = (TextView) layout.findViewById(R.id.show_more_text);
         otherBanksText = (TextView) layout.findViewById(R.id.other_banks_text);
         paymentModesContainer = (LinearLayout) layout.findViewById(R.id.payment_mode_container);
+        paymentModesContainer.setVisibility(View.GONE);
         walletDetailsContainer = (RelativeLayout) layout.findViewById(R.id
                 .wallet_details_container);
         payWithCard = (LinearLayout) layout.findViewById(R.id.pay_with_card);
+        payWithCard.setVisibility(View.GONE);
         payWithBank = (LinearLayout) layout.findViewById(R.id.pay_with_bank);
+        payWithBank.setVisibility(View.GONE);
         payWithCardNew = (TextView) layout.findViewById(R.id.text_pay_with_card_new);
         payWithBankNew = (TextView) layout.findViewById(R.id.other_banks_text_new);
         payWithNew = (LinearLayout) layout.findViewById(R.id.pay_with_new);
+        payWithNew.setVisibility(View.GONE);
         paymentModeList = (LinearLayout) layout.findViewById(R.id.payment_mode_list);
         setupWalletButton = (Button) layout.findViewById(R.id.setup_wallet_button);
         payNowButton = (Button) layout.findViewById(R.id.pay_now);
         addMoneyNPay = (Button) layout.findViewById(R.id.add_money_pay);
         layoutPayWithCard = (LinearLayout) layout.findViewById(R.id.pay_with_card);
+        layoutPayWithCard.setVisibility(View.GONE);
         brandingLayout = (LinearLayout) layout.findViewById(R.id.branding_layout);
         citrusClient = CitrusClient.getInstance(getActivity());
 //        payNowButton.setBackground(getButtonDrawableColor());
 //        setupWalletButton.setBackground(getButtonDrawableColor());
-        layoutPayWithCard.setOnClickListener(new View.OnClickListener() {
+       /* layoutPayWithCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!TextUtils.isEmpty(mListener.getAmount())&& Double.parseDouble(mListener.getAmount())!= 0) {
@@ -145,7 +151,7 @@ public class QuickPayFragment extends Fragment {
                     Snackbar.make(layout, getString(R.string.transaction_complete), Snackbar.LENGTH_SHORT).show();
                 }
             }
-        });
+        });*/
 
         payWithCardNew.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,7 +176,7 @@ public class QuickPayFragment extends Fragment {
             }
         });
 
-        payWithBank.setOnClickListener(new View.OnClickListener() {
+       /* payWithBank.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!TextUtils.isEmpty(mListener.getAmount())&& Double.parseDouble(mListener.getAmount())!= 0) {
@@ -179,7 +185,7 @@ public class QuickPayFragment extends Fragment {
                     Snackbar.make(layout, getString(R.string.transaction_complete), Snackbar.LENGTH_SHORT).show();
                 }
             }
-        });
+        });*/
         addMoneyNPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -573,15 +579,15 @@ public class QuickPayFragment extends Fragment {
         }
 
         if(totalSize>0){
-            paymentModesContainer.setVisibility(View.VISIBLE);
+           // paymentModesContainer.setVisibility(View.VISIBLE);
             otherBanksText.setText(getString(R.string.text_other_banks));
 
-            payWithBank.setVisibility(View.VISIBLE);
-            payWithCard.setVisibility(View.VISIBLE);
+           // payWithBank.setVisibility(View.VISIBLE);
+           // payWithCard.setVisibility(View.VISIBLE);
         }else{
-            payWithBank.setVisibility(View.GONE);
-            payWithCard.setVisibility(View.GONE);
-            payWithNew.setVisibility(View.VISIBLE);
+           // payWithBank.setVisibility(View.GONE);
+           // payWithCard.setVisibility(View.GONE);
+            //payWithNew.setVisibility(View.VISIBLE);
             otherBanksText.setText(getString(R.string.text_select_bank));
         }
         if (brandingLayout != null) {

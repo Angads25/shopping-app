@@ -636,6 +636,10 @@ public class ConnectionService extends IntentService {
                     bundle.putSerializable(RESPONSE,
                             (Serializable) response);
                     break;
+                case MyParserType.TERM_CONDITION:
+                    bundle.putSerializable(RESPONSE,
+                            (Serializable) response);
+                    break;
                 case MyParserType.WALLET_TRANSACTION:
                     bundle.putSerializable(RESPONSE,
                             (Serializable)ConnectionServiceParser

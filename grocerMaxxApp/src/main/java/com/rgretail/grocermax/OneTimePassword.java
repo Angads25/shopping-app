@@ -1,15 +1,19 @@
 package com.rgretail.grocermax;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.CartDetail;
@@ -28,6 +32,8 @@ import org.json.JSONObject;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+//import com.google.analytics.tracking.android.EasyTracker;
+
 
 public class OneTimePassword extends BaseActivity {
     OTPResponse otpDataBean;
@@ -36,6 +42,16 @@ public class OneTimePassword extends BaseActivity {
     String registraion_method;
     private JSONObject jsonObjectParams;
     String phone_number;
+    TextView tv_msg;
+    ImageView icon_header_back;
+    public static EditText etOTP;
+
+    /*for progress bar*/
+    public static TextView tv_time,tv_pBarMsg,tv;
+    public static ProgressBar pBar;
+    int pStatus = 0;
+    private Handler handler = new Handler();
+
 
     @Override
     protected void onStart() {
@@ -75,8 +91,19 @@ public class OneTimePassword extends BaseActivity {
                      phone_number=paramObject.getString("number");
 
                 }
+                tv_msg=(TextView)findViewById(R.id.tv_msg);
+                tv=(TextView)findViewById(R.id.tv);
+                tv.setText("Enter OTP");
+                tv_msg.setText(Html.fromHtml("Please enter the one time password (OTP) sent to <b>+91"+MySharedPrefs.INSTANCE.getMobileNo()+"</b>"));
+                icon_header_back=(ImageView)findViewById(R.id.icon_header_back);
+                icon_header_back.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                       onBackPressed();
+                    }
+                });
 
-                final EditText etOTP = (EditText)findViewById(R.id.et_otp);
+                etOTP = (EditText)findViewById(R.id.et_otp);
                 Button btnOTP = (Button)findViewById(R.id.btn_submit);
                 btnOTP.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -113,8 +140,7 @@ public class OneTimePassword extends BaseActivity {
                 });
 
                 /*this is click event for resending otp */
-                Button btnResend = (Button)findViewById(R.id.btn_resendOtp);
-            btnResend.setVisibility(View.VISIBLE);
+                final Button btnResend = (Button)findViewById(R.id.btn_resendOtp);
                 btnResend.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -158,9 +184,82 @@ public class OneTimePassword extends BaseActivity {
 
 
 
+             /*show progress bar for a perticular time*/
+            tv_time = (TextView) findViewById(R.id.tv_time);
+            tv_pBarMsg = (TextView) findViewById(R.id.tv_waitMsg);
+            pBar = (ProgressBar) findViewById(R.id.progressBar1);
+            tv_time.setVisibility(View.VISIBLE);
+            tv_pBarMsg.setVisibility(View.VISIBLE);
+            pBar.setVisibility(View.VISIBLE);
+            btnOTP.setText("VERIFY ME");
+            new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    // TODO Auto-generated method stub
+                    while (pStatus <= 60) {
+
+                        handler.post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                                pBar.setProgress(pStatus);
+                                pBar.setSecondaryProgress(pStatus + 0);
+                                tv_time.setText(""+(60-pStatus));
+                                if(pStatus==60){
+                                    tv_time.setVisibility(View.GONE);
+                                    pBar.setVisibility(View.GONE);
+                                    tv_pBarMsg.setVisibility(View.GONE);
+                                    btnResend.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        });
+                        try {
+                            // Sleep for 200 milliseconds.
+                            // Just to display the progress slowly
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        pStatus ++;
+                    }
+                }
+            }).start();
+
+            /*--------------------------------------------------------------*/
+
+
+
+
+
+
+
             initHeader(findViewById(R.id.header), true, null);
         }catch(Exception e){
             new GrocermaxBaseException("OneTimePassword","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(1221);
+        finish();
+    }
+
+    public void recivedSms(String message)
+    {
+        try
+        {
+            etOTP.setText(message);
+            tv_time.setVisibility(View.GONE);
+            pBar.setVisibility(View.GONE);
+            tv_pBarMsg.setVisibility(View.GONE);
+        }
+        catch (Exception e)
+        {
+            System.out.println("OneTimePassword.recivedSms"+e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -195,6 +294,8 @@ public class OneTimePassword extends BaseActivity {
                // try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_REGISTER_EMAIL);}catch(Exception e){}
                 UtilityMethods.customToast(AppConstants.ToastConstant.REGISTER_SUCCESSFULL, mContext);
                 //finish();
+                MySharedPrefs.INSTANCE.putFirstName(userDataBean.getFirstName());
+                MySharedPrefs.INSTANCE.putLastName(userDataBean.getLastName());
                 MySharedPrefs.INSTANCE.putUserId(userDataBean.getUserID());
                 if (MySharedPrefs.INSTANCE.getFacebookEmail() == null) {
 //                    MySharedPrefs.INSTANCE.putUserEmail(((EditText) findViewById(R.id.et_register_email)).getText().toString().trim());
@@ -267,6 +368,7 @@ public class OneTimePassword extends BaseActivity {
                  dismissDialog();
                  OTPResponse otpDataBean = (OTPResponse) bundle.getSerializable(ConnectionService.RESPONSE);
                  if(otpDataBean.getFlag().equals("1")) {
+                     MySharedPrefs.INSTANCE.putOTPScreenName("OneTimePassword");
                      this.otpDataBean=otpDataBean;
                      UtilityMethods.customToast("OTP has been sent to your mobile number", mContext);
                  }else{
