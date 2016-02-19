@@ -15,6 +15,7 @@ import android.view.Window;
 import android.widget.ImageView;
 
 import com.appsflyer.AppsFlyerLib;
+import com.dq.rocq.RocqAnalytics;
 import com.google.gson.Gson;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.DealListScreen;
@@ -79,7 +80,7 @@ public class HomeScreen extends BaseActivity {
 
         setContentView(R.layout.activity_hot_offer);
         mContext = this;
-
+        System.out.println("Notification testing1");
         try{
 
         }catch(Exception e){}
@@ -188,6 +189,9 @@ public class HomeScreen extends BaseActivity {
         try{
             AppsFlyerLib.onActivityResume(this);
         }catch(Exception e){}
+        try{
+            RocqAnalytics.startScreen(this);
+        }catch(Exception e){}
     }
 
     @Override
@@ -195,6 +199,9 @@ public class HomeScreen extends BaseActivity {
         super.onStop();
         try{
             AppsFlyerLib.onActivityPause(this);
+        }catch(Exception e){}
+        try{
+            RocqAnalytics.stopScreen(this);
         }catch(Exception e){}
     }
 
@@ -243,7 +250,7 @@ public class HomeScreen extends BaseActivity {
     public void OnResponse(Bundle bundle) {
 
         try {
-
+            System.out.println("Notification testing2");
             String action = bundle.getString("ACTION");
 //            if(action.equals(MyReceiverActions.CATEGORY_LIST)) {
 //                dismissDialog();
@@ -326,9 +333,11 @@ public class HomeScreen extends BaseActivity {
                         fragment1.setArguments(call_bundle);
                         fragmentTransact.commit();
                         progress.dismiss();
-
+                        System.out.println("Notification testing3");
 
                         Bundle bundle1 = getIntent().getExtras();
+                        System.out.println("bundle1 = " + bundle1);
+
                         if (bundle1 != null && bundle1.getBoolean("IS_FROM_NOTIFICATION", false)) {
                             getNotificationData(bundle1);
                         }

@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
+import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -97,6 +99,10 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 		setContentView(R.layout.login_new);
 //		setContentView(R.layout.confirmation_activity);
 //		setContentView(R.layout.order_failure);
+
+        /*Screen Tracking using Rocq Analytics*/
+        RocqAnalytics.trackScreen("Login Screen");
+
 
 
 		try{
@@ -336,6 +342,13 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 					try{UtilityMethods.clickCapture(context,"Login","","Regular","",MySharedPrefs.INSTANCE.getSelectedCity());
                         MySharedPrefs.INSTANCE.putLoginMethod("Regular");
                     }catch(Exception e){}
+
+                    /*Login even tracking using Rocq Analytics*/
+                    RocqAnalytics.trackEvent("Login",new ActionProperties("Login Type","Regular"));
+                     /*------------------------------*/
+
+
+
 //					HashMap<String, String> hashMap = new HashMap<String,String>();
 					JSONObject jsonObject = new JSONObject();
 					if(MySharedPrefs.INSTANCE.getQuoteId()==null||MySharedPrefs.INSTANCE.getQuoteId().equals(""))

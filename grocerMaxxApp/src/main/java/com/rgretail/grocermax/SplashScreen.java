@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
+import com.dq.rocq.RocqAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.rgretail.grocermax.GCM.GCMClientManager;
 import com.rgretail.grocermax.api.ConnectionService;
@@ -71,12 +72,25 @@ public class SplashScreen extends BaseActivity
 		super.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.splash_screen);
 
+        /*screen tracking using rocq*/
+        RocqAnalytics.initialize(this);
+        RocqAnalytics.startScreen(this);
+        /*------------------------------*/
 
 
 
         /*registering device on GCM server*/
         if(MySharedPrefs.INSTANCE.getGCMDeviceTocken()==null)
         registerGCM();
+        else{
+            /*set gcm registration id for Rocq Analytics*/
+            try {
+                RocqAnalytics.initialize(SplashScreen.this);
+                RocqAnalytics.setPushtRegistrationId(MySharedPrefs.INSTANCE.getGCMDeviceTocken(),SplashScreen.this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
 		addActionsInFilter(MyReceiverActions.LOCATION);
 
@@ -389,6 +403,7 @@ public class SplashScreen extends BaseActivity
 	public void onStop() {
 		super.onStop();
 		AppsFlyerLib.onActivityPause(this);
+        RocqAnalytics.stopScreen(this);
 	}
 
 	public void registerGCM() {
@@ -398,7 +413,15 @@ public class SplashScreen extends BaseActivity
 			public void onSuccess(String registrationId,
 								  boolean isNewRegistration) {
 				DeviceRegistrationId = registrationId;
-			}
+
+                /*set gcm registration id for Rocq Analytics*/
+                try {
+                    RocqAnalytics.initialize(SplashScreen.this);
+                    RocqAnalytics.setPushtRegistrationId(registrationId,SplashScreen.this);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
 
 			@Override
 			public void onFailure(String ex) {

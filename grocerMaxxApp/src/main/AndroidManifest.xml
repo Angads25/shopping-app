@@ -61,8 +61,16 @@
             </intent-filter>
         </receiver>
 
-        <receiver
+        <!--<receiver
             android:name="com.appsflyer.MultipleInstallBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>-->
+
+        <receiver
+            android:name="com.rgretail.grocermax.GrocermaxInstallReferalReciever"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
@@ -93,8 +101,7 @@
 
                 <data
                     android:scheme="grocermax"
-                    android:host="com.rgretail.grocermax"
-                    android:pathPrefix="/offerbydealtype?cat_id=2483" />
+                    android:host="com.rgretail.grocermax" />
             </intent-filter>
 
 
@@ -258,7 +265,25 @@
             android:name=".GooglePlus"
             android:screenOrientation="portrait" />
         -->
+            <!--   meta data for Rocq Notification-->
         <meta-data
+            android:name="rocq_notofication_icon"
+        android:value="grocemax_cloud" />
+
+        <activity
+            android:name="com.dq.rocq.inapp.RocqInappMessageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
+        </activity>
+
+        <meta-data
+            android:name="rocq_homescreen"
+           android:value="com.rgretail.grocermax.hotoffers.HomeScreen" />
+
+        <!--     -->
+
+
+    <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 

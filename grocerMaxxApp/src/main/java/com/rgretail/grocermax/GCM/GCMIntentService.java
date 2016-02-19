@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.dq.rocq.push.RocqGcmIntentService;
 import com.google.android.gms.gcm.GcmListenerService;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
@@ -58,7 +59,7 @@ public class GCMIntentService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
         try{
-            System.out.println("notification recieved");
+            /*System.out.println("notification recieved");
 
             String message = data.getString("message");
             strName = data.getString("name");
@@ -69,7 +70,24 @@ public class GCMIntentService extends GcmListenerService {
             String collapse_key = data.getString("collapse_key");
             Log.d(TAG, "From: " + from);
             Log.d(TAG, "Message: " + message);
-            sendNotification(message,data);
+            sendNotification(message,data);*/
+
+            if(!new RocqGcmIntentService().handleRocqMessage(data, getApplicationContext()))
+            {
+                System.out.println("notification recieved");
+
+                String message = data.getString("message");
+                strName = data.getString("name");
+                strLinkurl = data.getString("linkurl");
+                strImageUrl = data.getString("imageurl");
+                strSubText = data.getString("subtext");
+
+                String collapse_key = data.getString("collapse_key");
+                Log.d(TAG, "From: " + from);
+                Log.d(TAG, "Message: " + message);
+                sendNotification(message,data);
+            }
+
         }catch(Exception e){}
 
     }
@@ -88,7 +106,6 @@ public class GCMIntentService extends GcmListenerService {
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
 
         NotificationCompat.BigPictureStyle notiStyle = new NotificationCompat.BigPictureStyle();
         //notiStyle.setBigContentTitle(strName);

@@ -77,6 +77,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.0.2'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile files('libs/org.apache.http.legacy.jar')
+    compile files('libs/Rocq_17_beige.jar')
 }
 
 
