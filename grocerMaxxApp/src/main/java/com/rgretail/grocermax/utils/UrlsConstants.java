@@ -81,6 +81,8 @@ public class UrlsConstants {
 
     public final static String TERM_AND_CONDITION = NEW_BASE_URL
             + "termandcondition";
+    public final static String CONTACT = NEW_BASE_URL
+            + "contact";
 
     public final static String WALLET_TRANSACTION_URL = NEW_BASE_URL
             + "creditlog?userid=";

@@ -130,6 +130,7 @@ public class Registration extends BaseActivity implements
                 @Override
                 public void onClick(View v) {
                     Intent i=new Intent(Registration.this,TermAndCondition.class);
+                    i.putExtra("reference","terms");
                     startActivityForResult(i,123);
                 }
             });

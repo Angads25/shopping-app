@@ -13,22 +13,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.rgretail.grocermax.CategoryTabs;
+import com.rgretail.grocermax.CityActivity;
 import com.rgretail.grocermax.LoginActivity;
 import com.rgretail.grocermax.MyApplication;
 import com.rgretail.grocermax.R;
+import com.rgretail.grocermax.TermAndCondition;
 import com.rgretail.grocermax.WalletActivity;
-import com.rgretail.grocermax.preference.MySharedPrefs;
-import com.rgretail.grocermax.utils.Constants;
-import com.rgretail.grocermax.utils.UtilityMethods;
-import com.rgretail.grocermax.CityActivity;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
 import com.rgretail.grocermax.bean.ShopByDealsBean;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.hotoffers.adapter.ExpandableMenuListAdapter;
 import com.rgretail.grocermax.hotoffers.adapter.MenuListAdapter;
 import com.rgretail.grocermax.hotoffers.adapter.ShopByDealsMenuListAdapter;
+import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
+import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.UrlsConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -178,13 +179,16 @@ public class MenuFragment extends Fragment {
         txvGetInTouch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_SEND);
+                /*Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra(Intent.EXTRA_TEXT, "Check out the new awesome Grocermax! https://grocermax.com");
                 startActivity(Intent.createChooser(intent, "How do you want to share ?"));
+                ((HomeScreen)getActivity()).isFromFragment=false;*/
+                Intent i=new Intent(getActivity(),TermAndCondition.class);
+                i.putExtra("reference","contactus");
+                startActivity(i);
                 ((HomeScreen)getActivity()).isFromFragment=false;
-               // try{UtilityMethods.clickCapture(HomeScreen.mContext,"","","","",SCREENNAME+AppConstants.DRAWER_GET_IN_TOUCH_WITH_US);}catch(Exception e){}
             }
         });
 

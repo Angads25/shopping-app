@@ -1,8 +1,10 @@
 package com.rgretail.grocermax;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,12 +47,15 @@ public class OneTimePassword extends BaseActivity {
     TextView tv_msg;
     ImageView icon_header_back;
     public static EditText etOTP;
+    public static  Button btnResend;
 
     /*for progress bar*/
     public static TextView tv_time,tv_pBarMsg,tv;
     public static ProgressBar pBar;
+    Thread t;
     int pStatus = 0;
     private Handler handler = new Handler();
+    ProgressTask pTask;
 
 
     @Override
@@ -70,6 +75,7 @@ public class OneTimePassword extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.otp);
+        pStatus = 0;
         try{
             AppsFlyerLib.setCurrencyCode("INR");
             AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
@@ -80,6 +86,8 @@ public class OneTimePassword extends BaseActivity {
                 addActionsInFilter(MyReceiverActions.REGISTER_USER);
                 addActionsInFilter(MyReceiverActions.LOGIN);
                 addActionsInFilter(MyReceiverActions.OTP);
+
+            MySharedPrefs.INSTANCE.putOTPScreenName("OneTimePassword");
 
                 if (bundle != null) {
                      otpDataBean = (OTPResponse)bundle.getSerializable("Otp");
@@ -140,7 +148,7 @@ public class OneTimePassword extends BaseActivity {
                 });
 
                 /*this is click event for resending otp */
-                final Button btnResend = (Button)findViewById(R.id.btn_resendOtp);
+                btnResend = (Button)findViewById(R.id.btn_resendOtp);
                 btnResend.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -192,7 +200,9 @@ public class OneTimePassword extends BaseActivity {
             tv_pBarMsg.setVisibility(View.VISIBLE);
             pBar.setVisibility(View.VISIBLE);
             btnOTP.setText("VERIFY ME");
-            new Thread(new Runnable() {
+            initHeader(findViewById(R.id.header), true, null);
+
+           /* t=new Thread(new Runnable() {
 
                 @Override
                 public void run() {
@@ -225,17 +235,15 @@ public class OneTimePassword extends BaseActivity {
                         pStatus ++;
                     }
                 }
-            }).start();
+            });
+            t.start();
+*/
 
+            pTask=new ProgressTask();
+            pTask.execute();
             /*--------------------------------------------------------------*/
 
 
-
-
-
-
-
-            initHeader(findViewById(R.id.header), true, null);
         }catch(Exception e){
             new GrocermaxBaseException("OneTimePassword","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
         }
@@ -243,8 +251,24 @@ public class OneTimePassword extends BaseActivity {
 
     @Override
     public void onBackPressed() {
+
         setResult(1221);
         finish();
+    }
+
+    @Override
+    public void onDestroy() {
+        System.out.println("onDestroy otp");
+        try {
+            pTask.cancel(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //  t.stop();
+
+        super.onDestroy();
+       // t.abort = true;
+
     }
 
     public void recivedSms(String message)
@@ -411,4 +435,49 @@ public class OneTimePassword extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+   public class ProgressTask extends AsyncTask<String, String, String> {
+
+       @Override
+       protected String doInBackground(String... f_url) {
+           try {
+                    while(pStatus <= 60) {
+                        if(isCancelled()){
+                            break;
+                        }
+                        publishProgress(""+pStatus);
+                           if(pStatus==60){
+                             return null;
+                           }
+                   try {
+                       Thread.sleep(1000);
+                   } catch (InterruptedException e) {
+                       e.printStackTrace();
+                   }
+                   pStatus ++;
+               }
+          } catch (Exception e) {
+               Log.e("Error: ", e.getMessage());
+           }
+          return null;
+        }
+       protected void onProgressUpdate(String... progress) {
+           // setting progress percentage
+           pBar.setProgress(Integer.parseInt(progress[0]));
+           pBar.setSecondaryProgress(Integer.parseInt(progress[0]) + 0);
+           tv_time.setText(""+(60-Integer.parseInt(progress[0])));
+       }
+       @Override
+       protected void onPostExecute(String file_url) {
+           tv_time.setVisibility(View.GONE);
+           pBar.setVisibility(View.GONE);
+           tv_pBarMsg.setVisibility(View.GONE);
+           btnResend.setVisibility(View.VISIBLE);
+       }
+
+   }
+
+
+
+
 }
