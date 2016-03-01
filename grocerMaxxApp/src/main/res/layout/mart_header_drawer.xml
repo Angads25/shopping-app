@@ -243,6 +243,15 @@
                             android:layout_marginRight="2dp"
                             android:layout_marginTop="5dp"
                             android:src="@drawable/close_icon" />
+
+                        <ImageView
+                            android:id="@+id/imgMike"
+                            android:layout_width="25dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="2dp"
+                            android:src="@drawable/mike" />
+
                     </LinearLayout>
 
                     <TextView

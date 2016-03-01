@@ -182,6 +182,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	public void setCartList(CartDetailBean cartBean)
 	{
 		try {
+
 			if (cartList != null && cartList.size() > 0) {
 				ll_total.setVisibility(View.VISIBLE);
 				orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
@@ -317,6 +318,8 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					update_cart.setOnClickListener(this);
 					place_order.setVisibility(View.GONE);
 					place_order.setOnClickListener(this);
+					icon_header_cart.setClickable(false);
+					cart_count_txt.setClickable(false);
 				}else{
 					place_order.setVisibility(View.VISIBLE);
 					place_order.setOnClickListener(this);
@@ -343,6 +346,8 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 //				startActivity(intent);
 //				finish();
 			}
+			icon_header_cart.setClickable(false);
+			cart_count_txt.setClickable(false);
 		}catch(NullPointerException e){
 			new GrocermaxBaseException("CartProductList", "setCartList", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
 		}catch(Exception e){
@@ -561,6 +566,10 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					System.out.println("==sometimes slim application error on update=="+url);
 					myApi.reqViewCartSlipErrorApp(url);
 				}
+
+				icon_header_cart.setClickable(false);
+				cart_count_txt.setClickable(false);
+
 //			   }else{
 //				   finish();
 //			   }
@@ -1020,10 +1029,11 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			new GrocermaxBaseException("CartProductList", "onResume", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 
-        try {
+		try {
             initHeader(findViewById(R.id.header), false, "Your Cart");
 			icon_header_cart.setClickable(false);
 			cart_count_txt.setClickable(false);
+
 //            ((ImageView)findViewById(R.id.icon_header_cart)).setVisibility(View.INVISIBLE);
 //            ((TextView)findViewById(R.id.nom_producte)).setVisibility(View.INVISIBLE);
         }catch(Exception e){

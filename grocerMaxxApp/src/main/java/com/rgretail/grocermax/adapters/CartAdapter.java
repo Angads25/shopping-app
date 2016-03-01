@@ -2,6 +2,7 @@ package com.rgretail.grocermax.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -168,6 +169,10 @@ public class CartAdapter extends BaseAdapter{
 			if(obj.getStatus().equals("1")){  //product available
 				holder.rlOutofStock.setVisibility(View.GONE);
 				holder.rlOutofStock.setEnabled(true);
+				holder.tvOffers.setAllCaps(false);
+				holder.tvOffers.setTextColor(Color.parseColor("#e5111e"));
+				holder.tvOffers.setBackgroundColor(Color.parseColor("#fec70d"));
+
 				if(obj.getPromotionLevel() != null){
 					holder.offerImage.setVisibility(View.VISIBLE);
 					holder.tvOffers.setVisibility(View.VISIBLE);
@@ -177,8 +182,14 @@ public class CartAdapter extends BaseAdapter{
 					holder.offerImage.setVisibility(View.GONE);
 				}
 			}else{                            //product not available
-				holder.rlOutofStock.setVisibility(View.VISIBLE);
-				holder.rlOutofStock.setEnabled(false);
+				/*holder.rlOutofStock.setVisibility(View.VISIBLE);
+				holder.rlOutofStock.setEnabled(false);*/
+				holder.rlOutofStock.setVisibility(View.GONE);
+				holder.rlOutofStock.setEnabled(true);
+				holder.tvOffers.setAllCaps(true);
+				holder.tvOffers.setTextColor(activity.getResources().getColor(R.color.white));
+				holder.tvOffers.setBackgroundColor(activity.getResources().getColor(R.color.primaryColor));
+
 //			alOutOfStockId.add(CartProductList.cartList.get(position).getItem_id());
 //			if(UtilityMethods.isInternetAvailable(activity)){
 				if(CartProductList.getInstance().place_order != null && CartProductList.getInstance().update_cart != null) {
@@ -189,6 +200,7 @@ public class CartAdapter extends BaseAdapter{
 					holder.decrease_quantity.setVisibility(View.INVISIBLE);
 					holder.tvOffers.setVisibility(View.VISIBLE);
 					try {
+						System.out.println("QTY="+Integer.parseInt(obj.getWebQty()));
 						if (obj.getWebQty() != null) {
 							if (Integer.parseInt(obj.getWebQty()) > 0) {
 								holder.tvOffers.setText(AppConstants.ToastConstant.REDUCE_QUANT_FIRST_PART+obj.getWebQty()+ AppConstants.ToastConstant.REDUCE_QUANT_SECOND_PART);

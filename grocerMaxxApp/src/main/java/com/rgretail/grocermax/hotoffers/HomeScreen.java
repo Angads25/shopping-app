@@ -328,21 +328,30 @@ public class HomeScreen extends BaseActivity {
                         progress.dismiss();
 
 
+                        /*  coming form notification */
                         Bundle bundle1 = getIntent().getExtras();
                         if (bundle1 != null && bundle1.getBoolean("IS_FROM_NOTIFICATION", false)) {
                             getNotificationData(bundle1);
                         }
 
-
-                       /* Intent intent = getIntent();
+                        /*  coming form deep linking */
+                        Intent intent = getIntent();
                         if (intent != null || intent.getData() != null) {
                             Bundle bundle2=new Bundle();
-                            bundle2.putString("name", "Offer");
-                            String path=intent.getData().getPath();
-                            path=path.substring(path.lastIndexOf('/')+1,path.length()-1);
-                            bundle2.putString("linkurl", path);
+                            String path=intent.getData().toString();
+                            path=path.replace("grocermax://","");
+                            //System.out.println("path=" + path);
+                            if(path.contains("&")){
+                                String url_title[]=path.split("&");
+                                bundle2.putString("linkurl", url_title[0]);
+                                if(url_title.length>1)
+                                 bundle2.putString("name", url_title[1]);
+                            }else{
+                                bundle2.putString("linkurl", path);
+                                bundle2.putString("name", "");
+                            }
                             getNotificationData(bundle2);
-                        }*/
+                        }
 
                     }
 
@@ -485,8 +494,8 @@ public class HomeScreen extends BaseActivity {
                 Bundle call_bundle = new Bundle();
                 call_bundle.putSerializable("ProductList",
                         dealListBean);
-//                call_bundle.putSerializable("Header", AppConstants.strTitleHotDeal);
-                call_bundle.putSerializable("Header", DealListScreen.strDealHeading);
+                call_bundle.putSerializable("Header", AppConstants.strTitleHotDeal);
+                //call_bundle.putSerializable("Header", DealListScreen.strDealHeading);
                 call.putExtras(call_bundle);
                 startActivity(call);
 

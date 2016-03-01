@@ -90,11 +90,13 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
+                    android:scheme="grocermax"/>
+
+               <!-- <data
                     android:scheme="grocermax"
-                    android:host="com.rgretail.grocermax"
-                    android:pathPrefix="/offerbydealtype?cat_id=2483" />
+                    android:host="m.grocermax.com"
+                    android:pathPrefix="/" />-->
             </intent-filter>
 
 

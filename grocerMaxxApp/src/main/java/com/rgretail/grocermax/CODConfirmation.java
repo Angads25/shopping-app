@@ -18,6 +18,7 @@ import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
+import java.util.Date;
 import java.util.Map;
 
 //import com.google.analytics.tracking.android.EasyTracker;
@@ -87,10 +88,9 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
                 /*-------------------------------------------*/
 
                 /*Tracking the GA ecommerce for successful transaction*/
-               /* if(orderid.equals("")){
-
+                if(orderid.equals("no_order_id")){
+                  orderid=MySharedPrefs.INSTANCE.getUserId()+"-"+new Date();
                 }
-
 
                 try{
                     System.out.println("Total="+ReviewOrderAndPay.strTempTotal);
@@ -98,28 +98,25 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
                             ReviewOrderAndPay.strTempShippingAmount, ReviewOrderAndPay.strTempTaxAmount);
                 }catch(Exception e){
                     e.printStackTrace();
-                }*/
+                }
                 /*-------------------------------------------*/
 
                    /*Tracking the GA ecommerce for Items in a success order transaction*/
 
-              /*  if (ReviewOrderAndPay.cartListGA != null) {
+                if (ReviewOrderAndPay.cartListGA != null) {
                     for (int i = 0; i < ReviewOrderAndPay.cartListGA.size(); i++) {
                         try {
                             try{
-                                System.out.println("Name="+ReviewOrderAndPay.cartListGA.get(i).getProductName());
-                                UtilityMethods.captureItemsInAOrder(mContext, orderid,ReviewOrderAndPay.cartListGA.get(i).getProductName(),
+                                //System.out.println("Name=" + ReviewOrderAndPay.cartListGA.get(i).getName());
+								UtilityMethods.captureItemsInAOrder(mContext, orderid,ReviewOrderAndPay.cartListGA.get(i).getName(),
                                         ReviewOrderAndPay.cartListGA.get(i).getSku(), ReviewOrderAndPay.cartListGA.get(i).getBrand(),
                                         ReviewOrderAndPay.cartListGA.get(i).getPrice(),String.valueOf(ReviewOrderAndPay.cartListGA.get(i).getQty()));
-                               *//* UtilityMethods.captureItemsInAOrder(mContext, orderid,"Basmati RIce",
-                                        "SKU-15RICE", "Brand-Rajdhani",
-                                        "500.50","2");*//*
                             }catch(Exception e){}
                         }catch(Exception e){
                             e.printStackTrace();
                         }
                     }
-                }*/
+                }
                   /*-------------------------------------------------*/
 
 

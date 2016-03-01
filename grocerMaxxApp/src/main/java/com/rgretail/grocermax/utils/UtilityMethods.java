@@ -1362,6 +1362,23 @@ public class UtilityMethods {
 //		    return taskInfo.get(0).topActivity.getClassName();
 		    return mPackageName;
 	 }
+
+    public static String getTopClassName(Context context){
+        Activity activity = (Activity) context;//casting context into activity
+        Class<?> currentClassName;
+        try
+        {
+            currentClassName = Class.forName(activity.getClass().getName()); //getting the current activity's class name from activity object
+            return currentClassName.getName();
+        }
+        catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+
 	 
 	 public static Bitmap getRoundedShape(Bitmap scaleBitmapImage) {
 		    int targetWidth = 50;

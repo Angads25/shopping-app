@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -42,6 +43,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
@@ -107,7 +109,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	//public EditText edtSearch;
     public AutoCompleteTextView edtSearch;
 	private ImageView imgSearchIcon;
-	private ImageView imgSearchCloseIcon;
+	private ImageView imgSearchCloseIcon,imgMike;
 	private RelativeLayout rlSearchLook;
 	public static boolean isFromCategoryTabs = false;
 	private LinearLayout llLeftIcon;
@@ -120,6 +122,8 @@ public abstract class BaseActivity extends FragmentActivity {
 //	EasyTracker tracker;
 	public static Tracker mTracker;
     View v;
+
+	private static final int REQUEST_CODE = 1234;
 
     //String[] languages={"Android ","java","IOS","SQL","JDBC","Web services","jajaja","jmnfg","jokjkdjkjd","jkldmjop","jsolun","jdjdmcjcjdjd","jk","jl"};
 
@@ -169,16 +173,15 @@ public abstract class BaseActivity extends FragmentActivity {
 			icon_header_user = (ImageButton) view.findViewById(R.id.icon_header_user);
 			icon_header_cart = (ImageButton) view.findViewById(R.id.icon_header_cart);
 			cart_count_txt = (TextView) view.findViewById(R.id.nom_producte);
-			icon_header_search = (ImageView) view
-					.findViewById(R.id.icon_header_search);
+			icon_header_search = (ImageView) view.findViewById(R.id.icon_header_search);
 			icon_header_logo_without_search = (ImageView) view.findViewById(R.id.icon_header_logo_without_search);
 			icon_header_logo_with_search = (ImageView) view.findViewById(R.id.icon_header_logo_with_search);
 			llSearchLayout = (LinearLayout) view.findViewById(R.id.llSearchLayout);
 
 			edtSearch = (AutoCompleteTextView) view.findViewById(R.id.edtSearch);
 			imgSearchIcon = (ImageView) view.findViewById(R.id.imgSearchIcon);
-			imgSearchCloseIcon = (ImageView) view
-					.findViewById(R.id.imgSearchCloseIcon);
+			imgSearchCloseIcon = (ImageView) view.findViewById(R.id.imgSearchCloseIcon);
+			imgMike = (ImageView) view.findViewById(R.id.imgMike);
 			rlSearchLook = (RelativeLayout) view.findViewById(R.id.rl_serach_look);
 
 			llLeftIcon = (LinearLayout) view.findViewById(R.id.ll_left_icon);
@@ -239,6 +242,7 @@ public abstract class BaseActivity extends FragmentActivity {
 			cart_count_txt.setOnClickListener(headerClick);
 			imgSearchIcon.setOnClickListener(headerClick);
 			imgSearchCloseIcon.setOnClickListener(headerClick);
+			imgMike.setOnClickListener(headerClick);
 
 			if(icon_header_back != null && tvHeaderName != null) {
 				icon_header_back.setOnClickListener(headerClick);
@@ -254,14 +258,15 @@ public abstract class BaseActivity extends FragmentActivity {
 //				}
 //			});
 
-          /*  Point pointSize = new Point();
+            /*Point pointSize = new Point();
             getWindowManager().getDefaultDisplay().getSize(pointSize);
             edtSearch.setDropDownWidth(pointSize.x);
-            edtSearch.setDropDownVerticalOffset(edtSearch.getBaseline());
+            edtSearch.setDropDownVerticalOffset(view.getBaseline());
             //ArrayAdapter adapter=new ArrayAdapter(mContext,R.layout.listview_element,R.id.name,languages);
             AutoCompleteAdapter adapter=new AutoCompleteAdapter(BaseActivity.this);
             edtSearch.setAdapter(adapter);
             edtSearch.setThreshold(3);*/
+
 
 
 
@@ -358,13 +363,17 @@ public abstract class BaseActivity extends FragmentActivity {
 						break;
 					case R.id.nom_producte:
 //						goToCart();
-						HomeScreen.isFromFragment=false;
-						viewCart();
+						if (!UtilityMethods.getTopClassName(BaseActivity.this).equals(getApplicationContext().getPackageName() + ".CartProductList")) {
+							HomeScreen.isFromFragment=false;
+							viewCart();
+						}
 						break;
 					case R.id.icon_header_cart:
 //						goToCart();
-						HomeScreen.isFromFragment=false;
-						viewCart();
+						if (!UtilityMethods.getTopClassName(BaseActivity.this).equals(getApplicationContext().getPackageName() + ".CartProductList")) {
+							HomeScreen.isFromFragment=false;
+							viewCart();
+						}
 						break;
 					case R.id.imgSearchIcon:
 						// UtilityMethods.hideKeyboard(BaseActivity.this);
@@ -374,6 +383,8 @@ public abstract class BaseActivity extends FragmentActivity {
 					case R.id.imgSearchCloseIcon:
 						showSearchView(false);
 						break;
+					case R.id.imgMike:
+						startSpeaker();
 					default:
 
 						break;
@@ -425,6 +436,33 @@ public abstract class BaseActivity extends FragmentActivity {
 //			}
 //		},1000,1000);
 //	}
+
+	/*---------voice detection for search---------------------*/
+	public void startSpeaker(){
+		if(UtilityMethods.isInternetAvailable(mContext)){
+			Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+			intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+					RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+			startActivityForResult(intent, REQUEST_CODE);
+		}
+		else{
+			Toast.makeText(getApplicationContext(), "Plese Connect to Internet", Toast.LENGTH_LONG).show();
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+			if(data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).size()>0) {
+				String searchText = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0);
+				edtSearch.setText(searchText);
+				goforsearch();
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+/*-------------------------------------------------------------------------*/
+
 
 	public void showSearchView(boolean b) {
 		try {
