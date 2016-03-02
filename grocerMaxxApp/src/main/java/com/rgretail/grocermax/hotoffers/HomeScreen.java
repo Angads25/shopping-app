@@ -335,7 +335,6 @@ public class HomeScreen extends BaseActivity {
                         fragment1.setArguments(call_bundle);
                         fragmentTransact.commit();
                         progress.dismiss();
-                        System.out.println("Notification testing3");
 
 
                         /*  coming form notification */
