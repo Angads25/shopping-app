@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Window;
 
 import com.appsflyer.AppsFlyerLib;
+import com.dq.rocq.RocqAnalytics;
 import com.flurry.android.FlurryAgent;
 import com.paytm.pgsdk.PaytmMerchant;
 import com.paytm.pgsdk.PaytmOrder;
@@ -363,6 +364,14 @@ public class PayTMActivity extends BaseActivity
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){}
+		 /*screen tracking using rocq*/
+		try {
+			RocqAnalytics.initialize(this);
+			RocqAnalytics.startScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+       /*------------------------------*/
     }
     
     @Override
@@ -376,6 +385,11 @@ public class PayTMActivity extends BaseActivity
 //			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
     	}catch(Exception e){}
+		try {
+			RocqAnalytics.stopScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 	
 }

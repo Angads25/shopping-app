@@ -1,7 +1,16 @@
 package com.rgretail.grocermax;
 
 
-import java.io.IOException;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.widget.EditText;
+
+import com.appsflyer.AppsFlyerLib;
+import com.dq.rocq.RocqAnalytics;
+import com.flurry.android.FlurryAgent;
+import com.rgretail.grocermax.exception.GrocermaxBaseException;
+import com.rgretail.grocermax.utils.MyHttpUtils;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -10,16 +19,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
 
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.widget.EditText;
+import java.io.IOException;
 
-import com.appsflyer.AppsFlyerLib;
-import com.flurry.android.FlurryAgent;
 //import com.google.analytics.tracking.android.EasyTracker;
-import com.rgretail.grocermax.utils.MyHttpUtils;
-import com.rgretail.grocermax.exception.GrocermaxBaseException;
 
 public class MobiKwikWallet extends BaseActivity{
 //	http://dev.grocermax.com/webservice/new_services/success.php?orderid=""&txnid=""&status=success
@@ -39,6 +41,14 @@ public class MobiKwikWallet extends BaseActivity{
 		}catch(Exception e){
 			new GrocermaxBaseException("MobiKwikWallet","onStart",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
+		 /*screen tracking using rocq*/
+		try {
+			RocqAnalytics.initialize(this);
+			RocqAnalytics.startScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+       /*------------------------------*/
 	}
 
 	@Override
@@ -113,6 +123,11 @@ public class MobiKwikWallet extends BaseActivity{
 //			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
 		}catch(Exception e){}
+		try {
+			RocqAnalytics.stopScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

@@ -13,7 +13,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -45,6 +44,8 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
+import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.google.android.gms.analytics.Tracker;
@@ -53,7 +54,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.rgretail.grocermax.adapters.AutoCompleteAdapter;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyApi;
 import com.rgretail.grocermax.api.MyReceiverActions;
@@ -297,7 +297,7 @@ public abstract class BaseActivity extends FragmentActivity {
 
 	public void setCartCount()
 	{
-		cart_count_txt.setText(""+ AppConstants.cart_count);
+		cart_count_txt.setText("" + AppConstants.cart_count);
 	}
 
 	OnClickListener headerClick = new OnClickListener() {
@@ -527,6 +527,7 @@ public abstract class BaseActivity extends FragmentActivity {
                 /*tracking GA event for search product*/
                 try{
                     UtilityMethods.clickCapture(activity,"Search","",search_key,"",MySharedPrefs.INSTANCE.getSelectedCity());
+					RocqAnalytics.trackEvent("Search", new ActionProperties("Category", "Search", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",search_key));
                 }catch(Exception e){
                     e.printStackTrace();
                 }
@@ -1813,6 +1814,7 @@ public abstract class BaseActivity extends FragmentActivity {
             /*track event for open cart*/
             try{
                 UtilityMethods.clickCapture(activity,"Open Cart","","","",MySharedPrefs.INSTANCE.getSelectedCity());
+				RocqAnalytics.trackEvent("Open Cart", new ActionProperties("Category", "Open Cart", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
             }catch(Exception e){
                 e.printStackTrace();
             }

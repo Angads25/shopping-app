@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
+import com.dq.rocq.RocqAnalytics;
+import com.flurry.android.FlurryAgent;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
@@ -81,5 +84,44 @@ public class TermAndCondition extends BaseActivity {
     public void onBackPressed() {
         setResult(1221);
         finish();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        try{
+            AppsFlyerLib.onActivityResume(this);
+        }catch(Exception e){}
+        try {
+//            EasyTracker.getInstance(this).activityStart(this);
+            FlurryAgent.onStartSession(this, getResources().getString(R.string.flurry_api_key));
+            FlurryAgent.onPageView();         //Use onPageView to report page view count.
+        }catch(Exception e){}
+        /*screen tracking using rocq*/
+        try {
+            RocqAnalytics.initialize(this);
+            RocqAnalytics.startScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       /*------------------------------*/
+    }
+
+    @Override
+    protected void onStop() {
+        // TODO Auto-generated method stub
+        super.onStop();
+        try{
+            AppsFlyerLib.onActivityPause(this);
+        }catch(Exception e){}
+        try{
+//            EasyTracker.getInstance(this).activityStop(this);
+            FlurryAgent.onEndSession(this);
+        }catch(Exception e){}
+        try {
+            RocqAnalytics.stopScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

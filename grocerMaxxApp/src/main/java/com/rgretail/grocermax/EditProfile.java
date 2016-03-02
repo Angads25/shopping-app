@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
+import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.flurry.android.FlurryAgent;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
@@ -238,7 +240,9 @@ public class EditProfile extends BaseActivity{
                                 /*tracking GA event for edit profile and change password both*/
                    try{
                        UtilityMethods.clickCapture(activity,"Profile Activity","","Edit Information","",MySharedPrefs.INSTANCE.getSelectedCity());
-                       UtilityMethods.clickCapture(activity,"Profile Activity","","Change Password","",MySharedPrefs.INSTANCE.getSelectedCity());
+                       RocqAnalytics.trackEvent("Profile Activity", new ActionProperties("Category", "Profile Activity", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", "Edit Information"));
+                       UtilityMethods.clickCapture(activity, "Profile Activity", "", "Change Password", "", MySharedPrefs.INSTANCE.getSelectedCity());
+                       RocqAnalytics.trackEvent("Profile Activity", new ActionProperties("Category", "Profile Activity", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label","Change Password"));
                    }catch(Exception e){
                        e.printStackTrace();
                    }
@@ -255,6 +259,7 @@ public class EditProfile extends BaseActivity{
                                 /*tracking GA event only for Edit information*/
                    try{
                        UtilityMethods.clickCapture(activity,"Profile Activity","","Edit Information","",MySharedPrefs.INSTANCE.getSelectedCity());
+                       RocqAnalytics.trackEvent("Profile Activity", new ActionProperties("Category", "Profile Activity", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label","Edit Information"));
                    }catch(Exception e){
                        e.printStackTrace();
                    }
@@ -442,6 +447,14 @@ public class EditProfile extends BaseActivity{
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){}
+        /*screen tracking using rocq*/
+        try {
+            RocqAnalytics.initialize(this);
+            RocqAnalytics.startScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       /*------------------------------*/
     }
     
     @Override
@@ -455,6 +468,11 @@ public class EditProfile extends BaseActivity{
 //			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
     	}catch(Exception e){}
+        try {
+            RocqAnalytics.stopScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 	
 }

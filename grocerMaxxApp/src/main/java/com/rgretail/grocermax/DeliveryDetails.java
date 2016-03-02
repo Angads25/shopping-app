@@ -14,9 +14,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
+import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.api.MyReceiverActions;
+import com.rgretail.grocermax.bean.Address;
 import com.rgretail.grocermax.bean.CheckoutAddressBean;
 import com.rgretail.grocermax.bean.DateObject;
 import com.rgretail.grocermax.bean.OrderReviewBean;
@@ -25,7 +27,6 @@ import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.UtilityMethods;
-import com.rgretail.grocermax.bean.Address;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -35,6 +36,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 
 /**
  * Created by Abhishek on 8/22/2015.
@@ -169,7 +172,10 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                     // TODO Auto-generated method stub
                     try{
 
-                        try{UtilityMethods.clickCapture(mContext,"Delivery details","","","",MySharedPrefs.INSTANCE.getSelectedCity());}catch(Exception e){}
+                        try{
+                            UtilityMethods.clickCapture(mContext,"Delivery details","","","",MySharedPrefs.INSTANCE.getSelectedCity());
+                            RocqAnalytics.trackEvent("Delivery details", new ActionProperties("Category", "Delivery details", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
+                        }catch(Exception e){}
                         //try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+tvSelectedDate.getText()+AppConstants.GA_EVENT_DATE_SELECT);}catch(Exception e){}
                         //try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_PROCEED_BILLING);}catch(Exception e){}
                         if(time.equals(""))
@@ -1529,6 +1535,14 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
             FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
             FlurryAgent.onPageView();         //Use onPageView to report page view count.
         }catch(Exception e){}
+        /*screen tracking using rocq*/
+        try {
+            RocqAnalytics.initialize(this);
+            RocqAnalytics.startScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       /*------------------------------*/
     }
 
     @Override
@@ -1542,6 +1556,12 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
 //            EasyTracker.getInstance(this).activityStop(this);
             FlurryAgent.onEndSession(this);
         }catch(Exception e){}
+
+        try {
+            RocqAnalytics.stopScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

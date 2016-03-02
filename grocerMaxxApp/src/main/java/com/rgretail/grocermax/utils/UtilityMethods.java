@@ -38,10 +38,10 @@ import android.widget.Toast;
 
 import com.appsflyer.AFInAppEventParameterName;
 import com.appsflyer.AppsFlyerLib;
+import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.facebook.Session;
 import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-import com.rgretail.grocermax.AnalyticsSampleApp;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.LoginActivity;
 import com.rgretail.grocermax.R;
@@ -507,6 +507,7 @@ public class UtilityMethods {
                     /*tracking GA event for logout action*/
             try{
                 UtilityMethods.clickCapture((Activity)ctx,"Profile Activity","","Logout","",MySharedPrefs.INSTANCE.getSelectedCity());
+                RocqAnalytics.trackEvent("Profile Activity", new ActionProperties("Category", "Profile Activity", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", "Logout"));
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -1051,8 +1052,8 @@ public class UtilityMethods {
 		}
 
 		File file1 = new File(dir, AppConstants.localCartFileCount);
-		if (file1.exists()) {
-			file1.delete();
+        if (file1.exists()) {
+            file1.delete();
 		}
 	}
 
@@ -1281,8 +1282,8 @@ public class UtilityMethods {
 
 		  }
 	 
-	 public int dpToPx(int dp,Context context) {
-		    DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+	 public int dpToPx(int dp, Context context) {
+         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 		    int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));       
 		    return px;
 		}

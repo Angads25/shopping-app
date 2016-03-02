@@ -14,13 +14,13 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
-import com.rgretail.grocermax.api.ConnectionService;
-import com.rgretail.grocermax.api.ShippingLocationLoader;
-
 import com.rgretail.grocermax.adapters.ShippingAdapter;
+import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
+import com.rgretail.grocermax.api.ShippingLocationLoader;
 import com.rgretail.grocermax.bean.Address;
 import com.rgretail.grocermax.bean.CheckoutAddressBean;
 import com.rgretail.grocermax.bean.OrderReviewBean;
@@ -33,6 +33,8 @@ import com.rgretail.grocermax.utils.UtilityMethods;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 
 /**
  * Created by Abhishek on 8/22/2015.
@@ -745,7 +747,10 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                             return;
                         }
 
-                        try{UtilityMethods.clickCapture(mContext,"Shipping address","","","",MySharedPrefs.INSTANCE.getSelectedCity());}catch(Exception e){}
+                        try{
+                            UtilityMethods.clickCapture(mContext,"Shipping address","","","",MySharedPrefs.INSTANCE.getSelectedCity());
+                            RocqAnalytics.trackEvent("Shipping address", new ActionProperties("Category", "Shipping address", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
+                        }catch(Exception e){}
 
                         Address ship_add = addressList.get(selectedPosition);
 
@@ -1902,6 +1907,14 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
             FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
             FlurryAgent.onPageView();         //Use onPageView to report page view count.
         }catch(Exception e){}
+        /*screen tracking using rocq*/
+        try {
+            RocqAnalytics.initialize(this);
+            RocqAnalytics.startScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       /*------------------------------*/
     }
 
     @Override
@@ -1912,6 +1925,11 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
 //            EasyTracker.getInstance(this).activityStop(this);
             FlurryAgent.onEndSession(this);
         }catch(Exception e){}
+        try {
+            RocqAnalytics.stopScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

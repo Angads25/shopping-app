@@ -15,11 +15,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
+import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
-import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.adapters.BillingAdapter;
 import com.rgretail.grocermax.api.BillingStateCityLoader;
+import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.Address;
 import com.rgretail.grocermax.bean.CheckoutAddressBean;
@@ -34,6 +35,8 @@ import com.rgretail.grocermax.utils.UtilityMethods;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 
 /**
  * Created by Abhishek on 8/22/2015.
@@ -559,7 +562,10 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
                             return;
                         }
 
-                        try{UtilityMethods.clickCapture(mContext,"Billing address","","","",MySharedPrefs.INSTANCE.getSelectedCity());}catch(Exception e){}
+                        try{
+                            UtilityMethods.clickCapture(mContext,"Billing address","","","",MySharedPrefs.INSTANCE.getSelectedCity());
+                            RocqAnalytics.trackEvent("Billing address", new ActionProperties("Category", "Billing address", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
+                        }catch(Exception e){}
 
                         OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
                         JSONObject billing_json_obj = new JSONObject();
@@ -1809,6 +1815,14 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
             FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
             FlurryAgent.onPageView();         //Use onPageView to report page view count.
         }catch(Exception e){}
+        /*screen tracking using rocq*/
+        try {
+            RocqAnalytics.initialize(this);
+            RocqAnalytics.startScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       /*------------------------------*/
     }
 
     @Override
@@ -1823,6 +1837,12 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
 //            EasyTracker.getInstance(this).activityStop(this);
             FlurryAgent.onEndSession(this);
         }catch(Exception e){}
+
+        try {
+            RocqAnalytics.stopScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

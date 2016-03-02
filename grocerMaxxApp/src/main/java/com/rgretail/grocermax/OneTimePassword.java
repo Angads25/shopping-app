@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
+import com.dq.rocq.RocqAnalytics;
 import com.flurry.android.FlurryAgent;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
@@ -69,6 +70,14 @@ public class OneTimePassword extends BaseActivity {
             FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
             FlurryAgent.onPageView();         //Use onPageView to report page view count.
         }catch(Exception e){}
+        /*screen tracking using rocq*/
+        try {
+            RocqAnalytics.initialize(this);
+            RocqAnalytics.startScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       /*------------------------------*/
     }
 
     @Override
@@ -76,7 +85,7 @@ public class OneTimePassword extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.otp);
         pStatus = 0;
-        try{
+        try {
             AppsFlyerLib.setCurrencyCode("INR");
             AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
             AppsFlyerLib.sendTracking(getApplicationContext());
@@ -244,8 +253,8 @@ public class OneTimePassword extends BaseActivity {
             /*--------------------------------------------------------------*/
 
 
-        }catch(Exception e){
-            new GrocermaxBaseException("OneTimePassword","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
+        }catch (Exception e){
+            new GrocermaxBaseException("OneTimePassword","onCreate", e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
         }
     }
 
@@ -305,6 +314,11 @@ public class OneTimePassword extends BaseActivity {
 //            EasyTracker.getInstance(this).activityStop(this);
             FlurryAgent.onEndSession(this);
         }catch(Exception e){}
+        try {
+            RocqAnalytics.stopScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.DealListScreen;
@@ -88,6 +90,7 @@ public class BannerFragment extends Fragment {
                    /*tracking GA even when banner image is clicked*/
                     try{
                         UtilityMethods.clickCapture(getActivity(),"Banner Click","",imageUrl,"", MySharedPrefs.INSTANCE.getSelectedCity());
+                        RocqAnalytics.trackEvent("Banner Click", new ActionProperties("Category", "Banner Click", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",imageUrl));
                     }catch(Exception e){
                         e.printStackTrace();
                     }

@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
+import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
 import com.rgretail.grocermax.api.BillingStateCityLoader;
 import com.rgretail.grocermax.api.ConnectionService;
@@ -64,6 +66,15 @@ public class CityActivity extends BaseActivity {
         try{
             AppsFlyerLib.onActivityResume(this);
         }catch(Exception e){}
+
+        /*screen tracking using rocq*/
+        try {
+            RocqAnalytics.initialize(this);
+            RocqAnalytics.startScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       /*------------------------------*/
     }
 
     String strTempSelectedCity = "";
@@ -383,11 +394,13 @@ public class CityActivity extends BaseActivity {
             if(MyApplication.isFromDrawer){
                 try {
                     UtilityMethods.clickCapture(mContext, "City Change", "", "", "", MySharedPrefs.INSTANCE.getSelectedCity());
+                    RocqAnalytics.trackEvent("City Change", new ActionProperties("Category", "City Change", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
                 } catch (Exception e) {
                 }
             }else {
                 try {
                     UtilityMethods.clickCapture(mContext, "Profile Activity", "", "City Change", "", MySharedPrefs.INSTANCE.getSelectedCity());
+                    RocqAnalytics.trackEvent("Profile Activity", new ActionProperties("Category", "Profile Activity", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label","City Change"));
                 } catch (Exception e) {
                 }
             }
@@ -441,6 +454,12 @@ public class CityActivity extends BaseActivity {
         try{
             AppsFlyerLib.onActivityPause(this);
         }catch(Exception e){}
+
+        try {
+            RocqAnalytics.stopScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

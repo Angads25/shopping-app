@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
+import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.flurry.android.FlurryAgent;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.rgretail.grocermax.api.MyReceiverActions;
@@ -84,7 +86,10 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 				tvTellYourFriends.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 
                 /*Tracking the GA event for successful payment*/
-				try{UtilityMethods.clickCapture(mContext,"Order Successful","","","", MySharedPrefs.INSTANCE.getSelectedCity());}catch(Exception e){}
+				try{
+					UtilityMethods.clickCapture(mContext,"Order Successful","","","", MySharedPrefs.INSTANCE.getSelectedCity());
+					RocqAnalytics.trackEvent("Order Successful", new ActionProperties("Category", "Order Successful", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
+				}catch(Exception e){}
                 /*-------------------------------------------*/
 
                 /*Tracking the GA ecommerce for successful transaction*/
@@ -137,7 +142,10 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 				tvOrderHistory.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 
                /*Tracking the GA event for Failure payment*/
-                try{UtilityMethods.clickCapture(mContext,"Order Failed","","","", MySharedPrefs.INSTANCE.getSelectedCity());}catch(Exception e){}
+                try{
+					UtilityMethods.clickCapture(mContext,"Order Failed","","","", MySharedPrefs.INSTANCE.getSelectedCity());
+					RocqAnalytics.trackEvent("Order Failed", new ActionProperties("Category", "Order Failed", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
+				}catch(Exception e){}
                 /*-------------------------------------------*/
 			}
 
@@ -236,6 +244,14 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){
 		}
+		 /*screen tracking using rocq*/
+		try {
+			RocqAnalytics.initialize(this);
+			RocqAnalytics.startScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+       /*------------------------------*/
     }
     
     @Override
@@ -250,6 +266,11 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 //			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
     	}catch(Exception e){
+		}
+		try {
+			RocqAnalytics.stopScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
     }
 	

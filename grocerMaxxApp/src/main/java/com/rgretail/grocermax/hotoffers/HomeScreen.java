@@ -16,6 +16,7 @@ import android.widget.ImageView;
 
 import com.appsflyer.AppsFlyerLib;
 import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.google.gson.Gson;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.DealListScreen;
@@ -47,8 +48,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import retrofit.http.HEAD;
 
 
 public class HomeScreen extends BaseActivity {
@@ -192,6 +191,7 @@ public class HomeScreen extends BaseActivity {
             AppsFlyerLib.onActivityResume(this);
         }catch(Exception e){}
         try{
+            RocqAnalytics.initialize(this);
             RocqAnalytics.startScreen(this);
         }catch(Exception e){}
     }
@@ -347,7 +347,7 @@ public class HomeScreen extends BaseActivity {
                             e.printStackTrace();
                         }
 
-                        /*  coming form deep linking */
+                        /*  coming form deep linking and rocq notification*/
                         try {
                             Intent intent = getIntent();
                             if (intent != null || intent.getData() != null) {
@@ -607,7 +607,7 @@ public class HomeScreen extends BaseActivity {
     {
         String strName = data.getString("name");
         String strLinkurl = data.getString("linkurl");
-        String strImageUrl = data.getString("imageurl");
+        //String strImageUrl = data.getString("imageurl");
         int index = 0;
         String strType = "";
         if (strLinkurl.contains("?")) {
@@ -719,7 +719,10 @@ public class HomeScreen extends BaseActivity {
                     //try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.CLOSE_DRAWER_MENU);}catch(Exception e){}
                 } else {
                     drawerLayout.openDrawer(Gravity.LEFT);
-                    try{UtilityMethods.clickCapture(mContext,"Open Drawer","","","",MySharedPrefs.INSTANCE.getSelectedCity());}catch(Exception e){}
+                    try{
+                        UtilityMethods.clickCapture(mContext,"Open Drawer","","","",MySharedPrefs.INSTANCE.getSelectedCity());
+                        RocqAnalytics.trackEvent("Open Drawer", new ActionProperties("Category", "Open Drawer", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
+                    }catch(Exception e){}
                 }
             }
         });

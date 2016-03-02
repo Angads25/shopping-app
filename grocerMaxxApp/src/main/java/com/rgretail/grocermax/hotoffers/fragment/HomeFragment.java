@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.HomeBannerBean;
@@ -150,6 +152,7 @@ public class HomeFragment extends Fragment {
             public void onPageScrollStateChanged(int state) {
                 try {
                     UtilityMethods.clickCapture(getActivity(), "Banner Scroll", "", "", "", MySharedPrefs.INSTANCE.getSelectedCity());
+                    RocqAnalytics.trackEvent("Banner Scroll", new ActionProperties("Category", "Banner Scroll", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

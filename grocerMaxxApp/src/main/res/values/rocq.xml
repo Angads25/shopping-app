@@ -21,6 +21,7 @@
   <integer name="rq_sessionTimeout">30000</integer>
 
      <!--Your Rocq GCM PUSH Sender Id- -->
-    <string name="rq_gcmSenderId">143785802096</string>
+    <string name="rq_gcmSenderId">143785802096</string>  <!--Live-->
+  <!--<string name="rq_gcmSenderId">713088329910</string>-->
   
 </resources>

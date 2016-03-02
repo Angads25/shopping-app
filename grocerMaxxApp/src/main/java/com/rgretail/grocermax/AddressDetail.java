@@ -1,7 +1,5 @@
 package com.rgretail.grocermax;
 
-import java.util.ArrayList;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,24 +15,27 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
+import com.dq.rocq.RocqAnalytics;
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
-//import com.google.analytics.tracking.android.Tracker;
-import com.rgretail.grocermax.api.ConnectionService;
-import com.rgretail.grocermax.bean.BaseResponseBean;
-import com.rgretail.grocermax.utils.Constants;
-import com.rgretail.grocermax.utils.CustomFonts;
-
 import com.rgretail.grocermax.adapters.AddressListAdapter;
 import com.rgretail.grocermax.api.BillingStateCityLoader;
+import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.api.ShippingLocationLoader;
 import com.rgretail.grocermax.bean.Address;
 import com.rgretail.grocermax.bean.AddressList;
+import com.rgretail.grocermax.bean.BaseResponseBean;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.preference.MySharedPrefs;
+import com.rgretail.grocermax.utils.Constants;
+import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
+
+import java.util.ArrayList;
+
+//import com.google.analytics.tracking.android.EasyTracker;
+//import com.google.analytics.tracking.android.Tracker;
 
 public class AddressDetail extends BaseActivity{
 
@@ -399,6 +400,15 @@ public class AddressDetail extends BaseActivity{
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
 		}catch(Exception e){}
+
+		/*screen tracking using rocq*/
+		try {
+			RocqAnalytics.initialize(this);
+			RocqAnalytics.startScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+       /*------------------------------*/
     }
     
     @Override
@@ -412,6 +422,11 @@ public class AddressDetail extends BaseActivity{
 //			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
 		}catch(Exception e){}
+		try {
+			RocqAnalytics.stopScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 
 }

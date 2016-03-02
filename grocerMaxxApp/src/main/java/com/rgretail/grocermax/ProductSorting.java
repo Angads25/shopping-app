@@ -1,7 +1,6 @@
 package com.rgretail.grocermax;
 
 import android.content.Context;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.appsflyer.AppsFlyerLib;
+import com.dq.rocq.RocqAnalytics;
 
 
 public class ProductSorting extends BaseActivity implements View.OnClickListener{
@@ -61,6 +61,14 @@ public class ProductSorting extends BaseActivity implements View.OnClickListener
         try{
             AppsFlyerLib.onActivityResume(this);
         }catch(Exception e){}
+        /*screen tracking using rocq*/
+        try {
+            RocqAnalytics.initialize(this);
+            RocqAnalytics.startScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       /*------------------------------*/
     }
 
     @Override
@@ -92,6 +100,11 @@ public class ProductSorting extends BaseActivity implements View.OnClickListener
         try{
             AppsFlyerLib.onActivityPause(this);
         }catch(Exception e){}
+        try {
+            RocqAnalytics.stopScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

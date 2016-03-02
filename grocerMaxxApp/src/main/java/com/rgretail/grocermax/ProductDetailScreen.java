@@ -17,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
+import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.flurry.android.FlurryAgent;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.api.ConnectionService;
@@ -353,6 +355,7 @@ public class ProductDetailScreen extends BaseActivity implements
 
                         try{
                             UtilityMethods.clickCapture(activity,"Add to Cart","",product.getName(),"",MySharedPrefs.INSTANCE.getSelectedCity());
+                            RocqAnalytics.trackEvent("Add to Cart", new ActionProperties("Category", "Add to Cart", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", product.getName()));
                         }catch(Exception e){
                             e.printStackTrace();
                         }
@@ -535,6 +538,14 @@ public class ProductDetailScreen extends BaseActivity implements
             FlurryAgent.onPageView();         //Use onPageView to report page view count.
         } catch (Exception e) {
         }
+        /*screen tracking using rocq*/
+        try {
+            RocqAnalytics.initialize(this);
+            RocqAnalytics.startScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       /*------------------------------*/
     }
 
     @Override
@@ -548,6 +559,11 @@ public class ProductDetailScreen extends BaseActivity implements
 //            EasyTracker.getInstance(this).activityStop(this);
             FlurryAgent.onEndSession(this);
         } catch (Exception e) {
+        }
+        try {
+            RocqAnalytics.stopScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

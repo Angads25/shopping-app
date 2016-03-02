@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dq.rocq.RocqAnalytics;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -989,6 +990,14 @@ public class Registration extends BaseActivity implements
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){}
+		/*screen tracking using rocq*/
+		try {
+			RocqAnalytics.initialize(this);
+			RocqAnalytics.startScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+       /*------------------------------*/
     }
     
     @Override
@@ -999,6 +1008,11 @@ public class Registration extends BaseActivity implements
 //			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
     	}catch(Exception e){}
+		try {
+			RocqAnalytics.stopScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 
 

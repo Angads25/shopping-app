@@ -11,18 +11,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dq.rocq.RocqAnalytics;
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.api.ConnectionService;
-import com.rgretail.grocermax.utils.CustomFonts;
-
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.Address;
 import com.rgretail.grocermax.bean.UserDetailBean;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.preference.MySharedPrefs;
+import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.UrlsConstants;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 
 
 public class UserProfile extends BaseActivity{
@@ -401,6 +402,14 @@ public class UserProfile extends BaseActivity{
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){
 		}
+		/*screen tracking using rocq*/
+		try {
+			RocqAnalytics.initialize(this);
+			RocqAnalytics.startScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+       /*------------------------------*/
     }
     
     @Override
@@ -411,6 +420,11 @@ public class UserProfile extends BaseActivity{
 //			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
     	}catch(Exception e){
+		}
+		try {
+			RocqAnalytics.stopScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
     }
 	

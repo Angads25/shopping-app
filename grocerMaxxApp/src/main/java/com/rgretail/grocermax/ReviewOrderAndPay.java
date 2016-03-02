@@ -21,6 +21,8 @@ import com.citrus.sdk.TransactionResponse;
 import com.citrus.sdk.ui.fragments.ResultFragment;
 import com.citrus.sdk.ui.utils.CitrusFlowManager;
 import com.citrus.sdk.ui.utils.ResultModel;
+import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.flurry.android.FlurryAgent;
 import com.payu.sdk.Params;
 import com.payu.sdk.PayU;
@@ -221,7 +223,9 @@ public class ReviewOrderAndPay extends BaseActivity
 				//	try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.GA_EVENT_CODE_APPLIED);}catch(Exception e){}
 					if (etCouponCode.getText().toString().length() > 0) {
                         /*  capturing event when coupon is applied*/
-                        try{UtilityMethods.clickCapture(mContext,"Coupon Apply","","Coupon-"+etCouponCode.getText().toString(),"",MySharedPrefs.INSTANCE.getSelectedCity());
+                        try{
+							UtilityMethods.clickCapture(mContext,"Coupon Apply","","Coupon-"+etCouponCode.getText().toString(),"",MySharedPrefs.INSTANCE.getSelectedCity());
+							RocqAnalytics.trackEvent("Coupon Apply", new ActionProperties("Category", "Coupon Apply", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", "Coupon-"+etCouponCode.getText().toString()));
                         }catch(Exception e){}
                         /*----------------------------------------*/
 
@@ -245,7 +249,9 @@ public class ReviewOrderAndPay extends BaseActivity
 					if (etCouponCode.getText().toString().length() > 0) {
 
                         /*  capturing event when coupon is removed*/
-                        try{UtilityMethods.clickCapture(mContext,"Coupon Remove","","Coupon-"+etCouponCode.getText().toString(),"",MySharedPrefs.INSTANCE.getSelectedCity());
+                        try{
+							UtilityMethods.clickCapture(mContext,"Coupon Remove","","Coupon-"+etCouponCode.getText().toString(),"",MySharedPrefs.INSTANCE.getSelectedCity());
+							RocqAnalytics.trackEvent("Coupon Remove", new ActionProperties("Category", "Coupon Remove", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", "Coupon-"+etCouponCode.getText().toString()));
                         }catch(Exception e){}
                         /*----------------------------------------*/
 
@@ -584,7 +590,9 @@ public class ReviewOrderAndPay extends BaseActivity
 				@Override
 				public void onClick(View arg0) {
 
-					try{UtilityMethods.clickCapture(mContext,"Review and Place order","","","",MySharedPrefs.INSTANCE.getSelectedCity());
+					try{
+						UtilityMethods.clickCapture(mContext,"Review and Place order","","","",MySharedPrefs.INSTANCE.getSelectedCity());
+						RocqAnalytics.trackEvent("Review and Place order", new ActionProperties("Category", "Review and Place order", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
                     }catch(Exception e){}
 
 					orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
@@ -1322,6 +1330,14 @@ public class ReviewOrderAndPay extends BaseActivity
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
 		}catch(Exception e){}
+		 /*screen tracking using rocq*/
+		try {
+			RocqAnalytics.initialize(this);
+			RocqAnalytics.startScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+       /*------------------------------*/
 	}
 
 	@Override
@@ -1332,6 +1348,11 @@ public class ReviewOrderAndPay extends BaseActivity
 //			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
 		}catch(Exception e){}
+		try {
+			RocqAnalytics.stopScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 

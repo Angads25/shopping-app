@@ -10,6 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
@@ -90,6 +92,7 @@ public class MenuListAdapter extends BaseAdapter {
                     /*Tracking GA Event on click of top level category from drawer*/
                     try{
                         UtilityMethods.clickCapture(mContext, "Drawer - L1", "", offerList.get(position).getCategory(), "", MySharedPrefs.INSTANCE.getSelectedCity());
+						RocqAnalytics.trackEvent("Drawer - L1", new ActionProperties("Category", "Drawer - L1", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",offerList.get(position).getCategory()));
                     }catch(Exception e){
                         e.printStackTrace();
                     }

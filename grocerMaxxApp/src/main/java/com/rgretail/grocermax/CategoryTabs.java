@@ -17,6 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
+import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.flurry.android.FlurryAgent;
 import com.melnykov.fab.FloatingActionButton;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
@@ -276,6 +278,7 @@ public class CategoryTabs extends BaseActivity {
                     try{
                         String catName=alCategory.get(position % alCategory.size()).getCategory_name();
                         UtilityMethods.clickCapture(activity,"L4","",catName,"",MySharedPrefs.INSTANCE.getSelectedCity());
+                        RocqAnalytics.trackEvent("L4", new ActionProperties("Category", "L4", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",catName));
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -585,6 +588,14 @@ public class CategoryTabs extends BaseActivity {
             FlurryAgent.onPageView();         //Use onPageView to report page view count.
         } catch (Exception e) {
         }
+        /*screen tracking using rocq*/
+        try {
+            RocqAnalytics.initialize(this);
+            RocqAnalytics.startScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       /*------------------------------*/
     }
 
     @Override
@@ -598,6 +609,11 @@ public class CategoryTabs extends BaseActivity {
 //            EasyTracker.getInstance(this).activityStop(this);
             FlurryAgent.onEndSession(this);
         } catch (Exception e) {
+        }
+        try {
+            RocqAnalytics.stopScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

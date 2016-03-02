@@ -1,9 +1,5 @@
 package com.rgretail.grocermax;
 
-import java.net.URLEncoder;
-import java.util.List;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,20 +13,28 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
+import com.dq.rocq.RocqAnalytics;
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
+import com.rgretail.grocermax.adapters.ProductListAdapter;
 import com.rgretail.grocermax.api.ConnectionService;
+import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.BaseResponseBean;
 import com.rgretail.grocermax.bean.DealListBean;
 import com.rgretail.grocermax.bean.Product;
-import com.rgretail.grocermax.preference.MySharedPrefs;
-import com.rgretail.grocermax.utils.Constants;
-import com.rgretail.grocermax.utils.UtilityMethods;
-import com.rgretail.grocermax.adapters.ProductListAdapter;
-import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.ProductDetailsListBean;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
+import com.rgretail.grocermax.preference.MySharedPrefs;
+import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.UrlsConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.net.URLEncoder;
+import java.util.List;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 
 public class ProductListScreen extends BaseActivity implements OnScrollListener {
 	int currentFirstVisibleItem = 0;
@@ -362,6 +366,14 @@ public class ProductListScreen extends BaseActivity implements OnScrollListener 
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){}
+		/*screen tracking using rocq*/
+		try {
+			RocqAnalytics.initialize(this);
+			RocqAnalytics.startScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+       /*------------------------------*/
     }
     
     @Override
@@ -375,6 +387,11 @@ public class ProductListScreen extends BaseActivity implements OnScrollListener 
 //			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
     	}catch(Exception e){}
+		try {
+			RocqAnalytics.stopScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 
 }

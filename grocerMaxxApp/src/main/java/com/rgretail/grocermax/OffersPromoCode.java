@@ -1,7 +1,5 @@
 package com.rgretail.grocermax;
 
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,14 +10,18 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dq.rocq.RocqAnalytics;
 import com.flurry.android.FlurryAgent;
-//import com.google.analytics.tracking.android.EasyTracker;
 import com.rgretail.grocermax.bean.CartDetail;
 import com.rgretail.grocermax.bean.OrderReviewBean;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants.ToastConstant;
 import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
+
+import java.util.List;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 
 public class OffersPromoCode extends BaseActivity implements OnClickListener{
 	
@@ -149,6 +151,14 @@ public class OffersPromoCode extends BaseActivity implements OnClickListener{
 	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
     	}catch(Exception e){}
+		 /*screen tracking using rocq*/
+		try {
+			RocqAnalytics.initialize(this);
+			RocqAnalytics.startScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+       /*------------------------------*/
     }
     
     @Override
@@ -159,6 +169,11 @@ public class OffersPromoCode extends BaseActivity implements OnClickListener{
 //	    	tracker.activityStop(this);
 	    	FlurryAgent.onEndSession(this);
     	}catch(Exception e){}
+		try {
+			RocqAnalytics.stopScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
 	@Override

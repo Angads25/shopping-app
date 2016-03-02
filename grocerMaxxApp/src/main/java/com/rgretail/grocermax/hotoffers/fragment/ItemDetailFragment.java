@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.DealByDealTypeBean;
@@ -128,6 +130,7 @@ public class ItemDetailFragment extends Fragment {
     public void sendDataToGA(String lavel){
         try{
             UtilityMethods.clickCapture(getActivity(), "Category Deals", "", lavel, "", MySharedPrefs.INSTANCE.getSelectedCity());
+            RocqAnalytics.trackEvent("Category Deals", new ActionProperties("Category", "Category Deals", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",lavel));
         }catch(Exception e){
             e.printStackTrace();
         }

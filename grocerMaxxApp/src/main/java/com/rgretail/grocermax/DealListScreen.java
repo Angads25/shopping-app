@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.appsflyer.AppsFlyerLib;
+import com.dq.rocq.RocqAnalytics;
 import com.flurry.android.FlurryAgent;
 import com.rgretail.grocermax.adapters.ProductListAdapter;
 import com.rgretail.grocermax.api.ConnectionService;
@@ -377,6 +378,17 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
             FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
             FlurryAgent.onPageView();         //Use onPageView to report page view count.
         }catch(Exception e){}
+
+/*screen tracking using rocq*/
+        try {
+            RocqAnalytics.initialize(this);
+            RocqAnalytics.startScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       /*------------------------------*/
+
+
     }
 
     @Override
@@ -390,6 +402,12 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
 //            EasyTracker.getInstance(this).activityStop(this);
             FlurryAgent.onEndSession(this);
         }catch(Exception e){}
+
+        try {
+            RocqAnalytics.stopScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

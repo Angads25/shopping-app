@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.flurry.android.FlurryAgent;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
@@ -189,6 +191,7 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                         /* tracking GA events for Order History*/
                         try{
                             UtilityMethods.clickCapture(activity,"Profile Activity","","Order History","",MySharedPrefs.INSTANCE.getSelectedCity());
+                            RocqAnalytics.trackEvent("Profile Activity", new ActionProperties("Category", "Profile Activity", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", "Order History"));
                         }catch(Exception e){
                             e.printStackTrace();
                         }
@@ -341,6 +344,14 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
             FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
             FlurryAgent.onPageView();         //Use onPageView to report page view count.
         }catch(Exception e){}
+        /*screen tracking using rocq*/
+        try {
+            RocqAnalytics.initialize(this);
+            RocqAnalytics.startScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       /*------------------------------*/
     }
 
     @Override
@@ -351,6 +362,11 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
 //            EasyTracker.getInstance(this).activityStop(this);
             FlurryAgent.onEndSession(this);
         }catch(Exception e){}
+        try {
+            RocqAnalytics.stopScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

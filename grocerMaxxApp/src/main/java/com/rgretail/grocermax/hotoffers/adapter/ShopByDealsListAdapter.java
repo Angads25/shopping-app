@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.MyApplication;
@@ -109,6 +111,7 @@ public class ShopByDealsListAdapter extends RecyclerView.Adapter<ShopByDealsList
                 try{
                     MyApplication.isFromDrawer=false;
                     UtilityMethods.clickCapture(context, "Deal Category L1", "", data.get(position).getDealType(),"", MySharedPrefs.INSTANCE.getSelectedCity());
+                    RocqAnalytics.trackEvent("Deal Category L1", new ActionProperties("Category", "Deal Category L1", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",data.get(position).getDealType()));
                 }catch(Exception e){}
                 /*-----------------------------------------------------*/
             }

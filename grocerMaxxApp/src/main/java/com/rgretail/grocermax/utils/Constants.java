@@ -37,7 +37,7 @@ public class Constants {
 
 	//public static final String GCM_SENDER_KEY = "441080484159";
     //public static final String GCM_SENDER_KEY = "713088329910";
-    public static final String GCM_SENDER_KEY = "143785802096";
+    public static final String GCM_SENDER_KEY = "143785802096";  /*live*/
 
 	public static final String localCartFileCount = "localcartcount.txt";
 	

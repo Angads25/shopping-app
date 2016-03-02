@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.CategoryActivity;
@@ -168,6 +170,7 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
                 try{
                     //UtilityMethods.clickCapture(context, "L1", "",GA_Label,"", MySharedPrefs.INSTANCE.getSelectedCity());
                     UtilityMethods.clickCapture(context, "L1", "",data.get(position).getName(), "", MySharedPrefs.INSTANCE.getSelectedCity());
+                    RocqAnalytics.trackEvent("L1", new ActionProperties("Category", "L1", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",data.get(position).getName()));
                 }catch(Exception e){}
 
 //                System.out.println("=====idss1111111===" + data.get(position).getCategory_id());

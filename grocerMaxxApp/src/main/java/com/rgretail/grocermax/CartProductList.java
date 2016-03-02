@@ -12,6 +12,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
+import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.flurry.android.FlurryAgent;
 import com.rgretail.grocermax.adapters.CartAdapter;
 import com.rgretail.grocermax.api.ConnectionService;
@@ -635,6 +637,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
                     /* tracking the event for proceed to checkout*/
                     try{
                         UtilityMethods.clickCapture(activity,"Proceed to Checkout","","","",MySharedPrefs.INSTANCE.getSelectedCity());
+						RocqAnalytics.trackEvent("Proceed to Checkout", new ActionProperties("Category", "Proceed to Checkout", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -877,6 +880,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
             /*-----track event for update cart-------*/
             try{
                 UtilityMethods.clickCapture(activity,"Update Cart","","","",MySharedPrefs.INSTANCE.getSelectedCity());
+				RocqAnalytics.trackEvent("Update Cart", new ActionProperties("Category", "Update Cart", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -1130,6 +1134,14 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
 		}catch(Exception e){}
+		/*screen tracking using rocq*/
+		try {
+			RocqAnalytics.initialize(this);
+			RocqAnalytics.startScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+       /*------------------------------*/
 	}
 
 	@Override
@@ -1143,6 +1155,11 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 //			EasyTracker.getInstance(this).activityStop(this);
 			FlurryAgent.onEndSession(this);
 		}catch(Exception e){}
+		try {
+			RocqAnalytics.stopScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

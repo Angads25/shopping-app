@@ -13,8 +13,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
+import com.dq.rocq.RocqAnalytics;
+import com.dq.rocq.models.ActionProperties;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
@@ -162,6 +163,14 @@ public class CategoryActivity extends BaseActivity {
         try{
             AppsFlyerLib.onActivityResume(this);
         }catch(Exception e){}
+        /*screen tracking using rocq*/
+        try {
+            RocqAnalytics.initialize(this);
+            RocqAnalytics.startScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       /*------------------------------*/
     }
 
     @Override
@@ -195,6 +204,11 @@ public class CategoryActivity extends BaseActivity {
         try{
             AppsFlyerLib.onActivityPause(this);
         }catch(Exception e){}
+        try {
+            RocqAnalytics.stopScreen(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -257,6 +271,7 @@ public class CategoryActivity extends BaseActivity {
                 /*GA event Tracking for this event*/
                 try{
                     UtilityMethods.clickCapture(mContext, "L2", "", alcatObjSend.get(selectedIndex).getCategory(), "", MySharedPrefs.INSTANCE.getSelectedCity());
+                    RocqAnalytics.trackEvent("L2", new ActionProperties("Category", "L2", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",alcatObjSend.get(selectedIndex).getCategory()));
                 }catch(Exception e){
                     e.printStackTrace();
                 }
@@ -281,6 +296,7 @@ public class CategoryActivity extends BaseActivity {
 //    			UtilityMethods.customToast(String.valueOf(pos) + "====", MyApplication.getInstance());
                 try{
                     UtilityMethods.clickCapture(mContext, "L3", "", alcatObjSend.get(selectedIndex).getChildren().get(pos).getCategory(), "", MySharedPrefs.INSTANCE.getSelectedCity());
+                    RocqAnalytics.trackEvent("L3", new ActionProperties("Category", "L3", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", alcatObjSend.get(selectedIndex).getChildren().get(pos).getCategory()));
                 }catch(Exception e){}
 			}catch(Exception e){
 				new GrocermaxBaseException("ChooseAddress","listener",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");

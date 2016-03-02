@@ -100,10 +100,6 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 //		setContentView(R.layout.confirmation_activity);
 //		setContentView(R.layout.order_failure);
 
-        /*Screen Tracking using Rocq Analytics*/
-        RocqAnalytics.trackScreen("Login Screen");
-
-
 
 		try{
 			AppsFlyerLib.setCurrencyCode("INR");
@@ -339,13 +335,14 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 				if (UtilityMethods.isInternetAvailable(mContext)) {
 					showDialog();
 					String url;
-					try{UtilityMethods.clickCapture(context,"Login","","Regular","",MySharedPrefs.INSTANCE.getSelectedCity());
+					/*Tracking event for regular login*/
+					try{
+						UtilityMethods.clickCapture(context,"Login","","Regular","",MySharedPrefs.INSTANCE.getSelectedCity()); /*GA Tracking*/
                         MySharedPrefs.INSTANCE.putLoginMethod("Regular");
+						RocqAnalytics.trackEvent("Login", new ActionProperties("Category", "Login", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", "Regular")); /*ROCQ Tracking*/
                     }catch(Exception e){}
 
-                    /*Login even tracking using Rocq Analytics*/
-                    RocqAnalytics.trackEvent("Login",new ActionProperties("Login Type","Regular"));
-                     /*------------------------------*/
+
 
 
 
@@ -409,7 +406,14 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 
 			String USER_NAME = "";
 
-			try{UtilityMethods.clickCapture(context,"Login","","Facebook","",MySharedPrefs.INSTANCE.getSelectedCity());}catch(Exception e){}
+			/*tracking event for facebook login*/
+			try{
+				UtilityMethods.clickCapture(context, "Login", "", "Facebook", "", MySharedPrefs.INSTANCE.getSelectedCity()); /*GA Tracking*/
+				RocqAnalytics.trackEvent("Login", new ActionProperties("Category", "Login", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", "Facebook")); /*ROCQ Tracking*/
+
+			}catch(Exception e){}
+
+
 
             MySharedPrefs.INSTANCE.putLoginMethod("Social");
 
@@ -775,6 +779,14 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
 			FlurryAgent.onPageView();         //Use onPageView to report page view count.
 		}catch(Exception e){}
+		 /*screen tracking using rocq*/
+		try {
+			RocqAnalytics.initialize(this);
+			RocqAnalytics.startScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+       /*------------------------------*/
 	}
 
 	@Override
@@ -814,6 +826,11 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 			}
 
 		}catch(Exception e){}
+		try {
+			RocqAnalytics.stopScreen(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**************************************************  GOOGLE PLUS INTEGARTION *************************************************/
@@ -1067,7 +1084,12 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 			USER_EMAIL = "";
 			String USER_NAME = "";
 
-			try{UtilityMethods.clickCapture(context,"Login","","Google","",MySharedPrefs.INSTANCE.getSelectedCity());}catch(Exception e){}
+			/*Tracking event for google login*/
+			try{
+				UtilityMethods.clickCapture(context, "Login", "", "Google", "", MySharedPrefs.INSTANCE.getSelectedCity()); /*GA Tracking*/
+				RocqAnalytics.trackEvent("Login",new ActionProperties("Category","Login","Action",MySharedPrefs.INSTANCE.getSelectedCity(),"Label","Google")); /*ROCQ Tracking*/
+
+			}catch(Exception e){}
             MySharedPrefs.INSTANCE.putLoginMethod("Social");
 			Registration.facebookName = null;
 			MySharedPrefs.INSTANCE.putFacebookName(null);
