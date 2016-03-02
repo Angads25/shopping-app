@@ -56,7 +56,7 @@ public class UrlsConstants {
     //public final static String NEW_BASE_URL = "https://multistore.grocermax.com/api/";
 
 
-    //public final static String BASE_URL = "http://staging.grocermax.com/api/";
+   // public final static String BASE_URL = "http://staging.grocermax.com/api/";
     //public final static String NEW_BASE_URL = "http://staging.grocermax.com/api/";
 
 
@@ -81,6 +81,8 @@ public class UrlsConstants {
 
     public final static String TERM_AND_CONDITION = NEW_BASE_URL
             + "termandcondition";
+    public final static String CONTACT = NEW_BASE_URL
+            + "contact";
 
     public final static String WALLET_TRANSACTION_URL = NEW_BASE_URL
             + "creditlog?userid=";

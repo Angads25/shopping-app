@@ -23,6 +23,7 @@ import com.rgretail.grocermax.bean.HomeBannerBean;
 import com.rgretail.grocermax.bean.ShopByCategoryBean;
 import com.rgretail.grocermax.bean.ShopByCategoryModel;
 import com.rgretail.grocermax.bean.ShopByDealsBean;
+import com.rgretail.grocermax.hotoffers.AutoScrollViewPager;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.hotoffers.adapter.ShopByCategoryListAdapter;
 import com.rgretail.grocermax.hotoffers.adapter.ShopByDealsListAdapter;
@@ -40,12 +41,16 @@ public class HomeFragment extends Fragment {
     TextView txtCategory, txtDeal;
     ArrayList<String> arrayList = new ArrayList<>();
 
-    private ViewPager mPager;
+    //private ViewPager mPager;
+    private AutoScrollViewPager mPager;
     private PagerAdapter mPagerAdapter;
     private HomeBannerBean homeBannerBean;
     private ProgressDialog progress;
     private int pos;
     ImageView iv[];
+
+    /*int count = 0;
+    Timer timer;*/
 
 
     @Override
@@ -73,15 +78,46 @@ public class HomeFragment extends Fragment {
         } catch (Exception e) {
 
         }
-
         ((BaseActivity) getActivity()).initHeader(getActivity().findViewById(R.id.header), true, null);
         ((BaseActivity) getActivity()).findViewById(R.id.header).setVisibility(View.VISIBLE);
         ((BaseActivity) getActivity()).findViewById(R.id.header_left).setVisibility(View.GONE);
         View view = inflater.inflate(R.layout.home_fragment, container, false);
 
-        mPager = (ViewPager) view.findViewById(R.id.pager);
+        //mPager = (ViewPager) view.findViewById(R.id.pager);
+        mPager = (AutoScrollViewPager) view.findViewById(R.id.pager);
+
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+
+
+
+       /* // Timer for auto sliding
+        timer  = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (count <= homeBannerBean.getBanner().size()) {
+                            mPager.setCurrentItem(count,true);
+                            count++;
+                        } else {
+                            count = 0;
+                            mPager.setCurrentItem(count,true);
+                        }
+                    }
+                });
+            }
+        }, 500, 3000);*/
+
+
+
+        mPager.setInterval(4000);
+        mPager.startAutoScroll();
+        mPager.setAutoScrollDurationFactor(15);
+        mPager.setSlideBorderMode(AutoScrollViewPager.LEFT);
+
 
         //BANNER LISTENER//
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -94,10 +130,10 @@ public class HomeFragment extends Fragment {
             public void onPageSelected(int position) {
 
                 pos = position;
-                for(int i=0;i<homeBannerBean.getBanner().size();i++){
-                    if(i == position){
+                for (int i = 0; i < homeBannerBean.getBanner().size(); i++) {
+                    if (i == position) {
                         iv[i].setImageResource(R.drawable.banner_carausal_selected);
-                    }else{
+                    } else {
                         iv[i].setImageResource(R.drawable.banner_carausal_unselected);
                     }
 
@@ -112,9 +148,9 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                try{
-                    UtilityMethods.clickCapture(getActivity(),"Banner Scroll","","","", MySharedPrefs.INSTANCE.getSelectedCity());
-                }catch(Exception e){
+                try {
+                    UtilityMethods.clickCapture(getActivity(), "Banner Scroll", "", "", "", MySharedPrefs.INSTANCE.getSelectedCity());
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -254,4 +290,18 @@ public class HomeFragment extends Fragment {
         super();
     }
 
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(mPager!=null)
+        mPager.stopAutoScroll();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mPager!=null)
+        mPager.startAutoScroll();
+    }
 }

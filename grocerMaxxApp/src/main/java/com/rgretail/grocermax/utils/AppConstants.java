@@ -129,7 +129,7 @@ public class AppConstants {
 //		public static final String VERSION_NAME = "version";
 //		public static final String VERSION = "1.0";
 
-		public static final String REMOVE_ITEM_FOR_PROCEED = "Sorry, requested item is sold out. Please remove it from cart to proceed";
+		public static final String REMOVE_ITEM_FOR_PROCEED = "Out of stock. Please remove it to proceed.";
 		public static final String PRODUCT_REMOVED = "Product removed successfully";
 		public static final String PRODUCT_ADDED_CART = "Product successfully added to cart";
 		public static final String UNABLE_TO_WRITE = "Unable to write to external storage.";
@@ -209,8 +209,8 @@ public class AppConstants {
 		public static final String BILL_PHONE_VALID = "Phone number should be of 10 digit in billing address";
 		public static final String BILL_PINCODE_VALID = "Pincode should be of 6 digit in billing address";
 
-		public static final String REDUCE_QUANT_FIRST_PART = "Sorry, only ";
-		public static final String REDUCE_QUANT_SECOND_PART = " items in stock. Please reduce quantity to proceed";
+		public static final String REDUCE_QUANT_FIRST_PART = "only";
+		public static final String REDUCE_QUANT_SECOND_PART = " in stock. Please reduce the quantity";
 
 		public static final String EDIT_DIFFERENT_ADDRESS_FIRST = "You've chosen ";
 		public static final String EDIT_DIFFERENT_ADDRESS_SECOND = "location. Like to change/add new address?";

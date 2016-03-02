@@ -1113,8 +1113,13 @@ public class ReviewOrderAndPay extends BaseActivity
                                            "https://salty-plateau-1529.herokuapp.com/redirectURL.sandbox.php");*/
 
 
-
+       //String amount=String.format("%.1f", Float.parseFloat(tvTotal.getText().toString().replace("Rs.","")));
        String amount=tvTotal.getText().toString().replace("Rs.","");
+       if(amount.contains(".")){
+           amount=amount.substring(0,amount.indexOf(".")+2);
+       }
+
+
 
        CitrusFlowManager.startShoppingFlow(ReviewOrderAndPay.this,MySharedPrefs.INSTANCE.getUserEmail(),MySharedPrefs.INSTANCE.getMobileNo(),amount);
    }

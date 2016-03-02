@@ -403,8 +403,7 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 
 	}
 
-	public void onScroll(AbsListView view, int firstVisibleItem,
-						 int visibleItemCount, int totalItemCount) {
+	public void onScroll(AbsListView view, int firstVisibleItem,int visibleItemCount, int totalItemCount) {
 		try {
 			this.currentFirstVisibleItem = firstVisibleItem;
 			this.currentVisibleItemCount = visibleItemCount;

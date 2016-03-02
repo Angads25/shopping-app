@@ -18,8 +18,9 @@ import org.json.JSONObject;
  */
 public class TermAndCondition extends BaseActivity {
 
-    TextView tv_term;
+    TextView tv_term,tv;
     ImageView icon_header_back;
+    String reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class TermAndCondition extends BaseActivity {
 
         // initHeader(findViewById(R.id.header), true, null);
         addActionsInFilter(MyReceiverActions.TERM_CONDITION);
+        reference=getIntent().getStringExtra("reference");
         initView();
         icon_header_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,7 +39,14 @@ public class TermAndCondition extends BaseActivity {
         });
         try {
             showDialog();
+            if(reference.equals("terms")){
+            tv.setText(getResources().getString(R.string.term));
             myApi.reqTermAndCondition(UrlsConstants.TERM_AND_CONDITION);
+            }
+            else{
+                tv.setText("Contact us");
+                myApi.reqTermAndCondition(UrlsConstants.CONTACT);
+            }
         } catch (Exception e) {
             new GrocermaxBaseException("TermAndCondition", "onCreate", e.getMessage(), GrocermaxBaseException.EXCEPTION, "error in getting term and condition");
         }
@@ -47,6 +56,7 @@ public class TermAndCondition extends BaseActivity {
     public void initView() {
         icon_header_back=(ImageView)findViewById(R.id.icon_header_back);
         tv_term = (TextView) findViewById(R.id.tv_term);
+        tv = (TextView) findViewById(R.id.tv);
     }
 
     @Override

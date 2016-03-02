@@ -189,7 +189,7 @@ public class BannerFragment extends Fragment {
 //                    public final static String DEAL_BY_DEAL_TYPE = NEW_BASE_URL+"dealsbydealtype?deal_type_id=";
 //                    String url = UrlsConstants.DEAL_BY_DEAL_TYPE;
                         String url = UrlsConstants.NEW_BASE_URL;
-
+                        ((HomeScreen) context).myApi.reqDealByDealType(url + linkurl);
                         //try{UtilityMethods.clickCapture(context,"","","","",HomeScreen.SCREENNAME+name+"-"+AppConstants.GA_EVENT_DEALS_THROUGH_HOME_BANNER);}catch(Exception e){}
                     } else if (strType.equalsIgnoreCase("productlistall")) {
                         //                    public final static String GET_ALL_PRODUCTS_OF_CATEGORY = NEW_BASE_URL + "productlistall?cat_id=";

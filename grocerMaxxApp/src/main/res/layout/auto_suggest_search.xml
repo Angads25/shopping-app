@@ -11,19 +11,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:minHeight="80dp"
+        android:minHeight="60dp"
         android:orientation="horizontal" >
 
         <ImageView
             android:id="@+id/product_image"
-            android:layout_width="80dp"
+            android:layout_width="60dp"
             android:layout_height="match_parent"
             android:src="@drawable/product_placeholder" />
 
         <LinearLayout
             android:id="@+id/llExpendCollepse"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:paddingLeft="3dp"
             android:orientation="vertical" >
 
@@ -45,6 +45,7 @@
                 android:text="quantity"
                 android:layout_marginTop="1dp"
                 android:textColor="@color/light_Gray"
+                android:visibility="gone"
                 android:textSize="10dp" />
 
             <LinearLayout
@@ -87,7 +88,7 @@
                 android:gravity="right"
                 android:layout_marginTop="1dp"
                 android:layout_marginRight="10dp"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <ImageView
                     android:id="@+id/iv_out_of_stock"
@@ -102,7 +103,7 @@
                 android:layout_height="25dp"
                 android:visibility="visible"
                 android:layout_marginTop="1dp"
-                android:layout_marginBottom="1dp">
+                android:layout_marginBottom="3dp">
 
 
                 <LinearLayout
@@ -173,6 +174,7 @@
 
 
         </LinearLayout>
+
     </LinearLayout>
 
     <View
@@ -180,6 +182,35 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/light_gray" />
+    <LinearLayout
+        android:id="@+id/ll_bottom_view"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="Search All"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="14dp"
+            android:textColor="@color/white"
+            android:background="@color/primaryColor"
+            android:id="@+id/tv_search_all" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="View Cart"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="14dp"
+            android:textColor="@color/black"
+            android:background="@color/lighter_gray"
+            android:id="@+id/tv_view_cart" />
+
+    </LinearLayout>
+
 
 
 
