@@ -20,6 +20,10 @@ public class CategoriesProducts extends BaseResponseBean implements Serializable
     @Expose
     private List<Product> product = new ArrayList<Product>();
 
+
+
+
+
     public List<Product> getItems() {
         return product;
     }

@@ -24,7 +24,6 @@ import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
 import com.dq.rocq.RocqAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
 import com.rgretail.grocermax.GCM.GCMClientManager;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
@@ -57,7 +56,6 @@ public class SplashScreen extends BaseActivity
 
 	private GCMClientManager pushClientManager;
 	private String DeviceRegistrationId;
-	private String SCREENNAME = "SplashScreen-";
 
 
 	public int pxToDp(int px) {
@@ -238,16 +236,6 @@ public class SplashScreen extends BaseActivity
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		mTracker.setScreenName(SCREENNAME);
-		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-//		mTracker.send(new HitBuilders.EventBuilder()
-//				.setCategory("Actionssss")
-//				.setAction("Sharessss")
-//				.setLabel("labelssss")
-////				.set(UtilityMethods.GA_EVENTNAME, "event passed")
-////				.setAll(params)
-//				.build());
 
 		try{
 			AppsFlyerLib.onActivityResume(this);

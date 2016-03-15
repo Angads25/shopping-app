@@ -13,13 +13,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.dq.rocq.RocqAnalytics;
 import com.dq.rocq.models.ActionProperties;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.BaseActivity;
+import com.rgretail.grocermax.MyApplication;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.HomeBannerBean;
 import com.rgretail.grocermax.bean.ShopByCategoryBean;
@@ -27,9 +31,11 @@ import com.rgretail.grocermax.bean.ShopByCategoryModel;
 import com.rgretail.grocermax.bean.ShopByDealsBean;
 import com.rgretail.grocermax.hotoffers.AutoScrollViewPager;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
+import com.rgretail.grocermax.hotoffers.MyLinearLayoutManager;
 import com.rgretail.grocermax.hotoffers.adapter.ShopByCategoryListAdapter;
-import com.rgretail.grocermax.hotoffers.adapter.ShopByDealsListAdapter;
+import com.rgretail.grocermax.hotoffers.adapter.ShopBySpecialDealsListAdapter;
 import com.rgretail.grocermax.preference.MySharedPrefs;
+import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
@@ -40,13 +46,16 @@ import java.util.ArrayList;
  */
 public class HomeFragment extends Fragment {
     RecyclerView recyclerView1, recyclerView2;
+    GridView catg_grid;
     TextView txtCategory, txtDeal;
+    ImageView img_deal;
     ArrayList<String> arrayList = new ArrayList<>();
 
     //private ViewPager mPager;
     private AutoScrollViewPager mPager;
     private PagerAdapter mPagerAdapter;
     private HomeBannerBean homeBannerBean;
+    private ShopByDealsBean shopBySpecialDealsBean;
     private ProgressDialog progress;
     private int pos;
     ImageView iv[];
@@ -70,8 +79,9 @@ public class HomeFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         ShopByCategoryBean shopByCategoryBean = (ShopByCategoryBean) bundle.get(Constants.SHOP_BY_CATEGORY_MODEL);
-        ShopByDealsBean shopByDealsBean = (ShopByDealsBean) bundle.get(Constants.SHOP_BY_DEALS_MODEL);
+        final ShopByDealsBean shopByDealsBean = (ShopByDealsBean) bundle.get(Constants.SHOP_BY_DEALS_MODEL);
         homeBannerBean = (HomeBannerBean) bundle.get(Constants.HOME_BANNER);
+        shopBySpecialDealsBean = (ShopByDealsBean) bundle.get(Constants.SHOP_BY_SPECIAL_DEALS_MODEL);
 
         try {
             System.out.println("RESPONSE HOME" + homeBannerBean.getBanner().size());
@@ -152,7 +162,6 @@ public class HomeFragment extends Fragment {
             public void onPageScrollStateChanged(int state) {
                 try {
                     UtilityMethods.clickCapture(getActivity(), "Banner Scroll", "", "", "", MySharedPrefs.INSTANCE.getSelectedCity());
-                    RocqAnalytics.trackEvent("Banner Scroll", new ActionProperties("Category", "Banner Scroll", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -169,8 +178,11 @@ public class HomeFragment extends Fragment {
             }else {
                 iv[i].setImageResource(R.drawable.banner_carausal_unselected);
             }
+
             ll.addView(view1);
         }
+
+        img_deal=(ImageView)view.findViewById(R.id.img_deal);
 
         txtCategory = (TextView) view.findViewById(R.id.txt_category);
         txtDeal = (TextView) view.findViewById(R.id.txt_deal);
@@ -180,27 +192,35 @@ public class HomeFragment extends Fragment {
         txtDeal.setTypeface(type);
 
         recyclerView1 = (RecyclerView) view.findViewById(R.id.recyclerView1);
+        catg_grid=(GridView)view.findViewById(R.id.catg_grid);
 
         ArrayList<ShopByCategoryModel> alfinal = new ArrayList<ShopByCategoryModel>();
         ArrayList<ShopByCategoryModel> al = shopByCategoryBean.getArrayList();
-        for (int i = 0; i < ((HomeScreen) getActivity()).catObj.size(); i++) {
-            boolean b_id_found = false;
-            for (int j = 0; j < al.size(); j++) {
-                if (((HomeScreen) getActivity()).catObj.get(i).getCategoryId().equalsIgnoreCase(al.get(j).getCategory_id())) {
-                    alfinal.add(al.get(j));
-                    b_id_found = true;
+
+        try {
+            if (((HomeScreen) getActivity()).catObj!=null) {
+                for (int i = 0; i < ((HomeScreen) getActivity()).catObj.size(); i++) {
+                    boolean b_id_found = false;
+                    for (int j = 0; j < al.size(); j++) {
+                        if (((HomeScreen) getActivity()).catObj.get(i).getCategoryId().equalsIgnoreCase(al.get(j).getCategory_id())) {
+                            alfinal.add(al.get(j));
+                            b_id_found = true;
+                        }
+                    }
+                    if(!b_id_found){
+                        ShopByCategoryModel shopByCategoryModel = new ShopByCategoryModel();
+                            String strurlImage = Constants.base_url_category_image+((HomeScreen) getActivity()).catObj.get(i).getCategoryId()+".png";
+                            shopByCategoryModel.setCategory_id(((HomeScreen) getActivity()).catObj.get(i).getCategoryId());
+                            shopByCategoryModel.setName(((HomeScreen) getActivity()).catObj.get(i).getCategory());
+                            shopByCategoryModel.setImages(strurlImage);
+                            shopByCategoryModel.setIs_active(((HomeScreen) getActivity()).catObj.get(i).getIsActive());
+                            shopByCategoryModel.setOffercount("0");
+                        alfinal.add(shopByCategoryModel);
+                    }
                 }
             }
-            if(!b_id_found){
-                ShopByCategoryModel shopByCategoryModel = new ShopByCategoryModel();
-                    String strurlImage = Constants.base_url_category_image+((HomeScreen) getActivity()).catObj.get(i).getCategoryId()+".png";
-                    shopByCategoryModel.setCategory_id(((HomeScreen) getActivity()).catObj.get(i).getCategoryId());
-                    shopByCategoryModel.setName(((HomeScreen) getActivity()).catObj.get(i).getCategory());
-                    shopByCategoryModel.setImages(strurlImage);
-                    shopByCategoryModel.setIs_active(((HomeScreen) getActivity()).catObj.get(i).getIsActive());
-                    shopByCategoryModel.setOffercount("0");
-                alfinal.add(shopByCategoryModel);
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
 //            for (int i = 0; i < al.size(); i++) {
@@ -227,21 +247,86 @@ public class HomeFragment extends Fragment {
 //        shopByCategoryListAdapter1.setListData(shopByCategoryBean.getArrayList());
         shopByCategoryListAdapter1.setListData(alfinal);
 
-        recyclerView1.setAdapter(shopByCategoryListAdapter1);
+       // recyclerView1.setAdapter(shopByCategoryListAdapter1);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView1.setLayoutManager(llm);
+        catg_grid.setAdapter(shopByCategoryListAdapter1);
+        setGridViewHeightBasedOnChildren(catg_grid, 3);
+        setGridViewHeightBasedOnChildren(catg_grid, 3);
+
 
         recyclerView2 = (RecyclerView) view.findViewById(R.id.recyclerView2);
+        ShopBySpecialDealsListAdapter shopBySpecialDealsListAdapter = new ShopBySpecialDealsListAdapter(getActivity(), this);
+        shopBySpecialDealsListAdapter.setListData(shopBySpecialDealsBean.getSpecial_deal_type());
+        recyclerView2.setLayoutManager(new MyLinearLayoutManager(getActivity()));
+        recyclerView2.setAdapter(shopBySpecialDealsListAdapter);
+
+
+        /*for deal image on home page */
+        if(shopByDealsBean.getArrayList().size()>0){
+        ImageLoader.getInstance().displayImage(shopByDealsBean.getArrayList().get(0).getImg(),img_deal, ((BaseActivity) getActivity()).baseImageoptions);
+            ((TextView)view.findViewById(R.id.tv_deal_name)).setText(shopByDealsBean.getArrayList().get(0).getDealType());
+            ((TextView)view.findViewById(R.id.tv_deal_name)).setTypeface(Typeface.createFromAsset(getActivity().getAssets(),"Gotham-Book.ttf"));
+        }
+        img_deal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppConstants.strTitleHotDeal = "";
+                AppConstants.strTitleHotDeal = shopByDealsBean.getArrayList().get(0).getDealType();
+                ((HomeScreen) getActivity()).hitForShopByDeals(shopByDealsBean.getArrayList().get(0).getId());
+
+                /*  tracking GA event for click on Shop By Deals from Home screen */
+                try{
+                    MyApplication.isFromDrawer=false;
+                    UtilityMethods.clickCapture(getActivity(), "Deal Category L1", "", shopByDealsBean.getArrayList().get(0).getDealType(),"", MySharedPrefs.INSTANCE.getSelectedCity());
+                    RocqAnalytics.trackEvent("Deal Category L1", new ActionProperties("Category", "Deal Category L1", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", shopByDealsBean.getArrayList().get(0).getDealType()));
+                }catch(Exception e){}
+                /*-----------------------------------------------------*/
+            }
+        });
+
+        /*recyclerView2 = (RecyclerView) view.findViewById(R.id.recyclerView2);
         ShopByDealsListAdapter shopByDealsListAdapter = new ShopByDealsListAdapter(getActivity(), this);
         shopByDealsListAdapter.setListData(shopByDealsBean.getArrayList());
+        recyclerView2.setLayoutManager(new MyLinearLayoutManager(getActivity()));
         recyclerView2.setAdapter(shopByDealsListAdapter);
-
-        LinearLayoutManager llm1 = new LinearLayoutManager(getActivity());
-        llm1.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView2.setLayoutManager(llm1);
+*/
+       /* LinearLayoutManager llm1 = new LinearLayoutManager(getActivity());
+        llm1.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView2.setLayoutManager(llm1);*/
         progress.dismiss();
         return view;
+    }
+
+    public void setGridViewHeightBasedOnChildren(GridView gridView, int columns) {
+        ListAdapter listAdapter = gridView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+
+        int totalHeight = 0;
+        int items = listAdapter.getCount();
+        int rows = 0;
+
+        View listItem = listAdapter.getView(0, null, gridView);
+        listItem.measure(0, 0);
+        totalHeight = listItem.getMeasuredHeight();
+        // Display display = getActivity().getWindowManager().getDefaultDisplay();
+        //totalHeight = display.getWidth()/3;
+        //width=width/3;
+
+        float x = 1;
+        if( items > columns ){
+            x = items/columns;
+            rows = (int) (x);
+            totalHeight *= rows;
+        }
+
+        ViewGroup.LayoutParams params = gridView.getLayoutParams();
+        params.height = totalHeight;
+        gridView.setLayoutParams(params);
+
     }
 
 
@@ -297,14 +382,22 @@ public class HomeFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if(mPager!=null)
-        mPager.stopAutoScroll();
+        try {
+            if(mPager!=null)
+            mPager.stopAutoScroll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if(mPager!=null)
-        mPager.startAutoScroll();
+        try {
+            if(mPager!=null)
+            mPager.startAutoScroll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -61,6 +61,7 @@ public class HomeScreen extends BaseActivity {
     private android.support.v4.app.FragmentTransaction fragmentTransaction;
     private ArrayList<OfferByDealTypeModel> arrayList;
     private ShopByDealsBean shopByDealsBean;
+    private ShopByDealsBean shopBySpecialDealsBean;
     private DealProductListingBean dealProductListingBean;
     private ProgressDialog progress;
     private String url;
@@ -283,6 +284,7 @@ public class HomeScreen extends BaseActivity {
                     JSONArray jsonArrayCategory = jsonO.getJSONArray("category");
                     JSONArray jsonArrayBanner = jsonO.getJSONArray("banner");
                     JSONArray jsonDealType = jsonO.getJSONArray("deal_type");
+                    JSONArray jsonSpecialDealType = jsonO.getJSONArray("specialdeal");
 
 
                     JSONObject jsonOCccategory = new JSONObject();                                                                                  //
@@ -310,6 +312,11 @@ public class HomeScreen extends BaseActivity {
                     Gson gson3 = new Gson();
                     shopByDealsBean = gson3.fromJson(jsonODealType.toString(), ShopByDealsBean.class);
 
+                    JSONObject jsonOSpecialDealType = new JSONObject();
+                    jsonOSpecialDealType.put("specialdeal", jsonSpecialDealType);
+                    Gson gson4 = new Gson();
+                    shopBySpecialDealsBean = gson4.fromJson(jsonOSpecialDealType.toString(), ShopByDealsBean.class);
+
 
                     if (shopByCategoryBean != null && shopByDealsBean != null && homeBannerBean != null && catObj != null) {
                         HomeFragment fragment = new HomeFragment();                                    //displaying home screen
@@ -321,6 +328,7 @@ public class HomeScreen extends BaseActivity {
                         data.putSerializable(Constants.SHOP_BY_CATEGORY_MODEL, shopByCategoryBean);
                         data.putSerializable(Constants.SHOP_BY_DEALS_MODEL, shopByDealsBean);
                         data.putSerializable(Constants.HOME_BANNER, homeBannerBean);
+                        data.putSerializable(Constants.SHOP_BY_SPECIAL_DEALS_MODEL, shopBySpecialDealsBean);
                         fragment.setArguments(data);
                         fragmentTransaction.commit();
 
@@ -466,7 +474,6 @@ public class HomeScreen extends BaseActivity {
 //
 //            }
             else if (action.equals(MyReceiverActions.OFFER_BY_DEALTYPE)) {       //responsible for getting data after click of offers [which is showing on bottom of Shop by categories]
-
                 dismissDialog();
                 System.out.println("RESPONSE OFFER" + bundle.getString("json"));
                 JSONObject jsonObject = new JSONObject(bundle.getString("json"));
@@ -483,9 +490,7 @@ public class HomeScreen extends BaseActivity {
                 System.out.println("RESPONSE OFFER" + bundle.getString("json"));
                 JSONObject jsonObject = new JSONObject(bundle.getString("json"));
                 Gson gson = new Gson();
-//                parseJson(jsonObject);
                 dealByDealTypeBean = gson.fromJson(jsonObject.toString(), DealByDealTypeBean.class);
-//                System.out.println("RESPONSE DEAL" + dealByDealTypeBean.getDealcategorylisting().get("all").size());
                 ShopByDealItemDetailFragment fragment = new ShopByDealItemDetailFragment();
                 Bundle data = new Bundle();
                 data.putBoolean(Constants.SHOP_BY_DEAL, true);
@@ -506,26 +511,15 @@ public class HomeScreen extends BaseActivity {
                     UtilityMethods.customToast(AppConstants.ToastConstant.NO_PRODUCT, mContext);
                     return;
                 }
-                Intent call = new Intent(mContext,
-                        DealListScreen.class);
+                Intent call = new Intent(mContext,DealListScreen.class);
                 Bundle call_bundle = new Bundle();
-                call_bundle.putSerializable("ProductList",
-                        dealListBean);
+                call_bundle.putSerializable("ProductList",dealListBean);
+                if(!AppConstants.strTitleHotDeal.equals(""))
                 call_bundle.putSerializable("Header", AppConstants.strTitleHotDeal);
-                //call_bundle.putSerializable("Header", DealListScreen.strDealHeading);
+                else
+                call_bundle.putSerializable("Header", DealListScreen.strDealHeading);
                 call.putExtras(call_bundle);
                 startActivity(call);
-
-//                System.out.println("RESPONSE DEALLISTING" + bundle.getString("json"));
-//                JSONObject jsonObject = new JSONObject(bundle.getString("json"));
-//                Gson gson = new Gson();
-//                dealProductListingBean = gson.fromJson(jsonObject.toString(), DealProductListingBean.class);
-//                System.out.println("RESPONSE DEALLISTING" + dealProductListingBean.getProduct().size());
-//                DealProductListingItemDetailGrid fragment = new DealProductListingItemDetailGrid();
-//                Bundle data = new Bundle();
-//                data.putSerializable(Constants.PRODUCTLIST, dealProductListingBean.getProduct());
-//                fragment.setArguments(data);
-//                changeFragment(fragment);
             }
 
 
@@ -572,6 +566,14 @@ public class HomeScreen extends BaseActivity {
         showDialog();
         myApi.reqProductListingByDealType(url + dealId);
         System.out.println(dealId);
+    }
+
+    public void hitForSpecialDealsByDeals(String sku) {            //responsible for clicking of [shop by deals -> ShopByDealItemDetailFragment -> DealListScreen]
+
+        String url = UrlsConstants.PRODUCTLISTING_BY_SPECIAL_DEAL_TYPE;
+        showDialog();
+        myApi.reqProductListingByDealType(url + sku);
+        System.out.println(sku);
     }
 
     public void changeFragment(Fragment fragment) {

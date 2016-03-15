@@ -1,10 +1,6 @@
 package com.rgretail.grocermax;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONObject;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,19 +8,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.google.gson.Gson;
+import com.melnykov.fab.FloatingActionButton;
 import com.rgretail.grocermax.adapters.ProductListAdapter;
 import com.rgretail.grocermax.bean.Product;
 import com.rgretail.grocermax.bean.ProductListBean;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.UrlsConstants;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 
 public final class SearchProductFragments extends Fragment implements OnScrollListener {
@@ -141,15 +145,41 @@ public final class SearchProductFragments extends Fragment implements OnScrollLi
 		});
 		mList.setOnScrollListener(this);
 
-		makeUI();
+			FloatingActionButton fab = (FloatingActionButton)view.findViewById(R.id.fab);
+			fab.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Intent intent = new Intent(getActivity(), ProductSorting.class);
+					intent.putExtra("comming_from","search");
+					startActivityForResult(intent, 0);
+				}
+			});
+
+
+		makeUI(SearchTabs.sort_condition);
 		return view;
 		}catch(Exception e){
 			new GrocermaxBaseException("SearchProductFragments","onCreateView",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 		return  null;
     }
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		try {
+			String condition=data.getStringExtra("condition");
+			System.out.println("condition="+condition);
+			SearchTabs.sort_condition=condition;
+			makeUI(SearchTabs.sort_condition);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
     
-    private void makeUI() {
+    private void makeUI(String condition) {
 		try{
 //		main_lay.setVisibility(View.VISIBLE);
 		progressBar.setVisibility(View.GONE);
@@ -190,6 +220,80 @@ public final class SearchProductFragments extends Fragment implements OnScrollLi
 		}
 //			((BaseActivity)SearchTabs.context).dismissDialog();
 //			UtilityMethods.getInstance().dismissDialog();
+
+			/*---------------For sorting the product list------------------------------------------*/
+
+			if (product_list!=null) {
+				if(condition.equals("price_low_to_hign")){
+					Collections.sort(product_list, new Comparator<Product>() {
+
+						public int compare(Product p1, Product p2) {
+							float sale_price1 = Float.parseFloat(p1.getSalePrice());
+							float sale_price2 = Float.parseFloat(p2.getSalePrice());
+
+                             /*For ascending order*/
+							return Float.compare(sale_price1, sale_price2);
+						}
+					});
+				}else if(condition.equals("a_to_z")){
+
+					Collections.sort(product_list, new Comparator<Product>() {
+
+						public int compare(Product p1, Product p2) {
+							return p1.getProductName().compareTo(p2.getProductName());
+						}
+					});
+				}else if(condition.equals("z_to_a")){
+
+					Collections.sort(product_list, new Comparator<Product>() {
+
+						public int compare(Product p1, Product p2) {
+							return p2.getProductName().compareTo(p1.getProductName());
+						}
+					});
+				}else if(condition.equals("price_hign_to_low")){
+					Collections.sort(product_list, new Comparator<Product>() {
+
+						public int compare(Product p1, Product p2) {
+							float sale_price1 = Float.parseFloat(p1.getSalePrice());
+							float sale_price2 = Float.parseFloat(p2.getSalePrice());
+
+                             /*For desending order*/
+							return Float.compare(sale_price2, sale_price1);
+						}
+					});
+				}else if(condition.equals("popularity")){
+					Collections.sort(product_list, new Comparator<Product>() {
+
+						public int compare(Product p1, Product p2) {
+							int rank1 = Integer.parseInt(p1.getRank());
+							int rank2 = Integer.parseInt(p2.getRank());
+
+                             /*For desending order*/
+							return (int) (rank2-rank1);
+						}
+					});
+				}else if(condition.equals("discount")){
+					Collections.sort(product_list, new Comparator<Product>() {
+
+						public int compare(Product p1, Product p2) {
+							float discount1 = Float.parseFloat(p1.getDiscount());
+							float discount2 = Float.parseFloat(p2.getDiscount());
+
+                             /*For desending order*/
+							return Float.compare(discount2, discount1);
+						}
+					});
+				}
+				//productListBean.setProduct(product_list);
+				//mAdapter.updateList(product_list);
+				return;
+			}
+/*---------------------------------------------------------------------------------------------*/
+
+
+
+
 		} catch (Exception e) {
 //			UtilityMethods.getInstance().dismissDialog();
 //			((BaseActivity)SearchTabs.context).dismissDialog();

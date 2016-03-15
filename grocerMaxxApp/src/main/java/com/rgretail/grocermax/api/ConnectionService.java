@@ -200,14 +200,9 @@ public class ConnectionService extends IntentService {
 			if (AppConstants.DEBUG) {
 				Log.i(TAG, "RESPONSE:::" + response_str);
 			}
-
             parseData(response_str, intent.getIntExtra(PARSE_TYPE, -1), bundle);
             bundle.putString(ERROR, null);
             bundle.putString(JSON, response_str);
-
-
-
-
 
 		} catch (IOException e) {
 			bundle.putString(ERROR, IO_EXCEPTION);
@@ -636,6 +631,10 @@ public class ConnectionService extends IntentService {
                     bundle.putSerializable(RESPONSE,
                             (Serializable) response);
                     break;
+				case MyParserType.TOP_PRODUCTS_LIST:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser.parseProductResponse(response));
+					break;
                 case MyParserType.TERM_CONDITION:
                     bundle.putSerializable(RESPONSE,
                             (Serializable) response);

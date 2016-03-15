@@ -54,7 +54,8 @@ public class ItemDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         Bundle data = getArguments();
-        ((HomeScreen) getActivity()).isFromFragment = true;
+        //((HomeScreen) getActivity()).isFromFragment = true;
+        HomeScreen.isFromFragment = true;
         HomeScreen.bFromHome = false;
 //        itemDetailGrid = new ItemDetailGrid();
 
@@ -120,8 +121,12 @@ public class ItemDetailFragment extends Fragment {
             }
         });
         tabs.setViewPager(viewPager);
-        sendDataToGA(AppConstants.strTitleHotDeal+" - "+keyList.get(0));
 
+        try {
+            sendDataToGA(AppConstants.strTitleHotDeal+" - "+keyList.get(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         return view;

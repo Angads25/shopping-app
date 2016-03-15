@@ -12,6 +12,7 @@ import com.dq.rocq.RocqAnalytics;
 import com.dq.rocq.models.ActionProperties;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.BaseActivity;
+import com.rgretail.grocermax.CategoryOffer;
 import com.rgretail.grocermax.DealListScreen;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.OfferByDealTypeSubModel;
@@ -90,8 +91,7 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        ImageLoader.getInstance().displayImage(data.get(position).getImage(),
-                holder.imageView, ((BaseActivity) context).baseImageoptions);
+        ImageLoader.getInstance().displayImage(data.get(position).getImage(),holder.imageView, ((BaseActivity) context).baseImageoptions);
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,8 +106,13 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
                 }
                 /*-------------------------------------------------------------------------*/
 
+                if(context instanceof HomeScreen)
                 ((HomeScreen) context).hitForDealsByDeals(data.get(position).getId());
-                ((HomeScreen) context).isFromFragment = true;
+                else if(context instanceof CategoryOffer)
+                ((CategoryOffer) context).hitForDealsByDeals(data.get(position).getId());
+
+                //((HomeScreen) context).isFromFragment = true;
+                HomeScreen.isFromFragment = true;
 //                    AppConstants.strTitleHotDeal = data.get(position).getName();
 //                AppConstants.strTitleHotDeal = "Offer Detail";
                 DealListScreen.strDealHeading  = "Offer Detail";

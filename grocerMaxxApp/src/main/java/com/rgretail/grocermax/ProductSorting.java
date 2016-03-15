@@ -1,6 +1,7 @@
 package com.rgretail.grocermax;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.appsflyer.AppsFlyerLib;
 import com.dq.rocq.RocqAnalytics;
@@ -19,6 +19,9 @@ public class ProductSorting extends BaseActivity implements View.OnClickListener
     private Context context;
     private int position = 0;
     private ImageView ivPopularity,ivDiscounts,ivTitleAtoZ,ivTitleZtoA,ivPriceLtoH,ivPriceHtoL;
+    private ImageView icon_header_back;
+    String comming_from;
+    RelativeLayout rlPopularity,rlDiscounts,rlTitleAtoZ,rlTitleZtoA,rlPriceLtoH,rlPriceHtoL;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,12 +34,25 @@ public class ProductSorting extends BaseActivity implements View.OnClickListener
         }catch(Exception e){}
         context = this;
 
-        RelativeLayout rlPopularity = (RelativeLayout)findViewById(R.id.rl_popularity);
-        RelativeLayout rlDiscounts = (RelativeLayout)findViewById(R.id.rl_discounts);
-        RelativeLayout rlTitleAtoZ = (RelativeLayout)findViewById(R.id.rl_title_atoz);
-        RelativeLayout rlTitleZtoA = (RelativeLayout)findViewById(R.id.rl_title_ztoa);
-        RelativeLayout rlPriceLtoH = (RelativeLayout)findViewById(R.id.rl_price_ltoh);
-        RelativeLayout rlPriceHtoL = (RelativeLayout)findViewById(R.id.rl_price_htol);
+        icon_header_back=(ImageView)findViewById(R.id.icon_header_back);
+        icon_header_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent();
+                i.putExtra("condition","");
+                setResult(RESULT_OK, i);
+                finish();
+            }
+        });
+
+        comming_from=getIntent().getStringExtra("comming_from"); //category,search
+
+         rlPopularity = (RelativeLayout)findViewById(R.id.rl_popularity);
+         rlDiscounts = (RelativeLayout)findViewById(R.id.rl_discounts);
+         rlTitleAtoZ = (RelativeLayout)findViewById(R.id.rl_title_atoz);
+         rlTitleZtoA = (RelativeLayout)findViewById(R.id.rl_title_ztoa);
+         rlPriceLtoH = (RelativeLayout)findViewById(R.id.rl_price_ltoh);
+         rlPriceHtoL = (RelativeLayout)findViewById(R.id.rl_price_htol);
         Button btnApply  = (Button)findViewById(R.id.btn_apply);
 
         ivPopularity = (ImageView)findViewById(R.id.iv_popularity);
@@ -53,6 +69,27 @@ public class ProductSorting extends BaseActivity implements View.OnClickListener
         rlPriceLtoH.setOnClickListener(this);
         rlPriceHtoL.setOnClickListener(this);
         btnApply.setOnClickListener(this);
+
+        if(comming_from.equals("category"))
+        viewAlreadySelected(CategoryTabs.sort_condition);
+        else
+        viewAlreadySelected(SearchTabs.sort_condition);
+    }
+
+    public void viewAlreadySelected(String condition){
+        if(condition.equals("popularity"))
+         onClick(rlPopularity);
+        else if(condition.equals("price_low_to_hign"))
+            onClick(rlPriceLtoH);
+        else if(condition.equals("a_to_z"))
+            onClick(rlTitleAtoZ);
+        else if(condition.equals("z_to_a"))
+            onClick(rlTitleZtoA);
+        else if(condition.equals("price_hign_to_low"))
+            onClick(rlPriceHtoL);
+        else if(condition.equals("discount"))
+            onClick(rlDiscounts);
+
     }
 
     @Override
@@ -75,15 +112,15 @@ public class ProductSorting extends BaseActivity implements View.OnClickListener
     public void onResume() {
         super.onResume();
         try{
-            initHeader(findViewById(R.id.header), true, "Sort");
+           // initHeader(findViewById(R.id.header), true, "Sort");
             AppsFlyerLib.onActivityResume(this);
         }catch(Exception e){}
 
-        try {
+       /* try {
             icon_header_search.setVisibility(View.GONE);
             icon_header_cart.setVisibility(View.GONE);
             cart_count_txt.setVisibility(View.GONE);
-        }catch(Exception e){}
+        }catch(Exception e){}*/
     }
 
     @Override
@@ -191,9 +228,32 @@ public class ProductSorting extends BaseActivity implements View.OnClickListener
                     ivPriceHtoL.setImageResource(R.drawable.sort_product_select);
                     break;
                 case R.id.btn_apply:
-                    Toast.makeText(context,"apply",Toast.LENGTH_SHORT).show();
+                    Intent i=new Intent();
+                    if(position==4)
+                        i.putExtra("condition","price_low_to_hign");
+                    else if(position==2)
+                        i.putExtra("condition","a_to_z");
+                    else if(position==3)
+                        i.putExtra("condition","z_to_a");
+                    else if(position==5)
+                        i.putExtra("condition","price_hign_to_low");
+                    else if(position==0)
+                        i.putExtra("condition","popularity");
+                    else if(position==1)
+                        i.putExtra("condition","discount");
+                    setResult(RESULT_OK,i);
+                    finish();
+
                     break;
             }
         }catch(Exception e){}
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i=new Intent();
+        i.putExtra("condition","");
+        setResult(RESULT_OK, i);
+        finish();
     }
 }

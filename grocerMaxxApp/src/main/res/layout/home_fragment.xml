@@ -2,8 +2,8 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
+    android:layout_height="wrap_content"
+    android:background="@color/app_background"
     android:scrollbars="none"
     android:orientation="vertical">
 
@@ -12,7 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/app_background"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -38,12 +38,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_horizontal"
+            android:gravity="center_horizontal|bottom"
+            android:paddingTop="30dp"
             android:layout_marginBottom="20dp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true" >
-
-
 
         </LinearLayout>
 
@@ -52,10 +51,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-
-            android:orientation="vertical"
-            android:paddingTop="24dp">
+            android:orientation="vertical">
 
             <!--   android:layout_marginBottom="10dp"  -->
 
@@ -65,6 +61,7 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
                 android:layout_marginBottom="16dp"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <View
@@ -99,18 +96,64 @@
                 android:id="@+id/recyclerView1"
                 android:layout_width="match_parent"
                 android:layout_height="210dp"
+                android:visibility="gone"
                 android:layout_marginLeft="@dimen/ten_dp" />
+            <GridView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/catg_grid"
+                 android:horizontalSpacing="1dp"
+                android:verticalSpacing="1dp"
+                android:numColumns="3"></GridView>
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_deal_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#212121"
+            android:gravity="left"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="@dimen/dp8"
+            android:layout_marginRight="@dimen/dp8"
+            android:text="jkjdljkd"
+            android:textSize="18dp"
+            android:paddingTop="5dp"
+            android:visibility="visible"
+            android:paddingBottom="5dp"/>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/dp8"
+            android:layout_marginRight="@dimen/dp8"
+            android:background="@color/m_color_333333"
+            android:visibility="visible"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/dp8"
+            android:layout_marginRight="@dimen/dp8"
+            android:layout_height="160dp"
+            android:layout_marginTop="8dp">
+            <ImageView
+                android:id="@+id/img_deal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/cat_deal_detail_holder"/>
+
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-
+            android:background="@color/app_background"
             android:orientation="vertical"
-            android:paddingTop="24dp"
-            android:paddingBottom="10dp" >
+            android:paddingTop="8dp">
 
             <!-- android:paddingTop="10dp" -->
 
@@ -120,6 +163,7 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
                 android:layout_marginBottom="16dp"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <View
@@ -153,8 +197,10 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView2"
                 android:layout_width="match_parent"
-                android:layout_height="205dp"
-                android:layout_marginLeft="@dimen/ten_dp" />
+                android:layout_height="wrap_content"
+                android:background="@color/app_background"
+                android:layout_marginLeft="@dimen/dp8"
+                android:layout_marginRight="@dimen/dp8"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -162,7 +208,8 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
                 android:layout_marginBottom="16dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <View
                     android:layout_width="30dp"
@@ -197,6 +244,7 @@
                 android:layout_marginLeft="@dimen/ten_dp"
                 android:layout_marginRight="@dimen/ten_dp"
                 android:layout_gravity="center"
+                android:visibility="gone"
                 android:src="@drawable/promises"/>
 
 

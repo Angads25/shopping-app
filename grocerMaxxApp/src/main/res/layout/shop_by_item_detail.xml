@@ -36,7 +36,7 @@
                     android:layout_height="160dp"
                     android:scaleType="fitXY"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/staples_home" />
+                    android:src="@drawable/cat_deal_detail_holder" />
 
 
             </LinearLayout>

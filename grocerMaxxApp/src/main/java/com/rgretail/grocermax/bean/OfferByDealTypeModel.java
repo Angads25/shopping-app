@@ -36,7 +36,7 @@ public class OfferByDealTypeModel implements Serializable{
     String dealType;
     String img;
     String image;
-ArrayList<OfferByDealTypeSubModel> deals;
+    ArrayList<OfferByDealTypeSubModel> deals;
 
     public ArrayList<OfferByDealTypeSubModel> getDeals() {
         return deals;

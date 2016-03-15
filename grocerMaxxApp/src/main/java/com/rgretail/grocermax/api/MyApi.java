@@ -1,14 +1,14 @@
 package com.rgretail.grocermax.api;
 
-import java.util.HashMap;
-
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
 
-import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.api.ConnectionServiceParser.MyParserType;
+import com.rgretail.grocermax.exception.GrocermaxBaseException;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 public class MyApi {
 	private Context m_context;
@@ -119,6 +119,18 @@ public class MyApi {
             new GrocermaxBaseException("MyApi","reqWallet",e.getMessage(), GrocermaxBaseException.EXCEPTION,url);
         }
     }
+	public void reqTopProduct(String url) {
+		try{
+			Intent reqIntent = new Intent(m_context, ConnectionService.class);
+			reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.TOP_PRODUCTS_LIST);
+			reqIntent.putExtra(ConnectionService.URL, url);
+			reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+			reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.TOP_PRODUCTS_LIST);
+			m_context.startService(reqIntent);
+		}catch(Exception e){
+			new GrocermaxBaseException("MyApi","reqTopProductList",e.getMessage(), GrocermaxBaseException.EXCEPTION,url);
+		}
+	}
     public void reqTermAndCondition(String url) {
         try{
             Intent reqIntent = new Intent(m_context, ConnectionService.class);

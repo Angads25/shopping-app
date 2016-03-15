@@ -61,6 +61,8 @@ public class SearchTabs extends BaseActivity{
 	public List<HashMap<String, String>> listCategoryHashMap;
 	int size;
 
+	public static String sort_condition;
+
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 		context = this;
@@ -73,6 +75,8 @@ public class SearchTabs extends BaseActivity{
 //			JSONObject[] strw = (JSONObject[])bundle.getSerializable("searchdata");
 
 			//try{UtilityMethods.clickCapture(context,"","","","", AppConstants.GA_EVENT_OPEN_SEARCH);}catch(Exception e){}
+
+			sort_condition="popularity";
 
 			size = SearchLoader.jsonObjectTop.length;
 

@@ -21,7 +21,6 @@ import com.dq.rocq.RocqAnalytics;
 import com.dq.rocq.models.ActionProperties;
 import com.flurry.android.FlurryAgent;
 import com.melnykov.fab.FloatingActionButton;
-import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.BaseResponseBean;
@@ -48,8 +47,8 @@ import java.util.List;
 //import com.google.analytics.tracking.android.EasyTracker;
 
 public class CategoryTabs extends BaseActivity {
-    private String header;
-    private ArrayList<CategorySubcategoryBean> catObj;
+    //private String header;
+    //private ArrayList<CategorySubcategoryBean> catObj;
     public Product product;
     TextView tv_bradcrum;
     LinearLayout ll_brad_crum;
@@ -64,6 +63,8 @@ public class CategoryTabs extends BaseActivity {
     private ArrayList<CategoriesProducts> alCategory;
     private boolean isFromDrawer;
     public static String SCREENNAME = "CategoryTabs-";
+    ProductListFragments productListFragments;
+    public static String sort_condition;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,7 @@ public class CategoryTabs extends BaseActivity {
         }catch(Exception e){}
 
         try {
+            sort_condition="popularity";
             addActionsInFilter(MyReceiverActions.PRODUCT_CONTENT_LIST);
             addActionsInFilter(MyReceiverActions.ADD_TO_CART);
             ProductListFragments p = new ProductListFragments();
@@ -86,9 +88,8 @@ public class CategoryTabs extends BaseActivity {
             if (bundle != null) {
                 isFromDrawer = bundle.getBoolean("isFromDrawer");
 
-                catObj = (ArrayList<CategorySubcategoryBean>) bundle.getSerializable("Categories");
-                header = bundle.getString("Header");
-//				selectedCatId = bundle.getString("selectedcatid");
+                //catObj = (ArrayList<CategorySubcategoryBean>) bundle.getSerializable("Categories");
+                //header = bundle.getString("Header");
 
                 Simple responseBean = (Simple) bundle.getSerializable("PRODUCTDATA");
                 strHeader = bundle.getString("HEADERNAME");
@@ -128,10 +129,6 @@ public class CategoryTabs extends BaseActivity {
                                         listAll.add(categoriesProducts.getItems().get(k));
                                     }
                                 }
-//							alCategory.add(categoriesProducts);
-//							for(int k=0;k<categoriesProducts.getItems().size();k++){
-//								listAll.add(categoriesProducts.getItems().get(k));
-//							}
                             }
 
                         }
@@ -189,7 +186,7 @@ public class CategoryTabs extends BaseActivity {
                     public void onClick(View v) {
                         // TODO Auto-generated method stub
                         Intent intent = new Intent(mContext, ProductSorting.class);
-                        startActivity(intent);
+                        startActivityForResult(intent,0);
                     }
                 });
 
@@ -257,6 +254,7 @@ public class CategoryTabs extends BaseActivity {
 //			pager.setOffscreenPageLimit(catObj.size());
 //			pager.setOffscreenPageLimit(alCategory.size());
             pager.setOffscreenPageLimit(0);
+           // pager.setCurrentItem(2);
 
             final TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
             if (pager != null)
@@ -352,6 +350,8 @@ public class CategoryTabs extends BaseActivity {
 //		});
     }
 
+
+
     class GoogleMusicAdapter extends FragmentPagerAdapter {
 
         public GoogleMusicAdapter(FragmentManager fm) {
@@ -361,8 +361,9 @@ public class CategoryTabs extends BaseActivity {
         @Override
         public Fragment getItem(int position) {
             try {
-//            	return ProductListFragments.newInstance(catObj.get(position % catObj.size()));
-                return ProductListFragments.newInstance(alCategory.get(position % alCategory.size()));
+                productListFragments=ProductListFragments.newInstance(alCategory.get(position % alCategory.size()));
+                return productListFragments;
+                //return ProductListFragments.newInstance(alCategory.get(position % alCategory.size()));
             } catch (Exception e) {
                 new GrocermaxBaseException("CategoryTabs", "GoogleMusicAdapter", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
             }

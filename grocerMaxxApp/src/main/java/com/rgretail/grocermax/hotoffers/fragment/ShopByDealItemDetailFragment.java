@@ -17,6 +17,7 @@ import com.rgretail.grocermax.MyApplication;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.DealByDealTypeBean;
 import com.rgretail.grocermax.bean.OfferByDealTypeSubModel;
+import com.rgretail.grocermax.bean.Product;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.hotoffers.MyPagerSlidingTabStrip;
 import com.rgretail.grocermax.preference.MySharedPrefs;
@@ -46,17 +47,17 @@ public class ShopByDealItemDetailFragment extends Fragment {
     private String key;
     Worker worker;
     ArrayList<OfferByDealTypeSubModel> allData ;
-    HashMap<String,ArrayList<OfferByDealTypeSubModel>> dealcategory;
+    //HashMap<String,ArrayList<OfferByDealTypeSubModel>> dealcategory;
+    HashMap<String,ArrayList<Product>> dealcategory;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         Bundle data = getArguments();
-        ((HomeScreen) getActivity()).isFromFragment = true;
+        //((HomeScreen) getActivity()).isFromFragment = true;
+        HomeScreen.isFromFragment = true;
         HomeScreen.bFromHome = false;
-//        ((HomeScreen)getActivity()).setHeader("activity start");
-//        itemDetailGrid = new ItemDetailGrid();
         try {
 
             ((BaseActivity) getActivity()).initHeader(getActivity().findViewById(R.id.header_left), true, AppConstants.strTitleHotDeal);
@@ -68,16 +69,6 @@ public class ShopByDealItemDetailFragment extends Fragment {
                 dealByDealTypeBean = (DealByDealTypeBean) data.getSerializable(Constants.DEAL_BY_DEAL);
                 dealcategory = new HashMap<>();
 
-///////////    responsible for All tab in starting   ////////////////////
-//                if(dealByDealTypeBean.getDealcategory().getAll().size()>0)
-//                {
-//                    keyList.add(" All ");
-//                    dealcategory.put(" All ",dealByDealTypeBean.getDealcategory().getAll());
-//                }
-///////////    responsible for All tab in starting   ////////////////////
-
-              //  try{ UtilityMethods.clickCapture(getActivity(), "", "", "", "", AppConstants.GA_EVENT_DEAL_CATEGORY_OPENED);}catch(Exception e){}
-
                 if(dealByDealTypeBean.getDealcategory().getCategory().size()>0)
                 {
                     for (OfferByDealTypeSubModel dataValue : dealByDealTypeBean.getDealcategory().getCategory()) {
@@ -86,28 +77,7 @@ public class ShopByDealItemDetailFragment extends Fragment {
                             }
                 }
 
-//                if (dealByDealTypeBean.getDealcategorylisting().size() > 0) {
-//                    for (String key : dealByDealTypeBean.getDealcategorylisting().keySet()) {
-//                        if(key.equalsIgnoreCase("all"))
-//                        {
-//                            keyList.add(key);
-//                            dealcategory = new HashMap<>();
-//                            dealcategory.put(key,dealByDealTypeBean.getDealcategorylisting().get(key));
-//
-//                        }else if(key.equalsIgnoreCase("category"))
-//                        {
-//                        ArrayList<OfferByDealTypeSubModel> catDeals = new ArrayList<>();
-//
-//                            catDeals = dealByDealTypeBean.getDealcategorylisting().get(key);
-//                            for (OfferByDealTypeSubModel dataValue : catDeals) {
-//                                keyList.add(dataValue.getName());
-//                                dealcategory.put(dataValue.getName(),dataValue.getDeals());
-//                            }
-//                        }
-//                    }
-//
-//                    //System.out.println("Response" + offerByDealTypeBean.getDealcategorylisting().keySet());
-//                }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -181,15 +151,6 @@ public class ShopByDealItemDetailFragment extends Fragment {
         public Fragment getItem(int position) {
             ShopByDealItemDetailGrid fragment = new ShopByDealItemDetailGrid();
             fragment.setData(dealcategory.get(keyList.get(position)));
-
-//            ShopByCategoryListAdapter shopByCategoryListAdapter1 = new ShopByCategoryListAdapter(getActivity(), this);
-//            shopByCategoryListAdapter1.setListData(shopByCategoryBean.getArrayList());
-//            recyclerView1.setAdapter(shopByCategoryListAdapter1);
-//            LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-//            llm.setOrientation(LinearLayoutManager.HORIZONTAL);
-//            recyclerView1.setLayoutManager(llm);
-
-
             return fragment;
         }
 

@@ -3,102 +3,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@android:color/transparent">
 
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/tv_spe_deal_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@android:color/white">
+        android:textColor="#212121"
+        android:gravity="left"
+        android:text="hkjdhskjh shkjh"
+        android:textSize="18dp"
+        android:paddingTop="5dp"
+        android:visibility="gone"
+        android:paddingBottom="5dp"/>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/m_color_333333"
+        android:visibility="gone"
+        android:layout_marginBottom="10dp"/>
+
 
 <android.support.v7.widget.CardView
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layoutParent"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@color/white"
-    android:layout_margin="5dp"
-    card_view:cardCornerRadius="2dp" >
+    android:background="@color/white">
 
     <!--  android:background="#f9e0dd"  -->
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="160dp"
             android:orientation="vertical"
             android:background="@android:color/white">
 
             <ImageView
                 android:id="@+id/img"
-                android:layout_width="280dp"
-                android:layout_height="160dp"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/cat_deals_holder" />
-
-            <LinearLayout
-                android:id="@+id/ll_"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_marginTop="-3dp"
-                android:background="@drawable/category_bottom_border"
-                android:orientation="horizontal">
-
-                <!--   android:background="@drawable/hotcategoryborder"
-                android:background="@drawable/category_bottom_border"   -->
-
-                <TextView
-                    android:id="@+id/footer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:textAllCaps="true"
-                    android:ellipsize="end"
-                    android:text="White"
-                    android:textSize="14sp"
-                    android:textColor="#ff7765"
-                    android:layout_alignParentBottom="true"
-                    />
-
-                <ImageView
-                    android:id="@+id/iv_right_carrot"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:visibility="gone"
-                    android:src="@drawable/hot_category" />
-
-            </LinearLayout>
-
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/cat_deals_holder" />
         </LinearLayout>
 
 </android.support.v7.widget.CardView>
-
-        <View
-            android:id="@+id/view_1_space"
-            android:layout_width="15dp"
-            android:layout_height="match_parent"
-            />
-
-        <View
-            android:id="@+id/view_line"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="#eeeeee" />
-
-        <View
-            android:id="@+id/view_2_space"
-            android:layout_width="15dp"
-            android:layout_height="match_parent"
-            />
-
-    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="9dp"
+        android:background="@color/app_background"/>
 
 </LinearLayout>

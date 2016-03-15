@@ -1,39 +1,41 @@
 package com.rgretail.grocermax.hotoffers.adapter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dq.rocq.RocqAnalytics;
 import com.dq.rocq.models.ActionProperties;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.rgretail.grocermax.BaseActivity;
-import com.rgretail.grocermax.CategoryActivity;
+import com.rgretail.grocermax.CategoryActivity1;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.ShopByCategoryModel;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
-import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
 import java.util.ArrayList;
 
-public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCategoryListAdapter.ViewHolder> {
+public class ShopByCategoryListAdapter extends BaseAdapter {
 
     private Activity context;
     private Fragment fragment;
     private ArrayList<ShopByCategoryModel> data;
     private static Activity activity;
     private String SCREENNAME = "ShopByCategoryListAdapter-";
+    public DisplayImageOptions baseImageoptions;
 //    public static String strDealListCategoryHeading;
     public ShopByCategoryListAdapter(Activity activity, Fragment fragment) {
 //        this.context = context;
@@ -41,8 +43,12 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
         this.fragment = fragment;
         this.activity = activity;
 //        ((BaseActivity) activity).initImageLoaderM();
-        ((BaseActivity) activity).initImageLoaderMCtegoryDeal();
+        baseImageoptions=UtilityMethods.initImageLoaderMCtegoryDeal(context);
     }
+
+
+
+
 
     public void setListData(ArrayList<ShopByCategoryModel> data) {
 
@@ -50,92 +56,67 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
 
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        ImageView imageView;
-        TextView footer;
-        CardView parentLayout;
-        ImageView ivRightCarrot;
-        View view1Space,viewVerticalLine,view2Space;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.img);
-            footer = (TextView) itemView.findViewById(R.id.footer);
-            parentLayout = (CardView) itemView.findViewById(R.id.layoutParent);
-            ivRightCarrot = (ImageView) itemView.findViewById(R.id.iv_right_carrot);
-
-            view1Space = (View) itemView.findViewById(R.id.view_1_space);
-            viewVerticalLine = (View) itemView.findViewById(R.id.view_line);
-            view2Space = (View) itemView.findViewById(R.id.view_2_space);
-
-            imageView.setImageResource(R.drawable.cancel_icon);
-
-            Typeface type = Typeface.createFromAsset(activity.getAssets(), "Lato-Bol.ttf");
-		    footer.setTypeface(type);
-
-            parentLayout.setShadowPadding(0,0,0,0);
-            parentLayout.setCardElevation(0);
-
-        }
+    @Override
+    public int getCount() {
+        return data == null ? 0 : data.size();
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.option_list_item, parent, false);
-
-        return new ViewHolder(root);
+    public Object getItem(int position) {
+        return data.get(position);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
-        System.out.println("IMage url="+data.get(position).getImages());
-        ImageLoader.getInstance().displayImage(data.get(position).getImages(),
-                holder.imageView, ((BaseActivity) activity).baseImageoptions);
+    public long getItemId(int position) {
+        return position;
+    }
 
-//        position
-//        data.size()
+    @Override
+    public View getView(final int position, View itemView, ViewGroup parent) {
 
-      //  try{UtilityMethods.clickCapture(context, "", "", data.get(position).getCategory_id(),"", SCREENNAME+data.get(position).getName()+"-"+AppConstants.SHOP_BY_CATEGORY_SCROLLING);}catch(Exception e){}
+        ViewHolder holder;
 
-        if(position == data.size()-1){
-            holder.view1Space.setVisibility(View.GONE);
-            holder.viewVerticalLine.setVisibility(View.GONE);
-            holder.view2Space.setVisibility(View.GONE);
-        }else{
-            holder.view1Space.setVisibility(View.VISIBLE);
-            holder.viewVerticalLine.setVisibility(View.VISIBLE);
-            holder.view2Space.setVisibility(View.VISIBLE);
+        if (itemView == null) {
+            LayoutInflater mInflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            itemView = mInflater.inflate(R.layout.catg_list_home, null);
+            holder = new ViewHolder();
+            holder.imageView = (ImageView) itemView.findViewById(R.id.img);
+            holder.footer = (TextView) itemView.findViewById(R.id.footer);
+            holder.parentLayout = (CardView) itemView.findViewById(R.id.layoutParent);
+            holder.imageView.setImageResource(R.drawable.cancel_icon);
+
+            Typeface type = Typeface.createFromAsset(activity.getAssets(), "Gotham-Book.ttf");
+            holder.footer.setTypeface(type);
+
+            holder.parentLayout.setShadowPadding(0, 0, 0, 0);
+            holder.parentLayout.setCardElevation(0);
+            itemView.setTag(holder);
+        }
+        else {
+            holder = (ViewHolder) itemView.getTag();
+        }
+        Display display = context.getWindowManager().getDefaultDisplay();
+        int width = display.getWidth();
+         width=width/3;
+        //itemView.setLayoutParams(new LinearLayout.LayoutParams(width-2,width-40));
+        //holder.imageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,width-40));
+
+        if (baseImageoptions!=null) {
+            ImageLoader.getInstance().displayImage(data.get(position).getImages(),
+                    holder.imageView, baseImageoptions);
         }
 
-        holder.footer.setText(data.get(position).getOffercount() + " Offers");
-        holder.ivRightCarrot.setVisibility(View.VISIBLE);
+        holder.footer.setText(data.get(position).getName());
 
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
+
+
+        itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ((HomeScreen) context).hitForShopByCategory(data.get(position).getCategory_id());
-//                ShopByCategoryListAdapter.strDealListCategoryHeading = data.get(position).getName();
-
-
-//                ArrayList<CategorySubcategoryBean> catObjSend = new ArrayList<CategorySubcategoryBean>();
-//                int size = ((HomeScreen) context).catObj.get(position).getChildren().size();
-//
-//                for (int i = 0; i < ((HomeScreen) context).catObj.get(position).getChildren().size(); i++) {
-//                    if (((HomeScreen) context).catObj.get(position).getChildren().get(i).getIsActive().equals("1")) {
-//                           catObjSend.add((((HomeScreen) context).catObj.get(i)));
-//                    }
-//                    .get(0).getcategory
-//                    if (((HomeScreen) context).catObj.get(position).getChildren().get(i).getIsActive().equals("1")){
-//                        catObjSend.add((((HomeScreen) context).catObj.get(i)));
-//                    }
-//                }
-
-
-                Intent intent = new Intent(((HomeScreen) context), CategoryActivity.class);
+                Intent intent = new Intent(((HomeScreen) context), CategoryActivity1.class);
                 Bundle call_bundle = new Bundle();
                 call_bundle.putSerializable("Categories", (((HomeScreen) context).catObj));
-//                call_bundle.putSerializable("Categories", catObjSend);
+                call_bundle.putSerializable("data", data);
                 call_bundle.putSerializable("maincategoryposition", String.valueOf(position));
                 call_bundle.putSerializable("CategoryName", data.get(position).getName());
                 call_bundle.putSerializable("CategoryId", data.get(position).getCategory_id());           //catid of shop deals
@@ -143,72 +124,23 @@ public class ShopByCategoryListAdapter extends RecyclerView.Adapter<ShopByCatego
                 ((HomeScreen) context).startActivity(intent);
                 ((HomeScreen)context).isFromFragment=false;
 
-
-                /*This is done by Ishan Because No category name is available in data list*/
-
-              /*  String GA_Label="";
-                if(data.get(position).getCategory_id().equals("2180")){
-                    GA_Label="Beverages";
-                }else if(data.get(position).getCategory_id().equals("2211")){
-                    GA_Label="Dairy, Bakery & Eggs";
-                }else if(data.get(position).getCategory_id().equals("2247")){
-                    GA_Label="Family Care";
-                }else if(data.get(position).getCategory_id().equals("2277")){
-                    GA_Label="Frozen";
-                }else if(data.get(position).getCategory_id().equals("2334")){
-                    GA_Label="Home Care";
-                }else if(data.get(position).getCategory_id().equals("2359")){
-                    GA_Label="Home Needs";
-                }else if(data.get(position).getCategory_id().equals("2391")){
-                    GA_Label="Non-Veg";
-                }else if(data.get(position).getCategory_id().equals("2402")){
-                    GA_Label="Packaged Food";
-                }else if(data.get(position).getCategory_id().equals("2483")){
-                    GA_Label="Staples";
-                }*/
-
                 try{
-                    //UtilityMethods.clickCapture(context, "L1", "",GA_Label,"", MySharedPrefs.INSTANCE.getSelectedCity());
                     UtilityMethods.clickCapture(context, "L1", "",data.get(position).getName(), "", MySharedPrefs.INSTANCE.getSelectedCity());
-                    RocqAnalytics.trackEvent("L1", new ActionProperties("Category", "L1", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",data.get(position).getName()));
+                    RocqAnalytics.trackEvent("L1", new ActionProperties("Category", "L1", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", data.get(position).getName()));
+
                 }catch(Exception e){}
 
-//                System.out.println("=====idss1111111===" + data.get(position).getCategory_id());
-
-                //fragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.explode));
-//                ((HomeScreen)context).hitForShopByCategory(data.get(position).getCategory_id());
             }
         });
 
-        holder.footer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            try {
-                int clickedFooter = 0;
-                if (Integer.parseInt(data.get(position).getOffercount()) > 0) {
-
-                    ((HomeScreen) context).hitForShopByCategory(data.get(position).getCategory_id());
-                    for (int i = 0; i < ((HomeScreen) context).catObj.size(); i++) {
-                        if (((HomeScreen) context).catObj.get(i).getCategoryId().equals(data.get(position).getCategory_id())) {
-//                        strCatName = catObj.get(i).getCategory();
-//                        ShopByCategoryListAdapter.strDealListCategoryHeading = ((HomeScreen) context).catObj.get(i).getCategory();
-
-//                        AppConstants.strTitleHotDeal = ((HomeScreen) context).catObj.get(i).getCategory();
-                            AppConstants.strTitleHotDeal = ((HomeScreen) context).catObj.get(i).getCategory();
-                        }
-                    }
-                }
-                //try{UtilityMethods.clickCapture(context, "", "", ((HomeScreen) context).catObj.get(clickedFooter).getCategoryId(),"", SCREENNAME+((HomeScreen) context).catObj.get(clickedFooter).getCategory()+"-"+AppConstants.SHOP_BY_CATEGORY_FOOTER_CLICK);}catch(Exception e){}
-            }catch(Exception e){}
-            }
-        });
-
+        return itemView;
     }
 
-    @Override
-    public int getItemCount() {
-        return data == null ? 0 : data.size();
+     static class ViewHolder {
+
+        ImageView imageView;
+        TextView footer;
+        CardView parentLayout;
     }
 
 }

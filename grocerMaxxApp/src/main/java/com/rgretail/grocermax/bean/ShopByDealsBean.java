@@ -10,10 +10,13 @@ public class ShopByDealsBean implements Serializable{
 
     public String Result, flag;
     public ArrayList<ShopByDealModel> deal_type = new ArrayList<>();
+    public ArrayList<ShopByDealModel> specialdeal = new ArrayList<>();
 
     public String name;
     public String linkurl;
     public String imageurl;
+
+
 
     public String getName() {
         return name;
@@ -61,5 +64,13 @@ public class ShopByDealsBean implements Serializable{
 
     public void setArrayList(ArrayList<ShopByDealModel> deal_type) {
         this.deal_type = deal_type;
+    }
+
+    public ArrayList<ShopByDealModel> getSpecial_deal_type() {
+        return specialdeal;
+    }
+
+    public void setSpecial_deal_type(ArrayList<ShopByDealModel> special_deal_type) {
+        this.specialdeal = special_deal_type;
     }
 }

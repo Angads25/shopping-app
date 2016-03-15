@@ -106,4 +106,6 @@ public interface MyReceiverActions {
     String WALLET_INFO = PKG_NAME + ".wallet_info";
     String WALLET_TRANSACTIONS = PKG_NAME + ".wallet_transactions";
     String TERM_CONDITION = PKG_NAME + ".term_condition";
+
+	String TOP_PRODUCTS_LIST= PKG_NAME + ".top_product_list";
 }

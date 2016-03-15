@@ -26,6 +26,12 @@ public class Product implements Serializable, Parcelable {
 	
 	@Expose
 	private String Status;
+
+	@Expose
+	private String rank;
+
+	@Expose
+	private String discount;
 	
 	private String quantity;
 	
@@ -37,8 +43,44 @@ public class Product implements Serializable, Parcelable {
 	private String p_pack;
 	@Expose
 	private String promotion_level;
-	
-	
+
+	@Expose
+	private String promo_id;
+	@Expose
+	private String product_count;
+
+	public String getPromo_id() {
+		return promo_id;
+	}
+
+	public void setPromo_id(String promo_id) {
+		this.promo_id = promo_id;
+	}
+
+	public String getProduct_count() {
+		return product_count;
+	}
+
+	public void setProduct_count(String product_count) {
+		this.product_count = product_count;
+	}
+
+	public String getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(String discount) {
+		this.discount = discount;
+	}
+
+	public String getRank() {
+		return rank;
+	}
+
+	public void setRank(String rank) {
+		this.rank = rank;
+	}
+
 	public String getBrand(){
 		return p_brand;
 	}
@@ -187,6 +229,10 @@ public class Product implements Serializable, Parcelable {
 		Price = in.readString();
 		Image = in.readString();
 		sale_price = in.readString();
+		rank=in.readString();
+		discount=in.readString();
+		promo_id=in.readString();
+		product_count=in.readString();
 	}
 
 	@Override
@@ -205,6 +251,11 @@ public class Product implements Serializable, Parcelable {
 		dest.writeString(Price);
 		dest.writeString(Image);
 		dest.writeString(sale_price);
+		dest.writeString(rank);
+		dest.writeString(discount);
+		dest.writeString(promo_id);
+		dest.writeString(product_count);
+
 	}
 
 	@SuppressWarnings("unused")

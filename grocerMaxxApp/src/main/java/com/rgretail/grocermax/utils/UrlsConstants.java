@@ -49,15 +49,15 @@ public class UrlsConstants {
 	//public final static String NEW_BASE_URL = "https://multistore.grocermax.com/api/";
 
 
-    //public final static String BASE_URL = "http://qa.grocermax.com/api/";
-    //public final static String NEW_BASE_URL = "http://qa.grocermax.com/api/";
+    public final static String BASE_URL = "http://qa.grocermax.com/api/";
+    public final static String NEW_BASE_URL = "http://qa.grocermax.com/api/";
 
-    public final static String BASE_URL = "https://multistore.grocermax.com/api/";
-    public final static String NEW_BASE_URL = "https://multistore.grocermax.com/api/";
+    //public final static String BASE_URL = "https://multistore.grocermax.com/api/";
+   // public final static String NEW_BASE_URL = "https://multistore.grocermax.com/api/";
 
 
-   // public final static String BASE_URL = "http://staging.grocermax.com/api/";
-    //public final static String NEW_BASE_URL = "http://staging.grocermax.com/api/";
+    //public final static String BASE_URL = "http://staging.grocermax.com/api/";
+	//public final static String NEW_BASE_URL = "http://staging.grocermax.com/api/";
 
 
 	//public final static String BASE_URL = "https://grocermax.com/api/";
@@ -78,6 +78,11 @@ public class UrlsConstants {
 
     public final static String WALLET_INFO_URL = NEW_BASE_URL
             + "getwalletbalance?CustId=";
+
+	public final static String TOP_PRODUCT_URL = NEW_BASE_URL
+			+ "rootcategoryproduct?cat_id=";
+	/*public final static String TOP_PRODUCT_URL = NEW_BASE_URL
+			+ "productlist?cat_id=";*/
 
     public final static String TERM_AND_CONDITION = NEW_BASE_URL
             + "termandcondition";
@@ -144,6 +149,7 @@ public class UrlsConstants {
 	public final static String DEAL_BY_DEAL_TYPE = NEW_BASE_URL+"dealsbydealtype?deal_type_id=";
 
 	public final static String PRODUCTLISTING_BY_DEAL_TYPE = NEW_BASE_URL+"dealproductlisting?deal_id=";
+	public final static String PRODUCTLISTING_BY_SPECIAL_DEAL_TYPE = NEW_BASE_URL+"specialdeal?sku=";
 
 	public final static String SHOP_BY_DEAL_TYPE = NEW_BASE_URL + "shopbydealtype";
 

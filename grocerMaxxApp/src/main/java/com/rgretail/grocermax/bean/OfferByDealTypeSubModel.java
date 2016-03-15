@@ -8,7 +8,8 @@ import java.util.ArrayList;
  */
 public class OfferByDealTypeSubModel implements Serializable{
     String id, category_id, dealName, img, images, name , image;
-    ArrayList<OfferByDealTypeSubModel> deals;
+    //ArrayList<OfferByDealTypeSubModel> deals;
+    ArrayList<Product> deals;
 
     public String getImage() {
         return image;
@@ -53,13 +54,21 @@ public class OfferByDealTypeSubModel implements Serializable{
         this.images = images;
     }
 
-    public ArrayList<OfferByDealTypeSubModel> getDeals() {
+   /* public ArrayList<OfferByDealTypeSubModel> getDeals() {
         return deals;
     }
 
     public void setDeals(ArrayList<OfferByDealTypeSubModel> deals) {
         this.deals = deals;
+    }*/
+   public ArrayList<Product> getDeals() {
+       return deals;
+   }
+
+    public void setDeals(ArrayList<Product> deals) {
+        this.deals = deals;
     }
+
 
     public String getName() {
         return name;

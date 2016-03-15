@@ -42,6 +42,11 @@ import com.dq.rocq.RocqAnalytics;
 import com.dq.rocq.models.ActionProperties;
 import com.facebook.Session;
 import com.google.android.gms.analytics.HitBuilders;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.LoginActivity;
 import com.rgretail.grocermax.R;
@@ -1611,5 +1616,32 @@ public class UtilityMethods {
 //
 //		}catch(Exception e){}
 //	}
+
+
+    public static DisplayImageOptions initImageLoaderMCtegoryDeal(Context context) {
+        DisplayImageOptions  baseImageoptions=null;
+        try {
+              baseImageoptions = new DisplayImageOptions.Builder()
+                    .showImageOnLoading(R.drawable.wallet_image)
+                    .showImageForEmptyUri(R.drawable.wallet_image)
+                    .showImageOnFail(R.drawable.wallet_image)
+//					.showImageOnLoading(R.drawable.cat_deals_holder)
+//					.showImageForEmptyUri(R.drawable.cat_deals_holder)
+//					.showImageOnFail(R.drawable.cat_deals_holder)
+                    .cacheInMemory(true).cacheOnDisk(true).considerExifParams(true)
+                    .build();
+
+            ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+                    context).threadPriority(Thread.NORM_PRIORITY - 2)
+                    .denyCacheImageMultipleSizesInMemory()
+                    .diskCacheFileNameGenerator(new Md5FileNameGenerator())
+                    .diskCacheSize(5 * 1024 * 1024)
+                    .tasksProcessingOrder(QueueProcessingType.LIFO).build();
+            ImageLoader.getInstance().init(config);
+        }catch(Exception e){
+            new GrocermaxBaseException("BaseActivity", "initImageLoaderM", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+        }
+        return baseImageoptions;
+    }
 
 }

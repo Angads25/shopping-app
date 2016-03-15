@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.R;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
  */
 public class ItemDetailGrid extends Fragment {
     private RecyclerView recyclerView;
+    private ListView lv;
     private ArrayList<String> arrayList = new ArrayList<>();
     private ArrayList<OfferByDealTypeSubModel> offerList = new ArrayList<>();
     private static Worker workr;
@@ -63,7 +65,10 @@ public class ItemDetailGrid extends Fragment {
         ((BaseActivity) getActivity()).findViewById(R.id.header).setVisibility(View.GONE);
 
         View view = inflater.inflate(R.layout.item_grid, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.gridView);
+        recyclerView = (RecyclerView) view.findViewById(R.id.gridView1);
+        lv = (ListView) view.findViewById(R.id.gridView);
+        lv.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
         DetailListAdapter optionsListAdapter = new DetailListAdapter(getActivity(), this);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(llm);

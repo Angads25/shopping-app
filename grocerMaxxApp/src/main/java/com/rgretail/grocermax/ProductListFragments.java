@@ -1,5 +1,6 @@
 package com.rgretail.grocermax;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.melnykov.fab.FloatingActionButton;
 import com.rgretail.grocermax.adapters.ProductListAdapter;
 import com.rgretail.grocermax.bean.CategoriesProducts;
 import com.rgretail.grocermax.bean.Product;
@@ -38,6 +40,8 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public final class ProductListFragments extends Fragment implements OnScrollListener
@@ -160,16 +164,44 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 			});
 			mList.setOnScrollListener(this);
 
+			FloatingActionButton fab = (FloatingActionButton)view.findViewById(R.id.fab);
+			fab.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Intent intent = new Intent(getActivity(), ProductSorting.class);
+					intent.putExtra("comming_from","category");
+					startActivityForResult(intent, 0);
+				}
+			});
+
+
+
 //		CallAPI callapi=new CallAPI();
 //		CategoryTabs.asyncTasks.add(callapi);
 //		callapi.execute(UrlsConstants.PRODUCT_LIST_URL + cat_id);
-			makeUI();
+			makeUI(CategoryTabs.sort_condition);
 			return view;
 		}catch(Exception e){
 			new GrocermaxBaseException("ProductListFragments","onCreateView",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 
 		return null;
+	}
+
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		try {
+			String condition=data.getStringExtra("condition");
+			System.out.println("condition="+condition);
+			CategoryTabs.sort_condition=condition;
+			makeUI(CategoryTabs.sort_condition);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 //	public void descriptionCall(){
@@ -191,8 +223,9 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 //		}
 //	}
 
-	private void makeUI(){
+	public void makeUI(String condition){
 		try{
+			System.out.println("make ui condition="+condition);
 			main_lay.setVisibility(View.VISIBLE);
 			progressBar.setVisibility(View.GONE);
 			ProductListBean listBean = null;
@@ -207,6 +240,7 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 			listBean = new ProductListBean();
 			List<Product> lis = new ArrayList<Product>();
 			lis = categoryData.getItems();
+
 
             /*get the name of category when tab item is clicked*/
             categogy_name=categoryData.getCategory_name();
@@ -274,7 +308,7 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 					mList.setAdapter(mAdapter);
 
 //					productListBean.setProduct(product_list);
-//					mAdapter.updateList(product_list);
+//				mAdapter.updateList(product_list);
 				}else{
 					productListBean = listBean;
 					product_list = productListBean.getProduct();
@@ -294,6 +328,76 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 				mList.setAdapter(mAdapter);
 			}
 
+
+			/*---------------For sorting the product list------------------------------------------*/
+
+			if (product_list!=null) {
+				if(condition.equals("price_low_to_hign")){
+                    Collections.sort(product_list, new Comparator<Product>() {
+
+                        public int compare(Product p1, Product p2) {
+                            float sale_price1 = Float.parseFloat(p1.getSalePrice());
+                            float sale_price2 = Float.parseFloat(p2.getSalePrice());
+
+                             /*For ascending order*/
+							return Float.compare(sale_price1, sale_price2);
+                        }
+                    });
+                }else if(condition.equals("a_to_z")){
+
+                        Collections.sort(product_list, new Comparator<Product>() {
+
+							public int compare(Product p1, Product p2) {
+								return p1.getProductName().compareTo(p2.getProductName());
+							}
+						});
+                }else if(condition.equals("z_to_a")){
+
+					Collections.sort(product_list, new Comparator<Product>() {
+
+						public int compare(Product p1, Product p2) {
+							return p2.getProductName().compareTo(p1.getProductName());
+						}
+					});
+				}else if(condition.equals("price_hign_to_low")){
+					Collections.sort(product_list, new Comparator<Product>() {
+
+						public int compare(Product p1, Product p2) {
+							float sale_price1 = Float.parseFloat(p1.getSalePrice());
+							float sale_price2 = Float.parseFloat(p2.getSalePrice());
+
+                             /*For desending order*/
+							return Float.compare(sale_price2, sale_price1);
+						}
+					});
+				}else if(condition.equals("popularity")){
+					Collections.sort(product_list, new Comparator<Product>() {
+
+						public int compare(Product p1, Product p2) {
+							int rank1 = Integer.parseInt(p1.getRank());
+							int rank2 = Integer.parseInt(p2.getRank());
+
+                             /*For desending order*/
+							return (int) (rank2-rank1);
+						}
+					});
+				}else if(condition.equals("discount")){
+					Collections.sort(product_list, new Comparator<Product>() {
+
+						public int compare(Product p1, Product p2) {
+							float discount1 = Float.parseFloat(p1.getDiscount());
+							float discount2 = Float.parseFloat(p2.getDiscount());
+
+                             /*For desending order*/
+							return Float.compare(discount2, discount1);
+						}
+					});
+				}
+				//productListBean.setProduct(product_list);
+				//mAdapter.updateList(product_list);
+				return;
+			}
+/*---------------------------------------------------------------------------------------------*/
 
 //			}
 		}catch(Exception e){
