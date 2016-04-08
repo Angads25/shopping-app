@@ -1,40 +1,32 @@
 package com.rgretail.grocermax;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v7.widget.CardView;
-import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import com.appsflyer.AppsFlyerLib;
 import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.google.gson.Gson;
+import com.rgretail.grocermax.adapters.CategoryScreenAdapter;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
-import com.rgretail.grocermax.adapters.ProductListAdapter;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
-import com.rgretail.grocermax.bean.Product;
-import com.rgretail.grocermax.bean.ProductListBean;
+import com.rgretail.grocermax.bean.DealListBean;
 import com.rgretail.grocermax.bean.ShopByCategoryModel;
+import com.rgretail.grocermax.bean.ShopByDealModel;
+import com.rgretail.grocermax.bean.ShopByDealsBean;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
-import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
-import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,18 +40,15 @@ public class CategoryActivity1 extends BaseActivity {
     String strCatName;                          //shown on header of screen
     ArrayList<CategorySubcategoryBean> alcatObjSend;
     public ArrayList<CategorySubcategoryBean> catObj;
-    private ArrayList<ShopByCategoryModel> data;
+    public static ArrayList<ShopByCategoryModel> data;
     int mainCatPosition = 0;
     int mainCatLength = 9;
-    GridView subCatGrid;
-    ExpandableHeightListView lv_top_product;
-    private List<Product> product_list;
-    private ProductListAdapter mAdapter;
+    private List<ShopByDealModel> product_list;
 
-    ProductListBean listBean;
+    ShopByDealsBean listBean;
     String strCatIdByCat = "";
+    ListView lv_catg;
 
-    Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,19 +56,20 @@ public class CategoryActivity1 extends BaseActivity {
         try {
             setContentView(R.layout.activity_category1);
 
-            addActionsInFilter(MyReceiverActions.TOP_PRODUCTS_LIST);
+           /* addActionsInFilter(MyReceiverActions.TOP_PRODUCTS_LIST);*/
+            addActionsInFilter(MyReceiverActions.CATEGORY_BANNER);
             addActionsInFilter(MyReceiverActions.ALL_PRODUCTS_CATEGORY);
             addActionsInFilter(MyReceiverActions.OFFER_BY_DEALTYPE);
+            addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
+
 
             try {
                 AppsFlyerLib.setCurrencyCode("INR");
                 AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
                 AppsFlyerLib.sendTracking(getApplicationContext());
             } catch (Exception e) {}
+            lv_catg=(ListView)findViewById(R.id.cat_list);
 
-            subCatGrid=(GridView)findViewById(R.id.sub_catg_grid);
-            lv_top_product=(ExpandableHeightListView)findViewById(R.id.top_product_list);
-            lv_top_product.setExpanded(true);
 
 
             Bundle bundle = getIntent().getExtras();
@@ -113,30 +103,27 @@ public class CategoryActivity1 extends BaseActivity {
                 }
             }
 
-            subCatGrid.setAdapter(new SubCategoryListAdapter());
-            setGridViewHeightBasedOnChildren(subCatGrid, 4);
+            initHeader(findViewById(R.id.app_bar_header), false, strCatName);
 
-            initHeader(findViewById(R.id.app_bar_header), true, strCatName);
-
-            lv_top_product.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            lv_catg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
                     if (listBean != null) {
-                        if (listBean.getProduct().size()>0) {
-                            MySharedPrefs.INSTANCE.putItemQuantity(listBean.getProduct().get(position).getQuantity());
+                        if (listBean.getSubcategorybanner().size()>0) {
+                           /* MySharedPrefs.INSTANCE.putItemQuantity(listBean.getProduct().get(position-2).getQuantity());
                             showDialog();
-                            String url = UrlsConstants.PRODUCT_DETAIL_URL + listBean.getProduct().get(position).getProductid();
-                            myApi.reqProductDetailFromNotification(url);
+                            String url = UrlsConstants.PRODUCT_DETAIL_URL + listBean.getProduct().get(position-2).getProductid();
+                            myApi.reqProductDetailFromNotification(url);*/
                         }
                     }
                 }
             });
 
-
-
             try {
                 showDialog();
-                myApi.reqTopProduct(UrlsConstants.TOP_PRODUCT_URL + strCatIdByCat);
+               //myApi.reqTopProduct(UrlsConstants.TOP_PRODUCT_URL + strCatIdByCat);
+                myApi.reqCategoryBanner(UrlsConstants.CATG_BANNER_URL + strCatIdByCat);
+                System.out.println("cat id="+strCatIdByCat);
             } catch (Exception e) {
                 new GrocermaxBaseException("CategoryActivity","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION, "error in getting top product");
             }
@@ -144,7 +131,7 @@ public class CategoryActivity1 extends BaseActivity {
         }
     }
 
-    public void getTopOffers(View v){
+    public void getTopOffers(){
         try {
             if (Integer.parseInt(data.get(mainCatPosition).getOffercount()) > 0) {
                 String url = UrlsConstants.OFFER_BY_DEAL_TYPE;
@@ -158,6 +145,14 @@ public class CategoryActivity1 extends BaseActivity {
             }
         }catch(Exception e){}
     }
+
+    public void hitForSpecialDealsByDeals(String sku) {            //responsible for clicking of [shop by deals -> ShopByDealItemDetailFragment -> DealListScreen]
+
+        String url = UrlsConstants.PRODUCTLISTING_BY_SPECIAL_DEAL_TYPE;
+        showDialog();
+        myApi.reqProductListingByDealType(url + sku);
+    }
+
 
 
 
@@ -210,31 +205,30 @@ public class CategoryActivity1 extends BaseActivity {
 
     @Override
     public void OnResponse(final Bundle bundle) {
-        if (bundle.getString("ACTION").equals(MyReceiverActions.TOP_PRODUCTS_LIST)) {
+        if (bundle.getString("ACTION").equals(MyReceiverActions.CATEGORY_BANNER)) {
             try
             {
-                listBean = (ProductListBean) bundle.getSerializable(ConnectionService.RESPONSE);
+                dismissDialog();
+                listBean = (ShopByDealsBean) bundle.getSerializable(ConnectionService.RESPONSE);
                 if (listBean != null)
                 {
-                    if (listBean.getProduct().size() > 0)
+                    if (listBean.getSubcategorybanner().size() > 0)
                     {
-                        product_list = listBean.getProduct();
-                        mAdapter = new ProductListAdapter(CategoryActivity1.this, product_list);
-                        lv_top_product.setAdapter(mAdapter);
+                        product_list = listBean.getSubcategorybanner();
                     }
                     else {
-                        product_list = new ArrayList<Product>();
-                        Product product = new Product("No product found for this category");
-                        product_list.add(product);
-                        mAdapter = new ProductListAdapter(CategoryActivity1.this, product_list);
-                        lv_top_product.setAdapter(mAdapter);
+                        product_list = new ArrayList<ShopByDealModel>();
                     }
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            dismissDialog();
-                        }
-                    }, 3000);
+
+                    if (Integer.parseInt(data.get(mainCatPosition).getOffercount()) > 0)
+                    {
+                        CategorySubcategoryBean categorySubcategoryBean=new CategorySubcategoryBean();
+                        categorySubcategoryBean.setCategoryId("");
+                        categorySubcategoryBean.setCategory("TOP OFFERS");
+                        alcatObjSend.add(categorySubcategoryBean);
+                    }
+
+                    lv_catg.setAdapter(new CategoryScreenAdapter(CategoryActivity1.this, product_list,alcatObjSend,mainCatPosition,catObj));
                 }
             }catch(Exception e)
             {
@@ -247,6 +241,30 @@ public class CategoryActivity1 extends BaseActivity {
                 i.putExtra("json",bundle.getString("json"));
                 startActivity(i);
             } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (bundle.getString("ACTION").equals(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE)) {         //responsible for product listing through deals [ShopByDealItemDetailFragment -> DealListScreen]
+
+            try {
+                dismissDialog();
+                JSONObject jsonObject = new JSONObject(bundle.getString("json"));
+                JSONObject json = jsonObject.getJSONObject("Product");
+                Gson gson = new Gson();
+                DealListBean dealListBean = gson.fromJson(json.toString(), DealListBean.class);
+                if (dealListBean == null) {
+                    UtilityMethods.customToast(AppConstants.ToastConstant.NO_PRODUCT, mContext);
+                    return;
+                }
+                Intent call = new Intent(mContext,DealListScreen.class);
+                Bundle call_bundle = new Bundle();
+                call_bundle.putSerializable("ProductList",dealListBean);
+                if(!AppConstants.strTitleHotDeal.equals(""))
+                    call_bundle.putSerializable("Header", AppConstants.strTitleHotDeal);
+                else
+                    call_bundle.putSerializable("Header", DealListScreen.strDealHeading);
+                call.putExtras(call_bundle);
+                startActivity(call);
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
@@ -273,6 +291,10 @@ public class CategoryActivity1 extends BaseActivity {
         float x = 1;
         if( items > columns ){
             x = items/columns;
+            int y = items%columns;
+            if(y>0)
+                x=x+1;
+            System.out.println("x=" + x+" item="+items+" col="+columns);
             rows = (int) (x);
             totalHeight *= rows;
         }
@@ -283,13 +305,13 @@ public class CategoryActivity1 extends BaseActivity {
 
     }
 
-    public class SubCategoryListAdapter extends BaseAdapter {
+   /* public class SubCategoryListAdapter extends BaseAdapter {
 
 
         public DisplayImageOptions baseImageoptions1;
         public SubCategoryListAdapter() {
             //initImageLoaderMCtegoryDeal();
-            baseImageoptions1=UtilityMethods.initImageLoaderMCtegoryDeal(CategoryActivity1.this);
+            baseImageoptions1=UtilityMethods.initImageLoaderMCtegoryDeal(CategoryActivity1.this,R.drawable.placeholder_level2);
         }
 
         @Override
@@ -317,9 +339,10 @@ public class CategoryActivity1 extends BaseActivity {
                 itemView = mInflater.inflate(R.layout.catg_list_home, null);
                 holder = new ViewHolder();
                 holder.imageView = (ImageView) itemView.findViewById(R.id.img);
+                holder.imageView_l2 = (ImageView) itemView.findViewById(R.id.img_l2);
                 holder.footer = (TextView) itemView.findViewById(R.id.footer);
                 holder.parentLayout = (CardView) itemView.findViewById(R.id.layoutParent);
-                holder.imageView.setImageResource(R.drawable.cancel_icon);
+                holder.imageView_l2.setImageResource(R.drawable.cancel_icon);
 
                 Typeface type = Typeface.createFromAsset(activity.getAssets(), "Gotham-Book.ttf");
                 holder.footer.setTypeface(type);
@@ -334,12 +357,14 @@ public class CategoryActivity1 extends BaseActivity {
             Display display = getWindowManager().getDefaultDisplay();
             int width = display.getWidth();
             width=width/4;
-            //holder.imageView.setLayoutParams(new LinearLayout.LayoutParams(width-3,width-40));
+            holder.imageView.setVisibility(View.GONE);
+            holder.imageView_l2.setVisibility(View.VISIBLE);
+            //holder.imageView.setLayoutParams(new LinearLayout.LayoutParams(108,80));
 
             String strurlImage = Constants.base_url_category_image + alcatObjSend.get(position).getCategoryId() + ".png";
 
-            if (UtilityMethods.initImageLoaderMCtegoryDeal(CategoryActivity1.this)!=null) {
-                ImageLoader.getInstance().displayImage(strurlImage,holder.imageView,baseImageoptions1);
+            if (baseImageoptions1!=null) {
+                ImageLoader.getInstance().displayImage(strurlImage,holder.imageView_l2,baseImageoptions1);
             }
 
             holder.footer.setText(alcatObjSend.get(position).getCategory());
@@ -356,7 +381,7 @@ public class CategoryActivity1 extends BaseActivity {
                         new GrocermaxBaseException("CategoryActivity","onitemClick",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
                     }
 
-                    /*GA event Tracking for this event*/
+                    *//*GA event Tracking for this event*//*
                     try{
                         UtilityMethods.clickCapture(mContext, "L2", "", alcatObjSend.get(position).getCategory(), "", MySharedPrefs.INSTANCE.getSelectedCity());
                         RocqAnalytics.trackEvent("L2", new ActionProperties("Category", "L2", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",alcatObjSend.get(position).getCategory()));
@@ -370,16 +395,10 @@ public class CategoryActivity1 extends BaseActivity {
         }
         class ViewHolder {
 
-            ImageView imageView;
+            ImageView imageView,imageView_l2;
             TextView footer;
             CardView parentLayout;
         }
 
-    }
-
-
-
-
-
-
+    }*/
 }

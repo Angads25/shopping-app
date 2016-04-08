@@ -39,7 +39,10 @@ public class ProductSorting extends BaseActivity implements View.OnClickListener
             @Override
             public void onClick(View v) {
                 Intent i=new Intent();
-                i.putExtra("condition","");
+                if(comming_from.equals("category"))
+                i.putExtra("condition",CategoryTabs.sort_condition);
+                else
+                i.putExtra("condition",SearchTabs.sort_condition);
                 setResult(RESULT_OK, i);
                 finish();
             }
@@ -252,7 +255,10 @@ public class ProductSorting extends BaseActivity implements View.OnClickListener
     @Override
     public void onBackPressed() {
         Intent i=new Intent();
-        i.putExtra("condition","");
+        if(comming_from.equals("category"))
+            i.putExtra("condition",CategoryTabs.sort_condition);
+        else
+            i.putExtra("condition",SearchTabs.sort_condition);
         setResult(RESULT_OK, i);
         finish();
     }

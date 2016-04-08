@@ -57,13 +57,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_centerHorizontal="true"
-        android:layout_margin="5dp"
+        android:layout_margin="0dp"
         android:layout_weight="4"
-
         android:cacheColorHint="@android:color/transparent"
         android:clipToPadding="false"
         android:divider="@color/app_background"
-        android:dividerHeight="5dp"
+        android:dividerHeight="10dp"
         android:listSelector="@android:color/transparent" />
 
     <LinearLayout

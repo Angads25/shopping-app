@@ -13,6 +13,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -21,6 +22,8 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
@@ -54,6 +57,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.rgretail.grocermax.adapters.AutoCompleteAdapter;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyApi;
 import com.rgretail.grocermax.api.MyReceiverActions;
@@ -249,25 +253,34 @@ public abstract class BaseActivity extends FragmentActivity {
 //				tvHeaderName.setOnClickListener(headerClick);
 			}
 
-//			edtSearch.setOnClickListener(new OnClickListener() {
-//
-//				@Override
-//				public void onClick(View v) {
-//					// TODO Auto-generated method stub
-//					bBack = false;
-//				}
-//			});
+			edtSearch.setOnClickListener(new OnClickListener() {
 
-            /*Point pointSize = new Point();
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					edtSearch.showDropDown();
+				}
+			});
+
+			edtSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+				@Override
+				public void onFocusChange(View v, boolean hasFocus) {
+					if(hasFocus){
+						edtSearch.showDropDown();
+					}
+				}
+			});
+
+            Point pointSize = new Point();
             getWindowManager().getDefaultDisplay().getSize(pointSize);
             edtSearch.setDropDownWidth(pointSize.x);
-            edtSearch.setDropDownVerticalOffset(view.getBaseline());
-            //ArrayAdapter adapter=new ArrayAdapter(mContext,R.layout.listview_element,R.id.name,languages);
-            AutoCompleteAdapter adapter=new AutoCompleteAdapter(BaseActivity.this);
-            edtSearch.setAdapter(adapter);
-            edtSearch.setThreshold(3);*/
+          //  edtSearch.setDropDownVerticalOffset(view.getBaseline()+(view.getHeight()-view.getBaseline()));
+			//edtSearch.setDropDownVerticalOffset(view.getHeight()-(int)edtSearch.getY());
 
 
+            AutoCompleteAdapter adapter=new AutoCompleteAdapter(BaseActivity.this,HomeScreen.autoSuggestList);
+			edtSearch.setAdapter(adapter);
+            edtSearch.setThreshold(1);
 
 
 			edtSearch.setOnEditorActionListener(new OnEditorActionListener() {
@@ -278,7 +291,7 @@ public abstract class BaseActivity extends FragmentActivity {
 
 					if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 						UtilityMethods.hideKeyboardFromContext(BaseActivity.this);
-						goforsearch();
+						goforsearch("");
 					}
 					return false;
 				}
@@ -286,7 +299,24 @@ public abstract class BaseActivity extends FragmentActivity {
 		}catch(Exception e){
 
 		}
+	}
 
+	public void serachFromDropDown(String key){
+
+		//String key = ((TextView) view.findViewById(R.id.product_name)).getText().toString();
+		System.out.println("key = " + key);
+
+		edtSearch.setText(key);
+		goforsearch("true");
+	}
+
+	public int getStatusBarHeight() {
+		int result = 0;
+		int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+		if (resourceId > 0) {
+			result = getResources().getDimensionPixelSize(resourceId);
+		}
+		return result;
 	}
 
 	public void hideHeader(){
@@ -378,7 +408,7 @@ public abstract class BaseActivity extends FragmentActivity {
 					case R.id.imgSearchIcon:
 						// UtilityMethods.hideKeyboard(BaseActivity.this);
 						UtilityMethods.hideKeyboardFromContext(BaseActivity.this);
-						goforsearch();
+						goforsearch("");
 						break;
 					case R.id.imgSearchCloseIcon:
 						showSearchView(false);
@@ -456,7 +486,7 @@ public abstract class BaseActivity extends FragmentActivity {
 			if(data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).size()>0) {
 				String searchText = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0);
 				edtSearch.setText(searchText);
-				goforsearch();
+				goforsearch("");
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);
@@ -466,7 +496,6 @@ public abstract class BaseActivity extends FragmentActivity {
 
 	public void showSearchView(boolean b) {
 		try {
-
 			if (b) {
 				cart_count_txt.setVisibility(View.GONE);
 				icon_header_user.setVisibility(View.GONE);
@@ -495,7 +524,9 @@ public abstract class BaseActivity extends FragmentActivity {
 //			ivSearchHeaderBack.setVisibility(View.GONE);
 				edtSearch.getText().clear();
 
-				if(AppConstants.bBack){}
+				if(AppConstants.bBack){
+
+				}
 				else if(!AppConstants.bBack) {
 					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 					imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
@@ -507,10 +538,28 @@ public abstract class BaseActivity extends FragmentActivity {
 		AppConstants.bBack = false;
 		// UtilityMethods.hideKeyboard(BaseActivity.this);
 		//UtilityMethods.hideKeyboardFromContext(BaseActivity.this);
-
 	}
 
-	public void goforsearch() {
+	public void hideKeyboardBannerClickedForSearch(){
+		try {
+			cart_count_txt.setVisibility(View.VISIBLE);
+			icon_header_user.setVisibility(View.VISIBLE);
+			icon_header_cart.setVisibility(View.VISIBLE);
+			rlSearchLook.setVisibility(View.VISIBLE);
+			llLeftIcon.setVisibility(View.GONE);                   //
+			llLeftIcon1.setVisibility(View.VISIBLE);               //
+			icon_header_search.setVisibility(View.VISIBLE);
+			llSearchLayout.setVisibility(View.GONE);
+			edtSearch.getText().clear();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		AppConstants.bBack = false;
+	}
+
+
+
+	public void goforsearch(String value) {
 		try {
 
 			search_key = edtSearch.getText().toString().trim();
@@ -535,7 +584,7 @@ public abstract class BaseActivity extends FragmentActivity {
 
 				String url = UrlsConstants.SEARCH_PRODUCT + search_key;
 				url = url.replaceAll(" ", "%20");
-				SearchLoader searchLoader  = new SearchLoader(this,search_key);
+				SearchLoader searchLoader  = new SearchLoader(this,search_key,value);
 				searchLoader.execute(url);
 
 				Log.i("SEARCH_REQUEST", "URL::" + url);

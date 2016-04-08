@@ -20,6 +20,7 @@ import com.rgretail.grocermax.bean.OrderReviewBean;
 import com.rgretail.grocermax.bean.PersonalInfo;
 import com.rgretail.grocermax.bean.ProductDetailsListBean;
 import com.rgretail.grocermax.bean.ProductListBean;
+import com.rgretail.grocermax.bean.ShopByDealsBean;
 import com.rgretail.grocermax.bean.Simple;
 import com.rgretail.grocermax.bean.UserDetailBean;
 import com.rgretail.grocermax.bean.WalletTranactionList;
@@ -77,6 +78,7 @@ public class ConnectionServiceParser {
         int WALLET_TRANSACTION = 136;
         int TERM_CONDITION = 137;
 		int TOP_PRODUCTS_LIST = 138;
+		int CATEGORY_BANNER = 139;
 	}
 
 	public static BaseResponseBean parseSimpleResponse(String jsonString)
@@ -171,6 +173,17 @@ public class ConnectionServiceParser {
 			new GrocermaxBaseException("ConnectionServiceParser","parseProductResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 		return productListBean;
+	}
+	public static ShopByDealsBean parseCategoryBannerResponse(String jsonString)
+			throws JSONException {
+		ShopByDealsBean shopByDealsBean = null;
+		try{
+			Gson gson = new Gson();
+			shopByDealsBean = gson.fromJson(jsonString,ShopByDealsBean.class);
+		}catch(Exception e){
+			new GrocermaxBaseException("ConnectionServiceParser","parseCategoryBannerResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
+		return shopByDealsBean;
 	}
 
 	public static DealListBean parseDeal(String jsonString)

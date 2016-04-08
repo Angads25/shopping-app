@@ -3,7 +3,6 @@ package com.rgretail.grocermax.hotoffers.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -206,6 +205,7 @@ public class BannerFragment extends Fragment {
 
 
                     } else if (strType.equalsIgnoreCase("search")) {
+
 //                    linkurl = "search?keyword=atta";
                         String strSearch = "";
                         index = linkurl.indexOf("?");
@@ -215,15 +215,10 @@ public class BannerFragment extends Fragment {
 //                            System.out.println("====indexequals is====>>" + strSearch);
                         }
 
-//                    String strAtta = "atta";
-                        System.out.println("====values OF is====" + linkurl);
                         String url = UrlsConstants.BANNER_SEARCH_PRODUCT + linkurl;
                         url = url.replace(" ", "%20");
-//                SearchLoader searchLoader  = new SearchLoader(this,search_key);
-                        SearchLoader searchLoader = new SearchLoader(context, strSearch);
+                        SearchLoader searchLoader = new SearchLoader(context, strSearch,"");
                         searchLoader.execute(url);
-                        Log.i("Banner Through Search", "URL::" + url);
-                        //try{UtilityMethods.clickCapture(context,"","","","",HomeScreen.SCREENNAME+name+"-"+AppConstants.GA_EVENT_SEARCH_LISTING_THROUGH_HOME_BANNER);}catch(Exception e){}
                     } else if (strType.equalsIgnoreCase("offerbydealtype")) {
 //                    http://staging.grocermax.com/api/offerbydealtype?cat_id=2180&version=1.0
                         String strId = "";

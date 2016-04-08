@@ -1,9 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:background="@android:color/transparent">
+
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sub_catg_grid"
+        android:horizontalSpacing="1dp"
+        android:verticalSpacing="1dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+        android:numColumns="4">
+    </GridView>
+
+    <ImageView
+        android:id="@+id/img_topOffer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:onClick="getTopOffers"
+        android:visibility="gone"
+        android:src="@drawable/top_offers"/>
+
+
 
 <android.support.v7.widget.CardView
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -11,12 +36,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_marginTop="8dp"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    card_view:cardCornerRadius="4dp"
-    card_view:cardElevation="2dp"
-    card_view:cardUseCompatPadding="true"
+    android:layout_marginTop="0dp"
+    card_view:cardCornerRadius="0dp"
+    card_view:cardElevation="0dp"
+    card_view:cardUseCompatPadding="false"
     android:background="@color/white">
 
 
@@ -61,6 +84,7 @@
                             android:id="@+id/product_image"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:clickable="false"
                             android:src="@drawable/product_placeholder" />
 
                         <!--   android:scaleType="fitCenter"  -->
@@ -115,7 +139,7 @@
                                     android:layout_alignParentRight="true"
                                     android:gravity="center"
                                     android:text="1"
-                                    android:textColor="#e5390e"
+                                    android:textColor="@color/pallete_blue"
                                     android:textSize="@dimen/text_size_11"
                                     android:visibility="visible" />
 
@@ -130,7 +154,7 @@
                             android:layout_below="@+id/product_brand"
 
                             android:singleLine="true"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginTop="2dp"
                             android:text="product name"
                             android:textColor="@color/pallete_black"
                             android:textSize="14dp" />
@@ -143,9 +167,9 @@
 
                             android:singleLine="true"
                             android:text="quantity"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginTop="2dp"
 
-                            android:textColor="@color/light_Gray"
+                            android:textColor="@color/pallete_black"
                             android:textSize="14dp" />
 
                         <!--<TextView
@@ -194,7 +218,7 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
                                 android:id="@+id/calculation_top"
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="2dp"
                                 >
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -232,7 +256,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="discounted rate"
-                                    android:textColor="@color/pallete_black"
+                                    android:textColor="@color/light_Gray"
                                     android:id="@+id/amount"
                                     android:textSize="14dp"/>
                             </LinearLayout>
@@ -318,30 +342,25 @@
                                     android:id="@+id/sub_level"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    android:gravity="right"
                                     android:visibility="visible"
-                                    android:layout_marginTop="5dp"
+                                    android:paddingBottom="10dp"
+                                    android:paddingRight="5dp"
                                     >
 
 
                                     <LinearLayout
                                         android:layout_width="wrap_content"
-                                        android:layout_height="@dimen/plus_minus_buttons"
+                                        android:layout_height="wrap_content"
                                         android:orientation="horizontal"
-                                        android:background="@drawable/shape_grey_border"
-                                        android:layout_marginRight="5dp"
-                                        android:layout_alignParentLeft="true" >
+                                        android:layout_alignParentLeft="true"
+                                        android:layout_alignParentBottom="true">
 
                                         <ImageView
                                             android:id="@+id/decrease_quantity"
                                             android:layout_width="30dp"
-                                            android:layout_height="match_parent"
-                                            android:layout_alignParentBottom="true"
-                                            android:layout_toLeftOf="@+id/view2"
-                                            android:src="@drawable/minus_icon_pl"
-                                            android:padding="8dp"
+                                            android:layout_height="30dp"
+                                            android:src="@drawable/minus_icon_without_shadow"
                                             android:visibility="visible"
-                                            android:background="@drawable/shape_grey_border_withfillcolor_without_right"
                                             />
 
                                         <View
@@ -355,10 +374,9 @@
                                         <TextView
                                             android:id="@+id/quantity"
                                             android:layout_width="35dp"
-                                            android:layout_height="40dp"
+                                            android:layout_height="match_parent"
                                             android:layout_centerHorizontal="true"
                                             android:layout_gravity="center_vertical"
-                                            android:layout_toLeftOf="@+id/view3"
                                             android:gravity="center"
                                             android:text="1"
                                             android:textColor="@color/pallete_black"
@@ -376,32 +394,26 @@
 
                                         <ImageView
                                             android:id="@+id/increase_quantity"
-                                            android:padding="8dp"
                                             android:layout_width="30dp"
-                                            android:layout_height="match_parent"
-                                            android:layout_alignParentBottom="true"
-                                            android:layout_toLeftOf="@+id/add_cart_prod_list"
-                                            android:contentDescription=""
-                                            android:src="@drawable/plus_grey"
+                                            android:layout_height="30dp"
+                                            android:src="@drawable/add_icon_without_shadow"
                                             android:visibility="visible"
-                                            android:background="@drawable/shape_grey_border_withfillcolor_without_left"
                                             />
 
                                     </LinearLayout>
 
                                     <TextView
                                         android:id="@+id/add_cart_prod_list"
-                                        android:layout_width="60dp"
-                                        android:layout_height="@dimen/plus_minus_buttons"
-                                        android:text="Add"
-                                        android:textAllCaps="true"
-                                        android:visibility="gone"
-                                        android:gravity="center"
+                                        android:layout_width="80dp"
+                                        android:layout_height="30dp"
+                                        android:text=""
+                                        android:padding="15dp"
+                                        android:visibility="visible"
                                         android:textColor="@color/white"
-                                        android:textSize="@dimen/text_size_16"
-                                        android:background="@drawable/blue_rounded"
+                                        android:background="@drawable/add"
                                         android:layout_alignParentRight="true"
-                                        android:layout_alignParentEnd="true" />
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_alignParentBottom="true"/>
 
 
                                 </RelativeLayout>
@@ -449,17 +461,28 @@
             android:textColor="@android:color/black"
             android:visibility="gone"
             android:layout_centerInParent="true" />
+
     </RelativeLayout>
+
 </android.support.v7.widget.CardView>
+
+   <!-- <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:visibility="gone"
+        android:background="@color/white">-->
 
     <ImageView
         android:id="@+id/img_show_more"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
         android:visibility="gone"
-        android:layout_below="@+id/card_view"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="-15dp"
+        android:layout_gravity="center"
+        android:background="@color/white"
         android:src="@drawable/view_more" />
+  <!--  </LinearLayout>-->
 
-</RelativeLayout>
+</LinearLayout>

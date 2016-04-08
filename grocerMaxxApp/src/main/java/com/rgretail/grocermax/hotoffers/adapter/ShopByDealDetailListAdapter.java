@@ -166,10 +166,10 @@ public class ShopByDealDetailListAdapter extends BaseAdapter{
 
                 if(Integer.parseInt(obj.getProduct_count())>1){
                     holder.img_show_more.setVisibility(View.VISIBLE);
-                    holder.card_view.setCardElevation(0);
+                   // holder.card_view.setCardElevation(8);
                 }else{
                     holder.img_show_more.setVisibility(View.GONE);
-                    holder.card_view.setCardElevation(3);
+                    //holder.card_view.setCardElevation(3);
                 }
 
                 holder.img_show_more.setOnClickListener(new View.OnClickListener() {
@@ -185,6 +185,9 @@ public class ShopByDealDetailListAdapter extends BaseAdapter{
 
                         if(context instanceof HomeScreen)
                         ((HomeScreen) context).isFromFragment = true;
+                        else
+                        HomeScreen.isFromFragment = false;
+
 
                 /*Tracking GA event for Offer click from Drawer->Shop By Deat Type*/
                         try{

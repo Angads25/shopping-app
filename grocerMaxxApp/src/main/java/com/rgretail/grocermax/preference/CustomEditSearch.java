@@ -3,7 +3,6 @@ package com.rgretail.grocermax.preference;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
-import android.widget.AutoCompleteTextView;
 
 import com.rgretail.grocermax.utils.AppConstants;
 
@@ -12,7 +11,7 @@ import com.rgretail.grocermax.utils.AppConstants;
 /**
  * Created by Abhishek on 9/30/2015.
  */
-public class CustomEditSearch extends AutoCompleteTextView {
+public class CustomEditSearch extends InstantAutoComplete {
 
     //The image we are going to use for the Clear button
 //    private Drawable imgCloseButton = getResources().getDrawable(R.drawable.clear_button_image);

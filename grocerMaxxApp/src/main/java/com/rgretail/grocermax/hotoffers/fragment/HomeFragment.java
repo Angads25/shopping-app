@@ -253,8 +253,6 @@ public class HomeFragment extends Fragment {
         recyclerView1.setLayoutManager(llm);
         catg_grid.setAdapter(shopByCategoryListAdapter1);
         setGridViewHeightBasedOnChildren(catg_grid, 3);
-        setGridViewHeightBasedOnChildren(catg_grid, 3);
-
 
         recyclerView2 = (RecyclerView) view.findViewById(R.id.recyclerView2);
         ShopBySpecialDealsListAdapter shopBySpecialDealsListAdapter = new ShopBySpecialDealsListAdapter(getActivity(), this);

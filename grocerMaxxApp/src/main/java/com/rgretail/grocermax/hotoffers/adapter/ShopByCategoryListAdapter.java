@@ -43,7 +43,7 @@ public class ShopByCategoryListAdapter extends BaseAdapter {
         this.fragment = fragment;
         this.activity = activity;
 //        ((BaseActivity) activity).initImageLoaderM();
-        baseImageoptions=UtilityMethods.initImageLoaderMCtegoryDeal(context);
+        baseImageoptions=UtilityMethods.initImageLoaderMCtegoryDeal(context,R.drawable.placeholder_home);
     }
 
 
@@ -81,11 +81,12 @@ public class ShopByCategoryListAdapter extends BaseAdapter {
             itemView = mInflater.inflate(R.layout.catg_list_home, null);
             holder = new ViewHolder();
             holder.imageView = (ImageView) itemView.findViewById(R.id.img);
+            holder.imageView_l2 = (ImageView) itemView.findViewById(R.id.img_l2);
             holder.footer = (TextView) itemView.findViewById(R.id.footer);
             holder.parentLayout = (CardView) itemView.findViewById(R.id.layoutParent);
             holder.imageView.setImageResource(R.drawable.cancel_icon);
 
-            Typeface type = Typeface.createFromAsset(activity.getAssets(), "Gotham-Book.ttf");
+            Typeface type = Typeface.createFromAsset(activity.getAssets(), "Gotham-Medium.ttf");
             holder.footer.setTypeface(type);
 
             holder.parentLayout.setShadowPadding(0, 0, 0, 0);
@@ -98,16 +99,21 @@ public class ShopByCategoryListAdapter extends BaseAdapter {
         Display display = context.getWindowManager().getDefaultDisplay();
         int width = display.getWidth();
          width=width/3;
+        holder.imageView.setVisibility(View.VISIBLE);
+        holder.imageView_l2.setVisibility(View.GONE);
         //itemView.setLayoutParams(new LinearLayout.LayoutParams(width-2,width-40));
-        //holder.imageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,width-40));
 
-        if (baseImageoptions!=null) {
-            ImageLoader.getInstance().displayImage(data.get(position).getImages(),
-                    holder.imageView, baseImageoptions);
+        //holder.imageView.setLayoutParams(new LinearLayout.LayoutParams(120,96));
+
+        try {
+            if (baseImageoptions!=null) {
+                ImageLoader.getInstance().displayImage(data.get(position).getImages(),holder.imageView, baseImageoptions);
+            }
+
+            holder.footer.setText(data.get(position).getName());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        holder.footer.setText(data.get(position).getName());
-
 
 
         itemView.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +144,7 @@ public class ShopByCategoryListAdapter extends BaseAdapter {
 
      static class ViewHolder {
 
-        ImageView imageView;
+        ImageView imageView,imageView_l2;
         TextView footer;
         CardView parentLayout;
     }

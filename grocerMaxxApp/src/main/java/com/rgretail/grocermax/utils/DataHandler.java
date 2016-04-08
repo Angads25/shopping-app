@@ -7,11 +7,14 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.rgretail.grocermax.bean.Product;
 import com.rgretail.grocermax.utils.Constants.DatabaseConstant;
+
+import java.util.ArrayList;
 
 public class DataHandler {
 
-	public static final int Version = 2;
+	public static final int Version = 7;
 
 	private static final String createTableMessageAlert = "create table if not exists "
 			+ DatabaseConstant.T_MESSAGE_FREQUENCY
@@ -19,6 +22,18 @@ public class DataHandler {
 			+ DatabaseConstant.C_MSG_ID
 			+ " text, "
 			+ DatabaseConstant.C_MSG_TIME + " text" + ");";
+
+
+	private static final String createTableSearchKeyword = "create table if not exists "
+			+ DatabaseConstant.T_SEARCH_KEYWORD
+			+ "("
+			+ DatabaseConstant.C_KEYWORD_ID
+			+ " text, "
+			+ DatabaseConstant.C_KEYWORD
+			+ " text primary key, "
+			+ DatabaseConstant.C_KEYWORD_STATUS + " text" + ");";
+
+
 
 	Context ctx;
 	DataBaseHelper dhelper;
@@ -50,6 +65,7 @@ public class DataHandler {
 			try {
 				try {
 					db.execSQL("drop table "+ DatabaseConstant.T_MESSAGE_FREQUENCY);
+					db.execSQL("drop table "+ DatabaseConstant.T_SEARCH_KEYWORD);
 				} catch (Exception e) {
 
 				}
@@ -67,6 +83,7 @@ public class DataHandler {
 
 		void createDb(SQLiteDatabase db) {
 			db.execSQL(createTableMessageAlert);
+			db.execSQL(createTableSearchKeyword);
 		}
 
 	}
@@ -81,7 +98,7 @@ public class DataHandler {
 	}
 
     public void insertDataInTable(String table,ContentValues contentValues){
-        db.insert(table,null,contentValues);
+        db.insert(table, null, contentValues);
     }
 
     public Cursor getMessageFrequencyBasedOnMessageId(String message_id){
@@ -93,6 +110,30 @@ public class DataHandler {
         String updateQuery="update "+DatabaseConstant.T_MESSAGE_FREQUENCY+" set "+DatabaseConstant.C_MSG_TIME+"= '"+time+"' where "+DatabaseConstant.C_MSG_ID+" ='"+message_id+"'";
         db.execSQL(updateQuery);
     }
+
+	public ArrayList<Product>  getAllSearchKeys(){
+		ArrayList<Product> manuallSuggestList=new ArrayList<>();
+		Cursor cr=db.rawQuery("select * from "+DatabaseConstant.T_SEARCH_KEYWORD+" order by "+DatabaseConstant.C_KEYWORD_STATUS+" desc",null);
+		while(cr.moveToNext()){
+			Product p=new Product(cr.getString(cr.getColumnIndex(DatabaseConstant.C_KEYWORD)));
+			manuallSuggestList.add(p);
+		}
+		return  manuallSuggestList;
+	}
+
+	public void insertDataInSearch(String table,ContentValues contentValues){
+		try {
+			//db.insertWithOnConflict(table,null,contentValues,SQLiteDatabase.CONFLICT_IGNORE); // 5 for INSERT OR REPLACE in sqlite library
+			//db.insertOrThrow(table, null, contentValues);
+			db.insert(table,null,contentValues);
+		} catch (SQLException e) {
+
+		}
+	}
+
+
+
+
 
 
 }

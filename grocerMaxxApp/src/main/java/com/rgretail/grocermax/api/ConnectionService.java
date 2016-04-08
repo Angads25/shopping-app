@@ -635,6 +635,10 @@ public class ConnectionService extends IntentService {
 					bundle.putSerializable(RESPONSE,
 							(Serializable) ConnectionServiceParser.parseProductResponse(response));
 					break;
+				case MyParserType.CATEGORY_BANNER:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) ConnectionServiceParser.parseCategoryBannerResponse(response));
+					break;
                 case MyParserType.TERM_CONDITION:
                     bundle.putSerializable(RESPONSE,
                             (Serializable) response);

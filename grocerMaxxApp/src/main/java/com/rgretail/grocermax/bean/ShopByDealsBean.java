@@ -11,12 +11,20 @@ public class ShopByDealsBean implements Serializable{
     public String Result, flag;
     public ArrayList<ShopByDealModel> deal_type = new ArrayList<>();
     public ArrayList<ShopByDealModel> specialdeal = new ArrayList<>();
+    public ArrayList<ShopByDealModel> subcategorybanner = new ArrayList<>();
 
     public String name;
     public String linkurl;
     public String imageurl;
 
 
+    public ArrayList<ShopByDealModel> getSubcategorybanner() {
+        return subcategorybanner;
+    }
+
+    public void setSubcategorybanner(ArrayList<ShopByDealModel> subcategorybanner) {
+        this.subcategorybanner = subcategorybanner;
+    }
 
     public String getName() {
         return name;

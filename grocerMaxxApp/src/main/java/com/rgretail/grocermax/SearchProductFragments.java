@@ -10,12 +10,12 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.melnykov.fab.FloatingActionButton;
 import com.rgretail.grocermax.adapters.ProductListAdapter;
 import com.rgretail.grocermax.bean.Product;
 import com.rgretail.grocermax.bean.ProductListBean;
@@ -145,7 +145,8 @@ public final class SearchProductFragments extends Fragment implements OnScrollLi
 		});
 		mList.setOnScrollListener(this);
 
-			FloatingActionButton fab = (FloatingActionButton)view.findViewById(R.id.fab);
+			//FloatingActionButton fab = (FloatingActionButton)view.findViewById(R.id.fab);
+			ImageView fab = (ImageView)view.findViewById(R.id.fab);
 			fab.setOnClickListener(new View.OnClickListener() {
 
 				@Override

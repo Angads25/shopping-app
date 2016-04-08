@@ -56,8 +56,16 @@ public class ShopByDealItemDetailFragment extends Fragment {
 
         Bundle data = getArguments();
         //((HomeScreen) getActivity()).isFromFragment = true;
-        HomeScreen.isFromFragment = true;
-        HomeScreen.bFromHome = false;
+        if(getActivity() instanceof HomeScreen){
+            ((HomeScreen) getActivity()).isFromFragment = true;
+            HomeScreen.bFromHome = false;
+        }
+        else{
+           HomeScreen.isFromFragment = false;
+            HomeScreen.bFromHome = true;
+        }
+
+
         try {
 
             ((BaseActivity) getActivity()).initHeader(getActivity().findViewById(R.id.header_left), true, AppConstants.strTitleHotDeal);
@@ -65,6 +73,7 @@ public class ShopByDealItemDetailFragment extends Fragment {
             ((BaseActivity) getActivity()).findViewById(R.id.header).setVisibility(View.GONE);
 
             is_shop_by_deal = data.getBoolean(Constants.SHOP_BY_DEAL);
+            System.out.println("is_shop_by_deal = " + is_shop_by_deal);
             if (is_shop_by_deal) {
                 dealByDealTypeBean = (DealByDealTypeBean) data.getSerializable(Constants.DEAL_BY_DEAL);
                 dealcategory = new HashMap<>();
@@ -72,9 +81,14 @@ public class ShopByDealItemDetailFragment extends Fragment {
                 if(dealByDealTypeBean.getDealcategory().getCategory().size()>0)
                 {
                     for (OfferByDealTypeSubModel dataValue : dealByDealTypeBean.getDealcategory().getCategory()) {
-                                keyList.add(dataValue.getName());
-                                dealcategory.put(dataValue.getName(),dataValue.getDeals());
-                            }
+                        if (dataValue.getName()!=null) {
+                            keyList.add(dataValue.getName());
+                            dealcategory.put(dataValue.getName(),dataValue.getDeals());
+                        } else {
+                            keyList.add("Deal");
+                            dealcategory.put("Deal",dataValue.getDeals());
+                        }
+                    }
                 }
 
 

@@ -67,6 +67,11 @@ public class CategoryOffer extends BaseActivity {
         data.putSerializable(Constants.DEAL_BY_DEAL, dealByDealTypeBean);
         fragment.setArguments(data);
         fragmentTransaction.commit();
+
+
+        initHeader(findViewById(R.id.header_left), true, AppConstants.strTitleHotDeal);
+        findViewById(R.id.header_left).setVisibility(View.VISIBLE);
+        findViewById(R.id.header).setVisibility(View.GONE);
     }
 
     public void hitForDealsByDeals(String dealId) {            //responsible for clicking of [shop by deals -> ShopByDealItemDetailFragment -> DealListScreen]

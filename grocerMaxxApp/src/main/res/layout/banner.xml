@@ -14,6 +14,6 @@
             android:layout_height="160dp"
             android:scaleType="fitXY"
             android:layout_gravity="center"
-            android:src="@drawable/page1"/>
+            android:src="@drawable/cat_deal_detail_holder"/>
 
 </LinearLayout>

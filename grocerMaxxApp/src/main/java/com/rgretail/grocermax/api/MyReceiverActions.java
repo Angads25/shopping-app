@@ -108,4 +108,5 @@ public interface MyReceiverActions {
     String TERM_CONDITION = PKG_NAME + ".term_condition";
 
 	String TOP_PRODUCTS_LIST= PKG_NAME + ".top_product_list";
+	String CATEGORY_BANNER= PKG_NAME + ".category_banner";
 }

@@ -3,14 +3,14 @@
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ececec" >
+    android:background="@color/app_background" >
 
     <LinearLayout
         android:id="@+id/main_lay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:orientation="vertical" >
@@ -21,6 +21,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:divider="@color/app_background"
+            android:dividerHeight="10dp"
             android:fadingEdge="none"
             android:listSelector="@android:color/transparent" />
 
@@ -47,18 +48,26 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" />
 
-    <com.melnykov.fab.FloatingActionButton
+    <!--<com.melnykov.fab.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:src="@drawable/fab"
-        fab:fab_colorNormal="#FF4081"
-        fab:fab_colorPressed="#C2185B"
-        fab:fab_colorRipple="#F06292"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:visibility="visible" />-->
+    <ImageView
+        android:id="@+id/fab"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/fab"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:visibility="visible" />
+
 
 </RelativeLayout>

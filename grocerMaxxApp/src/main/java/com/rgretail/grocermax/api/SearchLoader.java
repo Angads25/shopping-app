@@ -1,9 +1,21 @@
 package com.rgretail.grocermax.api;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import android.app.Activity;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
+
+import com.rgretail.grocermax.BaseActivity;
+import com.rgretail.grocermax.R;
+import com.rgretail.grocermax.SearchTabs;
+import com.rgretail.grocermax.exception.GrocermaxBaseException;
+import com.rgretail.grocermax.preference.MySharedPrefs;
+import com.rgretail.grocermax.utils.AppConstants;
+import com.rgretail.grocermax.utils.Constants;
+import com.rgretail.grocermax.utils.DataHandler;
+import com.rgretail.grocermax.utils.MyHttpUtils;
+import com.rgretail.grocermax.utils.UtilityMethods;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -15,20 +27,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
-
-import com.rgretail.grocermax.BaseActivity;
-
-import com.rgretail.grocermax.R;
-import com.rgretail.grocermax.SearchTabs;
-import com.rgretail.grocermax.exception.GrocermaxBaseException;
-import com.rgretail.grocermax.preference.MySharedPrefs;
-import com.rgretail.grocermax.utils.AppConstants;
-import com.rgretail.grocermax.utils.MyHttpUtils;
-import com.rgretail.grocermax.utils.UtilityMethods;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class SearchLoader extends AsyncTask<String, String, String> {
 	Context context;
@@ -61,12 +63,14 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 	private final String TAG_PROD_CAT_ID = "categoryid";
 
 	private String searchKey;
+	private String insertSearchKey;
 
 	private Activity activity;
-	public SearchLoader(Context context,String search_key){
+	public SearchLoader(Context context,String search_key,String value){
 		this.context = context;
 		this.searchKey = search_key;
 		this.activity = activity;
+		this.insertSearchKey=value;
 	}
 
 	@Override
@@ -283,11 +287,25 @@ public class SearchLoader extends AsyncTask<String, String, String> {
 //				}
 
 //		UtilityMethods.getInstance().dismissDialog();
-			((BaseActivity)context).dismissDialog();
+			if (insertSearchKey.equals("")) {
+				try {
+                    DataHandler db=new DataHandler(context);
+                    db.Open();
+                    ContentValues values=new ContentValues();
+                    values.put(Constants.DatabaseConstant.C_KEYWORD,searchKey);
+                    values.put(Constants.DatabaseConstant.C_KEYWORD_STATUS, "2");
+                    db.insertDataInSearch(Constants.DatabaseConstant.T_SEARCH_KEYWORD,values);
+                    db.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+			}
+			((BaseActivity) context).dismissDialog();
 		if (UtilityMethods.getCurrentClassName(context).equals(context.getPackageName() + ".SearchTabs")) {
 			((SearchTabs)context).finish();
 		}else{
-			((BaseActivity) context).showSearchView(false);
+			//((BaseActivity) context).showSearchView(false);
+			((BaseActivity) context).hideKeyboardBannerClickedForSearch();
 		}
     	Intent call = new Intent(context, SearchTabs.class);
 		call.putExtra("SEARCHSTRING", searchKey);

@@ -131,6 +131,18 @@ public class MyApi {
 			new GrocermaxBaseException("MyApi","reqTopProductList",e.getMessage(), GrocermaxBaseException.EXCEPTION,url);
 		}
 	}
+	public void reqCategoryBanner(String url) {
+		try{
+			Intent reqIntent = new Intent(m_context, ConnectionService.class);
+			reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.CATEGORY_BANNER);
+			reqIntent.putExtra(ConnectionService.URL, url);
+			reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+			reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.CATEGORY_BANNER);
+			m_context.startService(reqIntent);
+		}catch(Exception e){
+			new GrocermaxBaseException("MyApi","reqCategoryBanner",e.getMessage(), GrocermaxBaseException.EXCEPTION,url);
+		}
+	}
     public void reqTermAndCondition(String url) {
         try{
             Intent reqIntent = new Intent(m_context, ConnectionService.class);

@@ -5,8 +5,33 @@
     android:orientation="vertical"
     android:background="@color/app_background">
 
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sub_catg_grid"
+        android:horizontalSpacing="1dp"
+        android:verticalSpacing="1dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="12dp"
+        android:visibility="gone"
+        android:numColumns="3">
+    </GridView>
 
-    <LinearLayout
+   <!-- <ImageView
+        android:id="@+id/img_topOffer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:onClick="getTopOffers"
+        android:visibility="gone"
+        android:src="@drawable/top_offers"/>
+-->
+
+
+
+   <!-- <LinearLayout
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -15,35 +40,57 @@
         android:layout_marginTop="8dp"
         android:background="@android:color/white">
 
-<!--        <android.support.v7.widget.CardView
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/layoutParent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/white"
-            android:layout_margin="5dp"
-            card_view:cardCornerRadius="2dp" >   -->
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="160dp"
                 android:orientation="vertical" >
 
                 <ImageView
                     android:id="@+id/img"
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
+                    android:layout_height="match_parent"
                     android:scaleType="fitXY"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/cat_deal_detail_holder" />
+                    android:src="@drawable/icon_offers" />
 
 
             </LinearLayout>
 
-<!--        </android.support.v7.widget.CardView>  -->
+    </LinearLayout>-->
 
 
-    </LinearLayout>
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/white">
+
+        <!--  android:background="#f9e0dd"  -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:orientation="vertical"
+            android:background="@android:color/white">
+
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/cat_deals_holder" />
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+
+
 
 </LinearLayout>

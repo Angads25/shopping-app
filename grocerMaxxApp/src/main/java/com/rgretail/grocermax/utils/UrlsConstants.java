@@ -53,7 +53,7 @@ public class UrlsConstants {
     public final static String NEW_BASE_URL = "http://qa.grocermax.com/api/";
 
     //public final static String BASE_URL = "https://multistore.grocermax.com/api/";
-   // public final static String NEW_BASE_URL = "https://multistore.grocermax.com/api/";
+    //public final static String NEW_BASE_URL = "https://multistore.grocermax.com/api/";
 
 
     //public final static String BASE_URL = "http://staging.grocermax.com/api/";
@@ -83,6 +83,9 @@ public class UrlsConstants {
 			+ "rootcategoryproduct?cat_id=";
 	/*public final static String TOP_PRODUCT_URL = NEW_BASE_URL
 			+ "productlist?cat_id=";*/
+
+	public final static String CATG_BANNER_URL = NEW_BASE_URL
+			+ "subcategorybanner?cat_id=";
 
     public final static String TERM_AND_CONDITION = NEW_BASE_URL
             + "termandcondition";

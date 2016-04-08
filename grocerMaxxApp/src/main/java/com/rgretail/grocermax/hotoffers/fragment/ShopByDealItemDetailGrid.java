@@ -42,7 +42,10 @@ public class ShopByDealItemDetailGrid extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        HomeScreen.bFromHome = false;
+        if(getActivity() instanceof HomeScreen)
+         HomeScreen.bFromHome = false;
+        else
+         HomeScreen.bFromHome = true;
 
         View view = inflater.inflate(R.layout.item_grid, container, false);
         //recyclerView = (RecyclerView) view.findViewById(R.id.gridView);

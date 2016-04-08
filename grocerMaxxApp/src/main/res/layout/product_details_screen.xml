@@ -155,7 +155,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="0dp"
                     android:layout_toRightOf="@+id/product_image">
 
                     //TODO wire these calculations
@@ -164,6 +164,7 @@
                         android:id="@+id/ll_calculation_top"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
                         android:orientation="horizontal">
 
                         <TextView
@@ -171,6 +172,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="1"
+                            android:visibility="gone"
                             android:textSize="@dimen/text_size_14" />
 
                         <TextView
@@ -179,6 +181,7 @@
                             android:layout_marginLeft="2dp"
                             android:layout_marginRight="2dp"
                             android:text="x"
+                            android:visibility="gone"
                             android:textAllCaps="true"
                             android:textSize="@dimen/text_size_14" />
 
@@ -187,6 +190,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="price"
+                            android:textColor="@color/primaryColor"
                             android:textSize="@dimen/text_size_14" />
 
                         <TextView
@@ -202,7 +206,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="discounted rate"
-                            android:textColor="@color/primaryColor"
+                            android:textColor="@color/light_Gray"
                             android:textSize="@dimen/text_size_14" />
 
                     </LinearLayout>
@@ -326,24 +330,24 @@
                             android:visibility="visible" />
 -->
                         <LinearLayout
+                            android:id="@+id/add_remove1"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/plus_minus_buttons"
                             android:orientation="horizontal"
-                            android:background="@drawable/shape_grey_border"
                             android:layout_marginRight="5dp"
+                            android:gravity="center_vertical"
+                            android:layout_alignParentBottom="true"
                             android:layout_alignParentLeft="true"
                             >
 
                             <ImageView
                                 android:id="@+id/decrease_quantity"
                                 android:layout_width="30dp"
-                                android:layout_height="match_parent"
+                                android:layout_height="30dp"
                                 android:layout_alignParentBottom="true"
                                 android:layout_toLeftOf="@+id/view2"
-                                android:src="@drawable/minus_icon_pl"
+                                android:src="@drawable/minus_icon_without_shadow"
                                 android:visibility="visible"
-                                android:padding="8dp"
-                                android:background="@drawable/shape_grey_border_withfillcolor_without_right"
                                 />
 
                             <View
@@ -377,15 +381,13 @@
 
                             <ImageView
                                 android:id="@+id/increase_quantity"
-                                android:padding="8dp"
                                 android:layout_width="30dp"
-                                android:layout_height="match_parent"
+                                android:layout_height="30dp"
                                 android:layout_alignParentBottom="true"
                                 android:layout_toLeftOf="@+id/add_cart_prod_list"
                                 android:contentDescription=""
-                                android:src="@drawable/plus_grey"
+                                android:src="@drawable/add_icon_without_shadow"
                                 android:visibility="visible"
-                                android:background="@drawable/shape_grey_border_withfillcolor_without_left"
                                 />
 
                         </LinearLayout>
@@ -396,15 +398,13 @@
 
                     <Button
                         android:id="@+id/add_cart"
-                        android:layout_width="60dp"
-                        android:layout_height="@dimen/plus_minus_buttons"
-                        android:text="Add"
-                        android:textAllCaps="true"
-                        android:gravity="center"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:text=""
+                        android:layout_marginBottom="3dp"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_16"
-                        android:layout_alignParentBottom="true"
-                        android:background="@drawable/blue_rounded"
+                        android:layout_alignBottom="@+id/llplusminus"
+                        android:background="@drawable/add"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true" />
 

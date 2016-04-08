@@ -47,6 +47,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.process.BitmapProcessor;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.LoginActivity;
 import com.rgretail.grocermax.R;
@@ -205,7 +206,7 @@ public class UtilityMethods {
 	}
 
 	public static void hideKeyboardFromContext(Context mContext) {
-		InputMethodManager inputManager = (InputMethodManager) mContext
+        InputMethodManager inputManager = (InputMethodManager) mContext
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 
 		// check if no view has focus:
@@ -423,7 +424,7 @@ public class UtilityMethods {
                     try {
                         String url = UrlsConstants.SEARCH_PRODUCT + buttonArray.getJSONObject(arrayPosition).getString("page");
                         url = url.replaceAll(" ", "%20");
-                        SearchLoader searchLoader  = new SearchLoader(ctx,buttonArray.getJSONObject(arrayPosition).getString("page"));
+                        SearchLoader searchLoader  = new SearchLoader(ctx,buttonArray.getJSONObject(arrayPosition).getString("page"),"");
                         searchLoader.execute(url);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -1150,7 +1151,9 @@ public class UtilityMethods {
 				if(jsonObject.getString("urlImg") != null) {
 					Constants.base_url_category_image = jsonObject.getString("urlImg");
 				}
-			}catch(Exception e){}
+			}catch(Exception e){
+                e.printStackTrace();
+            }
 
 			jsonObject=jsonObject.getJSONObject(ListConstant.TAG_CATEGORY).getJSONArray("children").getJSONObject(0);
 
@@ -1252,8 +1255,9 @@ public class UtilityMethods {
 				}
 				category.add(categoryOb);
 			}
-		} catch (JSONException e) {
-		}
+		} catch (Exception e) {
+            e.printStackTrace();
+        }
 		return category;
 	}
 	
@@ -1618,13 +1622,14 @@ public class UtilityMethods {
 //	}
 
 
-    public static DisplayImageOptions initImageLoaderMCtegoryDeal(Context context) {
+    public static DisplayImageOptions initImageLoaderMCtegoryDeal(Context context,int icon) {
         DisplayImageOptions  baseImageoptions=null;
         try {
               baseImageoptions = new DisplayImageOptions.Builder()
-                    .showImageOnLoading(R.drawable.wallet_image)
-                    .showImageForEmptyUri(R.drawable.wallet_image)
-                    .showImageOnFail(R.drawable.wallet_image)
+                    .showImageOnLoading(icon)
+                    .showImageForEmptyUri(icon)
+                    .showImageOnFail(icon)
+
 //					.showImageOnLoading(R.drawable.cat_deals_holder)
 //					.showImageForEmptyUri(R.drawable.cat_deals_holder)
 //					.showImageOnFail(R.drawable.cat_deals_holder)

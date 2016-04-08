@@ -16,6 +16,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/gridView"
         android:background="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:divider="@android:color/transparent"></ListView>
+        android:dividerHeight="10dp"
+        android:divider="@color/app_background"></ListView>
 </LinearLayout>

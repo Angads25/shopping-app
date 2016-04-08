@@ -166,6 +166,8 @@ public class ItemDetailFragment extends Fragment {
 
         @Override
         public int getCount() {
+            if(dealcatListing==null)
+                return 0;
             return dealcatListing.size();
         }
 

@@ -227,15 +227,15 @@
                     <com.rgretail.grocermax.preference.CustomEditSearch
                         android:id="@+id/edtSearch"
                         android:layout_width="0dp"
-                        android:layout_height="35dp"
+                        android:layout_height="50dp"
                         android:layout_weight="1"
                         android:background="@null"
                         android:hint="@string/search_"
                         android:imeOptions="actionSearch"
                         android:singleLine="true"
-                        android:textColor="#ffd0cb"
+                        android:textColor="#ffffff"
                         android:textColorHint="#ffa096"
-                        android:textSize="13sp" />
+                        android:textSize="15sp" />
 
                     <ImageView
                         android:id="@+id/imgSearchIcon"
@@ -261,8 +261,7 @@
                     android:id="@+id/imgMike"
                     android:layout_width="25dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="2dp"
+                    android:layout_marginLeft="10dp"
                     android:src="@drawable/mike" />
             </LinearLayout>
 
@@ -272,6 +271,7 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="42dp"
                 android:layout_toRightOf="@+id/tv"
+                android:visibility="gone"
                 android:background="#ffa096" />
 
             <TextView

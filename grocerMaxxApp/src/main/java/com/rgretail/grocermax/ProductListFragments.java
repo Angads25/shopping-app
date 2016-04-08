@@ -19,7 +19,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.melnykov.fab.FloatingActionButton;
 import com.rgretail.grocermax.adapters.ProductListAdapter;
 import com.rgretail.grocermax.bean.CategoriesProducts;
 import com.rgretail.grocermax.bean.Product;
@@ -164,7 +163,8 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 			});
 			mList.setOnScrollListener(this);
 
-			FloatingActionButton fab = (FloatingActionButton)view.findViewById(R.id.fab);
+			//FloatingActionButton fab = (FloatingActionButton)view.findViewById(R.id.fab);
+			ImageView fab = (ImageView)view.findViewById(R.id.fab);
 			fab.setOnClickListener(new View.OnClickListener() {
 
 				@Override

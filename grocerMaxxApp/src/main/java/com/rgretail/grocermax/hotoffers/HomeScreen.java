@@ -1,6 +1,7 @@
 package com.rgretail.grocermax.hotoffers;
 
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -31,16 +32,17 @@ import com.rgretail.grocermax.bean.DealProductListingBean;
 import com.rgretail.grocermax.bean.HomeBannerBean;
 import com.rgretail.grocermax.bean.OfferByDealTypeBean;
 import com.rgretail.grocermax.bean.OfferByDealTypeModel;
+import com.rgretail.grocermax.bean.Product;
 import com.rgretail.grocermax.bean.ShopByCategoryBean;
 import com.rgretail.grocermax.bean.ShopByDealsBean;
 import com.rgretail.grocermax.hotoffers.fragment.ExpandableMenuFragment;
 import com.rgretail.grocermax.hotoffers.fragment.HomeFragment;
-import com.rgretail.grocermax.hotoffers.fragment.ItemDetailFragment;
 import com.rgretail.grocermax.hotoffers.fragment.MenuFragment;
 import com.rgretail.grocermax.hotoffers.fragment.ShopByDealItemDetailFragment;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
+import com.rgretail.grocermax.utils.DataHandler;
 import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
@@ -74,6 +76,8 @@ public class HomeScreen extends BaseActivity {
     public static boolean bFromHome = false;          //track for home screen(1st level fragment) fragment and deal detail fragment(2nd level fragment)
     public static Context mContext;
     public static String SCREENNAME = "HomeScreen-";
+
+    public static ArrayList<Product> autoSuggestList = new ArrayList<Product>();;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -286,8 +290,38 @@ public class HomeScreen extends BaseActivity {
                     JSONArray jsonDealType = jsonO.getJSONArray("deal_type");
                     JSONArray jsonSpecialDealType = jsonO.getJSONArray("specialdeal");
 
+                     /*for storing search keyword*/
 
-                    JSONObject jsonOCccategory = new JSONObject();                                                                                  //
+                        try {
+                            JSONArray jsonTrendingData = jsonO.getJSONObject("trending").getJSONObject("Result").getJSONArray("data");
+                            DataHandler db=new DataHandler(HomeScreen.this);
+                            db.Open();
+                            ContentValues values;
+                            for(int i=0;i<jsonTrendingData.length();i++) {
+                                values=new ContentValues();
+                                values.put(Constants.DatabaseConstant.C_KEYWORD, jsonTrendingData.getJSONObject(i).getString("name1"));
+                                values.put(Constants.DatabaseConstant.C_KEYWORD_STATUS, "1");
+                                db.insertDataInSearch(Constants.DatabaseConstant.T_SEARCH_KEYWORD, values);
+                            }
+                            db.close();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
+
+                      /*  try {
+
+                            for(int i=0;i<jsonTrendingData.length();i++){
+                                Product p=new Product(jsonTrendingData.getJSONObject(i).getString("name1"));
+                                autoSuggestList.add(p);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }*/
+                        /*--------------------------*/
+
+                        JSONObject jsonOCccategory = new JSONObject();                                                                                  //
                     jsonOCccategory.put("Category", jsonArrayCccategory);                                                                           //
                     ArrayList<CategorySubcategoryBean> categoryi = UtilityMethods.getCategorySubCategory(String.valueOf(jsonOCccategory));          //
 //                    if (!jsonResponse.trim().equals("") && categoryi.size() > 0) {                                                               //
@@ -362,7 +396,7 @@ public class HomeScreen extends BaseActivity {
                                 Bundle bundle2=new Bundle();
                                 String path=intent.getData().toString();
                                 path=path.replace("grocermax://","");
-                                //System.out.println("path=" + path);
+                                System.out.println("path=" + path);
                                 if(path.contains("&")){
                                     String url_title[]=path.split("&");
                                     bundle2.putString("linkurl", url_title[0]);
@@ -477,14 +511,24 @@ public class HomeScreen extends BaseActivity {
                 dismissDialog();
                 System.out.println("RESPONSE OFFER" + bundle.getString("json"));
                 JSONObject jsonObject = new JSONObject(bundle.getString("json"));
-                Gson gson = new Gson();
+                /*Gson gson = new Gson();
                 offerByDealTypeBean = gson.fromJson(jsonObject.toString(), OfferByDealTypeBean.class);
                 ItemDetailFragment fragment = new ItemDetailFragment();
                 Bundle data = new Bundle();
                 data.putBoolean(Constants.SHOP_BY_DEAL, false);
                 data.putSerializable(Constants.OFFER_BY_DEAL, offerByDealTypeBean);
                 fragment.setArguments(data);
+                changeFragment(fragment);*/
+
+                Gson gson = new Gson();
+                dealByDealTypeBean = gson.fromJson(jsonObject.toString(), DealByDealTypeBean.class);
+                ShopByDealItemDetailFragment fragment = new ShopByDealItemDetailFragment();
+                Bundle data = new Bundle();
+                data.putBoolean(Constants.SHOP_BY_DEAL, true);
+                data.putSerializable(Constants.DEAL_BY_DEAL, dealByDealTypeBean);
+                fragment.setArguments(data);
                 changeFragment(fragment);
+
             } else if (action.equals(MyReceiverActions.DEAL_BY_DEALTYPE)) {     //responsible for click of deals [which is showing on shop by deals]
                 dismissDialog();
                 System.out.println("RESPONSE OFFER" + bundle.getString("json"));
@@ -654,7 +698,10 @@ public class HomeScreen extends BaseActivity {
             System.out.println("====values OF is====" + strLinkurl);
             String url = UrlsConstants.BANNER_SEARCH_PRODUCT + strLinkurl;
             url = url.replace(" ", "%20");
-            SearchLoader searchLoader = new SearchLoader(this, strSearch);
+            if(strSearch.contains("&")){
+                strSearch=strSearch.split("&")[0];
+            }
+            SearchLoader searchLoader = new SearchLoader(this, strSearch,"");
             searchLoader.execute(url);
         } else if (strType.equalsIgnoreCase("offerbydealtype")) {
             String strId = "";
@@ -666,6 +713,12 @@ public class HomeScreen extends BaseActivity {
             }
             addActionsInFilter(MyReceiverActions.OFFER_BY_DEALTYPE);
             hitForShopByCategory(strId);
+        } else if(strType.equalsIgnoreCase("productdetail")){
+
+            AppConstants.strPopupData="";
+            showDialog();
+            String url = UrlsConstants.NEW_BASE_URL + strLinkurl;
+            myApi.reqProductDetailFromNotification(url);
         }
     }
 
