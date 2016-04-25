@@ -1221,7 +1221,7 @@ public class ReviewOrderAndPay extends BaseActivity
                     JSONObject walletResponse=new JSONObject(Response);
                     if(walletResponse.getInt("flag")==1){
                         wallet_amount=walletResponse.getDouble("Balance");
-                        if(wallet_amount==0){
+                        if(wallet_amount<=0){
                             //tv_walletAmount.setText("0.00");
                             tv_my_wallet.setText("My Wallet ("+getResources().getString(R.string.Rs)+"0.00)");
                             iv_my_wallet.setVisibility(View.GONE);

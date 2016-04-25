@@ -102,6 +102,8 @@ public class SearchTabs extends BaseActivity{
 			TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
 			if(pager!=null)
 				indicator.setViewPager(pager);
+				System.out.println("idicator count ="+pager.getChildCount());
+			  // indicator.setCurrentItem(3);
 
 //			if (size > 2) {
 //				pager.setOffscreenPageLimit(2);

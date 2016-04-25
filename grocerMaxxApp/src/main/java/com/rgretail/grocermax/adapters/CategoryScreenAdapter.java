@@ -127,17 +127,16 @@ public class CategoryScreenAdapter extends BaseAdapter {
                 holder.card_view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AppConstants.strTitleHotDeal = "";
-                        AppConstants.strTitleHotDeal = obj.getName();
-                        if(!obj.getSku().equals(""))
-                        ((CategoryActivity1) activity).hitForSpecialDealsByDeals(obj.getSku());
+                        try {
+                            AppConstants.strTitleHotDeal = "";
+                            AppConstants.strTitleHotDeal = obj.getName();
+                            if(!obj.getLinkurl().equals(""))
+                            ((CategoryActivity1) activity).hitForSpecialDealsByDeals(obj.getLinkurl());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
-
-
-
-
-
 
             }
 

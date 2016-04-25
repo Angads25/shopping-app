@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_margin="8dp"
-    card_view:cardCornerRadius="4dp"
-    card_view:cardElevation="2dp"
+    android:layout_margin="0dp"
+    card_view:cardCornerRadius="0dp"
+    card_view:cardElevation="0dp"
     card_view:cardUseCompatPadding="true">
 
 
@@ -163,7 +163,7 @@
                     android:singleLine="true"
                     android:text="240 ml"
                     android:textAllCaps="true"
-                    android:textColor="@color/light_Gray"
+                    android:textColor="@color/pallete_black"
                     android:textSize="14dp" />
 
                 <LinearLayout
@@ -178,6 +178,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="qty"
+                        android:textColor="@color/pallete_black"
                         android:textSize="14dp" />
 
                     <TextView
@@ -186,6 +187,7 @@
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
                         android:text="x"
+                        android:textColor="@color/pallete_black"
                         android:textAllCaps="true"
                         android:textSize="14dp" />
 
@@ -194,6 +196,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="price"
+                        android:textColor="@color/pallete_black"
                         android:textSize="14dp" />
 
                     <TextView
@@ -209,7 +212,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="discounted rate"
-                        android:textColor="@color/primaryColor"
+                        android:textColor="@color/light_Gray"
                         android:textSize="14dp" />
 
                 </LinearLayout>
@@ -285,7 +288,7 @@
                         android:layout_toLeftOf="@+id/llplusminus"
                         android:singleLine="true"
                         android:text="Rs. 230"
-                        android:textColor="@color/pallete_black"
+                        android:textColor="@color/primaryColor"
                         android:textSize="14dp" />
 
 
@@ -300,20 +303,17 @@
                         android:layout_height="@dimen/plus_minus_buttons"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="5dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/shape_grey_border"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <ImageView
                             android:id="@+id/decrease_quantity"
                             android:layout_width="30dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="30dp"
                             android:layout_alignParentBottom="true"
                             android:layout_toLeftOf="@+id/view2"
-                            android:background="@drawable/shape_grey_border_withfillcolor_without_right"
-                            android:src="@drawable/minus_icon_pl"
-                            android:padding="8dp"
+                            android:src="@drawable/minus_icon_without_shadow"
                             android:visibility="visible" />
 
                         <View
@@ -350,10 +350,8 @@
                             android:layout_height="match_parent"
                             android:layout_alignParentBottom="true"
                             android:layout_toLeftOf="@+id/add_cart_prod_list"
-                            android:background="@drawable/shape_grey_border_withfillcolor_without_left"
                             android:contentDescription=""
-                            android:padding="8dp"
-                            android:src="@drawable/plus_grey"
+                            android:src="@drawable/add_icon_without_shadow"
                             android:visibility="visible" />
 
                     </LinearLayout>

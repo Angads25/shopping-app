@@ -89,7 +89,7 @@ public class ShopBySpecialDealsListAdapter extends RecyclerView.Adapter<ShopBySp
             public void onClick(View v) {
                 AppConstants.strTitleHotDeal = "";
                 AppConstants.strTitleHotDeal = data.get(position).getName();
-                ((HomeScreen) context).hitForSpecialDealsByDeals(data.get(position).getSku());
+                ((HomeScreen) context).hitForSpecialDealsByDeals(data.get(position).getName(),data.get(position).getLinkurl());
 
                 /*  tracking GA event for click on Shop By Deals from Home screen */
                 try{

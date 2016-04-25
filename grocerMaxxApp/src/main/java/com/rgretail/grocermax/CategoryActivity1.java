@@ -103,7 +103,7 @@ public class CategoryActivity1 extends BaseActivity {
                 }
             }
 
-            initHeader(findViewById(R.id.app_bar_header), false, strCatName);
+            initHeader(findViewById(R.id.app_bar_header), true, strCatName);
 
             lv_catg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -150,6 +150,7 @@ public class CategoryActivity1 extends BaseActivity {
 
         String url = UrlsConstants.PRODUCTLISTING_BY_SPECIAL_DEAL_TYPE;
         showDialog();
+        System.out.println("Url??--"+url + sku);
         myApi.reqProductListingByDealType(url + sku);
     }
 

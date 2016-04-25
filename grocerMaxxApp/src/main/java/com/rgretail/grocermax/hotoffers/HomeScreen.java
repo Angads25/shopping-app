@@ -308,8 +308,6 @@ public class HomeScreen extends BaseActivity {
                             e.printStackTrace();
                         }
 
-
-
                       /*  try {
 
                             for(int i=0;i<jsonTrendingData.length();i++){
@@ -612,12 +610,19 @@ public class HomeScreen extends BaseActivity {
         System.out.println(dealId);
     }
 
-    public void hitForSpecialDealsByDeals(String sku) {            //responsible for clicking of [shop by deals -> ShopByDealItemDetailFragment -> DealListScreen]
+    public void hitForSpecialDealsByDeals(String name,String linkurl) {            //responsible for clicking of [shop by deals -> ShopByDealItemDetailFragment -> DealListScreen]
 
-        String url = UrlsConstants.PRODUCTLISTING_BY_SPECIAL_DEAL_TYPE;
-        showDialog();
-        myApi.reqProductListingByDealType(url + sku);
-        System.out.println(sku);
+        try {
+            System.out.println(name+"---"+linkurl);
+            Bundle bundle2=new Bundle();
+            bundle2.putString("linkurl", linkurl);
+            bundle2.putString("name",name);
+            getNotificationData(bundle2);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void changeFragment(Fragment fragment) {
@@ -685,6 +690,15 @@ public class HomeScreen extends BaseActivity {
             System.out.println("===complete url====" + strUrl + strLinkurl);
         } else if (strType.equalsIgnoreCase("shopbydealtype")) {
 
+
+        }else if (strType.equalsIgnoreCase("specialdeal")) {
+            try {
+                String url = UrlsConstants.PRODUCTLISTING_BY_SPECIAL_DEAL_TYPE;
+                showDialog();
+                myApi.reqProductListingByDealType(url + strLinkurl);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         } else if (strType.equalsIgnoreCase("search")) {
             String strSearch = "";

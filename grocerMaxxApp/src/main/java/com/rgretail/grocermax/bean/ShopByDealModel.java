@@ -9,6 +9,15 @@ public class ShopByDealModel implements Serializable{
     String id,dealType,img;
 
     String name,sku,imageurl;
+    String linkurl;
+
+    public String getLinkurl() {
+        return linkurl;
+    }
+
+    public void setLinkurl(String linkurl) {
+        this.linkurl = linkurl;
+    }
 
     public String getName() {
         return name;

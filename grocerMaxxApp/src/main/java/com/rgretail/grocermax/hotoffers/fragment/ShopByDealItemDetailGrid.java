@@ -59,13 +59,21 @@ public class ShopByDealItemDetailGrid extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(llm);
         lv.setAdapter(optionsListAdapter);
-        optionsListAdapter.setListData(offerList);
+        try {
+            optionsListAdapter.setListData(offerList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ((BaseActivity) getActivity()).showDialog();
-                String url = UrlsConstants.PRODUCT_DETAIL_URL + offerList.get(position).getProductid();
-                ((BaseActivity) getActivity()).myApi.reqProductDetailFromNotification(url);
+                try {
+                    ((BaseActivity) getActivity()).showDialog();
+                    String url = UrlsConstants.PRODUCT_DETAIL_URL + offerList.get(position).getProductid();
+                    ((BaseActivity) getActivity()).myApi.reqProductDetailFromNotification(url);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 

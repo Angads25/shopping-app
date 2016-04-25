@@ -260,6 +260,8 @@ public class CategoryTabs extends BaseActivity {
             if (pager != null)
                 indicator.setViewPager(pager);
 
+            //indicator.setCurrentItem(2);
+
             View headerView = findViewById(R.id.header);
 
             initHeader(headerView, true, strHeader);
@@ -272,7 +274,6 @@ public class CategoryTabs extends BaseActivity {
                 @Override
                 public void onPageSelected(int position) {
                     //indicator.getChildAt(position).getT
-
                     try{
                         String catName=alCategory.get(position % alCategory.size()).getCategory_name();
                         UtilityMethods.clickCapture(activity,"L4","",catName,"",MySharedPrefs.INSTANCE.getSelectedCity());
@@ -280,9 +281,7 @@ public class CategoryTabs extends BaseActivity {
                     }catch(Exception e){
                         e.printStackTrace();
                     }
-
                 }
-
                 @Override
                 public void onPageScrollStateChanged(int state) {
                 }
