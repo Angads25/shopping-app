@@ -3,7 +3,6 @@ package com.rgretail.grocermax;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +23,10 @@ import com.citrus.sdk.ui.utils.ResultModel;
 import com.dq.rocq.RocqAnalytics;
 import com.dq.rocq.models.ActionProperties;
 import com.flurry.android.FlurryAgent;
+import com.mobikwik.sdk.MobikwikSDK;
+import com.mobikwik.sdk.lib.Transaction;
+import com.mobikwik.sdk.lib.TransactionConfiguration;
+import com.mobikwik.sdk.lib.User;
 import com.payu.sdk.Params;
 import com.payu.sdk.PayU;
 import com.payu.sdk.Payment;
@@ -48,7 +51,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -93,8 +95,8 @@ public class ReviewOrderAndPay extends BaseActivity
 	Handler handler = new Handler();
 
     RelativeLayout llOnlinePayment,llCashOnDelivery,llPayTM,llMobiKwik,llCitrus;
-    View view_online_payment,view_paytm,view_citrus;
-    TextView tv_online_payment_offer,tv_paytm_offer,tv_citrus_offer,tv_my_wallet_offer;
+    View view_online_payment,view_paytm,view_citrus,view_mobikwik;
+    TextView tv_online_payment_offer,tv_paytm_offer,tv_citrus_offer,tv_my_wallet_offer,tv_mobikwik_offer;
 
 
     /*declearation for wallet*/
@@ -132,12 +134,14 @@ public class ReviewOrderAndPay extends BaseActivity
              view_online_payment=(View)findViewById(R.id.view_online_payment);
              view_paytm=(View)findViewById(R.id.view_paytm);
              view_citrus=(View)findViewById(R.id.view_citrus);
+			 view_mobikwik=(View)findViewById(R.id.view_mobikwik);
 
             /*--------offer message on payment methods----------------*/
             tv_online_payment_offer=(TextView)findViewById(R.id.tv_online_Payment_offer);
             tv_paytm_offer=(TextView)findViewById(R.id.tv_paytm_offer);
             tv_citrus_offer=(TextView)findViewById(R.id.tv_citrus_offer);
             tv_my_wallet_offer=(TextView)findViewById(R.id.tv_my_wallet_offer);
+			tv_mobikwik_offer=(TextView)findViewById(R.id.tv_mobikwik_offer);
 
 
 
@@ -610,19 +614,16 @@ public class ReviewOrderAndPay extends BaseActivity
                   /*---------------------------------------------------------------------------------------------*/
 
 
-
-
-
                      /*for checking that if payable amount =0 user should not select a payment method*/
                     if(Double.parseDouble(tvTotal.getText().toString().replace("Rs.","").trim())==0){
-                        if(bCash || bOnline || bPayTM || bCitrus){             //!bMobiKwik
+                        if(bCash || bOnline || bPayTM || bCitrus || bMobiKwik){             //!bMobiKwik
                             UtilityMethods.customToast(AppConstants.ToastConstant.NO_NEED_SELECT_PAYMENT_MODE, mContext);
                             return;
                         }else{
                             payment_mode = "cashondelivery";
                         }
                     }else{
-                        if(!bCash && !bOnline && !bPayTM && !bCitrus){             //!bMobiKwik
+                        if(!bCash && !bOnline && !bPayTM && !bCitrus && !bMobiKwik){             //!bMobiKwik
                             UtilityMethods.customToast(AppConstants.ToastConstant.SELECT_PAYMENT_MODE, mContext);
                             return;
                         }
@@ -643,7 +644,9 @@ public class ReviewOrderAndPay extends BaseActivity
 							payment_mode = "cashondelivery";
 						}else if(bCitrus){
                             payment_mode = "moto"; // for citrus pay
-                        }
+                        }else if (bMobiKwik) {
+							payment_mode = "wallet";
+						}
 
 
 					showDialog();
@@ -1290,6 +1293,19 @@ public class ReviewOrderAndPay extends BaseActivity
                             view_citrus.setVisibility(View.GONE);
                         }
 
+						/*to check if payment with Mobikwik will be available or not*/
+						if(true || payment.has("wallet")){
+							llMobiKwik.setVisibility(View.VISIBLE);
+							view_mobikwik.setVisibility(View.VISIBLE);
+							if(payment.getJSONObject("wallet").getString("mobile_label")!=null && !payment.getJSONObject("wallet").getString("mobile_label").equals("null"))
+								tv_mobikwik_offer.setText(payment.getJSONObject("wallet").getString("mobile_label"));
+							else
+								tv_mobikwik_offer.setText("");
+						}else{
+							llMobiKwik.setVisibility(View.GONE);
+							view_mobikwik.setVisibility(View.GONE);
+						}
+
                         }catch (Exception e){
                             new GrocermaxBaseException("ReviewOrderAndPay","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"error in getting payment option to be displayed");
                         }
@@ -1371,22 +1387,24 @@ public class ReviewOrderAndPay extends BaseActivity
 
 	private void payMobiKwikWallet(String orderid){
 		try {
-			Intent walletIntent = new Intent("MobikwikSDK");
-			walletIntent.setPackage(getPackageName());
-			walletIntent.setType(HTTP.PLAIN_TEXT_TYPE);
-			walletIntent.putExtra("orderid", orderid);                           //
-			walletIntent.putExtra("debitWallet", String.valueOf("true"));                           //string.valueOf("true")
-			walletIntent.putExtra("amount", String.valueOf(total));                    //
-			walletIntent.putExtra("cell", "9911500574");                                     //
-			walletIntent.putExtra("email", "abhi0124abhi@gmail.com");                                //
-			walletIntent.putExtra("paymentOption", "mw");                           //mobi kwik wallet
 
-			PackageManager packageManager = getPackageManager();
-			List<ResolveInfo> activities = packageManager.queryIntentActivities(walletIntent, 0);
-			boolean isIntentSafe = activities.size() > 0;
-			System.out.println("isIntentSafe " + activities.size());
+			TransactionConfiguration config = new TransactionConfiguration();
+			config.setDebitWallet(true);
+			config.setPgResponseUrl("");
+			config.setChecksumUrl("");
+			config.setMerchantName("Grocermax");
+			config.setMbkId("MBK9002");
+			config.setMode("0");
 
-			startActivity(walletIntent);
+			User user=new User(MySharedPrefs.INSTANCE.getUserEmail(),MySharedPrefs.INSTANCE.getMobileNo());
+			Transaction newTransaction=Transaction.Factory.newTransaction(user,orderid,tvTotal.getText().toString().replace("Rs.", ""));
+
+			Intent mobikwikIntent = new Intent( this , MobikwikSDK. class );
+			mobikwikIntent.putExtra(MobikwikSDK. EXTRA_TRANSACTION_CONFIG , config);
+			mobikwikIntent.putExtra(MobikwikSDK. EXTRA_TRANSACTION , newTransaction);
+			startActivityForResult(mobikwikIntent, 1221 );
+
+
 		}catch(Exception e){
 			new GrocermaxBaseException("ReviewOrderAndPay","payMobiKwikWallet",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}

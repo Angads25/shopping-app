@@ -277,6 +277,7 @@
                     </RelativeLayout>
 
                     <View
+                        android:id="@+id/view_mobikwik"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:visibility="gone"
@@ -300,10 +301,21 @@
                             android:textSize="@dimen/text_size_14"
                             android:textColor="@color/pallete_black"
                             android:layout_alignParentLeft="true"
-                            android:src="@drawable/paytm"
+                            android:src="@drawable/mobikwik"
+                            />
+                        <TextView
+                            android:id="@+id/tv_mobikwik_offer"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/text_size_10"
+                            android:textColor="@color/pallete_black"
+                            android:text=""
+                            android:layout_toLeftOf="@+id/iv_mobikwik"
+                            android:layout_toRightOf="@+id/btn_mobikwik"
+                            android:paddingLeft="8dp"
+                            android:visibility="visible"
                             />
 
-                        <!--android:src="@drawable/mobikwik"-->
                         <ImageView
                             android:id="@+id/iv_mobikwik"
                             android:layout_width="30dp"
