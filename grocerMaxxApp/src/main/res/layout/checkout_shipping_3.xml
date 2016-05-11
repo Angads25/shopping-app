@@ -188,7 +188,17 @@
 
 
     //TODO wire this up, carefully, on touch change background and text colors
-    <TableLayout
+    <GridView
+        android:id="@+id/grid_time_slot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:verticalSpacing="1dp"
+        android:horizontalSpacing="1dp"
+        android:numColumns="2">
+    </GridView>
+
+    <!--<TableLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
 
@@ -341,7 +351,7 @@
 
         </TableRow>
 
-    </TableLayout>
+    </TableLayout>-->
 </RelativeLayout>
 
     <LinearLayout

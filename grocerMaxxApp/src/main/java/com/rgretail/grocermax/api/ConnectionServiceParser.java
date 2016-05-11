@@ -393,6 +393,17 @@ public class ConnectionServiceParser {
 			MySharedPrefs.INSTANCE.putQuoteId(new JSONObject(jsonString).getString("QuoteId").toString());                            //added latest
 		}
 
+		try {
+			if (new JSONObject(jsonString).getString("session_exp_time_checkout").toString() != null && !new JSONObject(jsonString).getString("session_exp_time_checkout").toString().equals("")) {
+			MySharedPrefs.INSTANCE.putResumeTime(new JSONObject(jsonString).getString("session_exp_time_checkout").toString());}
+			else{
+				MySharedPrefs.INSTANCE.putResumeTime("10");
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+
 //		MySharedPrefs.INSTANCE.putTotalItem(new JSONObject(jsonString).getString("TotalItem").toString());                        //added latest
 		cartDetailString = new JSONObject(jsonString).getJSONObject("CartDetail").toString();
 

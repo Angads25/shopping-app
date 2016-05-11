@@ -339,8 +339,19 @@ public abstract class BaseActivity extends FragmentActivity {
 						finish();
 						break;
 					case R.id.icon_header_back:
-//						finish();
+						if(MyApplication.isFromFinalCheckout){
+							try {
+								MyApplication.isFromFinalCheckout=false;
+								Intent intent = new Intent(mContext, HomeScreen.class);
+								intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+								startActivity(intent);
+								finish();
+							}catch(Exception e){
+								new GrocermaxBaseException("CODConfirmation","onBackPressed",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+							}
+						}else{
 						onBackPressed();
+						}
 						break;
 					case R.id.icon_header_logo_with_search:
 
@@ -1445,8 +1456,7 @@ public abstract class BaseActivity extends FragmentActivity {
 //					}
 					}
 
-					else if (intent.getAction().equals(
-							MyReceiverActions.VIEW_CART)) {
+					else if (intent.getAction().equals(MyReceiverActions.VIEW_CART)) {
 
 						cart_count_txt.setText(String.valueOf(MySharedPrefs.INSTANCE.getTotalItem()));               //added latest
 
@@ -1461,6 +1471,7 @@ public abstract class BaseActivity extends FragmentActivity {
 							}
 
 							Intent i = new Intent(mContext, CartProductList.class);
+							i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							Bundle bundle_cart = new Bundle();
 							bundle_cart.putParcelableArrayList("cartList",cartBean.getItems());
 							bundle_cart.putSerializable("cartBean", cartBean);

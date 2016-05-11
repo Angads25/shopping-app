@@ -46,6 +46,7 @@ public enum MySharedPrefs {
 	private final String REMEMBER_ME = "remember_me";
 	private final String REMEMBER_ME_EMAIL = "remember_me_email";
 	private final String QUOTE_ID="Quote_id";
+	private final String RESUME_TIME="resume_time";
 	private final String ORDER_REVIEW_BEAN="order_review_bean";
 	private final String COUPON_APPLY = "coupon_apply";
 	private final String COUPON_AMOUNT = "coupon_amount";
@@ -234,6 +235,15 @@ public enum MySharedPrefs {
 	public String getQuoteId() {
 		return getAppPreference().getString(QUOTE_ID, null);
 	}
+
+	public void putResumeTime(String resume_time) {
+		getAppPreference().edit().putString(RESUME_TIME, resume_time).commit();
+	}
+
+	public String getResumeTime() {
+		return getAppPreference().getString(RESUME_TIME, "");
+	}
+
 	
 	public void putOrderReviewBean(OrderReviewBean orderReviewBean) {
 		  Gson gson = new Gson();

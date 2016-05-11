@@ -47,7 +47,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.process.BitmapProcessor;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.LoginActivity;
 import com.rgretail.grocermax.R;
@@ -89,6 +88,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UtilityMethods {
 
@@ -1647,6 +1648,13 @@ public class UtilityMethods {
             new GrocermaxBaseException("BaseActivity", "initImageLoaderM", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
         }
         return baseImageoptions;
+    }
+
+    public static boolean isValidPhone(String phone) {
+        String PHONE_PATTERN = "^[987]\\d{9}$";
+        Pattern pattern = Pattern.compile(PHONE_PATTERN);
+        Matcher matcher = pattern.matcher(phone);
+        return matcher.matches();
     }
 
 }

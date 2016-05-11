@@ -1,12 +1,15 @@
 package com.rgretail.grocermax;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +27,7 @@ import com.dq.rocq.RocqAnalytics;
 import com.dq.rocq.models.ActionProperties;
 import com.flurry.android.FlurryAgent;
 import com.mobikwik.sdk.MobikwikSDK;
+import com.mobikwik.sdk.lib.MKTransactionResponse;
 import com.mobikwik.sdk.lib.Transaction;
 import com.mobikwik.sdk.lib.TransactionConfiguration;
 import com.mobikwik.sdk.lib.User;
@@ -39,6 +43,7 @@ import com.rgretail.grocermax.bean.CartDetail;
 import com.rgretail.grocermax.bean.FinalCheckoutBean;
 import com.rgretail.grocermax.bean.OrderReviewBean;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
+import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.CustomFonts;
@@ -57,14 +62,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
-//import com.google.analytics.tracking.android.EasyTracker;
-
-//import com.payu.sdk.PayU;
-//import com.payu.sdk.Payment;
-//import android.widget.Toast;
 
 public class ReviewOrderAndPay extends BaseActivity
 {
@@ -108,6 +110,9 @@ public class ReviewOrderAndPay extends BaseActivity
     View v_my_wallet;
     double t_amount;
     public static final String TAG = "ReviewAndPay-Citrus";
+    public static String pause_timeing;
+	SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +124,8 @@ public class ReviewOrderAndPay extends BaseActivity
             addActionsInFilter(MyReceiverActions.WALLET_INFO);
 
 			setContentView(R.layout.checkout_process_3);
+
+			pause_timeing = dateFormat.format(new Date());
 
 			orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 
@@ -651,8 +658,8 @@ public class ReviewOrderAndPay extends BaseActivity
 
 					showDialog();
 					OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
-					String shipping = orderReviewBean.getShipping().toString();
-					String billing = orderReviewBean.getBilling().toString();
+					//String shipping = orderReviewBean.getShipping().toString();
+					//String billing = orderReviewBean.getBilling().toString();
 
 					try {
 						////////////////POST/////////////
@@ -677,7 +684,7 @@ public class ReviewOrderAndPay extends BaseActivity
 						System.out.println("====payment json format====" + jsonObject);
 
                         if(payment_mode.equals("moto")) {
-                            if (MySharedPrefs.INSTANCE.getMobileNo().equals("0000000000") || MySharedPrefs.INSTANCE.getMobileNo().equals("") || MySharedPrefs.INSTANCE.getMobileNo() == null){
+                            if (MySharedPrefs.INSTANCE.getMobileNo().equals("0000000000") || MySharedPrefs.INSTANCE.getMobileNo().equals("") || MySharedPrefs.INSTANCE.getMobileNo() == null || !UtilityMethods.isValidPhone(MySharedPrefs.INSTANCE.getMobileNo())){
                                 dismissDialog();
                                 button_pay.setEnabled(true);
                                 button_pay.setVisibility(View.VISIBLE);
@@ -693,7 +700,7 @@ public class ReviewOrderAndPay extends BaseActivity
 
 
 						///////code added by ishan///////
-						if(payment_mode.equals("cashondelivery")) {
+						/*if(payment_mode.equals("cashondelivery")) {
 							handler.postDelayed(new Runnable() {
 								@Override
 								public void run() {
@@ -711,7 +718,7 @@ public class ReviewOrderAndPay extends BaseActivity
 								}
 
 							}, 10000);
-						}
+						}*/
 						///////////---------/////////////////
 
 						////////////////POST/////////////
@@ -1014,7 +1021,8 @@ public class ReviewOrderAndPay extends BaseActivity
                         // You will get data here if transaction flow is started through wallet
                         resultModel = data.getParcelableExtra(ResultFragment.ARG_RESULT);
                     } catch (Exception e) {
-                        String url = UrlsConstants.SET_ORDER_STATUS;
+						changeOrderStatusAndGotoConfirmationPage(1);
+                        /*String url = UrlsConstants.SET_ORDER_STATUS;
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("status","canceled");
                         jsonObject.put("orderid",order_id);
@@ -1029,7 +1037,7 @@ public class ReviewOrderAndPay extends BaseActivity
                         call_bundle.putString("status", "fail");
                         intent.putExtras(call_bundle);
                         startActivity(intent);
-                        finish();
+                        finish();*/
                     }
 
                     // Check which object is non-null
@@ -1048,8 +1056,6 @@ public class ReviewOrderAndPay extends BaseActivity
                             success_code=0;  //success
                         else
                             success_code=1;  //fail
-
-
                     } else {
                         Log.d(TAG, "Both objects are null!");
                         success_code=1;  //fail
@@ -1057,42 +1063,63 @@ public class ReviewOrderAndPay extends BaseActivity
                 }
 
                 /* sending payment response to our server*/
-                String url = UrlsConstants.SET_ORDER_STATUS;
-                JSONObject jsonObject = new JSONObject();
-
-                if(success_code==0)
-                    jsonObject.put("status","paymentsuccess");
-                else
-                    jsonObject.put("status","canceled");
-
-                jsonObject.put("orderid",order_id);
-                jsonObject.put("orderdbid",order_db_id);
-                myApi.reqSetOrderStatusForCitrus(url, jsonObject);
-
-                /*sending on confirmation page*/
-                MySharedPrefs.INSTANCE.putTotalItem("0");
-                MySharedPrefs.INSTANCE.clearQuote();
-                Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
-                Bundle call_bundle = new Bundle();
-                call_bundle.putString("orderid", order_id);
-
-                if(success_code==0)
-                    call_bundle.putString("status", "success");
-                else
-                    call_bundle.putString("status", "fail");
-
-                intent.putExtras(call_bundle);
-                startActivity(intent);
-                finish();
-
+				changeOrderStatusAndGotoConfirmationPage(success_code);
                 /*----------------End of citrus payment handling --------------------------------------------*/
             }
+			/*mobikwik payment handling*/
+			if (requestCode == 1221 ) {
+				if (data != null ) {
+					MKTransactionResponse response = (MKTransactionResponse)data.getSerializableExtra(MobikwikSDK. EXTRA_TRANSACTION_RESPONSE );
+					System.out.println("CheckoutActivity.onActivityResult() " + response. statusMessage );
+					System.out.println("CheckoutActivity.onActivityResult() " + response. statusCode );
+					if(response.statusCode.equals("0")){
+						//success
+						changeOrderStatusAndGotoConfirmationPage(0);
+					}else{
+						//failure
+						changeOrderStatusAndGotoConfirmationPage(1);
+					}
 
+				}
+			}
            /*-------------------------------------------------------*/
 		}catch(Exception e){
 			new GrocermaxBaseException("ReviewOrderAndPay","onActivityResult",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
+
+public void changeOrderStatusAndGotoConfirmationPage(int success_code){
+	try {
+		String url = UrlsConstants.SET_ORDER_STATUS;
+		JSONObject jsonObject = new JSONObject();
+		if(success_code==0)
+            jsonObject.put("status","paymentsuccess");
+        else
+            jsonObject.put("status","canceled");
+
+		jsonObject.put("orderid",order_id);
+		jsonObject.put("orderdbid",order_db_id);
+		myApi.reqSetOrderStatusForCitrus(url, jsonObject);
+
+                /*sending on confirmation page*/
+		MySharedPrefs.INSTANCE.putTotalItem("0");
+		MySharedPrefs.INSTANCE.clearQuote();
+		Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
+		Bundle call_bundle = new Bundle();
+		call_bundle.putString("orderid", order_id);
+
+		if(success_code==0)
+            call_bundle.putString("status", "success");
+        else
+            call_bundle.putString("status", "fail");
+
+		intent.putExtras(call_bundle);
+		startActivity(intent);
+		finish();
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+}
 
 
    public void citrusPayment(String citrus_order_id){
@@ -1144,6 +1171,11 @@ public class ReviewOrderAndPay extends BaseActivity
 			if (bundle.getString("ACTION").equals(MyReceiverActions.FINAL_CHECKOUT)) {
 				finalCheckoutBean= (FinalCheckoutBean) bundle.getSerializable(ConnectionService.RESPONSE);
 				if (finalCheckoutBean.getFlag().equalsIgnoreCase("1")) {
+
+
+					String amount=String.format("%.2f",Double.parseDouble(finalCheckoutBean.getSubTotal()));
+					tvTotal.setText("Rs."+amount);
+
 					UtilityMethods.deleteCloneCart(this);
 
 					orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
@@ -1157,7 +1189,6 @@ public class ReviewOrderAndPay extends BaseActivity
 
 					if(payment_mode.equals("cashondelivery"))
 					{
-
 						//////code added by Ishan//////////
 						/*handler.removeCallbacksAndMessages(null);
 						handler.getLooper().quit();*/
@@ -1190,8 +1221,13 @@ public class ReviewOrderAndPay extends BaseActivity
                         order_id=finalCheckoutBean.getOrderId();
                         order_db_id=finalCheckoutBean.getOrderDBID();
                         citrusPayment(order_id);
-                        //payumoneyMakePayment(order_id);
                     }
+				}else if(finalCheckoutBean.getFlag().equalsIgnoreCase("2")){
+                  showPopUpForExtraWork(finalCheckoutBean.getFlag(),finalCheckoutBean.getResult());
+				}else if(finalCheckoutBean.getFlag().equalsIgnoreCase("3")){
+					showPopUpForExtraWork(finalCheckoutBean.getFlag(),finalCheckoutBean.getResult());
+				}else{
+					UtilityMethods.customToast(finalCheckoutBean.getResult(), activity);
 				}
 			}
 
@@ -1330,12 +1366,42 @@ public class ReviewOrderAndPay extends BaseActivity
 		// TODO Auto-generated method stub
 		super.onResume();
 		try {
-			initHeader(findViewById(R.id.app_bar_header), true, "Payment Method");
+			String resume_timing = dateFormat.format(new Date());
+			System.out.println("resume timing=" + resume_timing);
+			Date d1 = null;
+			Date d2 = null;
+			try {
+				d1 = dateFormat.parse(pause_timeing);
+				d2 = dateFormat.parse(resume_timing);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			long diff = d2.getTime() - d1.getTime();
+			long diffSecond = diff / (1000);
+			System.out.println("diff timing=" + diffSecond);
+			if(diffSecond>(60*Float.parseFloat(MySharedPrefs.INSTANCE.getResumeTime()))){
+				Intent intent = new Intent(mContext, HomeScreen.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+				finish();
+			}else{
+				initHeader(findViewById(R.id.app_bar_header), true, "Payment Method");
+			}
 		}catch(Exception e){
 			new GrocermaxBaseException("ReviewOrderAndPay","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
 
+	/*@Override
+	public void onPause() {
+		super.onPause();
+		try {
+			pause_timeing = dateFormat.format(new Date());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}*/
 
 	@Override
 	protected void onStart() {
@@ -1361,7 +1427,8 @@ public class ReviewOrderAndPay extends BaseActivity
 		// TODO Auto-generated method stub
 		super.onStop();
 		try{
-//			EasyTracker.getInstance(this).activityStop(this);
+			pause_timeing = dateFormat.format(new Date());
+			System.out.println("pause timing="+pause_timeing);
 			FlurryAgent.onEndSession(this);
 		}catch(Exception e){}
 		try {
@@ -1390,24 +1457,69 @@ public class ReviewOrderAndPay extends BaseActivity
 
 			TransactionConfiguration config = new TransactionConfiguration();
 			config.setDebitWallet(true);
-			config.setPgResponseUrl("");
-			config.setChecksumUrl("");
+			config.setPgResponseUrl("http://qa.grocermax.com/api/mobikwik/sdkresponse.php");
+			config.setChecksumUrl("http://qa.grocermax.com/api/mobikwik/sdkchecksum.php");
 			config.setMerchantName("Grocermax");
-			config.setMbkId("MBK9002");
-			config.setMode("0");
+			config.setAllowMixedContent(true);
+			//config.setMbkId("MBK9002");
+			config.setMbkId("MBK8170");
+			config.setMode("1");
 
 			User user=new User(MySharedPrefs.INSTANCE.getUserEmail(),MySharedPrefs.INSTANCE.getMobileNo());
+			System.out.println("Amount="+tvTotal.getText().toString().replace("Rs.", "")+"---");
 			Transaction newTransaction=Transaction.Factory.newTransaction(user,orderid,tvTotal.getText().toString().replace("Rs.", ""));
 
 			Intent mobikwikIntent = new Intent( this , MobikwikSDK. class );
 			mobikwikIntent.putExtra(MobikwikSDK. EXTRA_TRANSACTION_CONFIG , config);
 			mobikwikIntent.putExtra(MobikwikSDK. EXTRA_TRANSACTION , newTransaction);
-			startActivityForResult(mobikwikIntent, 1221 );
+			startActivityForResult(mobikwikIntent, 1221);
 
 
 		}catch(Exception e){
 			new GrocermaxBaseException("ReviewOrderAndPay","payMobiKwikWallet",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
+	}
+
+	public void showPopUpForExtraWork(final String flag,String msg){
+		Typeface typeface=Typeface.createFromAsset(getAssets(),"Roboto-Regular.ttf");
+		Typeface typeface1=Typeface.createFromAsset(getAssets(),"Roboto-Light.ttf");
+		AlertDialog.Builder alertDialog = new AlertDialog.Builder(ReviewOrderAndPay.this);
+		LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View dialogView = inflater.inflate(R.layout.update_available_dialog, null);
+		alertDialog.setView(dialogView);
+		alertDialog.setCancelable(false);
+		final AlertDialog alert = alertDialog.create();
+		TextView tv_msg=(TextView)dialogView.findViewById(R.id.tv_msg);
+		tv_msg.setTypeface(typeface1);
+		tv_msg.setText(msg);
+		TextView tv_skip = (TextView) dialogView.findViewById(R.id.tv_skip);
+		tv_skip.setTypeface(typeface);
+		tv_skip.setVisibility(View.GONE);
+		TextView tv_update=(TextView)dialogView.findViewById(R.id.tv_update);
+		tv_update.setTypeface(typeface);
+		tv_update.setText("OK");
+		tv_update.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				alert.dismiss();
+				try {
+					if (flag.equals("2")) {
+						MySharedPrefs.INSTANCE.putTotalItem("0");
+						MySharedPrefs.INSTANCE.clearQuote();
+						MyApplication.isFromFinalCheckout=true;
+						openOrderHistory();
+					}else if(flag.equals("3")){
+						AppConstants.strPopupData="";
+						HomeScreen.isFromFragment=false;
+						viewCart();
+					}
+				} catch (Exception e){
+
+				}
+			}
+		});
+
+		alert.show();
 	}
 
 }
@@ -1599,6 +1711,11 @@ class Coupon extends AsyncTask<String, String, String>
 		}catch(Exception e){}
 
 	}
+
+
+
+
+
 
 }
 
