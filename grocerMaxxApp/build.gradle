@@ -18,7 +18,7 @@ android {
     defaultConfig {
         applicationId 'com.rgretail.grocermax'
         minSdkVersion 11
-        multiDexEnabled false
+        multiDexEnabled true
         versionName '1.4.5'
         versionCode 10
     }
@@ -59,22 +59,22 @@ dependencies {
     //       compile 'com.viewpagerindicator:library:2.4.1@aar'// viewpager.Indicator
     //better the above
     compile files('libs/androidmarketapi-0.6.jar')
-    compile files('libs/androidmarketapi-0.5.jar')
+    //compile files('libs/androidmarketapi-0.5.jar')
     compile files('libs/protobuf-java-2.2.0.jar')
     compile files('libs/AF-Android-SDK-v3.3.0.jar')
-    compile files('libs/libGoogleAnalyticsServices.jar')
+    //compile files('libs/libGoogleAnalyticsServices.jar')
     compile 'com.google.android.gms:play-services-analytics:8.3.0'
     compile 'com.android.support:multidex:1.0.0'
     compile 'com.melnykov:floatingactionbutton:1.3.0'
     compile 'com.google.code.gson:gson:2.2.4'
-    compile 'com.android.support:appcompat-v7:21.0.2'
-    compile 'com.android.support:support-v4:21.0.2'
+    compile 'com.android.support:appcompat-v7:23.0.0'
+    compile 'com.android.support:support-v4:23.0.0'
     compile 'com.google.android.gms:play-services-gcm:8.3.0'
     compile 'com.google.android.gms:play-services-plus:8.3.0'
     compile 'com.google.android.gms:play-services-identity:8.3.0'
     compile 'com.google.android.gms:play-services-drive:8.3.0'
-    compile 'com.android.support:cardview-v7:21.0.2'
-    compile 'com.android.support:recyclerview-v7:21.0.2'
+    compile 'com.android.support:cardview-v7:23.0.0'
+    compile 'com.android.support:recyclerview-v7:23.0.0'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile files('libs/org.apache.http.legacy.jar')
     compile files('libs/Rocq_17_beige.jar')
