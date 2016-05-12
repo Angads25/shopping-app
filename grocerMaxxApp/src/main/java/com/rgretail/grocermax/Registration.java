@@ -526,7 +526,7 @@ public class Registration extends BaseActivity implements
                             MySharedPrefs.INSTANCE.putFirstName(_fname);
                            // MySharedPrefs.INSTANCE.putLastName(_lname);
                             MySharedPrefs.INSTANCE.putLastName(".");
-                            MySharedPrefs.INSTANCE.putUserEmail(_email_id);
+                            MySharedPrefs.INSTANCE.putUserEmail(_email_id.trim());
 
 							try {
 								JSONObject jsonObject = new JSONObject();
@@ -567,7 +567,7 @@ public class Registration extends BaseActivity implements
 							MySharedPrefs.INSTANCE.putMobileNo(_mobile_no);                           //14/09/15
                             MySharedPrefs.INSTANCE.putFirstName(_fname);
                             MySharedPrefs.INSTANCE.putLastName(_lname);
-                            MySharedPrefs.INSTANCE.putUserEmail(_email_id);
+                            MySharedPrefs.INSTANCE.putUserEmail(_email_id.trim());
 
 
 							try {
@@ -679,7 +679,7 @@ public class Registration extends BaseActivity implements
 //						MySharedPrefs.INSTANCE.putUserEmail(username.getText().toString());
 //						MySharedPrefs.INSTANCE.putQuoteId(userDataBean.getQuoteId());
 //					} else {
-					MySharedPrefs.INSTANCE.putUserEmail(USER_EMAIL);
+					MySharedPrefs.INSTANCE.putUserEmail(USER_EMAIL.trim());
 					MySharedPrefs.INSTANCE.putQuoteId(QUOTE_ID_AFTER_FB);
 //					}
 
@@ -745,7 +745,7 @@ public class Registration extends BaseActivity implements
                     if(MySharedPrefs.INSTANCE.getLastName() == null){//if(MySharedPrefs.INSTANCE.getLastName() != null){      //changed 17/9/15
                         MySharedPrefs.INSTANCE.putLastName(userDataBean.getLastName());
                     }
-                    MySharedPrefs.INSTANCE.putUserEmail(USER_EMAIL);
+                    MySharedPrefs.INSTANCE.putUserEmail(USER_EMAIL.trim());
                     Intent i=new Intent(Registration.this,PhoneNumberForOTP.class);
                     startActivityForResult(i,SOCIAL_LOGIN_PHONE_NUMBER);
 

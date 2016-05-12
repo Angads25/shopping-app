@@ -657,13 +657,13 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 
 					MySharedPrefs.INSTANCE.putMobileNo(userDataBean.getMobile());
 					if (USER_EMAIL.equals("")) {
-						MySharedPrefs.INSTANCE.putUserEmail(username.getText().toString());
+						MySharedPrefs.INSTANCE.putUserEmail(username.getText().toString().trim());
 						if(userDataBean.getQuoteId() != null && !userDataBean.getQuoteId().equals("") ) {
 							MySharedPrefs.INSTANCE.clearQuote();
 							MySharedPrefs.INSTANCE.putQuoteId(userDataBean.getQuoteId());
 						}
 					} else {
-						MySharedPrefs.INSTANCE.putUserEmail(USER_EMAIL);
+						MySharedPrefs.INSTANCE.putUserEmail(USER_EMAIL.trim());
 						if(QUOTE_ID_AFTER_FB != "") {
 							MySharedPrefs.INSTANCE.clearQuote();
 							MySharedPrefs.INSTANCE.putQuoteId(QUOTE_ID_AFTER_FB);
@@ -701,7 +701,7 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
                     if(MySharedPrefs.INSTANCE.getLastName() == null){//if(MySharedPrefs.INSTANCE.getLastName() != null){      //changed 17/9/15
                         MySharedPrefs.INSTANCE.putLastName(userDataBean.getLastName());
                     }
-                    MySharedPrefs.INSTANCE.putUserEmail(USER_EMAIL);
+                    MySharedPrefs.INSTANCE.putUserEmail(USER_EMAIL.trim());
                     Intent i=new Intent(LoginActivity.this,PhoneNumberForOTP.class);
                     startActivityForResult(i,SOCIAL_LOGIN_PHONE_NUMBER);
 

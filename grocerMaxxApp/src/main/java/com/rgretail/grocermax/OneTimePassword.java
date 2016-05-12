@@ -337,10 +337,10 @@ public class OneTimePassword extends BaseActivity {
                 MySharedPrefs.INSTANCE.putUserId(userDataBean.getUserID());
                 if (MySharedPrefs.INSTANCE.getFacebookEmail() == null) {
 //                    MySharedPrefs.INSTANCE.putUserEmail(((EditText) findViewById(R.id.et_register_email)).getText().toString().trim());
-                    MySharedPrefs.INSTANCE.putUserEmail(strEmail);
+                    MySharedPrefs.INSTANCE.putUserEmail(strEmail.trim());
                 }
                 else {
-                    MySharedPrefs.INSTANCE.putUserEmail(MySharedPrefs.INSTANCE.getFacebookEmail());
+                    MySharedPrefs.INSTANCE.putUserEmail(MySharedPrefs.INSTANCE.getFacebookEmail().trim());
                 }
                 MySharedPrefs.INSTANCE.putLoginStatus(true);
 
@@ -392,7 +392,7 @@ public class OneTimePassword extends BaseActivity {
                     }
 
                     MySharedPrefs.INSTANCE.putMobileNo(userDataBean.getMobile());
-                    MySharedPrefs.INSTANCE.putUserEmail(MySharedPrefs.INSTANCE.getUserEmail());
+                    MySharedPrefs.INSTANCE.putUserEmail(MySharedPrefs.INSTANCE.getUserEmail().trim());
                     MySharedPrefs.INSTANCE.putLoginStatus(true);
                     if(userDataBean.getQuoteId() != null && !userDataBean.getQuoteId().equals("")) {
                         MySharedPrefs.INSTANCE.clearQuote();
