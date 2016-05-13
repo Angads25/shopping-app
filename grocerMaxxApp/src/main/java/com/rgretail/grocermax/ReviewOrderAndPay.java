@@ -1089,9 +1089,20 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 			jsonObject.put("orderdbid",order_db_id);
 			jsonObject.put("payment_method",payment_mode);
 			myApi.reqSetOrderStatusForCitrus(url, jsonObject);
-		} else {
-			url = UrlsConstants.SET_PAYTM_ORDER_STATUS_SUCCESS+"?orderid="+order_id+"&status="+"success";;
-			myApi.reqSetOrderStatusPaytmSuccess(url);
+		} else if(payment_mode.equals("wallet")){
+			if(success_code==0){
+			url = UrlsConstants.SET_PAYTM_ORDER_STATUS_SUCCESS+"?orderid="+order_id+"&status="+"success";
+				myApi.reqSetOrderStatusPaytmSuccess(url);
+			}
+			else {
+				url = UrlsConstants.SET_ORDER_STATUS;
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("status","canceled");
+				jsonObject.put("orderid",order_id);
+				jsonObject.put("orderdbid",order_db_id);
+				jsonObject.put("payment_method",payment_mode);
+				myApi.reqSetOrderStatusForCitrus(url, jsonObject);
+			}
 		}
 
 
