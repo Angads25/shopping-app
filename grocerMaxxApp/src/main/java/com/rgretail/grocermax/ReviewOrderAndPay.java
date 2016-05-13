@@ -122,6 +122,7 @@ public class ReviewOrderAndPay extends BaseActivity
 			addActionsInFilter(MyReceiverActions.GET_ORDER_STATUS);
 			addActionsInFilter(MyReceiverActions.SET_ORDER_STATUS);
             addActionsInFilter(MyReceiverActions.WALLET_INFO);
+			addActionsInFilter(MyReceiverActions.SET_PAYTM_ORDER_STATUS_SUCCESS);
 
 			setContentView(R.layout.checkout_process_3);
 
@@ -1022,22 +1023,7 @@ public class ReviewOrderAndPay extends BaseActivity
                         resultModel = data.getParcelableExtra(ResultFragment.ARG_RESULT);
                     } catch (Exception e) {
 						changeOrderStatusAndGotoConfirmationPage(1);
-                        /*String url = UrlsConstants.SET_ORDER_STATUS;
-                        JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("status","canceled");
-                        jsonObject.put("orderid",order_id);
-                        jsonObject.put("orderdbid",order_db_id);
-                        myApi.reqSetOrderStatusForCitrus(url, jsonObject);
 
-                        MySharedPrefs.INSTANCE.putTotalItem("0");
-                        MySharedPrefs.INSTANCE.clearQuote();
-                        Intent intent = new Intent(ReviewOrderAndPay.this, CODConfirmation.class);
-                        Bundle call_bundle = new Bundle();
-                        call_bundle.putString("orderid", order_id);
-                        call_bundle.putString("status", "fail");
-                        intent.putExtras(call_bundle);
-                        startActivity(intent);
-                        finish();*/
                     }
 
                     // Check which object is non-null
@@ -1090,16 +1076,24 @@ public class ReviewOrderAndPay extends BaseActivity
 
 public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 	try {
-		String url = UrlsConstants.SET_ORDER_STATUS;
-		JSONObject jsonObject = new JSONObject();
-		if(success_code==0)
-            jsonObject.put("status","paymentsuccess");
-        else
-            jsonObject.put("status","canceled");
+		String url;
+		if (payment_mode.equals("moto")) {
+			url = UrlsConstants.SET_ORDER_STATUS;
+			JSONObject jsonObject = new JSONObject();
+			if(success_code==0)
+				jsonObject.put("status","paymentsuccess");
+			else
+				jsonObject.put("status","canceled");
 
-		jsonObject.put("orderid",order_id);
-		jsonObject.put("orderdbid",order_db_id);
-		myApi.reqSetOrderStatusForCitrus(url, jsonObject);
+			jsonObject.put("orderid",order_id);
+			jsonObject.put("orderdbid",order_db_id);
+			jsonObject.put("payment_method",payment_mode);
+			myApi.reqSetOrderStatusForCitrus(url, jsonObject);
+		} else {
+			url = UrlsConstants.SET_PAYTM_ORDER_STATUS_SUCCESS+"?orderid="+order_id+"&status="+"success";;
+			myApi.reqSetOrderStatusPaytmSuccess(url);
+		}
+
 
                 /*sending on confirmation page*/
 		MySharedPrefs.INSTANCE.putTotalItem("0");
@@ -1457,8 +1451,8 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 
 			TransactionConfiguration config = new TransactionConfiguration();
 			config.setDebitWallet(true);
-			config.setPgResponseUrl("http://qa.grocermax.com/api/mobikwik/sdkresponse.php");
-			config.setChecksumUrl("http://qa.grocermax.com/api/mobikwik/sdkchecksum.php");
+			config.setPgResponseUrl(UrlsConstants.NEW_BASE_URL+"mobikwik/sdkresponse.php");
+			config.setChecksumUrl(UrlsConstants.NEW_BASE_URL+"mobikwik/sdkchecksum.php");
 			config.setMerchantName("Grocermax");
 			config.setAllowMixedContent(true);
 			//config.setMbkId("MBK9002");

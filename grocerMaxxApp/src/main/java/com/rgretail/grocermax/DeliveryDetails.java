@@ -446,14 +446,20 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
         try {
             ArrayList<String> alTotal = address_obj.getDate_timeSlot().get(date);
             ArrayList<String> alTime = new ArrayList<String>();
-            ArrayList<String> alAvailable = new ArrayList<String>();
+            final ArrayList<String> alAvailable = new ArrayList<String>();
+
+
             for(int i=0;i<alTotal.size()/2;i++){
-                alTime.add(i,alTotal.get(i));
+                if(alTotal.get(i)!=null && !alTotal.get(i).equals("null"))
+                    alTime.add(alTotal.get(i));
+                //alTime.add(i,alTotal.get(i));
             }
             int index=0;
             for(int i=alTotal.size()/2;i<alTotal.size();i++){
+                if(alTotal.get(i)!=null && !alTotal.get(i).equals("null")){
                 alAvailable.add(index,alTotal.get(i));
                 index++;
+                }
             }
 
             grid_time_slot.setAdapter(new TimeSlotAdapter(alTime,alAvailable));
@@ -465,16 +471,20 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                         ArrayList<String> alTime = new ArrayList<String>();
 
                         for(int i=0;i<alTotal.size()/2;i++) {
-                            alTime.add(i, alTotal.get(i));
+                            if(alTotal.get(i)!=null && !alTotal.get(i).equals("null"))
+                                alTime.add(alTotal.get(i));
+                            //alTime.add(i, alTotal.get(i));
                         }
-                        time = alTime.get(position);
-                        tvSelectedTime.setText(time);
 
-                        for(int i=0;i<grid_time_slot.getAdapter().getCount();i++){
-                            if(i==position){
-                                ((RelativeLayout)parent.getChildAt(i).findViewById(R.id.rl_time_Slot)).setBackgroundColor(getResources().getColor(R.color.gray_1));
-                            }else{
-                                ((RelativeLayout)parent.getChildAt(i).findViewById(R.id.rl_time_Slot)).setBackgroundColor(getResources().getColor(R.color.white));
+                        if (alAvailable.get(position).equalsIgnoreCase("1")) {
+                            for(int i=0;i<grid_time_slot.getAdapter().getCount();i++){
+                                if(i==position){
+                                    ((RelativeLayout)parent.getChildAt(i).findViewById(R.id.rl_time_Slot)).setBackgroundColor(getResources().getColor(R.color.gray_1));
+                                      time = alTime.get(position);
+                                      tvSelectedTime.setText(time);
+                                }else{
+                                    ((RelativeLayout)parent.getChildAt(i).findViewById(R.id.rl_time_Slot)).setBackgroundColor(getResources().getColor(R.color.white));
+                                }
                             }
                         }
 
@@ -813,6 +823,7 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                 BlurMaskFilter.Blur style = BlurMaskFilter.Blur.NORMAL;
                 applyFilter(tvTime, style);
                 rlTimeSlot.setEnabled(false);
+                rlTimeSlot.setClickable(false);
             }else{
                 tvSlotFull.setText("");
                 tvTime.setVisibility(View.VISIBLE);

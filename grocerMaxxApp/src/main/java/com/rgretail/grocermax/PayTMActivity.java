@@ -161,7 +161,7 @@ public class PayTMActivity extends BaseActivity
 //					myApi.reqSetOrderStatusPaytmSuccess(url, jsonObject);
 
 
-					String url = UrlsConstants.SET_PAYTM_ORDER_STATUS_SUCCESS+"?orderid="+order_id+"&status="+"success";
+					String url = UrlsConstants.SET_PAYTM_ORDER_STATUS_SUCCESS+"?orderid="+order_id+"&status="+"success&amount="+strTXNamount+"&flag=1";
 					myApi.reqSetOrderStatusPaytmSuccess(url);
 
 
