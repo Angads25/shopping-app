@@ -1228,9 +1228,9 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
                         citrusPayment(order_id);
                     }
 				}else if(finalCheckoutBean.getFlag().equalsIgnoreCase("2")){
-                  showPopUpForExtraWork(finalCheckoutBean.getFlag(),finalCheckoutBean.getResult());
+                  showPopUpForExtraWork(finalCheckoutBean.getFlag(),finalCheckoutBean.getResult(),finalCheckoutBean.getButton());
 				}else if(finalCheckoutBean.getFlag().equalsIgnoreCase("3")){
-					showPopUpForExtraWork(finalCheckoutBean.getFlag(),finalCheckoutBean.getResult());
+					showPopUpForExtraWork(finalCheckoutBean.getFlag(),finalCheckoutBean.getResult(),finalCheckoutBean.getButton());
 				}else{
 					UtilityMethods.customToast(finalCheckoutBean.getResult(), activity);
 				}
@@ -1485,7 +1485,7 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 		}
 	}
 
-	public void showPopUpForExtraWork(final String flag,String msg){
+	public void showPopUpForExtraWork(final String flag,String msg,String buttonText){
 		Typeface typeface=Typeface.createFromAsset(getAssets(),"Roboto-Regular.ttf");
 		Typeface typeface1=Typeface.createFromAsset(getAssets(),"Roboto-Light.ttf");
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(ReviewOrderAndPay.this);
@@ -1502,7 +1502,7 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 		tv_skip.setVisibility(View.GONE);
 		TextView tv_update=(TextView)dialogView.findViewById(R.id.tv_update);
 		tv_update.setTypeface(typeface);
-		tv_update.setText("OK");
+		tv_update.setText(buttonText);
 		tv_update.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

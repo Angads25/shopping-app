@@ -1,10 +1,10 @@
 package com.rgretail.grocermax.bean;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.gson.annotations.Expose;
 
 public class FinalCheckoutBean extends BaseResponseBean implements Serializable {
 
@@ -28,7 +28,18 @@ public class FinalCheckoutBean extends BaseResponseBean implements Serializable 
 	private String OrderID;
 	@Expose
 	private String OrderDBID;
-	
+
+	@Expose
+	private String Button;
+
+	public String getButton() {
+		return Button;
+	}
+
+	public void setButton(String button) {
+		Button = button;
+	}
+
 	@Expose
 	private List<String> PaymentMode = new ArrayList<String>();
 

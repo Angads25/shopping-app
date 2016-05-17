@@ -19,6 +19,7 @@ public class BaseResponseBean implements Serializable{
 	@Expose
 	private int TotalItem;
 
+
     @Expose
     private String otp;   /*used for otp on edit profile screen*/
 
