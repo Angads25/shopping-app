@@ -96,9 +96,9 @@ public class ReviewOrderAndPay extends BaseActivity
 	private String SCREENNAME = "ReviewOrderAndPay-";
 	Handler handler = new Handler();
 
-    RelativeLayout llOnlinePayment,llCashOnDelivery,llPayTM,llMobiKwik,llCitrus;
-    View view_online_payment,view_paytm,view_citrus,view_mobikwik;
-    TextView tv_online_payment_offer,tv_paytm_offer,tv_citrus_offer,tv_my_wallet_offer,tv_mobikwik_offer;
+    RelativeLayout llOnlinePayment,llCashOnDelivery,llPayTM,llMobiKwik,llCitrus,ll_up_coming;
+    View view_online_payment,view_paytm,view_citrus,view_mobikwik,view_up_coming;
+    TextView tv_online_payment_offer,tv_paytm_offer,tv_citrus_offer,tv_my_wallet_offer,tv_mobikwik_offer,tv_up_coming;
 
 
     /*declearation for wallet*/
@@ -138,11 +138,13 @@ public class ReviewOrderAndPay extends BaseActivity
 			 llPayTM = (RelativeLayout) findViewById(R.id.rl_paytm);
 			 llMobiKwik = (RelativeLayout) findViewById(R.id.rl_mobikwik);
              llCitrus = (RelativeLayout) findViewById(R.id.rl_citrus);
+			 ll_up_coming = (RelativeLayout) findViewById(R.id.rl_up_coming);
 
              view_online_payment=(View)findViewById(R.id.view_online_payment);
              view_paytm=(View)findViewById(R.id.view_paytm);
              view_citrus=(View)findViewById(R.id.view_citrus);
 			 view_mobikwik=(View)findViewById(R.id.view_mobikwik);
+			 view_up_coming=(View)findViewById(R.id.view_up_coming);
 
             /*--------offer message on payment methods----------------*/
             tv_online_payment_offer=(TextView)findViewById(R.id.tv_online_Payment_offer);
@@ -150,6 +152,8 @@ public class ReviewOrderAndPay extends BaseActivity
             tv_citrus_offer=(TextView)findViewById(R.id.tv_citrus_offer);
             tv_my_wallet_offer=(TextView)findViewById(R.id.tv_my_wallet_offer);
 			tv_mobikwik_offer=(TextView)findViewById(R.id.tv_mobikwik_offer);
+			tv_up_coming=(TextView)findViewById(R.id.tv_up_coming);
+			tv_up_coming.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 
 
 
@@ -1335,7 +1339,7 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
                         }
 
 						/*to check if payment with Mobikwik will be available or not*/
-						if(true || payment.has("wallet")){
+						if(payment.has("wallet")){
 							llMobiKwik.setVisibility(View.VISIBLE);
 							view_mobikwik.setVisibility(View.VISIBLE);
 							if(payment.getJSONObject("wallet").getString("mobile_label")!=null && !payment.getJSONObject("wallet").getString("mobile_label").equals("null"))
@@ -1346,6 +1350,21 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 							llMobiKwik.setVisibility(View.GONE);
 							view_mobikwik.setVisibility(View.GONE);
 						}
+
+						/*to check if upcoming payment method is there or not*/
+
+							if(payment.has("up_comming")){
+								ll_up_coming.setVisibility(View.VISIBLE);
+								view_up_coming.setVisibility(View.VISIBLE);
+								if(payment.getJSONObject("up_comming").getString("label")!=null && !payment.getJSONObject("up_comming").getString("label").equals("null"))
+									tv_up_coming.setText(payment.getJSONObject("up_comming").getString("label"));
+								else
+									tv_up_coming.setText("");
+							}else{
+								ll_up_coming.setVisibility(View.GONE);
+								view_up_coming.setVisibility(View.GONE);
+							}
+
 
                         }catch (Exception e){
                             new GrocermaxBaseException("ReviewOrderAndPay","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"error in getting payment option to be displayed");
