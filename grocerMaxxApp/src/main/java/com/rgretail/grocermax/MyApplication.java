@@ -57,6 +57,12 @@ public class MyApplication extends Application {
 		super.onCreate();
 		try {
 
+			/*event for app activation using facebok sdk*/
+
+			//FacebookSdk.sdkInitialize(getApplicationContext());
+			//AppEventsLogger.activateApp(this);
+			/*------------------------------*/
+
            /*initialization of rocq analytics*/
             RocqAnalytics.initialize(getApplicationContext());
 

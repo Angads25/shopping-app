@@ -17,7 +17,7 @@ android {
 
     defaultConfig {
         applicationId 'com.rgretail.grocermax'
-        minSdkVersion 11
+        minSdkVersion 15
         multiDexEnabled true
         versionName '1.4.6'
         versionCode 11
@@ -37,7 +37,7 @@ android {
 }
 
 dependencies {
-    compile project(':facebookSDK')
+    //compile project(':facebookSDK')
     compile project(':androidSDK')
     compile project(':view_pager_indicator')
     compile project(':citruspay-sdk-ui')
@@ -78,6 +78,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:23.1.1'
     compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    compile 'com.facebook.android:facebook-android-sdk:4.+'
 }
 
 
