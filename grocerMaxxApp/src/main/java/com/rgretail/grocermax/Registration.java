@@ -683,6 +683,8 @@ public class Registration extends BaseActivity implements
 					MySharedPrefs.INSTANCE.putQuoteId(QUOTE_ID_AFTER_FB);
 //					}
 
+
+
 					MySharedPrefs.INSTANCE.putLoginStatus(true);
 					MySharedPrefs.INSTANCE.putQuoteId(userDataBean.getQuoteId());/////////last change
 					MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(userDataBean.getTotalItem()));

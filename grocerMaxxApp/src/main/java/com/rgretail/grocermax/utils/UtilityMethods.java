@@ -1657,4 +1657,16 @@ public class UtilityMethods {
         return matcher.matches();
     }
 
+    public static boolean checkAvailableTimeSlot(ArrayList<String> alAvailable){
+        if(alAvailable.size()>0){
+            for(int i=0;i<alAvailable.size();i++){
+                if(alAvailable.get(i).equals("1")){
+                  return false;
+                }
+            }
+            return true;
+        }
+       return true;
+    }
+
 }

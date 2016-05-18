@@ -103,6 +103,7 @@ public class HomeScreen extends BaseActivity {
         addActionsInFilter(MyReceiverActions.LOCATION);
         addActionsInFilter(MyReceiverActions.CATEGORY_LIST);
 
+
         menuIcon = (ImageView) findViewById(R.id.menuIcon);
         homeDrawer = (ImageView) findViewById(R.id.homedrawer);
 //        martHeader.setVisibility(View.VISIBLE);
@@ -307,16 +308,6 @@ public class HomeScreen extends BaseActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
-                      /*  try {
-
-                            for(int i=0;i<jsonTrendingData.length();i++){
-                                Product p=new Product(jsonTrendingData.getJSONObject(i).getString("name1"));
-                                autoSuggestList.add(p);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }*/
                         /*--------------------------*/
 
                         JSONObject jsonOCccategory = new JSONObject();                                                                                  //
@@ -376,6 +367,12 @@ public class HomeScreen extends BaseActivity {
                         fragmentTransact.commit();
                         progress.dismiss();
 
+                        /*save gcm token to our server*/
+                        try {
+                            saveGcmTokenTOServer();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
                         /*  coming form notification */
                         try {

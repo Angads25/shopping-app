@@ -309,6 +309,8 @@ public class UrlsConstants {
     public final static String CITRUS_RETURN_URL = NEW_BASE_URL
             + "loadcitrus.php";
 
+	public final static String SEND_DEVICE_TOKEN = NEW_BASE_URL+ "regdevicetoken";
+
 
 
 }

@@ -3,14 +3,14 @@
 <resources>
   
   <!--Your Rocq Project secret-->
-  <!--<string name="rq_appsecret">e2595b89b0</string>-->  <!--live-->
-  <string name="rq_appsecret">9c6d4e090e</string>  <!--test-->
+  <string name="rq_appsecret">e2595b89b0</string>  <!--live-->
+  <!--<string name="rq_appsecret">9c6d4e090e</string>-->  <!--test-->
   
   <!--The maximum amount of analytics events to queue before dropping to conserve memory-->
   <integer name="rq_maxQueueSize">10000</integer>
   
   <!--The maximum amount of analytics events to queue before dropping to conserve memory-->
-  <string name="rq_debugMode">true</string>
+  <string name="rq_debugMode">false</string>
   
   <!--Flush to the server after receiving this many messages-->
   <integer name="rq_sendAt">20</integer>

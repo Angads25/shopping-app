@@ -670,6 +670,13 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 						}
 					}
 
+					/*save gcm token to our server*/
+					try {
+						saveGcmTokenTOServer();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
 					MySharedPrefs.INSTANCE.putLoginStatus(true);
 					if(userDataBean.getQuoteId() != null && !userDataBean.getQuoteId().equals("")) {
 						MySharedPrefs.INSTANCE.clearQuote();
@@ -693,6 +700,7 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 						startActivity(intent);
 						finish();
 					}
+
 				}else if(userDataBean.getFlag().equalsIgnoreCase("2")){   /*this is for opening Phonenumberfor Otp page from social login*/
 
                     if(MySharedPrefs.INSTANCE.getFirstName() == null){//if(MySharedPrefs.INSTANCE.getFirstName() != null){    //changed 17/9/15
@@ -708,6 +716,9 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
                 } else {
 					UtilityMethods.customToast(ToastConstant.LOGIN_FAIL, mContext);
 				}
+
+
+
 			} else if (bundle.getString("ACTION").equals(MyReceiverActions.ADD_TO_CART))  //it will call when user has come from HOME | PRODUCT LISTING | DESCRIPTION only.
 			{
 				BaseResponseBean response = (BaseResponseBean) bundle.getSerializable(ConnectionService.RESPONSE);

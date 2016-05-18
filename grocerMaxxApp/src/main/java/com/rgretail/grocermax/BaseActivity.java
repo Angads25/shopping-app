@@ -1223,6 +1223,24 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 	}
 
+	/*sending gcm device token to our server */
+	public void saveGcmTokenTOServer(){
+		try {
+			addActionsInFilter(MyReceiverActions.REG_DEVICE_TOKEN);
+			String strurl = UrlsConstants.SEND_DEVICE_TOKEN;
+			JSONObject dataSendTOserver = new JSONObject();
+			dataSendTOserver.put("device_token",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
+			dataSendTOserver.put("device_id", UtilityMethods.getDeviceId(BaseActivity.this));
+			dataSendTOserver.put("email", MySharedPrefs.INSTANCE.getUserEmail().trim());
+			dataSendTOserver.put("fname", MySharedPrefs.INSTANCE.getUserId().trim());
+			myApi.reqSendGcmTokenToServer(strurl.replaceAll(" ", "%20"), dataSendTOserver);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
+
 	public void shareToGMail(String email, String subject) {
 		try{
 			Intent emailIntent = new Intent(Intent.ACTION_SEND);
