@@ -1716,16 +1716,14 @@ public abstract class BaseActivity extends FragmentActivity {
 					.showImageOnLoading(R.drawable.cat_deal_detail_holder)
 					.showImageForEmptyUri(R.drawable.cat_deal_detail_holder)
 					.showImageOnFail(R.drawable.cat_deal_detail_holder)
-//					.showImageOnLoading(R.drawable.cat_deals_holder)
-//					.showImageForEmptyUri(R.drawable.cat_deals_holder)
-//					.showImageOnFail(R.drawable.cat_deals_holder)
 					.cacheInMemory(true).cacheOnDisk(true).considerExifParams(true)
 					.build();
 
 			ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 					mContext).threadPriority(Thread.NORM_PRIORITY - 2)
-					.denyCacheImageMultipleSizesInMemory()
+					//.denyCacheImageMultipleSizesInMemory()
 					.diskCacheFileNameGenerator(new Md5FileNameGenerator())
+					.defaultDisplayImageOptions(baseImageoptions)
 					.diskCacheSize(5 * 1024 * 1024)
 					.tasksProcessingOrder(QueueProcessingType.LIFO).build();
 			ImageLoader.getInstance().init(config);

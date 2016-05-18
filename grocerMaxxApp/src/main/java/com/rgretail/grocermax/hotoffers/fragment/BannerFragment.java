@@ -1,6 +1,7 @@
 package com.rgretail.grocermax.hotoffers.fragment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -94,58 +95,6 @@ public class BannerFragment extends Fragment {
                         e.printStackTrace();
                     }
                     /*-----------------------------------------------*/
-
-                ////////////// 1.search ///////////////////
-//                linkurl = "search?keyword=atta";
-//                String strAtta = "atta";
-//                System.out.println("====values OF is====" + linkurl);
-//                String url = UrlsConstants.BANNER_SEARCH_PRODUCT + linkurl;
-//                url = url.replace(" ", "%20");
-////                SearchLoader searchLoader  = new SearchLoader(this,search_key);
-//                SearchLoader searchLoader  = new SearchLoader(context,strAtta);
-//                searchLoader.execute(url);
-//                Log.i("Banner Through Search", "URL::" + url);
-                /////////////// search ///////////////////
-
-                ////////////////////// 2.dealproductlisting?deal_id=? ///////////////////
-
-//                String dealId = "270";
-//                ((HomeScreen) context).addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);home
-//                String url = UrlsConstants.PRODUCTLISTING_BY_DEAL_TYPE;
-//                ((HomeScreen)context).showDialog();
-//                ((HomeScreen)context).myApi.reqProductListingByDealType(url + dealId);
-//                System.out.println(dealId);
-
-//                http://staging.grocermax.com/webservice/new_services/dealproductlisting?deal_id=270&version=1.0
-
-                ////////////////////// 3. dealsbydealtype?deal_type_id=? ////////////////////////
-
-//                String dealId = "1";
-//                ((HomeScreen) context).addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);
-//                ((HomeScreen)context).showDialog();
-//                String url = UrlsConstants.DEAL_BY_DEAL_TYPE;
-//                System.out.print("==my work=="+url);
-//                ((HomeScreen)context).myApi.reqDealByDealType(url+ dealId);
-
-                ////////////////http://staging.grocermax.com/webservice/new_services/dealsbydealtype?deal_type_id=1&version=1.0////////////////////
-
-
-//                shopbydealtype              -          open Hot Offers screen in gridview format.
-
-//                productlist?pro_id=11498         -       will call Product_Detail (i.e. product description)
-
-//                category?parentid=2402
-
-//                System.out.println("====values is====" + linkurl);
-
-//                types of banner in android
-//1                "search?keyword=dairy"                             //
-//2                "dealproductlisting?deal_id=11"                    //
-//3                "dealsbydealtype?deal_type_id=1"                   //
-//4                "shopbydealtype"                                   //not implemented in android
-//5                "productlistall?cat_id=2402"                      //
-//6                linkurl = "offerbydealtype?cat_id=2483";
-
 
 
                     int index = 0;
@@ -241,39 +190,17 @@ public class BannerFragment extends Fragment {
                 }catch(Exception e){}
 
 
-
-//                String str = linkurl.split("?")[0];
-//                String[] parts = linkurl.split("/?");
-//                if(parts.length>=1) {
-//                    for(int i=0;i<parts.length;i++){
-//                        if(parts[i] == "?"){
-//                            index = i;
-//                        }
-//                        System.out.println("====values OF is====" + parts[i]);
-//                    }
-//                    String strdd = linkurl.substring(0, index);
-//                    strdd = strdd.trim();
-//                    System.out.println("====trim part is====" + strdd);
-//                }
-//                String strA = linkurl.split("?")[1];
             }
         });
 
-        ImageLoader.getInstance().displayImage(url,
-                imageView, ((BaseActivity) getActivity()).baseImageoptions);
+        String image_name=url.substring(url.lastIndexOf("/")+1);
+        if(UtilityMethods.isFilePresent(image_name,getActivity())){
+            Bitmap img = UtilityMethods.loadImageFromStorage(getActivity(),image_name);
+            imageView.setImageBitmap(img);
+        }else{
+        ImageLoader.getInstance().displayImage(url,imageView, ((BaseActivity) getActivity()).baseImageoptions);
+        }
         return view;
     }
-
-
-//    public static void setData(String imageurl)
-//    {
-//        url = imageurl;
-//    }
-//    public static void setLinkUrl(String link){
-//        linkurl = link;
-//    }
-//    public static void setName(String strname){
-//        name = strname;
-//    }
 
 }
