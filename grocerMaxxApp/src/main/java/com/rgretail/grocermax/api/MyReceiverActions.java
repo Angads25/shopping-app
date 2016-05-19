@@ -109,4 +109,6 @@ public interface MyReceiverActions {
 
 	String TOP_PRODUCTS_LIST= PKG_NAME + ".top_product_list";
 	String CATEGORY_BANNER= PKG_NAME + ".category_banner";
+
+	String REG_DEVICE_TOKEN = PKG_NAME + ".regdevicetoken";
 }

@@ -79,6 +79,7 @@ public class ConnectionServiceParser {
         int TERM_CONDITION = 137;
 		int TOP_PRODUCTS_LIST = 138;
 		int CATEGORY_BANNER = 139;
+		int REG_DEVICE_TOKEN = 140;
 	}
 
 	public static BaseResponseBean parseSimpleResponse(String jsonString)

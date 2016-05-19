@@ -606,6 +606,10 @@ public class ConnectionService extends IntentService {
                             (Serializable)ConnectionServiceParser
                                     .parseWalletTransactionResponse(response));
                     break;
+				case MyParserType.REG_DEVICE_TOKEN:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) response);
+					break;
 
 			}
 

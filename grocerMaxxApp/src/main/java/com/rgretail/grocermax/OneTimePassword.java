@@ -342,6 +342,15 @@ public class OneTimePassword extends BaseActivity {
                 else {
                     MySharedPrefs.INSTANCE.putUserEmail(MySharedPrefs.INSTANCE.getFacebookEmail().trim());
                 }
+
+                /*save gcm token to our server*/
+                try {
+                    saveGcmTokenTOServer();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
                 MySharedPrefs.INSTANCE.putLoginStatus(true);
 
                 ArrayList<CartDetail> cart_products = UtilityMethods.readLocalCart(OneTimePassword.this, AppConstants.localCartFile);
@@ -394,6 +403,16 @@ public class OneTimePassword extends BaseActivity {
                     MySharedPrefs.INSTANCE.putMobileNo(userDataBean.getMobile());
                     MySharedPrefs.INSTANCE.putUserEmail(MySharedPrefs.INSTANCE.getUserEmail().trim());
                     MySharedPrefs.INSTANCE.putLoginStatus(true);
+
+                    /*save gcm token to our server*/
+                    try {
+                        saveGcmTokenTOServer();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
+
                     if(userDataBean.getQuoteId() != null && !userDataBean.getQuoteId().equals("")) {
                         MySharedPrefs.INSTANCE.clearQuote();
                         MySharedPrefs.INSTANCE.putQuoteId(userDataBean.getQuoteId());/////////last change

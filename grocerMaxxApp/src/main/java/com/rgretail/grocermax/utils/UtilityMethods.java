@@ -7,12 +7,14 @@ import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint.FontMetrics;
@@ -33,6 +35,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -1656,5 +1659,78 @@ public class UtilityMethods {
         Matcher matcher = pattern.matcher(phone);
         return matcher.matches();
     }
+
+    public static boolean checkAvailableTimeSlot(ArrayList<String> alAvailable){
+        if(alAvailable.size()>0){
+            for(int i=0;i<alAvailable.size();i++){
+                if(alAvailable.get(i).equals("1")){
+                  return false;
+                }
+            }
+            return true;
+        }
+       return true;
+    }
+
+    public static String saveImageInInternalMemory(Context con,String file_name,Bitmap bitmapImage){
+        ContextWrapper cw = new ContextWrapper(con);
+        File directory = cw.getDir("Grocermax_Banner", Context.MODE_PRIVATE);
+        File mypath=new File(directory,file_name);
+
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(mypath);
+                // Use the compress method on the BitMap object to write image to the OutputStream
+                bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        System.out.println("Server saveImageInInternalMemory="+directory.getAbsolutePath());
+        return directory.getAbsolutePath();
+    }
+
+    public static Bitmap loadImageFromStorage(Context con,String file_name)
+    {
+        try {
+            ContextWrapper cw = new ContextWrapper(con);
+            File directory = cw.getDir("Grocermax_Banner", Context.MODE_PRIVATE);
+            File mypath=new File(directory,file_name);
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(mypath));
+            System.out.println("Server loadImageFromStorage="+file_name+"---"+b);
+            return b;
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+      return null;
+    }
+
+    public static boolean isFilePresent(String file_name,Context con) {
+        ContextWrapper cw = new ContextWrapper(con);
+        File directory = cw.getDir("Grocermax_Banner", Context.MODE_PRIVATE);
+        File mypath=new File(directory,file_name);
+        System.out.println("Server isFilePresent="+mypath.exists());
+        return mypath.exists();
+    }
+
+   public static void deleteBannerDirecort(Context con){
+       ContextWrapper cw = new ContextWrapper(con);
+       File dir = cw.getDir("Grocermax_Banner", Context.MODE_PRIVATE);
+       if (dir.isDirectory())
+       {
+           String[] children = dir.list();
+           for (int i = 0; i < children.length; i++)
+           {
+               new File(dir, children[i]).delete();
+           }
+       }
+   }
 
 }

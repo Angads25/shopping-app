@@ -1,7 +1,10 @@
 package com.rgretail.grocermax.hotoffers.fragment;
 
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -39,6 +42,9 @@ import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -342,15 +348,15 @@ public class HomeFragment extends Fragment {
             bundle.putString("imgUrl", homeBannerBean.getBanner().get(position).getImageurl());
             bundle.putString("linkUrl", homeBannerBean.getBanner().get(position).getLinkurl());
             bundle.putString("name", homeBannerBean.getBanner().get(position).getName());
-//            bannerFragment.setData(homeBannerBean.getBanner().get(position).getImageurl());
             System.out.println("Position " + position + " ImageUrl " + homeBannerBean.getBanner().get(position).getImageurl());
-//            bannerFragment.setLinkUrl(homeBannerBean.getBanner().get(position).getLinkurl());
-//            bannerFragment.setName(homeBannerBean.getBanner().get(position).getName());
-
             System.out.println("====NAME====" + homeBannerBean.getBanner().get(position).getName());
-
             bannerFragment.setArguments(bundle);
-//            return BannerFragment.newInstance(homeBannerBean.getBanner().get(position % homeBannerBean.getBanner().size()));
+
+            String image_url=homeBannerBean.getBanner().get(position).getImageurl();
+            String image_name=image_url.substring(image_url.lastIndexOf("/")+1);
+            if(!UtilityMethods.isFilePresent(image_name,getActivity())){
+              new GetImage().execute(image_url,image_name);
+            }
             return bannerFragment;
         }
 
@@ -398,4 +404,27 @@ public class HomeFragment extends Fragment {
             e.printStackTrace();
         }
     }
+
+    /*downloading file for banner on home screen*/
+    class GetImage extends AsyncTask<String,Void,Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            URL url = null;
+            Bitmap image = null;
+            try {
+                url = new URL(params[0]);
+                image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                UtilityMethods.saveImageInInternalMemory(getActivity(),params[1],image);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return image;
+        }
+    }
+
+
+
 }

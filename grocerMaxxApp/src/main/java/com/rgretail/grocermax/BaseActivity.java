@@ -1220,6 +1220,24 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 	}
 
+	/*sending gcm device token to our server */
+	public void saveGcmTokenTOServer(){
+		try {
+			addActionsInFilter(MyReceiverActions.REG_DEVICE_TOKEN);
+			String strurl = UrlsConstants.SEND_DEVICE_TOKEN;
+			JSONObject dataSendTOserver = new JSONObject();
+			dataSendTOserver.put("device_token",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
+			dataSendTOserver.put("device_id", UtilityMethods.getDeviceId(BaseActivity.this));
+			dataSendTOserver.put("email", MySharedPrefs.INSTANCE.getUserEmail().trim());
+			dataSendTOserver.put("fname", MySharedPrefs.INSTANCE.getUserId().trim());
+			myApi.reqSendGcmTokenToServer(strurl.replaceAll(" ", "%20"), dataSendTOserver);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
+
 	public void shareToGMail(String email, String subject) {
 		try{
 			Intent emailIntent = new Intent(Intent.ACTION_SEND);
@@ -1695,16 +1713,14 @@ public abstract class BaseActivity extends FragmentActivity {
 					.showImageOnLoading(R.drawable.cat_deal_detail_holder)
 					.showImageForEmptyUri(R.drawable.cat_deal_detail_holder)
 					.showImageOnFail(R.drawable.cat_deal_detail_holder)
-//					.showImageOnLoading(R.drawable.cat_deals_holder)
-//					.showImageForEmptyUri(R.drawable.cat_deals_holder)
-//					.showImageOnFail(R.drawable.cat_deals_holder)
 					.cacheInMemory(true).cacheOnDisk(true).considerExifParams(true)
 					.build();
 
 			ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 					mContext).threadPriority(Thread.NORM_PRIORITY - 2)
-					.denyCacheImageMultipleSizesInMemory()
+					//.denyCacheImageMultipleSizesInMemory()
 					.diskCacheFileNameGenerator(new Md5FileNameGenerator())
+					.defaultDisplayImageOptions(baseImageoptions)
 					.diskCacheSize(5 * 1024 * 1024)
 					.tasksProcessingOrder(QueueProcessingType.LIFO).build();
 			ImageLoader.getInstance().init(config);

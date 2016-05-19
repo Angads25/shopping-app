@@ -75,6 +75,8 @@ public class SplashScreen extends BaseActivity
         RocqAnalytics.startScreen(this);
         /*------------------------------*/
 
+		/*deleting banner images from internal storage*/
+		UtilityMethods.deleteBannerDirecort(SplashScreen.this);
 
 
         /*registering device on GCM server*/
@@ -95,37 +97,11 @@ public class SplashScreen extends BaseActivity
 
 		MyApplication application = (MyApplication) getApplication();
 		mTracker = application.getDefaultTracker();
-//		Log.i(TAG, "Setting screen name: " + "SplashScreen");
-
-
-
-//Your Dev Key: XNjhQZD7Yhe2dFs8kL7bpn  -  appsflyer dev key
-				//////////// AppsFlyer code //////////
-				//		6.1 �Set�Currency�Code
 				AppsFlyerLib.setCurrencyCode("INR");
 //		4
 		AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
 		AppsFlyerLib.sendTracking(getApplicationContext());        //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
-//		5 /Example�2:�?Purchase�Event/
-//		Map<String, Object> eventValue = new HashMap<String, Object>();
-//		eventValue.put(AFInAppEventParameterName.PRICE,200);
-////		eventValue.put(AFInAppEventParameterName.REVENUE,200);
-//		eventValue.put(AFInAppEventParameterName.CONTENT_TYPE,"category_a");
-//		eventValue.put(AFInAppEventParameterName.CONTENT_ID,"1234567");
-//		eventValue.put(AFInAppEventParameterName.CURRENCY, "INR");
-//		AppsFlyerLib.trackEvent(getApplicationContext(), AFInAppEventType.ADD_TO_CART, eventValue);
 
-//		6.2 �Get�AppsFlyer�Unique�ID�(Optional)�
-//		String appsFlyerId = AppsFlyerLib.getAppsFlyerUID(this);         //�unique�ID�is�created�for�every�new�install�of�an�app
-//      6.3 Set�Customer�User�ID
-//		AppsFlyerLib.setCustomerUserId("myId");
-
-//      6.6 Reporting�Deeplinks�for�Re�Targeting�Attribution�(Optional)�
-//		AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");        //place in onCreate   //6.6   from report�launches�initiated�through�deeplinks
-//		Intent intent = ((Activity)this).getIntent();
-//		String action = intent.getAction();
-//		if (action == Intent.ACTION_VIEW) {
-//			AppsFlyerLib.sendTracking(this);
 //		}                                                              //place in onCreate   //6.6  to report�launches�initiated�through�deeplinks
 
 			//////////// AppsFlyer code //////////
@@ -250,10 +226,7 @@ public class SplashScreen extends BaseActivity
 					}
 
 					if (MySharedPrefs.INSTANCE.getSelectedCity() != null) {
-//			showDialog();
-						//String url = UrlsConstants.CATEGORY_COLLECTION_LISTING_URL;
 						if (UtilityMethods.isInternetAvailable(activity)) {                //start app after 4 sec
-//				myApi.reqCategorySubCategoryList(url);
 							handler = new Handler();
 							handler.postDelayed(runningThread4Minutes, 4000);
 						} else {
@@ -275,24 +248,6 @@ public class SplashScreen extends BaseActivity
                 Log.d("getting reg", e.getMessage());
             }
 
-//		if(MySharedPrefs.INSTANCE.getSelectedCity() != null){
-//			Intent call = new Intent(SplashScreen.this, HomeScreen.class);
-////			Bundle call_bundle = new Bundle();
-////			call_bundle.putSerializable("Categories", category);
-////			call.putExtras(call_bundle);
-//			startActivity(call);
-//			registerGCM();
-//			finish();
-//		}else{
-//			String url = UrlsConstants.GET_LOCATION;
-//			if(UtilityMethods.isInternetAvailable(activity)) {
-//				myApi.reqLocation(url);
-//			}else{
-//				UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, activity);
-//				handler = new Handler();
-//				handler.postDelayed(runningThread, 4000);
-//			}
-//		}
 
 	}
 
@@ -306,11 +261,7 @@ public class SplashScreen extends BaseActivity
 	Runnable runningThread = new Runnable() {
 		public void run() {
 			finish();
-			/*Intent intent;
-			intent = new Intent(SplashScreen.this, HomeScreen.class);
-			startActivity(intent);
-			finish();*/
-//			registerGCM();
+
 		}
 	};
 

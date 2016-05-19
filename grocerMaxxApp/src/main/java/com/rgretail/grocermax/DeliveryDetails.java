@@ -58,9 +58,7 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
     String date;
     String time="";
     private TextView tvSelectedTime;
-   // private RelativeLayout rlFirstTimeSlot,rlSecondTimeSlot,rlThirdTimeSlot,rlFourthTimeSlot;
-    //private TextView tvFirstSlotFull,tvSecondSlotFull,tvThirdSlorFull,tvFourthSlotFull;
-    //private TextView tvFirstTime,tvSecondTime,tvThirdTime,tvFourthTime;
+
 
     private ImageView ivLeft,ivRight;
     private TextView tvCurrentDate,tvSelectedDate;
@@ -90,47 +88,6 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
 
             tvSelectedTime = (TextView) findViewById(R.id.tv_selected_time);
             grid_time_slot=(GridView)findViewById(R.id.grid_time_slot);
-
-            /*Commented By Ishan*/
-           /* rlFirstTimeSlot = (RelativeLayout) findViewById(R.id.rl_first_time_Slot);
-            rlSecondTimeSlot = (RelativeLayout) findViewById(R.id.rl_second_time_Slot);
-            rlThirdTimeSlot = (RelativeLayout) findViewById(R.id.rl_third_time_Slot);
-            rlFourthTimeSlot = (RelativeLayout) findViewById(R.id.rl_fourth_time_Slot);
-
-            tvFirstTime = (TextView) findViewById(R.id.tv_time_1st_slot);
-            tvSecondTime = (TextView) findViewById(R.id.tv_time_2nd_slot);
-            tvThirdTime = (TextView) findViewById(R.id.tv_time_3rd_slot);
-            tvFourthTime = (TextView) findViewById(R.id.tv_time_4th_slot);
-
-            tvFirstSlotFull = (TextView) findViewById(R.id.tv_slotfull_1st_slot);
-            tvSecondSlotFull = (TextView) findViewById(R.id.tv_slotfull_2nd_slot);
-            tvThirdSlorFull = (TextView) findViewById(R.id.tv_slotfull_3rd_slot);
-            tvFourthSlotFull = (TextView) findViewById(R.id.tv_slotfull_4th_slot);
-
-            rlFirstTimeSlot.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    firstTimeSlot();
-                }
-            });
-            rlSecondTimeSlot.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    secondTimeSlot();
-                }
-            });
-            rlThirdTimeSlot.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    thirdTimeSlot();
-                }
-            });
-            rlFourthTimeSlot.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    fourthTimeSlot();
-                }
-            });*/
 
             ivLeft = (ImageView) findViewById(R.id.iv_left);
             ivRight = (ImageView) findViewById(R.id.iv_right);
@@ -322,7 +279,8 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                     alAvailable.add(index,alTotal.get(i));
                     index++;
                 }
-                if(alAvailable.get(0).equalsIgnoreCase("0") && alAvailable.get(0).equalsIgnoreCase("0") && alAvailable.get(0).equalsIgnoreCase("0") && alAvailable.get(0).equalsIgnoreCase("0")){
+                //if(UtilityMethods.checkAvailableTimeSlot(alAvailable)){
+                if(false){
                     date = date_list.get(1);
                     setTimeSlotting(date);
                     if(date_list.size() > 1){
@@ -330,8 +288,6 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                         DateFormat formatter3 = null;
                         Date convertedDate = null;
 
-                        // Creating SimpleDateFormat with yyyyMMdd format e.g."20110914"
-//    String yyyyMMdd = "2015-08-30";
                         String yyyyMMdd = date;
                         formatter3 = new SimpleDateFormat("yyyy-MM-dd");
                         convertedDate = (Date) format.parse(yyyyMMdd);
@@ -375,9 +331,6 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                         SimpleDateFormat formatt = new SimpleDateFormat("yyyy-MM-dd");
                         DateFormat formatter3 = null;
                         Date convertedDate = null;
-
-                        // Creating SimpleDateFormat with yyyyMMdd format e.g."20110914"
-//    String yyyyMMdd = "2015-08-30";
                         String yyyyMMdd = date;
                         formatter3 = new SimpleDateFormat("yyyy-MM-dd");
                         convertedDate = (Date) formatt.parse(yyyyMMdd);
@@ -390,10 +343,6 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
 //                        Date date1 = (Date)formatter1.parse(date_list.get(i));
                         Calendar cal = Calendar.getInstance();
                         cal.setTime(date1);
-//    String formatedDate = cal.get(Calendar.DATE) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.YEAR)
-//            + "/" + cal.get(Calendar.DAY_OF_MONTH) + "/" + cal.get(Calendar.DAY_OF_WEEK_IN_MONTH) +
-//            "/" + cal.get(Calendar.DAY_OF_WEEK);       //0-sunday ,1-monday,2-tuesday,3-wednesday,4-thursday,5-friday,6-saturday
-//    System.out.println("formatedDate : " + formatedDate);
                         String strDay="";
                         int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
                         if(dayOfWeek == 1){
@@ -414,16 +363,9 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
 
                         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy");
                         Calendar calendar = new GregorianCalendar(cal.get(Calendar.YEAR),(cal.get(Calendar.MONTH)),cal.get(Calendar.DATE));
-//    System.out.println("Date : " + sdf.format(calendar.getTime()));
                         String strFinalDate = strDay+", "+sdf.format(calendar.getTime());
-//     cal.get(Calendar.DAY_OF_WEEK),     sunday
-//cal.get(Calendar.DATE)             30
-                        //cal.get(Calendar.YEAR)             2015
                         tvCurrentDate.setText(strFinalDate);
                         tvSelectedDate.setText(strFinalDate);
-
-//                        tvSelectedDate.setText(date_list.get(0));
-//                        tvCurrentDate.setText(date_list.get(0));
                         selectedDatePosition = 0;
                     }
                 }
@@ -493,87 +435,6 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                     }
                 }
             });
-
-              /*Commented By Ishan*/
-            /*if (alTime.size() == 4) {
-                tvFirstTime.setText(alTime.get(0));
-                tvSecondTime.setText(alTime.get(1));
-                tvThirdTime.setText(alTime.get(2));
-                tvFourthTime.setText(alTime.get(3));
-
-                tvFirstTime.setTextColor(getResources().getColor(R.color.light_Gray));
-                tvSecondTime.setTextColor(getResources().getColor(R.color.light_Gray));
-                tvThirdTime.setTextColor(getResources().getColor(R.color.light_Gray));
-                tvFourthTime.setTextColor(getResources().getColor(R.color.light_Gray));
-
-                if(alAvailable.get(0).equalsIgnoreCase("0")){
-                    tvFirstSlotFull.setText("SLOT FULL");
-                    tvFirstSlotFull.setVisibility(View.VISIBLE);
-                    tvFirstSlotFull.setTextColor(getResources().getColor(R.color.primaryColor));
-                    BlurMaskFilter.Blur style = BlurMaskFilter.Blur.NORMAL;
-                    applyFilter(tvFirstTime, style);
-                    rlFirstTimeSlot.setEnabled(false);
-                }else{
-                    tvFirstSlotFull.setText("");
-                    tvFirstTime.setVisibility(View.VISIBLE);
-                    tvFirstSlotFull.setVisibility(View.INVISIBLE);
-                    tvFirstSlotFull.setTextColor(getResources().getColor(R.color.white));
-                    applyFilterVisible(tvFirstTime, new float[]{0f, -1f, 0.5f}, 0.8f, 15f, 1f);
-                    rlFirstTimeSlot.setEnabled(true);
-                }
-
-                if(alAvailable.get(1).equalsIgnoreCase("0")){
-                    tvSecondSlotFull.setText("SLOT FULL");
-                    tvSecondSlotFull.setVisibility(View.VISIBLE);
-                    tvSecondSlotFull.setTextColor(getResources().getColor(R.color.primaryColor));
-                    BlurMaskFilter.Blur style = BlurMaskFilter.Blur.NORMAL;
-                    applyFilter(tvSecondTime, style);
-                    rlSecondTimeSlot.setEnabled(false);
-                }else{
-                    tvSecondSlotFull.setText("");
-                    tvSecondSlotFull.setVisibility(View.INVISIBLE);
-                    tvSecondTime.setVisibility(View.VISIBLE);
-                    tvSecondSlotFull.setTextColor(getResources().getColor(R.color.white));
-                    applyFilterVisible(tvSecondTime, new float[] { 0f, -1f, 0.5f }, 0.8f, 15f, 1f);
-                    rlSecondTimeSlot.setEnabled(true);
-                }
-
-                if(alAvailable.get(2).equalsIgnoreCase("0")){
-                    tvThirdSlorFull.setText("SLOT FULL");
-                    tvThirdSlorFull.setVisibility(View.VISIBLE);
-                    tvThirdSlorFull.setTextColor(getResources().getColor(R.color.primaryColor));
-                    BlurMaskFilter.Blur style = BlurMaskFilter.Blur.NORMAL;
-                    applyFilter(tvThirdTime, style);
-                    rlThirdTimeSlot.setEnabled(false);
-                }else{
-                    tvThirdSlorFull.setText("");
-                    tvThirdSlorFull.setVisibility(View.INVISIBLE);
-                    tvThirdTime.setVisibility(View.VISIBLE);
-                    tvThirdSlorFull.setTextColor(getResources().getColor(R.color.white));
-                    applyFilterVisible(tvThirdTime, new float[] { 0f, -1f, 0.5f }, 0.8f, 15f, 1f);
-                    rlThirdTimeSlot.setEnabled(true);
-                }
-
-                if(alAvailable.get(3).equalsIgnoreCase("0")){
-                    tvFourthSlotFull.setText("SLOT FULL");
-                    tvFourthSlotFull.setVisibility(View.VISIBLE);
-                    tvFourthSlotFull.setTextColor(getResources().getColor(R.color.primaryColor));
-                    BlurMaskFilter.Blur style = BlurMaskFilter.Blur.NORMAL;
-                    applyFilter(tvFourthTime, style);
-                    rlFourthTimeSlot.setEnabled(false);
-                }else{
-                    tvFourthSlotFull.setText("");
-                    tvFourthSlotFull.setVisibility(View.INVISIBLE);
-                    tvFourthTime.setVisibility(View.VISIBLE);
-                    tvFourthSlotFull.setTextColor(getResources().getColor(R.color.white));
-                    applyFilterVisible(tvFourthTime, new float[] { 0f, -1f, 0.5f }, 0.8f, 15f, 1f);
-                    rlFourthTimeSlot.setEnabled(true);
-                }
-                rlFirstTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
-                rlSecondTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
-                rlThirdTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
-                rlFourthTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
-                 }*/
 
 
         }catch(Exception e){
@@ -645,95 +506,6 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
 
-    }
-
-    private void firstTimeSlot(){
-        try{
-        ArrayList<String> alTotal = address_obj.getDate_timeSlot().get(date);
-        ArrayList<String> alTime = new ArrayList<String>();
-
-        for(int i=0;i<alTotal.size()/2;i++) {
-            alTime.add(i, alTotal.get(i));
-        }
-        time = alTime.get(0);
-        tvSelectedTime.setText(time);
-/*Commented By Ishan*/
-        /*rlFirstTimeSlot.setBackgroundColor(getResources().getColor(R.color.gray_1));
-        rlSecondTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
-        rlThirdTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
-        rlFourthTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));*/
-        }catch(Exception e){
-            new GrocermaxBaseException("DeliveryDetails","firstTimeSlot",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
-        }
-    }
-
-    private void secondTimeSlot(){
-        try{
-//        ArrayList<String> alTime = address_obj.getDate_timeSlot().get(date);
-//        time = alTime.get(1);
-//        tvSelectedTime.setText(time);
-
-        ArrayList<String> alTotal = address_obj.getDate_timeSlot().get(date);
-//            ArrayList<String> alTime = address_obj.getDate_timeSlot().get(date);
-        ArrayList<String> alTime = new ArrayList<String>();
-
-        for(int i=0;i<alTotal.size()/2;i++) {
-            alTime.add(i, alTotal.get(i));
-        }
-        time = alTime.get(1);
-        tvSelectedTime.setText(time);
-/*Commented By Ishan*/
-       /* rlFirstTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
-        rlSecondTimeSlot.setBackgroundColor(getResources().getColor(R.color.gray_1));
-        rlThirdTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
-        rlFourthTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));*/
-        }catch(Exception e){
-            new GrocermaxBaseException("DeliveryDetails","secondTimeSlot",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
-        }
-    }
-
-    private void thirdTimeSlot()
-    {
-        try{
-
-            ArrayList<String> alTotal = address_obj.getDate_timeSlot().get(date);
-            ArrayList<String> alTime = new ArrayList<String>();
-
-            for(int i=0;i<alTotal.size()/2;i++) {
-                alTime.add(i, alTotal.get(i));
-            }
-            time = alTime.get(2);
-            tvSelectedTime.setText(time);
-/*Commented By Ishan*/
-           /* rlFirstTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
-            rlSecondTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
-            rlThirdTimeSlot.setBackgroundColor(getResources().getColor(R.color.gray_1));
-            rlFourthTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));*/
-        }catch(Exception e){
-            new GrocermaxBaseException("DeliveryDetails","thirdTimeSlot",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
-        }
-    }
-    private void fourthTimeSlot(){
-        try{
-
-        ArrayList<String> alTotal = address_obj.getDate_timeSlot().get(date);
-//            ArrayList<String> alTime = address_obj.getDate_timeSlot().get(date);
-        ArrayList<String> alTime = new ArrayList<String>();
-
-        for(int i=0;i<alTotal.size()/2;i++) {
-            alTime.add(i, alTotal.get(i));
-        }
-        time = alTime.get(3);
-        tvSelectedTime.setText(time);
-
-            /*Commented By Ishan*/
-        /*rlFirstTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
-        rlSecondTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
-        rlThirdTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
-        rlFourthTimeSlot.setBackgroundColor(getResources().getColor(R.color.gray_1));*/
-        }catch(Exception e){
-            new GrocermaxBaseException("DeliveryDetails","fourthTimeSlot",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
-        }
     }
 
     @Override
