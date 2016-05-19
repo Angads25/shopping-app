@@ -1,6 +1,5 @@
 package com.rgretail.grocermax;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -16,11 +15,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dq.rocq.RocqAnalytics;
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.model.GraphUser;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.flurry.android.FlurryAgent;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -49,8 +52,6 @@ import org.json.JSONObject;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 //import com.google.analytics.tracking.android.EasyTracker;
 
@@ -75,6 +76,9 @@ public class Registration extends BaseActivity implements
 	Context context = this;
 //	EasyTracker tracker;
 	ImageView ivFacebook;
+	LoginButton loginButton;
+	CallbackManager callbackManager;
+
 	TextView tvFacebook;
 	private static final int FB_SIGN_IN = 64206;
 	private static final int RC_SIGN_IN = 0;
@@ -233,59 +237,31 @@ public class Registration extends BaseActivity implements
 
 			ivFacebook = (ImageView)findViewById(R.id.facebook_icon);
 			tvFacebook = (TextView)findViewById(R.id.button_facebook);
+			loginButton = (LoginButton)findViewById(R.id.login_button);
 
 			tvFacebook.setOnClickListener(fb_signin_listener);
 			ivFacebook.setOnClickListener(fb_signin_listener);
 
-//			tvFacebook.setOnClickListener(new View.OnClickListener() {
-//				@Override
-//				public void onClick(View v) {
-//					UtilityMethods.customToast("FB tv",mContext);
-//				}
-//			});
-//			ivFacebook.setOnClickListener(new View.OnClickListener() {
-//				@Override
-//				public void onClick(View v) {
-//					UtilityMethods.customToast("FB iv",mContext);
-//				}
-//			});
 
+			callbackManager = CallbackManager.Factory.create();
+			loginButton.setReadPermissions("email","user_location");
+			loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+				@Override
+				public void onSuccess(LoginResult loginResult) {
+					new_Fb_login(loginResult);
+				}
 
-//			ivFB.setClickable(this);
-//			tvFB.setClickable(this);
-//			ivGoogle.setClickable(true);
-//			tvGoogle.setClickable(true);
-//			rlbtnGoogle.setClickable(true);
-//			rlbtnFB.setClickable(true);
+				@Override
+				public void onCancel() {
+					// App code
+				}
 
+				@Override
+				public void onError(FacebookException exception) {
+					// App code
+				}
+			});
 
-            /*password.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    final int DRAWABLE_LEFT = 0;
-                    final int DRAWABLE_TOP = 1;
-                    final int DRAWABLE_RIGHT = 2;
-                    final int DRAWABLE_BOTTOM = 3;
-
-                    if(event.getAction() == MotionEvent.ACTION_UP) {
-                        if(event.getX() >= (password.getRight() - password.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                            // your action here
-                            if(isPasswordShow){
-                                isPasswordShow=false;
-                                password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                                password.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.show_pwd, 0);
-                            }else{
-                                isPasswordShow=true;
-                                password.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                                password.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.hide_pwd, 0);
-                            }
-                            password.setSelection(password.length());
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-            });*/
 
             img_changePwdType.setOnClickListener(new OnClickListener() {
                 @Override
@@ -326,13 +302,6 @@ public class Registration extends BaseActivity implements
 					}
 				}
 			});
-
-//		final CheckBox cmMale = (CheckBox) findViewById(R.id.cb)
-//		final Spinner gender = (Spinner) findViewById(R.id.gender);
-//		String[] values = {"Select", "Male", "Female"};
-//		ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(Registration.this, android.R.layout.simple_spinner_item, values);
-//		spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//		gender.setAdapter(spinnerArrayAdapter);
 
 			password.setTransformationMethod(new PasswordTransformationMethod());
 			confirmation.setTransformationMethod(new PasswordTransformationMethod());
@@ -383,30 +352,6 @@ public class Registration extends BaseActivity implements
 				}
 			});
 
-//			iv_other.setOnClickListener(new View.OnClickListener() {
-//
-//				@Override
-//				public void onClick(View v) {
-//					// TODO Auto-generated method stub
-//					clickMale = false;
-//					clickFemale = false;
-//					if (clickOther) {
-//						clickOther = false;
-//					} else {
-//						clickOther = true;
-//					}
-//
-//					if (clickOther) {
-//						iv_other.setImageResource(R.drawable.checkbox_select);           //select
-//						iv_male.setImageResource(R.drawable.checkbox_unselect);       //unselect
-//						iv_female.setImageResource(R.drawable.checkbox_unselect);        //unselect
-//					} else {
-//						iv_other.setImageResource(R.drawable.checkbox_unselect);         //unselect
-//					}
-//
-//				}
-//			});
-
 			TextView account_create = (TextView) findViewById(R.id.account_create);
 			account_create.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
 			account_create.setOnClickListener(new View.OnClickListener() {
@@ -425,21 +370,6 @@ public class Registration extends BaseActivity implements
 						UtilityMethods.customToast(Constants.ToastConstant.FNAME_BLANCK, Registration.this);
 						return;
 					}
-					/*if (_fname.contains(" ")) {
-//					Toast.makeText(Registration.this,ToastConstant.FNAME_SINGLE_WORD, Toast.LENGTH_LONG).show();
-						UtilityMethods.customToast(Constants.ToastConstant.FNAME_SINGLE_WORD, Registration.this);
-						return;
-					}*/
-                    // commented because of new design
-					/*if (_lname.equals("")) {
-						UtilityMethods.customToast(Constants.ToastConstant.LNAME_BLANCK, Registration.this);
-						return;
-					}
-					if (_lname.contains(" ")) {
-//					Toast.makeText(Registration.this, ToastConstant.LNAME_SINGLE_WORD, Toast.LENGTH_LONG).show();
-						UtilityMethods.customToast(Constants.ToastConstant.LNAME_SINGLE_WORD, Registration.this);
-						return;
-					}*/
 
 					if (_mobile_no.equals("")) {
 						UtilityMethods.customToast(Constants.ToastConstant.MOB_BLANCK, Registration.this);
@@ -451,16 +381,6 @@ public class Registration extends BaseActivity implements
 						UtilityMethods.customToast(Constants.ToastConstant.MOB_NUMBER_DIGIT, Registration.this);
 						return;
 					}
-
-//				if(gender.getSelectedItem().equals("Select")){
-//					Toast.makeText(Registration.this, ToastConstant.SELECT_GENDER, Toast.LENGTH_LONG).show();
-//					return;
-//				}
-                    // commented because of new design
-					/*if (!clickMale && !clickFemale && !clickOther) {
-						UtilityMethods.customToast(Constants.ToastConstant.SELECT_GENDER, Registration.this);
-						return;
-					}*/
 
 					if (_email_id.equalsIgnoreCase("")) {
 						UtilityMethods.customToast(Constants.ToastConstant.EMAIL_BLANCK, Registration.this);
@@ -483,16 +403,6 @@ public class Registration extends BaseActivity implements
 						return;
 					}
 
-                    // commented because of new design
-					/*if (_confirmation.equalsIgnoreCase("")) {
-						UtilityMethods.customToast(Constants.ToastConstant.CPWD_BLANK, Registration.this);
-						return;
-					}
-
-					if (!_password.equals(_confirmation)) {
-						UtilityMethods.customToast(Constants.ToastConstant.PWD_NOT_MATCH, Registration.this);
-						return;
-					}*/
 					if (UtilityMethods.isInternetAvailable(mContext)) {
 						showDialog();
 
@@ -548,22 +458,8 @@ public class Registration extends BaseActivity implements
 							}
 
 							////////////////POST/////////////
-//							String strurl = UrlsConstants.REGESTRATION_URL_OTP;
-//							HashMap<String, String> hashMap = new HashMap<String,String>();
-//							hashMap.put("fname",_fname);
-//							hashMap.put("lname",_lname);
-//							hashMap.put("uemail",_email_id);
-//							hashMap.put("number",_mobile_no);
-//							hashMap.put("password",_password);
-//							hashMap.put("quote_id","no");
-//							myApi.reqUserRegistrationOTP(strurl,hashMap);
-							////////////////POST/////////////
+
 						} else {
-//							params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password +
-//									"&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
-//							url += params;
-//						myApi.reqUserRegistration(url);
-//							myApi.reqUserRegistrationOTP(url);
 							MySharedPrefs.INSTANCE.putMobileNo(_mobile_no);                           //14/09/15
                             MySharedPrefs.INSTANCE.putFirstName(_fname);
                             MySharedPrefs.INSTANCE.putLastName(_lname);
@@ -586,30 +482,8 @@ public class Registration extends BaseActivity implements
 							} catch (Exception e) {
 
 							}
-							////////////////POST/////////////
-//							String strurl = UrlsConstants.REGESTRATION_URL_OTP;
-//							HashMap<String, String> hashMap = new HashMap<String,String>();
-//							hashMap.put("fname",_fname);
-//							hashMap.put("lname",_lname);
-//							hashMap.put("uemail",_email_id);
-//							hashMap.put("number",_mobile_no);
-//							hashMap.put("password",_password);
-//							hashMap.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
-//							myApi.reqUserRegistrationOTP(strurl, hashMap);
-							////////////////POST/////////////
 						}
 
-
-
-
-
-/*HashMap<String, String> map = new HashMap<String, String>();
-					
-					map.put("fname", _fname);
-					map.put("lname", _lname);
-					map.put("uemail", _email_id);
-					map.put("number", _mobile_no);
-					map.put("password", _password);*/
 
 
 					} else {
@@ -627,11 +501,6 @@ public class Registration extends BaseActivity implements
 				icon_header_cart.setClickable(false);
 				cart_count_txt.setClickable(false);
 				icon_header_user.setClickable(false);
-//				icon_header_search.setVisibility(View.GONE);
-//				cart_count_txt.setVisibility(View.GONE);
-//				icon_header_logo_without_search.setVisibility(View.GONE);
-//				icon_header_logo_with_search.setVisibility(View.GONE);
-//				icon_header_cart.setVisibility(View.GONE);
 			}else if (SCREEN_NAME.equals("Registration")){
 				initHeader(findViewById(R.id.header), false, "Register");
 				icon_header_search.setVisibility(View.GONE);
@@ -640,12 +509,6 @@ public class Registration extends BaseActivity implements
 				icon_header_cart.setClickable(false);
 				cart_count_txt.setClickable(false);
 				icon_header_user.setClickable(false);
-//				cart_count_txt.setClickable(false);
-//				icon_header_search.setVisibility(View.GONE);
-//				cart_count_txt.setVisibility(View.GONE);
-//				icon_header_logo_without_search.setVisibility(View.GONE);
-//				icon_header_logo_with_search.setVisibility(View.GONE);
-//				icon_header_cart.setVisibility(View.GONE);
 			}
 		}catch(NullPointerException e){
 			new GrocermaxBaseException("Registeration", "displayRegistrationView", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
@@ -653,6 +516,34 @@ public class Registration extends BaseActivity implements
 			new GrocermaxBaseException("Registeration", "displayRegistrationView", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 	}
+
+	public void new_Fb_login(LoginResult loginResult){
+		GraphRequest request = GraphRequest.newMeRequest(
+				loginResult.getAccessToken(),
+				new GraphRequest.GraphJSONObjectCallback() {
+					@Override
+					public void onCompleted(JSONObject object,GraphResponse response) {
+						try {
+							saveUserData(object);
+							tvFacebook.setOnClickListener(fb_sign_out_listener);
+							ivFacebook.setOnClickListener(fb_sign_out_listener);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+		Bundle parameters = new Bundle();
+		parameters.putString("fields",
+				"id,first_name,email,last_name");
+		request.setParameters(parameters);
+		request.executeAsync();
+	}
+
+
+
+
+
+
 
 	@Override
 	public void OnResponse(Bundle bundle) {
@@ -1038,7 +929,7 @@ public class Registration extends BaseActivity implements
 
 			case FB_SIGN_IN:
 				try{
-					Session.getActiveSession().onActivityResult(Registration.this, requestCode,resultCode, data);
+					callbackManager.onActivityResult(requestCode, resultCode, data);
 				}catch(Exception e){
 					new GrocermaxBaseException("Registeration","onActivityResult",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 				}
@@ -1089,7 +980,7 @@ public class Registration extends BaseActivity implements
 		public void onClick(View v) {
 			try{
 				if (UtilityMethods.isInternetAvailable(mContext)) {
-					facebookLoginWithEmailPermission();
+					loginButton.performClick();
 				} else
 					UtilityMethods.customToast(Constants.ToastConstant.msgNoInternet, mContext);
 			}catch(Exception e){
@@ -1097,56 +988,10 @@ public class Registration extends BaseActivity implements
 			}
 		}
 	};
-
-	private void facebookLoginWithEmailPermission() {
-		try {
-
-			final List<String> newPermissionsRequest = new ArrayList<String>(Arrays.asList("email", "user_location"));
-			openActiveSession(Registration.this, true, new Session.StatusCallback() {
-				@Override
-				public void call(final Session session, SessionState state, Exception exception) {
-					if (session.isOpened()) {
-						showDialog();
-						Request.newMeRequest(session, new Request.GraphUserCallback() {
-							@Override
-							public void onCompleted(GraphUser user, Response response) {
-								dismissDialog();
-								if (user != null) {
-									saveUserData(user);
-									tvFacebook.setText("Sign out Facebook");
-									tvFacebook.setOnClickListener(fb_sign_out_listener);
-									ivFacebook.setOnClickListener(fb_sign_out_listener);
-									//TODO: Mohit Raheja
-									//								Intent intent = new Intent(mContext , HomeActivity.class);
-									//								startActivity(intent);
-									//								LoginActivity.this.finish();
-								}
-							}
-						}).executeAsync();
-					}
-				}
-			}, newPermissionsRequest);
-		}catch(Exception e){
-			new GrocermaxBaseException("Registeration","facebookLoginWithEmailPermission",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
-		}
-	}
-
-	private static Session openActiveSession(Activity activity, boolean allowLoginUI, Session.StatusCallback callback, List<String> permissions) {
-		Session.OpenRequest openRequest = new Session.OpenRequest(activity).setPermissions(permissions).setCallback(callback);
-		Session session = new Session.Builder(activity).build();
-
-		if (SessionState.CREATED_TOKEN_LOADED.equals(session.getState()) || allowLoginUI) {
-			Session.setActiveSession(session);
-			session.openForRead(openRequest);
-			return session;
-		}
-		return null;
-	}
-
 	/**
 	 * for saving facebook data
 	 * */
-	private void saveUserData(GraphUser user) {
+	private void saveUserData(JSONObject object) {
 		try {
 		String USER_ID = "";
 		String USER_FNAME = "";
@@ -1158,19 +1003,24 @@ public class Registration extends BaseActivity implements
 		Registration.googleName = null;
 		MySharedPrefs.INSTANCE.putGoogleName(null);
 
-		USER_FNAME = user.getFirstName();
+		/*USER_FNAME = user.getFirstName();
 		USER_MNAME = user.getMiddleName();
-		USER_LNAME = user.getLastName();
+		USER_LNAME = user.getLastName();*/
+			USER_FNAME = object.getString("first_name");
+			USER_MNAME = object.optString("middle_name");
+			USER_LNAME = object.getString("last_name");
 
 		try{
 			MySharedPrefs.INSTANCE.putFirstName(USER_FNAME);
 			MySharedPrefs.INSTANCE.putLastName(USER_LNAME);
 		}catch(Exception e){}
 
-		USER_EMAIL = user.getProperty("email").toString();
+		//USER_EMAIL = user.getProperty("email").toString();
+			USER_EMAIL = object.getString("email");
         MySharedPrefs.INSTANCE.putLoginMethod("Social");
 
-		USER_ID = user.getId();
+		//USER_ID = user.getId();
+			USER_ID=object.getString("id");
 
 		if (USER_FNAME != null && USER_FNAME.length() > 0)
 			USER_NAME = USER_FNAME;
@@ -1227,23 +1077,6 @@ public class Registration extends BaseActivity implements
             jsonObject.put("device_id",UtilityMethods.getDeviceId(Registration.this));
             jsonObject.put("device_token",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
 			myApi.reqLogin(url,jsonObject);
-
-//			if (UtilityMethods.isInternetAvailable(mContext)) {
-//				showDialog();
-////						String url = UrlsConstants.REGESTRATION_URL;
-//				String url = UrlsConstants.REGESTRATION_URL_OTP;
-//				strEmail = USER_EMAIL;
-//				//String params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password;
-//				params = "fname=" + USER_FNAME + "&lname=" + USER_LNAME + "&uemail=" + USER_EMAIL + "&number=" + _mobile_no + "&password=" + _password;
-//				if (MySharedPrefs.INSTANCE.getQuoteId() == null || MySharedPrefs.INSTANCE.getQuoteId().equals(""))
-//					params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password + "&quote_id=no";
-//				else
-//					params = "fname=" + _fname + "&lname=" + _lname + "&uemail=" + _email_id + "&number=" + _mobile_no + "&password=" + _password + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
-//				url += params;
-////						myApi.reqUserRegistration(url);
-//				myApi.reqUserRegistrationOTP(url);
-//				MySharedPrefs.INSTANCE.putMobileNo(_mobile_no);
-
 			} else {
 			UtilityMethods.customToast(Constants.ToastConstant.msgNoInternet, mContext);
 		  }
@@ -1278,13 +1111,12 @@ public class Registration extends BaseActivity implements
 				MySharedPrefs.INSTANCE.putSelectedStoreId(strStoreId);
 				MySharedPrefs.INSTANCE.putSelectedStateId(strStateId);
 
-				Session session = Session.getActiveSession();
-				if (!session.isClosed()) {
-					session.closeAndClearTokenInformation();
-					tvFacebook.setText("Sign in with Facebook");
+				if (AccessToken.getCurrentAccessToken() != null) {
+					LoginManager.getInstance().logOut();
 					tvFacebook.setOnClickListener(fb_signin_listener);
 					ivFacebook.setOnClickListener(fb_signin_listener);
 				}
+
 			}catch(Exception e){
 				new GrocermaxBaseException("Registeration","fb_sign_out_listener",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 			}
@@ -1300,18 +1132,6 @@ public class Registration extends BaseActivity implements
 
 	/**************************************************  GOOGLE PLUS INTEGARTION *************************************************/
 
-//	@Override
-//	protected void onStop() {
-//		// TODO Auto-generated method stub
-//		super.onStop();
-////		googlePlusLogout();
-////		if(mGoogleApiClient != null){
-////			if (mGoogleApiClient.isConnected()) {
-////	            mGoogleApiClient.disconnect();
-////	        }
-////		}
-//	}
-
 	/**
 	 * google sign in listener
 	 * */
@@ -1319,12 +1139,7 @@ public class Registration extends BaseActivity implements
 		@Override
 		public void onClick(View v) {
 			try {
-//			try{
-//				mGoogleApiClient = new GoogleApiClient.Builder(LoginActivity.this).
-//		        		addConnectionCallbacks(LoginActivity.this).addOnConnectionFailedListener(LoginActivity.this).
-//		        		addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
-//		        mGoogleApiClient.connect();
-//			}catch(Exception e){}
+
 				if (UtilityMethods.isInternetAvailable(mContext)) {
 					if (tv_google_btn.getText().toString().equalsIgnoreCase("Join with Google")) {
 						googleLoginWithEmailPermission();

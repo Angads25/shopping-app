@@ -40,7 +40,8 @@ import com.appsflyer.AFInAppEventParameterName;
 import com.appsflyer.AppsFlyerLib;
 import com.dq.rocq.RocqAnalytics;
 import com.dq.rocq.models.ActionProperties;
-import com.facebook.Session;
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.analytics.HitBuilders;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -528,8 +529,7 @@ public class UtilityMethods {
 
             ////Fb logout/////////
             if (MySharedPrefs.INSTANCE.getFacebookId() != null) {
-                Session session = LoginActivity.getInstance().getSession();
-                if (!session.isClosed()) {
+                if (AccessToken.getCurrentAccessToken() != null) {
 
                     String strCity = MySharedPrefs.INSTANCE.getSelectedCity();
                     String strRegionId = MySharedPrefs.INSTANCE.getSelectedStateRegionId();
@@ -546,7 +546,7 @@ public class UtilityMethods {
                     MySharedPrefs.INSTANCE.putSelectedStateId(strStateId);
 
 
-                    session.closeAndClearTokenInformation();
+                    LoginManager.getInstance().logOut();
                 }
             }
             if (MySharedPrefs.INSTANCE.getGoogleId() != null) {

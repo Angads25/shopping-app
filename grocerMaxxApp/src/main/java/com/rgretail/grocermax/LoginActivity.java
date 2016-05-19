@@ -1,6 +1,5 @@
 package com.rgretail.grocermax;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
@@ -15,11 +14,15 @@ import android.widget.TextView;
 import com.appsflyer.AppsFlyerLib;
 import com.dq.rocq.RocqAnalytics;
 import com.dq.rocq.models.ActionProperties;
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.model.GraphUser;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.flurry.android.FlurryAgent;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -45,10 +48,6 @@ import com.rgretail.grocermax.utils.UtilityMethods;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 //import com.google.analytics.tracking.android.EasyTracker;
 //import android.widget.Toast;
 
@@ -56,6 +55,7 @@ import java.util.List;
 public class LoginActivity extends BaseActivity implements ConnectionCallbacks, OnConnectionFailedListener
 {
 	ImageView button_facebook;
+	LoginButton loginButton;
 	TextView button_skip;
 	EditText username, password;
 	//	ImageView googlePlus;
@@ -76,6 +76,8 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 	private ConnectionResult mConnectionResult;
 	String USER_EMAIL = "";          //common for facebook and google plus
 	private String SCREENNAME = "LoginActivity-";
+
+	CallbackManager callbackManager;
 
 //	EasyTracker tracker;
 	int requestcodecart = 00;  //uses for gettng separation of whether calling from cartactivity or from home screen.
@@ -116,8 +118,6 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 
 			}
 
-//			tracker = EasyTracker.getInstance(this);
-
 			try {
 
 				mGoogleApiClient = new GoogleApiClient.Builder(LoginActivity.this).
@@ -141,9 +141,6 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 
 			TextView register = (TextView) findViewById(R.id.register);
 
-			/*TextView txtHello = (TextView) findViewById(R.id.txt_hello);
-			txtHello.setTypeface(CustomFonts.getInstance().getRobotoLight(context));*/
-
 			register.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -164,46 +161,18 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 			});
 			forgot_pwd.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 
-
-			/*final View viewMail = (View) findViewById(R.id.view_mail_line);
-			final View viewPwd = (View) findViewById(R.id.view_pwd_line);*/
-
-
 			username = (EditText) findViewById(R.id.username);
 			password = (EditText) findViewById(R.id.password);
 			username.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
 			password.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
 
 			username.setText(MySharedPrefs.INSTANCE.getRememberMeEmail());
-			/*username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-				@Override
-				public void onFocusChange(View v, boolean hasFocus) {
-					// TODO Auto-generated method stub
-					if (hasFocus) {
-						viewPwd.setBackgroundColor(getResources().getColor(R.color.grey));
-						viewMail.setBackgroundColor(getResources().getColor(R.color.white));
-					}
-				}
-			});
-
-			password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-				@Override
-				public void onFocusChange(View v, boolean hasFocus) {
-					// TODO Auto-generated method stub
-					if (hasFocus) {
-						viewMail.setBackgroundColor(getResources().getColor(R.color.grey));
-						viewPwd.setBackgroundColor(getResources().getColor(R.color.white));
-					}
-				}
-			});*/
-
 			button_facebook = (ImageView) findViewById(R.id.button_facebook);
 			button_facebook.setOnClickListener(fb_signin_listener);
+			loginButton = (LoginButton)findViewById(R.id.login_button);
+
 
 			tv_google_btn = (ImageView) findViewById(R.id.button_google);
-
 			tv_google_btn.setOnClickListener(google_signin_listener);
 
 			button_skip = (TextView) findViewById(R.id.login);
@@ -216,10 +185,52 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 			});
 
 			button_skip.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
+
+			callbackManager = CallbackManager.Factory.create();
+			loginButton.setReadPermissions("email","user_location");
+			loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+				@Override
+				public void onSuccess(LoginResult loginResult) {
+					new_Fb_login(loginResult);
+				}
+
+				@Override
+				public void onCancel() {
+					// App code
+				}
+
+				@Override
+				public void onError(FacebookException exception) {
+					// App code
+				}
+			});
+
 		}catch(Exception e){
 			new GrocermaxBaseException("LoginActivity","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
 		}
 	}
+
+	public void new_Fb_login(LoginResult loginResult){
+		GraphRequest request = GraphRequest.newMeRequest(
+				loginResult.getAccessToken(),
+				new GraphRequest.GraphJSONObjectCallback() {
+					@Override
+					 public void onCompleted(JSONObject object,GraphResponse response) {
+					  try {
+						  saveUserData(object);
+						  button_facebook.setOnClickListener(fb_sign_out_listener);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				});
+		Bundle parameters = new Bundle();
+		parameters.putString("fields",
+				"id,first_name,email,last_name");
+		request.setParameters(parameters);
+		request.executeAsync();
+	}
+
 
 	public void gotoHome(View v)
 	{
@@ -243,7 +254,7 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 			try{
 
 				if (UtilityMethods.isInternetAvailable(mContext)) {
-					facebookLoginWithEmailPermission();
+					loginButton.performClick();
 				} else
 					UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
 			}catch(Exception e){
@@ -288,12 +299,8 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 				MySharedPrefs.INSTANCE.putSelectedStoreId(strStoreId);
 				MySharedPrefs.INSTANCE.putSelectedStateId(strStateId);
 
-
-
-				Session session = Session.getActiveSession();
-				if (!session.isClosed()) {
-					session.closeAndClearTokenInformation();
-//					button_facebook.setText("Sign in with Facebook");
+				if (AccessToken.getCurrentAccessToken() != null) {
+					LoginManager.getInstance().logOut();
 					button_facebook.setOnClickListener(fb_signin_listener);
 				}
 			}catch(Exception e){
@@ -397,7 +404,7 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 	/**
 	 * for saving facebook data
 	 * */
-	private void saveUserData(GraphUser user) {
+	private void saveUserData(JSONObject object) {
 		try{
 			String USER_ID = "";
 			String USER_FNAME = "";
@@ -413,17 +420,15 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 
 			}catch(Exception e){}
 
-
-
             MySharedPrefs.INSTANCE.putLoginMethod("Social");
 
 
 			Registration.googleName = null;
 			MySharedPrefs.INSTANCE.putGoogleName(null);
 
-			USER_FNAME = user.getFirstName();
-			USER_MNAME = user.getMiddleName();
-			USER_LNAME = user.getLastName();
+			USER_FNAME = object.getString("first_name");
+			USER_MNAME = object.optString("middle_name");
+			USER_LNAME = object.getString("last_name");
 
 			try{
 				MySharedPrefs.INSTANCE.putFirstName(USER_FNAME);
@@ -431,14 +436,14 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 			}catch(Exception e){}
 
 			try {
-//			String str1 = 	MySharedPrefs.INSTANCE.getFirstName();
-//			String str2 = 	MySharedPrefs.INSTANCE.getLastName();
-				USER_EMAIL = user.getProperty("email").toString();
+				//USER_EMAIL = user.getProperty("email").toString();
+				USER_EMAIL = object.getString("email");
 			} catch (Exception e) {
 				Log.e("ERROR", "Enable to get email");
 			}
 
-			USER_ID = user.getId();
+			//USER_ID = user.getId();
+			USER_ID=object.getString("id");
 
 			if (USER_FNAME != null && USER_FNAME.length() > 0)
 				USER_NAME = USER_FNAME;
@@ -468,13 +473,7 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 				JSONObject jsonObject = new JSONObject();
 				if(MySharedPrefs.INSTANCE.getQuoteId()==null||MySharedPrefs.INSTANCE.getQuoteId().equals(""))
 				{
-//					url = UrlsConstants.FB_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getFacebookEmail() + "&quote_id=no&fname=" + USER_FNAME+"&lname="+USER_LNAME+"&number=0000000000";
 					url = UrlsConstants.FB_LOGIN_URL;
-//					hashMap.put("uemail",MySharedPrefs.INSTANCE.getFacebookEmail());
-//					hashMap.put("quote_id","no");
-//					hashMap.put("fname",USER_FNAME);
-//					hashMap.put("lname",USER_LNAME);
-//					hashMap.put("number","0000000000");
 					jsonObject.put("uemail",MySharedPrefs.INSTANCE.getFacebookEmail());
 					jsonObject.put("quote_id","no");
 					jsonObject.put("fname",USER_FNAME);
@@ -489,27 +488,17 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 //					url = UrlsConstants.FB_LOGIN_URL+"uemail="+ MySharedPrefs.INSTANCE.getFacebookEmail() + "&quote_id="+MySharedPrefs.INSTANCE.getQuoteId()+"&fname=" + USER_FNAME+"&lname="+USER_LNAME+"&number=0000000000";
 
 					url = UrlsConstants.FB_LOGIN_URL;
-//					hashMap.put("uemail",MySharedPrefs.INSTANCE.getFacebookEmail());
-//					hashMap.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
-//					hashMap.put("fname",USER_FNAME);
-//					hashMap.put("lname",USER_LNAME);
-//					hashMap.put("number","0000000000");
-
 					jsonObject.put("uemail",MySharedPrefs.INSTANCE.getFacebookEmail());
 					jsonObject.put("quote_id",MySharedPrefs.INSTANCE.getQuoteId());
 					jsonObject.put("fname",USER_FNAME);
 					jsonObject.put("lname", USER_LNAME);
 					jsonObject.put("number", 0000000000);
-//					jsonObject.put(AppConstants.ToastConstant.VERSION_NAME,AppConstants.ToastConstant.VERSION);
-//					System.out.println("==jsonobject==" + jsonObject);
 				}
                 jsonObject.put("otp", "0");
                 jsonObject.put("device_token",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
                 jsonObject.put("device_id",UtilityMethods.getDeviceId(LoginActivity.this));
 				myApi.reqLogin(url,jsonObject);
 
-//				myApi.reqLogin(url);
-//				myApi.reqLogin(url,hashMap);
 
 			} else {
 				UtilityMethods.customToast(ToastConstant.msgNoInternet, mContext);
@@ -547,7 +536,7 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 
 				case FB_SIGN_IN:
 					try{
-						Session.getActiveSession().onActivityResult(LoginActivity.this, requestCode,resultCode, data);
+						callbackManager.onActivityResult(requestCode, resultCode, data);
 					}catch(Exception e){
 						new GrocermaxBaseException("LoginActivity","OnResponseFbSignIn",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 					}
@@ -576,68 +565,6 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 			new GrocermaxBaseException("LoginActivity","onActivityResult",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
 		}
 
-	}
-
-
-//	@Override
-//	protected void onActivityResult(int requestCode, int responseCode,
-//			Intent intent) {
-//		switch (requestCode) {
-//		case RC_SIGN_IN:
-//			if (responseCode == RESULT_OK) {
-//				signedInUser = false;
-//			}
-//			mIntentInProgress = false;
-//			if (!mGoogleApiClient.isConnecting()) {
-//				mGoogleApiClient.connect();
-//			}
-//
-//			break;
-//		}
-//		Toast.makeText(this, "activity result", Toast.LENGTH_LONG).show();
-//	}
-
-
-	private void facebookLoginWithEmailPermission() {
-		try {
-			final List<String> newPermissionsRequest = new ArrayList<String>(Arrays.asList("email", "user_location"));
-			openActiveSession(LoginActivity.this, true, new Session.StatusCallback() {
-				@Override
-				public void call(final Session session, SessionState state, Exception exception) {
-					if (session.isOpened()) {
-						showDialog();
-						Request.newMeRequest(session, new Request.GraphUserCallback() {
-							@Override
-							public void onCompleted(GraphUser user, Response response) {
-								dismissDialog();
-								if (user != null) {
-									saveUserData(user);
-//									button_facebook.setText("Sign out Facebook");
-									button_facebook.setOnClickListener(fb_sign_out_listener);
-								}
-							}
-						}).executeAsync();
-					}
-				}
-			}, newPermissionsRequest);
-		}catch(Exception e){
-			new GrocermaxBaseException("LoginActivity","facebookLoginWithEmailPermission",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
-		}
-	}
-
-	private static Session openActiveSession(Activity activity, boolean allowLoginUI, Session.StatusCallback callback, List<String> permissions) {
-		try{
-			Session.OpenRequest openRequest = new Session.OpenRequest(activity).setPermissions(permissions).setCallback(callback);
-			Session session = new Session.Builder(activity).build();
-			if (SessionState.CREATED_TOKEN_LOADED.equals(session.getState()) || allowLoginUI) {
-				Session.setActiveSession(session);
-				session.openForRead(openRequest);
-				return session;
-			}
-		}catch(Exception e){
-			new GrocermaxBaseException("LoginActivity","openActiveSession",e.getMessage(), GrocermaxBaseException.EXCEPTION,"noresult");
-		}
-		return null;
 	}
 
 	@Override

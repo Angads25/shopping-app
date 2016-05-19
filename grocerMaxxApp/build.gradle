@@ -37,7 +37,6 @@ android {
 }
 
 dependencies {
-    //compile project(':facebookSDK')
     compile project(':androidSDK')
     compile project(':view_pager_indicator')
     compile project(':citruspay-sdk-ui')
