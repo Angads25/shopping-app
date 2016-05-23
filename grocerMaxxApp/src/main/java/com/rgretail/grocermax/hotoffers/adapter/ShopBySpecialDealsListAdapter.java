@@ -59,7 +59,7 @@ public class ShopBySpecialDealsListAdapter extends RecyclerView.Adapter<ShopBySp
             tv_spe_deal_name = (TextView) itemView.findViewById(R.id.tv_spe_deal_name);
             view = (View) itemView.findViewById(R.id.view);
 
-           //parentLayout.setShadowPadding(0,0,0,0);
+            parentLayout.setShadowPadding(0,0,0,0);
             parentLayout.setCardElevation(0);
         }
     }
