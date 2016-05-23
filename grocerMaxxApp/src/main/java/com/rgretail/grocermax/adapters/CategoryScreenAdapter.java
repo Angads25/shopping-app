@@ -117,7 +117,7 @@ public class CategoryScreenAdapter extends BaseAdapter {
                 //position=position-2;
                 holder.card_view.setVisibility(View.VISIBLE);
                 holder.sub_catg_grid.setVisibility(View.GONE);
-                //holder.card_view.setShadowPadding(0, 0, 0, 0);
+                holder.card_view.setShadowPadding(0, 0, 0, 0);
 
                 holder.card_view.setCardElevation(0);
 
@@ -204,7 +204,7 @@ public class CategoryScreenAdapter extends BaseAdapter {
                 Typeface type = Typeface.createFromAsset(activity.getAssets(), "Gotham-Medium.ttf");
                 holder.footer.setTypeface(type);
 
-               // holder.parentLayout.setShadowPadding(0, 0, 0, 0);
+                holder.parentLayout.setShadowPadding(0, 0, 0, 0);
                 holder.parentLayout.setCardElevation(0);
                 itemView.setTag(holder);
             }

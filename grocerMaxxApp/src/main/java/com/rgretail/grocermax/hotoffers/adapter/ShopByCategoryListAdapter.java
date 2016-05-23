@@ -89,7 +89,7 @@ public class ShopByCategoryListAdapter extends BaseAdapter {
             Typeface type = Typeface.createFromAsset(activity.getAssets(), "Gotham-Medium.ttf");
             holder.footer.setTypeface(type);
 
-            //holder.parentLayout.setShadowPadding(0, 0, 0, 0);
+            holder.parentLayout.setShadowPadding(0, 0, 0, 0);
             holder.parentLayout.setCardElevation(0);
             itemView.setTag(holder);
         }

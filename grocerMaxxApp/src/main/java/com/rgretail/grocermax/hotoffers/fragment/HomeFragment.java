@@ -20,6 +20,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dq.rocq.RocqAnalytics;
@@ -34,9 +35,8 @@ import com.rgretail.grocermax.bean.ShopByCategoryModel;
 import com.rgretail.grocermax.bean.ShopByDealsBean;
 import com.rgretail.grocermax.hotoffers.AutoScrollViewPager;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
-import com.rgretail.grocermax.hotoffers.MyLinearLayoutManager;
 import com.rgretail.grocermax.hotoffers.adapter.ShopByCategoryListAdapter;
-import com.rgretail.grocermax.hotoffers.adapter.ShopBySpecialDealsListAdapter;
+import com.rgretail.grocermax.hotoffers.adapter.ShopBySpecialDealsListAdapter1;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
@@ -51,7 +51,7 @@ import java.util.ArrayList;
  * Created by nawab.hussain on 9/14/2015.
  */
 public class HomeFragment extends Fragment {
-    RecyclerView recyclerView1, recyclerView2;
+    RecyclerView recyclerView1;
     GridView catg_grid;
     TextView txtCategory, txtDeal;
     ImageView img_deal;
@@ -229,24 +229,6 @@ public class HomeFragment extends Fragment {
             e.printStackTrace();
         }
 
-//            for (int i = 0; i < al.size(); i++) {
-//                boolean b_id_found = false;
-//                for (int j = 0; j < ((HomeScreen) getActivity()).catObj.size(); j++) {
-//                    if(al.get(i).getCategory_id().equalsIgnoreCase(((HomeScreen) getActivity()).catObj.get(j).getCategoryId())) {
-//                        alfinal.add(al.get(i));
-//                        b_id_found = true;
-//                    }
-//                }
-//                if(!b_id_found){
-//                    ShopByCategoryModel shopByCategoryModel = new ShopByCategoryModel();
-////                    shopByCategoryModel.setCategory_id();
-////                    shopByCategoryModel.setImages();
-////                    shopByCategoryModel.setCategory_id();
-////                    shopByCategoryModel.setName();
-//                    shopByCategoryModel.setOffercount("0");
-//                    alfinal.add(shopByCategoryModel);
-//                }
-//            }
 
 
         ShopByCategoryListAdapter shopByCategoryListAdapter1 = new ShopByCategoryListAdapter(getActivity(), this);
@@ -260,11 +242,12 @@ public class HomeFragment extends Fragment {
         catg_grid.setAdapter(shopByCategoryListAdapter1);
         setGridViewHeightBasedOnChildren(catg_grid, 3);
 
-        recyclerView2 = (RecyclerView) view.findViewById(R.id.recyclerView2);
-        ShopBySpecialDealsListAdapter shopBySpecialDealsListAdapter = new ShopBySpecialDealsListAdapter(getActivity(), this);
-        shopBySpecialDealsListAdapter.setListData(shopBySpecialDealsBean.getSpecial_deal_type());
-        recyclerView2.setLayoutManager(new MyLinearLayoutManager(getActivity()));
-        recyclerView2.setAdapter(shopBySpecialDealsListAdapter);
+        ListView lv=(ListView)view.findViewById(R.id.lv);
+        ShopBySpecialDealsListAdapter1 shopBySpecialDealsListAdapter1 = new ShopBySpecialDealsListAdapter1(getActivity(), this);
+        shopBySpecialDealsListAdapter1.setListData(shopBySpecialDealsBean.getSpecial_deal_type());
+        lv.setAdapter(shopBySpecialDealsListAdapter1);
+        UtilityMethods.setListViewHeightBasedOnChildren(lv);
+
 
 
         /*for deal image on home page */
@@ -290,15 +273,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        /*recyclerView2 = (RecyclerView) view.findViewById(R.id.recyclerView2);
-        ShopByDealsListAdapter shopByDealsListAdapter = new ShopByDealsListAdapter(getActivity(), this);
-        shopByDealsListAdapter.setListData(shopByDealsBean.getArrayList());
-        recyclerView2.setLayoutManager(new MyLinearLayoutManager(getActivity()));
-        recyclerView2.setAdapter(shopByDealsListAdapter);
-*/
-       /* LinearLayoutManager llm1 = new LinearLayoutManager(getActivity());
-        llm1.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView2.setLayoutManager(llm1);*/
+
         progress.dismiss();
         return view;
     }
