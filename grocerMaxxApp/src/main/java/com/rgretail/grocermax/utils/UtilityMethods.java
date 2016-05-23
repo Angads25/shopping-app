@@ -46,6 +46,8 @@ import com.appsflyer.AppsFlyerLib;
 import com.dq.rocq.RocqAnalytics;
 import com.dq.rocq.models.ActionProperties;
 import com.facebook.AccessToken;
+import com.facebook.appevents.AppEventsConstants;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.analytics.HitBuilders;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -1452,6 +1454,10 @@ public class UtilityMethods {
 	}
 
 
+
+
+
+
 	public static void clickCapture(Context context,String strPrice,String strContentType,String strContentId,String strName,String strEventName){
 		//		5 /Example 2: ​Purchase Event/
 		try {
@@ -1465,19 +1471,32 @@ public class UtilityMethods {
 			AppsFlyerLib.trackEvent(context, strEventName, eventValue);
 		}catch(Exception e){}
 		try {
-
 			if(BaseActivity.mTracker != null) {
 				BaseActivity.mTracker.send(new HitBuilders.EventBuilder()
 						.setCategory(strPrice)  //2nd parameter - price
 						.setAction(strEventName)    //last parameter
 						.setLabel(strContentId)    //3rd parameter - id
 						.build());
-
 			}
-
 		}catch(Exception e){
 			e.getMessage();
 		}
+
+        /*Event tracking using facebook*/
+        try {
+            System.out.println("FB event tracking entered");
+            AppEventsLogger logger = AppEventsLogger.newLogger(context);
+            Bundle parameters = new Bundle();
+            parameters.putString("Category",strPrice);
+            parameters.putString("Action",strEventName);
+            parameters.putString("Label",strContentId);
+            logger.logEvent(strPrice,parameters);
+            System.out.println("FB event tracking executed");
+        }catch(Exception e){
+            System.out.println("FB event tracking = " + e.getMessage());
+        }
+
+
 	}
 
 	public static void transactionCapture(Context context,String orderid,String storeName,String totalOrder,String shippingCharge,String taxCharge){
