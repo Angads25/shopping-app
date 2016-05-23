@@ -53,7 +53,7 @@ public class ShopByDealsListAdapter extends RecyclerView.Adapter<ShopByDealsList
             imageView = (ImageView) itemView.findViewById(R.id.img);
             parentLayout  = (CardView) itemView.findViewById(R.id.layoutParent);
 
-            parentLayout.setShadowPadding(0,0,0,0);
+            //parentLayout.setShadowPadding(0,0,0,0);
             parentLayout.setCardElevation(0);
         }
     }
