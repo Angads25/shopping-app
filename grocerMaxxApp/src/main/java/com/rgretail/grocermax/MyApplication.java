@@ -6,6 +6,7 @@ import android.content.Context;
 
 import com.dq.rocq.RocqAnalytics;
 import com.facebook.FacebookSdk;
+import com.facebook.LoggingBehavior;
 import com.facebook.appevents.AppEventsLogger;
 import com.flurry.android.FlurryAgent;
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -62,6 +63,8 @@ public class MyApplication extends Application {
 			/*event for app activation using facebok sdk*/
 			FacebookSdk.sdkInitialize(getApplicationContext());
 			AppEventsLogger.activateApp(this);
+			FacebookSdk.setIsDebugEnabled(false);
+			FacebookSdk.addLoggingBehavior(LoggingBehavior.APP_EVENTS);
 			/*------------------------------*/
 
            /*initialization of rocq analytics*/
