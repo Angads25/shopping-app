@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
 
+import com.appsflyer.AppsFlyerLib;
 import com.google.gson.Gson;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.DealByDealTypeBean;
@@ -72,6 +73,19 @@ public class CategoryOffer extends BaseActivity {
         initHeader(findViewById(R.id.header_left), true, AppConstants.strTitleHotDeal);
         findViewById(R.id.header_left).setVisibility(View.VISIBLE);
         findViewById(R.id.header).setVisibility(View.GONE);
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        try{
+            initHeader(findViewById(R.id.header_left), true, AppConstants.strTitleHotDeal);
+            findViewById(R.id.header_left).setVisibility(View.VISIBLE);
+            findViewById(R.id.header).setVisibility(View.GONE);
+            AppsFlyerLib.onActivityResume(this);
+        }catch(Exception e){}
+
     }
 
     public void hitForDealsByDeals(String dealId) {            //responsible for clicking of [shop by deals -> ShopByDealItemDetailFragment -> DealListScreen]
