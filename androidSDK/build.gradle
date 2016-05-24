@@ -9,11 +9,13 @@ android {
             storePassword 'abhishek123'
         }
     }
-    compileSdkVersion 21
-    buildToolsVersion '21.0.2'
+    compileSdkVersion 23
+    buildToolsVersion '23.0.1'
+
+    useLibrary 'org.apache.http.legacy'
+
     defaultConfig {
         minSdkVersion 11
-        targetSdkVersion 21
     }
     buildTypes {
         release {
@@ -30,5 +32,6 @@ android {
 
 dependencies {
     compile project(':customBrowserLatest')
-    compile 'com.android.support:support-v4:21.0.+'
+    compile 'com.android.support:support-v4:24.0.0-alpha2'
+
 }
