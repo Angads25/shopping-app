@@ -34,8 +34,10 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +45,10 @@ import com.appsflyer.AFInAppEventParameterName;
 import com.appsflyer.AppsFlyerLib;
 import com.dq.rocq.RocqAnalytics;
 import com.dq.rocq.models.ActionProperties;
-import com.facebook.Session;
+import com.facebook.AccessToken;
+import com.facebook.appevents.AppEventsConstants;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.analytics.HitBuilders;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -531,8 +536,7 @@ public class UtilityMethods {
 
             ////Fb logout/////////
             if (MySharedPrefs.INSTANCE.getFacebookId() != null) {
-                Session session = LoginActivity.getInstance().getSession();
-                if (!session.isClosed()) {
+                if (AccessToken.getCurrentAccessToken() != null) {
 
                     String strCity = MySharedPrefs.INSTANCE.getSelectedCity();
                     String strRegionId = MySharedPrefs.INSTANCE.getSelectedStateRegionId();
@@ -549,7 +553,7 @@ public class UtilityMethods {
                     MySharedPrefs.INSTANCE.putSelectedStateId(strStateId);
 
 
-                    session.closeAndClearTokenInformation();
+                    LoginManager.getInstance().logOut();
                 }
             }
             if (MySharedPrefs.INSTANCE.getGoogleId() != null) {
@@ -1450,6 +1454,10 @@ public class UtilityMethods {
 	}
 
 
+
+
+
+
 	public static void clickCapture(Context context,String strPrice,String strContentType,String strContentId,String strName,String strEventName){
 		//		5 /Example 2: ​Purchase Event/
 		try {
@@ -1463,19 +1471,32 @@ public class UtilityMethods {
 			AppsFlyerLib.trackEvent(context, strEventName, eventValue);
 		}catch(Exception e){}
 		try {
-
 			if(BaseActivity.mTracker != null) {
 				BaseActivity.mTracker.send(new HitBuilders.EventBuilder()
 						.setCategory(strPrice)  //2nd parameter - price
 						.setAction(strEventName)    //last parameter
 						.setLabel(strContentId)    //3rd parameter - id
 						.build());
-
 			}
-
 		}catch(Exception e){
 			e.getMessage();
 		}
+
+        /*Event tracking using facebook*/
+        try {
+            System.out.println("FB event tracking entered");
+            AppEventsLogger logger = AppEventsLogger.newLogger(context);
+            Bundle parameters = new Bundle();
+            parameters.putString("Category",strPrice);
+            parameters.putString("Action",strEventName);
+            parameters.putString("Label",strContentId);
+            logger.logEvent(strPrice,parameters);
+            System.out.println("FB event tracking executed");
+        }catch(Exception e){
+            System.out.println("FB event tracking = " + e.getMessage());
+        }
+
+
 	}
 
 	public static void transactionCapture(Context context,String orderid,String storeName,String totalOrder,String shippingCharge,String taxCharge){
@@ -1732,5 +1753,29 @@ public class UtilityMethods {
            }
        }
    }
+
+
+
+
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
 
 }

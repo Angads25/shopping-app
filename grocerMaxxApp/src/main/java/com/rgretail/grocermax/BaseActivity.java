@@ -22,8 +22,6 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
@@ -49,8 +47,8 @@ import android.widget.Toast;
 
 import com.dq.rocq.RocqAnalytics;
 import com.dq.rocq.models.ActionProperties;
-import com.facebook.Session;
-import com.facebook.SessionState;
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.analytics.Tracker;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -1111,8 +1109,7 @@ public abstract class BaseActivity extends FragmentActivity {
 
 						////Fb logout/////////
 						if (MySharedPrefs.INSTANCE.getFacebookId() != null) {
-							Session session = getSession();
-							if (!session.isClosed()) {
+							if (AccessToken.getCurrentAccessToken() != null) {
 								String strCity = MySharedPrefs.INSTANCE.getSelectedCity();
 								String strRegionId = MySharedPrefs.INSTANCE.getSelectedStateRegionId();
 								String strState = MySharedPrefs.INSTANCE.getSelectedState();
@@ -1127,7 +1124,7 @@ public abstract class BaseActivity extends FragmentActivity {
 								MySharedPrefs.INSTANCE.putSelectedStoreId(strStoreId);
 								MySharedPrefs.INSTANCE.putSelectedStateId(strStateId);
 
-								session.closeAndClearTokenInformation();
+								LoginManager.getInstance().logOut();
 							}
 						}
 
@@ -1771,20 +1768,6 @@ public abstract class BaseActivity extends FragmentActivity {
 			new GrocermaxBaseException("BaseActivity", "onResumeFragments", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 	}
-
-	public Session getSession() {
-		return Session.openActiveSession(this, false, callback);
-	}
-
-	private Session.StatusCallback callback = new Session.StatusCallback() {
-		public void call(Session session, SessionState state,
-						 Exception exception) {
-			if (session.isOpened()) {
-				//Do something
-			}
-		}
-	};
-
 
 	public void getKeyBoardVisibility()
 	{

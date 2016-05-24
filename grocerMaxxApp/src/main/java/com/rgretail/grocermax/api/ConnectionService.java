@@ -12,8 +12,6 @@ import android.os.RemoteException;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.facebook.Session;
-import com.facebook.SessionState;
 import com.rgretail.grocermax.CartProductList;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.api.ConnectionServiceParser.MyParserType;
@@ -123,15 +121,7 @@ public class ConnectionService extends IntentService {
 				Log.i(TAG, "URL::" + urlString);
 			}
 
-//			Bundle bun = intent.getExtras();
-//			System.out.println("===bundle===="+bun);
-//			if(bun != null){
-//				HashMap<String, JSONObject> hashMap = (HashMap<String, JSONObject>)bun.getSerializable(JSON_OBJECT);
-//				if(hashMap != null){
-//					JSONObject jsonObject = (JSONObject) hashMap.get(JSON_OBJECT);
-//					System.out.println("===jsonObject 11s===="+jsonObject);
-//				}
-//			}
+
 
 			if(intent.getSerializableExtra(JSON_OBJECT) != null){
 				jsonObject = (JSONObject)intent
@@ -155,10 +145,7 @@ public class ConnectionService extends IntentService {
 						.getSerializableExtra(PAIRS);
 				if (AppConstants.DEBUG) {
 					Log.i(TAG, "HASHMAP::" + mHashMap);
-//					String str1 = mHashMap.get("first");
-//					String str2 = mHashMap.get("second");
-//					String str3 = mHashMap.get("third");
-//					String str4 = mHashMap.get("fourth");
+
 				}
 			}
 			if (intent.getSerializableExtra(JSON_STRING) != null) {
@@ -180,15 +167,6 @@ public class ConnectionService extends IntentService {
 			urlString = urlString.replace(" ", "%20");
 
 			HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
-
-//			nameValuePairs = new ArrayList<NameValuePair>(hashMap.size());
-//			HashMap<K, V> = new ArrayList<NameValuePair>(1);
-//			nameValuePairs.add(new BasicNameValuePair("sample", "test"));
-//			mHashMap = new HashMap<String, String>();
-//			mHashMap.put("example1", "valuesre1");
-//			mHashMap.put("example2", "valuesre2");
-//			mHashMap.put("example3", "valuesre3");
-//			mHashMap.put("example4", "valuesre4");
 
 			if (requestType.equalsIgnoreCase("MULTIPART"))
 				response_str = processMultipartRequest(photoMaps, mHashMap,
@@ -225,26 +203,6 @@ public class ConnectionService extends IntentService {
 			try {
 				if (mAction.equals(MyReceiverActions.LOGIN) || mAction.equals(MyReceiverActions.ADD_TO_CART)) {
 					if (MySharedPrefs.INSTANCE.getFacebookId() != null) {
-						Session session = getSession();
-						if (!session.isClosed()) {
-//							MySharedPrefs.INSTANCE.clearAllData();
-
-
-//							String strCity = MySharedPrefs.INSTANCE.getSelectedCity();
-//							String strRegionId = MySharedPrefs.INSTANCE.getSelectedStateRegionId();
-//							String strState = MySharedPrefs.INSTANCE.getSelectedState();
-//							String strStoreId = MySharedPrefs.INSTANCE.getSelectedStoreId();
-//							String strStateId = MySharedPrefs.INSTANCE.getSelectedStateId();
-//
-//							MySharedPrefs.INSTANCE.clearAllData();
-//
-//							MySharedPrefs.INSTANCE.putSelectedCity(strCity);
-//							MySharedPrefs.INSTANCE.putSelectedStateRegionId(strRegionId);
-//							MySharedPrefs.INSTANCE.putSelectedState(strState);
-//							MySharedPrefs.INSTANCE.putSelectedStoreId(strStoreId);
-//							MySharedPrefs.INSTANCE.putSelectedStateId(strStateId);
-//							session.closeAndClearTokenInformation();
-						}
 					}
 				}
 			}catch(Exception e){}
@@ -670,20 +628,7 @@ public class ConnectionService extends IntentService {
 		}
 	}
 
-	private Session getSession() {
 
-		// return Session.openActiveSession(getApplicationContext(), false, callback);
-		return Session.getActiveSession();
-	}
-
-	private Session.StatusCallback callback = new Session.StatusCallback() {
-		public void call(Session session, SessionState state,
-						 Exception exception) {
-			if (session.isOpened()) {
-				//Do something
-			}
-		}
-	};
 
 
 

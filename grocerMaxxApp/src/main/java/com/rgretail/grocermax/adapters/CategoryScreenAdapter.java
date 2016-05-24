@@ -118,6 +118,7 @@ public class CategoryScreenAdapter extends BaseAdapter {
                 holder.card_view.setVisibility(View.VISIBLE);
                 holder.sub_catg_grid.setVisibility(View.GONE);
                 holder.card_view.setShadowPadding(0, 0, 0, 0);
+
                 holder.card_view.setCardElevation(0);
 
                 final ShopByDealModel obj = getItem(position-1);

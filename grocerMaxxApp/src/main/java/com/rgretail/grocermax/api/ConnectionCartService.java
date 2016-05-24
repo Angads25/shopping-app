@@ -10,8 +10,6 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
-import com.facebook.Session;
-import com.facebook.SessionState;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.CartProductList;
 import com.rgretail.grocermax.R;
@@ -121,30 +119,7 @@ public class ConnectionCartService  extends IntentService {
             if (AppConstants.DEBUG) {
 //                Log.i(TAG, "URL::" + urlString);
             }
-//            Log.e("manish1","URL:"+urlString);
-//            String[] url = urlString.split("products=");
-//             String actualUrl = url[1];
-//            actualUrl = java.net.URLDecoder.decode(actualUrl, "UTF-8");
 
-//            Gson gson = new Gson();
-//            Log.e("manish","URL:"+actualUrl);
-//            actualUrl = actualUrl.replace("[","");
-//            actualUrl = actualUrl.replace("]","");
-//            actualUrl = actualUrl.replace("productid","product_id");
-//            actualUrl = actualUrl.replace("quantity","qty");
-//            carDetail = gson.fromJson(actualUrl,CartDetail.class);
-//            carDetail = gson.fromJson(urlString,CartDetail.class);
-
-//          Log.e("PRADEEP","obj:"+carDetail.toString());
-// Bundle bun = intent.getExtras();
-//			System.out.println("===bundle===="+bun);
-//			if(bun != null){
-//				HashMap<String, JSONObject> hashMap = (HashMap<String, JSONObject>)bun.getSerializable(JSON_OBJECT);
-//				if(hashMap != null){
-//					JSONObject jsonObject = (JSONObject) hashMap.get(JSON_OBJECT);
-//					System.out.println("===jsonObject 11s===="+jsonObject);
-//				}
-//			}
 
 
             if(intent.getSerializableExtra(JSON_OBJECT) != null){
@@ -181,16 +156,6 @@ public class ConnectionCartService  extends IntentService {
             urlString = urlString.replace(" ", "%20");
 
             HttpClient client = MyHttpUtils.INSTANCE.getHttpClient();
-
-
-//			nameValuePairs = new ArrayList<NameValuePair>(hashMap.size());
-//			HashMap<K, V> = new ArrayList<NameValuePair>(1);
-//			nameValuePairs.add(new BasicNameValuePair("sample", "test"));
-//			mHashMap = new HashMap<String, String>();
-//			mHashMap.put("example1", "valuesre1");
-//			mHashMap.put("example2", "valuesre2");
-//			mHashMap.put("example3", "valuesre3");
-//			mHashMap.put("example4", "valuesre4");
 
             if (requestType.equalsIgnoreCase("MULTIPART"))
                 response_str = processMultipartRequest(photoMaps, mHashMap,
@@ -231,26 +196,7 @@ public class ConnectionCartService  extends IntentService {
             try {
                 if (mAction.equals(MyReceiverActions.LOGIN) || mAction.equals(MyReceiverActions.ADD_TO_CART)) {
                     if (MySharedPrefs.INSTANCE.getFacebookId() != null) {
-                        Session session = getSession();
-                        if (!session.isClosed()) {
-//                            MySharedPrefs.INSTANCE.clearAllData();
 
-
-//                            String strCity = MySharedPrefs.INSTANCE.getSelectedCity();
-//                            String strRegionId = MySharedPrefs.INSTANCE.getSelectedStateRegionId();
-//                            String strState = MySharedPrefs.INSTANCE.getSelectedState();
-//                            String strStoreId = MySharedPrefs.INSTANCE.getSelectedStoreId();
-//                            String strStateId = MySharedPrefs.INSTANCE.getSelectedStateId();
-//
-//                            MySharedPrefs.INSTANCE.clearAllData();
-//
-//                            MySharedPrefs.INSTANCE.putSelectedCity(strCity);
-//                            MySharedPrefs.INSTANCE.putSelectedStateRegionId(strRegionId);
-//                            MySharedPrefs.INSTANCE.putSelectedState(strState);
-//                            MySharedPrefs.INSTANCE.putSelectedStoreId(strStoreId);
-//                            MySharedPrefs.INSTANCE.putSelectedStateId(strStateId);
-//                            session.closeAndClearTokenInformation();
-                        }
                     }
                 }
             }catch(Exception e){
@@ -547,18 +493,4 @@ public class ConnectionCartService  extends IntentService {
 		}
     }
 
-    private Session getSession() {
-
-        // return Session.openActiveSession(getApplicationContext(), false, callback);
-        return Session.getActiveSession();
-    }
-
-    private Session.StatusCallback callback = new Session.StatusCallback() {
-        public void call(Session session, SessionState state,
-                         Exception exception) {
-            if (session.isOpened()) {
-                //Do something
-            }
-        }
-    };
 }

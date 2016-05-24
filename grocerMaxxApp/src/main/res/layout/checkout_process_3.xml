@@ -448,7 +448,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
-                            android:textColor="@color/pallete_black"
+                            android:textColor="#727272"
                             android:text=""
                             android:paddingLeft="5dp"
                             android:visibility="visible"
