@@ -364,10 +364,7 @@
      </LinearLayout>
     
     
-    <include
-        android:id="@+id/footer"
-        android:visibility="gone"
-        layout="@layout/mart_footer" />
+
 
     </RelativeLayout>
     

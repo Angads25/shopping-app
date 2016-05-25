@@ -242,14 +242,7 @@
 
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/ten_dp"
-                android:layout_marginRight="@dimen/ten_dp"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                android:src="@drawable/promises"/>
+
 
 
         </LinearLayout>

@@ -90,9 +90,7 @@
         android:textColor="@color/white"
         android:visibility="gone" />
 
-    <include
-        android:id="@+id/footer"
-        layout="@layout/mart_footer" />
+
     
      </LinearLayout>
 

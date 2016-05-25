@@ -696,9 +696,6 @@
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_16" />
 
-    <include
-        android:id="@+id/footer"
-        layout="@layout/mart_footer"
-        android:visibility="gone" />
+
 
 </RelativeLayout>

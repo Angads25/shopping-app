@@ -187,7 +187,7 @@ public class AddressDetail extends BaseActivity{
 
 			create_address.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 			addActionsInFilter(MyReceiverActions.ADD_ADDRESS);
-			findViewById(R.id.footer).setVisibility(View.GONE);
+
 			initHeader(findViewById(R.id.header), true, "My Addresses");
 		}catch(Exception e){
 			new GrocermaxBaseException("AddressDetail","onCreate",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");

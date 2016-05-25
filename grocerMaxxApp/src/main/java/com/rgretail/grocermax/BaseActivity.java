@@ -781,57 +781,6 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 	}
 
-	OnClickListener footerClick = new OnClickListener() {
-		@Override
-		public void onClick(View view) {
-			Intent intent = null;
-			try {
-				switch (view.getId()) {
-					case R.id.shop:
-						intent = new Intent(mContext, BrowseActivity.class);
-						startActivity(intent);
-
-						break;
-					case R.id.basket:
-						// setFooterSelected(1);
-//					goToCart();
-						break;
-					case R.id.product:
-						setFooterSelected(2);
-//				Toast.makeText(mContext, "Base activity footer product",
-//						Toast.LENGTH_SHORT).show();
-						UtilityMethods.customToast("Base activity footer product", mContext);
-						break;
-					case R.id.offer:
-						setFooterSelected(3);
-//				Toast.makeText(mContext, ToastConstant.BASE_ACTIVITY_FOOTER_OTHER,
-//						Toast.LENGTH_SHORT).show();
-						UtilityMethods.customToast(AppConstants.ToastConstant.BASE_ACTIVITY_FOOTER_OTHER, mContext);
-						break;
-					case R.id.checkout:
-						setFooterSelected(4);
-						if (AppConstants.token != "") {
-//							showDialog();
-//
-//							String url = UrlsConstants.ACTIVE_ORDER_URL
-//									+ MySharedPrefs.INSTANCE.getUserEmail();
-//							myApi.reqActiveOrder(url);
-//							intent = new Intent(mContext, ChooseAddress.class);
-//							startActivity(intent);
-						}
-						break;
-					default:
-						break;
-				}
-			}catch(NullPointerException e){
-				new GrocermaxBaseException("BaseActivity", "footerClick", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
-			}
-			catch (Exception e){
-				new GrocermaxBaseException("BaseActivity", "footerClick", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
-			}
-		}
-	};
-
 	private void setFooterSelected(int position) {
 		try {
 			if (footerButton == null) {

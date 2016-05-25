@@ -7,19 +7,11 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Html;
-import android.text.Spanned;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
@@ -46,9 +38,7 @@ import java.security.NoSuchAlgorithmException;
 public class SplashScreen extends BaseActivity 
 {
 	private Handler handler;
-	private Spinner spinner;
 
-	private TextView txvTitle;
 	private TextView txvMessage;
 //	EasyTracker tracker;
 	private Button btnGoShoping;
@@ -132,62 +122,13 @@ public class SplashScreen extends BaseActivity
 		
 		addActionsInFilter(MyReceiverActions.CATEGORY_LIST);
 
-		spinner = (Spinner) findViewById(R.id.spinner1);
-
-		txvTitle = (TextView) findViewById(R.id.txvTitle);
-		txvMessage = (TextView) findViewById(R.id.txvMessage);
-		btnGoShoping = (Button) findViewById(R.id.btnGoShoping);
 
 		if (MySharedPrefs.INSTANCE.getUserCity() != null) {
-			spinner.setVisibility(View.INVISIBLE);
-			btnGoShoping.setVisibility(View.VISIBLE);
 
 			handler = new Handler();
 			handler.postDelayed(runningThread, 2000);
 		}
 
-		String strTitle = "<html><br><br><font color=\"red\">* Coming soon to Delhi NCR</font></html>"; // "<html><font color=\"black\">Choose your Location.</font><font color=\"red\">*</font></html>";
-		Spanned spanned = Html.fromHtml(strTitle, null, null);
-		txvTitle.setText(spanned);
-
-		txvMessage
-				.setText(Html
-						.fromHtml("<html><font color=\"black\">Easy Shoping, Great Value, Friendly Service<br><br>Currently delivering in Gurgaon.</font></html>"));
-
-		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-				R.layout.location_spinner_item, AppConstants.placesList);
-		spinner.setAdapter(dataAdapter);
-
-		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int position, long arg3) {
-				if (position > 0) {
-					MySharedPrefs.INSTANCE.putUserCity(AppConstants.placesList
-							.get(position));
-					handler = new Handler();
-					handler.postDelayed(runningThread, 500);
-				}
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
-		btnGoShoping.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				MySharedPrefs.INSTANCE.putUserCity(AppConstants.placesList.get(1));
-				handler = new Handler();
-				handler.postDelayed(runningThread, 500);
-
-			}
-		});
 	}
 
 	Runnable runningThread4Minutes = new Runnable() {

@@ -770,8 +770,6 @@
             android:textSize="@dimen/text_size_18" />
     </RelativeLayout>
 
-    <include
-        android:id="@+id/footer"
-        layout="@layout/mart_footer" />
+
 
 </LinearLayout>
