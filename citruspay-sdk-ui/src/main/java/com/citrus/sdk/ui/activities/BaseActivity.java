@@ -59,8 +59,7 @@ public abstract class BaseActivity extends AppCompatActivity  implements Fragmen
     }
 
     public void setBackButtonColor(){
-        final Drawable upArrow = ContextCompat.getDrawable(this,R.drawable
-                .abc_ic_ab_back_mtrl_am_alpha );
+        final Drawable upArrow = ContextCompat.getDrawable(this,R.drawable.abc_ic_ab_back_material );
         upArrow.setColorFilter(UIConstants.actionBarItemColor,
                 PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
