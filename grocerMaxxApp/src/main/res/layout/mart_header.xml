@@ -86,7 +86,6 @@
 -->
 
             <LinearLayout
-                android:id="@+id/ll_placeholder_profileIcon_appBar"
                 android:layout_width="0dp"
 
                 android:layout_height="match_parent"
@@ -115,7 +114,6 @@
 -->
             <!-- TODO wire this Abhi after removing whatever is causing placeholder ovewrite in background -->
             <LinearLayout
-                android:id="@+id/ll_placeholder_searchIcon_appBar"
                 android:layout_width="0dp"
 
                 android:layout_height="match_parent"
@@ -133,7 +131,6 @@
             <!-- android:src="@drawable/ic_menu_search_holo_light" -->
 
             <LinearLayout
-                android:id="@+id/ll_placeholder_cartIcon_appBar"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -289,8 +286,7 @@
 </RelativeLayout>
 
 <TextView
-android:id="@+id/screenName"
-android:layout_width="match_parent"
+    android:layout_width="match_parent"
 android:layout_height="wrap_content"
 android:padding="10dp"
 android:textColor="@color/text_grey"

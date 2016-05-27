@@ -12,7 +12,6 @@
           android:background="@drawable/order_sucess_failure" >
     
     <TextView
-        android:id="@+id/hintmessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -190,9 +189,8 @@
         
     </LinearLayout>
     
-	<LinearLayout 
-	        android:id="@+id/ll_4_btn"
-            android:layout_width="match_parent"
+	<LinearLayout
+        android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="4"
             android:orientation="horizontal"
@@ -206,8 +204,7 @@
 
              >
             
-            <ImageView 
-                android:id="@+id/facebook_success"
+            <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginRight="15dp"
@@ -216,8 +213,7 @@
                 android:gravity="center"
                 />
             
-            <ImageView 
-                android:id="@+id/google_success"
+            <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/google_success"
@@ -226,8 +222,7 @@
                 android:gravity="center"
                 />
             
-            <ImageView 
-                android:id="@+id/whatsapp_success"
+            <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/whatsapp_success"

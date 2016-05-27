@@ -2,133 +2,41 @@
 <resources>
     <color name="app_background">#f4f4f4</color>
     <color name="app_header">#e5390e</color>
-    
-    <color name="app_color">#EC6523</color>
-    <color name="m_color_525252">#525252</color>
-    <color name="m_color_7ff943">#7ff943</color>
-    <color name="m_color_ababab">#ababab</color>
-    <color name="m_color_4d4d4d">#4d4d4d</color>
-    <color name="m_color_afafaf">#afafaf</color>
-    <color name="m_color_4c727a">#4c727a</color>
-    <color name="m_color_ffd800">#ffd800</color>
-    <color name="m_color_504f4f">#504f4f</color>
-    <color name="m_color_ffffff">#ffffff</color>
-    <color name="m_color_9efe65">#9efe65</color>
-    <color name="m_color_0a0a0a">#0a0a0a</color>
-    <color name="m_color_00ff00">#00ff00</color>
-    <color name="m_color_717171">#717171</color>
+
     <color name="grey">#d7d6db</color>
-    <color name="grey_dark">#afafaf</color>
     <color name="grey_view">#413634</color>
     <!--<color name="grey_view_top">#1effffff</color>-->
     <!--<color name="color_white_seventy">#46ffffff</color>-->
-    <color name="m_color_fe1b1c">#fe1b1c</color>
-    <color name="m_color_0ac26a">#0ac26a</color>
-    <color name="m_color_cccccc">#cccccc</color>
-    <color name="m_color_666666">#666666</color>
-    <color name="m_color_fcfcfe">#fcfcfe</color>
-    <color name="m_color_0ac269">#0ac269</color>
-    <color name="m_color_999999">#999999</color>
-    <color name="m_color_e7f5fe">#e7f5fe</color>
-    <color name="m_color_fb9726">#fb9726</color>
-    <color name="m_color_eceeef">#eceeef</color>
-    <color name="m_color_222222">#222222</color>
-    <color name="m_color_050505">#050505</color>
-    <color name="m_color_19c573">#19c573</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="red">#FF0000</color>
     <color name="updateshade">#f08d00</color>
-    <color name="flag_top_btn">#ff8610</color>
-    <color name="flag_center_btn">#d6ffd6</color>
-    <color name="flag_bottom_btn">#10ff10</color>
-    <color name="flag_top">#fd7e00</color>
-    <color name="flag_center">#ffffff</color>
-    <color name="flag_bottom">#00ff00</color>
     <color name="blue">#0000ff</color>
-    <color name="translucent_red">#CCff4444</color>
-    <color name="translucent_green">#CC99cc00</color>
-    <color name="translucent_blue">#CC33B5E5</color>
-    <color name="translucent_black">#CC000000</color>
-    <color name="green">#7700ff00</color>
 
-    <drawable name="red">#7f00</drawable>
-    <drawable name="blue">#770000ff</drawable>
-    <drawable name="review_star_green">#7700ff00</drawable>
-    <drawable name="yellow">#77ffff00</drawable>
-    <drawable name="screen_background_grey">#e7e7e7</drawable>
-    <drawable name="screen_background_black">#ff000000</drawable>
-    <drawable name="translucent_background">#e0000000</drawable>
-    <drawable name="transparent_background">#00000000</drawable>
-
-    <color name="solid_red">#f00</color>
-    <color name="solid_blue">#0000ff</color>
-    <color name="solid_green">#f0f0</color>
-    <color name="solid_yellow">#ffffff00</color>
-    <color name="top_bar">#eeeeee</color>
     <color name="m_color_333333">#e0e0e0</color>
-    <color name="m_color_fefefe">#fefefe</color>
 
     <!-- Registartion Color Code -->
-    <color name="registration_sepator">#bbbbbb</color>
-    <color name="registration_border">#bbbbbb</color>
-    <color name="m444444">#444444</color>
-    <color name="window_background">#ff202020</color>
     <color name="line_color">#ededed</color>
-    <color name="orange_text">#EC6523</color> 
-    <color name="grey_text">#888888</color>
+    <color name="orange_text">#EC6523</color>
     <color name="text_grey">#707070</color>
     <color name="teal_color">#16a6b1</color>
-    <color name="teal_pressed">#00a4b0</color>
     <color name="bg_light">#F4F4F4</color>
     <color name="bg_dark">#d7d7d7</color>
     <color name="grey_bg">#eeeeee</color>
 
-    <drawable name="normal_bg">#FF9933</drawable>
-    <drawable name="selected_bg">#FF9977</drawable>
-    <drawable name="disable_bg">#FF8000</drawable>
-    <drawable name="footer_normal_bg">#333333</drawable>
-    <drawable name="footer_selected_bg">#EC6523</drawable>
-    <drawable name="footer_disable_bg">#DDDDDD</drawable>
-
     <color name="gray_1">#C0C0C0</color>
     <color name="dark_slate_gray">#2F4F4F</color>
     <color name="gray_2">#AFAFAF</color>
-    <color name="darker_Gray">#808080</color>
     <color name="light_Gray">#8d8d8d</color>
-    <color name="light_gray">#C4CBC6</color>
     <color name="user_menu_text_color">#3a3838</color>
     <color name="transparent">#00000000</color>
 
     <color name="signup">#ffa700</color>
-    
-    <color name="tabs_bg_color">#0e69e5</color>
-    <color name="text_tab_selected">#ffffff</color>
-    <color name="text_tab_unselected">#8fd5fd</color>
-    
-    <color name="breadcrum">#fff8e6</color>
+
     <color name="breadcrum_color">#ffa800</color>
     <color name="breadcrum_text_color">#fde2ae</color>
-    
-    <color name="delivery_slot_selected_color">#c0392b</color>
-    <color name="delivery_slot_unselected_color">#fbf9f9</color>
-    <color name="delivery_slot_text_selected_color">#ffffff</color>
-    <color name="delivery_slot_text_unselected_color">#bebebe</color>
-    
-    <color name="main_cat_unselected">#fff8e6</color>
-    <color name="main_cat_selected">#0e69e5</color>
-    <color name="main_cat_text_selected">#ffffff</color>
-    <color name="main_cat_text_unselected">#0e69e5</color>
-    
-    <color name="main_child_cat_text_selected">#0e69e5</color>
-    <color name="main_child_cat_text_unselected">#02182b</color>
-    
-    <color name="create_account_select_hint_color">#292522</color>
-    
+
     <color name="payment_selected_btn_bg">#e5390e</color>
-    <color name="payment_unselected_btn_bg">#fbf9f9</color>
-    <color name="payment_selected_text_color">#ffffff</color>
-    <color name="payment_unselected_text_color">#bebebe</color>
 
     <color name="choose_address_corner_color">#e5390e</color>
     <color name="choose_address_top_color">#e5390e</color>
@@ -137,13 +45,10 @@
     <color name="register_line_color">#eeeeee</color>
 
     <color name="register_address_text_unselected_color">#bebebe</color>
-    <color name="register_address_text_selected_color">#000000</color>
     <color name="register_address_line_color">#f1f1f1</color>
     <color name="register_address_selected_line_color">#e5390e</color>
     
     <color name="headmultiplepage">#121212</color>
-    
-    <color name="subsubcategorycolor">#ffa800</color>
 
 
     <!-- material (appCompat) theme colors -->
@@ -159,8 +64,6 @@
 
 
     <color name="lighter_gray">#e4e4e4</color>
-    <color name="small_heading_text">#7d7d76</color>
-    <color name="small_sublist_text">#2d2d2d</color>
 
 
 </resources>

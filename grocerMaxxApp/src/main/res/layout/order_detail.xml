@@ -16,7 +16,6 @@
     //TODO this orderID, should come inside the placeholder[breadcrum/w.e]
 
     <TextView
-        android:id="@+id/order_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="OrderId:"
@@ -353,7 +352,6 @@
 
             //TODO, remove this safely, no longer in design
             <LinearLayout
-                android:id="@+id/ll_header"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="#d7d7d7"
@@ -362,7 +360,6 @@
                 android:visibility="visible">
 
                 <TextView
-                    android:id="@+id/tv_name"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="4"
@@ -371,7 +368,6 @@
                     android:textColor="@color/headmultiplepage" />
 
                 <TextView
-                    android:id="@+id/tv_price"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"

@@ -98,7 +98,6 @@
 
             <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/card_view_payment_types"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -252,7 +251,6 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/rl_sodexo_coupons"
                         android:background="@color/white"
                         android:padding="7dp"
                         android:visibility="gone"
@@ -271,8 +269,7 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_alignParentRight="true"
-                            android:src="@drawable/chkbox_unselected"
-                            android:id="@+id/iv_sodexo_coupon"/>
+                            android:src="@drawable/chkbox_unselected" />
 
                     </RelativeLayout>
 
@@ -472,7 +469,6 @@
 
             <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/card_view_ordersummary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -492,7 +488,6 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/rl_no_of_items"
                         android:background="@color/white"
                         android:padding="8dp"
                         android:layout_above="@+id/btn_select_delivery_details"
@@ -526,7 +521,6 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/rl_subtotal"
                         android:background="@color/white"
                         android:padding="8dp"
                         android:layout_above="@+id/btn_select_delivery_details"
@@ -560,7 +554,6 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/rl_shippingcharges"
                         android:background="@color/white"
                         android:padding="8dp"
                         android:layout_above="@+id/btn_select_delivery_details"
@@ -594,7 +587,6 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/rl_coupon_discount"
                         android:background="@color/white"
                         android:padding="8dp"
                         android:layout_above="@+id/btn_select_delivery_details"
@@ -628,7 +620,6 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/rl_yousaved"
                         android:background="@color/white"
                         android:padding="8dp"
                         android:layout_above="@+id/btn_select_delivery_details"
@@ -700,7 +691,6 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/rl_total"
                         android:background="@color/white"
                         android:padding="8dp"
                         android:layout_above="@+id/btn_select_delivery_details"
@@ -737,7 +727,6 @@
 
             <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/card_view_coupon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -755,7 +744,6 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/rl_coupon_code"
                         android:background="@color/white"
                         android:layout_above="@+id/btn_select_delivery_details"
                         >

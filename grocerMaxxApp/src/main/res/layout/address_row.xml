@@ -165,7 +165,6 @@
          <LinearLayout
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:id="@+id/ll_address_part1"
              android:layout_below="@+id/rl_addr_name">
 
                  <TextView
@@ -250,7 +249,6 @@
             android:layout_marginTop="8dp">
 
             <TextView
-                android:id="@+id/edit_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Edit address"

@@ -19,7 +19,6 @@
     </GridView>
 
     <ImageView
-        android:id="@+id/img_topOffer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -73,7 +72,6 @@
                     >
 
                     <RelativeLayout
-                        android:id="@+id/rl_prod_list_top"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.9"
@@ -110,7 +108,6 @@
                             />
 
                         <RelativeLayout
-                            android:id="@+id/item_count_prod"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -193,7 +190,6 @@
                             android:visibility="gone">
 
                             <TextView
-                                android:id="@+id/sale_price_1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentLeft="true"
@@ -227,7 +223,6 @@
                                     android:id="@+id/quantity_2"
                                     android:textSize="@dimen/text_size_14"/>
                                 <TextView
-                                    android:id="@+id/tv_multiply"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text=""
@@ -271,7 +266,6 @@
                                 android:layout_below="@+id/calculation_top" >
 
                                 <TextView
-                                    android:id="@+id/total"
                                     android:layout_width="60dp"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="left|bottom"
@@ -296,7 +290,6 @@
                                     android:visibility="gone">
 
                                     <ImageView
-                                        android:id="@+id/iv_out_of_stock"
                                         android:layout_width="88dp"
                                         android:layout_height="22dp"
                                         android:layout_alignParentEnd="true"
@@ -330,7 +323,6 @@
                                     <!-- android:text="OUT OF STOCK"  -->
 
                                     <TextView
-                                        android:id="@+id/tv_bottom_red"
                                         android:layout_width="75dp"
                                         android:layout_height="1dp"
                                         android:layout_alignParentRight="true"
@@ -341,7 +333,6 @@
                                 </RelativeLayout>
 
                                 <RelativeLayout
-                                    android:id="@+id/sub_level"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:visibility="visible"

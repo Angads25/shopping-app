@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <resources>
-  
+
+
   <!--Your Rocq Project secret-->
   <string name="rq_appsecret">e2595b89b0</string>  <!--live-->
   <!--<string name="rq_appsecret">9c6d4e090e</string>-->  <!--test-->
-  
+
   <!--The maximum amount of analytics events to queue before dropping to conserve memory-->
   <integer name="rq_maxQueueSize">10000</integer>
-  
+
   <!--The maximum amount of analytics events to queue before dropping to conserve memory-->
   <string name="rq_debugMode">false</string>
-  
+
   <!--Flush to the server after receiving this many messages-->
   <integer name="rq_sendAt">20</integer>
-  
+
   <!--Flush on a timer after this many milliseconds-->
   <integer name="rq_sendAfter">30000</integer>
-  
+
   <!--Refresh the rocq integration settings after this many milliseconds -->
   <integer name="rq_sessionTimeout">30000</integer>
 
-     <!--Your Rocq GCM PUSH Sender Id- -->
-    <string name="rq_gcmSenderId">143785802096</string>  <!--Live-->
+  <!--Your Rocq GCM PUSH Sender Id- -->
+  <string name="rq_gcmSenderId">143785802096</string>  <!--Live-->
   <!--<string name="rq_gcmSenderId">713088329910</string>-->
   
 </resources>

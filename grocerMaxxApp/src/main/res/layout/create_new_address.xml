@@ -30,7 +30,6 @@
     </LinearLayout>
 
     <ScrollView
-        android:id="@+id/sv_create_address_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/create_address_heading"
@@ -53,7 +52,6 @@
 
 
             <RelativeLayout
-                android:id="@+id/rl_first_names"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible">
@@ -65,7 +63,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/txt_first_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="First Name"
@@ -97,7 +94,6 @@
 
 
             <RelativeLayout
-                android:id="@+id/rl_last_names"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible">
@@ -109,7 +105,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/txt_last_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Last Name"
@@ -141,7 +136,6 @@
 
 
             <RelativeLayout
-                android:id="@+id/rl_house_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible">
@@ -153,7 +147,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/txt_house_no"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="House No"
@@ -297,7 +290,6 @@
 
 
             <RelativeLayout
-                android:id="@+id/rl_landmark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible">
@@ -309,7 +301,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/txt_landmark"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Landmark"
@@ -347,7 +338,6 @@
 
 
             <RelativeLayout
-                android:id="@+id/rl_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible">
@@ -359,7 +349,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/txt_city"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="City"
@@ -411,7 +400,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/txt_state"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="State"
@@ -500,7 +488,6 @@
 
 
             <RelativeLayout
-                android:id="@+id/rl_pincode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible">
@@ -513,7 +500,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/txt_pincode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Pin Code"
@@ -555,7 +541,6 @@
 
 
             <RelativeLayout
-                android:id="@+id/rl_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible">
@@ -568,7 +553,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/txt_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Phone Number"
@@ -610,7 +594,6 @@
             <!--                       END                 -->
 
             <LinearLayout
-                android:id="@+id/cb_billing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -635,7 +618,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/cb_shipping"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

@@ -111,7 +111,6 @@
             android:textSize="@dimen/twelveScaled" />
 
         <View
-            android:id="@+id/div7"
             android:layout_width="match_parent"
             android:layout_height="0.8dp"
             android:layout_marginBottom="@dimen/five_dp"
@@ -199,7 +198,6 @@
             android:textSize="@dimen/twelveScaled" />
 
         <View
-            android:id="@+id/div5"
             android:layout_width="match_parent"
             android:layout_height="0.8dp"
             android:layout_marginBottom="@dimen/ten_dp"
@@ -217,14 +215,12 @@
             android:textSize="@dimen/twelveScaled" />
 
         <View
-            android:id="@+id/div6"
             android:layout_width="match_parent"
             android:layout_height="0.8dp"
             android:visibility="gone"
             android:background="@color/grey_view" />
 
         <TextView
-            android:id="@+id/txvLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/ten_dp"

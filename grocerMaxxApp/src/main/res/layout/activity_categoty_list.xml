@@ -72,7 +72,6 @@ this padding when totalitem will need to show on top-->
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/txt_items"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Items ("
@@ -80,7 +79,6 @@ this padding when totalitem will need to show on top-->
                 android:textSize="@dimen/text_size_14" />
 
             <TextView
-                android:id="@+id/tv_cart_item_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="n"
@@ -115,7 +113,6 @@ this padding when totalitem will need to show on top-->
                 android:textSize="@dimen/text_size_14" />
 
             <TextView
-                android:id="@+id/tv_cart_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Rs Total"
@@ -319,7 +316,6 @@ need this in relative layout when price details need to be shown below -->
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_yousaved"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -395,7 +391,6 @@ need this in relative layout when price details need to be shown below -->
                 android:visibility="gone">
 
                 <RelativeLayout
-                    android:id="@+id/view_bg_color"
                     android:layout_width="80dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
@@ -435,7 +430,6 @@ need this in relative layout when price details need to be shown below -->
                 android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/textView4"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
@@ -446,7 +440,6 @@ need this in relative layout when price details need to be shown below -->
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tv_yousave"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical|right"

@@ -97,9 +97,8 @@
                android:visibility="visible"
             android:padding="8dp">
                  
-               <TextView 
-                   android:id="@+id/left_line_first_name"
-                   android:layout_width="1dp"
+               <TextView
+				   android:layout_width="1dp"
                    android:layout_height="5dp"
                    android:layout_marginTop="38dp"
                	   android:background="@color/register_address_line_color" />
@@ -129,17 +128,15 @@
                 
         		</LinearLayout>
                
-               <TextView 
-                   android:id="@+id/middle_line_first_name"
-                   android:layout_width="match_parent"
+               <TextView
+				   android:layout_width="match_parent"
 	               android:layout_height="1dp"
 	               android:layout_marginTop="42dp"
 	               android:layout_toRightOf="@+id/tv"
 	               android:background="@color/register_address_line_color"  />
                
-               <TextView 
-                   android:id="@+id/right_line_first_name"
-                   android:layout_width="1dp"
+               <TextView
+				   android:layout_width="1dp"
                    android:layout_height="5dp"
                    android:layout_marginTop="38dp"
                    android:layout_alignParentRight="true"

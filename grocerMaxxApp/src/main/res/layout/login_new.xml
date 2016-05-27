@@ -55,7 +55,6 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/rl_button_facebook"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
@@ -107,7 +106,6 @@
 
 
         <LinearLayout
-            android:id="@+id/ll_username_password_placeholder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -186,7 +184,6 @@
                 android:gravity="center_vertical"
                 android:orientation="vertical">
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/usernameWrapper"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -251,7 +248,6 @@
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/pwdWrapper"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 

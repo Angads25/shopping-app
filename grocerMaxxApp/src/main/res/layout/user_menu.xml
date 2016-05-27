@@ -14,8 +14,7 @@
         
         android:orientation="vertical" >
         
-        <ImageView 
-            android:id="@+id/iv_ttoopp"
+        <ImageView
             android:visibility="gone"
             android:layout_width="@dimen/user_menu_width"
             android:layout_height="wrap_content"
@@ -83,7 +82,6 @@
                         android:background="@drawable/list_right_arrow" />
 
                     <TextView
-                        android:id="@+id/tvOrderHistory"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dip"
@@ -117,7 +115,6 @@
                         android:background="@drawable/list_right_arrow" />
 
                     <TextView
-                        android:id="@+id/tvAddressBook"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dip"
@@ -148,7 +145,6 @@
                         android:background="@drawable/list_right_arrow" />
 
                     <TextView
-                        android:id="@+id/tvViewProfile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dip"
@@ -180,7 +176,6 @@
                         android:background="@drawable/list_right_arrow" />
 
                     <TextView
-                        android:id="@+id/tvEditProfile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dip"
@@ -212,7 +207,6 @@
                         android:background="@drawable/list_right_arrow" />
 
                     <TextView
-                        android:id="@+id/my_fav_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dip"
@@ -244,7 +238,6 @@
                         android:background="@drawable/list_right_arrow" />
 
                     <TextView
-                        android:id="@+id/tvCustomerSupport"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dip"
@@ -274,7 +267,6 @@
                         android:background="@drawable/list_right_arrow" />
 
                     <TextView
-                        android:id="@+id/feedback_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dip"

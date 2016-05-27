@@ -77,7 +77,6 @@
                 <!-- android:text="OUT OF STOCK"  -->
 
                 <TextView
-                    android:id="@+id/tv_bottom_red"
                     android:layout_width="75dp"
                     android:layout_height="1dp"
                     android:layout_alignParentRight="true"

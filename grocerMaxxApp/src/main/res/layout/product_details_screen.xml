@@ -30,7 +30,6 @@
                 android:paddingRight="10dp">
 
                 <RelativeLayout
-                    android:id="@+id/top_Cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -54,7 +53,6 @@
                 </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/text_product_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
@@ -68,7 +66,6 @@
                     android:layout_height="wrap_content">
 
                     <RelativeLayout
-                        android:id="@+id/item_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -275,7 +272,6 @@
                                 android:textSize="@dimen/text_size_12" />
 
                             <TextView
-                                android:id="@+id/tv_bottom_red"
                                 android:layout_width="75dp"
                                 android:layout_height="1dp"
                                 android:layout_alignParentRight="true"
@@ -285,7 +281,6 @@
                         </RelativeLayout>
 
                         <ImageView
-                            android:id="@+id/img_prod_desc_out_of_stock"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="15dp"
@@ -330,7 +325,6 @@
                             android:visibility="visible" />
 -->
                         <LinearLayout
-                            android:id="@+id/add_remove1"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/plus_minus_buttons"
                             android:orientation="horizontal"

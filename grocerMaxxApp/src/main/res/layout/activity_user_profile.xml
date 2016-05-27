@@ -19,7 +19,6 @@
             android:id="@+id/ll_userprofile_top">
 
             <LinearLayout
-                android:id="@+id/rl_userprofile_picplaceholder"
                 android:layout_width="wrap_content"
                 android:layout_height="115dp">
 
@@ -27,8 +26,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_margin="10dp"
-                    android:src="@drawable/shahid"
-                    android:id="@+id/iv_userprofile_displaypic"/>
+                    android:src="@drawable/shahid" />
 
                 <!--
                 <RoundedImageView
@@ -45,9 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="8dp"
-                android:id="@+id/ll_userprofie_details"
-                >
+                android:padding="8dp">
 
                 <TextView
                     android:id="@+id/tv_userprofile_fullname"
@@ -159,7 +155,6 @@
                 android:layout_weight="1"
                 >
                 <TextView
-                    android:id="@+id/tv_myWallet"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="My Wallet"
@@ -241,14 +236,12 @@
                 android:background="@color/lighter_gray"></View>
 
             <RelativeLayout
-                android:id="@+id/rl_viewprofile"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:padding="8dp"
                 android:layout_weight="1"
                 android:visibility="gone">
                 <TextView
-                    android:id="@+id/tv_viewprofile"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="View Profile"
