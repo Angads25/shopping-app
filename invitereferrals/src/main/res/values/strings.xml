@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">invitereferrals</string>
+    <string name="more_options">More options to share</string>
+    <string name="stats">My Referral Statistics</string>
+    <string name="tnc">Terms And Conditions</string>
+    <string name="how_it_works">How It Works</string>
+
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="register">Register</string>
+    <string name="valid_email">Enter Valid Email ID</string>
+</resources>

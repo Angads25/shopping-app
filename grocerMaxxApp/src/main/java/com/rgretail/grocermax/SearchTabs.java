@@ -105,6 +105,18 @@ public class SearchTabs extends BaseActivity{
 				System.out.println("idicator count ="+pager.getChildCount());
 			  // indicator.setCurrentItem(3);
 
+			try {
+				if(MySharedPrefs.INSTANCE.getTabIndex()!=null){
+                    indicator.setCurrentItem(Integer.parseInt(MySharedPrefs.INSTANCE.getTabIndex()));
+					MySharedPrefs.INSTANCE.putTabIndex("0");
+				}
+                else
+                    indicator.setCurrentItem(0);
+			} catch (Exception e) {
+				indicator.setCurrentItem(0);
+			}
+
+
 //			if (size > 2) {
 //				pager.setOffscreenPageLimit(2);
 //			} else {

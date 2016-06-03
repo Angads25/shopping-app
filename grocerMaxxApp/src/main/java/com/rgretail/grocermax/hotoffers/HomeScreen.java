@@ -19,6 +19,7 @@ import com.appsflyer.AppsFlyerLib;
 import com.dq.rocq.RocqAnalytics;
 import com.dq.rocq.models.ActionProperties;
 import com.google.gson.Gson;
+import com.invitereferrals.invitereferrals.InviteReferralsApi;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.DealListScreen;
 import com.rgretail.grocermax.R;
@@ -86,10 +87,18 @@ public class HomeScreen extends BaseActivity {
 
         setContentView(R.layout.activity_hot_offer);
         mContext = this;
-        System.out.println("Notification testing1");
         try{
 
         }catch(Exception e){}
+
+
+        /*ActivityManager am = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> processes = am.getRunningTasks(Integer.MAX_VALUE);
+        System.out.println("processes.size() = " + processes.size());
+        for(int i=0;i<processes.size();i++){
+            String packageName = processes.get(i).topActivity.getPackageName();
+            Log.e("packageName-->", "" + packageName);
+        }*/
 
 
         addActionsInFilter(MyReceiverActions.GET_HOME_PAGE);
@@ -116,6 +125,7 @@ public class HomeScreen extends BaseActivity {
             setHomePage();
         }*/
         setHomePage();
+
     }
 
     private android.support.v4.app.FragmentManager.OnBackStackChangedListener getListener()
@@ -378,9 +388,14 @@ public class HomeScreen extends BaseActivity {
                         try {
                             Bundle bundle1 = getIntent().getExtras();
                             if (bundle1 != null && bundle1.getBoolean("IS_FROM_NOTIFICATION", false)) {
-                                getNotificationData(bundle1);
+                                String rating_count=bundle1.getString("rating_count");
+                                if(rating_count.equals("0"))
+                                 getNotificationData(bundle1);
+                                else{
+                                    UtilityMethods.showPopUpForFeedback(HomeScreen.this,rating_count,"Thanks for your feedbac.Would you like to give your suggestion to improve our feature");
+                                }
                             }
-                        } catch (Exception e) {
+                        } catch (Exception e){
                             e.printStackTrace();
                         }
 
@@ -610,7 +625,6 @@ public class HomeScreen extends BaseActivity {
     public void hitForSpecialDealsByDeals(String name,String linkurl) {            //responsible for clicking of [shop by deals -> ShopByDealItemDetailFragment -> DealListScreen]
 
         try {
-            System.out.println(name+"---"+linkurl);
             Bundle bundle2=new Bundle();
             bundle2.putString("linkurl", linkurl);
             bundle2.putString("name",name);
@@ -655,14 +669,28 @@ public class HomeScreen extends BaseActivity {
     {
         String strName = data.getString("name");
         String strLinkurl = data.getString("linkurl");
-        //String strImageUrl = data.getString("imageurl");
+
+        /*to get index of tab*/
+        if(strLinkurl.contains("index")){
+            try {
+                int ind=strLinkurl.lastIndexOf("&");
+                String[] part=strLinkurl.split("&");
+                String[] part1=part[part.length-1].split("=");
+                MySharedPrefs.INSTANCE.putTabIndex(part1[1]);
+                strLinkurl=strLinkurl.substring(0,ind);
+            } catch (Exception e) {
+                MySharedPrefs.INSTANCE.putTabIndex("0");
+            }
+        }else{
+            MySharedPrefs.INSTANCE.putTabIndex("0");
+        }
+
         int index = 0;
         String strType = "";
         if (strLinkurl.contains("?")) {
             index = strLinkurl.indexOf("?");
             if (strLinkurl.length() >= index) {
                 strType = strLinkurl.substring(0, index);
-                System.out.println("====result is====" + strType);
             }
         } else {
             strType = strLinkurl;

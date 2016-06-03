@@ -260,7 +260,17 @@ public class CategoryTabs extends BaseActivity {
             if (pager != null)
                 indicator.setViewPager(pager);
 
-            //indicator.setCurrentItem(2);
+            /*for landing on specific tab*/
+            try {
+                if(MySharedPrefs.INSTANCE.getTabIndex()!=null){
+                    indicator.setCurrentItem(Integer.parseInt(MySharedPrefs.INSTANCE.getTabIndex()));
+                   MySharedPrefs.INSTANCE.putTabIndex("0");
+                }
+                else
+                    indicator.setCurrentItem(0);
+            } catch (Exception e) {
+                indicator.setCurrentItem(0);
+            }
 
             View headerView = findViewById(R.id.header);
 

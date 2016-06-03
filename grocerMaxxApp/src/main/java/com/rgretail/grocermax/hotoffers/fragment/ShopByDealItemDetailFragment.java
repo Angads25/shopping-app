@@ -126,6 +126,21 @@ public class ShopByDealItemDetailFragment extends Fragment {
         });
         tabs.setViewPager(viewPager);
 
+
+        /*for landing on specific tab*/
+        try {
+            if(MySharedPrefs.INSTANCE.getTabIndex()!=null){
+
+                viewPager.setCurrentItem(Integer.parseInt(MySharedPrefs.INSTANCE.getTabIndex()));
+                MySharedPrefs.INSTANCE.putTabIndex("0");
+            }
+            else
+                viewPager.setCurrentItem(0);
+        } catch (Exception e) {
+            viewPager.setCurrentItem(0);
+        }
+
+
         if(keyList.size()>0)
         senDataToGA(AppConstants.strTitleHotDeal + "-" + keyList.get(0));
         return view;

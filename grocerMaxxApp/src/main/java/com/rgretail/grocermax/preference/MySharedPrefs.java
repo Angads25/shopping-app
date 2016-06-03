@@ -40,6 +40,7 @@ public enum MySharedPrefs {
 	private final String TOTAL_ITEM = "total_item";
 	private final String BRADCRUM = "bradcrum";
 	private final String CATG_ID = "catg_id";
+	private final String TAB_INDEX = "tab_index";
 
 	private final String IS_SEARCH_KEY = "is_search";
 	
@@ -59,8 +60,7 @@ public enum MySharedPrefs {
 	private final String SELECTED_STOREID = "selected_store_id";
 
 	private SharedPreferences getAppPreference() {
-		SharedPreferences preferences = BaseActivity.mContext
-				.getSharedPreferences(APP_PREFERENCE_NAME, Context.MODE_PRIVATE);
+		SharedPreferences preferences = BaseActivity.mContext.getSharedPreferences(APP_PREFERENCE_NAME, Context.MODE_PRIVATE);
 		return preferences;
 	}
 
@@ -344,6 +344,14 @@ public enum MySharedPrefs {
 
 	public String getBradecrum() {
 		return getAppPreference().getString(BRADCRUM, null);
+	}
+
+	public void putTabIndex(String index) {
+		getAppPreference().edit().putString(TAB_INDEX, index).commit();
+	}
+
+	public String getTabIndex() {
+		return getAppPreference().getString(TAB_INDEX, null);
 	}
 	
 	public void putRememberMe(boolean remember_me, String email)

@@ -3,6 +3,7 @@ package com.rgretail.grocermax;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.dq.rocq.RocqAnalytics;
 import com.facebook.FacebookSdk;
@@ -11,6 +12,7 @@ import com.facebook.appevents.AppEventsLogger;
 import com.flurry.android.FlurryAgent;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.rgretail.grocermax.preference.MySharedPrefs;
 
 public class MyApplication extends Application {
 
@@ -85,6 +87,15 @@ public class MyApplication extends Application {
 //        tracker = analytics.newTracker("UA-54478999-1");
 		tracker = analytics.newTracker(analytics_id);
 
+		try {
+			SharedPreferences preferences = getApplicationContext().getSharedPreferences("com.sakshay.grocermax", Context.MODE_PRIVATE);
+			if(preferences.getString("user_id", null)!=null)
+              tracker.set("&uid", MySharedPrefs.INSTANCE.getUserId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
 		// Provide unhandled exceptions reports. Do that first after creating the tracker
 //		tracker.enableExceptionReporting(true);
 
@@ -96,7 +107,13 @@ public class MyApplication extends Application {
 		tracker.enableAutoActivityTracking(true);
 
 
+
+
+
 	}
+
+
+
 
 
 

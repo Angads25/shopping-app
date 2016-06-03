@@ -95,6 +95,21 @@ public class BannerFragment extends Fragment {
                         e.printStackTrace();
                     }
                     /*-----------------------------------------------*/
+                    /*to get index of tab*/
+                    if(linkurl.contains("index")){
+                        try {
+                            int ind=linkurl.lastIndexOf("&");
+                            String[] part=linkurl.split("&");
+                            String[] part1=part[part.length-1].split("=");
+                            MySharedPrefs.INSTANCE.putTabIndex(part1[1]);
+                            linkurl=linkurl.substring(0,ind);
+                        } catch (Exception e) {
+                            MySharedPrefs.INSTANCE.putTabIndex("0");
+                        }
+                    }else{
+                        MySharedPrefs.INSTANCE.putTabIndex("0");
+                    }
+
 
 
                     int index = 0;
@@ -103,34 +118,20 @@ public class BannerFragment extends Fragment {
                         index = linkurl.indexOf("?");
                         if (linkurl.length() >= index) {
                             strType = linkurl.substring(0, index);
-//                            System.out.println("====result is====" + strType);
                         }
                     } else {
                         strType = linkurl;
                     }
 
-//                if (strType.equalsIgnoreCase("dealproductlisting")) {
-
                     AppConstants.strTitleHotDeal = name;
                     if (strType.equalsIgnoreCase("dealproductlisting")) {
-//                    String dealId = "270";
-//                    String dealId = linkurl.substring(index+1,linkurl.length()-1);
-//                    System.out.println("===========dealproductlisting=============dealid===================="+dealId);
                         ((HomeScreen) context).addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
-//                    String PRODUCTLISTING_BY_DEAL_TYPE = UrlsConstants.NEW_BASE_URL+"dealproductlisting?deal_id=";
-//                    String url = UrlsConstants.PRODUCTLISTING_BY_DEAL_TYPE;
-
-
-//                    AppConstants.strTitleHotDeal = "Offer Detail";
                         DealListScreen.strDealHeading = "Offer Detail";
 
                         String url = UrlsConstants.NEW_BASE_URL;
                         ((HomeScreen) context).showDialog();
                         ((HomeScreen) context).myApi.reqProductListingByDealType(url + linkurl);
 
-                       // try{UtilityMethods.clickCapture(context,"","","","",HomeScreen.SCREENNAME+name+"-"+AppConstants.GA_EVENT_DEALS_PRODUCT_LISTING_THROUGH_HOME_BANNER);}catch(Exception e){}
-
-//                    System.out.println(dealId);
                     } else if (strType.equalsIgnoreCase("dealsbydealtype")) {
 //                    String dealId = "1";
                         ((HomeScreen) context).addActionsInFilter(MyReceiverActions.DEAL_BY_DEALTYPE);

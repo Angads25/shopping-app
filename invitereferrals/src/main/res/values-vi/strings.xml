@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">invitereferrals</string>
+    <string name="more_options">Nhiều tùy chọn để chia sẻ</string>
+    <string name="stats">Thống kê giới thiệu của tôi</string>
+    <string name="tnc">Các điều khoản và điều kiện</string>
+    <string name="how_it_works">Làm thế nào nó hoạt động</string>
+
+    <string name="name">Tên</string>
+    <string name="email">E-mail</string>
+    <string name="register">Ghi danh</string>
+    <string name="valid_email">Nhập ID Email hợp lệ</string>
+</resources>

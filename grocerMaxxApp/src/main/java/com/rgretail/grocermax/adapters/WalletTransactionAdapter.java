@@ -48,7 +48,10 @@ public class WalletTransactionAdapter extends RecyclerView.Adapter<WalletTransac
 
     @Override
     public int getItemCount() {
+        if(walletTranactionListBean!=null && walletTranactionListBean.walletTransactionsList!=null)
         return walletTranactionListBean.walletTransactionsList.size();
+        else
+        return 0;
     }
 
 

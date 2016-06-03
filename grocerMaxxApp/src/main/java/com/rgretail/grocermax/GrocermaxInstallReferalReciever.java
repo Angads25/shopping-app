@@ -31,6 +31,13 @@ public class GrocermaxInstallReferalReciever extends BroadcastReceiver {
             e.printStackTrace();
         }
 
+        /*InviteReferrals  Sdk*/
+       /* try {
+            new InviteReferrerBroadcastReceiver().onReceive(context, intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+
 
     }
 }

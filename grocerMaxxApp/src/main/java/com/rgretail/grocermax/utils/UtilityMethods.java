@@ -36,6 +36,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -46,7 +47,6 @@ import com.appsflyer.AppsFlyerLib;
 import com.dq.rocq.RocqAnalytics;
 import com.dq.rocq.models.ActionProperties;
 import com.facebook.AccessToken;
-import com.facebook.appevents.AppEventsConstants;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.analytics.HitBuilders;
@@ -631,6 +631,58 @@ public class UtilityMethods {
 
         alert.show();
     }
+
+
+    public static void showPopUpForFeedback(Context context,final String rating_count,String msg){
+        Typeface typeface=Typeface.createFromAsset(context.getAssets(),"Roboto-Regular.ttf");
+        Typeface typeface1=Typeface.createFromAsset(context.getAssets(),"Roboto-Light.ttf");
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View dialogView = inflater.inflate(R.layout.update_available_dialog, null);
+        alertDialog.setView(dialogView);
+        alertDialog.setCancelable(false);
+        final AlertDialog alert = alertDialog.create();
+        TextView tv_msg=(TextView)dialogView.findViewById(R.id.tv_msg);
+        tv_msg.setTypeface(typeface1);
+        tv_msg.setText(msg);
+
+        EditText edtComment=(EditText)dialogView.findViewById(R.id.edt_otp);
+        edtComment.setVisibility(View.VISIBLE);
+        edtComment.setHint("Enter your comment");
+
+        TextView tv_skip = (TextView) dialogView.findViewById(R.id.tv_skip);
+        tv_skip.setTypeface(typeface);
+        tv_skip.setVisibility(View.VISIBLE);
+        tv_skip.setText("No Thanks!");
+        tv_skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+            }
+        });
+
+        TextView tv_update=(TextView)dialogView.findViewById(R.id.tv_update);
+        tv_update.setTypeface(typeface);
+        tv_update.setText("Thanks");
+        tv_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+                try {
+
+                } catch (Exception e){
+
+                }
+            }
+        });
+
+        alert.show();
+    }
+
+
+
+
+
 
 	public static void download2DaysPopUp(final Context context){
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
@@ -1470,8 +1522,17 @@ public class UtilityMethods {
 			;
 			AppsFlyerLib.trackEvent(context, strEventName, eventValue);
 		}catch(Exception e){}
-		try {
+
+        try {
 			if(BaseActivity.mTracker != null) {
+
+
+                if(MySharedPrefs.INSTANCE.getUserId()!=null){
+                    System.out.println("userId = " + MySharedPrefs.INSTANCE.getUserId());
+                    BaseActivity.mTracker.set("&uid", MySharedPrefs.INSTANCE.getUserId());
+                }
+
+
 				BaseActivity.mTracker.send(new HitBuilders.EventBuilder()
 						.setCategory(strPrice)  //2nd parameter - price
 						.setAction(strEventName)    //last parameter
@@ -1502,6 +1563,12 @@ public class UtilityMethods {
 	public static void transactionCapture(Context context,String orderid,String storeName,String totalOrder,String shippingCharge,String taxCharge){
         try {
             if(BaseActivity.mTracker != null) {
+
+                if(MySharedPrefs.INSTANCE.getUserId()!=null){
+                    System.out.println("userId = " + MySharedPrefs.INSTANCE.getUserId());
+                    BaseActivity.mTracker.set("&uid", MySharedPrefs.INSTANCE.getUserId());
+                }
+
                 BaseActivity.mTracker.send(new HitBuilders.TransactionBuilder()
                         .setTransactionId(orderid)
                         .setAffiliation(storeName)
@@ -1533,6 +1600,13 @@ public class UtilityMethods {
     public static void captureItemsInAOrder(Context context,String orderid,String name,String sku,String category,String price,String qty){
         try {
             if(BaseActivity.mTracker != null) {
+
+                if(MySharedPrefs.INSTANCE.getUserId()!=null){
+                    System.out.println("userId = " + MySharedPrefs.INSTANCE.getUserId());
+                    BaseActivity.mTracker.set("&uid", MySharedPrefs.INSTANCE.getUserId());
+                }
+
+
                 BaseActivity.mTracker.send(new HitBuilders.ItemBuilder()
                         .setTransactionId(orderid)
                         .setName(name)
@@ -1693,10 +1767,11 @@ public class UtilityMethods {
        return true;
     }
 
-    public static String saveImageInInternalMemory(Context con,String file_name,Bitmap bitmapImage){
-        ContextWrapper cw = new ContextWrapper(con);
-        File directory = cw.getDir("Grocermax_Banner", Context.MODE_PRIVATE);
-        File mypath=new File(directory,file_name);
+    public static void saveImageInInternalMemory(Context con,String file_name,Bitmap bitmapImage){
+        try {
+            ContextWrapper cw = new ContextWrapper(con);
+            File directory = cw.getDir("Grocermax_Banner", Context.MODE_PRIVATE);
+            File mypath=new File(directory,file_name);
 
             FileOutputStream fos = null;
             try {
@@ -1712,8 +1787,11 @@ public class UtilityMethods {
                     e.printStackTrace();
                 }
             }
-        System.out.println("Server saveImageInInternalMemory="+directory.getAbsolutePath());
-        return directory.getAbsolutePath();
+           // return directory.getAbsolutePath();
+        } catch (Exception e) {
+            e.printStackTrace();
+            //return null;
+        }
     }
 
     public static Bitmap loadImageFromStorage(Context con,String file_name)

@@ -217,20 +217,20 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.8dp"
-            android:visibility="gone"
+            android:visibility="visible"
+            android:layout_marginBottom="@dimen/ten_dp"
             android:background="@color/grey_view" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/txv_invite_friends"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/ten_dp"
             android:layout_marginLeft="@dimen/twenty_dp"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:text="P&#160;I&#160;C&#160;K&#160;&#160; Y&#160;O&#160;U&#160;R&#160;&#160; C&#160;I&#160;T&#160;Y"
-            android:textAllCaps="true"
+            android:text="I&#160;N&#160;V&#160;I&#160;T&#160;E&#160; F&#160;R&#160;I&#160;E&#160;N&#160;D&#160;S"
             android:textColor="@color/white"
             android:alpha="0.7"
-            android:visibility="gone"
+            android:visibility="visible"
             android:textSize="@dimen/twelveScaled" />
 
         <View

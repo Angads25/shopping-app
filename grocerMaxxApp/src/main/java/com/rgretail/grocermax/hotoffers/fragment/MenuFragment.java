@@ -3,6 +3,7 @@ package com.rgretail.grocermax.hotoffers.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.invitereferrals.invitereferrals.InviteReferralsApi;
 import com.rgretail.grocermax.CategoryTabs;
 import com.rgretail.grocermax.CityActivity;
 import com.rgretail.grocermax.LoginActivity;
@@ -45,7 +47,7 @@ public class MenuFragment extends Fragment {
     private ImageView imgBack;
     private String title;
     private Boolean isListView;
-    private TextView txvTitle, txvShopByDeals, txvGetInTouch, txvShopByCategories,txvRateThisApp,txvYourWallet;
+    private TextView txvTitle, txvShopByDeals, txvGetInTouch, txvShopByCategories,txvRateThisApp,txvYourWallet,txvInviteFriends;
     public static TextView txvSelectLocation;
     private TextView txvLocation;
     private ImageView ivLocation;
@@ -66,6 +68,8 @@ public class MenuFragment extends Fragment {
         Bundle bundle = getArguments();
         menuListAdapter = new MenuListAdapter(getActivity(), MenuFragment.this);
         shopByDealsListADapter = new ShopByDealsMenuListAdapter(getActivity(), MenuFragment.this);
+
+        InviteReferralsApi.getInstance(getActivity()).initialize(getActivity().getIntent().getData());
 
         if (bundle != null) {
             catObj = (ArrayList<CategorySubcategoryBean>) bundle.getSerializable("Categories");
@@ -90,6 +94,7 @@ public class MenuFragment extends Fragment {
         txvShopByDeals = (TextView) view.findViewById(R.id.txvShopByDeals);
         txvGetInTouch = (TextView) view.findViewById(R.id.txvGetInTouch);
         txvRateThisApp = (TextView) view.findViewById(R.id.txv_rate_app);
+        txvInviteFriends = (TextView) view.findViewById(R.id.txv_invite_friends);
         txvSelectLocation = (TextView) view.findViewById(R.id.txvSelectLocation);
         txvYourWallet=(TextView)view.findViewById(R.id.txvYourWallet);
         ivLocation = (ImageView) view.findViewById(R.id.ivLocation);
@@ -119,6 +124,7 @@ public class MenuFragment extends Fragment {
             txvShopByDeals.setVisibility(View.VISIBLE);
             txvGetInTouch.setVisibility(View.VISIBLE);
             txvRateThisApp.setVisibility(View.VISIBLE);
+            txvInviteFriends.setVisibility(View.VISIBLE);
             txvSelectLocation.setVisibility(View.VISIBLE);
 //            txvLocation.setVisibility(View.VISIBLE);
             ivLocation.setVisibility(View.VISIBLE);
@@ -133,6 +139,7 @@ public class MenuFragment extends Fragment {
             txvShopByDeals.setVisibility(View.GONE);
             txvGetInTouch.setVisibility(View.GONE);
             txvRateThisApp.setVisibility(View.GONE);
+            txvInviteFriends.setVisibility(View.GONE);
             txvSelectLocation.setVisibility(View.GONE);
 //            txvLocation.setVisibility(View.GONE);
             ivLocation.setVisibility(View.GONE);
@@ -196,7 +203,13 @@ public class MenuFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 UtilityMethods.rateApp(getActivity());
-               // try{UtilityMethods.clickCapture(HomeScreen.mContext,"","","","",SCREENNAME+AppConstants.DRAWER_RATE_US);}catch(Exception e){}
+            }
+        });
+        txvInviteFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("Invite Referral","Button click for referral popup");
+                InviteReferralsApi.getInstance(getActivity()).inline_btn((int)10483);
             }
         });
 

@@ -1172,6 +1172,14 @@ public abstract class BaseActivity extends FragmentActivity {
 	/*sending gcm device token to our server */
 	public void saveGcmTokenTOServer(){
 		try {
+
+			/*for registring userid on ga*/
+			/*if(MySharedPrefs.INSTANCE.getUserId()!=null){
+				System.out.println("userId = " + MySharedPrefs.INSTANCE.getUserId());
+				BaseActivity.mTracker.set("&uid", MySharedPrefs.INSTANCE.getUserId());
+			}*/
+
+
 			addActionsInFilter(MyReceiverActions.REG_DEVICE_TOKEN);
 			String strurl = UrlsConstants.SEND_DEVICE_TOKEN;
 			JSONObject dataSendTOserver = new JSONObject();

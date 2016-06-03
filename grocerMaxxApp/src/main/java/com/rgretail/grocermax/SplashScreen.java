@@ -65,6 +65,10 @@ public class SplashScreen extends BaseActivity
         RocqAnalytics.startScreen(this);
         /*------------------------------*/
 
+
+		/*initialization of InviteReferrals  library*/
+		//InviteReferralsApi.getInstance(this).initialize(this.getIntent().getData());
+
 		/*deleting banner images from internal storage*/
 		UtilityMethods.deleteBannerDirecort(SplashScreen.this);
 
@@ -87,7 +91,8 @@ public class SplashScreen extends BaseActivity
 
 		MyApplication application = (MyApplication) getApplication();
 		mTracker = application.getDefaultTracker();
-				AppsFlyerLib.setCurrencyCode("INR");
+
+		AppsFlyerLib.setCurrencyCode("INR");
 //		4
 		AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
 		AppsFlyerLib.sendTracking(getApplicationContext());        //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�

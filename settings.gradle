@@ -1,4 +1,4 @@
-include ':customBrowserLatest', ':citruspay-sdk-ui', ':citruslibrary', ':MobiKwikSDKV2_1_09'
+include ':customBrowserLatest', ':citruspay-sdk-ui', ':citruslibrary', ':MobiKwikSDKV2_1_09', ':invitereferrals'
 include ':androidSDK'
 include ':view_pager_indicator'
 include ':grocerMaxxApp'

@@ -1,0 +1,25 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.invitereferrals.invitereferrals">
+
+    <application>
+
+        <activity android:name=".CampaignLogin"></activity>
+
+        <activity android:name=".ShareScreen"></activity>
+
+        <service
+            android:name=".AppStatusService"
+            android:exported="false"></service>
+
+        <receiver
+            android:name="com.invitereferrals.invitereferrals.InviteReferrerBroadcastReceiver"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>

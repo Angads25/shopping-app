@@ -284,7 +284,7 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
 
     }
 
-    private void scrollToChild(int position, int offset) {
+    public void scrollToChild(int position, int offset) {
 
         if (tabCount == 0) {
             return;
