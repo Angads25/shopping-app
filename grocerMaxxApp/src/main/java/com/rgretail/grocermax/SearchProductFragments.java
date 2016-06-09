@@ -113,6 +113,9 @@ public final class SearchProductFragments extends Fragment implements OnScrollLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
     	try{
+
+			MyApplication.GTM_FROM="search page";
+
 		View view = inflater.inflate(R.layout.fragment_categoty_list, container, false);
 //    	main_lay = (LinearLayout) view.findViewById(R.id.main_lay);
     	progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);

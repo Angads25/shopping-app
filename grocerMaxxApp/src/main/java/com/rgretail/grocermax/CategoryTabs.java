@@ -515,6 +515,7 @@ public class CategoryTabs extends BaseActivity {
 //				initHeader(findViewById(R.id.header), true, null);
 //			}
             initHeader(findViewById(R.id.header), true, strHeader);
+            initBottom(findViewById(R.id.footer));
             if (martHeader != null) {
                 martHeader.setVisibility(View.GONE);
             }

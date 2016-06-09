@@ -93,7 +93,8 @@ public class MenuListAdapter extends BaseAdapter {
                     try{
                         UtilityMethods.clickCapture(mContext, "Drawer - L1", "", offerList.get(position).getCategory(), "", MySharedPrefs.INSTANCE.getSelectedCity());
 						RocqAnalytics.trackEvent("Drawer - L1", new ActionProperties("Category", "Drawer - L1", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",offerList.get(position).getCategory()));
-                    }catch(Exception e){
+						UtilityMethods.sendGTMEvent(mContext,"category page",offerList.get(position).getCategory(),"Android Category Interaction");
+					}catch(Exception e){
                         e.printStackTrace();
                     }
                     /*-----------------------------------------------------------------------*/

@@ -100,6 +100,7 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
                 /*tracking GA Event for Offer click from HomeScreen->Shop By Category->23 Offers*/
                 try{
                     UtilityMethods.clickCapture(activity, "Deal Click", "", data.get(position).getName(), "", MySharedPrefs.INSTANCE.getSelectedCity());
+                    UtilityMethods.sendGTMEvent(activity,"deal page",data.get(position).getName(),"Android Category Interaction");
                     RocqAnalytics.trackEvent("Deal Click", new ActionProperties("Category", "Deal Click", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",data.get(position).getName()));
                 }catch(Exception e){
                     e.printStackTrace();

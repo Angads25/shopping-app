@@ -13,6 +13,7 @@ import com.dq.rocq.RocqAnalytics;
 import com.dq.rocq.models.ActionProperties;
 import com.flurry.android.FlurryAgent;
 import com.google.android.gms.analytics.GoogleAnalytics;
+import com.invitereferrals.invitereferrals.InviteReferralsApi;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
@@ -84,6 +85,13 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 				tvOrderIdCode.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 				tvCheckMailDetails.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 				tvTellYourFriends.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+
+				tvTellYourFriends.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						InviteReferralsApi.getInstance(CODConfirmation.this).inline_btn(Integer.parseInt(MySharedPrefs.INSTANCE.getInviteReferralId()));
+					}
+				});
 
                 /*Tracking the GA event for successful payment*/
 				try{

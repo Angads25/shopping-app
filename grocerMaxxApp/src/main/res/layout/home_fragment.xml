@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/app_background"
@@ -247,3 +252,14 @@
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
+
+   <!-- <include
+        android:id="@+id/footer"
+        layout="@layout/bottom_bar"
+        android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom"
+        android:visibility="visible" />-->
+
+
+</FrameLayout>

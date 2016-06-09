@@ -125,6 +125,9 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_categoty_list, container, false);
 		try{
+
+			MyApplication.GTM_FROM="category page";
+
 			main_lay = (LinearLayout) view.findViewById(R.id.main_lay);
 			progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 

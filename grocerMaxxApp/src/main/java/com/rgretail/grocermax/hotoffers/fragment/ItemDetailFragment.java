@@ -135,6 +135,7 @@ public class ItemDetailFragment extends Fragment {
     public void sendDataToGA(String lavel){
         try{
             UtilityMethods.clickCapture(getActivity(), "Category Deals", "", lavel, "", MySharedPrefs.INSTANCE.getSelectedCity());
+            UtilityMethods.sendGTMEvent(getActivity(),"deal page",lavel,"Android Category Interaction");
             RocqAnalytics.trackEvent("Category Deals", new ActionProperties("Category", "Category Deals", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",lavel));
         }catch(Exception e){
             e.printStackTrace();

@@ -108,7 +108,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
     public int selectedPosition = -1;            //used in adapter for selected position of address in listview
     String editIndex = "";
     ImageView ivShippingBilling;
-    boolean bShippingAsBilling = false;
+    boolean bShippingAsBilling = true;
 
     public void goToAddress(Address address,int position)
     {
@@ -749,6 +749,8 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
 
                         try{
                             UtilityMethods.clickCapture(mContext,"Shipping address","","","",MySharedPrefs.INSTANCE.getSelectedCity());
+                            String data=MySharedPrefs.INSTANCE.getUserEmail()+"/"+MySharedPrefs.INSTANCE.getUserId();
+                            UtilityMethods.sendGTMEvent(activity,"Shipping",data,"Android Checkout Funnel");
                             RocqAnalytics.trackEvent("Shipping address", new ActionProperties("Category", "Shipping address", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
                         }catch(Exception e){}
 

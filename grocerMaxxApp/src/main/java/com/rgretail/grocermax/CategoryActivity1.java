@@ -178,6 +178,7 @@ public class CategoryActivity1 extends BaseActivity {
         super.onResume();
         try{
             initHeader(findViewById(R.id.app_bar_header), true, strCatName);
+            initBottom(findViewById(R.id.footer));
             AppsFlyerLib.onActivityResume(this);
         }catch(Exception e){}
 

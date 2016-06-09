@@ -1,0 +1,150 @@
+{
+    "exportFormatVersion": 1.3,
+    "exportTime": "2016-06-08 09:47:29",
+    "containerVersion": {
+        "accountId": "16525410",
+        "containerId": "1416168",
+        "containerVersionId": "3",
+        "deleted": false,
+        "container": {
+            "accountId": "16525410",
+            "containerId": "1416168",
+            "name": "Grocermax App",
+            "publicId": "GTM-PB3BB7",
+            "timeZoneCountryId": "US",
+            "timeZoneId": "America/Los_Angeles",
+            "notes": "",
+            "usageContext": [
+                "ANDROID"
+            ],
+            "fingerprint": "1465377666590",
+            "enabledBuiltInVariable": [
+                "EVENT",
+                "APP_ID",
+                "APP_NAME",
+                "APP_VERSION_CODE",
+                "APP_VERSION_NAME"
+            ]
+        },
+        "tag": [
+            {
+                "accountId": "16525410",
+                "containerId": "1416168",
+                "tagId": "1",
+                "name": "UA Screen Views",
+                "type": "ua",
+                "liveOnly": false,
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "nonInteraction",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventCategory",
+                        "value": "{{eventCategory}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackType",
+                        "value": "TRACK_EVENT"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "collectAdid",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventAction",
+                        "value": "{{eventAction}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventLabel",
+                        "value": "{{eventLabel}}"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "enableEcommerce",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackingId",
+                        "value": "UA-64820863-1"
+                    }
+                ],
+                "fingerprint": "1465377471772",
+                "firingTriggerId": [
+                    "2147479554"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT"
+            }
+        ],
+        "fingerprint": "1465377691953",
+        "variable": [
+            {
+                "accountId": "16525410",
+                "containerId": "1416168",
+                "variableId": "3",
+                "name": "eventAction",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "eventAction"
+                    }
+                ],
+                "fingerprint": "1465377638684"
+            },
+            {
+                "accountId": "16525410",
+                "containerId": "1416168",
+                "variableId": "2",
+                "name": "eventCategory",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "eventCategory"
+                    }
+                ],
+                "fingerprint": "1465377666590"
+            },
+            {
+                "accountId": "16525410",
+                "containerId": "1416168",
+                "variableId": "1",
+                "name": "eventLabel",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "eventLabel"
+                    }
+                ],
+                "fingerprint": "1465377654262"
+            }
+        ]
+    }
+}

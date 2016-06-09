@@ -119,6 +119,7 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
 //            footerView = (LinearLayout) findViewById(R.id.load_more_progressBar);
             product_list = productListBean.getProduct();
             Activity activity = (Activity) DealListScreen.this;
+            MyApplication.GTM_FROM="deal page";
             mAdapter = new ProductListAdapter(activity, product_list);
             mList.setAdapter(mAdapter);
             mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -152,6 +153,7 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
 
             initHeader(findViewById(R.id.header), true, header);
             initFooter(findViewById(R.id.footer), 0, -1);
+            initBottom(findViewById(R.id.footer));
         }catch(Exception e){
             new GrocermaxBaseException("DealListScreen","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
         }

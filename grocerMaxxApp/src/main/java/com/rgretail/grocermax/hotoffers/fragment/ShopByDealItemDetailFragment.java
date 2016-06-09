@@ -150,10 +150,12 @@ public class ShopByDealItemDetailFragment extends Fragment {
         try{
             if(MyApplication.isFromDrawer==true){
             UtilityMethods.clickCapture(getActivity(), "Drawer - Deal Category L2", "", label, "", MySharedPrefs.INSTANCE.getSelectedCity());
+                UtilityMethods.sendGTMEvent(getActivity(),"deal page",label,"Android Category Interaction");
             RocqAnalytics.trackEvent("Drawer - Deal Category L2", new ActionProperties("Category", "Drawer - Deal Category L2", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",label));
             }
             else{
             UtilityMethods.clickCapture(getActivity(), "Deal Category L2", "", label, "", MySharedPrefs.INSTANCE.getSelectedCity());
+                UtilityMethods.sendGTMEvent(getActivity(),"deal page",label,"Android Category Interaction");
             RocqAnalytics.trackEvent("Deal Category L2", new ActionProperties("Category", "Deal Category L2", "Action", MySharedPrefs.INSTANCE.getSelectedCity(),"Label",label));
             }
         }catch(Exception e){

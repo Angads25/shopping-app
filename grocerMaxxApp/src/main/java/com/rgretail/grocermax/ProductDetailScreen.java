@@ -355,6 +355,7 @@ public class ProductDetailScreen extends BaseActivity implements
 
                         try{
                             UtilityMethods.clickCapture(activity,"Add to Cart","",product.getName(),"",MySharedPrefs.INSTANCE.getSelectedCity());
+                            UtilityMethods.sendGTMEvent(activity,"product detail page","productName="+product.getName()+"/productId="+product.getProductid(),"Android Add to Cart");
                             RocqAnalytics.trackEvent("Add to Cart", new ActionProperties("Category", "Add to Cart", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", product.getName()));
                         }catch(Exception e){
                             e.printStackTrace();
@@ -512,6 +513,7 @@ public class ProductDetailScreen extends BaseActivity implements
         try {
 //			initHeader(findViewById(R.id.header), true, null);
             initHeader(findViewById(R.id.header), true, screenName);
+            initBottom(findViewById(R.id.footer));
         } catch (Exception e) {
             new GrocermaxBaseException("ProductDetailScreen", "onResume", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
         }

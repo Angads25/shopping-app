@@ -50,6 +50,8 @@ import com.facebook.AccessToken;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.tagmanager.DataLayer;
+import com.google.android.gms.tagmanager.TagManager;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -1512,7 +1514,9 @@ public class UtilityMethods {
 
 	public static void clickCapture(Context context,String strPrice,String strContentType,String strContentId,String strName,String strEventName){
 		//		5 /Example 2: ​Purchase Event/
-		try {
+
+        /*For AppsFlyer event tracking*/
+        try {
 			Map<String, Object> eventValue = new HashMap<String, Object>();
 			eventValue.put(AFInAppEventParameterName.PRICE, strPrice);
 			eventValue.put(AFInAppEventParameterName.CONTENT_TYPE, strContentType);
@@ -1523,16 +1527,14 @@ public class UtilityMethods {
 			AppsFlyerLib.trackEvent(context, strEventName, eventValue);
 		}catch(Exception e){}
 
+
+        /*For google event tracking*/
         try {
 			if(BaseActivity.mTracker != null) {
-
-
                 if(MySharedPrefs.INSTANCE.getUserId()!=null){
                     System.out.println("userId = " + MySharedPrefs.INSTANCE.getUserId());
                     BaseActivity.mTracker.set("&uid", MySharedPrefs.INSTANCE.getUserId());
                 }
-
-
 				BaseActivity.mTracker.send(new HitBuilders.EventBuilder()
 						.setCategory(strPrice)  //2nd parameter - price
 						.setAction(strEventName)    //last parameter
@@ -1559,6 +1561,21 @@ public class UtilityMethods {
 
 
 	}
+
+
+    public static void sendGTMEvent(Context context,String action,String label,String category){
+         /*For google Gtm Tracking*/
+        try {
+            System.out.println("TagManager Start");
+            DataLayer dataLayer = TagManager.getInstance(context).getDataLayer();
+            dataLayer.pushEvent("send", DataLayer.mapOf("hitType", "event","eventCategory",category,"eventAction",action,"eventLabel",label));
+            System.out.println("TagManager Sent");
+            System.out.println("TagManager data layer="+dataLayer);
+        }catch(Exception e){
+            e.getMessage();
+        }
+    }
+
 
 	public static void transactionCapture(Context context,String orderid,String storeName,String totalOrder,String shippingCharge,String taxCharge){
         try {

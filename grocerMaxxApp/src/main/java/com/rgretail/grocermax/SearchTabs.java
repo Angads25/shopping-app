@@ -69,6 +69,9 @@ public class SearchTabs extends BaseActivity{
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.s_category_tabs);
         try {
+
+			MyApplication.GTM_FROM="search result";
+
 			Intent intent = getIntent();
 			searchString = intent.getStringExtra("SEARCHSTRING");
 //			Bundle bundle = intent.getExtras();
@@ -456,6 +459,7 @@ public class SearchTabs extends BaseActivity{
 		super.onResume();
 		try {
 			initHeader(findViewById(R.id.header), true, searchString);
+			initBottom(findViewById(R.id.footer));
 //			initHeader(findViewById(R.id.header), true, null);
 //			showSearchView(true);
 //			edtSearch.setText(searchString);

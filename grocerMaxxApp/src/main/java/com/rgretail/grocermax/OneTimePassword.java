@@ -346,6 +346,7 @@ public class OneTimePassword extends BaseActivity {
                 /*save gcm token to our server*/
                 try {
                     saveGcmTokenTOServer();
+                    UtilityMethods.sendGTMEvent(activity,"Registration","New Registration","Android Checkout Funnel");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

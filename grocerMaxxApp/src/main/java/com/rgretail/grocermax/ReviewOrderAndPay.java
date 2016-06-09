@@ -608,6 +608,8 @@ public class ReviewOrderAndPay extends BaseActivity
 
 					try{
 						UtilityMethods.clickCapture(mContext,"Review and Place order","","","",MySharedPrefs.INSTANCE.getSelectedCity());
+						String data=MySharedPrefs.INSTANCE.getUserEmail()+"/"+MySharedPrefs.INSTANCE.getUserId();
+						UtilityMethods.sendGTMEvent(activity,"Payment Method",data,"Android Checkout Funnel");
 						RocqAnalytics.trackEvent("Review and Place order", new ActionProperties("Category", "Review and Place order", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
                     }catch(Exception e){}
 

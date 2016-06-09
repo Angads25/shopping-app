@@ -22,6 +22,7 @@ public class MyApplication extends Application {
 	Context context;
     public static boolean isFromDrawer=false;
 	public static boolean isFromFinalCheckout=false;
+	public static String GTM_FROM;
 //	private static String PROPERTY_ID;
 
 
@@ -61,6 +62,8 @@ public class MyApplication extends Application {
 		
 		super.onCreate();
 		try {
+
+			GTM_FROM="";
 
 			/*event for app activation using facebok sdk*/
 			FacebookSdk.sdkInitialize(getApplicationContext());

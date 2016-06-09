@@ -266,8 +266,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 
 					OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 					orderReviewBean.setProduct(cartList);
-//	    	orderReviewBean.setSubTotal(cartBean.getGrandTotal());
-//	    	orderReviewBean.setSubTotal(cartBean.get);
 					orderReviewBean.setSaving(String.valueOf(saving));                      //think will use when Order and review Pay for displaying order data
 					MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean);
 
@@ -637,6 +635,9 @@ public class CartProductList extends BaseActivity implements OnClickListener{
                     /* tracking the event for proceed to checkout*/
                     try{
                         UtilityMethods.clickCapture(activity,"Proceed to Checkout","","","",MySharedPrefs.INSTANCE.getSelectedCity());
+
+						UtilityMethods.sendGTMEvent(activity,"Proceed Details","totalQty="+MySharedPrefs.INSTANCE.getTotalItem()+"/order_amount="+String.format("%.2f", Float.parseFloat(orderReviewBean.getGrandTotal())),"Android Proceed to Checkout");
+
 						RocqAnalytics.trackEvent("Proceed to Checkout", new ActionProperties("Category", "Proceed to Checkout", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
                     }catch(Exception e){
                         e.printStackTrace();
@@ -1019,14 +1020,17 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					tvSavePrice.setText("Rs." + String.format("%.2f", saving));
 //					tv_shipping.setText("Rs." + Float.parseFloat(orderReviewBean.getShipping_ammount()));
 					tv_shipping.setText("Rs."+String.format("%.2f", Float.parseFloat(orderReviewBean.getShipping_ammount())));
-//				tv_grandTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(cartBean.getGrandTotal())));
 					tv_grandTotal.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getGrandTotal())));
-//					if(tvCartTotalTop != null){
-//						tvCartTotalTop.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getGrandTotal())));
-//					}
+
+
+					try {
+						UtilityMethods.sendGTMEvent(activity,"Cart Details","totalitem="+MySharedPrefs.INSTANCE.getTotalItem()+"/order_amount="+String.format("%.2f", Float.parseFloat(orderReviewBean.getGrandTotal())),"Android View Cart");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+
 				}
-//			else
-//				ll_total.setVisibility(View.GONE);
 
 			}
 		}catch(Exception e){

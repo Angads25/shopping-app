@@ -39,6 +39,10 @@ public enum MySharedPrefs {
 	private final String SEARCH_KEY = "search_key";
 	private final String TOTAL_ITEM = "total_item";
 	private final String BRADCRUM = "bradcrum";
+	private final String BOTTOM_MESSAGE = "bottom_bar_message";
+	private final String BOTTOM_EXP = "bottom_bar_exp";
+	private final String INVITE_REFERRAL_ID = "invite_referral_id";
+	private final String BOTTOM_BAR_CLOSE_TIME = "bottom_bar_close_time";
 	private final String CATG_ID = "catg_id";
 	private final String TAB_INDEX = "tab_index";
 
@@ -344,6 +348,38 @@ public enum MySharedPrefs {
 
 	public String getBradecrum() {
 		return getAppPreference().getString(BRADCRUM, null);
+	}
+
+	public void putBootomBarMessage(String msg) {
+		getAppPreference().edit().putString(BOTTOM_MESSAGE, msg).commit();
+	}
+
+	public String gettBootomBarMessage() {
+		return getAppPreference().getString(BOTTOM_MESSAGE, "");
+	}
+
+	public void putBootomBarExpTime(String time) {
+		getAppPreference().edit().putString(BOTTOM_EXP, time).commit();
+	}
+
+	public String getBootomBarExpTime() {
+		return getAppPreference().getString(BOTTOM_EXP, "");
+	}
+
+	public void putBootomBarCloseTime(String time) {
+		getAppPreference().edit().putString(BOTTOM_BAR_CLOSE_TIME, time).commit();
+	}
+
+	public String getBootomBarCloseTime() {
+		return getAppPreference().getString(BOTTOM_BAR_CLOSE_TIME, "");
+	}
+
+	public void putInviteReferralId(String id) {
+		getAppPreference().edit().putString(INVITE_REFERRAL_ID, id).commit();
+	}
+
+	public String getInviteReferralId() {
+		return getAppPreference().getString(INVITE_REFERRAL_ID, "");
 	}
 
 	public void putTabIndex(String index) {

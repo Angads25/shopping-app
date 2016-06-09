@@ -84,7 +84,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -124,6 +127,7 @@ public abstract class BaseActivity extends FragmentActivity {
 //	EasyTracker tracker;
 	public static Tracker mTracker;
     View v;
+	View bottom_view;
 
 	private static final int REQUEST_CODE = 1234;
 
@@ -156,20 +160,54 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 	}
 
+	public void initBottom(final View view){
+		//view.setVisibility(View.VISIBLE);
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+		if(!MySharedPrefs.INSTANCE.getBootomBarCloseTime().equals("")){
+			String current_time = dateFormat.format(new Date());
+			String saved_time=MySharedPrefs.INSTANCE.getBootomBarCloseTime();
+			Date d1 = null;
+			Date d2 = null;
+			try {
+				d1 = dateFormat.parse(saved_time);
+				d2 = dateFormat.parse(current_time);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			long diff = d2.getTime() - d1.getTime();
+			long diffMinuts = diff / (60 * 1000);
+			long expTime=Long.parseLong(MySharedPrefs.INSTANCE.getBootomBarExpTime());
+			if(expTime>diffMinuts)
+				view.setVisibility(View.GONE);
+			else
+				view.setVisibility(View.VISIBLE);
+		}else{
+			view.setVisibility(View.VISIBLE);
+		}
+
+
+
+		TextView tv_message=(TextView)view.findViewById(R.id.tv_offer);
+		ImageView img_offer=(ImageView)view.findViewById(R.id.img_cancel_offer);
+		tv_message.setText(MySharedPrefs.INSTANCE.gettBootomBarMessage());
+		img_offer.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				String current_time = dateFormat.format(new Date());
+				MySharedPrefs.INSTANCE.putBootomBarCloseTime(current_time);
+				view.setVisibility(View.GONE);
+			}
+		});
+	}
+
 	public void initHeader(View view, boolean showSearch, String name) {
 		try {
 			getKeyBoardVisibility();
+
             this.v=view;
 
-//			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//kill
-//			if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-//				if(!keyboardVisibility)
-//					imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
-//			}else{
-//				if(keyboardVisibility)
-//					imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
-//			}
+
 			icon_header_back = (ImageView) view.findViewById(R.id.icon_header_back);
 			tvHeaderName = (TextView) view.findViewById(R.id.tv_appbar_breadcrumb);
 			icon_header_user = (ImageButton) view.findViewById(R.id.icon_header_user);
@@ -294,6 +332,10 @@ public abstract class BaseActivity extends FragmentActivity {
 					return false;
 				}
 			});
+
+
+
+
 		}catch(Exception e){
 
 		}
@@ -585,6 +627,7 @@ public abstract class BaseActivity extends FragmentActivity {
                 /*tracking GA event for search product*/
                 try{
                     UtilityMethods.clickCapture(activity,"Search","",search_key,"",MySharedPrefs.INSTANCE.getSelectedCity());
+					UtilityMethods.sendGTMEvent(activity,"search result",search_key,"Android Category Interaction");
 					RocqAnalytics.trackEvent("Search", new ActionProperties("Category", "Search", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",search_key));
                 }catch(Exception e){
                     e.printStackTrace();
@@ -1173,20 +1216,31 @@ public abstract class BaseActivity extends FragmentActivity {
 	public void saveGcmTokenTOServer(){
 		try {
 
-			/*for registring userid on ga*/
-			/*if(MySharedPrefs.INSTANCE.getUserId()!=null){
-				System.out.println("userId = " + MySharedPrefs.INSTANCE.getUserId());
-				BaseActivity.mTracker.set("&uid", MySharedPrefs.INSTANCE.getUserId());
-			}*/
-
+			System.out.println("enter in method saveGcmTokenTOServer");
 
 			addActionsInFilter(MyReceiverActions.REG_DEVICE_TOKEN);
 			String strurl = UrlsConstants.SEND_DEVICE_TOKEN;
 			JSONObject dataSendTOserver = new JSONObject();
+			if(MySharedPrefs.INSTANCE.getGCMDeviceTocken()!=null)
 			dataSendTOserver.put("device_token",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
+			else
+			dataSendTOserver.put("device_token","");
+
+			if(UtilityMethods.getDeviceId(BaseActivity.this)!=null)
 			dataSendTOserver.put("device_id", UtilityMethods.getDeviceId(BaseActivity.this));
+			else
+			dataSendTOserver.put("device_id","");
+
+			if(MySharedPrefs.INSTANCE.getUserEmail()!=null)
 			dataSendTOserver.put("email", MySharedPrefs.INSTANCE.getUserEmail().trim());
+			else
+			dataSendTOserver.put("email","");
+
+			if(MySharedPrefs.INSTANCE.getUserId()!=null)
 			dataSendTOserver.put("fname", MySharedPrefs.INSTANCE.getUserId().trim());
+			else
+			dataSendTOserver.put("fname","");
+
 			myApi.reqSendGcmTokenToServer(strurl.replaceAll(" ", "%20"), dataSendTOserver);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -68,6 +68,9 @@ public class ProductListScreen extends BaseActivity implements OnScrollListener 
 			AppsFlyerLib.sendTracking(getApplicationContext());
 		}catch(Exception e){}
 		try {
+
+			MyApplication.GTM_FROM="category page";
+
 			Bundle bundle = getIntent().getExtras();
 			if (bundle != null) {
 				productListBean = (DealListBean) bundle
@@ -338,6 +341,7 @@ public class ProductListScreen extends BaseActivity implements OnScrollListener 
 		}catch(Exception e){}
 		try{
 			initHeader(findViewById(R.id.header), true, null);
+			initBottom(findViewById(R.id.footer));
 			clickStatus=0;
 		}catch(Exception e){
 			new GrocermaxBaseException("ProductListScreen","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");

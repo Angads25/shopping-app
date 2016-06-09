@@ -344,6 +344,7 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 					String url;
 					/*Tracking event for regular login*/
 					try{
+						UtilityMethods.sendGTMEvent(activity,"Login","Existing User","Android Checkout Funnel");
 						UtilityMethods.clickCapture(context,"Login","","Regular","",MySharedPrefs.INSTANCE.getSelectedCity()); /*GA Tracking*/
                         MySharedPrefs.INSTANCE.putLoginMethod("Regular");
 						RocqAnalytics.trackEvent("Login", new ActionProperties("Category", "Login", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", "Regular")); /*ROCQ Tracking*/
@@ -415,6 +416,7 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 
 			/*tracking event for facebook login*/
 			try{
+				UtilityMethods.sendGTMEvent(activity,"Login","Existing User","Android Checkout Funnel");
 				UtilityMethods.clickCapture(context, "Login", "", "Facebook", "", MySharedPrefs.INSTANCE.getSelectedCity()); /*GA Tracking*/
 				RocqAnalytics.trackEvent("Login", new ActionProperties("Category", "Login", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", "Facebook")); /*ROCQ Tracking*/
 
@@ -1024,6 +1026,7 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 
 			/*Tracking event for google login*/
 			try{
+				UtilityMethods.sendGTMEvent(activity,"Login","Existing User","Android Checkout Funnel");
 				UtilityMethods.clickCapture(context, "Login", "", "Google", "", MySharedPrefs.INSTANCE.getSelectedCity()); /*GA Tracking*/
 				RocqAnalytics.trackEvent("Login",new ActionProperties("Category","Login","Action",MySharedPrefs.INSTANCE.getSelectedCity(),"Label","Google")); /*ROCQ Tracking*/
 

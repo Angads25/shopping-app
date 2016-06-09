@@ -102,6 +102,7 @@ public class ShopBySpecialDealsListAdapter1 extends BaseAdapter{
                     try{
                         MyApplication.isFromDrawer=false;
                         UtilityMethods.clickCapture(context, "Special Deal-"+data.get(position).getName(), "", data.get(position).getName(),"", MySharedPrefs.INSTANCE.getSelectedCity());
+                        UtilityMethods.sendGTMEvent(context,"deal page",data.get(position).getName(),"Android Category Interaction");
                         RocqAnalytics.trackEvent("Special Deal-"+data.get(position).getName(), new ActionProperties("Category", "Special Deal-"+data.get(position).getName(), "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",data.get(position).getName()));
                     }catch(Exception e){}
                 /*-----------------------------------------------------*/

@@ -249,6 +249,7 @@ public class CategoryScreenAdapter extends BaseAdapter {
                     /*GA event Tracking for this event*/
                         try{
                             UtilityMethods.clickCapture(activity, "L2", "", alcatObjSend.get(position).getCategory(), "", MySharedPrefs.INSTANCE.getSelectedCity());
+                            UtilityMethods.sendGTMEvent(activity,"category page",alcatObjSend.get(position).getCategory(),"Android Category Interaction");
                             RocqAnalytics.trackEvent("L2", new ActionProperties("Category", "L2", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",alcatObjSend.get(position).getCategory()));
                         }catch(Exception e){
                             e.printStackTrace();

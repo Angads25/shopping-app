@@ -209,7 +209,7 @@ public class MenuFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.e("Invite Referral","Button click for referral popup");
-                InviteReferralsApi.getInstance(getActivity()).inline_btn((int)10483);
+                InviteReferralsApi.getInstance(getActivity()).inline_btn(Integer.parseInt(MySharedPrefs.INSTANCE.getInviteReferralId()));
             }
         });
 
@@ -218,7 +218,7 @@ public class MenuFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(MySharedPrefs.INSTANCE.getLoginStatus()){
-                  Intent i=new Intent(getActivity(), WalletActivity.class);
+                    Intent i=new Intent(getActivity(), WalletActivity.class);
                     startActivity(i);
 
                 }else{

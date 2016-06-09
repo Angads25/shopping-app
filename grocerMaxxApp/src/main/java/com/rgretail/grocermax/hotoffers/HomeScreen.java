@@ -3,13 +3,17 @@ package com.rgretail.grocermax.hotoffers;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -18,6 +22,11 @@ import android.widget.ImageView;
 import com.appsflyer.AppsFlyerLib;
 import com.dq.rocq.RocqAnalytics;
 import com.dq.rocq.models.ActionProperties;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.tagmanager.Container;
+import com.google.android.gms.tagmanager.ContainerHolder;
+import com.google.android.gms.tagmanager.TagManager;
 import com.google.gson.Gson;
 import com.invitereferrals.invitereferrals.InviteReferralsApi;
 import com.rgretail.grocermax.BaseActivity;
@@ -51,9 +60,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 public class HomeScreen extends BaseActivity {
+
 
 
     public ShopByCategoryBean shopByCategoryBean;
@@ -116,16 +128,44 @@ public class HomeScreen extends BaseActivity {
         menuIcon = (ImageView) findViewById(R.id.menuIcon);
         homeDrawer = (ImageView) findViewById(R.id.homedrawer);
 //        martHeader.setVisibility(View.VISIBLE);
-       /* Bundle bundle = getIntent().getExtras();
-        if (bundle != null && bundle.getBoolean("IS_FROM_NOTIFICATION", false)) {
-            getNotificationData(bundle);
-            isFromNotification = true;
-        }
-        else {
-            setHomePage();
-        }*/
+
         setHomePage();
 
+     //  Configuring Google Tag Manager for event tracking
+
+		 long TIMEOUT_FOR_CONTAINER_OPEN_MILLISECONDS = 5000;
+		TagManager tagManager = TagManager.getInstance(this);
+		tagManager.setVerboseLoggingEnabled(true);
+		PendingResult<ContainerHolder> pending =
+				tagManager.loadContainerPreferNonDefault("GTM-PB3BB7",
+						R.raw.defaultcontainer_binary);
+		pending.setResultCallback(new ResultCallback<ContainerHolder>() {
+			@Override
+			public void onResult(ContainerHolder containerHolder) {
+				ContainerHolderSingleton.setContainerHolder(containerHolder);
+				//Container container = containerHolder.getContainer();
+				if (!containerHolder.getStatus().isSuccess()) {
+
+					Log.e("CuteAnimals", "failure loading container");
+					displayErrorToUser("Failed to load container");
+					return;
+				}
+			}
+		}, TIMEOUT_FOR_CONTAINER_OPEN_MILLISECONDS, TimeUnit.MILLISECONDS);
+//  --------------------------------------------------------------------------------
+    }
+
+    private void displayErrorToUser(String stringKey) {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Error");
+        alertDialog.setMessage(stringKey);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE,
+                "OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        alertDialog.show();
     }
 
     private android.support.v4.app.FragmentManager.OnBackStackChangedListener getListener()
@@ -245,6 +285,7 @@ public class HomeScreen extends BaseActivity {
             isFromNotification = false;
         }
 */
+        initBottom(findViewById(R.id.footer1));
         if(!isFromFragment) {
             initHeader(findViewById(R.id.header), true, null);
             findViewById(R.id.header).setVisibility(View.VISIBLE);
@@ -255,7 +296,6 @@ public class HomeScreen extends BaseActivity {
             findViewById(R.id.header).setVisibility(View.GONE);
             findViewById(R.id.header_left).setVisibility(View.VISIBLE);
         }
-
 //        initHeader(findViewById(R.id.header), true, null);
 
         if (isFromCategoryTabs && this.getSupportFragmentManager().getBackStackEntryCount() == 1) {
@@ -300,6 +340,13 @@ public class HomeScreen extends BaseActivity {
                     JSONArray jsonArrayBanner = jsonO.getJSONArray("banner");
                     JSONArray jsonDealType = jsonO.getJSONArray("deal_type");
                     JSONArray jsonSpecialDealType = jsonO.getJSONArray("specialdeal");
+                    JSONObject bottomBarMessage=jsonO.getJSONObject("bottomBarMsg");
+                    if(bottomBarMessage.length()>0){
+                        MySharedPrefs.INSTANCE.putBootomBarMessage(bottomBarMessage.getString("message"));
+                        MySharedPrefs.INSTANCE.putBootomBarExpTime(bottomBarMessage.getString("expTime"));
+                        initBottom(findViewById(R.id.footer1));
+                    }
+                    MySharedPrefs.INSTANCE.putInviteReferralId(jsonO.getString("compId"));
 
                      /*for storing search keyword*/
 
@@ -406,10 +453,23 @@ public class HomeScreen extends BaseActivity {
                                 Bundle bundle2=new Bundle();
                                 String path=intent.getData().toString();
                                 path=path.replace("grocermax://","");
+                                if(path.contains("ir_ref")){
+                                 path=path.substring(0,path.indexOf("ir_ref")-1);
+                                     /*welcome popup if user comes through invite referral link*/
+                                    try {
+                                        InviteReferralsApi.getInstance(HomeScreen.this).initialize(getIntent().getData());
+                                        InviteReferralsApi.getInstance(HomeScreen.this).track_fp(null);
+                                        InviteReferralsApi.getInstance(HomeScreen.this).showWelcomeMessage();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
                                 System.out.println("path=" + path);
                                 if(path.contains("&")){
                                     String url_title[]=path.split("&");
-                                    bundle2.putString("linkurl", url_title[0]);
+                                    bundle2.putString("linkurl", path);
+                                    //bundle2.putString("linkurl", url_title[0]);
                                     if(url_title.length>1)
                                      bundle2.putString("name", url_title[1].split("=")[1]);
                                 }else{
@@ -421,6 +481,8 @@ public class HomeScreen extends BaseActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+
+
 
                     }
 

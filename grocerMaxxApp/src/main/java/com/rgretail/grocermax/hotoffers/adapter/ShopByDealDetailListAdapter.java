@@ -23,6 +23,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.CategoryOffer;
 import com.rgretail.grocermax.DealListScreen;
+import com.rgretail.grocermax.MyApplication;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.CartDetail;
 import com.rgretail.grocermax.bean.Product;
@@ -193,6 +194,7 @@ public class ShopByDealDetailListAdapter extends BaseAdapter{
                         try{
                             //System.out.println("offer Click="+data.get(position).getTitle());
                             UtilityMethods.clickCapture(context,"Deal Click","",data.get(position).getPromotionLevel(),"", MySharedPrefs.INSTANCE.getSelectedCity());
+                            UtilityMethods.sendGTMEvent(activity,"deal page",data.get(position).getPromotionLevel(),"Android Category Interaction");
                             RocqAnalytics.trackEvent("Deal Click", new ActionProperties("Category", "Deal Click", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",data.get(position).getPromotionLevel()));
                         }catch(Exception e){}
                 /*----------------------------------------------------------------*/
@@ -346,6 +348,8 @@ public class ShopByDealDetailListAdapter extends BaseAdapter{
 
                         try{
                             UtilityMethods.clickCapture(activity,"Add to Cart","",obj.getName(),"",MySharedPrefs.INSTANCE.getSelectedCity());
+                            System.out.println("GTM_FROM="+MyApplication.GTM_FROM);
+                            UtilityMethods.sendGTMEvent(activity, MyApplication.GTM_FROM,"productName="+obj.getName()+"/productId="+obj.getProductid(),"Android Add to Cart");
                             RocqAnalytics.trackEvent("Add to Cart", new ActionProperties("Category", "Add to Cart", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",obj.getName()));
                         }catch(Exception e){
                             e.printStackTrace();

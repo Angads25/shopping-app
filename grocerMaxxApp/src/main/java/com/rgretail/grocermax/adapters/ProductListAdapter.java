@@ -21,6 +21,7 @@ import com.dq.rocq.RocqAnalytics;
 import com.dq.rocq.models.ActionProperties;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.BaseActivity;
+import com.rgretail.grocermax.MyApplication;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.CartDetail;
 import com.rgretail.grocermax.bean.Product;
@@ -308,6 +309,9 @@ public class ProductListAdapter extends BaseAdapter {
 
                     try{
                         UtilityMethods.clickCapture(activity,"Add to Cart","",obj.getName(),"",MySharedPrefs.INSTANCE.getSelectedCity());
+                        System.out.println("GTM_FROM="+MyApplication.GTM_FROM);
+                        UtilityMethods.sendGTMEvent(activity, MyApplication.GTM_FROM,"productName="+obj.getName()+"/productId="+obj.getProductid(),"Android Add to Cart");
+
                         RocqAnalytics.trackEvent("Add to Cart", new ActionProperties("Category", "Add to Cart", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",obj.getName()));
                     }catch(Exception e){
                          e.printStackTrace();

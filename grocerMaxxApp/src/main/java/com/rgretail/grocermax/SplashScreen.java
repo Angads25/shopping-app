@@ -65,10 +65,6 @@ public class SplashScreen extends BaseActivity
         RocqAnalytics.startScreen(this);
         /*------------------------------*/
 
-
-		/*initialization of InviteReferrals  library*/
-		//InviteReferralsApi.getInstance(this).initialize(this.getIntent().getData());
-
 		/*deleting banner images from internal storage*/
 		UtilityMethods.deleteBannerDirecort(SplashScreen.this);
 

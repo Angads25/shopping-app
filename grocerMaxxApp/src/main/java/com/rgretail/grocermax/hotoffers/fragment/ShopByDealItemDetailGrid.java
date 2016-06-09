@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.rgretail.grocermax.BaseActivity;
+import com.rgretail.grocermax.MyApplication;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.Product;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
@@ -54,6 +55,8 @@ public class ShopByDealItemDetailGrid extends Fragment {
         lv.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
 //        GridLayoutManager gridLayout = new GridLayoutManager(getActivity(), 2);
+
+        MyApplication.GTM_FROM="deal page";
         ShopByDealDetailListAdapter optionsListAdapter = new ShopByDealDetailListAdapter(getActivity(), this);
 //        recyclerView.setAdapter(optionsListAdapter);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());

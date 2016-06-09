@@ -86,6 +86,7 @@ public class ShopByDealsListAdapter extends RecyclerView.Adapter<ShopByDealsList
                 try{
                     MyApplication.isFromDrawer=false;
                     UtilityMethods.clickCapture(context, "Deal Category L1", "", data.get(position).getDealType(),"", MySharedPrefs.INSTANCE.getSelectedCity());
+                    UtilityMethods.sendGTMEvent(context,"deal page",data.get(position).getDealType(),"Android Category Interaction");
                     RocqAnalytics.trackEvent("Deal Category L1", new ActionProperties("Category", "Deal Category L1", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",data.get(position).getDealType()));
                 }catch(Exception e){}
                 /*-----------------------------------------------------*/

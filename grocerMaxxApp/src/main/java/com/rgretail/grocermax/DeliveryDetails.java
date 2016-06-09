@@ -103,6 +103,8 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
 
                         try{
                             UtilityMethods.clickCapture(mContext,"Delivery details","","","",MySharedPrefs.INSTANCE.getSelectedCity());
+                            String data=MySharedPrefs.INSTANCE.getUserEmail()+"/"+MySharedPrefs.INSTANCE.getUserId();
+                            UtilityMethods.sendGTMEvent(activity,"Delivery Slot",data,"Android Checkout Funnel");
                             RocqAnalytics.trackEvent("Delivery details", new ActionProperties("Category", "Delivery details", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
                         }catch(Exception e){}
                         if(time.equals(""))

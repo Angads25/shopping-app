@@ -132,6 +132,7 @@ public class ShopByCategoryListAdapter extends BaseAdapter {
 
                 try{
                     UtilityMethods.clickCapture(context, "L1", "",data.get(position).getName(), "", MySharedPrefs.INSTANCE.getSelectedCity());
+                    UtilityMethods.sendGTMEvent(activity,"category page",data.get(position).getName(),"Android Category Interaction");
                     RocqAnalytics.trackEvent("L1", new ActionProperties("Category", "L1", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", data.get(position).getName()));
 
                 }catch(Exception e){}

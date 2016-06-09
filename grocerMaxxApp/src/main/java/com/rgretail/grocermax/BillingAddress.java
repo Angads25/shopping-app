@@ -564,6 +564,8 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
 
                         try{
                             UtilityMethods.clickCapture(mContext,"Billing address","","","",MySharedPrefs.INSTANCE.getSelectedCity());
+                            String data=MySharedPrefs.INSTANCE.getUserEmail()+"/"+MySharedPrefs.INSTANCE.getUserId();
+                            UtilityMethods.sendGTMEvent(activity,"Billing",data,"Android Checkout Funnel");
                             RocqAnalytics.trackEvent("Billing address", new ActionProperties("Category", "Billing address", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
                         }catch(Exception e){}
 
