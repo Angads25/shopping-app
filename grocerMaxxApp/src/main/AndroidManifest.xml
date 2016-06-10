@@ -34,6 +34,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <!-- for flurry analytics -->
 
@@ -272,6 +273,7 @@
 
         <service android:name=".api.ConnectionService" />
         <service android:name=".api.ConnectionCartService" />
+        <service android:name=".info.ContactInfoService" />
 
         <meta-data
             android:name="payu_merchant_id"

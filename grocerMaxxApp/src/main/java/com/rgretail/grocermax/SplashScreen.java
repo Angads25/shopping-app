@@ -21,6 +21,7 @@ import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.LocationListBean;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
+import com.rgretail.grocermax.info.ContactInfoService;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
@@ -59,6 +60,9 @@ public class SplashScreen extends BaseActivity
 		super.onCreate(savedInstanceState);
 		super.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.splash_screen);
+
+		Intent intent=new Intent(SplashScreen.this, ContactInfoService.class);
+		startService(intent);
 
         /*screen tracking using rocq*/
         RocqAnalytics.initialize(this);
