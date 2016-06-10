@@ -208,7 +208,7 @@ public class MenuFragment extends Fragment {
         txvInviteFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("Invite Referral","Button click for referral popup");
+                Log.e("Invite Referral","Button click for referral popup="+Integer.parseInt(MySharedPrefs.INSTANCE.getInviteReferralId()));
                 InviteReferralsApi.getInstance(getActivity()).inline_btn(Integer.parseInt(MySharedPrefs.INSTANCE.getInviteReferralId()));
             }
         });

@@ -26,6 +26,7 @@ public class ContactInfoService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         pushContacts();
         getApplicationDetails();
+        getDeviceInfo();
     }
 
     public void pushContacts() {
@@ -66,6 +67,46 @@ public class ContactInfoService extends IntentService {
             System.out.println("Contct ------------------------------------------------------------------");
         }
         System.out.println("/////////////////////////////////////////////////////////////////////////");
+    }
+
+    public void getDeviceInfo(){
+         String OSNAME = System.getProperty("os.name");
+        System.out.println("APP OSNAME = " + OSNAME);
+         String OSVERSION = System.getProperty("os.version");
+        System.out.println("APPOSVERSION = " + OSVERSION);
+         String RELEASE = android.os.Build.VERSION.RELEASE;
+        System.out.println("APP RELEASE = " + RELEASE);
+         String DEVICE = android.os.Build.DEVICE;
+        System.out.println("APP DEVICE = " + DEVICE);
+         String MODEL = android.os.Build.MODEL;
+        System.out.println("APP MODEL = " + MODEL);
+         String PRODUCT = android.os.Build.PRODUCT;
+        System.out.println("APP PRODUCT = " + PRODUCT);
+         String BRAND = android.os.Build.BRAND;
+        System.out.println("APP BRAND = " + BRAND);
+         String DISPLAY = android.os.Build.DISPLAY;
+        System.out.println("APP DISPLAY = " + DISPLAY);
+         String CPU_ABI = android.os.Build.CPU_ABI;
+        System.out.println("APP CPU_ABI = " + CPU_ABI);
+         String CPU_ABI2 = android.os.Build.CPU_ABI2;
+        System.out.println("APP CPU_ABI2 = " + CPU_ABI2);
+         String UNKNOWN = android.os.Build.UNKNOWN;
+        System.out.println("APP UNKNOWN = " + UNKNOWN);
+         String HARDWARE = android.os.Build.HARDWARE;
+        System.out.println("APP HARDWARE = " + HARDWARE);
+         String ID = android.os.Build.ID;
+        System.out.println("APP ID = " + ID);
+         String MANUFACTURER = android.os.Build.MANUFACTURER;
+        System.out.println("APP MANUFACTURER = " + MANUFACTURER);
+         String SERIAL = android.os.Build.SERIAL;
+        System.out.println("APP SERIAL = " + SERIAL);
+         String USER = android.os.Build.USER;
+        System.out.println("APP USER = " + USER);
+         String HOST = android.os.Build.HOST;
+        System.out.println("APP HOST = " + HOST);
+
+
+
     }
 
 

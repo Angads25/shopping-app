@@ -340,6 +340,7 @@ public class HomeScreen extends BaseActivity {
                     JSONArray jsonArrayBanner = jsonO.getJSONArray("banner");
                     JSONArray jsonDealType = jsonO.getJSONArray("deal_type");
                     JSONArray jsonSpecialDealType = jsonO.getJSONArray("specialdeal");
+
                     JSONObject bottomBarMessage=jsonO.getJSONObject("bottomBarMsg");
                     if(bottomBarMessage.length()>0){
                         MySharedPrefs.INSTANCE.putBootomBarMessage(bottomBarMessage.getString("message"));
