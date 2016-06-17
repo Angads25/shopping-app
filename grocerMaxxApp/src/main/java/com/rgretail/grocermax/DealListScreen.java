@@ -154,6 +154,7 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
             initHeader(findViewById(R.id.header), true, header);
             initFooter(findViewById(R.id.footer), 0, -1);
             initBottom(findViewById(R.id.footer));
+            showSubscriptionPopup();
         }catch(Exception e){
             new GrocermaxBaseException("DealListScreen","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
         }

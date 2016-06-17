@@ -23,6 +23,7 @@ public class MyApplication extends Application {
     public static boolean isFromDrawer=false;
 	public static boolean isFromFinalCheckout=false;
 	public static String GTM_FROM;
+	public static boolean isSubscribed;
 //	private static String PROPERTY_ID;
 
 
@@ -64,6 +65,7 @@ public class MyApplication extends Application {
 		try {
 
 			GTM_FROM="";
+			isSubscribed=false;
 
 			/*event for app activation using facebok sdk*/
 			FacebookSdk.sdkInitialize(getApplicationContext());

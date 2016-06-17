@@ -1638,8 +1638,6 @@ class Coupon extends AsyncTask<String, String, String>
 						}
 
 
-//						Float.parseFloat(jsoncartObject.getString("you_save")
-//						orderReviewBean1.setCouponDiscount(String.valueOf(Float.parseFloat(jsoncartObject.getString("you_save"))));
 						orderReviewBean1.setCouponCode(jsoncartObject.getString("coupon_code"));
 						orderReviewBean1.setCouponSubtotalWithDiscount(jsoncartObject.getString("subtotal_with_discount"));
 						orderReviewBean1.setSubTotal(jsoncartObject.getString("subtotal"));

@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
@@ -81,6 +82,7 @@ import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
@@ -159,6 +161,47 @@ public abstract class BaseActivity extends FragmentActivity {
 			new GrocermaxBaseException("BaseActivity","onCreate",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
+
+public void showSubscriptionPopup(){
+	if (MySharedPrefs.INSTANCE.getUserId()==null || MySharedPrefs.INSTANCE.getUserId().equals("")) {
+		if (!MyApplication.isSubscribed) {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+					try {
+						JSONObject dataJson=new JSONObject(MySharedPrefs.INSTANCE.getSubscriptionSet());
+						final SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+						if(!MySharedPrefs.INSTANCE.getSubscriptionPopupCloseTime().equals("")){
+                            String current_time = dateFormat.format(new Date());
+                            String saved_time=MySharedPrefs.INSTANCE.getSubscriptionPopupCloseTime();
+                            Date d1 = null;
+                            Date d2 = null;
+                            try {
+                                d1 = dateFormat.parse(saved_time);
+                                d2 = dateFormat.parse(current_time);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            long diff = d2.getTime() - d1.getTime();
+                            long diffMinuts = diff / (60 * 1000);
+                            //ArrayList<String> subscriptionList= new ArrayList<String>();
+                            //subscriptionList.addAll(MySharedPrefs.INSTANCE.getSubscriptionSet());
+
+                            long expTime=Long.parseLong(dataJson.getString("expTime"));
+                            if(expTime<diffMinuts)
+                                UtilityMethods.showSubscriptionPopup(BaseActivity.this,dataJson.getString("message"),dataJson.getString("ok_button_text"),dataJson.getString("cancel_button_text"));
+                        }else{
+							UtilityMethods.showSubscriptionPopup(BaseActivity.this,dataJson.getString("message"),dataJson.getString("ok_button_text"),dataJson.getString("cancel_button_text"));
+                        }
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+            }, 3000);
+        }
+	}
+}
 
 	public void initBottom(final View view){
 		//view.setVisibility(View.VISIBLE);
@@ -1635,6 +1678,20 @@ public abstract class BaseActivity extends FragmentActivity {
 
 					}
 
+					else if (intent.getAction().equals(MyReceiverActions.SUBSCRIBE_USER)) {
+						try {
+							String pramotionResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);
+							JSONObject subscribeJSON=new JSONObject(pramotionResponse);
+							if(subscribeJSON.getString("flag").equals("1")){
+								MyApplication.isSubscribed=true;
+							}else{
+								MyApplication.isSubscribed=false;
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+
 					else if (intent.getAction().equals(MyReceiverActions.LOCATION)) {                          //first time hit for location every time when app starts
 //			LocationListBean locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
 						AppConstants.locationBean = (LocationListBean) bundle.getSerializable(ConnectionService.RESPONSE);
@@ -1700,8 +1757,7 @@ public abstract class BaseActivity extends FragmentActivity {
 						OnResponse(bundle);
 					}
 				} else {
-					if (errorString
-							.equalsIgnoreCase(ConnectionService.IO_EXCEPTION))
+					if (errorString.equalsIgnoreCase(ConnectionService.IO_EXCEPTION))
 //					Toast.makeText(mContext, ToastConstant.msgNoInternet,
 //							Toast.LENGTH_SHORT).show();
 						UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, mContext);
@@ -1875,6 +1931,24 @@ public abstract class BaseActivity extends FragmentActivity {
 			openCart();
 		}
 	}
+
+	public void subscribeUser(String email,String device_id){
+		try {
+			addActionsInFilter(MyReceiverActions.SUBSCRIBE_USER);
+			String strurl = UrlsConstants.SUBSCRIBE_USER;
+			JSONObject dataSendTOserver = new JSONObject();
+			dataSendTOserver.put("device_id", device_id);
+			dataSendTOserver.put("email", email);
+			myApi.reqSubscribeUser(strurl.replaceAll(" ", "%20"), dataSendTOserver);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
+
+
+
 
 	private void openCart()
 	{

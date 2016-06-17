@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/style_horizontal"
+    android:layout_margin="10dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:src="@drawable/wallet_image" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sunday Sale"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:id="@+id/tv_coupon_title" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="gkjhdg kgffjkhgkdf f fkhkfjhgfdjhg fkhjkfhkfhksojug fjhfj fjhgkff juhkgjfhkjgmncv ncvnvcn vcnmbvcb vcnbnvbc nbvnmbv vcmb cvbcnbmnvbcnbcdygc vbcghsgd disjha iss ahhgo gnjgjhng ghfhnf  "
+            android:textColor="#808080"
+            android:textSize="14dp"
+            android:layout_marginTop="5dp"
+            android:id="@+id/tv_coupon_desc" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/grey"/>
+
+        <LinearLayout
+            android:id="@+id/ll_code"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:background="@drawable/style_horizontal"
+            android:layout_height="40dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:text="Code: GROCERMAX50"
+                android:textColor="@color/primaryColor"
+                android:textSize="15dp"
+                android:gravity="center_vertical"
+                android:id="@+id/tv_coupon_code" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="@drawable/text_click"
+                android:text="Tap to copy"
+                android:textColor="@color/white"
+                android:textSize="14dp"
+                android:gravity="center_vertical|right"
+                android:paddingRight="10dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:id="@+id/tv_tap_to_copy" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

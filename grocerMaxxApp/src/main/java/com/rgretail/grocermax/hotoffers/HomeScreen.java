@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,7 +23,6 @@ import com.dq.rocq.RocqAnalytics;
 import com.dq.rocq.models.ActionProperties;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.tagmanager.Container;
 import com.google.android.gms.tagmanager.ContainerHolder;
 import com.google.android.gms.tagmanager.TagManager;
 import com.google.gson.Gson;
@@ -60,7 +58,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 
 
@@ -308,7 +308,6 @@ public class HomeScreen extends BaseActivity {
     public void OnResponse(Bundle bundle) {
 
         try {
-            System.out.println("Notification testing2");
             String action = bundle.getString("ACTION");
 //            if(action.equals(MyReceiverActions.CATEGORY_LIST)) {
 //                dismissDialog();
@@ -348,6 +347,16 @@ public class HomeScreen extends BaseActivity {
                         initBottom(findViewById(R.id.footer1));
                     }
                     MySharedPrefs.INSTANCE.putInviteReferralId(jsonO.getString("compId"));
+
+                    //JSONObject subscriptionPopup=new JSONObject("{'message': 'Enter your email id to get the latest offers and discounts','expTime': '2','ok_button_text':'OK','cancel_button_text':'CANCEL'}");
+                        JSONObject subscriptionPopup=jsonO.getJSONObject("subscriptionPopUp");
+                        if(subscriptionPopup.length()>0){
+
+                            MySharedPrefs.INSTANCE.putSubscriptionSet(subscriptionPopup.toString());
+                            if(MySharedPrefs.INSTANCE.getUserId()==null || MySharedPrefs.INSTANCE.getUserId().equals("")) {
+                                showSubscriptionPopup();
+                            }
+                        }
 
                      /*for storing search keyword*/
 

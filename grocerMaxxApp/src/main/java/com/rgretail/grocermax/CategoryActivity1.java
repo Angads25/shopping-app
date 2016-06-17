@@ -179,6 +179,7 @@ public class CategoryActivity1 extends BaseActivity {
         try{
             initHeader(findViewById(R.id.app_bar_header), true, strCatName);
             initBottom(findViewById(R.id.footer));
+            showSubscriptionPopup();
             AppsFlyerLib.onActivityResume(this);
         }catch(Exception e){}
 

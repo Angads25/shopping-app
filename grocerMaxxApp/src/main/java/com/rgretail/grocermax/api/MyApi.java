@@ -119,6 +119,18 @@ public class MyApi {
             new GrocermaxBaseException("MyApi","reqWallet",e.getMessage(), GrocermaxBaseException.EXCEPTION,url);
         }
     }
+	public void reqPramotion(String url) {
+		try{
+			Intent reqIntent = new Intent(m_context, ConnectionService.class);
+			reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.PRAMOTION_DATA);
+			reqIntent.putExtra(ConnectionService.URL, url);
+			reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+			reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.PRAMOTION_DATA);
+			m_context.startService(reqIntent);
+		}catch(Exception e){
+			new GrocermaxBaseException("MyApi","reqWallet",e.getMessage(), GrocermaxBaseException.EXCEPTION,url);
+		}
+	}
 	public void reqTopProduct(String url) {
 		try{
 			Intent reqIntent = new Intent(m_context, ConnectionService.class);
@@ -1108,6 +1120,23 @@ public class MyApi {
 			m_context.startService(reqIntent);
 		}catch(Exception e){
 			new GrocermaxBaseException("MyApi","sending device token",e.getMessage(), GrocermaxBaseException.EXCEPTION,url+jsonObject);
+		}
+	}
+	public void reqSubscribeUser(String url,JSONObject jsonObject) {
+		try{
+			Intent reqIntent = new Intent(m_context, ConnectionService.class);
+			reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.SUBSCRIBE_USER);
+			reqIntent.putExtra(ConnectionService.URL, url);
+			if(jsonObject.length() > 0){
+				reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "POST");
+				reqIntent.putExtra(ConnectionService.JSON_STRING, String.valueOf(jsonObject));
+			}else{
+				reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+			}
+			reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.SUBSCRIBE_USER);
+			m_context.startService(reqIntent);
+		}catch(Exception e){
+			new GrocermaxBaseException("MyApi","sending subscription token",e.getMessage(), GrocermaxBaseException.EXCEPTION,url+jsonObject);
 		}
 	}
 

@@ -80,6 +80,8 @@ public class ConnectionServiceParser {
 		int TOP_PRODUCTS_LIST = 138;
 		int CATEGORY_BANNER = 139;
 		int REG_DEVICE_TOKEN = 140;
+		int PRAMOTION_DATA = 141;
+		int SUBSCRIBE_USER = 142;
 	}
 
 	public static BaseResponseBean parseSimpleResponse(String jsonString)

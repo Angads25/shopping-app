@@ -111,4 +111,7 @@ public interface MyReceiverActions {
 	String CATEGORY_BANNER= PKG_NAME + ".category_banner";
 
 	String REG_DEVICE_TOKEN = PKG_NAME + ".regdevicetoken";
+
+	String PRAMOTION_DATA = PKG_NAME + ".pramotion_data";
+	String SUBSCRIBE_USER = PKG_NAME + ".subscribe_user";
 }

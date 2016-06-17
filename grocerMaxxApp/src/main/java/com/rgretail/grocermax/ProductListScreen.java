@@ -342,6 +342,7 @@ public class ProductListScreen extends BaseActivity implements OnScrollListener 
 		try{
 			initHeader(findViewById(R.id.header), true, null);
 			initBottom(findViewById(R.id.footer));
+			showSubscriptionPopup();
 			clickStatus=0;
 		}catch(Exception e){
 			new GrocermaxBaseException("ProductListScreen","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");

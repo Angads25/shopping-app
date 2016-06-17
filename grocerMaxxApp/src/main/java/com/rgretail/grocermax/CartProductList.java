@@ -118,7 +118,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 
 			tv_subTotal = (TextView) findViewById(R.id.tv_subTotal);
 			tv_discount = (TextView) findViewById(R.id.tv_discount);
-			tvCoupon = (TextView) findViewById(R.id.tv_coupon);
+			tvCoupon = (TextView) findViewById(R.id.tv_coupon_apply);
 			tvSavePrice = (TextView) findViewById(R.id.tv_save_price);
 			txtDiscount = (TextView) findViewById(R.id.txt_discount);
 			tv_grandTotal = (TextView) findViewById(R.id.tv_grandTotal);
@@ -176,6 +176,16 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			}
 			icon_header_cart.setClickable(false);
 			cart_count_txt.setClickable(false);
+
+			tvCoupon.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent i=new Intent(CartProductList.this,CouponPage.class);
+					startActivity(i);
+				}
+			});
+
+
 		}catch(Exception e){
 			new GrocermaxBaseException("CartProductList", "onCreate", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}

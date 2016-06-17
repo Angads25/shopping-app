@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_apply_coupon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_margin="15dp">
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Enter coupon code"
+                android:paddingRight="100dp"
+                android:textColorHint="@color/black"
+                android:focusableInTouchMode="true"
+                android:focusable="true"
+                android:textSize="19dp" />
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="45dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/text_click"
+                android:gravity="center"
+                android:text="APPLY"
+                android:id="@+id/tv_apply"
+                android:textColor="@color/white"
+                android:textSize="18dp" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:background="@color/gray_1" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/or" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+
+
+<LinearLayout
+    android:id="@+id/ll_list"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp">
+
+    <TextView
+        android:layout_width="220dp"
+        android:layout_height="40dp"
+        android:text="ONION - APPLY"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"
+        android:background="@drawable/apply_coupon"
+        android:id="@+id/tv_apply_coupon"
+        android:textSize="17dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:text="Shop for Rs. 1988 get 2 Kg onions Free.Shop for Rs. 1988 get 2 Kg onions Free."
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:id="@+id/tv_coupon_title"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:textSize="16dp"/>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/img_view_m"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/view_coupon_detail_open" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/img_hide_m"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/view_coupon_detail_collapse" />
+    </FrameLayout>
+    <LinearLayout
+        android:id="@+id/ll_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Shop for Rs. 1988 get 2 Kg onions Free.Shop for Rs. 1988 get 2 Kg onions Free."
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:id="@+id/tv_coupon_detail"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:textSize="13dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Valid till 31st June 2016"
+        android:gravity="center"
+        android:textColor="@color/gray_1"
+        android:id="@+id/tv_coupon_validity"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:textSize="12dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
+
+</LinearLayout>

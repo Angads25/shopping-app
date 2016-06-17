@@ -59,6 +59,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.LoginActivity;
+import com.rgretail.grocermax.MyApplication;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.Registration;
 import com.rgretail.grocermax.UserHeaderProfile;
@@ -228,70 +229,62 @@ public class UtilityMethods {
 		}
 	}
 
-	public static void showAlert(Context context, String title, String msg,
-			String btnOneTxt, String btnTwoTxt) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-				context);
+	public static void showSubscriptionPopup(final Context context, String msg,String ok_button_text,String cancel_button_text) {
 
-		// set title
-		alertDialogBuilder.setTitle(title);
+        Typeface typeface=Typeface.createFromAsset(context.getAssets(),"Roboto-Regular.ttf");
+        Typeface typeface1=Typeface.createFromAsset(context.getAssets(),"Roboto-Light.ttf");
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View dialogView = inflater.inflate(R.layout.update_available_dialog, null);
+        alertDialog.setView(dialogView);
+        alertDialog.setCancelable(false);
+        final AlertDialog alert = alertDialog.create();
+        TextView tv_msg=(TextView)dialogView.findViewById(R.id.tv_msg);
+        tv_msg.setTypeface(typeface1);
+        tv_msg.setText(msg);
 
-		// set dialog message
-		alertDialogBuilder
-				.setMessage(msg)
-				.setCancelable(false)
-				.setPositiveButton(btnOneTxt,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								// if this button is clicked, close
-								// current activity
+        final EditText edtComment=(EditText)dialogView.findViewById(R.id.edt_otp);
+        edtComment.setVisibility(View.VISIBLE);
+        edtComment.setHint("Enter email id");
 
-							}
-						})
-				.setNegativeButton(btnTwoTxt,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								// if this button is clicked, just close
-								// the dialog box and do nothing
-								dialog.cancel();
-							}
-						});
+        TextView tv_skip = (TextView) dialogView.findViewById(R.id.tv_skip);
+        tv_skip.setTypeface(typeface);
+        tv_skip.setVisibility(View.VISIBLE);
+        tv_skip.setText(cancel_button_text);
+        tv_skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+                String current_time = dateFormat.format(new Date());
+                MySharedPrefs.INSTANCE.putSubscriptionPopupCloseTime(current_time);
+                alert.dismiss();
+            }
+        });
 
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
+        TextView tv_update=(TextView)dialogView.findViewById(R.id.tv_update);
+        tv_update.setTypeface(typeface);
+        tv_update.setText(ok_button_text);
+        tv_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // alert.dismiss();
+                try {
+                    String email=edtComment.getText().toString();
+                    if(isValidEmail(email)){
+                       // MyApplication.isSubscribed=true;
+                        alert.dismiss();
+                        ((BaseActivity)context).subscribeUser(email,getDeviceId(context));
 
-		// show it
-		alertDialog.show();
+                    }else{
+                        customToast("Please enter valid email id",context);
+                    }
+                } catch (Exception e){
 
-	}
-
-	public static void showAlert(Context context, String title, String msg,
-			String btnOneTxt) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-				context);
-
-		// set title
-		alertDialogBuilder.setTitle(title);
-
-		// set dialog message
-		alertDialogBuilder
-				.setMessage(msg)
-				.setCancelable(false)
-				.setPositiveButton(btnOneTxt,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								// if this button is clicked, close
-								// current activity
-
-							}
-						});
-
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
-
-		// show it
-		alertDialog.show();
-
+                }
+            }
+        });
+        alert.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
+        alert.show();
 	}
 
 	public static void email(String[] recipients, String subject,

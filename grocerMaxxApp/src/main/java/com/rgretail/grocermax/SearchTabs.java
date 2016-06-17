@@ -460,6 +460,7 @@ public class SearchTabs extends BaseActivity{
 		try {
 			initHeader(findViewById(R.id.header), true, searchString);
 			initBottom(findViewById(R.id.footer));
+			showSubscriptionPopup();
 //			initHeader(findViewById(R.id.header), true, null);
 //			showSearchView(true);
 //			edtSearch.setText(searchString);

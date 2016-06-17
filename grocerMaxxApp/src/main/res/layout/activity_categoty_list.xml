@@ -462,13 +462,19 @@ need this in relative layout when price details need to be shown below -->
             android:id="@+id/load_more_progressBar"
             layout="@layout/footer_progress_dialog"
             android:visibility="gone" />
-
-        <!--
-          <include
-              android:id="@+id/footer"
-              layout="@layout/mart_footer" />-->
-
     </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:text="Apply Coupons"
+        android:gravity="center"
+        android:textColor="@color/app_header"
+        android:background="@color/white"
+        android:id="@+id/tv_coupon_apply"
+        android:textSize="@dimen/abc_action_bar_content_inset_material"/>
 
     <LinearLayout
         android:layout_width="match_parent"

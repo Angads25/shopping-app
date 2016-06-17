@@ -39,10 +39,12 @@ public enum MySharedPrefs {
 	private final String SEARCH_KEY = "search_key";
 	private final String TOTAL_ITEM = "total_item";
 	private final String BRADCRUM = "bradcrum";
+	private final String SUBSCRIPTION_DATA = "subscription_data";
 	private final String BOTTOM_MESSAGE = "bottom_bar_message";
 	private final String BOTTOM_EXP = "bottom_bar_exp";
 	private final String INVITE_REFERRAL_ID = "invite_referral_id";
 	private final String BOTTOM_BAR_CLOSE_TIME = "bottom_bar_close_time";
+	private final String SUBSCRIPTION_POPUP_CLOSE_TIME = "subscription_popup_close_time";
 	private final String CATG_ID = "catg_id";
 	private final String TAB_INDEX = "tab_index";
 
@@ -349,6 +351,33 @@ public enum MySharedPrefs {
 	public String getBradecrum() {
 		return getAppPreference().getString(BRADCRUM, null);
 	}
+
+
+
+	/*----------Subscription Popup-----------------------*/
+
+	public void putSubscriptionSet(String subscription_data) {
+		getAppPreference().edit().putString(SUBSCRIPTION_DATA, subscription_data).commit();
+	}
+
+	public String getSubscriptionSet() {
+		return getAppPreference().getString(SUBSCRIPTION_DATA, null);
+	}
+
+	public void putSubscriptionPopupCloseTime(String time) {
+		getAppPreference().edit().putString(SUBSCRIPTION_POPUP_CLOSE_TIME, time).commit();
+	}
+
+	public String getSubscriptionPopupCloseTime() {
+		return getAppPreference().getString(SUBSCRIPTION_POPUP_CLOSE_TIME, "");
+	}
+
+
+
+	/*-------------------------------------------------*/
+
+
+
 
 	public void putBootomBarMessage(String msg) {
 		getAppPreference().edit().putString(BOTTOM_MESSAGE, msg).commit();

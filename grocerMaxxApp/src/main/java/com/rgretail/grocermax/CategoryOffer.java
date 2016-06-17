@@ -82,6 +82,7 @@ public class CategoryOffer extends BaseActivity {
         try{
             initHeader(findViewById(R.id.header_left), true, AppConstants.strTitleHotDeal);
             initBottom(findViewById(R.id.footer1));
+            showSubscriptionPopup();
             findViewById(R.id.header_left).setVisibility(View.VISIBLE);
             findViewById(R.id.header).setVisibility(View.GONE);
             AppsFlyerLib.onActivityResume(this);

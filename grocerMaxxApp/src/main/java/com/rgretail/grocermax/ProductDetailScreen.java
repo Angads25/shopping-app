@@ -514,6 +514,7 @@ public class ProductDetailScreen extends BaseActivity implements
 //			initHeader(findViewById(R.id.header), true, null);
             initHeader(findViewById(R.id.header), true, screenName);
             initBottom(findViewById(R.id.footer));
+            showSubscriptionPopup();
         } catch (Exception e) {
             new GrocermaxBaseException("ProductDetailScreen", "onResume", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
         }

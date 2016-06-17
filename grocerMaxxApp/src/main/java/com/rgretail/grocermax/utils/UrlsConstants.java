@@ -79,6 +79,9 @@ public class UrlsConstants {
     public final static String WALLET_INFO_URL = NEW_BASE_URL
             + "getwalletbalance?CustId=";
 
+	public final static String PRAMOTION_URL = NEW_BASE_URL
+			+ "couponcode";
+
 	public final static String TOP_PRODUCT_URL = NEW_BASE_URL
 			+ "rootcategoryproduct?cat_id=";
 	/*public final static String TOP_PRODUCT_URL = NEW_BASE_URL
@@ -179,6 +182,11 @@ public class UrlsConstants {
 
 	public final static String REGESTRATION_URL = NEW_BASE_URL                                    //use when first time hits the registeration service and after match otp by user and coming from server
 			+ "createuser";
+
+
+	public final static String SUBSCRIBE_USER = NEW_BASE_URL                                    //use when first time hits the registeration service and after match otp by user and coming from server
+			+ "subscriber";
+
 
 	public final static String EDIT_USER_URL = BASE_URL
 			+ "editprofile.php?UserID=";// 166&fname=Suman&uemail=suman.tripath333i@sakshay.in

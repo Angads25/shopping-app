@@ -18,6 +18,7 @@ import com.rgretail.grocermax.CategoryTabs;
 import com.rgretail.grocermax.CityActivity;
 import com.rgretail.grocermax.LoginActivity;
 import com.rgretail.grocermax.MyApplication;
+import com.rgretail.grocermax.PramotionPage;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.TermAndCondition;
 import com.rgretail.grocermax.WalletActivity;
@@ -47,7 +48,7 @@ public class MenuFragment extends Fragment {
     private ImageView imgBack;
     private String title;
     private Boolean isListView;
-    private TextView txvTitle, txvShopByDeals, txvGetInTouch, txvShopByCategories,txvRateThisApp,txvYourWallet,txvInviteFriends;
+    private TextView txvTitle, txvShopByDeals, txvGetInTouch, txvShopByCategories,txvRateThisApp,txvYourWallet,txvInviteFriends,txv_pramotion;
     public static TextView txvSelectLocation;
     private TextView txvLocation;
     private ImageView ivLocation;
@@ -95,6 +96,7 @@ public class MenuFragment extends Fragment {
         txvGetInTouch = (TextView) view.findViewById(R.id.txvGetInTouch);
         txvRateThisApp = (TextView) view.findViewById(R.id.txv_rate_app);
         txvInviteFriends = (TextView) view.findViewById(R.id.txv_invite_friends);
+        txv_pramotion = (TextView) view.findViewById(R.id.txv_pramotion);
         txvSelectLocation = (TextView) view.findViewById(R.id.txvSelectLocation);
         txvYourWallet=(TextView)view.findViewById(R.id.txvYourWallet);
         ivLocation = (ImageView) view.findViewById(R.id.ivLocation);
@@ -210,6 +212,14 @@ public class MenuFragment extends Fragment {
             public void onClick(View v) {
                 Log.e("Invite Referral","Button click for referral popup="+Integer.parseInt(MySharedPrefs.INSTANCE.getInviteReferralId()));
                 InviteReferralsApi.getInstance(getActivity()).inline_btn(Integer.parseInt(MySharedPrefs.INSTANCE.getInviteReferralId()));
+            }
+        });
+
+        txv_pramotion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(getActivity(), PramotionPage.class);
+                startActivity(i);
             }
         });
 
