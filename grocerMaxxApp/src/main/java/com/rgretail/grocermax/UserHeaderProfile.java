@@ -22,6 +22,8 @@ import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
+import java.util.Random;
+
 //import com.google.analytics.tracking.android.EasyTracker;
 
 /**
@@ -32,6 +34,11 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
     RelativeLayout rlLogin,rlOrderHistory,rl_wallet,rlMyAddresses,rlEditProfile,rlInviteFriends,rlCallToUs,rlWriteToUs,rlSignOut;
 //    rlViewProfile
     TextView tvLogin,tvOrderHistory,tvMyAddresses,tvEditProfile,tvInviteFriends,tvCallToUs,tvWriteToUs,tvSignOut;
+
+    String[] colorArray={"#808000","#008000","#800000","#A52A2A","#2B547E","#306754","#CD7F32","#806517","#7F462C","#8C001A"};
+
+
+
 //    tvViewProfile
 //    EasyTracker tracker;
 //    private static int LOGIN_SIGNUP = 555;
@@ -41,15 +48,16 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-//        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-//            @Override
-//            public void uncaughtException(Thread thread, Throwable ex) {
-//
-//            }
-//        });
+
 
         View viewSignOut = (View) findViewById(R.id.view_sign_out);
         ImageView ivLoginCarat = (ImageView) findViewById(R.id.iv_login_carrat);
+
+        Random ran = new Random();
+        int x = ran.nextInt(10);
+        CircleView circle_view=(CircleView)findViewById(R.id.img_user_icon);
+        circle_view.setTitleText(String.valueOf(MySharedPrefs.INSTANCE.getFirstName().charAt(0)).toUpperCase());
+        circle_view.setFillColor(Color.parseColor(colorArray[x]));
 
         tvUserName = (TextView) findViewById(R.id.tv_userprofile_fullname);
         tvUserEmail = (TextView) findViewById(R.id.tv_userprofile_email);

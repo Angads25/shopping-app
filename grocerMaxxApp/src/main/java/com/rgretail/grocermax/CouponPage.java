@@ -126,27 +126,16 @@ public class CouponPage extends BaseActivity{
             if(position==0){
              ll_apply_coupon.setVisibility(View.VISIBLE);
              ll_list.setVisibility(View.GONE);
-                EditText edt_coupon=(EditText)convertView.findViewById(R.id.editText);
+                final EditText edt_coupon=(EditText)convertView.findViewById(R.id.editText);
                 TextView apply=(TextView)convertView.findViewById(R.id.tv_apply);
-                /*edt_coupon.setOnTouchListener(new View.OnTouchListener() {
+                apply.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        v.requestFocus();
-                        return false;
-                    }
-                });*/
-                edt_coupon.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(final View v, boolean hasFocus) {
-                        v.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                v.requestFocus();
-                                v.requestFocusFromTouch();
-                            }
-                        });
+                    public void onClick(View v) {
+                        UtilityMethods.customToast(edt_coupon.getText().toString()+"-Coupon Apply",CouponPage.this);
+
                     }
                 });
+
             }else{
                 ll_apply_coupon.setVisibility(View.GONE);
                 ll_list.setVisibility(View.VISIBLE);

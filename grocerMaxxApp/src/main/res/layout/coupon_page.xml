@@ -41,7 +41,9 @@
         android:id="@+id/lv_coupon_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:focusable="false"
+        android:animationCache="false"
+        android:scrollingCache="false"
+        android:smoothScrollbar="true"
         android:descendantFocusability="afterDescendants">
     </ListView>
 

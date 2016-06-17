@@ -26,6 +26,7 @@
                 android:textColorHint="@color/black"
                 android:focusableInTouchMode="true"
                 android:focusable="true"
+                android:inputType="textNoSuggestions|textVisiblePassword"
                 android:textSize="19dp" />
 
             <TextView
