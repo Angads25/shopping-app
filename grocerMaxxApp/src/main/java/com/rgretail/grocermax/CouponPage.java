@@ -152,10 +152,14 @@ public class CouponPage extends BaseActivity{
                 tv_pramotion_desc.setTypeface(CustomFonts.getInstance().getRobotoRegular(CouponPage.this));
                 tv_pramotion_code.setText(Html.fromHtml(pramotionList.get(position).getCoupon_code()+" - <b>APPLY</b>"));
                 tv_pramotion_code.setTypeface(CustomFonts.getInstance().getRobotoRegular(CouponPage.this));
-                if(!pramotionList.get(position).getDesc().equals(""))
+                if(!pramotionList.get(position).getDesc().equals("")){
                     img_view_m.setVisibility(View.VISIBLE);
-                else
+                    img_hide_m.setVisibility(View.GONE);
+                }
+                else{
                     img_view_m.setVisibility(View.GONE);
+                    img_hide_m.setVisibility(View.GONE);
+                }
 
                 img_view_m.setOnClickListener(new View.OnClickListener() {
                     @Override

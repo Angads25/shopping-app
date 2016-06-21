@@ -1,11 +1,11 @@
 package com.rgretail.grocermax.bean;
 
-import java.io.Serializable;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
+
+import java.io.Serializable;
 
 public class CartDetail extends BaseResponseBean implements Serializable,Parcelable{
 
@@ -23,6 +23,11 @@ public class CartDetail extends BaseResponseBean implements Serializable,Parcela
 	private Integer qty;
 	@Expose
 	private String price;
+
+	@Expose
+	private String row_total;
+
+
 	@Expose
 	private String product_thumbnail;
 
@@ -44,6 +49,15 @@ public class CartDetail extends BaseResponseBean implements Serializable,Parcela
 
 	@Expose
 	private String webqty;
+
+
+	public String getRow_total() {
+		return row_total;
+	}
+
+	public void setRow_total(String row_total) {
+		this.row_total = row_total;
+	}
 
 	public String getWebQty(){
 		return webqty;
@@ -166,6 +180,7 @@ public class CartDetail extends BaseResponseBean implements Serializable,Parcela
 		product_thumbnail = in.readString();
 		Status = in.readString();
 		webqty = in.readString();
+		row_total=in.readString();
     }
 
     @Override
@@ -189,6 +204,7 @@ public class CartDetail extends BaseResponseBean implements Serializable,Parcela
         dest.writeString(product_thumbnail);
 		dest.writeString(Status);
 		dest.writeString(webqty);
+		dest.writeString(row_total);
     }
 
     @SuppressWarnings("unused")

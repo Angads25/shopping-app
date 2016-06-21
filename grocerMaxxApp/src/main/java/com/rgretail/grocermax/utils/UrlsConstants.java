@@ -49,15 +49,15 @@ public class UrlsConstants {
 	//public final static String NEW_BASE_URL = "https://multistore.grocermax.com/api/";
 
 
-    public final static String BASE_URL = "http://qa.grocermax.com/api/";
-    public final static String NEW_BASE_URL = "http://qa.grocermax.com/api/";
+    //public final static String BASE_URL = "http://qa.grocermax.com/api/";
+    //public final static String NEW_BASE_URL = "http://qa.grocermax.com/api/";
 
    // public final static String BASE_URL = "https://multistore.grocermax.com/api/";
     //public final static String NEW_BASE_URL = "https://multistore.grocermax.com/api/";
 
 
-    //public final static String BASE_URL = "http://staging.grocermax.com/api/";
-	//public final static String NEW_BASE_URL = "http://staging.grocermax.com/api/";
+    public final static String BASE_URL = "http://staging.grocermax.com/api/";
+	public final static String NEW_BASE_URL = "http://staging.grocermax.com/api/";
 
 
 	//public final static String BASE_URL = "https://grocermax.com/api/";

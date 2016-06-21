@@ -43,7 +43,8 @@ import java.util.ArrayList;
 public class CartProductList extends BaseActivity implements OnClickListener{
 
 	ListView mList;
-	public Button place_order,update_cart;
+	public Button update_cart;
+	public LinearLayout ll_place_order,button_place_order;
 	public static ArrayList<CartDetail> cartList;           //managing cart items on delete and add on view cart screen locally
 	String user_id;
 	CartDetailBean cartBean;
@@ -59,11 +60,8 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	TextView textView1;
 	TextView textViewCoupon,tvCoupon;
 	TextView tvYourCart;
-//	TextView tvCartItemCount,tvCartTotalTop;
-//	TextView txtItems,txtTotal;
-	LinearLayout ll_total,ll_discount,ll_shipping,ll_coupon;
-//	EasyTracker tracker;
-	//	public JSONArray jsonArray ;
+	//LinearLayout ll_total;
+		LinearLayout ll_discount,ll_shipping,ll_coupon;
 	public JSONObject jsonObjectUpdate = null;
 	public StringBuilder sbDeleteProdId;
 	public static String strShippingChargeLimit = "500";
@@ -131,7 +129,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 //			txtItems = (TextView) findViewById(R.id.txt_items);
 //			txtTotal = (TextView) findViewById(R.id.txt_total);
 
-			ll_total = (LinearLayout) findViewById(R.id.ll_total);
+			//ll_total = (LinearLayout) findViewById(R.id.ll_total);
 			ll_discount = (LinearLayout) findViewById(R.id.ll_discount);
 			ll_shipping = (LinearLayout) findViewById(R.id.ll_shipping);
 			ll_coupon = (LinearLayout) findViewById(R.id.ll_coupon);
@@ -196,7 +194,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		try {
 
 			if (cartList != null && cartList.size() > 0) {
-				ll_total.setVisibility(View.VISIBLE);
+				//ll_total.setVisibility(View.VISIBLE);
 				orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 
 				if (cartBean != null) {
@@ -223,9 +221,9 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					//float discount=Float.parseFloat(cartBean.getSubTotal())-Float.parseFloat(cartBean.getGrandTotal());
 					saving = saving - (Float.parseFloat(orderReviewBean.getDiscount_amount()));
 //		    tv_yousave.setText("Rs."+String.format("%.2f",saving));
-					tv_subTotal.setText("Rs." + String.format("%.2f", Float.parseFloat(cartBean.getSubTotal())));
-					tv_discount.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getDiscount_amount())));
-					tvSavePrice.setText("Rs." + String.format("%.2f", saving));
+					tv_subTotal.setText(getResources().getString(R.string.rs)+""+ String.format("%.2f", Float.parseFloat(cartBean.getSubTotal())));
+					tv_discount.setText(getResources().getString(R.string.rs)+"" + String.format("%.2f", Float.parseFloat(orderReviewBean.getDiscount_amount())));
+					tvSavePrice.setText(getResources().getString(R.string.rs)+"" + String.format("%.2f", saving));
 			/*if(Float.parseFloat(orderReviewBean.getDiscount_amount())==0)
 			{
 				ll_discount.setVisibility(View.GONE);
@@ -233,7 +231,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			else
 				ll_discount.setVisibility(View.VISIBLE);*/
 //					tv_shipping.setText("Rs." + Float.parseFloat(orderReviewBean.getShipping_ammount()));
-					tv_shipping.setText("Rs."+String.format("%.2f", Float.parseFloat(orderReviewBean.getShipping_ammount())));
+					tv_shipping.setText(getResources().getString(R.string.rs)+""+String.format("%.2f", Float.parseFloat(orderReviewBean.getShipping_ammount())));
 
 
                     /*set data on view for bill buster*/
@@ -250,29 +248,15 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 
 			if(Float.parseFloat(orderReviewBean.getShipping_ammount())==0)
 			{
-				ll_shipping.setVisibility(View.GONE);
-			}
-			else
 				ll_shipping.setVisibility(View.VISIBLE);
+				tv_shipping.setText("Free");
+			}
+			else{
+				ll_shipping.setVisibility(View.VISIBLE);
+			}
 
 					//tv_discount.setText("-"+String.format("%.2f",discount));
-					tv_grandTotal.setText("Rs." + String.format("%.2f", Float.parseFloat(cartBean.getGrandTotal())));
-
-//					if(tvCartTotalTop != null){
-//						tvCartTotalTop.setText("Rs." + String.format("%.2f", Float.parseFloat(cartBean.getGrandTotal())));
-//					}
-//					if(tvCartItemCount != null) {
-//						tvCartItemCount.setText(String.valueOf(cartList.size()));
-//					}
-
-
-//					if (MySharedPrefs.INSTANCE.getTotalItem() != null) {
-//						MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int) Float.parseFloat(cartBean.getItems_qty())));
-//						cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
-//					}
-
-					//cart_count_txt.setText(cartBean.getItems_count());
-
+					tv_grandTotal.setText(getResources().getString(R.string.rs)+"" + String.format("%.2f", Float.parseFloat(cartBean.getGrandTotal())));
 
 					OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 					orderReviewBean.setProduct(cartList);
@@ -289,18 +273,18 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					///////////////// used b/c when user deleted or edit products from cart and sign out then below id's becomes empty ////////////////
 
 
-				} else
-					ll_total.setVisibility(View.GONE);
+				} else{
+					//ll_total.setVisibility(View.GONE);
+					}
 
 
 				mList = (ListView) findViewById(R.id.category_list);
-				place_order = (Button) findViewById(R.id.button_place_order);
+				button_place_order = (LinearLayout) findViewById(R.id.button_place_order);
+				ll_place_order = (LinearLayout) findViewById(R.id.ll_place_order);
 
-//			mAdapter = new CartAdapter(CartProductList.this, cartList);
-//			mAdapter = new CartAdapter(CartProductList.this);
+
+
 				update_cart = (Button) findViewById(R.id.button_update_cart1);
-
-				place_order.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 				update_cart.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 
 				mAdapter = new CartAdapter(CartProductList.this);
@@ -326,24 +310,20 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				if(boolupdate){
 					update_cart.setVisibility(View.VISIBLE);
 					update_cart.setOnClickListener(this);
-					place_order.setVisibility(View.GONE);
-					place_order.setOnClickListener(this);
+					ll_place_order.setVisibility(View.GONE);
+					button_place_order.setOnClickListener(this);
 					icon_header_cart.setClickable(false);
 					cart_count_txt.setClickable(false);
 				}else{
-					place_order.setVisibility(View.VISIBLE);
-					place_order.setOnClickListener(this);
+					ll_place_order.setVisibility(View.VISIBLE);
+					button_place_order.setOnClickListener(this);
 					update_cart.setVisibility(View.GONE);
 					update_cart.setOnClickListener(this);
 				}
 
-//				place_order.setVisibility(View.VISIBLE);
-//				place_order.setOnClickListener(this);
-//				update_cart.setVisibility(View.GONE);
-//				update_cart.setOnClickListener(this);
 				}else{
 					UtilityMethods.customToast(Constants.ToastConstant.CART_EMPTY, mContext);
-				ll_total.setVisibility(View.GONE);
+				//ll_total.setVisibility(View.GONE);
 				Intent intent = new Intent(mContext, HomeScreen.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
@@ -435,7 +415,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		mAdapter.updateList(cartList);
 		if(cartList.size() == 0)
 		{
-			place_order.setVisibility(View.GONE);
+			ll_place_order.setVisibility(View.GONE);
 		}
 		}catch(NullPointerException e){
 			new GrocermaxBaseException("CartProductList", "updateCart", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
@@ -1010,7 +990,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 
 		try {
 			if (cartList != null && cartList.size() > 0) {
-				ll_total.setVisibility(View.VISIBLE);
+				//ll_total.setVisibility(View.VISIBLE);
 				orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 //			if(cartBean!=null)
 				if (orderReviewBean != null) {
@@ -1025,12 +1005,18 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					saving = saving - (Float.parseFloat(orderReviewBean.getDiscount_amount()));
 
 					//			tv_subTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(cartBean.getSubTotal())));
-					tv_subTotal.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getSubTotal())));
-					tv_discount.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getDiscount_amount())));
-					tvSavePrice.setText("Rs." + String.format("%.2f", saving));
-//					tv_shipping.setText("Rs." + Float.parseFloat(orderReviewBean.getShipping_ammount()));
-					tv_shipping.setText("Rs."+String.format("%.2f", Float.parseFloat(orderReviewBean.getShipping_ammount())));
-					tv_grandTotal.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getGrandTotal())));
+					tv_subTotal.setText(getResources().getString(R.string.rs)+"" + String.format("%.2f", Float.parseFloat(orderReviewBean.getSubTotal())));
+					tv_discount.setText(getResources().getString(R.string.rs)+"" + String.format("%.2f", Float.parseFloat(orderReviewBean.getDiscount_amount())));
+					tvSavePrice.setText(getResources().getString(R.string.rs)+""+ String.format("%.2f", saving));
+					if(Float.parseFloat(orderReviewBean.getShipping_ammount())==0)
+					{
+						tv_shipping.setText("Free");
+					}
+					else{
+						tv_shipping.setText(getResources().getString(R.string.rs)+""+String.format("%.2f", Float.parseFloat(orderReviewBean.getShipping_ammount())));
+					}
+
+					tv_grandTotal.setText(getResources().getString(R.string.rs)+""+ String.format("%.2f", Float.parseFloat(orderReviewBean.getGrandTotal())));
 
 
 					try {

@@ -61,9 +61,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:paddingTop="4dp">
-<!-- android:padding="8dp"
-android:layout_marginTop="10dp"
-this padding when totalitem will need to show on top-->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -123,6 +120,23 @@ this padding when totalitem will need to show on top-->
 
     </RelativeLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/message_box"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="2dp"
+        android:id="@+id/tv_bill_buster"
+        android:text=""
+        android:gravity="center"
+        android:padding="5dp"
+        android:visibility="gone"
+        android:textColor="#e5111e"
+        android:textSize="@dimen/text_size_13"/>
+
+
     <ListView
         android:id="@+id/category_list"
         android:layout_width="match_parent"
@@ -165,7 +179,7 @@ need this in relative layout when price details need to be shown below -->
 
     </RelativeLayout>
 
-    <TextView
+   <!-- <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tv_bill_buster"
@@ -173,9 +187,9 @@ need this in relative layout when price details need to be shown below -->
         android:background="#fec70d"
         android:gravity="center"
         android:padding="5dp"
-        android:visibility="gone"
+        android:visibility="visible"
         android:textColor="#e5111e"
-        android:textSize="@dimen/text_size_13"/>
+        android:textSize="@dimen/text_size_13"/>-->
 
     <LinearLayout
         android:id="@+id/ll_total"
@@ -185,7 +199,7 @@ need this in relative layout when price details need to be shown below -->
         android:background="#f3faff"
         android:gravity="bottom"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
 
@@ -287,7 +301,7 @@ need this in relative layout when price details need to be shown below -->
 
 
             <LinearLayout
-                android:id="@+id/ll_shipping"
+                android:id="@+id/ll_shipping_test"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -295,7 +309,7 @@ need this in relative layout when price details need to be shown below -->
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/txt_shipping"
+                    android:id="@+id/txt_shipping_test"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -305,7 +319,7 @@ need this in relative layout when price details need to be shown below -->
                     android:textSize="@dimen/text_size_14" />
 
                 <TextView
-                    android:id="@+id/tv_shipping"
+                    android:id="@+id/tv_shipping_test"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -333,7 +347,7 @@ need this in relative layout when price details need to be shown below -->
                     android:textSize="@dimen/text_size_14" />
 
                 <TextView
-                    android:id="@+id/tv_save_price"
+                    android:id="@+id/tv_save_price_test"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -358,9 +372,8 @@ need this in relative layout when price details need to be shown below -->
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
 
-                <!--                  android:text="Total:"           -->
                 <TextView
-                    android:id="@+id/txt_grand_total"
+                    android:id="@+id/txt_grand_total_test"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -371,7 +384,7 @@ need this in relative layout when price details need to be shown below -->
                     android:textSize="@dimen/text_size_14" />
 
                 <TextView
-                    android:id="@+id/tv_grandTotal"
+                    android:id="@+id/tv_grandTotal_test"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -465,28 +478,242 @@ need this in relative layout when price details need to be shown below -->
     </LinearLayout>
 
 
-    <TextView
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:text="Apply Coupons"
-        android:gravity="center"
-        android:textColor="@color/app_header"
-        android:background="@color/white"
-        android:id="@+id/tv_coupon_apply"
-        android:textSize="@dimen/abc_action_bar_content_inset_material"/>
+        android:layout_height="60dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="0dp"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="1dp"
+        card_view:cardUseCompatPadding="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:id="@+id/ll_coupon_apply"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/couponicon"
+            android:layout_marginLeft="20dp"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/ll_apply_coupon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:visibility="visible">
+                <TextView
+                    android:id="@+id/tv_coupon_apply"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical"
+                    android:text="Apply Coupon"
+                    android:paddingLeft="10dp"
+                    android:textColor="#429f46"
+                    android:textSize="18dp"/>
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/arrow_green"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="5dp"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_change_coupon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:visibility="gone">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:id="@+id/tv_coupon_applied"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="Coupon Applied - CA100"
+                        android:paddingLeft="10dp"
+                        android:textColor="#429f46"
+                        android:textSize="18dp"/>
+                    <TextView
+                        android:id="@+id/tv_coupon_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="2 Kg Onion Free"
+                        android:paddingLeft="12dp"
+                        android:textColor="#fec70d"
+                        android:textSize="15dp"/>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_coupon_change"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Change"
+                    android:paddingLeft="10dp"
+                    android:textColor="#429f46"
+                    android:textSize="13dp"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/saving_box"
+        android:gravity="center_vertical"
+        android:visibility="visible"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center_vertical"
+            android:text="Your Savings:"
+            android:paddingTop="8dp"
+            android:paddingLeft="10dp"
+            android:textColor="@color/black"
+            android:textSize="18dp"/>
+        <TextView
+            android:id="@+id/tv_save_price"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/Rs"
+            android:paddingTop="8dp"
+            android:paddingLeft="10dp"
+            android:textColor="@color/black"
+            android:textSize="18dp"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/ll_place_order"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:background="#0e69e5"
+            android:visibility="visible">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/ll_shipping"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/txt_shipping"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="Shipping Charges: "
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_shipping"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|right"
+                    android:text="Rs 200"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="15dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txt_grand_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10dp"
+                    android:text="Total: "
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_grandTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Rs 200"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginRight="5dp"
+            android:id="@+id/button_place_order">
+            <TextView
+                android:id="@+id/tv_process"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Proceed"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="20dp"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/arrow"
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="center_vertical"/>
+
+        </LinearLayout>
+            </LinearLayout>
+
 
         <Button
             android:id="@+id/button_update_cart1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:background="@drawable/cart_place_update"
             android:text="UPDATE CART"
@@ -495,17 +722,7 @@ need this in relative layout when price details need to be shown below -->
             android:textSize="@dimen/text_size_16"
             android:visibility="gone" />
 
-        <Button
-            android:id="@+id/button_place_order"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/cart_place_order"
-            android:text="Proceed"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_16"
-            android:visibility="visible" />
+
     </LinearLayout>
 
 </LinearLayout>
