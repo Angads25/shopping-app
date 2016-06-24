@@ -146,31 +146,33 @@ public class UpdateCartListAdapter extends BaseAdapter{
                 @Override
                 public void onClick(View v) {
 
-                    UpdateCartbg.getInstance().alDeleteId.add(CartProductList.completeList.get(position).getItem_id());
-                    if(CartProductList.getInstance().sbDeleteProdId != null) {
-                        if (CartProductList.getInstance().sbDeleteProdId.length() > 0) {
-                            CartProductList.getInstance().sbDeleteProdId.append("," + CartProductList.completeList.get(position).getItem_id());
-                        } else {
-                            CartProductList.getInstance().sbDeleteProdId.append(CartProductList.completeList.get(position).getItem_id());
-                        }
-                    }
-
-                    ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart((Activity)context, Constants.localCloneFile);
-
-                    if(cart_products.size() > 0) {
-                        /*if (cart_products.get(position).getItem_id().equalsIgnoreCase(CartProductList.completeList.get(position).getItem_id())) {  //manage clone cart when added or deleted to show update quantity on product listing and description
-                            UtilityMethods.deleteCloneCartItem((Activity)context, cart_products.get(position).getItem_id());  //delete particular item from clone cart locally to update quantity on product listing and description
-                        }*/
-                        for(int i=0;i<cart_products.size();i++){
-                            if (cart_products.get(i).getItem_id().equalsIgnoreCase(CartProductList.completeList.get(position).getItem_id())) {  //manage clone cart when added or deleted to show update quantity on product listing and description
-                                UtilityMethods.deleteCloneCartItem((Activity)context, cart_products.get(i).getItem_id());
+                    if (holder.tv_remove.getText().toString().equals("Removed")) {
+                        UpdateCartbg.getInstance().alDeleteId.add(CartProductList.completeList.get(position).getItem_id());
+                        if(CartProductList.getInstance().sbDeleteProdId != null) {
+                            if (CartProductList.getInstance().sbDeleteProdId.length() > 0) {
+                                CartProductList.getInstance().sbDeleteProdId.append("," + CartProductList.completeList.get(position).getItem_id());
+                            } else {
+                                CartProductList.getInstance().sbDeleteProdId.append(CartProductList.completeList.get(position).getItem_id());
                             }
                         }
-                    }
-                    CartProductList.completeList.get(position).setFlag("3");
-                    listView.setAdapter(new UpdateCartListAdapter(context,listView));
 
-                    ((CartProductList)context).changeUpdateButtonInPopup();
+                        ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart((Activity)context, Constants.localCloneFile);
+
+                        if(cart_products.size() > 0) {
+                            /*if (cart_products.get(position).getItem_id().equalsIgnoreCase(CartProductList.completeList.get(position).getItem_id())) {  //manage clone cart when added or deleted to show update quantity on product listing and description
+                                UtilityMethods.deleteCloneCartItem((Activity)context, cart_products.get(position).getItem_id());  //delete particular item from clone cart locally to update quantity on product listing and description
+                            }*/
+                            for(int i=0;i<cart_products.size();i++){
+                                if (cart_products.get(i).getItem_id().equalsIgnoreCase(CartProductList.completeList.get(position).getItem_id())) {  //manage clone cart when added or deleted to show update quantity on product listing and description
+                                    UtilityMethods.deleteCloneCartItem((Activity)context, cart_products.get(i).getItem_id());
+                                }
+                            }
+                        }
+                        CartProductList.completeList.get(position).setFlag("3");
+                        listView.setAdapter(new UpdateCartListAdapter(context,listView));
+
+                        ((CartProductList)context).changeUpdateButtonInPopup();
+                    }
 
                 }
             });
