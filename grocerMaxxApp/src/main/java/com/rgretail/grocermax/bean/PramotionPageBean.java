@@ -12,6 +12,15 @@ public class PramotionPageBean implements Serializable{
     private String coupon_code;
     private String pramotion_order;
     private String is_active;
+    private String is_applied;
+
+    public String getIs_applied() {
+        return is_applied;
+    }
+
+    public void setIs_applied(String is_applied) {
+        this.is_applied = is_applied;
+    }
 
     public String getName() {
         return name;

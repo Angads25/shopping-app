@@ -45,6 +45,7 @@ public class AppConstants {
 	public static final String serverCartFile = "servercart.txt";
 	
 	public static final int LOGIN_REQUEST_CODE = 101;
+	public static final int COUPON_REQUEST_CODE = 133;
 	
 	public static final String subject = "GrocerMax Android App";
 	

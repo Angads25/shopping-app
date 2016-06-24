@@ -422,19 +422,31 @@
         </RelativeLayout>
 
     </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/ll_offers_cart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#DFEDFD"
+        android:visibility="gone">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/bell"/>
     <TextView
         android:id="@+id/tv_offers_cart"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/rl_prod_list_cart"
-        android:background="#fec70d"
         android:gravity="center"
         android:padding="5dp"
         android:text="MCIVITIES COOKIES BUY 2,GET 1 FREE"
-        android:textColor="#e5111e"
+        android:textColor="@color/black"
         android:textSize="14dp"
         android:visibility="visible"
         />
+    </LinearLayout>
 </LinearLayout>
 
 

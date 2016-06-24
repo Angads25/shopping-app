@@ -755,7 +755,7 @@ public void showSubscriptionPopup(){
 					else {
 						showDialog();
 						String url = UrlsConstants.VIEW_CART_URL + MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
-						myApi.reqViewCart(url);
+						myApi.reqViewCart(url,MyReceiverActions.VIEW_CART);
 					}
 				}
 			} else {                                                        //user login
@@ -769,7 +769,7 @@ public void showSubscriptionPopup(){
 					} else {                                                    //user is login,and going to view his cart
 						String url = UrlsConstants.VIEW_CART_URL + MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
 //						System.out.println("==view cart URL==" + url);
-						myApi.reqViewCart(url);
+						myApi.reqViewCart(url,MyReceiverActions.VIEW_CART);
 					}
 				} else                                       //user is login first time and at login time blank quote id coming from server
 				{
@@ -1284,6 +1284,9 @@ public void showSubscriptionPopup(){
 			else
 			dataSendTOserver.put("fname","");
 
+			if(MySharedPrefs.INSTANCE.getGCMDeviceTocken()!=null)
+			  Log.e("ROCQ GCM TOKEN",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
+
 			myApi.reqSendGcmTokenToServer(strurl.replaceAll(" ", "%20"), dataSendTOserver);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1509,7 +1512,7 @@ public void showSubscriptionPopup(){
 							UtilityMethods.deleteLocalCart(BaseActivity.this);
 
 							String url = UrlsConstants.VIEW_CART_URL+ MySharedPrefs.INSTANCE.getUserId()+"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId();
-							myApi.reqViewCart(url);
+							myApi.reqViewCart(url,MyReceiverActions.VIEW_CART);
 
 						} else {
 //							Toast.makeText(
@@ -1653,7 +1656,7 @@ public void showSubscriptionPopup(){
 							UtilityMethods.deleteLocalCart(BaseActivity.this);
 							showDialog();
 							String url = UrlsConstants.VIEW_CART_URL+ MySharedPrefs.INSTANCE.getUserId()+"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId();
-							myApi.reqViewCart(url);
+							myApi.reqViewCart(url,MyReceiverActions.VIEW_CART);
 						} else if(bean.getFlag().equalsIgnoreCase("0")){
 							UtilityMethods.customToast(bean.getResult(), mContext);
 						}else {
@@ -1969,7 +1972,7 @@ public void showSubscriptionPopup(){
 
 			showDialog();
 			String url = UrlsConstants.VIEW_CART_URL + MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
-			myApi.reqViewCart(url);
+			myApi.reqViewCart(url,MyReceiverActions.VIEW_CART);
 			//	UpdateCart updateCart = new UpdateCart(myApi,url);
 			//	updateCart.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		}

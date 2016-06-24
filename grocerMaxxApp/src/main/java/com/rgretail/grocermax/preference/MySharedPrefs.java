@@ -57,6 +57,7 @@ public enum MySharedPrefs {
 	private final String ORDER_REVIEW_BEAN="order_review_bean";
 	private final String COUPON_APPLY = "coupon_apply";
 	private final String COUPON_AMOUNT = "coupon_amount";
+	private final String COUPON_CODE = "coupon_code";
 	private final String MOBILE_NUMBER = "mobile_no";
     private final String LOGIN_REG_METHOD = "login_method";
 	private final String SELECTED_CITY = "selected_city";
@@ -140,6 +141,14 @@ public enum MySharedPrefs {
 	
 	public String getCouponAmount() {                                                       //get amount or "0"
 		return getAppPreference().getString(COUPON_AMOUNT, null);
+	}
+
+	public void putCouponCode(String strCouponCode) {                                //put amount or "0"
+		getAppPreference().edit().putString(COUPON_CODE, strCouponCode).commit();
+	}
+
+	public String getCouponCode() {                                                       //get amount or "0"
+		return getAppPreference().getString(COUPON_CODE, "");
 	}
 	///////// COUPON DATA /////////
 	

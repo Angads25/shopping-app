@@ -1,7 +1,12 @@
 package com.rgretail.grocermax;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -16,6 +21,7 @@ import com.dq.rocq.RocqAnalytics;
 import com.dq.rocq.models.ActionProperties;
 import com.flurry.android.FlurryAgent;
 import com.rgretail.grocermax.adapters.CartAdapter;
+import com.rgretail.grocermax.adapters.UpdateCartListAdapter;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.BaseResponseBean;
@@ -46,6 +52,8 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	public Button update_cart;
 	public LinearLayout ll_place_order,button_place_order;
 	public static ArrayList<CartDetail> cartList;           //managing cart items on delete and add on view cart screen locally
+	public static ArrayList<CartDetail> OFS_list=new ArrayList<>();
+	public static ArrayList<CartDetail> QTY_RED_list=new ArrayList<>();
 	String user_id;
 	CartDetailBean cartBean;
 	OrderReviewBean orderReviewBean;
@@ -60,19 +68,18 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	TextView textView1;
 	TextView textViewCoupon,tvCoupon;
 	TextView tvYourCart;
-	//LinearLayout ll_total;
-		LinearLayout ll_discount,ll_shipping,ll_coupon;
+	LinearLayout ll_coupon_apply;
+	LinearLayout ll_coupon_change;
+	LinearLayout ll_discount,ll_shipping,ll_coupon;
 	public JSONObject jsonObjectUpdate = null;
 	public StringBuilder sbDeleteProdId;
 	public static String strShippingChargeLimit = "500";
+	public static String loginThrough;
 
 	private boolean bIsEdit = false;   //true if user plus or minus anything in cart otherwise false and use in onDestroy.
 
 	String strUserIdtemp,strQuoteIdtemp;
 	private String SCREENNAME = "CartProductList-";
-//	public String strCouponCode,
-//				  strSubTotal,
-//				  strSubtotalWithDiscount;
 
 	public static CartProductList instance;
 	public static CartProductList getInstance(){
@@ -111,7 +118,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			addActionsInFilter(MyReceiverActions.VIEW_CART_ERROR_ON_CART);                          //uses when on local update SLIM APPLICATION ERROR comes then call VIEWCART just to update cart
 
 
-//		addActionsInFilter(MyReceiverActions.VIEW_CART);
 			addActionsInFilter(MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
 
 			tv_subTotal = (TextView) findViewById(R.id.tv_subTotal);
@@ -121,18 +127,13 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			txtDiscount = (TextView) findViewById(R.id.txt_discount);
 			tv_grandTotal = (TextView) findViewById(R.id.tv_grandTotal);
 			tv_shipping = (TextView) findViewById(R.id.tv_shipping);
-//		tv_yousave=(TextView)findViewById(R.id.tv_yousave);
 			tvYourCart = (TextView) findViewById(R.id.tv_your_cart);
             tv_bill_buster=(TextView)findViewById(R.id.tv_bill_buster);
-//			tvCartItemCount = (TextView) findViewById(R.id.tv_cart_item_count);
-//			tvCartTotalTop = (TextView) findViewById(R.id.tv_cart_total);
-//			txtItems = (TextView) findViewById(R.id.txt_items);
-//			txtTotal = (TextView) findViewById(R.id.txt_total);
-
-			//ll_total = (LinearLayout) findViewById(R.id.ll_total);
 			ll_discount = (LinearLayout) findViewById(R.id.ll_discount);
 			ll_shipping = (LinearLayout) findViewById(R.id.ll_shipping);
 			ll_coupon = (LinearLayout) findViewById(R.id.ll_coupon);
+			ll_coupon_apply=(LinearLayout)findViewById(R.id.ll_apply_coupon);
+			ll_coupon_change=(LinearLayout)findViewById(R.id.ll_change_coupon);
 
 			txt_subTotal = (TextView) findViewById(R.id.txt_subtotal);
 			txt_shipping = (TextView) findViewById(R.id.txt_shipping);
@@ -170,6 +171,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 
 				initHeader(findViewById(R.id.header), true, "Your Basket");
 				setCartList(cartBean);
+				setAppliedCoupon(cartBean);
 				initFooter(findViewById(R.id.footer), 1, -1);
 			}
 			icon_header_cart.setClickable(false);
@@ -178,8 +180,16 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			tvCoupon.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Intent i=new Intent(CartProductList.this,CouponPage.class);
-					startActivity(i);
+					String userId = MySharedPrefs.INSTANCE.getUserId();
+					if (userId == null || userId.length() == 0) {
+						Intent intent = new Intent(mContext, LoginActivity.class);
+						intent.putExtra("requestCode", AppConstants.LOGIN_REQUEST_CODE);
+						loginThrough="coupon_page";
+						startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
+					} else {
+						Intent i=new Intent(CartProductList.this,CouponPage.class);
+						startActivity(i);
+					}
 				}
 			});
 
@@ -188,6 +198,32 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			new GrocermaxBaseException("CartProductList", "onCreate", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
 	}
+	public void setAppliedCoupon(CartDetailBean cartBean){
+		if(cartBean!=null){
+			if(cartBean.getCoupon_code()==null){
+				ll_coupon_apply.setVisibility(View.VISIBLE);
+				ll_coupon_change.setVisibility(View.GONE);
+				MySharedPrefs.INSTANCE.putCouponCode("");
+			}else{
+				ll_coupon_apply.setVisibility(View.GONE);
+				ll_coupon_change.setVisibility(View.VISIBLE);
+				TextView tv_couponApplied=(TextView)findViewById(R.id.tv_coupon_applied);
+				TextView tv_coupon_change=(TextView)findViewById(R.id.tv_coupon_change);
+				System.out.println("Coupon Applied = "+cartBean.getCoupon_code());
+				tv_couponApplied.setText("Coupon Applied - "+cartBean.getCoupon_code());
+				MySharedPrefs.INSTANCE.putCouponCode(cartBean.getCoupon_code());
+				tv_coupon_change.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Intent i=new Intent(CartProductList.this,CouponPage.class);
+						startActivity(i);
+					}
+				});
+			}
+		}
+	}
+
+
 
 	public void setCartList(CartDetailBean cartBean)
 	{
@@ -290,8 +326,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				mAdapter = new CartAdapter(CartProductList.this);
 				mList.setAdapter(mAdapter);
 
-
-
 				mList.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
@@ -343,6 +377,67 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		}catch(Exception e){
 			new GrocermaxBaseException("CartProductList", "setCartList", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
+	}
+	AlertDialog alert_update;
+	TextView tv_popup_update;
+	public static ArrayList<CartDetail> completeList=new ArrayList<>();
+	public void showUpdateCartPopup(){
+		completeList.clear();
+		if(OFS_list.size()>0)
+		{
+            CartDetail cartDetail=new CartDetail();
+			cartDetail.setQty(0);
+			cartDetail.setFlag("2");
+			cartDetail.setName("Please remove item to proceed.");
+			completeList.add(cartDetail);
+		}
+		completeList.addAll(OFS_list);
+		if(QTY_RED_list.size()>0)
+		{
+			CartDetail cartDetail=new CartDetail();
+			cartDetail.setQty(0);
+			cartDetail.setFlag("2");
+			cartDetail.setName("Please reduce quantity to proceed.");
+			completeList.add(cartDetail);
+		}
+		completeList.addAll(QTY_RED_list);
+
+		AlertDialog.Builder alertDialog = new AlertDialog.Builder(CartProductList.this);
+		LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View dialogView = inflater.inflate(R.layout.update_cart_popup, null);
+		alertDialog.setView(dialogView);
+		alertDialog.setCancelable(true);
+		alert_update = alertDialog.create();
+		ListView lv_update_list=(ListView) dialogView.findViewById(R.id.lv_update_cart);
+		tv_popup_update=(TextView)dialogView.findViewById(R.id.tv_popup_update);
+		changeUpdateButtonInPopup();
+		lv_update_list.setAdapter(new UpdateCartListAdapter(CartProductList.this,lv_update_list));
+		alert_update.setCanceledOnTouchOutside(false);
+		alert_update.show();
+
+		alert_update.setOnCancelListener(new DialogInterface.OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				onBackPressed();
+			}
+		});
+
+	}
+
+	public void changeUpdateButtonInPopup(){
+		boolean status=true;
+		for(int i=0;i<completeList.size();i++){
+			if(completeList.get(i).getFlag()==null || !(completeList.get(i).getFlag().equals("2") || completeList.get(i).getFlag().equals("3"))){
+				status=false;
+				break;
+			}
+		}
+		if(status){
+			tv_popup_update.setBackgroundColor(Color.parseColor("#429f46"));
+			tv_popup_update.setOnClickListener(CartProductList.this);
+		}
+		else
+			tv_popup_update.setBackgroundColor(getResources().getColor(R.color.gray_1));
 	}
 
 	public void deleteItem(int position)
@@ -466,6 +561,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				cartList.clear();
 				cartList = cartBean.getItems();
 				setCartList(cartBean);
+				checkConditionToShowUpdatePopup();
 				boolean bSingleItemFlag = false;    //it will use when only 1 item in cart and deleted(b/c in that case it will not compare using loops as cartList will empty coming from server)
 				boolean bFlag = false;             //it will call when all items of clone cart compare in j loop and is on last index and not found with same id in cartList (means this id not found and should be deleted from local cart)
 
@@ -535,7 +631,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				sbDeleteProdId = new StringBuilder();                                //b/c whenever come there means deleteid already contained should be removed.
 
 				CartDetailBean cartBean = (CartDetailBean) bundle.getSerializable(ConnectionService.RESPONSE);
-//				   if(cartBean.getFlag().equalsIgnoreCase(Constants.SERVER_SUCCESS)) {
 				if(cartBean != null) {                                                         //uses null condition b/c sometimes result coming from server SLIM APPLICATION ERROR
 					UtilityMethods.deleteCloneCart(this);
 					for (int i = 0; i < cartBean.getItems().size(); i++) {
@@ -543,17 +638,16 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					}
 
 					if (MySharedPrefs.INSTANCE.getTotalItem() != null) {
-	//				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(bean.getTotalItem()));
 						MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int) Float.parseFloat(cartBean.getItems_qty())));
 						cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
 					}
 					cartList.clear();
 					cartList = cartBean.getItems();
 					setCartList(cartBean);
+					checkConditionToShowUpdatePopup();
 				}else{                                                           //in case when update service got fail view cart will run [just for precaution].
 					showDialog();
 					String url = UrlsConstants.VIEW_CART_URL+ MySharedPrefs.INSTANCE.getUserId()+"&quote_id="+MySharedPrefs.INSTANCE.getQuoteId();
-					System.out.println("==sometimes slim application error on update=="+url);
 					myApi.reqViewCartSlipErrorApp(url);
 				}
 
@@ -585,6 +679,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					cartList.clear();
 					cartList = cartBean.getItems();
 					setCartList(cartBean);
+					checkConditionToShowUpdatePopup();
 
 //					bIsEdit = false;                //used b/c finish call and then onDestroy call and update will call but when user hits viewcart then no need of calling update service from onDestroy()
 //					sbDeleteProdId = null;          //used b/c finish call and then onDestroy call and update will call but when user hits viewcart then no need of calling update service from onDestroy()
@@ -639,6 +734,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					if (userId == null || userId.length() == 0) {
 						Intent intent = new Intent(mContext, LoginActivity.class);
 						intent.putExtra("requestCode", AppConstants.LOGIN_REQUEST_CODE);
+						loginThrough="view_cart";
 						startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
 					} else {
 						callAddressApi();
@@ -648,7 +744,14 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					break;
 
 				case R.id.button_update_cart1:
-					updateItemInCartBackToCart();
+					updateItemInCartBackToCart("cart");
+					bIsEdit = false;
+					//try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.BOTTOM_CART_UPDATE_BUTTON_PRESSED);}catch(Exception e){}
+					break;
+
+				case R.id.tv_popup_update:
+					alert_update.dismiss();
+					updateItemInCartBackToCart("popup");
 					bIsEdit = false;
 					//try{UtilityMethods.clickCapture(mContext,"","","","",SCREENNAME+AppConstants.BOTTOM_CART_UPDATE_BUTTON_PRESSED);}catch(Exception e){}
 					break;
@@ -852,22 +955,9 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		}
 	}
 
-	private void updateItemInCartBackToCart()
+	private void updateItemInCartBackToCart(String from)
 	{
 		try {
-//			JSONArray products = new JSONArray();
-//			for(int i=0;i<cartList.size();i++)
-//			{
-//				if(Float.parseFloat(cartList.get(i).getPrice())!=0)
-//				{
-//					JSONObject prod_obj = new JSONObject();
-//					prod_obj.put("productid", cartList.get(i).getItem_id());
-//					prod_obj.put("quantity", cartList.get(i).getQty());
-//					System.out.println(cartList.get(i).getQty()+"==qty===item id=="+cartList.get(i).getItem_id());
-//					products.put(prod_obj);
-//				}
-//			}
-
             /*-----track event for update cart-------*/
             try{
                 UtilityMethods.clickCapture(activity,"Update Cart","","","",MySharedPrefs.INSTANCE.getSelectedCity());
@@ -891,14 +981,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				strQuoteId = MySharedPrefs.INSTANCE.getQuoteId();
 			}
 
-//			String url = UrlsConstants.NEW_BASE_URL+"deleteitem?userid="+ strUserId +
-//					"&productid=" + sbDeleteProdId +
-//					"&quote_id="+ strQuoteId +"&updateid="+ URLEncoder.encode(products.toString(), "UTF-8");
-//			if(UtilityMethods.isInternetAvailable(this)){
-//				UpdateCartbg.getInstance().bLocally = true;
-//				myApi.reqEditCartBackToCart(url, MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
-//			}
-
 			try {
 				////////////////POST/////////////
 				String strurl = UrlsConstants.NEW_BASE_URL+"deleteitem";
@@ -917,25 +999,33 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				jsonObject.put("productid", jsonArray);
 				jsonObject.put("quote_id", strQuoteId);
 				JSONArray products1 = new JSONArray();
-				for(int i=0;i<cartList.size();i++)
-				{
-					if(Float.parseFloat(cartList.get(i).getPrice())!=0)
+				if (from.equals("cart")) {
+					for(int i=0;i<cartList.size();i++)
+                    {
+                        if(Float.parseFloat(cartList.get(i).getPrice())!=0)
+                        {
+                            JSONObject prod_obj = new JSONObject();
+                            prod_obj.put("productid", cartList.get(i).getItem_id());
+                            prod_obj.put("quantity", cartList.get(i).getQty());
+                            products1.put(prod_obj);
+                        }
+                    }
+				} else {
+					for(int i=0;i<completeList.size();i++)
 					{
-						JSONObject prod_obj = new JSONObject();
-						prod_obj.put("productid", cartList.get(i).getItem_id());
-						prod_obj.put("quantity", cartList.get(i).getQty());
-						System.out.println(cartList.get(i).getQty()+"==qty===item id=="+cartList.get(i).getItem_id());
-						products1.put(prod_obj);
+						if(completeList.get(i).getQty()!=0 && !completeList.get(i).getFlag().equals("3"))
+						{
+							JSONObject prod_obj = new JSONObject();
+							prod_obj.put("productid", completeList.get(i).getItem_id());
+							prod_obj.put("quantity", completeList.get(i).getQty());
+							products1.put(prod_obj);
+						}
 					}
 				}
 				jsonObject.put("updateid", products1);
 
-//				jsonObject.put("version", "1.0");
-				System.out.println("==URL'S HERE==" + strurl);
-				System.out.println("==jsonobject HERE==" + jsonObject);
 				if (UtilityMethods.isInternetAvailable(this)) {
 					UpdateCartbg.getInstance().bLocally = true;
-//				myApi.reqEditCart(url,MyReceiverActions.VIEW_CART_UPDATE_LOCALLY);
 					myApi.reqEditCartBackToCart(strurl, MyReceiverActions.VIEW_CART_UPDATE_LOCALLY, jsonObject);
 				}
 			}catch(Exception e){
@@ -954,11 +1044,14 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		super.onActivityResult(requestCode, resultCode, data);
 		try {
 			if (resultCode == RESULT_OK && requestCode == AppConstants.LOGIN_REQUEST_CODE) {
-//			callAddressApi();
+				if(loginThrough.equals("view_cart")){
 				showDialog();
-				String url = UrlsConstants.VIEW_CART_URL
-						+ MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
+				String url = UrlsConstants.VIEW_CART_URL+ MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
 				myApi.reqViewCartAfterDelete(url, MyReceiverActions.CART_DETAIL_AFTER_LOGIN);
+				}else{
+					Intent i=new Intent(CartProductList.this,CouponPage.class);
+					startActivity(i);
+				}
 			}
 		}catch(NullPointerException e){
 			new GrocermaxBaseException("CartProductList", "onActivityResult", e.getMessage(), GrocermaxBaseException.NULL_POINTER, "nodetail");
@@ -980,6 +1073,32 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		}
 	}
 
+	public void checkConditionToShowUpdatePopup(){
+		if (cartList != null && cartList.size() > 0) {
+			OFS_list.clear();
+			QTY_RED_list.clear();
+			for(int i=0;i<cartList.size();i++){
+                CartDetail obj=cartList.get(i);
+                if (obj.getWebQty() != null) {
+                    if (Integer.parseInt(obj.getWebQty()) > 0) {
+                        if(Integer.parseInt(obj.getWebQty())<obj.getQty())
+                            QTY_RED_list.add(obj);
+                    } else {
+                        OFS_list.add(obj);
+                    }
+                }else{
+                    OFS_list.add(obj);
+                }
+            }
+			if(OFS_list.size()>0 || QTY_RED_list.size()>0){
+                if (alert_update==null || !alert_update.isShowing())
+                    showUpdateCartPopup();
+            }
+		}
+	}
+
+
+
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
@@ -989,16 +1108,12 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		}catch(Exception e){}
 
 		try {
+			System.out.println("resume entered");
 			if (cartList != null && cartList.size() > 0) {
-				//ll_total.setVisibility(View.VISIBLE);
 				orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
-//			if(cartBean!=null)
+				checkConditionToShowUpdatePopup();
 				if (orderReviewBean != null) {
 					float saving = 0;
-//					if(tvCartItemCount != null) {
-//						tvCartItemCount.setText(String.valueOf(cartList.size()));
-//					}
-
 					for (int i = 0; i < cartList.size(); i++) {
 						saving = saving + (cartList.get(i).getQty() * (Float.parseFloat(cartList.get(i).getMrp()) - Float.parseFloat(cartList.get(i).getPrice())));
 					}
@@ -1185,6 +1300,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			}else{
 				HomeScreen.isFromFragment = true;
 			}
+
 		}catch(Exception e){}
 	}
 

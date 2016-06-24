@@ -82,6 +82,7 @@ public class ConnectionServiceParser {
 		int REG_DEVICE_TOKEN = 140;
 		int PRAMOTION_DATA = 141;
 		int SUBSCRIBE_USER = 142;
+		int APPLY_REMOVE_COUPON = 143;
 	}
 
 	public static BaseResponseBean parseSimpleResponse(String jsonString)

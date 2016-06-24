@@ -347,6 +347,7 @@ public class HomeScreen extends BaseActivity {
                         initBottom(findViewById(R.id.footer1));
                     }
                     MySharedPrefs.INSTANCE.putInviteReferralId(jsonO.optString("compId"));
+                        //MySharedPrefs.INSTANCE.putInviteReferralId("10483");
 
                     //JSONObject subscriptionPopup=new JSONObject("{'message': 'Enter your email id to get the latest offers and discounts','expTime': '2','ok_button_text':'OK','cancel_button_text':'CANCEL'}");
                         JSONObject subscriptionPopup=jsonO.getJSONObject("subscriptionPopUp");

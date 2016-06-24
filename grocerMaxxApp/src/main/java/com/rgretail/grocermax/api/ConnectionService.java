@@ -589,6 +589,10 @@ public class ConnectionService extends IntentService {
                     bundle.putSerializable(RESPONSE,
                             (Serializable) response);
                     break;
+				case MyParserType.APPLY_REMOVE_COUPON:
+					bundle.putSerializable(RESPONSE,
+							(Serializable) response);
+					break;
 				case MyParserType.PRAMOTION_DATA:
 					bundle.putSerializable(RESPONSE,
 							(Serializable) response);

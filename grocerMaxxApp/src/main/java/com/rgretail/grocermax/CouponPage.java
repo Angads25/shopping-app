@@ -17,6 +17,7 @@ import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.PramotionPageBean;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
+import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
@@ -33,6 +34,7 @@ public class CouponPage extends BaseActivity{
 
     ImageView icon_header_back;
     ListView lv;
+    TextView tv_coupon_header;
     ArrayList<PramotionPageBean> pramotionList;
 
     @Override
@@ -40,6 +42,7 @@ public class CouponPage extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.coupon_page);
         addActionsInFilter(MyReceiverActions.PRAMOTION_DATA);
+        addActionsInFilter(MyReceiverActions.APPLY_REMOVE_COUPON);
         initViews();
         icon_header_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +60,11 @@ public class CouponPage extends BaseActivity{
     public void initViews(){
         pramotionList=new ArrayList<>();
         icon_header_back=(ImageView)findViewById(R.id.icon_header_back);
+        tv_coupon_header=(TextView)findViewById(R.id.tv_coupon_header);
+        if(MySharedPrefs.INSTANCE.getCouponCode().equals(""))
+            tv_coupon_header.setText("Apply Coupon");
+        else
+            tv_coupon_header.setText("Applied Coupon - "+MySharedPrefs.INSTANCE.getCouponCode());
         lv=(ListView)findViewById(R.id.lv_coupon_list);
         lv.setItemsCanFocus(true);
     }
@@ -71,8 +79,7 @@ public class CouponPage extends BaseActivity{
                 JSONObject pramotionJSON=new JSONObject(pramotionResponse);
                 if(pramotionJSON.getString("flag").equals("1")){
                     pramotionList.clear();
-                    PramotionPageBean p1=new PramotionPageBean();
-                    pramotionList.add(p1);
+                    boolean isSet=false;
                     JSONArray couponArray=pramotionJSON.getJSONArray("coupon");
                     for(int i=0;i<couponArray.length();i++){
                         JSONObject couponObject=couponArray.getJSONObject(i);
@@ -82,8 +89,23 @@ public class CouponPage extends BaseActivity{
                         p.setCoupon_code(couponObject.getString("coupon_code").equals("null")?"":couponObject.getString("coupon_code"));
                         p.setPramotion_order(couponObject.getString("promo_order").equals("null")?"":couponObject.getString("promo_order"));
                         p.setIs_active(couponObject.getString("is_active").equals("null")?"0":couponObject.getString("is_active"));
+                        if(MySharedPrefs.INSTANCE.getCouponCode().equals(couponObject.getString("coupon_code"))){
+                            p.setIs_applied("true");
+                            isSet=true;
+                        }
+                        else{
+                            p.setIs_applied("false");
+                        }
+
                         pramotionList.add(p);
                     }
+
+                    PramotionPageBean p1=new PramotionPageBean();
+                    if(!MySharedPrefs.INSTANCE.getCouponCode().equals("") && !isSet)
+                        p1.setIs_applied("true");
+                    else
+                        p1.setIs_applied("false");
+                    pramotionList.add(0,p1);
 
                     lv.setAdapter(new PramotionAdapter());
 
@@ -94,6 +116,21 @@ public class CouponPage extends BaseActivity{
             }catch(Exception e)
             {
                 new GrocermaxBaseException("PramotionPageBean","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"error in pramotion");
+            }
+        }else if (bundle.getString("ACTION").equals(MyReceiverActions.APPLY_REMOVE_COUPON)) {
+            try
+            {
+                String couponResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);
+                JSONObject couponApplyRemoveJSON=new JSONObject(couponResponse);
+                if(couponApplyRemoveJSON.getInt("flag")==1){
+                    UtilityMethods.customToast(couponApplyRemoveJSON.getString("Result"),CouponPage.this);
+                    viewCart();
+                }else{
+                    UtilityMethods.customToast(couponApplyRemoveJSON.getString("Result"),CouponPage.this);
+                }
+            }catch(Exception e)
+            {
+                new GrocermaxBaseException("Coupon Page","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"error in coupon page");
             }
         }
     }
@@ -127,12 +164,26 @@ public class CouponPage extends BaseActivity{
              ll_apply_coupon.setVisibility(View.VISIBLE);
              ll_list.setVisibility(View.GONE);
                 final EditText edt_coupon=(EditText)convertView.findViewById(R.id.editText);
-                TextView apply=(TextView)convertView.findViewById(R.id.tv_apply);
+                final TextView apply=(TextView)convertView.findViewById(R.id.tv_apply);
+                if(pramotionList.get(position).getIs_applied().equals("true")){
+                     edt_coupon.setText(MySharedPrefs.INSTANCE.getCouponCode());
+                     edt_coupon.setEnabled(false);
+                     apply.setText("CANCEL");
+                     apply.setBackground(getResources().getDrawable(R.drawable.cancel_coupon));
+                }else{
+                    edt_coupon.setText("");
+                    edt_coupon.setEnabled(true);
+                    apply.setText("APPLY");
+                    apply.setBackground(getResources().getDrawable(R.drawable.apply_coupon));
+                }
+
                 apply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        UtilityMethods.customToast(edt_coupon.getText().toString()+"-Coupon Apply",CouponPage.this);
-
+                        if(edt_coupon.getText().toString().length()>0)
+                        applyCoupon(edt_coupon.getText().toString(),apply);
+                        else
+                            UtilityMethods.customToast("Please enter coupon code",CouponPage.this);
                     }
                 });
 
@@ -141,7 +192,7 @@ public class CouponPage extends BaseActivity{
                 ll_list.setVisibility(View.VISIBLE);
                 TextView tv_pramotion_title=(TextView)convertView.findViewById(R.id.tv_coupon_title);
                 TextView tv_pramotion_desc=(TextView)convertView.findViewById(R.id.tv_coupon_detail);
-                TextView tv_pramotion_code=(TextView)convertView.findViewById(R.id.tv_apply_coupon);
+                final TextView tv_pramotion_code=(TextView)convertView.findViewById(R.id.tv_apply_coupon);
                 final LinearLayout ll_desc=(LinearLayout)convertView.findViewById(R.id.ll_desc);
                 final ImageView img_view_m=(ImageView)convertView.findViewById(R.id.img_view_m);
                 final ImageView img_hide_m=(ImageView)convertView.findViewById(R.id.img_hide_m);
@@ -150,8 +201,22 @@ public class CouponPage extends BaseActivity{
                 tv_pramotion_title.setTypeface(CustomFonts.getInstance().getRobotoRegular(CouponPage.this));
                 tv_pramotion_desc.setText(pramotionList.get(position).getDesc());
                 tv_pramotion_desc.setTypeface(CustomFonts.getInstance().getRobotoRegular(CouponPage.this));
-                tv_pramotion_code.setText(Html.fromHtml(pramotionList.get(position).getCoupon_code()+" - <b>APPLY</b>"));
+                if(pramotionList.get(position).getIs_applied().equals("true")){
+                    tv_pramotion_code.setText(Html.fromHtml(pramotionList.get(position).getCoupon_code()+" - <b>CANCEL</b>"));
+                    tv_pramotion_code.setBackground(getResources().getDrawable(R.drawable.cancel_coupon));
+                }else{
+                    tv_pramotion_code.setText(Html.fromHtml(pramotionList.get(position).getCoupon_code()+" - <b>APPLY</b>"));
+                    tv_pramotion_code.setBackground(getResources().getDrawable(R.drawable.apply_coupon));
+                }
                 tv_pramotion_code.setTypeface(CustomFonts.getInstance().getRobotoRegular(CouponPage.this));
+                tv_pramotion_code.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        applyCoupon(pramotionList.get(position).getCoupon_code(),tv_pramotion_code);
+                    }
+                });
+
+
                 if(!pramotionList.get(position).getDesc().equals("")){
                     img_view_m.setVisibility(View.VISIBLE);
                     img_hide_m.setVisibility(View.GONE);
@@ -183,6 +248,20 @@ public class CouponPage extends BaseActivity{
         }
     }
 
+
+   public void applyCoupon(String coupon_code,TextView tv){
+       String url;
+       if(tv.getText().toString().contains("CANCEL")){
+           url = UrlsConstants.REMOVE_COUPON + MySharedPrefs.INSTANCE.getUserId() + "&quote_id="
+                   + MySharedPrefs.INSTANCE.getQuoteId() + "&couponcode="+coupon_code;
+       }
+       else{
+           url = UrlsConstants.ADD_COUPON + MySharedPrefs.INSTANCE.getUserId() + "&quote_id="
+                   + MySharedPrefs.INSTANCE.getQuoteId() + "&couponcode="+coupon_code;
+       }
+       showDialog();
+       myApi.reqApplyRemoveCoupon(url,MyReceiverActions.APPLY_REMOVE_COUPON);
+   }
 
 
 }

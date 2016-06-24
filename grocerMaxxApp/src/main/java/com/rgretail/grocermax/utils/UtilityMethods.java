@@ -228,64 +228,66 @@ public class UtilityMethods {
 					InputMethodManager.HIDE_NOT_ALWAYS);
 		}
 	}
-
+    public static AlertDialog alert;
 	public static void showSubscriptionPopup(final Context context, String msg,String ok_button_text,String cancel_button_text) {
 
-        Typeface typeface=Typeface.createFromAsset(context.getAssets(),"Roboto-Regular.ttf");
-        Typeface typeface1=Typeface.createFromAsset(context.getAssets(),"Roboto-Light.ttf");
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View dialogView = inflater.inflate(R.layout.update_available_dialog, null);
-        alertDialog.setView(dialogView);
-        alertDialog.setCancelable(false);
-        final AlertDialog alert = alertDialog.create();
-        TextView tv_msg=(TextView)dialogView.findViewById(R.id.tv_msg);
-        tv_msg.setTypeface(typeface1);
-        tv_msg.setText(msg);
+        if (alert==null || !alert.isShowing()) {
+            Typeface typeface=Typeface.createFromAsset(context.getAssets(),"Roboto-Regular.ttf");
+            Typeface typeface1=Typeface.createFromAsset(context.getAssets(),"Roboto-Light.ttf");
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View dialogView = inflater.inflate(R.layout.update_available_dialog, null);
+            alertDialog.setView(dialogView);
+            alertDialog.setCancelable(false);
+            alert = alertDialog.create();
+            TextView tv_msg=(TextView)dialogView.findViewById(R.id.tv_msg);
+            tv_msg.setTypeface(typeface1);
+            tv_msg.setText(msg);
 
-        final EditText edtComment=(EditText)dialogView.findViewById(R.id.edt_otp);
-        edtComment.setVisibility(View.VISIBLE);
-        edtComment.setHint("Enter email id");
+            final EditText edtComment=(EditText)dialogView.findViewById(R.id.edt_otp);
+            edtComment.setVisibility(View.VISIBLE);
+            edtComment.setHint("Enter email id");
 
-        TextView tv_skip = (TextView) dialogView.findViewById(R.id.tv_skip);
-        tv_skip.setTypeface(typeface);
-        tv_skip.setVisibility(View.VISIBLE);
-        tv_skip.setText(cancel_button_text);
-        tv_skip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
-                String current_time = dateFormat.format(new Date());
-                MySharedPrefs.INSTANCE.putSubscriptionPopupCloseTime(current_time);
-                alert.dismiss();
-            }
-        });
-
-        TextView tv_update=(TextView)dialogView.findViewById(R.id.tv_update);
-        tv_update.setTypeface(typeface);
-        tv_update.setText(ok_button_text);
-        tv_update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               // alert.dismiss();
-                try {
-                    String email=edtComment.getText().toString();
-                    if(isValidEmail(email)){
-                       // MyApplication.isSubscribed=true;
-                        alert.dismiss();
-                        ((BaseActivity)context).subscribeUser(email,getDeviceId(context));
-
-                    }else{
-                        customToast("Please enter valid email id",context);
-                    }
-                } catch (Exception e){
-
+            TextView tv_skip = (TextView) dialogView.findViewById(R.id.tv_skip);
+            tv_skip.setTypeface(typeface);
+            tv_skip.setVisibility(View.VISIBLE);
+            tv_skip.setText(cancel_button_text);
+            tv_skip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+                    String current_time = dateFormat.format(new Date());
+                    MySharedPrefs.INSTANCE.putSubscriptionPopupCloseTime(current_time);
+                    alert.dismiss();
                 }
-            }
-        });
-        alert.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
-        alert.show();
-	}
+            });
+
+            TextView tv_update=(TextView)dialogView.findViewById(R.id.tv_update);
+            tv_update.setTypeface(typeface);
+            tv_update.setText(ok_button_text);
+            tv_update.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                   // alert.dismiss();
+                    try {
+                        String email=edtComment.getText().toString();
+                        if(isValidEmail(email)){
+                           // MyApplication.isSubscribed=true;
+                            alert.dismiss();
+                            ((BaseActivity)context).subscribeUser(email,getDeviceId(context));
+
+                        }else{
+                            customToast("Please enter valid email id",context);
+                        }
+                    } catch (Exception e){
+
+                    }
+                }
+            });
+            alert.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
+            alert.show();
+        }
+    }
 
 	public static void email(String[] recipients, String subject,
 			String content, Context context) {
@@ -1559,11 +1561,10 @@ public class UtilityMethods {
     public static void sendGTMEvent(Context context,String action,String label,String category){
          /*For google Gtm Tracking*/
         try {
-            System.out.println("TagManager Start");
             DataLayer dataLayer = TagManager.getInstance(context).getDataLayer();
+            if(MySharedPrefs.INSTANCE.getUserId()!=null)
+             dataLayer.push("userID",MySharedPrefs.INSTANCE.getUserId());
             dataLayer.pushEvent("send", DataLayer.mapOf("hitType", "event","eventCategory",category,"eventAction",action,"eventLabel",label));
-            System.out.println("TagManager Sent");
-            System.out.println("TagManager data layer="+dataLayer);
         }catch(Exception e){
             e.getMessage();
         }

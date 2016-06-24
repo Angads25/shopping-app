@@ -51,6 +51,7 @@ public interface MyReceiverActions {
 	String ALL_PRODUCTS_CATEGORY = PKG_NAME + ".all_products_category";
 
 	String VIEW_CART = PKG_NAME + ".view_cart";
+	String APPLY_REMOVE_COUPON = PKG_NAME + ".apply_remove_coupon";
 
 	String VIEW_CART_ERROR_ON_CART = PKG_NAME + ".view_cart_error_on_cart";    //when Slim Application Error occurred ,in that case handle by calling view cart again.
 	

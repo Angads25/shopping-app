@@ -48,8 +48,6 @@ public class CartAdapter extends BaseAdapter{
 		try {
 			((BaseActivity) activity).initImageLoaderM();
 			this.activity = activity;
-
-			//this.cartBean = cartBean;
 			this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}catch(Exception e){
 			new GrocermaxBaseException("CartAdapter", "CartAdapter", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
@@ -97,6 +95,7 @@ public class CartAdapter extends BaseAdapter{
 			holder.price = (TextView) convertView.findViewById(R.id.mrp);
 			holder.offerImage = (ImageView) convertView.findViewById(R.id.offer_image);
 			holder.tvOffers = (TextView) convertView.findViewById(R.id.tv_offers_cart);
+			holder.ll_offer=(LinearLayout)convertView.findViewById(R.id.ll_offers_cart);
 			holder.tv_saving_free = (TextView) convertView.findViewById(R.id.tv_saving_free);
 	//		holder.tvMultiply = (TextView) convertView.findViewById(R.id.tv_multiply);
 
@@ -141,15 +140,15 @@ public class CartAdapter extends BaseAdapter{
 				holder.rlOutofStock.setVisibility(View.GONE);
 				holder.rlOutofStock.setEnabled(true);
 				holder.tvOffers.setAllCaps(false);
-				holder.tvOffers.setTextColor(Color.parseColor("#e5111e"));
-				holder.tvOffers.setBackgroundColor(Color.parseColor("#fec70d"));
+				//holder.tvOffers.setTextColor(Color.parseColor("#e5111e"));
+				//holder.tvOffers.setBackgroundColor(Color.parseColor("#fec70d"));
 
 				if(obj.getPromotionLevel() != null){
 					holder.offerImage.setVisibility(View.VISIBLE);
-					holder.tvOffers.setVisibility(View.VISIBLE);
+					holder.ll_offer.setVisibility(View.VISIBLE);
 					holder.tvOffers.setText(obj.getPromotionLevel());
 				}else{
-					holder.tvOffers.setVisibility(View.GONE);
+					holder.ll_offer.setVisibility(View.GONE);
 					holder.offerImage.setVisibility(View.GONE);
 				}
 			}else{                            //product not available
@@ -165,7 +164,7 @@ public class CartAdapter extends BaseAdapter{
 					CartProductList.getInstance().update_cart.setBackgroundColor(activity.getResources().getColor(R.color.updateshade));
 					holder.increase_quantity.setVisibility(View.INVISIBLE);
 					holder.decrease_quantity.setVisibility(View.INVISIBLE);
-					holder.tvOffers.setVisibility(View.VISIBLE);
+					holder.ll_offer.setVisibility(View.VISIBLE);
 					try {
 						System.out.println("QTY="+Integer.parseInt(obj.getWebQty()));
 						if (obj.getWebQty() != null) {
@@ -369,8 +368,6 @@ public class CartAdapter extends BaseAdapter{
 							}
 						}
 
-//						}
-
 						CartProductList.cartList.get(position).setQty(value1);
 						holder.tv_quantity.setText(String.valueOf(value1));
 
@@ -379,13 +376,6 @@ public class CartAdapter extends BaseAdapter{
 						//float total = value1 * Float.parseFloat(obj.getPrice().replace(",", ""));
 						float total=Float.parseFloat(obj.getRow_total().replace(",",""));
 						String str = String.format("%.2f", total).toString();
-
-//						Typeface font4 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Regular.ttf");
-//						Typeface font3 = Typeface.createFromAsset(activity.getAssets(), "Rupee.ttf");
-//						SpannableStringBuilder SS1 = new SpannableStringBuilder("`"+str);
-//						SS1.setSpan (new CustomTypefaceSpan("", font3), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-//						SS1.setSpan (new CustomTypefaceSpan("", font4), 1, str.length()+1,Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-//						holder.price.setText(SS1);
 
 						OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 
@@ -457,7 +447,7 @@ public class CartAdapter extends BaseAdapter{
 		//		TextView quantity;
 //		TextView price,amount,tv_quantity,;
 		ImageView prod_image, increase_quantity,decrease_quantity, delete_item;
-		LinearLayout llCancel;
+		LinearLayout llCancel,ll_offer;
 		RelativeLayout rlOutofStock;
 		LinearLayout llPlusMinus;
 
@@ -483,11 +473,7 @@ public class CartAdapter extends BaseAdapter{
 				CartProductList.getInstance().update_cart.setVisibility(View.VISIBLE);
 				CartProductList.getInstance().update_cart.setBackgroundColor(activity.getResources().getColor(R.color.updateshade));
 			}
-//			if(UpdateCartbg.getInstance().alDeleteId.size() > 0){
-//				UpdateCartbg.getInstance().alDeleteId.add(","+CartProductList.cartList.get(position).getItem_id());  //saves deleted id for background hitting URL for edit
-//			}else{
 			UpdateCartbg.getInstance().alDeleteId.add(CartProductList.cartList.get(position).getItem_id());  //saves deleted id for background hitting URL for edit
-//			}
 
 			if(CartProductList.getInstance().sbDeleteProdId != null) {
 				if (CartProductList.getInstance().sbDeleteProdId.length() > 0) {
@@ -511,30 +497,20 @@ public class CartAdapter extends BaseAdapter{
 
 			OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 
-//			float sub_totalPriceYouPay = Float.parseFloat(CartProductList.getInstance().tv_subTotal.getText().toString().replace("Rs.", "")) - totalDeltedPrice;
 			float sub_totalPriceYouPay = Float.parseFloat(CartProductList.getInstance().tv_grandTotal.getText().toString().replace(activity.getResources().getString(R.string.rs), "")) - totalDeltedPrice;    //new
 
-//	        if(totalPriceYouPay >= Float.parseFloat(orderReviewBean.getShipping_ammount())){
 			if(sub_totalPriceYouPay >= Float.parseFloat(CartProductList.strShippingChargeLimit)){
 				CartProductList.getInstance().tv_shipping.setText("Free");
 			}else{                                 //shipping and billing charges
-//				sub_totalPriceYouPay += 50;
-//				CartProductList.getInstance().tv_shipping.setText("Rs.50.0");
-//				CartProductList.getInstance().tv_shipping.setText(orderReviewBean.getShipping_ammount());
 				CartProductList.getInstance().tv_shipping.setText(activity.getResources().getString(R.string.rs)+""+String.format("%.2f",Float.parseFloat(orderReviewBean.getShipping_ammount())));
 			}
 
-//		    CartProductList.getInstance().tv_grandTotal.setText("Rs."+String.valueOf(totalPriceYouPay));
-//			CartProductList.getInstance().tv_subTotal.setText("Rs."+String.valueOf(sub_totalPriceYouPay));
 			CartProductList.getInstance().tv_grandTotal.setText(activity.getResources().getString(R.string.rs)+"" + String.format("%.2f", sub_totalPriceYouPay));
 
 			int value1=Integer.parseInt(holder.tv_quantity.getText().toString());
 			CartProductList.getInstance().updateHeaderQuantity(String.valueOf(value1), "minus");
 
 			CartProductList.cartList.remove(position);
-
-
-
 			boolean bMoveToHomeScreen = true;
 			if(CartProductList.cartList.size() > 0){
 				for(int i=0;i<CartProductList.cartList.size();i++)
@@ -546,9 +522,6 @@ public class CartAdapter extends BaseAdapter{
 					}
 				}
 				if(bMoveToHomeScreen){
-//					if(MySharedPrefs.INSTANCE.getQuoteId() != null){
-//						MySharedPrefs.INSTANCE.putQuoteId(null);
-//					}
 					UtilityMethods.customToast(Constants.ToastConstant.VIEW_CART_EMPTY, activity);
 					((CartProductList) activity).cart_count_txt.setText("0");          //all item remove but offers remain in clone cart.so manually put 0.
 					MySharedPrefs.INSTANCE.putTotalItem(String.valueOf("0"));
@@ -563,29 +536,6 @@ public class CartAdapter extends BaseAdapter{
 				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf("0"));
 				((CartProductList) activity).finish();
 			}
-
-
-
-//			if(CartProductList.cartList.size() > 0){
-//				updateList(CartProductList.cartList);         //update list after delete particular item
-//			}else{
-//				CartProductList.getInstance().finish();
-//				UtilityMethods.customToast(Constants.ToastConstant.VIEW_CART_EMPTY, activity);
-//			}
-
-
-
-//			if(String.valueOf(sub_totalPriceYouPay).equals("0") ||
-//					String.valueOf(sub_totalPriceYouPay).equals("0.0") ||
-//					String.valueOf(sub_totalPriceYouPay).equals("0.00")){
-//				((CartProductList) activity).cart_count_txt.setText("0");          //all item remove but offers remain in clone cart.so manually put 0.
-//				MySharedPrefs.INSTANCE.putTotalItem(String.valueOf("0"));          //all item remove but offers remain in clone cart.so manually put 0.
-//				((CartProductList) activity).finish();
-//				if(MySharedPrefs.INSTANCE.getQuoteId() != null){
-//					MySharedPrefs.INSTANCE.putQuoteId(null);
-//				}
-//			}
-
 		}else{
 			UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, activity);
 		}

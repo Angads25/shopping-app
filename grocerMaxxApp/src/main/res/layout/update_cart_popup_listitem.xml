@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F4F4F4"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:padding="8dp"
+        android:id="@+id/tv_p_name"
+        android:background="#F4F4F4"
+        android:visibility="visible"/>
+   <LinearLayout
+       android:id="@+id/ll_remove"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:gravity="center_vertical"
+       android:layout_marginRight="10dp"
+       android:layout_marginBottom="5dp"
+       android:background="#F4F4F4"
+       android:visibility="visible">
+       <TextView
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_weight="2"
+           android:text="SOLD OUT"
+           android:textColor="@color/primaryColor"
+           android:textSize="12dp"
+           android:layout_marginLeft="20dp"
+           android:padding="5dp"
+           android:id="@+id/tv_sold_out" />
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Remove"
+           android:background="@drawable/saving_bg"
+           android:textColor="@color/white"
+           android:textSize="12dp"
+           android:paddingTop="5dp"
+           android:paddingBottom="5dp"
+           android:paddingLeft="10dp"
+           android:paddingRight="10dp"
+           android:layout_gravity="center_vertical"
+           android:id="@+id/tv_remove" />
+
+   </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_change_qty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:visibility="visible"
+        android:background="#F4F4F4">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="AVAILABLE QTY. 2"
+            android:textColor="@color/blue"
+            android:textSize="12dp"
+            android:layout_marginLeft="20dp"
+            android:padding="5dp"
+            android:id="@+id/tv_avail_qty" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/img_decrease_qty"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/minus_icon_without_shadow" />
+            <TextView
+                android:id="@+id/tv_pick_qty"
+                android:layout_width="25dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="@color/pallete_black"
+                android:textSize="16dp" />
+            <ImageView
+                android:id="@+id/img_increase_qty"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription=""
+                android:src="@drawable/add_icon_without_shadow" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

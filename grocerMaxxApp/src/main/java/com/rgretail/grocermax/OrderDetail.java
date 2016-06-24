@@ -339,7 +339,7 @@ public class OrderDetail extends BaseActivity{
 						MySharedPrefs.INSTANCE.putQuoteId(quote_id);
 						showDialog();
 						String url = UrlsConstants.VIEW_CART_URL + MySharedPrefs.INSTANCE.getUserId() + "&quote_id=" + MySharedPrefs.INSTANCE.getQuoteId();
-						myApi.reqViewCart(url);
+						myApi.reqViewCart(url,MyReceiverActions.VIEW_CART);
 
 					}else{
 						UtilityMethods.customToast(Constants.ToastConstant.QUOTE_FAIL, OrderDetail.this);

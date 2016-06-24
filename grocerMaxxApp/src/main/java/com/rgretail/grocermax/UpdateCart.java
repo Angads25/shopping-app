@@ -2,6 +2,7 @@ package com.rgretail.grocermax;
 
 import android.os.AsyncTask;
 
+import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.api.MyApi;
@@ -46,7 +47,7 @@ public class UpdateCart extends AsyncTask<String, Void, Void> {
     protected Void doInBackground(String... x) {
         if(url!=null && !url.equalsIgnoreCase(""))
         {
-            myApi.reqViewCart(url);
+            myApi.reqViewCart(url, MyReceiverActions.VIEW_CART);
         }else {
             goToCart();
 

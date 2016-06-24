@@ -30,7 +30,28 @@ public class CartDetailBean extends BaseResponseBean implements Serializable{
     @Expose
     private String Bill_buster;
 
-    public String getBill_buster() {
+	@Expose
+	private String coupon_code;
+	@Expose
+	private String coupon_desc;
+
+	public String getCoupon_code() {
+		return coupon_code;
+	}
+
+	public void setCoupon_code(String coupon_code) {
+		this.coupon_code = coupon_code;
+	}
+
+	public String getCoupon_desc() {
+		return coupon_desc;
+	}
+
+	public void setCoupon_desc(String coupon_desc) {
+		this.coupon_desc = coupon_desc;
+	}
+
+	public String getBill_buster() {
         return Bill_buster;
     }
 

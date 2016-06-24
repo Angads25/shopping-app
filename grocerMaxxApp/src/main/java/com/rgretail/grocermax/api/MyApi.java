@@ -574,16 +574,28 @@ public class MyApi {
 		}
 	}
 	
-	public void reqViewCart(String url) {
+	public void reqViewCart(String url,String action) {
 		try{
 			Intent reqIntent = new Intent(m_context, ConnectionService.class);
-			reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.VIEW_CART);
+			reqIntent.putExtra(ConnectionService.ACTION, action);
 			reqIntent.putExtra(ConnectionService.URL, url);
 			reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
 			reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.VIEW_CART);
 			m_context.startService(reqIntent);
 		}catch(Exception e){
 			new GrocermaxBaseException("MyApi","reqViewCart",e.getMessage(), GrocermaxBaseException.EXCEPTION,url);
+		}
+	}
+	public void reqApplyRemoveCoupon(String url,String action) {
+		try{
+			Intent reqIntent = new Intent(m_context, ConnectionService.class);
+			reqIntent.putExtra(ConnectionService.ACTION, action);
+			reqIntent.putExtra(ConnectionService.URL, url);
+			reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+			reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.APPLY_REMOVE_COUPON);
+			m_context.startService(reqIntent);
+		}catch(Exception e){
+			new GrocermaxBaseException("MyApi","applyremovecoupon",e.getMessage(), GrocermaxBaseException.EXCEPTION,url);
 		}
 	}
 
