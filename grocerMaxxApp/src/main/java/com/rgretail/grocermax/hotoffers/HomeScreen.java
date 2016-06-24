@@ -27,6 +27,7 @@ import com.google.android.gms.tagmanager.ContainerHolder;
 import com.google.android.gms.tagmanager.TagManager;
 import com.google.gson.Gson;
 import com.invitereferrals.invitereferrals.InviteReferralsApi;
+import com.quantumgraph.sdk.QG;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.DealListScreen;
 import com.rgretail.grocermax.R;
@@ -58,9 +59,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 
 
@@ -89,6 +87,8 @@ public class HomeScreen extends BaseActivity {
     public static boolean bFromHome = false;          //track for home screen(1st level fragment) fragment and deal detail fragment(2nd level fragment)
     public static Context mContext;
     public static String SCREENNAME = "HomeScreen-";
+
+    public static QG qg;
 
     public static ArrayList<Product> autoSuggestList = new ArrayList<Product>();;
 
@@ -130,6 +130,10 @@ public class HomeScreen extends BaseActivity {
 //        martHeader.setVisibility(View.VISIBLE);
 
         setHomePage();
+
+        /*Configure QGraph SDK*/
+        QG.initializeSdk(getApplication(), "1edab9dae01bf98f625a",Constants.GCM_SENDER_KEY);
+
 
      //  Configuring Google Tag Manager for event tracking
 
@@ -250,6 +254,13 @@ public class HomeScreen extends BaseActivity {
             RocqAnalytics.initialize(this);
             RocqAnalytics.startScreen(this);
         }catch(Exception e){}
+
+        try {
+            qg = QG.getInstance(getApplicationContext());
+            qg.onStart();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

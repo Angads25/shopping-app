@@ -131,9 +131,16 @@ public class UpdateCartListAdapter extends BaseAdapter{
             holder.ll_change_qty.setVisibility(View.GONE);
             holder.tv_p_name.setVisibility(View.VISIBLE);
             if(CartProductList.completeList.get(position).getFlag()!=null && CartProductList.completeList.get(position).getFlag().equals("3"))
+            {
                 holder.tv_remove.setText("Removed");
-            else
+                holder.tv_remove.setBackground(context.getResources().getDrawable(R.drawable.removed_bg));
+                holder.tv_remove.setTextColor(context.getResources().getColor(R.color.white));
+            }
+            else{
                holder.tv_remove.setText("Remove");
+                holder.tv_remove.setBackground(context.getResources().getDrawable(R.drawable.remove_bg));
+                holder.tv_remove.setTextColor(context.getResources().getColor(R.color.white));
+            }
 
             holder.tv_remove.setOnClickListener(new View.OnClickListener() {
                 @Override

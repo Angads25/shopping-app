@@ -57,9 +57,9 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.quantumgraph.sdk.QG;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.LoginActivity;
-import com.rgretail.grocermax.MyApplication;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.Registration;
 import com.rgretail.grocermax.UserHeaderProfile;
@@ -1553,8 +1553,6 @@ public class UtilityMethods {
         }catch(Exception e){
             System.out.println("FB event tracking = " + e.getMessage());
         }
-
-
 	}
 
 
@@ -1563,11 +1561,30 @@ public class UtilityMethods {
         try {
             DataLayer dataLayer = TagManager.getInstance(context).getDataLayer();
             if(MySharedPrefs.INSTANCE.getUserId()!=null)
-             dataLayer.push("userID",MySharedPrefs.INSTANCE.getUserId());
+                dataLayer.push("userID",MySharedPrefs.INSTANCE.getUserId());
             dataLayer.pushEvent("send", DataLayer.mapOf("hitType", "event","eventCategory",category,"eventAction",action,"eventLabel",label));
         }catch(Exception e){
             e.getMessage();
         }
+
+        /*For QGraph event tracking*/
+        try {
+            if(MySharedPrefs.INSTANCE.getUserId()!=null)
+                HomeScreen.qg.setUserId(MySharedPrefs.INSTANCE.getUserId());
+
+            JSONObject json = new JSONObject();
+            try {
+                json.put("eventCategory",category);
+                json.put("eventAction", action);
+                json.put("eventLabel", label);
+            } catch (Exception e) {
+            }
+            HomeScreen.qg.logEvent(category, json);
+        }catch(Exception e){
+            e.getMessage();
+        }
+
+
     }
 
 

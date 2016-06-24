@@ -33,6 +33,8 @@ import android.widget.RemoteViews;
 
 import com.dq.rocq.push.RocqGcmIntentService;
 import com.google.android.gms.gcm.GcmListenerService;
+import com.quantumgraph.sdk.GcmNotificationIntentService;
+import com.quantumgraph.sdk.QG;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
 
@@ -63,8 +65,13 @@ public class GCMIntentService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
         try{
-
-            if(!new RocqGcmIntentService().handleRocqMessage(data, getApplicationContext()))
+            if (data.containsKey("message") && QG.isQGMessage(data.getString("message"))) {
+                Intent intent = new Intent(getApplicationContext(), GcmNotificationIntentService.class);
+                intent.setAction("QG");
+                intent.putExtras(data);
+                getApplicationContext().startService(intent);
+                return;
+            }else if(!new RocqGcmIntentService().handleRocqMessage(data, getApplicationContext()))
             {
                 System.out.println("notification recieved");
 
