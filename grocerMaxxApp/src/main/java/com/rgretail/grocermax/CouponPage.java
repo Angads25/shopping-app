@@ -2,7 +2,9 @@ package com.rgretail.grocermax;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +38,7 @@ public class CouponPage extends BaseActivity{
     ListView lv;
     TextView tv_coupon_header;
     ArrayList<PramotionPageBean> pramotionList;
+    String edit_text_value="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +140,7 @@ public class CouponPage extends BaseActivity{
 
     public class PramotionAdapter extends BaseAdapter {
 
+
         @Override
         public int getCount() {
             return pramotionList==null?0:pramotionList.size();
@@ -165,13 +169,31 @@ public class CouponPage extends BaseActivity{
              ll_list.setVisibility(View.GONE);
                 final EditText edt_coupon=(EditText)convertView.findViewById(R.id.editText);
                 final TextView apply=(TextView)convertView.findViewById(R.id.tv_apply);
+
+                edt_coupon.setText(edit_text_value);
+                System.out.println("edit_text_value = " + edit_text_value);
+                edt_coupon.addTextChangedListener(new TextWatcher() {
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start,int before, int count) {
+                        edit_text_value = s.toString();
+                    }
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start,int count, int after) {
+                    }
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                    }
+                });
+
                 if(pramotionList.get(position).getIs_applied().equals("true")){
                      edt_coupon.setText(MySharedPrefs.INSTANCE.getCouponCode());
                      edt_coupon.setEnabled(false);
                      apply.setText("CANCEL");
                      apply.setBackground(getResources().getDrawable(R.drawable.cancel_coupon));
                 }else{
-                    edt_coupon.setText("");
+                    edt_coupon.setText(edit_text_value);
+                    edt_coupon.setSelection(edit_text_value.length());
                     edt_coupon.setEnabled(true);
                     apply.setText("APPLY");
                     apply.setBackground(getResources().getDrawable(R.drawable.apply_coupon));

@@ -12,29 +12,53 @@ import com.dq.rocq.RocqAnalytics;
 import com.flurry.android.FlurryAgent;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
+import com.rgretail.grocermax.bean.RedeemHistory;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.UrlsConstants;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 public class WalletActivity extends BaseActivity {
 
-    TextView tv_walletAmount,tv_transactions,tv_share,tv_msg;
+    TextView tv_walletAmount,tv_transactions,tv_share,tv_msg,tv_header,tv_heading,tv_symbol;
     ImageView icon_header_back;
     double amount=0.00;
     String shareSubject="";
     String shareBody="";
+    String comming_from="";
+    String point="";
+    ArrayList<com.rgretail.grocermax.bean.RedeemHistory> redeemHistoriesList=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
 
+       comming_from=getIntent().getExtras().getString("coming_from");
        // initHeader(findViewById(R.id.header), true, null);
         addActionsInFilter(MyReceiverActions.WALLET_INFO);
+        addActionsInFilter(MyReceiverActions.REWARD_POINT);
         initView();
+        if(comming_from.equals("wallet")){
+            tv_header.setText("My Wallet");
+            tv_heading.setText("Your Balance");
+            tv_symbol.setVisibility(View.VISIBLE);
+            tv_msg.setVisibility(View.VISIBLE);
+            tv_share.setVisibility(View.VISIBLE);
+            tv_transactions.setText("Transactions");
+        }else{
+            tv_header.setText("My Reward Point");
+            tv_heading.setText("Your Point");
+            tv_symbol.setVisibility(View.GONE);
+            tv_msg.setVisibility(View.GONE);
+            tv_share.setVisibility(View.GONE);
+            tv_transactions.setText("History");
+        }
         icon_header_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,36 +68,24 @@ public class WalletActivity extends BaseActivity {
         tv_transactions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(WalletActivity.this,WalletTransaction.class);
-                i.putExtra("wallet_amount",amount);
+                Intent i;
+                if(comming_from.equals("wallet")){
+                 i=new Intent(WalletActivity.this,WalletTransaction.class);
+                 i.putExtra("wallet_amount",amount);
+                }
+                else{
+                 i=new Intent(WalletActivity.this, com.rgretail.grocermax.RedeemHistory.class);
+                 i.putExtra("wallet_amount",point);
+                 i.putExtra("list",redeemHistoriesList);
+                }
+
                 startActivity(i);
-
-             /*  CitrusFlowManager.initCitrusConfig("q4qz4sa1wq-signup",
-                       "915112088057be17d992162f88eeb7f9", "q4qz4sa1wq-signin",
-                       "dca4f2179ade2454aaee0194be186774",
-                       getResources().getColor(R.color.white), WalletActivity.this,
-                       Environment.SANDBOX, "q4qz4sa1wq", "http://staging.grocermax.com/citrus.php", "http://staging.grocermax.com/returncitrus.php");*/
-
-
-                /*CitrusFlowManager.initCitrusConfig("8x5hn2kbpc-signup","2b591f683aa3cf1426fd2a1103c5d845","8x5hn2kbpc-signin","2996366165262aeb051533c6f7a78230",
-                                                   getResources().getColor(R.color.citrus_white), WalletActivity.this, Environment.SANDBOX, "8x5hn2kbpc", "https://salty-plateau-1529.herokuapp.com/billGenerator.sandbox.php", "https://salty-plateau-1529.herokuapp.com/redirectURL.sandbox.php");
-*/
-                /*CitrusFlowManager.startShoppingFlow(WalletActivity.this,"grocermaxtesting@gmail.com","8888888888","1.00");*/
-
-
-
             }
         });
 
         tv_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-//                shareSubject = MySharedPrefs.INSTANCE.getFirstName()+" Sent You Rs. 100 GrocerMax Coupon";
-//                shareBody="Hi,<br/><br/>I'm delighted with honest quality products and deals that GrocerMax.com offers. I believe you'll love them too. " +
-//                        "Here's a Rs. 100 coupon just for you that you should use in your 1st purchase on GrocerMax.<br/><br/>Coupon Code - <b>APP100</b><br/><br/>"+
-//                        "GrocerMax bundles groceries the way you need it, at the prices you always look for. " +
-//                        "<a href='https://grocermax.com/noida/hotoffer?ref=hotoffer'>Please sample their hot offers</a> ,choose your pick, and do redeem the coupon.<br/><br/>Lovingly,<br/>"+MySharedPrefs.INSTANCE.getFirstName();
 
                 if(!shareBody.equals("")){
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
@@ -93,7 +105,10 @@ public class WalletActivity extends BaseActivity {
 
         try {
             showDialog();
+            if(comming_from.equals("wallet"))
             myApi.reqWallet(UrlsConstants.WALLET_INFO_URL + MySharedPrefs.INSTANCE.getUserId());
+            else
+            myApi.reqRedeemPoint(UrlsConstants.REDEEM_POINT + MySharedPrefs.INSTANCE.getUserId());
         } catch (Exception e) {
             new GrocermaxBaseException("WalletActivity","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION, "error in getting wallet amount");
         }
@@ -105,6 +120,9 @@ public class WalletActivity extends BaseActivity {
         icon_header_back=(ImageView)findViewById(R.id.icon_header_back);
         tv_share=(TextView)findViewById(R.id.tv_share);
         tv_msg=(TextView)findViewById(R.id.tv_msg);
+        tv_header=(TextView)findViewById(R.id.tv_header);
+        tv_heading=(TextView)findViewById(R.id.tv_heading);
+        tv_symbol=(TextView)findViewById(R.id.tv_symbol);
     }
 
     @Override
@@ -136,6 +154,32 @@ public class WalletActivity extends BaseActivity {
             }catch(Exception e)
             {
                 new GrocermaxBaseException("WalletActivity","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"error in wallet");
+            }
+        }else if (bundle.getString("ACTION").equals(MyReceiverActions.REWARD_POINT)) {
+            try
+            {
+                String rewardResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);
+                JSONObject reOrderJSON=new JSONObject(rewardResponse);
+
+                if(reOrderJSON.getInt("flag")==1){
+                    point=reOrderJSON.getString("totalPoint");
+                    tv_walletAmount.setText(point);
+                    JSONArray redeemArray=reOrderJSON.getJSONArray("redeemLog");
+                    redeemHistoriesList.clear();
+                    for(int i=0;i<redeemArray.length();i++){
+                        com.rgretail.grocermax.bean.RedeemHistory history=new RedeemHistory();
+                        history.setId(redeemArray.getJSONObject(i).getString("id"));
+                        history.setCreated_date(redeemArray.getJSONObject(i).getString("created_date"));
+                        history.setRedeem_point(redeemArray.getJSONObject(i).getString("redeem_point"));
+                        history.setDesc(redeemArray.getJSONObject(i).getString("comment"));
+                        redeemHistoriesList.add(history);
+                    }
+                }else{
+                    tv_walletAmount.setText("0");
+                }
+            }catch(Exception e)
+            {
+                new GrocermaxBaseException("WalletActivity","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"error in redeem point");
             }
         }
 

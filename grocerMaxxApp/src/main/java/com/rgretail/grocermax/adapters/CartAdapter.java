@@ -108,6 +108,7 @@ public class CartAdapter extends BaseAdapter{
 
 //			holder.saving = (TextView) convertView.findViewById(R.id.saving);
 			holder.quantity = (TextView) convertView.findViewById(R.id.quantity);
+			holder.unit_price = (TextView) convertView.findViewById(R.id.unit_price);
 			holder.tv_quantity= (TextView) convertView.findViewById(R.id.tv_quantity);
 			holder.prod_image = (ImageView) convertView.findViewById(R.id.product_image);
 			holder.increase_quantity = (ImageView) convertView.findViewById(R.id.increase_quantity);
@@ -154,6 +155,7 @@ public class CartAdapter extends BaseAdapter{
 			}else{                            //product not available
 				holder.rlOutofStock.setVisibility(View.GONE);
 				holder.rlOutofStock.setEnabled(true);
+				holder.tvOffers.setVisibility(View.GONE);
 				holder.tvOffers.setAllCaps(true);
 				holder.tvOffers.setTextColor(activity.getResources().getColor(R.color.white));
 				holder.tvOffers.setBackgroundColor(activity.getResources().getColor(R.color.primaryColor));
@@ -191,7 +193,11 @@ public class CartAdapter extends BaseAdapter{
 		holder.prod_brand_name.setText(obj.getBrand());
 
 		holder.prod_name.setText(obj.getProductName());
-		holder.prod_gmorml.setText(obj.getGramsORml());
+			if(obj.getGramsORml().length()>8)
+				holder.prod_gmorml.setText(obj.getGramsORml().substring(0,7)+"...");
+			else
+				holder.prod_gmorml.setText(obj.getGramsORml());
+
 
 		String price=obj.getPrice().toString().replace(",", "");
 
@@ -209,7 +215,7 @@ public class CartAdapter extends BaseAdapter{
 				holder.delete_item.setVisibility(View.INVISIBLE);
 				holder.llCancel.setVisibility(View.INVISIBLE);
 				holder.tv_saving_free.setText("Free Item");
-				holder.tv_saving_free.setTextColor(Color.parseColor("#e5111e"));
+				holder.tv_saving_free.setTextColor(Color.parseColor("#ee2d09"));
 				holder.tv_saving_free.setBackground(activity.getResources().getDrawable(R.drawable.free_item_bg));
 			}else{
 				holder.increase_quantity.setVisibility(View.VISIBLE);
@@ -219,6 +225,9 @@ public class CartAdapter extends BaseAdapter{
 				holder.tv_saving_free.setText("SAVING "+activity.getResources().getString(R.string.rs)+""+String.format("%.2f", saving));
 				holder.tv_saving_free.setTextColor(activity.getResources().getColor(R.color.white));
 				holder.tv_saving_free.setBackground(activity.getResources().getDrawable(R.drawable.saving_bg));
+//				holder.tv_saving_free.setText("Free Item");
+//				holder.tv_saving_free.setTextColor(Color.parseColor("#ee2d09"));
+//				holder.tv_saving_free.setBackground(activity.getResources().getDrawable(R.drawable.free_item_bg));
 				if(obj.getStatus().equals("0")){      //product not available
 					holder.increase_quantity.setVisibility(View.VISIBLE);
 					holder.decrease_quantity.setVisibility(View.VISIBLE);
@@ -230,9 +239,12 @@ public class CartAdapter extends BaseAdapter{
 		ImageLoader.getInstance().displayImage(obj.getProduct_thumbnail(),holder.prod_image, ((BaseActivity)activity).baseImageoptions);
 
 		int value = obj.getQty();
-		//float total = value * Float.parseFloat(obj.getPrice().replace(",", ""));
+		  float sell_price = Float.parseFloat(obj.getPrice().replace(",", ""));
 		 float total=Float.parseFloat(obj.getRow_total().replace(",",""));
-		String quant = String.format("%.2f", Float.parseFloat(price) );//+"|";
+		float unit_price=Float.parseFloat(obj.getRow_total())/(float)obj.getQty();
+		String quant = String.format("%.2f", unit_price);//+"|";
+		String sell_p=String.format("%.2f", sell_price);
+
 		holder.prod_mul_quantity.setText(String.valueOf(value));
 		holder.tv_quantity.setText(String.valueOf(value));
 		Typeface font4 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Regular.ttf");
@@ -240,7 +252,12 @@ public class CartAdapter extends BaseAdapter{
 		SpannableStringBuilder SS1 = new SpannableStringBuilder("`"+quant);
 		SS1.setSpan (new CustomTypefaceSpan("", font3), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 		SS1.setSpan (new CustomTypefaceSpan("", font4), 1, quant.length()+1,Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-		holder.quantity.setText(SS1);
+		holder.unit_price.setText(SS1);
+
+			SpannableStringBuilder SS2 = new SpannableStringBuilder("`"+sell_p);
+			SS2.setSpan (new CustomTypefaceSpan("", font3), 0, 1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+			SS2.setSpan (new CustomTypefaceSpan("", font4), 1, sell_p.length()+1,Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+			holder.quantity.setText(SS2);
 
 		String str = String.format("%.2f", total).toString();
 		Typeface font2 = Typeface.createFromAsset(activity.getAssets(), "Roboto-Regular.ttf");
@@ -442,7 +459,7 @@ public class CartAdapter extends BaseAdapter{
 		TextView saving;
 		ImageView offerImage;
 		TextView tvOffers;
-		TextView tv_saving_free;
+		TextView tv_saving_free,unit_price;
 		TextView tvMultiply;
 		//		TextView quantity;
 //		TextView price,amount,tv_quantity,;

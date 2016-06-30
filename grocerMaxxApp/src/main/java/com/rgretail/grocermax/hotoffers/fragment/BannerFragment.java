@@ -154,6 +154,15 @@ public class BannerFragment extends Fragment {
                     } else if (strType.equalsIgnoreCase("shopbydealtype")) {
 
 
+                    }else if (strType.equalsIgnoreCase("specialdeal")) {
+                        try {
+                            String url = UrlsConstants.PRODUCTLISTING_BY_SPECIAL_DEAL_TYPE;
+                            ((HomeScreen) context).showDialog();
+                            ((HomeScreen) context).myApi.reqProductListingByDealType(url + linkurl);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                     } else if (strType.equalsIgnoreCase("search")) {
 
 //                    linkurl = "search?keyword=atta";

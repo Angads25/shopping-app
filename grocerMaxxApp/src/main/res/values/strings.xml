@@ -5,6 +5,7 @@
     <string name="flurry_api_key">V3KV9J6M8GVYCCDGQ4WW</string>
     <string name="open">open</string>
     <string name="close">close</string>
+
     <!-- facebook id for app demo -->
     <string name="image_content_desc">Image</string>
     <string name="Login">Login/Sign up</string>
@@ -28,6 +29,7 @@
     <string name="title_activity_product_sorting">ProductSorting</string>
     <string name="title_activity_wallet">WalletActivity</string>
     <string name="Rs">\u20B9</string>
+    <string name="at">\u0040</string>
     <string name="my_wallet">My Wallet (\u20B90.00)</string>
 
 </resources>

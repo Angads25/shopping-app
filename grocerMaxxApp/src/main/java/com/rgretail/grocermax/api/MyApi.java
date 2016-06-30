@@ -119,6 +119,19 @@ public class MyApi {
             new GrocermaxBaseException("MyApi","reqWallet",e.getMessage(), GrocermaxBaseException.EXCEPTION,url);
         }
     }
+
+	public void reqRedeemPoint(String url) {
+		try{
+			Intent reqIntent = new Intent(m_context, ConnectionService.class);
+			reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.REWARD_POINT);
+			reqIntent.putExtra(ConnectionService.URL, url);
+			reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+			reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.REDEEM_POINT);
+			m_context.startService(reqIntent);
+		}catch(Exception e){
+			new GrocermaxBaseException("MyApi","reqWallet",e.getMessage(), GrocermaxBaseException.EXCEPTION,url);
+		}
+	}
 	public void reqPramotion(String url) {
 		try{
 			Intent reqIntent = new Intent(m_context, ConnectionService.class);

@@ -41,15 +41,14 @@ public class WalletTransaction extends BaseActivity {
             }
         });
         //String amount=getIntent().getExtras().getString("")
-        tv_balance.setText(getResources().getString(R.string.Rs)+" "+String.format("%.2f",getIntent().getDoubleExtra("wallet_amount",0.0)));
+            tv_balance.setText(getResources().getString(R.string.Rs)+" "+String.format("%.2f",getIntent().getDoubleExtra("wallet_amount",0.0)));
+            try {
+                showDialog();
+                myApi.reqWalletTransactions(UrlsConstants.WALLET_TRANSACTION_URL + MySharedPrefs.INSTANCE.getUserId());
+            } catch (Exception e) {
+                new GrocermaxBaseException("WalletTransaction","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION, "error in getting wallet transactions");
+            }
 
-
-        try {
-            showDialog();
-            myApi.reqWalletTransactions(UrlsConstants.WALLET_TRANSACTION_URL + MySharedPrefs.INSTANCE.getUserId());
-        } catch (Exception e) {
-            new GrocermaxBaseException("WalletTransaction","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION, "error in getting wallet transactions");
-        }
 
     }
 

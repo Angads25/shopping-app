@@ -187,6 +187,35 @@
                 android:background="@color/lighter_gray"></View>
 
             <RelativeLayout
+                android:id="@+id/rl_reward_point"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="8dp"
+                android:layout_weight="1"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="My Reward Point"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/pallete_black"
+                    android:textSize="@dimen/text_size_16"
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="15dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/arrow_right"
+                    android:layout_alignParentRight="true"/>
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentRight="true"
+                android:background="@color/lighter_gray"></View>
+
+            <RelativeLayout
                 android:id="@+id/rl_myaddresses"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

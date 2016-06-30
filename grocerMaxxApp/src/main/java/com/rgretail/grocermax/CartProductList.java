@@ -273,7 +273,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
                     /*set data on view for bill buster*/
                     if(cartBean.getBill_buster()!=null) {
                         if (cartBean.getBill_buster().equals("")) {
-                            tv_bill_buster.setVisibility(View.GONE);
+                            tv_bill_buster.setVisibility(View.VISIBLE);
                         } else {
                             tv_bill_buster.setText(cartBean.getBill_buster());
                             tv_bill_buster.setVisibility(View.VISIBLE);
@@ -391,7 +391,10 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			cartDetail.setName("Please remove item to proceed.");
 			completeList.add(cartDetail);
 		}
-		completeList.addAll(OFS_list);
+		for(int i=0;i<OFS_list.size();i++){
+			OFS_list.get(i).setNumber(""+(i+1));
+		    completeList.add(OFS_list.get(i));
+		}
 		if(QTY_RED_list.size()>0)
 		{
 			CartDetail cartDetail=new CartDetail();
@@ -400,7 +403,10 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			cartDetail.setName("Please reduce quantity to proceed.");
 			completeList.add(cartDetail);
 		}
-		completeList.addAll(QTY_RED_list);
+		for(int i=0;i<QTY_RED_list.size();i++){
+			QTY_RED_list.get(i).setNumber(""+(OFS_list.size()+i+1));
+			completeList.add(QTY_RED_list.get(i));
+		}
 
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(CartProductList.this);
 		LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -433,7 +439,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			}
 		}
 		if(status){
-			tv_popup_update.setBackgroundColor(Color.parseColor("#429f46"));
+			tv_popup_update.setBackgroundColor(Color.parseColor("#f57c00"));
 			tv_popup_update.setOnClickListener(CartProductList.this);
 		}
 		else
@@ -1073,23 +1079,56 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		}
 	}
 
+	public boolean isOutofStockDueToFreeItems(String p_id,String web_qty){
+
+		if (web_qty!=null) {
+			int quant=0;
+			int j=0;
+			for(int i=0;i<cartList.size();i++){
+                if(p_id.equals(cartList.get(i).getItem_id())){
+                  quant=quant+cartList.get(i).getQty();
+					j=j+1;
+				}
+            }
+			if(j==1)
+				return false;
+
+			if(Float.parseFloat(web_qty)<(float)quant)
+                return true;
+            else
+                return false;
+		} else {
+			return true;
+		}
+
+	}
+
 	public void checkConditionToShowUpdatePopup(){
 		if (cartList != null && cartList.size() > 0) {
 			OFS_list.clear();
 			QTY_RED_list.clear();
 			for(int i=0;i<cartList.size();i++){
-                CartDetail obj=cartList.get(i);
-                if (obj.getWebQty() != null) {
-                    if (Integer.parseInt(obj.getWebQty()) > 0) {
-                        if(Integer.parseInt(obj.getWebQty())<obj.getQty())
-                            QTY_RED_list.add(obj);
-                    } else {
+					CartDetail obj=cartList.get(i);
+					String price=obj.getPrice().toString().replace(",", "");
+				  	if (Float.parseFloat(price)>0) {
+					if(isOutofStockDueToFreeItems(obj.getItem_id(),obj.getWebQty())){
+                        obj.setOfs("true");
                         OFS_list.add(obj);
+                    }else {
+                        if (obj.getWebQty() != null) {
+                            if (Integer.parseInt(obj.getWebQty()) > 0) {
+                                if (Integer.parseInt(obj.getWebQty()) < obj.getQty()) {
+                                    QTY_RED_list.add(obj);
+                                }
+                            } else {
+                                OFS_list.add(obj);
+                            }
+                        } else {
+                            OFS_list.add(obj);
+                        }
                     }
-                }else{
-                    OFS_list.add(obj);
-                }
-            }
+				}
+			}
 			if(OFS_list.size()>0 || QTY_RED_list.size()>0){
                 if (alert_update==null || !alert_update.isShowing())
                     showUpdateCartPopup();

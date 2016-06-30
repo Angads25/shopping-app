@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/primaryColor"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/icon_header_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/carat_left_white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="History"
+            android:textColor="@color/white"
+            android:textSize="@dimen/mart_header_text_size"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="5dp"
+            android:id="@+id/tv" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="right"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Point"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/text_size_17"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="5dp"
+                android:id="@+id/tv1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text=""
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_20"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="5dp"
+                android:id="@+id/tv_balance" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="No Transaction Found"
+        android:textColor="@color/black"
+        android:textSize="@dimen/mart_header_text_size"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:visibility="gone"
+        android:id="@+id/tv_no_transaction" />
+
+
+
+    <ListView
+        android:id="@+id/listview_redeemTran"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
+
+</LinearLayout>

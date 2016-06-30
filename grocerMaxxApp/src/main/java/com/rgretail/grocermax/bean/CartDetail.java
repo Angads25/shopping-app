@@ -25,8 +25,28 @@ public class CartDetail extends BaseResponseBean implements Serializable,Parcela
 	private String price;
 
 	@Expose
+	private String ofs;
+
+	private String number;
+
+	@Expose
 	private String row_total;
 
+	public String isOfs() {
+		return ofs;
+	}
+
+	public void setOfs(String ofs) {
+		this.ofs = ofs;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
 
 	@Expose
 	private String product_thumbnail;

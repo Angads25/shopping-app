@@ -60,6 +60,7 @@ public class UpdateCartListAdapter extends BaseAdapter{
             holder = new ViewHolder();
 
             holder.tv_p_name = (TextView) convertView.findViewById(R.id.tv_p_name);
+            holder.tv_p_number = (TextView) convertView.findViewById(R.id.tv_p_number);
             holder.tv_remove = (TextView) convertView.findViewById(R.id.tv_remove);
             holder.tv_avail_qty = (TextView) convertView.findViewById(R.id.tv_avail_qty);
             holder.tv_pick_qty = (TextView) convertView.findViewById(R.id.tv_pick_qty);
@@ -68,7 +69,7 @@ public class UpdateCartListAdapter extends BaseAdapter{
             holder.ll_change_qty=(LinearLayout)convertView.findViewById(R.id.ll_change_qty);
 
             holder.img_decrease_qty=(ImageView) convertView.findViewById(R.id.img_decrease_qty);
-            holder.img_increase_qty=(ImageView) convertView.findViewById(R.id.img_increase_qty);
+           // holder.img_increase_qty=(ImageView) convertView.findViewById(R.id.img_increase_qty);
             convertView.setTag(holder);
         }else {
             holder = (ViewHolder) convertView.getTag();
@@ -79,10 +80,13 @@ public class UpdateCartListAdapter extends BaseAdapter{
             holder.tv_p_name.setBackgroundColor(context.getResources().getColor(R.color.white));
             holder.ll_remove.setVisibility(View.GONE);
             holder.ll_change_qty.setVisibility(View.GONE);
+            holder.tv_p_number.setVisibility(View.GONE);
             holder.tv_p_name.setVisibility(View.VISIBLE);
             holder.tv_p_name.setTypeface(null, Typeface.BOLD);
-        }else if(Integer.parseInt(CartProductList.completeList.get(position).getWebQty()) > 0){
+        }else if(Integer.parseInt(CartProductList.completeList.get(position).getWebQty()) > 0 && CartProductList.completeList.get(position).isOfs()==null){
+            holder.tv_p_number.setVisibility(View.VISIBLE);
             holder.tv_p_name.setText(CartProductList.completeList.get(position).getName());
+            holder.tv_p_number.setText(CartProductList.completeList.get(position).getNumber()+". ");
             holder.tv_p_name.setBackgroundColor(Color.parseColor("#F4F4F4"));
             holder.tv_avail_qty.setText("AVAILABLE QTY. "+CartProductList.completeList.get(position).getWebQty());
             holder.tv_pick_qty.setText(""+CartProductList.completeList.get(position).getQty());
@@ -123,9 +127,42 @@ public class UpdateCartListAdapter extends BaseAdapter{
                 }
             });
 
+           /* holder.img_increase_qty.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(UtilityMethods.isInternetAvailable(context)){
+                        int value1=Integer.parseInt(holder.tv_pick_qty.getText().toString());
+                        value1=value1+1;
+                        if(value1>0)
+                        {
+                            ArrayList<CartDetail> cart_products = UtilityMethods.readCloneCart((Activity) context, Constants.localCloneFile);
+                            if(cart_products.size()>0) {
+                                for(int i=0;i<cart_products.size();i++){
+                                    if (cart_products.get(i).getItem_id().equalsIgnoreCase(CartProductList.completeList.get(position).getItem_id())) {  //manage clone cart when added or deleted to show update quantity on product listing and description
+                                        cart_products.get(i).setQty(value1);
+                                    }
+                                }
+                            }
+                            CartProductList.completeList.get(position).setQty(value1);
+                            //holder.tv_pick_qty.setText(String.valueOf(value1));
+                            listView.setAdapter(new UpdateCartListAdapter(context,listView));
+                            if(CartProductList.completeList.get(position).getQty()<=Integer.parseInt(CartProductList.completeList.get(position).getWebQty()))
+                                CartProductList.completeList.get(position).setFlag("2");
+
+                            ((CartProductList)context).changeUpdateButtonInPopup();
+                        }
+                    }else{
+                        UtilityMethods.customToast(AppConstants.ToastConstant.msgNoInternet, context);
+                    }
+                }
+            });*/
+
+
         }else{
             System.out.println("Name="+CartProductList.completeList.get(position).getName());
+            holder.tv_p_number.setVisibility(View.VISIBLE);
             holder.tv_p_name.setText(CartProductList.completeList.get(position).getName());
+            holder.tv_p_number.setText(CartProductList.completeList.get(position).getNumber()+". ");
             holder.tv_p_name.setBackgroundColor(Color.parseColor("#F4F4F4"));
             holder.ll_remove.setVisibility(View.VISIBLE);
             holder.ll_change_qty.setVisibility(View.GONE);
@@ -133,8 +170,8 @@ public class UpdateCartListAdapter extends BaseAdapter{
             if(CartProductList.completeList.get(position).getFlag()!=null && CartProductList.completeList.get(position).getFlag().equals("3"))
             {
                 holder.tv_remove.setText("Removed");
-                holder.tv_remove.setBackground(context.getResources().getDrawable(R.drawable.removed_bg));
-                holder.tv_remove.setTextColor(context.getResources().getColor(R.color.white));
+                //holder.tv_remove.setBackground(context.getResources().getDrawable(R.drawable.removed_bg));
+                holder.tv_remove.setTextColor(context.getResources().getColor(R.color.gray_1));
             }
             else{
                holder.tv_remove.setText("Remove");
@@ -146,7 +183,7 @@ public class UpdateCartListAdapter extends BaseAdapter{
                 @Override
                 public void onClick(View v) {
 
-                    if (holder.tv_remove.getText().toString().equals("Removed")) {
+                    if (holder.tv_remove.getText().toString().equals("Remove")) {
                         UpdateCartbg.getInstance().alDeleteId.add(CartProductList.completeList.get(position).getItem_id());
                         if(CartProductList.getInstance().sbDeleteProdId != null) {
                             if (CartProductList.getInstance().sbDeleteProdId.length() > 0) {
@@ -184,7 +221,7 @@ public class UpdateCartListAdapter extends BaseAdapter{
     }
 
     public class ViewHolder {
-        TextView tv_p_name,tv_remove,tv_avail_qty,tv_pick_qty;
+        TextView tv_p_name,tv_remove,tv_avail_qty,tv_pick_qty,tv_p_number;
         ImageView img_decrease_qty,img_increase_qty;
         LinearLayout ll_remove,ll_change_qty;
 
