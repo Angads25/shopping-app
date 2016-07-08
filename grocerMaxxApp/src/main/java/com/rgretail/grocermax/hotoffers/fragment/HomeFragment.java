@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -239,7 +238,7 @@ public class HomeFragment extends Fragment {
         llm.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView1.setLayoutManager(llm);
         catg_grid.setAdapter(shopByCategoryListAdapter1);
-        setGridViewHeightBasedOnChildren(catg_grid, 3);
+        UtilityMethods.setGridViewHeightBasedOnChildren(catg_grid, 3);
 
         ListView lv=(ListView)view.findViewById(R.id.lv);
         ShopBySpecialDealsListAdapter1 shopBySpecialDealsListAdapter1 = new ShopBySpecialDealsListAdapter1(getActivity(), this);
@@ -278,35 +277,7 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    public void setGridViewHeightBasedOnChildren(GridView gridView, int columns) {
-        ListAdapter listAdapter = gridView.getAdapter();
-        if (listAdapter == null) {
-            return;
-        }
 
-        int totalHeight = 0;
-        int items = listAdapter.getCount();
-        int rows = 0;
-
-        View listItem = listAdapter.getView(0, null, gridView);
-        listItem.measure(0, 0);
-        totalHeight = listItem.getMeasuredHeight();
-        // Display display = getActivity().getWindowManager().getDefaultDisplay();
-        //totalHeight = display.getWidth()/3;
-        //width=width/3;
-
-        float x = 1;
-        if( items > columns ){
-            x = items/columns;
-            rows = (int) (x);
-            totalHeight *= rows;
-        }
-
-        ViewGroup.LayoutParams params = gridView.getLayoutParams();
-        params.height = totalHeight;
-        gridView.setLayoutParams(params);
-
-    }
 
 
     // responsible for Home screen Banner  //

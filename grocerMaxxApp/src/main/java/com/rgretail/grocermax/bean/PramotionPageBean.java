@@ -13,6 +13,16 @@ public class PramotionPageBean implements Serializable{
     private String pramotion_order;
     private String is_active;
     private String is_applied;
+    private String validDate;
+
+
+    public String getValidDate() {
+        return validDate;
+    }
+
+    public void setValidDate(String validDate) {
+        this.validDate = validDate;
+    }
 
     public String getIs_applied() {
         return is_applied;

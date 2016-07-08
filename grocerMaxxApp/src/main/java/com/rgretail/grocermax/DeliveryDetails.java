@@ -59,18 +59,22 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
     String time="";
     private TextView tvSelectedTime;
 
+    public static int auto_selected=0;
+
 
     private ImageView ivLeft,ivRight;
-    private TextView tvCurrentDate,tvSelectedDate;
+    private TextView tvCurrentDate,tvSelectedDate,tv_save_price,tv_shipping,tv_grandTotal;
     GridView grid_time_slot;
     int selectedDatePosition = 0;
-    Button btnCheckoutDateTime;
+    TextView btnCheckoutDateTime;
     private String SCREENNAME = "DeliveryDetails-";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.checkout_shipping_3);
+
+        auto_selected=0;
         try{
             AppsFlyerLib.setCurrencyCode("INR");
             AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
@@ -84,7 +88,20 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                 address_obj = (CheckoutAddressBean) getIntent().getSerializableExtra("addressBean");
                 addressList = address_obj.getAddress();
             }
-            btnCheckoutDateTime = (Button) findViewById(R.id.btn_checkout_date_time);
+            tv_save_price = (TextView) findViewById(R.id.tv_save_price2);
+            tv_shipping = (TextView) findViewById(R.id.tv_shipping2);
+            tv_grandTotal = (TextView) findViewById(R.id.tv_grandTotal2);
+
+            tv_save_price.setText(getResources().getString(R.string.rs)+"" + String.format("%.2f", Float.parseFloat(CartProductList.savingGlobal)));
+            if(Float.parseFloat(CartProductList.shippingGlobal)==0)
+                tv_shipping.setText("Free");
+            else
+                tv_shipping.setText(getResources().getString(R.string.rs)+""+String.format("%.2f", Float.parseFloat(CartProductList.shippingGlobal)));
+
+            tv_grandTotal.setText(getResources().getString(R.string.rs)+"" + String.format("%.2f", Float.parseFloat(CartProductList.totalGlobal)));
+
+
+            btnCheckoutDateTime = (TextView) findViewById(R.id.btn_checkout_date_time);
 
             tvSelectedTime = (TextView) findViewById(R.id.tv_selected_time);
             grid_time_slot=(GridView)findViewById(R.id.grid_time_slot);
@@ -407,6 +424,7 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
             }
 
             grid_time_slot.setAdapter(new TimeSlotAdapter(alTime,alAvailable));
+           // UtilityMethods.setGridViewHeightBasedOnChildren(grid_time_slot, 2);
             grid_time_slot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -598,6 +616,7 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                 applyFilter(tvTime, style);
                 rlTimeSlot.setEnabled(false);
                 rlTimeSlot.setClickable(false);
+                rlTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
             }else{
                 tvSlotFull.setText("");
                 tvTime.setVisibility(View.VISIBLE);
@@ -605,8 +624,20 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                 tvSlotFull.setTextColor(getResources().getColor(R.color.white));
                 applyFilterVisible(tvTime, new float[]{0f, -1f, 0.5f}, 0.8f, 15f, 1f);
                 rlTimeSlot.setEnabled(true);
+                System.out.println("select time size = "+alTimeForDate.size());
+                if(auto_selected==0){
+                    auto_selected=1;
+                    rlTimeSlot.setBackgroundColor(getResources().getColor(R.color.gray_1));
+                    time = alTimeForDate.get(position);
+                    tvSelectedTime.setText(time);
+                    System.out.println("select time if "+time);
+                }else{
+                    System.out.println("select time else "+alTimeForDate.get(position));
+                    rlTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
+                }
+
             }
-            rlTimeSlot.setBackgroundColor(getResources().getColor(R.color.white));
+
 
 
             return convertView;

@@ -261,6 +261,48 @@ public class HomeScreen extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+         /*  coming form deep linking and rocq notification*/
+        try {
+            Intent intent = getIntent();
+            if (intent != null || intent.getData() != null) {
+                Bundle bundle2=new Bundle();
+                String path=intent.getData().toString();
+                path=path.replace("grocermax://","");
+                if(path.contains("ir_ref")){
+                    path=path.substring(0,path.indexOf("ir_ref")-1);
+                                     /*welcome popup if user comes through invite referral link*/
+                    try {
+                        InviteReferralsApi.getInstance(HomeScreen.this).initialize(getIntent().getData());
+                        InviteReferralsApi.getInstance(HomeScreen.this).track_fp(null);
+                        InviteReferralsApi.getInstance(HomeScreen.this).showWelcomeMessage();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if(path.contains("&")){
+                    String url_title[]=path.split("&");
+                    bundle2.putString("linkurl", path);
+                    //bundle2.putString("linkurl", url_title[0]);
+                    if(url_title.length>1)
+                        bundle2.putString("name", url_title[1].split("=")[1]);
+                }else{
+                    bundle2.putString("linkurl", path);
+                    bundle2.putString("name", "");
+                }
+                getIntent().setData(null);
+                getNotificationData(bundle2);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
     }
 
     @Override
@@ -468,7 +510,7 @@ public class HomeScreen extends BaseActivity {
                             e.printStackTrace();
                         }
 
-                        /*  coming form deep linking and rocq notification*/
+                       /* *//*  coming form deep linking and rocq notification*//*
                         try {
                             Intent intent = getIntent();
                             if (intent != null || intent.getData() != null) {
@@ -477,7 +519,7 @@ public class HomeScreen extends BaseActivity {
                                 path=path.replace("grocermax://","");
                                 if(path.contains("ir_ref")){
                                  path=path.substring(0,path.indexOf("ir_ref")-1);
-                                     /*welcome popup if user comes through invite referral link*/
+                                     *//*welcome popup if user comes through invite referral link*//*
                                     try {
                                         InviteReferralsApi.getInstance(HomeScreen.this).initialize(getIntent().getData());
                                         InviteReferralsApi.getInstance(HomeScreen.this).track_fp(null);
@@ -487,7 +529,6 @@ public class HomeScreen extends BaseActivity {
                                     }
                                 }
 
-                                System.out.println("path=" + path);
                                 if(path.contains("&")){
                                     String url_title[]=path.split("&");
                                     bundle2.putString("linkurl", path);
@@ -502,7 +543,7 @@ public class HomeScreen extends BaseActivity {
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
-                        }
+                        }*/
 
 
 

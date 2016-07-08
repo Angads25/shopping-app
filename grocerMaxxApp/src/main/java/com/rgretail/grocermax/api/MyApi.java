@@ -894,10 +894,10 @@ public class MyApi {
 		}
 	}
 
-	public void reqCheckOutAddress(String url) {
+	public void reqCheckOutAddress(String url,String action) {
 		try{
 			Intent reqIntent = new Intent(m_context, ConnectionService.class);
-			reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.CHECKOUT_ADDRESS);
+			reqIntent.putExtra(ConnectionService.ACTION, action);
 			reqIntent.putExtra(ConnectionService.URL, url);
 			reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
 			reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.CHECKOUT_ADDRESS);

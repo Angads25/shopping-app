@@ -11,6 +11,25 @@ public class RedeemHistory implements Serializable{
     private String redeem_point;
     private String created_date;
     private String desc;
+    private String exp_date;
+    private String used_coupon;
+
+
+    public String getExp_date() {
+        return exp_date;
+    }
+
+    public void setExp_date(String exp_date) {
+        this.exp_date = exp_date;
+    }
+
+    public String getUsed_coupon() {
+        return used_coupon;
+    }
+
+    public void setUsed_coupon(String used_coupon) {
+        this.used_coupon = used_coupon;
+    }
 
     public String getId() {
         return id;

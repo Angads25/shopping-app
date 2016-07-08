@@ -6,14 +6,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.rgretail.grocermax.AddressDetail;
-import com.rgretail.grocermax.BillingAddress;
+import com.rgretail.grocermax.CreateNewAddress;
 import com.rgretail.grocermax.R;
+import com.rgretail.grocermax.ShippingAddress;
+import com.rgretail.grocermax.bean.Address;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.MyHttpUtils;
-import com.rgretail.grocermax.CreateNewAddress;
-
-import com.rgretail.grocermax.bean.Address;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -55,7 +54,8 @@ public class BillingStateCityLoader extends AsyncTask<String, String, String> {
         {
             ((AddressDetail)context).showDialog();
         }else{
-            ((BillingAddress)context).showDialog();
+            //((BillingAddress)context).showDialog();
+            ((ShippingAddress)context).showDialog();
         }
     }
 
@@ -87,7 +87,8 @@ public class BillingStateCityLoader extends AsyncTask<String, String, String> {
             {
                 ((AddressDetail)context).showDialog();
             }else{
-                ((BillingAddress)context).showDialog();
+                //((BillingAddress)context).showDialog();
+                ((ShippingAddress)context).showDialog();
             }
             new GrocermaxBaseException("BillingStateCityLoader","doInBackground",e.getMessage(),GrocermaxBaseException.CLIENT_PROTOCOL_EXCEPTION,strResult);
         } catch (IOException e) {
@@ -95,7 +96,8 @@ public class BillingStateCityLoader extends AsyncTask<String, String, String> {
             {
                 ((AddressDetail)context).showDialog();
             }else{
-                ((BillingAddress)context).showDialog();
+                //((BillingAddress)context).showDialog();
+                ((ShippingAddress)context).showDialog();
             }
             new GrocermaxBaseException("BillingStateCityLoader","doInBackground",e.getMessage(),GrocermaxBaseException.IO_EXCEPTION,strResult);
         }
@@ -104,7 +106,8 @@ public class BillingStateCityLoader extends AsyncTask<String, String, String> {
             {
                 ((AddressDetail)context).showDialog();
             }else{
-                ((BillingAddress)context).showDialog();
+                //((BillingAddress)context).showDialog();
+                ((ShippingAddress)context).showDialog();
             }
             new GrocermaxBaseException("BillingStateCityLoader","doInBackground",e.getMessage(),GrocermaxBaseException.EXCEPTION,strResult);
         }
@@ -117,7 +120,8 @@ public class BillingStateCityLoader extends AsyncTask<String, String, String> {
             {
                 ((AddressDetail)context).dismissDialog();
             }else{
-                ((BillingAddress)context).dismissDialog();
+                //((BillingAddress)context).dismissDialog();
+                ((ShippingAddress)context).dismissDialog();
             }
             System.out.print("==Result=="+result);
             JSONObject jsonObject = new JSONObject(result);
@@ -138,7 +142,7 @@ public class BillingStateCityLoader extends AsyncTask<String, String, String> {
                     intent.putExtra("address", address);
                     intent.putExtra("shippingorbillingaddress", billing);
                     intent.putExtra("editindex", editIndex);                                    //means editing the address not adding.
-                    ((AddressDetail) context).startActivityForResult(intent, AddressDetail.requestNewAddress);
+                    ((AddressDetail) context).startActivityForResult(intent, AddressDetail.requestNewAddress_billing);
                 }
             }
             else{
@@ -147,32 +151,26 @@ public class BillingStateCityLoader extends AsyncTask<String, String, String> {
                         Intent intent = new Intent(context, CreateNewAddress.class);
                         intent.putExtra("shippingorbillingaddress", billing);
                         intent.putExtra("editindex", "-1");                                    //means adding the address not editing.
-                        ((BillingAddress) context).startActivityForResult(intent, BillingAddress.requestNewAddress);
+                        //((BillingAddress) context).startActivityForResult(intent, BillingAddress.requestNewAddress);
+                        ((ShippingAddress) context).startActivityForResult(intent, ShippingAddress.requestNewAddress_billing);
                     }else{                                      //editing in existing address
                         Intent intent = new Intent(context, CreateNewAddress.class);
                         intent.putExtra("address", address);
                         intent.putExtra("shippingorbillingaddress", billing);
                         intent.putExtra("editindex", editIndex);                                    //means editing the address not adding.
-                        ((BillingAddress) context).startActivityForResult(intent, BillingAddress.requestNewAddress);
+                        //((BillingAddress) context).startActivityForResult(intent, BillingAddress.requestNewAddress);
+                        ((ShippingAddress) context).startActivityForResult(intent, ShippingAddress.requestNewAddress_billing);
                     }
                 }
             }
-
-//            if(jsonObject.getString("Result").equalsIgnoreCase("Categories Found")){
-//
-//            }
-//            if(jsonObject.getString("Result").equalsIgnoreCase("No Result Found")){
-//                ((BaseActivity)context).dismissDialog();
-//                UtilityMethods.customToast(jsonObject.getString("Result"), context);
-//                return;
-//            }
 
         }catch(JSONException e){
             if(billing.equalsIgnoreCase("profilenewaddressbilling"))        //edit in billing address from My Profile
             {
                 ((AddressDetail)context).showDialog();
             }else{
-                ((BillingAddress)context).showDialog();
+                //((BillingAddress)context).showDialog();
+                ((ShippingAddress)context).showDialog();
             }
             new GrocermaxBaseException("BillingStateCityLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.JSON_EXCEPTION,result);
         }catch (NullPointerException e){
@@ -180,7 +178,8 @@ public class BillingStateCityLoader extends AsyncTask<String, String, String> {
             {
                 ((AddressDetail)context).showDialog();
             }else{
-                ((BillingAddress)context).showDialog();
+                //((BillingAddress)context).showDialog();
+                ((ShippingAddress)context).showDialog();
             }
             new GrocermaxBaseException("BillingStateCityLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.NULL_POINTER,result);
         }catch (Exception e){
@@ -188,7 +187,8 @@ public class BillingStateCityLoader extends AsyncTask<String, String, String> {
             {
                 ((AddressDetail)context).showDialog();
             }else{
-                ((BillingAddress)context).showDialog();
+                //((BillingAddress)context).showDialog();
+                ((ShippingAddress)context).showDialog();
             }
             new GrocermaxBaseException("BillingStateCityLoader","onPostExecute",e.getMessage(),GrocermaxBaseException.EXCEPTION,result);
         }

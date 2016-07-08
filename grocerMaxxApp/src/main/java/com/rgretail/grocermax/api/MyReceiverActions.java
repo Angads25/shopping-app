@@ -79,6 +79,7 @@ public interface MyReceiverActions {
 	String SET_PAYTM_ORDER_STATUS_SUCCESS = PKG_NAME + ".set_order_status_paytm_success";
 
 	String CHECKOUT_ADDRESS = PKG_NAME + ".checkout_address";
+	String CHECKOUT_ADDRESS_BILLING = PKG_NAME + ".checkout_address_billing";
 	
 	String DELETE_ADDRESS = PKG_NAME + ".delete_address";
 	

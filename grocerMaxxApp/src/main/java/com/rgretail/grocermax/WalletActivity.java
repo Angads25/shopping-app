@@ -45,15 +45,15 @@ public class WalletActivity extends BaseActivity {
         addActionsInFilter(MyReceiverActions.REWARD_POINT);
         initView();
         if(comming_from.equals("wallet")){
-            tv_header.setText("My Wallet");
+            tv_header.setText("Refund Wallet");
             tv_heading.setText("Your Balance");
             tv_symbol.setVisibility(View.VISIBLE);
             tv_msg.setVisibility(View.VISIBLE);
             tv_share.setVisibility(View.VISIBLE);
             tv_transactions.setText("Transactions");
         }else{
-            tv_header.setText("My Reward Point");
-            tv_heading.setText("Your Point");
+            tv_header.setText("Max Coins");
+            tv_heading.setText("Your Coins");
             tv_symbol.setVisibility(View.GONE);
             tv_msg.setVisibility(View.GONE);
             tv_share.setVisibility(View.GONE);

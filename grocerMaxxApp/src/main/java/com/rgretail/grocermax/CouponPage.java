@@ -89,6 +89,7 @@ public class CouponPage extends BaseActivity{
                         PramotionPageBean p=new PramotionPageBean();
                         p.setName(couponObject.getString("name").equals("null")?"GMAX":couponObject.getString("name"));
                         p.setDesc(couponObject.getString("description").equals("null")?"":couponObject.getString("description"));
+                        p.setValidDate(couponObject.getString("validDate").equals("null")?"":couponObject.getString("validDate"));
                         p.setCoupon_code(couponObject.getString("coupon_code").equals("null")?"":couponObject.getString("coupon_code"));
                         p.setPramotion_order(couponObject.getString("promo_order").equals("null")?"":couponObject.getString("promo_order"));
                         p.setIs_active(couponObject.getString("is_active").equals("null")?"0":couponObject.getString("is_active"));
@@ -127,6 +128,7 @@ public class CouponPage extends BaseActivity{
                 JSONObject couponApplyRemoveJSON=new JSONObject(couponResponse);
                 if(couponApplyRemoveJSON.getInt("flag")==1){
                     UtilityMethods.customToast(couponApplyRemoveJSON.getString("Result"),CouponPage.this);
+                    MySharedPrefs.INSTANCE.putCouponAmount(couponApplyRemoveJSON.getJSONObject("CartDetails").getString("you_save"));
                     viewCart();
                 }else{
                     UtilityMethods.customToast(couponApplyRemoveJSON.getString("Result"),CouponPage.this);
@@ -214,6 +216,7 @@ public class CouponPage extends BaseActivity{
                 ll_list.setVisibility(View.VISIBLE);
                 TextView tv_pramotion_title=(TextView)convertView.findViewById(R.id.tv_coupon_title);
                 TextView tv_pramotion_desc=(TextView)convertView.findViewById(R.id.tv_coupon_detail);
+                final TextView tv_coupon_validity = (TextView)convertView.findViewById(R.id.tv_coupon_validity);
                 final TextView tv_pramotion_code=(TextView)convertView.findViewById(R.id.tv_apply_coupon);
                 final LinearLayout ll_desc=(LinearLayout)convertView.findViewById(R.id.ll_desc);
                 final ImageView img_view_m=(ImageView)convertView.findViewById(R.id.img_view_m);
@@ -254,6 +257,11 @@ public class CouponPage extends BaseActivity{
                         ll_desc.setVisibility(View.VISIBLE);
                         img_view_m.setVisibility(View.GONE);
                         img_hide_m.setVisibility(View.VISIBLE);
+
+                        if(pramotionList.get(position).getValidDate().equals(""))
+                            tv_coupon_validity.setVisibility(View.GONE);
+                        else
+                            tv_coupon_validity.setVisibility(View.VISIBLE);
                     }
                 });
                 img_hide_m.setOnClickListener(new View.OnClickListener() {

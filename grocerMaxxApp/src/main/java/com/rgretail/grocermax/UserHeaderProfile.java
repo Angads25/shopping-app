@@ -233,8 +233,7 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                 try{
                     if (!UtilityMethods.getCurrentClassName(UserHeaderProfile.this).equals(getApplicationContext().getPackageName() + ".WalletActivity")) {
                         if (userId != null && userId.trim().length() > 0) {
-                            Intent intent = new Intent(mContext, WalletActivity.class);
-                            intent.putExtra("coming_from","reward_point");
+                            Intent intent = new Intent(mContext, RedeemHistory.class);
                             startActivity(intent);
                         } else {
                             Intent intent = new Intent(mContext, LoginActivity.class);

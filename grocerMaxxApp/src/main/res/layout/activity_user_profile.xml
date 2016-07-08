@@ -167,7 +167,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="My Wallet"
+                    android:text="Refund Wallet"
                     android:gravity="center_vertical"
                     android:textColor="@color/pallete_black"
                     android:textSize="@dimen/text_size_16"
@@ -196,7 +196,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="My Reward Point"
+                    android:text="Max Coins"
                     android:gravity="center_vertical"
                     android:textColor="@color/pallete_black"
                     android:textSize="@dimen/text_size_16"

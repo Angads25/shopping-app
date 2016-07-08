@@ -10,8 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.rgretail.grocermax.BillingAddress;
 import com.rgretail.grocermax.R;
+import com.rgretail.grocermax.ShippingAddress;
 import com.rgretail.grocermax.bean.Address;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.utils.CustomFonts;
@@ -147,7 +147,8 @@ public class BillingAdapter extends BaseAdapter{
 
             @Override
             public void onClick(View v) {
-                ((BillingAddress) mContext).goToAddress(obj,position);          //edit address and edit index
+                ((ShippingAddress) mContext).goToBillingAddress(obj,position);
+                //((BillingAddress) mContext).goToAddress(obj,position);          //edit address and edit index
                // try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_EXISTING_BILLING_EDIT);}catch(Exception e){}
             }
         });
@@ -156,7 +157,7 @@ public class BillingAdapter extends BaseAdapter{
             holder.ivCbCheckoutBilling.setImageResource(R.drawable.chkbox_unselected);
         }
 
-        if(position == ((BillingAddress)mContext).selectedPosition) {
+        if(position == ((ShippingAddress)mContext).selectedPosition_billing) {
             holder.ivCbCheckoutBilling.setImageResource(R.drawable.chkbox_selected);
         }else{
             holder.ivCbCheckoutBilling.setImageResource(R.drawable.chkbox_unselected);
@@ -171,7 +172,7 @@ public class BillingAdapter extends BaseAdapter{
 
                    /* try{
                         UtilityMethods.clickCapture(mContext, "", "", "", "", AppConstants.GA_EVENT_EXISTING_BILLING_SELECT);}catch(Exception e){}*/
-                    ((BillingAddress) mContext).selectedPosition = (Integer) v.getTag();
+                    ((ShippingAddress) mContext).selectedPosition_billing = (Integer) v.getTag();
                     notifyDataSetChanged();
                 }catch(Exception e){}
 //                if(bIsSelect[position] == true){

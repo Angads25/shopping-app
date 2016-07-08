@@ -83,7 +83,7 @@ public class UpdateCartListAdapter extends BaseAdapter{
             holder.tv_p_number.setVisibility(View.GONE);
             holder.tv_p_name.setVisibility(View.VISIBLE);
             holder.tv_p_name.setTypeface(null, Typeface.BOLD);
-        }else if(Integer.parseInt(CartProductList.completeList.get(position).getWebQty()) > 0 && CartProductList.completeList.get(position).isOfs()==null){
+        }else if(Integer.parseInt(CartProductList.completeList.get(position).getWebQty()) > 0 && CartProductList.completeList.get(position).isOfs()!=null){ // .isOfs()==null
             holder.tv_p_number.setVisibility(View.VISIBLE);
             holder.tv_p_name.setText(CartProductList.completeList.get(position).getName());
             holder.tv_p_number.setText(CartProductList.completeList.get(position).getNumber()+". ");

@@ -34,8 +34,37 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_18"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
                 android:gravity="left" />
+
+            <LinearLayout
+                android:id="@+id/ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp"
+                android:visibility="gone">
+                <TextView
+                    android:id="@+id/tv_coupon_used"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="Coupon Used : App100"
+                    android:textColor="@color/gray_2"
+                    android:textSize="@dimen/text_size_12"
+                    android:gravity="left|center_vertical" />
+
+                <TextView
+                    android:id="@+id/tv_valid_date"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="Valid Till : 12-12-12"
+                    android:textColor="@color/gray_2"
+                    android:textSize="@dimen/text_size_12"
+                    android:gravity="right|center_vertical" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

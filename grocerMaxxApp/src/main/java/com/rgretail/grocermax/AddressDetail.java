@@ -45,6 +45,7 @@ public class AddressDetail extends BaseActivity{
 	ListView mList;
 	AddressListAdapter mAdapter;
 	public static int requestNewAddress = 111;
+	public static int requestNewAddress_billing = 222;
 	public static int delete_address_position;
 //	EasyTracker tracker;
 	TextView tvAddressHeader;
@@ -231,10 +232,6 @@ public class AddressDetail extends BaseActivity{
 	public void goToAddress(Address address)        //add address for shipping in MyProfile
 	{
 		try{
-//			Intent intent = new Intent(mContext, CreateNewAddress.class);
-//			intent.putExtra("address", address);
-//			startActivityForResult(intent, requestNewAddress);
-
 			try {
 				if (ShippingLocationLoader.alLocationShipping == null || ShippingLocationLoader.alLocationShipping.size() == 0) {                //first time call this service for getting states
 					Address addres = null;
@@ -314,17 +311,6 @@ public class AddressDetail extends BaseActivity{
 		super.onActivityResult(requestCode, resultCode, data);
 		try {
 			if (requestCode == requestNewAddress && resultCode == RESULT_OK) {
-//				if (mList == null) {
-//					findViewById(R.id.msg).setVisibility(View.GONE);
-//					mList = (ListView) findViewById(R.id.address_list);
-//					mAddressList = ((AddressList) data.getSerializableExtra("addressBean")).getAddress();
-//					mAdapter = new AddressListAdapter(AddressDetail.this, mAddressList);
-//					mList.setAdapter(mAdapter);
-//				} else {
-//					mAddressList = ((AddressList) data.getSerializableExtra("addressBean")).getAddress();
-//					mAdapter.updateList(mAddressList);
-//				}
-
 				if(bIsBilling){
 					//i.e. billing address has been changed.
 					finish();

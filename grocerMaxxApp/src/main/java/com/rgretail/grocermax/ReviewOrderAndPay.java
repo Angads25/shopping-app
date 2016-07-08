@@ -70,7 +70,7 @@ import java.util.List;
 
 public class ReviewOrderAndPay extends BaseActivity
 {
-	private Button button_pay;
+	private TextView button_pay;
 	private FinalCheckoutBean finalCheckoutBean;
 	TextView billing_amt, shipping_amt, tax, grand_total;
 
@@ -84,7 +84,7 @@ public class ReviewOrderAndPay extends BaseActivity
 	//	ProgressDialog mProgressDialog;
 	String txnId;
 	TextView txtItemCount,txtSubTotal,txtShippingCharges,txtYouSaved,txtTotal,txtCouponDiscount,txtWalletDiscount;
-	TextView tvItemCount,tvSubTotal,tvShippingCharges,tvYouSaved,tvTotal,tvCouponDiscount;
+	TextView tvItemCount,tvSubTotal,tvShippingCharges,tvYouSaved,tvTotal,tvCouponDiscount,tv_save_price,tv_shipping,tv_grandTotal;
 	EditText etCouponCode;
 	float saving=0;
 	String strApplyCoupon;
@@ -132,6 +132,21 @@ public class ReviewOrderAndPay extends BaseActivity
 
 			TextView tv = (TextView) findViewById(R.id.tv_choose_to_pay);
 			tv.setTypeface(CustomFonts.getInstance().getRobotoBlack(this));
+
+			tv_save_price = (TextView) findViewById(R.id.tv_save_price3);
+			tv_shipping = (TextView) findViewById(R.id.tv_shipping3);
+			tv_grandTotal = (TextView) findViewById(R.id.tv_grandTotal3);
+
+			tv_save_price.setText(getResources().getString(R.string.rs)+"" + String.format("%.2f", Float.parseFloat(CartProductList.savingGlobal)));
+			if(Float.parseFloat(CartProductList.shippingGlobal)==0)
+				tv_shipping.setText("Free");
+			else
+				tv_shipping.setText(getResources().getString(R.string.rs)+""+String.format("%.2f", Float.parseFloat(CartProductList.shippingGlobal)));
+
+			tv_grandTotal.setText(getResources().getString(R.string.rs)+"" + String.format("%.2f", Float.parseFloat(CartProductList.totalGlobal)));
+
+
+
 
 			 llOnlinePayment = (RelativeLayout) findViewById(R.id.rl_online_payment);
 			 llCashOnDelivery = (RelativeLayout) findViewById(R.id.rl_cash_on_delivery);
@@ -218,6 +233,10 @@ public class ReviewOrderAndPay extends BaseActivity
 				etCouponCode.setEnabled(false);
 				etCouponCode.setText(orderReviewBean.getCouponCode());
 				tvCouponDiscount.setText("Rs."+MySharedPrefs.INSTANCE.getCouponAmount());
+				if(Float.parseFloat(MySharedPrefs.INSTANCE.getCouponAmount())==0)
+				{
+					((RelativeLayout)findViewById(R.id.rl_coupon_discount)).setVisibility(View.GONE);
+				}
 //			tvMiddleLineCoupon.setBackgroundDrawable(getResources().getDrawable(R.color.gray_1));
 			} else {
 				llFirstPage.setVisibility(View.VISIBLE);
@@ -600,7 +619,7 @@ public class ReviewOrderAndPay extends BaseActivity
 
 
 
-			button_pay = (Button) findViewById(R.id.btn_apply_coupon);
+			button_pay = (TextView) findViewById(R.id.btn_apply_coupon);
 
 			button_pay.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -647,8 +666,8 @@ public class ReviewOrderAndPay extends BaseActivity
 
 
 					//in case user click once but server timed out occured then btn should disable for next time.
-					button_pay.setEnabled(false);
-					button_pay.setVisibility(View.GONE);
+					button_pay.setEnabled(true);
+					button_pay.setVisibility(View.VISIBLE);
 
 						if(bPayTM){
 							payment_mode="paytm_cc";
@@ -1273,17 +1292,17 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
                         wallet_amount=walletResponse.getDouble("Balance");
                         if(wallet_amount<=0){
                             //tv_walletAmount.setText("0.00");
-                            tv_my_wallet.setText("My Wallet ("+getResources().getString(R.string.Rs)+"0.00)");
+                            tv_my_wallet.setText("Refund Balance ("+getResources().getString(R.string.Rs)+"0.00)");
                             iv_my_wallet.setVisibility(View.GONE);
                         }
                         else{
                             String w_amount=String.format("%.2f",wallet_amount);
-                            tv_my_wallet.setText("My Wallet ("+getResources().getString(R.string.Rs)+" "+w_amount+")");
+                            tv_my_wallet.setText("Refund Balance ("+getResources().getString(R.string.Rs)+" "+w_amount+")");
                             //tv_my_wallet.setText("My Wallet ("+getResources().getString(R.string.Rs)+String.format('"&.2f",wallet_amount)+")");
                             iv_my_wallet.setVisibility(View.VISIBLE);
                         }
                     }else{
-                        tv_my_wallet.setText("My Wallet ("+getResources().getString(R.string.Rs)+"0.00)");
+                        tv_my_wallet.setText("Refund Balance ("+getResources().getString(R.string.Rs)+"0.00)");
                         iv_my_wallet.setVisibility(View.GONE);
                     }
 
@@ -1649,6 +1668,10 @@ class Coupon extends AsyncTask<String, String, String>
 						MySharedPrefs.INSTANCE.putisCouponApply("true");
 						MySharedPrefs.INSTANCE.putCouponAmount(jsoncartObject.getString("you_save"));
 						((ReviewOrderAndPay)context).tvCouponDiscount.setText("Rs."+MySharedPrefs.INSTANCE.getCouponAmount());
+						if(Float.parseFloat(MySharedPrefs.INSTANCE.getCouponAmount())==0)
+						{
+							((RelativeLayout)((ReviewOrderAndPay)context).findViewById(R.id.rl_coupon_discount)).setVisibility(View.GONE);
+						}
 
 						((ReviewOrderAndPay)context).tvSubTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(orderReviewBean1.getSubTotal())));
 						((ReviewOrderAndPay)context).tvShippingCharges.setText("Rs."+Float.parseFloat(orderReviewBean1.getShipping_ammount()));
@@ -1704,6 +1727,7 @@ class Coupon extends AsyncTask<String, String, String>
 					MySharedPrefs.INSTANCE.putisCouponApply("false");
 					MySharedPrefs.INSTANCE.putCouponAmount("Rs. 0");
 					((ReviewOrderAndPay)context).tvCouponDiscount.setText("Rs.0.00");
+					((RelativeLayout)((ReviewOrderAndPay)context).findViewById(R.id.rl_coupon_discount)).setVisibility(View.GONE);
 
 					((ReviewOrderAndPay)context).tvSubTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(String.valueOf(Float.parseFloat(orderReviewBean2.getSubTotal())))));
 					((ReviewOrderAndPay)context).tvShippingCharges.setText("Rs."+Float.parseFloat(orderReviewBean2.getShipping_ammount()));

@@ -194,7 +194,7 @@ public class CartAdapter extends BaseAdapter{
 
 		holder.prod_name.setText(obj.getProductName());
 			if(obj.getGramsORml().length()>8)
-				holder.prod_gmorml.setText(obj.getGramsORml().substring(0,7)+"...");
+				holder.prod_gmorml.setText(obj.getGramsORml().substring(0,8)+"...");
 			else
 				holder.prod_gmorml.setText(obj.getGramsORml());
 

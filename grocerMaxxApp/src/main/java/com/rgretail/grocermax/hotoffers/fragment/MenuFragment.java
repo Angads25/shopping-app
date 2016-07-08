@@ -48,7 +48,7 @@ public class MenuFragment extends Fragment {
     private ImageView imgBack;
     private String title;
     private Boolean isListView;
-    private TextView txvTitle, txvShopByDeals, txvGetInTouch, txvShopByCategories,txvRateThisApp,txvYourWallet,txvInviteFriends,txv_pramotion;
+    private TextView txvTitle, txvShopByDeals, txvGetInTouch, txvShopByCategories,txvRateThisApp,txvYourWallet,txvInviteFriends,txv_pramotion,txvMaxCoins;
     public static TextView txvSelectLocation;
     private TextView txvLocation;
     private ImageView ivLocation;
@@ -99,6 +99,7 @@ public class MenuFragment extends Fragment {
         txv_pramotion = (TextView) view.findViewById(R.id.txv_pramotion);
         txvSelectLocation = (TextView) view.findViewById(R.id.txvSelectLocation);
         txvYourWallet=(TextView)view.findViewById(R.id.txvYourWallet);
+        txvMaxCoins=(TextView)view.findViewById(R.id.txvMaxCoins);
         ivLocation = (ImageView) view.findViewById(R.id.ivLocation);
 //        txvLocation = (TextView) view.findViewById(R.id.txvLocation);
         imgBack = (ImageView) view.findViewById(R.id.imgBack);
@@ -229,8 +230,8 @@ public class MenuFragment extends Fragment {
             public void onClick(View view) {
                 if(MySharedPrefs.INSTANCE.getLoginStatus()){
                     Intent i=new Intent(getActivity(), WalletActivity.class);
+                    i.putExtra("coming_from","wallet");
                     startActivity(i);
-
                 }else{
                     //UtilityMethods.customToast("Not login",HomeScreen.mContext);
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
@@ -238,6 +239,23 @@ public class MenuFragment extends Fragment {
                 }
             }
         });
+
+
+         /* click event on your wallet to reach on wallet screen */
+        txvMaxCoins.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(MySharedPrefs.INSTANCE.getLoginStatus()){
+                    Intent i=new Intent(getActivity(), com.rgretail.grocermax.RedeemHistory.class);
+                    startActivity(i);
+                }else{
+                    //UtilityMethods.customToast("Not login",HomeScreen.mContext);
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
 
 
 

@@ -37,6 +37,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -57,7 +58,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.quantumgraph.sdk.QG;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.LoginActivity;
 import com.rgretail.grocermax.R;
@@ -1860,7 +1860,35 @@ public class UtilityMethods {
        }
    }
 
+    public static void setGridViewHeightBasedOnChildren(GridView gridView, int columns) {
+        ListAdapter listAdapter = gridView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
 
+        int totalHeight = 0;
+        int items = listAdapter.getCount();
+        int rows = 0;
+
+        View listItem = listAdapter.getView(0, null, gridView);
+        listItem.measure(0, 0);
+        totalHeight = listItem.getMeasuredHeight();
+        // Display display = getActivity().getWindowManager().getDefaultDisplay();
+        //totalHeight = display.getWidth()/3;
+        //width=width/3;
+
+        float x = 1;
+        if( items > columns ){
+            x = items/columns;
+            rows = (int) (x);
+            totalHeight *= rows;
+        }
+
+        ViewGroup.LayoutParams params = gridView.getLayoutParams();
+        params.height = totalHeight;
+        gridView.setLayoutParams(params);
+
+    }
 
 
 

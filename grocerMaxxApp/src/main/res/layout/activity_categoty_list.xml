@@ -133,7 +133,7 @@
         android:text="Shop for Rs.1300 more, Get Max Fresh Onion pack of 2 kg free! "
         android:lineSpacingExtra="3dp"
         android:gravity="center"
-        android:visibility="visible"
+        android:visibility="gone"
         android:textColor="#e64a19"
         android:textSize="@dimen/text_size_13"/>
 
