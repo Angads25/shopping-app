@@ -95,11 +95,11 @@
             android:name=".hotoffers.HomeScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
+            android:clearTaskOnLaunch="true"
             android:windowSoftInputMode="adjustResize|stateHidden">
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data

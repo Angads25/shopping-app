@@ -549,13 +549,15 @@ need this in relative layout when price details need to be shown below -->
                         android:text="Coupon Applied - CA100"
                         android:paddingLeft="10dp"
                         android:textColor="#429f46"
+                        android:singleLine="true"
                         android:textSize="15dp"/>
                     <TextView
                         android:id="@+id/tv_coupon_detail"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:text="2 Kg Onion Free"
+                        android:text=""
+                        android:singleLine="true"
                         android:paddingLeft="12dp"
                         android:textColor="#fec70d"
                         android:textSize="15dp"/>

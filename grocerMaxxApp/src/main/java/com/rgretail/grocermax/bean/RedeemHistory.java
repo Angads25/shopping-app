@@ -13,7 +13,16 @@ public class RedeemHistory implements Serializable{
     private String desc;
     private String exp_date;
     private String used_coupon;
+    private String type_action;
 
+
+    public String getType_action() {
+        return type_action;
+    }
+
+    public void setType_action(String type_action) {
+        this.type_action = type_action;
+    }
 
     public String getExp_date() {
         return exp_date;

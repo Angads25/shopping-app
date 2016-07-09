@@ -2,6 +2,7 @@ package com.rgretail.grocermax;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,6 +85,7 @@ public class RedeemHistory extends BaseActivity {
                         history.setDesc(redeemArray.getJSONObject(i).getString("comment"));
                         history.setExp_date(redeemArray.getJSONObject(i).getString("coupon_exp_date"));
                         history.setUsed_coupon(redeemArray.getJSONObject(i).getString("coupon_code"));
+                        history.setType_action(redeemArray.getJSONObject(i).getString("type_action"));
                         historiesList.add(history);
                     }
                     listview_RedeemTransaction.setAdapter(new RedeemListAdapter());
@@ -141,7 +143,16 @@ public class RedeemHistory extends BaseActivity {
                     tv_valid_date.setVisibility(View.GONE);
                 }
                 if(!historiesList.get(position).getUsed_coupon().equals("null")){
-                    tv_coupon_used.setText("Coupon Used : "+historiesList.get(position).getUsed_coupon());
+                    if(historiesList.get(position).getType_action().equals("1"))
+                      tv_coupon_used.setText(Html.fromHtml("Coupon Used : <font color=black>"+historiesList.get(position).getUsed_coupon()+"</font>"));
+                    else if(historiesList.get(position).getType_action().equals("2"))
+                      tv_coupon_used.setText(Html.fromHtml("Coupon Refunded : <font color=black>"+historiesList.get(position).getUsed_coupon()+"</font>"));
+                    else if(historiesList.get(position).getType_action().equals("4"))
+                        tv_coupon_used.setText(Html.fromHtml("Coupon Canceled : <font color=black>"+historiesList.get(position).getUsed_coupon()+"</font>"));
+                    else if(historiesList.get(position).getType_action().equals("8"))
+                        tv_coupon_used.setText(Html.fromHtml("Coupon Imported : <font color=black>"+historiesList.get(position).getUsed_coupon()+"</font>"));
+                    else
+                        tv_coupon_used.setText(Html.fromHtml("Coupon : <font color=black>"+historiesList.get(position).getUsed_coupon()+"</font>"));
                     tv_coupon_used.setVisibility(View.VISIBLE);
                 }else{
                     tv_coupon_used.setVisibility(View.GONE);

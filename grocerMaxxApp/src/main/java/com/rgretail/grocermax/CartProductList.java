@@ -201,26 +201,33 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		}
 	}
 	public void setAppliedCoupon(CartDetailBean cartBean){
-		if(cartBean!=null){
-			if(cartBean.getCoupon_code()==null){
-				ll_coupon_apply.setVisibility(View.VISIBLE);
-				ll_coupon_change.setVisibility(View.GONE);
-				MySharedPrefs.INSTANCE.putCouponCode("");
-			}else{
-				ll_coupon_apply.setVisibility(View.GONE);
-				ll_coupon_change.setVisibility(View.VISIBLE);
-				TextView tv_couponApplied=(TextView)findViewById(R.id.tv_coupon_applied);
-				TextView tv_coupon_change=(TextView)findViewById(R.id.tv_coupon_change);
-				tv_couponApplied.setText("Coupon Applied - "+cartBean.getCoupon_code());
-				MySharedPrefs.INSTANCE.putCouponCode(cartBean.getCoupon_code());
-				tv_coupon_change.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent i=new Intent(CartProductList.this,CouponPage.class);
-						startActivity(i);
-					}
-				});
-			}
+		try {
+			if(cartBean!=null){
+                if(cartBean.getCoupon_code()==null){
+                    ll_coupon_apply.setVisibility(View.VISIBLE);
+                    ll_coupon_change.setVisibility(View.GONE);
+                    MySharedPrefs.INSTANCE.putCouponCode("");
+                }else{
+                    ll_coupon_apply.setVisibility(View.GONE);
+                    ll_coupon_change.setVisibility(View.VISIBLE);
+                    TextView tv_couponApplied=(TextView)findViewById(R.id.tv_coupon_applied);
+                    TextView tv_coupon_change=(TextView)findViewById(R.id.tv_coupon_change);
+                    TextView tv_coupon_desc=(TextView)findViewById(R.id.tv_coupon_detail);
+                    tv_couponApplied.setText("Coupon Applied - "+cartBean.getCoupon_code());
+                    tv_coupon_desc.setText(cartBean.getCoupon_desc());
+                    MySharedPrefs.INSTANCE.putCouponCode(cartBean.getCoupon_code());
+                    MySharedPrefs.INSTANCE.putCouponAmount(String.valueOf(Float.parseFloat(cartBean.getSubTotal())-Float.parseFloat(cartBean.getSubtotal_with_discount())));
+                    tv_coupon_change.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i=new Intent(CartProductList.this,CouponPage.class);
+                            startActivity(i);
+                        }
+                    });
+                }
+            }
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

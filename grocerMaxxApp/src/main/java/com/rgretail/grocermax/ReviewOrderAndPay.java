@@ -216,7 +216,7 @@ public class ReviewOrderAndPay extends BaseActivity
 				if (orderReviewBean.getShipping_ammount() != null && orderReviewBean.getShipping_ammount().length() > 0) {
 					tvShippingCharges.setText("Rs." + Float.parseFloat(orderReviewBean.getShipping_ammount()));
 				}
-				tvTotal.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getGrandTotal())));
+				tvTotal.setText(getResources().getString(R.string.rs)+"" + String.format("%.2f", Float.parseFloat(orderReviewBean.getGrandTotal())));
                // setTotolAfterWalletSelectUnSelect(orderReviewBean.getGrandTotal());
 				tvItemCount.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getGrandTotal())));
 				if (MySharedPrefs.INSTANCE.getTotalItem() != null) {
@@ -232,10 +232,15 @@ public class ReviewOrderAndPay extends BaseActivity
 //			tvEnterCode.setText("Applied Code");
 				etCouponCode.setEnabled(false);
 				etCouponCode.setText(orderReviewBean.getCouponCode());
-				tvCouponDiscount.setText("Rs."+MySharedPrefs.INSTANCE.getCouponAmount());
+				if(MySharedPrefs.INSTANCE.getCouponAmount()!=null)
+				  tvCouponDiscount.setText(getResources().getString(R.string.rs)+""+String.format("%.2f",Float.parseFloat(MySharedPrefs.INSTANCE.getCouponAmount())));
+				else
+					MySharedPrefs.INSTANCE.putCouponAmount("0");
 				if(Float.parseFloat(MySharedPrefs.INSTANCE.getCouponAmount())==0)
 				{
 					((RelativeLayout)findViewById(R.id.rl_coupon_discount)).setVisibility(View.GONE);
+				}else{
+					((RelativeLayout)findViewById(R.id.rl_coupon_discount)).setVisibility(View.VISIBLE);
 				}
 //			tvMiddleLineCoupon.setBackgroundDrawable(getResources().getDrawable(R.color.gray_1));
 			} else {
@@ -648,7 +653,7 @@ public class ReviewOrderAndPay extends BaseActivity
 
 
                      /*for checking that if payable amount =0 user should not select a payment method*/
-                    if(Double.parseDouble(tvTotal.getText().toString().replace("Rs.","").trim())==0){
+                    if(Double.parseDouble(tvTotal.getText().toString().replace(getResources().getString(R.string.rs),"").trim())==0){
                         if(bCash || bOnline || bPayTM || bCitrus || bMobiKwik){             //!bMobiKwik
                             UtilityMethods.customToast(AppConstants.ToastConstant.NO_NEED_SELECT_PAYMENT_MODE, mContext);
                             return;
@@ -824,7 +829,7 @@ public class ReviewOrderAndPay extends BaseActivity
 			} else if (bOnline) {
 				final HashMap<String, String> params = new HashMap<String, String>();
 				//double amount = total;
-                double amount=Double.parseDouble(tvTotal.getText().toString().replace("Rs.",""));
+                double amount=Double.parseDouble(tvTotal.getText().toString().replace(getResources().getString(R.string.rs),""));
 
 				//params.put("amount", String.valueOf(total));
                 params.put("amount", String.valueOf(amount));
@@ -910,7 +915,7 @@ public class ReviewOrderAndPay extends BaseActivity
         // oops handle it here.
 
 
-        double total=Double.parseDouble(tvTotal.getText().toString().replace("Rs.",""));
+        double total=Double.parseDouble(tvTotal.getText().toString().replace(getResources().getString(R.string.rs),""));
         Payment.Builder builder = new Payment().new Builder();
         Params requiredParams = new Params();
         builder.set(PayU.PRODUCT_INFO, "GrocerMax Product Info");
@@ -962,15 +967,15 @@ public class ReviewOrderAndPay extends BaseActivity
             if(t_amount<=wallet_amount){
                 tv_wallet_discount.setText("Rs."+String.format("%.2f",total_amount));
                 //t_amount=0.0;
-                tvTotal.setText("Rs.0.00");
+                tvTotal.setText(getResources().getString(R.string.rs)+"0.00");
             }else{
                 //t_amount=t_amount-wallet_amount;
-                tvTotal.setText("Rs."+String.format("%.2f",(t_amount-wallet_amount)));
+                tvTotal.setText(getResources().getString(R.string.rs)+""+String.format("%.2f",(t_amount-wallet_amount)));
                 tv_wallet_discount.setText("Rs."+String.format("%.2f",wallet_amount));
             }
         }else{
                         /*if wallet is unselected*/
-            tvTotal.setText("Rs."+String.format("%.2f",t_amount));
+            tvTotal.setText(getResources().getString(R.string.rs)+""+String.format("%.2f",t_amount));
             tv_wallet_discount.setText("Rs.0.00");
         }
 
@@ -1182,7 +1187,7 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 
 
        //String amount=String.format("%.1f", Float.parseFloat(tvTotal.getText().toString().replace("Rs.","")));
-       String amount=tvTotal.getText().toString().replace("Rs.","");
+       String amount=tvTotal.getText().toString().replace(getResources().getString(R.string.rs),"");
        if(amount.contains(".")){
            amount=amount.substring(0,amount.indexOf(".")+2);
        }
@@ -1204,7 +1209,7 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 
 
 					String amount=String.format("%.2f",Double.parseDouble(finalCheckoutBean.getSubTotal()));
-					tvTotal.setText("Rs."+amount);
+					tvTotal.setText(getResources().getString(R.string.rs)+""+amount);
 
 					UtilityMethods.deleteCloneCart(this);
 
@@ -1488,7 +1493,7 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 		try {
 			Intent intent = new Intent(this, PayTMActivity.class);
 			//intent.putExtra("amount", String.valueOf(total));
-            intent.putExtra("amount",tvTotal.getText().toString().replace("Rs.",""));
+            intent.putExtra("amount",tvTotal.getText().toString().replace(getResources().getString(R.string.rs),""));
 			intent.putExtra("order_id", orderid);
 			intent.putExtra("order_db_id", order_db_id);
 			startActivity(intent);
@@ -1511,8 +1516,7 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 			config.setMode("1");
 
 			User user=new User(MySharedPrefs.INSTANCE.getUserEmail(),MySharedPrefs.INSTANCE.getMobileNo());
-			System.out.println("Amount="+tvTotal.getText().toString().replace("Rs.", "")+"---");
-			Transaction newTransaction=Transaction.Factory.newTransaction(user,orderid,tvTotal.getText().toString().replace("Rs.", ""));
+			Transaction newTransaction=Transaction.Factory.newTransaction(user,orderid,tvTotal.getText().toString().replace(getResources().getString(R.string.rs), ""));
 
 			Intent mobikwikIntent = new Intent( this , MobikwikSDK. class );
 			mobikwikIntent.putExtra(MobikwikSDK. EXTRA_TRANSACTION_CONFIG , config);
@@ -1667,16 +1671,18 @@ class Coupon extends AsyncTask<String, String, String>
 						MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean1);
 						MySharedPrefs.INSTANCE.putisCouponApply("true");
 						MySharedPrefs.INSTANCE.putCouponAmount(jsoncartObject.getString("you_save"));
-						((ReviewOrderAndPay)context).tvCouponDiscount.setText("Rs."+MySharedPrefs.INSTANCE.getCouponAmount());
+						((ReviewOrderAndPay)context).tvCouponDiscount.setText(context.getResources().getString(R.string.rs)+""+String.format("%.2f",Float.parseFloat(MySharedPrefs.INSTANCE.getCouponAmount())));
 						if(Float.parseFloat(MySharedPrefs.INSTANCE.getCouponAmount())==0)
 						{
 							((RelativeLayout)((ReviewOrderAndPay)context).findViewById(R.id.rl_coupon_discount)).setVisibility(View.GONE);
+						}else{
+							((RelativeLayout)((ReviewOrderAndPay)context).findViewById(R.id.rl_coupon_discount)).setVisibility(View.VISIBLE);
 						}
 
 						((ReviewOrderAndPay)context).tvSubTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(orderReviewBean1.getSubTotal())));
 						((ReviewOrderAndPay)context).tvShippingCharges.setText("Rs."+Float.parseFloat(orderReviewBean1.getShipping_ammount()));
 						((ReviewOrderAndPay)context).tvYouSaved.setText("Rs."+String.format("%.2f",savee));
-						((ReviewOrderAndPay)context).tvTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(orderReviewBean1.getGrandTotal())));
+						((ReviewOrderAndPay)context).tvTotal.setText(context.getResources().getString(R.string.rs)+""+String.format("%.2f",Float.parseFloat(orderReviewBean1.getGrandTotal())));
                         ((ReviewOrderAndPay)context).setTotolAfterWalletSelectUnSelect(Double.parseDouble(orderReviewBean1.getGrandTotal()));
 						((ReviewOrderAndPay)context).tvItemCount.setText("Rs."+String.format("%.2f",Float.parseFloat(orderReviewBean1.getGrandTotal())));
 
@@ -1725,14 +1731,14 @@ class Coupon extends AsyncTask<String, String, String>
 					orderReviewBean2.setCouponSubtotalWithDiscount(String.valueOf(couponwithdiscount));
 					MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean2);
 					MySharedPrefs.INSTANCE.putisCouponApply("false");
-					MySharedPrefs.INSTANCE.putCouponAmount("Rs. 0");
-					((ReviewOrderAndPay)context).tvCouponDiscount.setText("Rs.0.00");
+					MySharedPrefs.INSTANCE.putCouponAmount(context.getResources().getString(R.string.rs)+"0.00");
+					((ReviewOrderAndPay)context).tvCouponDiscount.setText(context.getResources().getString(R.string.rs)+"0.00");
 					((RelativeLayout)((ReviewOrderAndPay)context).findViewById(R.id.rl_coupon_discount)).setVisibility(View.GONE);
 
 					((ReviewOrderAndPay)context).tvSubTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(String.valueOf(Float.parseFloat(orderReviewBean2.getSubTotal())))));
 					((ReviewOrderAndPay)context).tvShippingCharges.setText("Rs."+Float.parseFloat(orderReviewBean2.getShipping_ammount()));
 					((ReviewOrderAndPay)context).tvYouSaved.setText("Rs."+String.format("%.2f",savee2));
-					((ReviewOrderAndPay)context).tvTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(String.valueOf(totalremove))));
+					((ReviewOrderAndPay)context).tvTotal.setText(context.getResources().getString(R.string.rs)+""+String.format("%.2f",Float.parseFloat(String.valueOf(totalremove))));
                     ((ReviewOrderAndPay)context).setTotolAfterWalletSelectUnSelect(Double.parseDouble(String.valueOf(totalremove)));
 					((ReviewOrderAndPay)context).tvItemCount.setText("Rs."+String.format("%.2f",Float.parseFloat(String.valueOf(totalremove))));
 

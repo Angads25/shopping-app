@@ -103,7 +103,7 @@
                             android:singleLine="true"
                             android:text="SECO FRUITO"
                             android:textAllCaps="true"
-                            android:textColor="@color/primaryColor"
+                            android:textColor="#b6b6b6"
                             android:textSize="12dp"
                             />
 
@@ -153,7 +153,7 @@
                             android:singleLine="true"
                             android:layout_marginTop="2dp"
                             android:text="product name"
-                            android:textColor="@color/pallete_black"
+                            android:textColor="#212121"
                             android:textSize="14dp" />
 
                         <TextView
@@ -166,7 +166,7 @@
                             android:text="quantity"
                             android:layout_marginTop="2dp"
 
-                            android:textColor="@color/pallete_black"
+                            android:textColor="#212121"
                             android:textSize="14dp" />
 
                         <!--<TextView
@@ -236,7 +236,7 @@
                                     android:layout_height="wrap_content"
                                     android:id="@+id/sale_price"
                                     android:textSize="14dp"
-                                    android:textColor="@color/primaryColor"
+                                    android:textColor="@color/pallete_black"
                                     android:text="price"/>
                                 <TextView
                                     android:id="@+id/tv_vertical_bar"
@@ -246,12 +246,13 @@
                                     android:layout_marginLeft="2dp"
                                     android:layout_marginRight="2dp"
                                     android:textSize="@dimen/text_size_14"
+                                    android:textColor="#b6b6b6"
                                     />
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="discounted rate"
-                                    android:textColor="@color/light_Gray"
+                                    android:textColor="#b6b6b6"
                                     android:id="@+id/amount"
                                     android:textSize="14dp"/>
                             </LinearLayout>
@@ -424,12 +425,12 @@
                 android:id="@+id/tv_offers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fec70d"
+                android:background="#DFEDFD"
                 android:gravity="center"
                 android:padding="5dp"
                 android:layout_gravity="bottom"
                 android:text="MCIVITIES COOKIES BUY 2,GET 1 FREE"
-                android:textColor="#e5111e"
+                android:textColor="#3b4d55"
                 android:textSize="@dimen/text_size_13"
                 android:visibility="visible" />
             <ImageView

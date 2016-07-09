@@ -113,7 +113,7 @@
                         android:gravity="center_horizontal"
                         android:text="Almonds"
                         android:textAllCaps="true"
-                        android:textColor="@color/primaryColor"
+                        android:textColor="#b6b6b6"
                         android:textSize="@dimen/text_size_12" />
 
                     <TextView
@@ -123,7 +123,7 @@
                         android:layout_below="@+id/product_desc_brand"
                         android:gravity="center_horizontal"
                         android:text="ROASTED SALTED"
-                        android:textColor="@color/pallete_black"
+                        android:textColor="#212121"
                         android:textSize="@dimen/text_size_14" />
 
                     <TextView
@@ -133,7 +133,7 @@
                         android:layout_below="@+id/product_desc_name"
                         android:gravity="center_horizontal"
                         android:text="500G"
-                        android:textColor="@color/pallete_black"
+                        android:textColor="#212121"
                         android:textSize="@dimen/text_size_14" />
 
                 </RelativeLayout>
@@ -190,7 +190,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="price"
-                            android:textColor="@color/primaryColor"
+                            android:textColor="@color/pallete_black"
                             android:textSize="@dimen/text_size_14" />
 
                         <TextView
@@ -198,6 +198,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="2dp"
                             android:layout_marginRight="2dp"
+                            android:textColor="#b6b6b6"
                             android:text="|"
                             android:textSize="@dimen/text_size_14" />
 
@@ -206,7 +207,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="discounted rate"
-                            android:textColor="@color/light_Gray"
+                            android:textColor="#b6b6b6"
                             android:textSize="@dimen/text_size_14" />
 
                     </LinearLayout>
@@ -415,12 +416,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_below="@+id/rl_prod_list_cart"
-                    android:background="#fec70d"
+                    android:background="#DFEDFD"
                     android:gravity="center"
                     android:layout_marginTop="10dp"
                     android:padding="5dp"
                     android:text="MCIVITIES COOKIES BUY 2,GET 1 FREE"
-                    android:textColor="#e5111e"
+                    android:textColor="#3b4d55"
                     android:visibility="visible"
                     android:textSize="@dimen/text_size_13" />
                <!-- <LinearLayout

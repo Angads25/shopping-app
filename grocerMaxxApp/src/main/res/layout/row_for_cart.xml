@@ -209,7 +209,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/mul_quantity"
@@ -316,24 +317,7 @@
                             android:textSize="14dp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/tv_saving_free"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="10dp"
-                            android:layout_toRightOf="@+id/mrp"
-                            android:background="@drawable/saving_bg"
-                            android:gravity="center"
-                            android:paddingBottom="5dp"
-                            android:paddingLeft="5dp"
-                            android:paddingRight="5dp"
-                            android:paddingTop="5dp"
-                            android:singleLine="true"
-                            android:text="SAVING Rs. 2"
-                            android:textColor="@color/white"
-                            android:textSize="10dp"
-                            android:textStyle="bold" />
+
 
                         <LinearLayout
                             android:id="@+id/llplusminus"
@@ -441,7 +425,24 @@
                         </LinearLayout>
     -->
                     </RelativeLayout>
-
+                    <TextView
+                        android:id="@+id/tv_saving_free"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="0dp"
+                        android:layout_toRightOf="@+id/mrp"
+                        android:background="@drawable/saving_bg"
+                        android:gravity="center"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="5dp"
+                        android:singleLine="true"
+                        android:text="SAVING Rs. 2"
+                        android:textColor="@color/white"
+                        android:textSize="10dp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -456,7 +457,7 @@
             android:background="#DFEDFD"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <ImageView
                 android:layout_width="20dp"
@@ -474,7 +475,6 @@
                 android:text="MCIVITIES COOKIES BUY 2,GET 1 FREE"
                 android:textColor="#3b4d55"
                 android:textSize="14dp"
-                android:textStyle="bold"
                 android:visibility="visible" />
         </LinearLayout>
     </LinearLayout>

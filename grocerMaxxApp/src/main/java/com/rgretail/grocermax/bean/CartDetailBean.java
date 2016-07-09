@@ -33,7 +33,20 @@ public class CartDetailBean extends BaseResponseBean implements Serializable{
 	@Expose
 	private String coupon_code;
 	@Expose
-	private String coupon_desc;
+	private String coupon_description;
+
+
+	@Expose
+	private String subtotal_with_discount;
+
+
+	public String getSubtotal_with_discount() {
+		return subtotal_with_discount;
+	}
+
+	public void setSubtotal_with_discount(String subtotal_with_discount) {
+		this.subtotal_with_discount = subtotal_with_discount;
+	}
 
 	public String getCoupon_code() {
 		return coupon_code;
@@ -44,11 +57,11 @@ public class CartDetailBean extends BaseResponseBean implements Serializable{
 	}
 
 	public String getCoupon_desc() {
-		return coupon_desc;
+		return coupon_description;
 	}
 
 	public void setCoupon_desc(String coupon_desc) {
-		this.coupon_desc = coupon_desc;
+		this.coupon_description = coupon_desc;
 	}
 
 	public String getBill_buster() {

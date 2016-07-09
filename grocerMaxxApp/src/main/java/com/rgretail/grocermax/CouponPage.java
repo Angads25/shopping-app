@@ -64,10 +64,14 @@ public class CouponPage extends BaseActivity{
         pramotionList=new ArrayList<>();
         icon_header_back=(ImageView)findViewById(R.id.icon_header_back);
         tv_coupon_header=(TextView)findViewById(R.id.tv_coupon_header);
-        if(MySharedPrefs.INSTANCE.getCouponCode().equals(""))
+        if(MySharedPrefs.INSTANCE.getCouponCode().equals("")){
             tv_coupon_header.setText("Apply Coupon");
-        else
-            tv_coupon_header.setText("Applied Coupon - "+MySharedPrefs.INSTANCE.getCouponCode());
+            tv_coupon_header.setVisibility(View.GONE);
+        }
+        else{
+            tv_coupon_header.setText(Html.fromHtml("Applied Coupon - <b>"+MySharedPrefs.INSTANCE.getCouponCode()+"</b>"));
+            tv_coupon_header.setVisibility(View.VISIBLE);
+        }
         lv=(ListView)findViewById(R.id.lv_coupon_list);
         lv.setItemsCanFocus(true);
     }
@@ -96,12 +100,12 @@ public class CouponPage extends BaseActivity{
                         if(MySharedPrefs.INSTANCE.getCouponCode().equals(couponObject.getString("coupon_code"))){
                             p.setIs_applied("true");
                             isSet=true;
+                            pramotionList.add(0,p);
                         }
                         else{
                             p.setIs_applied("false");
+                            pramotionList.add(p);
                         }
-
-                        pramotionList.add(p);
                     }
 
                     PramotionPageBean p1=new PramotionPageBean();

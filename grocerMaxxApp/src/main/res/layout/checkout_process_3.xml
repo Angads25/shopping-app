@@ -602,6 +602,7 @@
                         android:background="@color/white"
                         android:padding="8dp"
                         android:id="@+id/rl_coupon_discount"
+                        android:visibility="gone"
                         android:layout_above="@+id/btn_select_delivery_details"
                         >
 
@@ -628,7 +629,8 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/lighter_gray"></View>
+                        android:background="@color/lighter_gray"
+                        android:visibility="visible"></View>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -735,7 +737,8 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/lighter_gray"></View>
+                        android:background="@color/lighter_gray"
+                        android:visibility="visible"></View>
 
 
                 </LinearLayout>-->

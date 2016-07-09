@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rgretail.grocermax.R;
@@ -37,12 +36,12 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imageView;
+        //ImageView imageView;
         CardView parentLayout;
         TextView footer;
         public ViewHolder(View itemView) {
             super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.title);
+           // imageView = (ImageView) itemView.findViewById(R.id.title);
             parentLayout = (CardView) itemView.findViewById(R.id.layoutParent);
             footer = (TextView) itemView.findViewById(R.id.footer);
 
