@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#F4F4F4">
     <ListView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:id="@+id/lv_update_cart"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:layout_marginBottom="10dp">
     </ListView>
     <TextView
         android:id="@+id/tv_popup_update"

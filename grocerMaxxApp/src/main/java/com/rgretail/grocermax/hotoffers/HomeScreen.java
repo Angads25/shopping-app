@@ -100,7 +100,8 @@ public class HomeScreen extends BaseActivity {
         setContentView(R.layout.activity_hot_offer);
         mContext = this;
         try{
-
+            InviteReferralsApi.getInstance(HomeScreen.this).initialize(getIntent().getData());
+            Log.e("Invite Referral","Initialized");
         }catch(Exception e){}
 
 
@@ -275,6 +276,7 @@ public class HomeScreen extends BaseActivity {
                                      /*welcome popup if user comes through invite referral link*/
                     try {
                         InviteReferralsApi.getInstance(HomeScreen.this).initialize(getIntent().getData());
+                        Log.e("Invite Referral","Initialized");
                         InviteReferralsApi.getInstance(HomeScreen.this).track_fp(null);
                         InviteReferralsApi.getInstance(HomeScreen.this).showWelcomeMessage();
                     } catch (Exception e) {

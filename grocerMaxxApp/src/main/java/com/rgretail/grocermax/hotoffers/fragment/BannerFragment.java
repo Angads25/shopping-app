@@ -24,6 +24,8 @@ import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
+import org.json.JSONObject;
+
 
 /**
  * Created by nawab.hussain on 9/14/2015.
@@ -90,7 +92,13 @@ public class BannerFragment extends Fragment {
                    /*tracking GA even when banner image is clicked*/
                     try{
                         UtilityMethods.clickCapture(getActivity(),"Banner Click","",imageUrl,"", MySharedPrefs.INSTANCE.getSelectedCity());
+                        UtilityMethods.sendGTMEvent(context,"Home - Flagship",name,"Android Deal Interaction");
                         RocqAnalytics.trackEvent("Banner Click", new ActionProperties("Category", "Banner Click", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",imageUrl));
+                    /*QGraph event*/
+                        JSONObject json=new JSONObject();
+                        json.put("Banner Name",name);
+                        UtilityMethods.setQGraphevent("Andriod Banner Click - Home - Flagship",json);
+                   /*--------------*/
                     }catch(Exception e){
                         e.printStackTrace();
                     }

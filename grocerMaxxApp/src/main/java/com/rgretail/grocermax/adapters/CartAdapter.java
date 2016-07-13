@@ -141,8 +141,6 @@ public class CartAdapter extends BaseAdapter{
 				holder.rlOutofStock.setVisibility(View.GONE);
 				holder.rlOutofStock.setEnabled(true);
 				holder.tvOffers.setAllCaps(false);
-				//holder.tvOffers.setTextColor(Color.parseColor("#e5111e"));
-				//holder.tvOffers.setBackgroundColor(Color.parseColor("#fec70d"));
 
 				if(obj.getPromotionLevel() != null){
 					holder.offerImage.setVisibility(View.VISIBLE);
@@ -155,10 +153,15 @@ public class CartAdapter extends BaseAdapter{
 			}else{                            //product not available
 				holder.rlOutofStock.setVisibility(View.GONE);
 				holder.rlOutofStock.setEnabled(true);
-				holder.tvOffers.setVisibility(View.GONE);
-				holder.tvOffers.setAllCaps(true);
+				if(obj.getPromotionLevel() != null){
+					holder.ll_offer.setVisibility(View.VISIBLE);
+					holder.tvOffers.setText(obj.getPromotionLevel());
+				}else{
+					holder.ll_offer.setVisibility(View.GONE);
+				}
+				/*holder.tvOffers.setAllCaps(true);
 				holder.tvOffers.setTextColor(activity.getResources().getColor(R.color.white));
-				holder.tvOffers.setBackgroundColor(activity.getResources().getColor(R.color.primaryColor));
+				holder.tvOffers.setBackgroundColor(activity.getResources().getColor(R.color.primaryColor));*/
 
 				if(CartProductList.getInstance().ll_place_order != null && CartProductList.getInstance().update_cart != null) {
 					CartProductList.getInstance().ll_place_order.setVisibility(View.GONE);
@@ -166,10 +169,16 @@ public class CartAdapter extends BaseAdapter{
 					CartProductList.getInstance().update_cart.setBackgroundColor(activity.getResources().getColor(R.color.updateshade));
 					holder.increase_quantity.setVisibility(View.INVISIBLE);
 					holder.decrease_quantity.setVisibility(View.INVISIBLE);
-					holder.ll_offer.setVisibility(View.VISIBLE);
+					//holder.ll_offer.setVisibility(View.VISIBLE);
+					if(obj.getPromotionLevel() != null){
+						holder.ll_offer.setVisibility(View.VISIBLE);
+						holder.tvOffers.setText(obj.getPromotionLevel());
+					}else{
+						holder.ll_offer.setVisibility(View.GONE);
+					}
 					try {
 						System.out.println("QTY="+Integer.parseInt(obj.getWebQty()));
-						if (obj.getWebQty() != null) {
+						/*if (obj.getWebQty() != null) {
 							if (Integer.parseInt(obj.getWebQty()) > 0) {
 								holder.tvOffers.setText(AppConstants.ToastConstant.REDUCE_QUANT_FIRST_PART+obj.getWebQty()+ AppConstants.ToastConstant.REDUCE_QUANT_SECOND_PART);
 							} else {
@@ -177,8 +186,11 @@ public class CartAdapter extends BaseAdapter{
 							}
 						}else{
 								holder.tvOffers.setText(AppConstants.ToastConstant.REMOVE_ITEM_FOR_PROCEED);
-						}
-					}catch(Exception e){}
+						}*/
+					}catch(Exception e){
+						e.printStackTrace();
+
+					}
 
 					if(obj.getPromotionLevel() != null){
 						holder.offerImage.setVisibility(View.VISIBLE);
@@ -241,7 +253,7 @@ public class CartAdapter extends BaseAdapter{
 		int value = obj.getQty();
 		  float sell_price = Float.parseFloat(obj.getPrice().replace(",", ""));
 		 float total=Float.parseFloat(obj.getRow_total().replace(",",""));
-		float unit_price=Float.parseFloat(obj.getRow_total())/(float)obj.getQty();
+		float unit_price=Float.parseFloat(obj.getRow_total().replace(",",""))/(float)obj.getQty();
 		String quant = String.format("%.2f", unit_price);//+"|";
 		String sell_p=String.format("%.2f", sell_price);
 
@@ -430,6 +442,7 @@ public class CartAdapter extends BaseAdapter{
 				try {
 					deleteLocal(v, position, holder);
 				}catch(Exception e){
+
 					System.out.println(e.getMessage());
 				}
 			}
@@ -444,6 +457,7 @@ public class CartAdapter extends BaseAdapter{
 			}
 		});
 		}catch(Exception e){
+			e.printStackTrace();
 			new GrocermaxBaseException("CartAdapter", "getView", e.getMessage(), GrocermaxBaseException.EXCEPTION, String.valueOf(CartProductList.cartList.get(position)));
 		}
 

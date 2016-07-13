@@ -29,6 +29,8 @@ import com.rgretail.grocermax.utils.Constants;
 import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -133,6 +135,14 @@ public class CategoryScreenAdapter extends BaseAdapter {
                             AppConstants.strTitleHotDeal = obj.getName();
                             if(!obj.getLinkurl().equals(""))
                             ((CategoryActivity1) activity).hitForSpecialDealsByDeals(obj.getLinkurl());
+
+                            UtilityMethods.sendGTMEvent(activity,"Category - Banner"+(position),obj.getName(),"Android Deal Interaction");
+                             /*QGraph event*/
+                            JSONObject json=new JSONObject();
+                            json.put("Banner Name",obj.getName());
+                            UtilityMethods.setQGraphevent("Andriod Banner Click - Category - Banner"+(position),json);
+                   /*--------------*/
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -251,6 +261,15 @@ public class CategoryScreenAdapter extends BaseAdapter {
                             UtilityMethods.clickCapture(activity, "L2", "", alcatObjSend.get(position).getCategory(), "", MySharedPrefs.INSTANCE.getSelectedCity());
                             UtilityMethods.sendGTMEvent(activity,"category page",alcatObjSend.get(position).getCategory(),"Android Category Interaction");
                             RocqAnalytics.trackEvent("L2", new ActionProperties("Category", "L2", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",alcatObjSend.get(position).getCategory()));
+                          /*QGraph event*/
+                            JSONObject json=new JSONObject();
+                            json.put("Category name",alcatObjSend.get(position).getCategory());
+                            if(MySharedPrefs.INSTANCE.getUserId()!=null)
+                                json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+                            UtilityMethods.setQGraphevent("Andriod Category Interaction - Category Page",json);
+                   /*--------------*/
+
+
                         }catch(Exception e){
                             e.printStackTrace();
                         }

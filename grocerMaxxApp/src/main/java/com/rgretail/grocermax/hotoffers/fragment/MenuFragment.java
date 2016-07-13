@@ -70,6 +70,7 @@ public class MenuFragment extends Fragment {
         menuListAdapter = new MenuListAdapter(getActivity(), MenuFragment.this);
         shopByDealsListADapter = new ShopByDealsMenuListAdapter(getActivity(), MenuFragment.this);
 
+        Log.e("Invite Referral","Initialized");
         InviteReferralsApi.getInstance(getActivity()).initialize(getActivity().getIntent().getData());
 
         if (bundle != null) {

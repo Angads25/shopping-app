@@ -150,13 +150,28 @@ public class ShopByDealItemDetailFragment extends Fragment {
         try{
             if(MyApplication.isFromDrawer==true){
             UtilityMethods.clickCapture(getActivity(), "Drawer - Deal Category L2", "", label, "", MySharedPrefs.INSTANCE.getSelectedCity());
-                UtilityMethods.sendGTMEvent(getActivity(),"deal page",label,"Android Category Interaction");
+                UtilityMethods.sendGTMEvent(getActivity(),"Deal Page",label,"Android Deal Interaction");
             RocqAnalytics.trackEvent("Drawer - Deal Category L2", new ActionProperties("Category", "Drawer - Deal Category L2", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",label));
+            /*QGraph event*/
+                /*JSONObject json=new JSONObject();
+                json.put("Deal label",label);
+                if(MySharedPrefs.INSTANCE.getUserId()!=null)
+                    json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+                UtilityMethods.setQGraphevent("Andriod Category Interaction - Deal Page",json);*/
+                   /*--------------*/
+
             }
             else{
             UtilityMethods.clickCapture(getActivity(), "Deal Category L2", "", label, "", MySharedPrefs.INSTANCE.getSelectedCity());
-                UtilityMethods.sendGTMEvent(getActivity(),"deal page",label,"Android Category Interaction");
+               // UtilityMethods.sendGTMEvent(getActivity(),"deal page",label,"Android Category Interaction");
             RocqAnalytics.trackEvent("Deal Category L2", new ActionProperties("Category", "Deal Category L2", "Action", MySharedPrefs.INSTANCE.getSelectedCity(),"Label",label));
+            /*QGraph event*/
+                /*JSONObject json=new JSONObject();
+                json.put("Deal label",label);
+                if(MySharedPrefs.INSTANCE.getUserId()!=null)
+                    json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+                UtilityMethods.setQGraphevent("Andriod Category Interaction - Deal Page",json);*/
+                   /*--------------*/
             }
         }catch(Exception e){
             e.printStackTrace();

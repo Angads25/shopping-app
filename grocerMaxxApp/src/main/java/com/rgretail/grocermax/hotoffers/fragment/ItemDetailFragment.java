@@ -135,8 +135,15 @@ public class ItemDetailFragment extends Fragment {
     public void sendDataToGA(String lavel){
         try{
             UtilityMethods.clickCapture(getActivity(), "Category Deals", "", lavel, "", MySharedPrefs.INSTANCE.getSelectedCity());
-            UtilityMethods.sendGTMEvent(getActivity(),"deal page",lavel,"Android Category Interaction");
+           // UtilityMethods.sendGTMEvent(getActivity(),"deal page",lavel,"Android Category Interaction");
             RocqAnalytics.trackEvent("Category Deals", new ActionProperties("Category", "Category Deals", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",lavel));
+        /*QGraph event*/
+           /* JSONObject json=new JSONObject();
+            json.put("Deal label",lavel);
+            if(MySharedPrefs.INSTANCE.getUserId()!=null)
+                json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+            UtilityMethods.setQGraphevent("Andriod Category Interaction - Deal Page",json);*/
+                   /*--------------*/
         }catch(Exception e){
             e.printStackTrace();
         }

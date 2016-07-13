@@ -33,6 +33,8 @@ import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.CustomTypefaceSpan;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -311,8 +313,21 @@ public class ProductListAdapter extends BaseAdapter {
                         UtilityMethods.clickCapture(activity,"Add to Cart","",obj.getName(),"",MySharedPrefs.INSTANCE.getSelectedCity());
                         System.out.println("GTM_FROM="+MyApplication.GTM_FROM);
                         UtilityMethods.sendGTMEvent(activity, MyApplication.GTM_FROM,"productName="+obj.getName()+"/productId="+obj.getProductid(),"Android Add to Cart");
-
                         RocqAnalytics.trackEvent("Add to Cart", new ActionProperties("Category", "Add to Cart", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",obj.getName()));
+                    /*QGraph event*/
+                        JSONObject json=new JSONObject();
+                        json.put("Product Name",obj.getName());
+                        json.put("Product Code",obj.getProductid());
+                        json.put("Product Qty",obj.getQuantity());
+                        json.put("Product SP",obj.getPrice());
+                        if(MySharedPrefs.INSTANCE.getUserId()!=null)
+                            json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+
+                        if(MySharedPrefs.INSTANCE.getQuoteId()!=null && !MySharedPrefs.INSTANCE.getQuoteId().equals(""))
+                            json.put("Cart id",MySharedPrefs.INSTANCE.getQuoteId());
+                        UtilityMethods.setQGraphevent("Andriod Add to Cart - "+MyApplication.GTM_FROM,json);
+                   /*--------------*/
+
                     }catch(Exception e){
                          e.printStackTrace();
                     }

@@ -1566,25 +1566,24 @@ public class UtilityMethods {
         }catch(Exception e){
             e.getMessage();
         }
-
+    }
+    public static void setQGraphevent(String event_name,JSONObject json){
         /*For QGraph event tracking*/
         try {
             if(MySharedPrefs.INSTANCE.getUserId()!=null)
                 HomeScreen.qg.setUserId(MySharedPrefs.INSTANCE.getUserId());
 
-            JSONObject json = new JSONObject();
+          /*  JSONObject json = new JSONObject();
             try {
                 json.put("eventCategory",category);
                 json.put("eventAction", action);
                 json.put("eventLabel", label);
             } catch (Exception e) {
-            }
-            HomeScreen.qg.logEvent(category, json);
+            }*/
+            HomeScreen.qg.logEvent(event_name, json);
         }catch(Exception e){
             e.getMessage();
         }
-
-
     }
 
 

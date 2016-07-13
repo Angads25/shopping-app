@@ -431,7 +431,7 @@
                 android:layout_gravity="bottom"
                 android:text="MCIVITIES COOKIES BUY 2,GET 1 FREE"
                 android:textColor="#3b4d55"
-                android:textSize="@dimen/text_size_13"
+                android:textSize="@dimen/text_size_12"
                 android:visibility="visible" />
             <ImageView
                 android:id="@+id/img_show_more"

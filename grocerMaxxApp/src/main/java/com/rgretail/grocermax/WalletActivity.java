@@ -50,7 +50,7 @@ public class WalletActivity extends BaseActivity {
             tv_symbol.setVisibility(View.VISIBLE);
             tv_msg.setVisibility(View.VISIBLE);
             tv_share.setVisibility(View.VISIBLE);
-            tv_transactions.setText("Transactions");
+            tv_transactions.setText("View Transactions");
         }else{
             tv_header.setText("Max Coins");
             tv_heading.setText("Your Coins");
@@ -145,11 +145,11 @@ public class WalletActivity extends BaseActivity {
                 if(reOrderJSON.getInt("flag")==1){
                     amount=reOrderJSON.getDouble("Balance");
                     if(amount==0)
-                     tv_walletAmount.setText("0.00");
+                     tv_walletAmount.setText("0");
                     else
-                     tv_walletAmount.setText(String.format("%.2f",amount));
+                     tv_walletAmount.setText(String.valueOf(amount));
                 }else{
-                    tv_walletAmount.setText("0.00");
+                    tv_walletAmount.setText("0");
                 }
             }catch(Exception e)
             {

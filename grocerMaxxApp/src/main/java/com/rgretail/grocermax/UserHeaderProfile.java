@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.dq.rocq.RocqAnalytics;
 import com.dq.rocq.models.ActionProperties;
 import com.flurry.android.FlurryAgent;
+import com.invitereferrals.invitereferrals.InviteReferralsApi;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
@@ -21,6 +22,8 @@ import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
+
+import org.json.JSONObject;
 
 import java.util.Random;
 
@@ -202,6 +205,13 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                         try{
                             UtilityMethods.clickCapture(activity,"Profile Activity","","Order History","",MySharedPrefs.INSTANCE.getSelectedCity());
                             RocqAnalytics.trackEvent("Profile Activity", new ActionProperties("Category", "Profile Activity", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", "Order History"));
+                       /*QGraph event*/
+                            JSONObject json=new JSONObject();
+                            if(MySharedPrefs.INSTANCE.getUserId()!=null)
+                                json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+                            UtilityMethods.setQGraphevent("Android Profile Activity - View Order History",json);
+                   /*--------------*/
+
                         }catch(Exception e){
                             e.printStackTrace();
                         }
@@ -219,6 +229,14 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                 try{
                     if (!UtilityMethods.getCurrentClassName(UserHeaderProfile.this).equals(getApplicationContext().getPackageName() + ".WalletActivity")) {
                         if (userId != null && userId.trim().length() > 0) {
+
+                            /*QGraph event*/
+                            JSONObject json=new JSONObject();
+                            if(MySharedPrefs.INSTANCE.getUserId()!=null)
+                                json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+                            UtilityMethods.setQGraphevent("Android Profile Activity - View Refund Balance",json);
+                                /*--------------*/
+
                             Intent intent = new Intent(mContext, WalletActivity.class);
                             intent.putExtra("coming_from","wallet");
                             startActivity(intent);
@@ -233,6 +251,15 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                 try{
                     if (!UtilityMethods.getCurrentClassName(UserHeaderProfile.this).equals(getApplicationContext().getPackageName() + ".WalletActivity")) {
                         if (userId != null && userId.trim().length() > 0) {
+
+                             /*QGraph event*/
+                            JSONObject json=new JSONObject();
+                            if(MySharedPrefs.INSTANCE.getUserId()!=null)
+                                json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+                            UtilityMethods.setQGraphevent("Android Profile Activity - View Max Coins",json);
+                                /*--------------*/
+
+
                             Intent intent = new Intent(mContext, RedeemHistory.class);
                             startActivity(intent);
                         } else {
@@ -246,6 +273,14 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                 try{
                 if (!UtilityMethods.getCurrentClassName(UserHeaderProfile.this).equals(getApplicationContext().getPackageName() + ".AddressDetail")) {
                     if (userId != null && userId.trim().length() > 0) {
+
+                         /*QGraph event*/
+                        JSONObject json=new JSONObject();
+                        if(MySharedPrefs.INSTANCE.getUserId()!=null)
+                            json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+                        UtilityMethods.setQGraphevent("Android Profile Activity - View Address",json);
+                                /*--------------*/
+
                         showDialog();
                         String url = UrlsConstants.ADDRESS_BOOK + userId;
                         myApi.reqAddressBook(url, MyReceiverActions.ADDRESS_BOOK);
@@ -286,7 +321,17 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.rl_invitefriends:
                 try{
-                UtilityMethods.shareApp(mContext);
+
+                    InviteReferralsApi.getInstance(UserHeaderProfile.this).inline_btn(Integer.parseInt(MySharedPrefs.INSTANCE.getInviteReferralId()));
+
+                     /*QGraph event*/
+                    JSONObject json=new JSONObject();
+                    if(MySharedPrefs.INSTANCE.getUserId()!=null)
+                        json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+                    UtilityMethods.setQGraphevent("Android Profile Activity - Share",json);
+                                /*--------------*/
+
+                //UtilityMethods.shareApp(mContext);
                 }catch(Exception e){}
                 break;
             case R.id.rl_callus:

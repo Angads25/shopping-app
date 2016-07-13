@@ -265,8 +265,16 @@ public class HomeFragment extends Fragment {
                 try{
                     MyApplication.isFromDrawer=false;
                     UtilityMethods.clickCapture(getActivity(), "Deal Category L1", "", shopByDealsBean.getArrayList().get(0).getDealType(),"", MySharedPrefs.INSTANCE.getSelectedCity());
-                    UtilityMethods.sendGTMEvent(getActivity(),"deal page",shopByDealsBean.getArrayList().get(0).getDealType(),"Android Category Interaction");
+                   // UtilityMethods.sendGTMEvent(getActivity(),"deal page",shopByDealsBean.getArrayList().get(0).getDealType(),"Android Category Interaction");
                     RocqAnalytics.trackEvent("Deal Category L1", new ActionProperties("Category", "Deal Category L1", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", shopByDealsBean.getArrayList().get(0).getDealType()));
+                 /*QGraph event*/
+                   /* JSONObject json=new JSONObject();
+                    json.put("Deal label",shopByDealsBean.getArrayList().get(0).getDealType());
+                    if(MySharedPrefs.INSTANCE.getUserId()!=null)
+                        json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+                    UtilityMethods.setQGraphevent("Andriod Category Interaction - Deal Page",json);*/
+                   /*--------------*/
+
                 }catch(Exception e){}
                 /*-----------------------------------------------------*/
             }

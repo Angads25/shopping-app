@@ -599,6 +599,15 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 						}
 					}
 
+
+					/*QGraph event*/
+					JSONObject json=new JSONObject();
+					json.put("Email Id",MySharedPrefs.INSTANCE.getUserEmail());
+					if(MySharedPrefs.INSTANCE.getUserId()!=null)
+						json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+					UtilityMethods.setQGraphevent("Andriod Checkout Funnel - Sign In",json);
+                   /*--------------*/
+
 					/*save gcm token to our server*/
 					try {
 						saveGcmTokenTOServer();
@@ -1049,12 +1058,6 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 
 			USER_ID = currentPerson.getId();
 
-//		if (USER_FNAME != null && USER_FNAME.length() > 0)
-//			USER_NAME = USER_FNAME;
-//		if (USER_MNAME != null && USER_MNAME.length() > 0)
-//			USER_NAME = USER_NAME + " " + USER_MNAME;
-//		if (USER_LNAME != null && USER_LNAME.length() > 0)
-//			USER_NAME = USER_NAME + " " + USER_LNAME;
 
 			if (USER_NAME != null && USER_NAME.length() > 0)
 				MySharedPrefs.INSTANCE.putGoogleName(USER_NAME);

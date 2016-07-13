@@ -189,19 +189,26 @@ public class CouponPage extends BaseActivity{
                     }
                     @Override
                     public void afterTextChanged(Editable s) {
+                      if(s.length()>0)
+                          apply.setBackground(getResources().getDrawable(R.drawable.apply_coupon));
+                        else
+                          apply.setBackground(getResources().getDrawable(R.drawable.apply_coupon_gray));
                     }
                 });
 
                 if(pramotionList.get(position).getIs_applied().equals("true")){
                      edt_coupon.setText(MySharedPrefs.INSTANCE.getCouponCode());
                      edt_coupon.setEnabled(false);
-                     apply.setText("CANCEL");
+                     apply.setText("REMOVE");
                      apply.setBackground(getResources().getDrawable(R.drawable.cancel_coupon));
                 }else{
                     edt_coupon.setText(edit_text_value);
                     edt_coupon.setSelection(edit_text_value.length());
                     edt_coupon.setEnabled(true);
                     apply.setText("APPLY");
+                    if(edt_coupon.getText().toString().length()==0)
+                    apply.setBackground(getResources().getDrawable(R.drawable.apply_coupon_gray));
+                    else
                     apply.setBackground(getResources().getDrawable(R.drawable.apply_coupon));
                 }
 
@@ -231,7 +238,7 @@ public class CouponPage extends BaseActivity{
                 tv_pramotion_desc.setText(pramotionList.get(position).getDesc());
                 tv_pramotion_desc.setTypeface(CustomFonts.getInstance().getRobotoRegular(CouponPage.this));
                 if(pramotionList.get(position).getIs_applied().equals("true")){
-                    tv_pramotion_code.setText(Html.fromHtml(pramotionList.get(position).getCoupon_code()+" - <b>CANCEL</b>"));
+                    tv_pramotion_code.setText(Html.fromHtml(pramotionList.get(position).getCoupon_code()+" - <b>REMOVE</b>"));
                     tv_pramotion_code.setBackground(getResources().getDrawable(R.drawable.cancel_coupon));
                 }else{
                     tv_pramotion_code.setText(Html.fromHtml(pramotionList.get(position).getCoupon_code()+" - <b>APPLY</b>"));
@@ -285,7 +292,7 @@ public class CouponPage extends BaseActivity{
 
    public void applyCoupon(String coupon_code,TextView tv){
        String url;
-       if(tv.getText().toString().contains("CANCEL")){
+       if(tv.getText().toString().contains("REMOVE")){
            url = UrlsConstants.REMOVE_COUPON + MySharedPrefs.INSTANCE.getUserId() + "&quote_id="
                    + MySharedPrefs.INSTANCE.getQuoteId() + "&couponcode="+coupon_code;
        }

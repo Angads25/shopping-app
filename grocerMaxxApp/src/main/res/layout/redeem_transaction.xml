@@ -35,16 +35,16 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
-        android:background="#FEFAC3">
+        android:background="#fff9c4">
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:text="COINS AVAILABLE"
-        android:textColor="@color/black"
-        android:textSize="16dp"
+        android:textColor="#212121"
+        android:textSize="14dp"
+        android:textStyle="bold"
         android:gravity="center_vertical"
-        android:paddingLeft="5dp"
         android:visibility="visible"
         android:layout_marginLeft="10dp"
         android:layout_weight="2"/>
@@ -53,12 +53,11 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:text="0"
-            android:textColor="@color/black"
-            android:textSize="18dp"
+            android:textColor="#212121"
+            android:textSize="22dp"
             android:textStyle="bold"
             android:gravity="center_vertical|right"
             android:layout_marginRight="10dp"
-            android:paddingLeft="5dp"
             android:visibility="visible"
             android:layout_weight="1"
             android:id="@+id/tv_cooins" />
@@ -66,17 +65,18 @@
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/payment_selected_btn_bg"/>
+        android:layout_height="2dp"
+        android:background="#fbc02d"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="Transactions"
-        android:textColor="@color/black"
+        android:textColor="#212121"
         android:background="#F4F4F4"
-        android:textSize="18dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="15dp"
+        android:textSize="16dp"
+        android:gravity="bottom"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
         android:visibility="visible"/>
     <ListView
         android:id="@+id/listview_redeemTran"

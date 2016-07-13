@@ -24,6 +24,8 @@ import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class ShopBySpecialDealsListAdapter1 extends BaseAdapter{
@@ -102,8 +104,14 @@ public class ShopBySpecialDealsListAdapter1 extends BaseAdapter{
                     try{
                         MyApplication.isFromDrawer=false;
                         UtilityMethods.clickCapture(context, "Special Deal-"+data.get(position).getName(), "", data.get(position).getName(),"", MySharedPrefs.INSTANCE.getSelectedCity());
-                        UtilityMethods.sendGTMEvent(context,"deal page",data.get(position).getName(),"Android Category Interaction");
+                        UtilityMethods.sendGTMEvent(context,"Home - Banner"+(position+1),data.get(position).getName(),"Android Deal Interaction");
                         RocqAnalytics.trackEvent("Special Deal-"+data.get(position).getName(), new ActionProperties("Category", "Special Deal-"+data.get(position).getName(), "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",data.get(position).getName()));
+                     /*QGraph event*/
+                        JSONObject json=new JSONObject();
+                        json.put("Banner Name",data.get(position).getName());
+                        UtilityMethods.setQGraphevent("Andriod Banner Click - Home - Banner"+(position+1),json);
+                   /*--------------*/
+
                     }catch(Exception e){}
                 /*-----------------------------------------------------*/
                 }

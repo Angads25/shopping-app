@@ -3,7 +3,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="160dp"
     android:layout_gravity="center"
     android:layout_margin="8dp"
     card_view:cardCornerRadius="4dp"
@@ -30,7 +30,7 @@
              android:gravity="center_vertical"
              android:text=""
              android:singleLine="true"
-             android:textColor="@color/light_Gray"
+             android:textColor="#727272"
              android:layout_toLeftOf="@+id/ll_cb_checkout"
              android:layout_alignParentLeft="true"
              android:textSize="@dimen/text_size_12" />
@@ -61,13 +61,14 @@
                  android:layout_width="40dp"
                  android:layout_height="40dp"
                  android:orientation="horizontal"
-                 android:gravity="center_horizontal"
+                 android:gravity="right"
                  android:layout_alignParentRight="true">
 
           <ImageView
               android:id="@+id/iv_cb_checkout"
               android:layout_width="25dp"
               android:layout_height="25dp"
+              android:layout_gravity="right"
               android:src="@drawable/chkbox_unselected"
               android:layout_alignParentRight="true"/>
 
@@ -193,8 +194,10 @@
                      android:layout_height="wrap_content"
                      android:text=""
                      android:maxLines="3"
-                     android:textColor="@color/pallete_black"
+                     android:lineSpacingExtra="3dp"
+                     android:textColor="#212121"
                      android:layout_marginRight="30dp"
+                     android:layout_marginBottom="5dp"
                      android:textSize="@dimen/text_size_14" />
 
                  <TextView
@@ -239,11 +242,13 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="5dp"
-            android:background="@color/lighter_gray"
+            android:background="#e4e4e4"
           ></View>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:id="@+id/rl_editaddress"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="8dp">
@@ -252,13 +257,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Edit address"
-                android:textColor="@color/pallete_black"
+                android:textColor="#212121"
                 android:textSize="@dimen/text_size_14" />
 
             <ImageView
                 android:id="@+id/arrowImage"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginRight="5dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:layout_centerVertical="true"

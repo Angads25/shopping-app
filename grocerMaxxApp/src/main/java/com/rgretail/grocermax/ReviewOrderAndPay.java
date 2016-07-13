@@ -70,7 +70,7 @@ import java.util.List;
 
 public class ReviewOrderAndPay extends BaseActivity
 {
-	private TextView button_pay;
+	private Button button_pay;
 	private FinalCheckoutBean finalCheckoutBean;
 	TextView billing_amt, shipping_amt, tax, grand_total;
 
@@ -78,13 +78,13 @@ public class ReviewOrderAndPay extends BaseActivity
 	public static String order_db_id;
 	private boolean bOnline,bCash,bPayTM,bMobiKwik,bCitrus;
 	OrderReviewBean orderReviewBean;
-	String payment_mode;
+	public static String payment_mode;
 	float total;
 	Intent intent;
 	//	ProgressDialog mProgressDialog;
 	String txnId;
 	TextView txtItemCount,txtSubTotal,txtShippingCharges,txtYouSaved,txtTotal,txtCouponDiscount,txtWalletDiscount;
-	TextView tvItemCount,tvSubTotal,tvShippingCharges,tvYouSaved,tvTotal,tvCouponDiscount,tv_save_price,tv_shipping,tv_grandTotal;
+	TextView tvItemCount,tvSubTotal,tvShippingCharges,tvYouSaved,tvTotal,tvCouponDiscount,tv_save_price;
 	EditText etCouponCode;
 	float saving=0;
 	String strApplyCoupon;
@@ -134,19 +134,8 @@ public class ReviewOrderAndPay extends BaseActivity
 			tv.setTypeface(CustomFonts.getInstance().getRobotoBlack(this));
 
 			tv_save_price = (TextView) findViewById(R.id.tv_save_price3);
-			tv_shipping = (TextView) findViewById(R.id.tv_shipping3);
-			tv_grandTotal = (TextView) findViewById(R.id.tv_grandTotal3);
 
 			tv_save_price.setText(getResources().getString(R.string.rs)+"" + String.format("%.2f", Float.parseFloat(CartProductList.savingGlobal)));
-			if(Float.parseFloat(CartProductList.shippingGlobal)==0)
-				tv_shipping.setText("Free");
-			else
-				tv_shipping.setText(getResources().getString(R.string.rs)+""+String.format("%.2f", Float.parseFloat(CartProductList.shippingGlobal)));
-
-			tv_grandTotal.setText(getResources().getString(R.string.rs)+"" + String.format("%.2f", Float.parseFloat(CartProductList.totalGlobal)));
-
-
-
 
 			 llOnlinePayment = (RelativeLayout) findViewById(R.id.rl_online_payment);
 			 llCashOnDelivery = (RelativeLayout) findViewById(R.id.rl_cash_on_delivery);
@@ -214,7 +203,13 @@ public class ReviewOrderAndPay extends BaseActivity
 				tvSubTotal.setText("Rs." + String.format("%.2f", Float.parseFloat(orderReviewBean.getSubTotal())));
 				tvYouSaved.setText("Rs." + String.format("%.2f", saving));
 				if (orderReviewBean.getShipping_ammount() != null && orderReviewBean.getShipping_ammount().length() > 0) {
-					tvShippingCharges.setText("Rs." + Float.parseFloat(orderReviewBean.getShipping_ammount()));
+					if(Float.parseFloat(orderReviewBean.getShipping_ammount().replace(",",""))==0)
+					{
+						((RelativeLayout)findViewById(R.id.rl_shipping)).setVisibility(View.GONE);
+					}else{
+						((RelativeLayout)findViewById(R.id.rl_shipping)).setVisibility(View.VISIBLE);
+						tvShippingCharges.setText(getResources().getString(R.string.rs)+"" + Float.parseFloat(orderReviewBean.getShipping_ammount()));
+					}
 				}
 				tvTotal.setText(getResources().getString(R.string.rs)+"" + String.format("%.2f", Float.parseFloat(orderReviewBean.getGrandTotal())));
                // setTotolAfterWalletSelectUnSelect(orderReviewBean.getGrandTotal());
@@ -624,18 +619,11 @@ public class ReviewOrderAndPay extends BaseActivity
 
 
 
-			button_pay = (TextView) findViewById(R.id.btn_apply_coupon);
+			button_pay = (Button) findViewById(R.id.btn_apply_coupon);
 
 			button_pay.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-
-					try{
-						UtilityMethods.clickCapture(mContext,"Review and Place order","","","",MySharedPrefs.INSTANCE.getSelectedCity());
-						String data=MySharedPrefs.INSTANCE.getUserEmail()+"/"+MySharedPrefs.INSTANCE.getUserId();
-						UtilityMethods.sendGTMEvent(activity,"Payment Method",data,"Android Checkout Funnel");
-						RocqAnalytics.trackEvent("Review and Place order", new ActionProperties("Category", "Review and Place order", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
-                    }catch(Exception e){}
 
 					orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 					total = Float.parseFloat(orderReviewBean.getGrandTotal());
@@ -687,10 +675,24 @@ public class ReviewOrderAndPay extends BaseActivity
 						}
 
 
+					try{
+						UtilityMethods.clickCapture(mContext,"Review and Place order","","","",MySharedPrefs.INSTANCE.getSelectedCity());
+						String data=MySharedPrefs.INSTANCE.getUserEmail()+"/"+MySharedPrefs.INSTANCE.getUserId();
+						UtilityMethods.sendGTMEvent(activity,"Payment Method",data,"Android Checkout Funnel");
+						RocqAnalytics.trackEvent("Review and Place order", new ActionProperties("Category", "Review and Place order", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
+					 /*QGraph event*/
+						JSONObject json=new JSONObject();
+						json.put("Payment Option",payment_mode);
+						json.put("Sub Total",total);
+						if(MySharedPrefs.INSTANCE.getUserId()!=null)
+							json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+						UtilityMethods.setQGraphevent("Andriod Checkout Funnel - Place Order",json);
+                   /*--------------*/
+
+					}catch(Exception e){}
+
 					showDialog();
 					OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
-					//String shipping = orderReviewBean.getShipping().toString();
-					//String billing = orderReviewBean.getBilling().toString();
 
 					try {
 						////////////////POST/////////////
@@ -1680,7 +1682,15 @@ class Coupon extends AsyncTask<String, String, String>
 						}
 
 						((ReviewOrderAndPay)context).tvSubTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(orderReviewBean1.getSubTotal())));
-						((ReviewOrderAndPay)context).tvShippingCharges.setText("Rs."+Float.parseFloat(orderReviewBean1.getShipping_ammount()));
+
+						if(Float.parseFloat(orderReviewBean1.getShipping_ammount())==0)
+						{
+							((RelativeLayout)((ReviewOrderAndPay)context).findViewById(R.id.rl_shipping)).setVisibility(View.GONE);
+						}else{
+							((RelativeLayout)((ReviewOrderAndPay)context).findViewById(R.id.rl_shipping)).setVisibility(View.VISIBLE);
+							((ReviewOrderAndPay)context).tvShippingCharges.setText(context.getResources().getString(R.string.rs)+""+Float.parseFloat(orderReviewBean1.getShipping_ammount()));
+						}
+
 						((ReviewOrderAndPay)context).tvYouSaved.setText("Rs."+String.format("%.2f",savee));
 						((ReviewOrderAndPay)context).tvTotal.setText(context.getResources().getString(R.string.rs)+""+String.format("%.2f",Float.parseFloat(orderReviewBean1.getGrandTotal())));
                         ((ReviewOrderAndPay)context).setTotolAfterWalletSelectUnSelect(Double.parseDouble(orderReviewBean1.getGrandTotal()));
@@ -1736,7 +1746,16 @@ class Coupon extends AsyncTask<String, String, String>
 					((RelativeLayout)((ReviewOrderAndPay)context).findViewById(R.id.rl_coupon_discount)).setVisibility(View.GONE);
 
 					((ReviewOrderAndPay)context).tvSubTotal.setText("Rs."+String.format("%.2f",Float.parseFloat(String.valueOf(Float.parseFloat(orderReviewBean2.getSubTotal())))));
-					((ReviewOrderAndPay)context).tvShippingCharges.setText("Rs."+Float.parseFloat(orderReviewBean2.getShipping_ammount()));
+					//((ReviewOrderAndPay)context).tvShippingCharges.setText("Rs."+Float.parseFloat(orderReviewBean2.getShipping_ammount()));
+					if(Float.parseFloat(orderReviewBean2.getShipping_ammount())==0)
+					{
+						((RelativeLayout)((ReviewOrderAndPay)context).findViewById(R.id.rl_shipping)).setVisibility(View.GONE);
+					}else{
+						((RelativeLayout)((ReviewOrderAndPay)context).findViewById(R.id.rl_shipping)).setVisibility(View.VISIBLE);
+						((ReviewOrderAndPay)context).tvShippingCharges.setText(context.getResources().getString(R.string.rs)+""+Float.parseFloat(orderReviewBean2.getShipping_ammount()));
+					}
+
+
 					((ReviewOrderAndPay)context).tvYouSaved.setText("Rs."+String.format("%.2f",savee2));
 					((ReviewOrderAndPay)context).tvTotal.setText(context.getResources().getString(R.string.rs)+""+String.format("%.2f",Float.parseFloat(String.valueOf(totalremove))));
                     ((ReviewOrderAndPay)context).setTotolAfterWalletSelectUnSelect(Double.parseDouble(String.valueOf(totalremove)));

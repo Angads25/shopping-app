@@ -171,6 +171,27 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				cartList = bundle.getParcelableArrayList("cartList");
 				cartBean = (CartDetailBean) bundle.getSerializable("cartBean");
 
+				String Sku_All_Product="";
+				for(int i=0;i<cartBean.getItems().size();i++)
+				{
+					Sku_All_Product=","+cartBean.getItems().get(i).getSku();
+				}
+							/*QGraph event*/
+				JSONObject json=new JSONObject();
+				json.put("Total Qty",String.valueOf(MySharedPrefs.INSTANCE.getTotalItem()));
+				json.put("Subtotal",String.format("%.2f",Float.parseFloat(cartBean.getGrandTotal().replace(",",""))));
+				if(cartBean.getCoupon_code()!=null)
+					json.put("Coupon Code",cartBean.getCoupon_code());
+				json.put("Sku Id",Sku_All_Product);
+				if(MySharedPrefs.INSTANCE.getUserId()!=null)
+					json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+				UtilityMethods.setQGraphevent("Andriod View Cart",json);
+                          /*--------------*/
+
+
+
+
+
 				initHeader(findViewById(R.id.header), true, "Your Basket");
 				setCartList(cartBean);
 				setAppliedCoupon(cartBean);
@@ -240,6 +261,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			if (cartList != null && cartList.size() > 0) {
 				//ll_total.setVisibility(View.VISIBLE);
 				orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
+				this.cartBean=cartBean;
 
 				if (cartBean != null) {
 					float saving = 0;
@@ -399,6 +421,9 @@ public class CartProductList extends BaseActivity implements OnClickListener{
             CartDetail cartDetail=new CartDetail();
 			cartDetail.setQty(0);
 			cartDetail.setFlag("2");
+			if(OFS_list.size()>1)
+			cartDetail.setName("Please remove items to proceed.");
+			else
 			cartDetail.setName("Please remove item to proceed.");
 			completeList.add(cartDetail);
 		}
@@ -455,6 +480,10 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		}
 		else
 			tv_popup_update.setBackgroundColor(getResources().getColor(R.color.gray_1));
+
+
+		//tv_popup_update.setBackgroundColor(Color.parseColor("#f57c00"));
+		//tv_popup_update.setOnClickListener(CartProductList.this);
 	}
 
 	public void deleteItem(int position)
@@ -660,7 +689,29 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					}
 					cartList.clear();
 					cartList = cartBean.getItems();
+
 					setCartList(cartBean);
+
+
+					/*QGraph event*/
+					String Sku_All_Product="";
+					for(int i=0;i<cartBean.getItems().size();i++)
+					{
+						Sku_All_Product=","+cartBean.getItems().get(i).getSku();
+					}
+					JSONObject json=new JSONObject();
+					json.put("Total Qty",String.valueOf(MySharedPrefs.INSTANCE.getTotalItem()));
+					json.put("Subtotal",String.format("%.2f",Float.parseFloat(cartBean.getGrandTotal().replace(",",""))));
+					if(cartBean.getCoupon_code()!=null)
+						json.put("Coupon Code",cartBean.getCoupon_code());
+					json.put("Sku Id",Sku_All_Product);
+					if(MySharedPrefs.INSTANCE.getUserId()!=null)
+						json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+					UtilityMethods.setQGraphevent("Andriod Update Cart",json);
+                          /*--------------*/
+
+					UtilityMethods.sendGTMEvent(CartProductList.this,""+Sku_All_Product,String.valueOf(MySharedPrefs.INSTANCE.getTotalItem()),"Android Update Cart");
+
 					checkConditionToShowUpdatePopup();
 				}else{                                                           //in case when update service got fail view cart will run [just for precaution].
 					showDialog();
@@ -754,9 +805,25 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 						loginThrough="view_cart";
 						startActivityForResult(intent, AppConstants.LOGIN_REQUEST_CODE);
 					} else {
+
+						String Sku_All_Product="";
+						for(int i=0;i<cartBean.getItems().size();i++)
+						{
+							Sku_All_Product=","+cartBean.getItems().get(i).getSku();
+						}
+							/*QGraph event*/
+						JSONObject json=new JSONObject();
+						json.put("Total Qty",String.valueOf(MySharedPrefs.INSTANCE.getTotalItem()));
+						json.put("Subtotal",String.format("%.2f",Float.parseFloat(cartBean.getGrandTotal().replace(",",""))));
+						if(cartBean.getCoupon_code()!=null)
+							json.put("Coupon Code",cartBean.getCoupon_code());
+						json.put("Sku Id",Sku_All_Product);
+						if(MySharedPrefs.INSTANCE.getUserId()!=null)
+							json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+						UtilityMethods.setQGraphevent("Andriod Proceed to checkout",json);
+                          /*--------------*/
 						callAddressApi();
 					}
-
 
 					break;
 
@@ -1028,13 +1095,24 @@ public class CartProductList extends BaseActivity implements OnClickListener{
                         }
                     }
 				} else {
+
 					for(int i=0;i<completeList.size();i++)
 					{
-						if(completeList.get(i).getQty()!=0 && !completeList.get(i).getFlag().equals("3"))
+						if(completeList.get(i).getQty()>0 && !completeList.get(i).getFlag().equals("3"))
 						{
 							JSONObject prod_obj = new JSONObject();
 							prod_obj.put("productid", completeList.get(i).getItem_id());
 							prod_obj.put("quantity", completeList.get(i).getQty());
+							products1.put(prod_obj);
+						}
+					}
+					for(int i=0;i<cartList.size();i++)
+					{
+						if(Float.parseFloat(cartList.get(i).getPrice())!=0 && !isIdAvailableInCompleteList(cartList.get(i).getItem_id()))
+						{
+							JSONObject prod_obj = new JSONObject();
+							prod_obj.put("productid", cartList.get(i).getItem_id());
+							prod_obj.put("quantity", cartList.get(i).getQty());
 							products1.put(prod_obj);
 						}
 					}
@@ -1054,6 +1132,19 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		} catch (Exception e) {
 			new GrocermaxBaseException("CartProductList", "updateItemInCartBackToCart", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
 		}
+	}
+
+	public boolean isIdAvailableInCompleteList(String id){
+		for(int i=0;i<completeList.size();i++)
+		{
+			if (completeList.get(i).getItem_id()!=null) {
+				if(completeList.get(i).getItem_id().equals(id))
+                {
+                    return true;
+                }
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -1123,9 +1214,10 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					String price=obj.getPrice().toString().replace(",", "");
 				  	if (Float.parseFloat(price)>0) {
 					if(isOutofStockDueToFreeItems(obj.getItem_id(),obj.getWebQty())){
-                        obj.setOfs("true");
-                        //OFS_list.add(obj);
-						QTY_RED_list.add(obj);
+
+						obj.setOfs("true");
+						OFS_list.add(obj);
+
                     }else {
                         if (obj.getWebQty() != null) {
                             if (Integer.parseInt(obj.getWebQty()) > 0) {
@@ -1139,7 +1231,9 @@ public class CartProductList extends BaseActivity implements OnClickListener{
                             OFS_list.add(obj);
                         }
                     }
-				}
+				}/*else if(Float.parseFloat(obj.getWebQty())<=0){
+						OFS_list.add(obj);
+					}*/
 			}
 			if(OFS_list.size()>0 || QTY_RED_list.size()>0){
                 if (alert_update==null || !alert_update.isShowing())

@@ -3,6 +3,7 @@ package com.rgretail.grocermax;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
@@ -20,6 +21,8 @@ import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.UtilityMethods;
+
+import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.Map;
@@ -97,6 +100,17 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 				try{
 					UtilityMethods.clickCapture(mContext,"Order Successful","","","", MySharedPrefs.INSTANCE.getSelectedCity());
 					RocqAnalytics.trackEvent("Order Successful", new ActionProperties("Category", "Order Successful", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
+					UtilityMethods.sendGTMEvent(CODConfirmation.this,"Order Successful",MySharedPrefs.INSTANCE.getUserEmail(),"Android Checkout Funnel");
+
+					/*QGraph event*/
+					JSONObject json=new JSONObject();
+					json.put("Payment Option",ReviewOrderAndPay.payment_mode);
+					json.put("Sub Total",ReviewOrderAndPay.strTempTotal);
+					if(MySharedPrefs.INSTANCE.getUserId()!=null)
+						json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+					UtilityMethods.setQGraphevent("Android Checkout Funnnel - Order Successful",json);
+                   /*--------------*/
+
 				}catch(Exception e){}
                 /*-------------------------------------------*/
 
@@ -105,6 +119,15 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
                   orderid=MySharedPrefs.INSTANCE.getUserId()+"-"+new Date();
                 }
 
+				//Send mail to fererrer using invite referral
+				System.out.println("Success Transaction = "+orderid);
+				Log.e("Invite Referral","Tracking start");
+				InviteReferralsApi.getInstance(this).track_fp(null);
+				InviteReferralsApi.getInstance(this).tracking("sale", (String)orderid, (int)Float.parseFloat(ReviewOrderAndPay.strTempTotal.replace(",","")));
+				Log.e("Invite Referral","Tracking finish");
+
+
+				/*Tracking the GA ecommerce for successful transaction*/
                 try{
                     System.out.println("Total="+ReviewOrderAndPay.strTempTotal);
                     UtilityMethods.transactionCapture(mContext, orderid, "Grocermax Store", ReviewOrderAndPay.strTempTotal,
@@ -153,6 +176,16 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
                 try{
 					UtilityMethods.clickCapture(mContext,"Order Failed","","","", MySharedPrefs.INSTANCE.getSelectedCity());
 					RocqAnalytics.trackEvent("Order Failed", new ActionProperties("Category", "Order Failed", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
+					UtilityMethods.sendGTMEvent(CODConfirmation.this,"Order Failure",MySharedPrefs.INSTANCE.getUserEmail(),"Android Checkout Funnel");
+				/*QGraph event*/
+					JSONObject json=new JSONObject();
+					json.put("Payment Option",ReviewOrderAndPay.payment_mode);
+					json.put("Sub Total",ReviewOrderAndPay.strTempTotal);
+					if(MySharedPrefs.INSTANCE.getUserId()!=null)
+						json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+					UtilityMethods.setQGraphevent("Android Checkout Funnnel - Order Failure",json);
+                   /*--------------*/
+
 				}catch(Exception e){}
                 /*-------------------------------------------*/
 			}

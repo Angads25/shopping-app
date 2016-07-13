@@ -100,8 +100,16 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
                 /*tracking GA Event for Offer click from HomeScreen->Shop By Category->23 Offers*/
                 try{
                     UtilityMethods.clickCapture(activity, "Deal Click", "", data.get(position).getName(), "", MySharedPrefs.INSTANCE.getSelectedCity());
-                    UtilityMethods.sendGTMEvent(activity,"deal page",data.get(position).getName(),"Android Category Interaction");
+                    //UtilityMethods.sendGTMEvent(activity,"deal page",data.get(position).getName(),"Android Category Interaction");
                     RocqAnalytics.trackEvent("Deal Click", new ActionProperties("Category", "Deal Click", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",data.get(position).getName()));
+                    /*QGraph event*/
+                   /* JSONObject json=new JSONObject();
+                    json.put("Deal label",data.get(position).getName());
+                    if(MySharedPrefs.INSTANCE.getUserId()!=null)
+                        json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+                    UtilityMethods.setQGraphevent("Andriod Category Interaction - Deal Page",json);*/
+                   /*--------------*/
+
                 }catch(Exception e){
                     e.printStackTrace();
                 }

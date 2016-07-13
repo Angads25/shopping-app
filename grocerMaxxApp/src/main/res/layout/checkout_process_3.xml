@@ -46,32 +46,35 @@
             android:gravity="center_horizontal"
             android:layout_alignParentRight="true">
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
                 android:background="@drawable/progress_green"
                 />
             <View
                 android:layout_width="50dp"
                 android:layout_height="1dp"
-                android:background="@color/gray_1"
+                android:background="#e6e6e6"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_gravity="center_vertical"/>
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
                 android:background="@drawable/progress_green"
                 />
             <View
                 android:layout_width="50dp"
                 android:layout_height="1dp"
-                android:background="@color/gray_1"
+                android:background="#e6e6e6"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_gravity="center_vertical"/>
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
                 android:background="@drawable/progress_green"
                 />
 
@@ -566,6 +569,7 @@
                         android:layout_height="40dp"
                         android:background="@color/white"
                         android:padding="8dp"
+                        android:id="@+id/rl_shipping"
                         android:visibility="gone"
                         android:layout_above="@+id/btn_select_delivery_details"
                         >
@@ -576,7 +580,7 @@
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
                             android:textColor="@color/light_Gray"
-                            android:text="Shipping charges:"
+                            android:text="Shipping charges"
                             android:layout_alignParentLeft="true"
                             />
 
@@ -612,7 +616,7 @@
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
                             android:textColor="@color/light_Gray"
-                            android:text="Coupon discount:"
+                            android:text="Coupon discount"
                             android:layout_alignParentLeft="true"
                             />
 
@@ -720,7 +724,7 @@
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_14"
                             android:textColor="@color/pallete_black"
-                            android:text="Total:"
+                            android:text="Total"
                             android:layout_alignParentLeft="true"
                             />
 
@@ -819,7 +823,7 @@
         android:background="@drawable/saving_box"
         android:gravity="center_vertical"
         android:visibility="visible"
-        android:layout_above="@+id/ll_place_order"
+        android:layout_above="@+id/btn_apply_coupon"
         android:orientation="horizontal">
 
         <TextView
@@ -827,7 +831,7 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:gravity="center_vertical"
-            android:text="Your Savings:"
+            android:text="Your Savings"
             android:paddingTop="8dp"
             android:paddingLeft="14dp"
             android:textColor="#212121"
@@ -845,14 +849,14 @@
             android:textSize="18dp"/>
 
     </LinearLayout>
-    <LinearLayout
+   <!-- <LinearLayout
         android:id="@+id/ll_place_order"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
         android:background="#0e69e5"
         android:layout_alignParentBottom="true"
-        android:visibility="visible">
+        android:visibility="gone">
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -940,10 +944,10 @@
                 android:layout_gravity="center_vertical"/>
 
         </LinearLayout>
-    </LinearLayout>
+    </LinearLayout>-->
 
 
-   <!-- <Button
+    <Button
         android:id="@+id/btn_apply_coupon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -951,6 +955,5 @@
         android:textColor="@color/white"
         android:textAllCaps="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="10dp"
-        android:background="@color/pallete_blue"/>-->
+        android:background="@color/pallete_blue"/>
 </RelativeLayout>

@@ -38,24 +38,24 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Balance"
-                android:textColor="@color/grey"
-                android:textSize="@dimen/text_size_17"
-                android:layout_weight="1"
+                android:textColor="#fd927e"
+                android:textSize="@dimen/text_size_15"
+                android:layout_marginTop="2dp"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="5dp"
                 android:id="@+id/tv1" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:text="@string/Rs"
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_20"
                 android:layout_weight="1"
-                android:gravity="left|center_vertical"
+                android:gravity="left"
                 android:paddingLeft="5dp"
                 android:id="@+id/tv_balance" />
         </LinearLayout>

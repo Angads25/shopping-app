@@ -25,7 +25,6 @@ import com.rgretail.grocermax.bean.OrderReviewBean;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
-import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
@@ -172,6 +171,12 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                             bShippingAsBilling = true;
                             ivShippingBilling.setImageResource(R.drawable.chkbox_selected);
                             ll_billing.setVisibility(View.GONE);
+                            scrollView.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    scrollView.fullScroll(ScrollView.FOCUS_UP);
+                                }
+                            });
                         }
                     }
                 });
@@ -202,7 +207,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
             mList_billing.setExpanded(true);
 
             TextView tvAddNewAddress = (TextView) findViewById(R.id.add_new_address);
-            tvAddNewAddress.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+           // tvAddNewAddress.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 
             RelativeLayout rlAddNewAddress_billing = (RelativeLayout)findViewById(R.id.rl_add_new_address_billing);
             rlAddNewAddress_billing.setOnClickListener(new View.OnClickListener() {
@@ -271,6 +276,13 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                             String data=MySharedPrefs.INSTANCE.getUserEmail()+"/"+MySharedPrefs.INSTANCE.getUserId();
                             UtilityMethods.sendGTMEvent(activity,"Shipping",data,"Android Checkout Funnel");
                             RocqAnalytics.trackEvent("Shipping address", new ActionProperties("Category", "Shipping address", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
+
+                            /*QGraph event*/
+                            JSONObject json=new JSONObject();
+                            if(MySharedPrefs.INSTANCE.getUserId()!=null)
+                                json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+                            UtilityMethods.setQGraphevent("Andriod Checkout Funnel - Shipping",json);
+                   /*--------------*/
                         }catch(Exception e){}
 
                         Address ship_add = addressList.get(selectedPosition);

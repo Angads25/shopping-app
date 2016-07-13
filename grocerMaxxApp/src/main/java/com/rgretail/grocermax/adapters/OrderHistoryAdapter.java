@@ -1,7 +1,5 @@
 package com.rgretail.grocermax.adapters;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,14 +9,18 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.rgretail.grocermax.MyApplication;
 import com.rgretail.grocermax.OrderHistory;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.Orderhistory;
+import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.CustomFonts;
-import com.rgretail.grocermax.exception.GrocermaxBaseException;
+import com.rgretail.grocermax.utils.UtilityMethods;
+
+import org.json.JSONObject;
+
+import java.util.List;
 
 public class OrderHistoryAdapter extends BaseAdapter {
 
@@ -144,6 +146,23 @@ public class OrderHistoryAdapter extends BaseAdapter {
 			holder.tv_reorder.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
+
+					try {
+						OrderHistory.item_count=obj.getTotal_item_count();
+						OrderHistory.sub_total=String.format("%.2f",Float.parseFloat(obj.getGrand_total()));
+					 /*QGraph event*/
+						JSONObject json=new JSONObject();
+						json.put("Total Qty",""+obj.getTotal_item_count());
+						json.put("Subtotal",""+String.format("%.2f",Float.parseFloat(obj.getGrand_total())));
+						if(MySharedPrefs.INSTANCE.getUserId()!=null)
+                            json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+						UtilityMethods.setQGraphevent("Andriod Profile Activity - ReOrder",json);
+                                /*--------------*/
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+
 					((OrderHistory)activity).reOrderItems(obj.getIncrement_id().trim());
 				}
 			});

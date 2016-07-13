@@ -182,6 +182,21 @@ public class OrderDetail extends BaseActivity{
                         e.printStackTrace();
                     }
                    /*------------------------*/
+
+					try {
+					 /*QGraph event*/
+						JSONObject json=new JSONObject();
+						json.put("Total Qty",""+OrderHistory.item_count);
+						json.put("Subtotal",OrderHistory.sub_total);
+						if(MySharedPrefs.INSTANCE.getUserId()!=null)
+							json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+						UtilityMethods.setQGraphevent("Andriod Profile Activity - ReOrder",json);
+                                /*--------------*/
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+
 					showDialog();
 					myApi.reqReorder(UrlsConstants.ORDER_REORDER_URL + order_increement_id);
 				}

@@ -136,11 +136,12 @@ public class RedeemHistory extends BaseActivity {
             tv_description.setText(historiesList.get(position).getDesc());
             if(!historiesList.get(position).getExp_date().equals("null") || !historiesList.get(position).getUsed_coupon().equals("null")){
                ll.setVisibility(View.VISIBLE);
-                if(!historiesList.get(position).getExp_date().equals("null")){
+                if(!historiesList.get(position).getExp_date().equals("null") && !historiesList.get(position).getExp_date().equals("0000-00-00")){
                     tv_valid_date.setText("Valid Till : "+historiesList.get(position).getExp_date());
                     tv_valid_date.setVisibility(View.VISIBLE);
                 }else{
-                    tv_valid_date.setVisibility(View.GONE);
+                    tv_valid_date.setText("Valid Till : N/A");
+                    tv_valid_date.setVisibility(View.VISIBLE);
                 }
                 if(!historiesList.get(position).getUsed_coupon().equals("null")){
                     if(historiesList.get(position).getType_action().equals("1"))

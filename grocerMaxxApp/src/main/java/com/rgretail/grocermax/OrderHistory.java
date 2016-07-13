@@ -33,6 +33,8 @@ public class OrderHistory extends BaseActivity{
 	private String header;
 	private ListView mList;
 	OrderHistoryBean orderHistoryBean;
+	public static String item_count;
+	public static String sub_total;
 //	EasyTracker tracker;
 	
 	@Override
@@ -92,7 +94,7 @@ public class OrderHistory extends BaseActivity{
         try{
             UtilityMethods.clickCapture(activity,"Profile Activity","","Reorder","",MySharedPrefs.INSTANCE.getSelectedCity());
 			RocqAnalytics.trackEvent("Profile Activity", new ActionProperties("Category", "Profile Activity", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", "Reorder"));
-        }catch(Exception e){
+		}catch(Exception e){
             e.printStackTrace();
         }
         /*------------------------*/

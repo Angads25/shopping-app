@@ -24,6 +24,7 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:visibility="gone"
             android:src="@drawable/wallet_image" />
 
         <TextView
@@ -61,28 +62,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Your Balance"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/text_size_24"
+                    android:textColor="#fd927e"
+                    android:textSize="@dimen/text_size_20"
                     android:gravity="center"
+                    android:layout_marginTop="20dp"
                     android:id="@+id/tv_heading"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="-10dp"
                     android:gravity="center">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="@string/Rs"
-                        android:textColor="@color/grey"
+                        android:textColor="#fd927e"
                         android:textSize="@dimen/text_size_28"
                         android:layout_gravity="bottom"
                         android:gravity="bottom"
                         android:layout_marginRight="2dp"
-                        android:paddingBottom="3dp"
+                        android:paddingBottom="10dp"
                         android:id="@+id/tv_symbol" />
 
                     <TextView
@@ -91,21 +94,25 @@
                         android:text="0.00"
                         android:gravity="bottom"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_32"
+                        android:textSize="52dp"
                         android:id="@+id/tv_walletAmount" />
                 </LinearLayout>
 
                 <TextView
-                    android:layout_width="130dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Transactions"
+                    android:text="View Transactions"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_18"
                     android:gravity="center"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/button_transaction"
-                    android:layout_marginTop="20dp"
-                    android:padding="10dp"
+                    android:background="@drawable/transaction"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
                     android:id="@+id/tv_transactions" />
             </LinearLayout>
 
@@ -113,16 +120,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/friends"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:layout_gravity="center_horizontal" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Liked shopping with us?"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_20"
+                android:textColor="#212121"
+                android:textSize="@dimen/text_size_16"
                 android:gravity="center"
+                android:layout_marginTop="20dp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp" />
 
@@ -130,11 +138,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_15"
+                android:textColor="#212121"
+                android:textSize="@dimen/text_size_12"
                 android:gravity="center"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:layout_marginTop="5dp"
                 android:id="@+id/tv_msg" />
 
@@ -145,9 +153,9 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_15"
                 android:gravity="center"
-                android:layout_gravity="center_horizontal|bottom"
-                android:background="@drawable/button_orange"
                 android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:background="@drawable/red_bg"
                 android:padding="10dp"
                 android:id="@+id/tv_share" />
 

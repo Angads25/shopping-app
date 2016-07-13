@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.appsflyer.AppsFlyerLib;
 import com.dq.rocq.RocqAnalytics;
 import com.flurry.android.FlurryAgent;
+import com.invitereferrals.invitereferrals.InviteReferralsApi;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.CartDetail;
@@ -343,6 +344,19 @@ public class OneTimePassword extends BaseActivity {
                     MySharedPrefs.INSTANCE.putUserEmail(MySharedPrefs.INSTANCE.getFacebookEmail().trim());
                 }
 
+                /*QGraph event*/
+                JSONObject json=new JSONObject();
+                json.put("Email Id",MySharedPrefs.INSTANCE.getUserEmail());
+                json.put("Phone Number",MySharedPrefs.INSTANCE.getMobileNo());
+                UtilityMethods.setQGraphevent("Andriod Checkout Funnel - Sign Up",json);
+                   /*--------------*/
+
+                System.out.println("Register regular email = "+strEmail.trim());
+                Log.e("Invite Referral","Tracking start");
+                InviteReferralsApi.getInstance(this).track_fp(null);
+                InviteReferralsApi.getInstance(this).tracking("register",strEmail.trim(), 0);
+                Log.e("Invite Referral","Tracking finish");
+
                 /*save gcm token to our server*/
                 try {
                     saveGcmTokenTOServer();
@@ -404,6 +418,19 @@ public class OneTimePassword extends BaseActivity {
                     MySharedPrefs.INSTANCE.putMobileNo(userDataBean.getMobile());
                     MySharedPrefs.INSTANCE.putUserEmail(MySharedPrefs.INSTANCE.getUserEmail().trim());
                     MySharedPrefs.INSTANCE.putLoginStatus(true);
+
+                    /*QGraph event*/
+                    JSONObject json=new JSONObject();
+                    json.put("Email Id",MySharedPrefs.INSTANCE.getUserEmail());
+                    json.put("Phone Number",MySharedPrefs.INSTANCE.getMobileNo());
+                    UtilityMethods.setQGraphevent("Andriod Checkout Funnel - Sign Up",json);
+                   /*--------------*/
+
+                    System.out.println("Register social email = "+strEmail.trim());
+                    Log.e("Invite Referral","Tracking start");
+                    InviteReferralsApi.getInstance(this).track_fp(null);
+                    InviteReferralsApi.getInstance(this).tracking("register",MySharedPrefs.INSTANCE.getUserEmail().trim(), 0);
+                    Log.e("Invite Referral","Tracking finish");
 
                     /*save gcm token to our server*/
                     try {

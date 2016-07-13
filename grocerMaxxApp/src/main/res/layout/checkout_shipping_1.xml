@@ -47,33 +47,36 @@
             android:gravity="center_horizontal">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
                 android:background="@drawable/progress_green" />
 
             <View
                 android:layout_width="50dp"
                 android:layout_height="1dp"
-                android:background="@color/gray_1"
+                android:background="#e6e6e6"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_gravity="center_vertical"/>
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
                 android:background="@drawable/progress_grey" />
             <View
                 android:layout_width="50dp"
                 android:layout_height="1dp"
-                android:background="@color/gray_1"
+                android:background="#e6e6e6"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_gravity="center_vertical"/>
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:background="@drawable/progress_grey" />
 
@@ -94,11 +97,13 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:text="SHIPPING ADDRESS"
                 android:gravity="center_vertical"
-                android:textColor="@color/black"
+                android:textColor="#212121"
                 android:textStyle="bold"
+                android:textSize="12dp"
+                android:layout_marginTop="10dp"
                 android:paddingLeft="10dp"/>
 
             <com.rgretail.grocermax.ExpandableHeightListView
@@ -110,15 +115,17 @@
                 android:padding="6dp">
             </com.rgretail.grocermax.ExpandableHeightListView>
 
+
             <RelativeLayout
                 android:id="@+id/rl_add_new_address"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_above="@+id/rl_use_shipping_asbilling_address"
-                android:layout_margin="8dp"
-                android:layout_marginBottom="30dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/white"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/white_bg"
                 android:elevation="2dp"
                 android:padding="8dp">
 
@@ -128,13 +135,15 @@
                     android:layout_alignParentLeft="true"
                     android:gravity="center_vertical"
                     android:text="Add address"
-                    android:textColor="@color/pallete_black"
+                    android:textColor="#212121"
                     android:textSize="@dimen/text_size_14" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginRight="5dp"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:src="@drawable/plus_grey" />
 
 
@@ -145,16 +154,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp"
                 android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:text="BILLING ADDRESS"
                     android:gravity="center_vertical"
-                    android:textColor="@color/black"
+                    android:textColor="#212121"
                     android:textStyle="bold"
+                    android:textSize="12dp"
                     android:paddingLeft="10dp"/>
 
                 <com.rgretail.grocermax.ExpandableHeightListView
@@ -171,11 +180,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:id="@+id/rl_add_new_address_billing"
-                    android:background="@color/white"
+                    android:background="@drawable/white_bg"
                     android:padding="8dp"
                     android:layout_above="@+id/btn_checkout_billing_addr"
                     android:layout_marginBottom="30dp"
-                    android:layout_margin="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
                     android:elevation="2dp">
 
                     <TextView
@@ -184,14 +194,16 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:textSize="@dimen/text_size_14"
-                        android:textColor="@color/pallete_black"
+                        android:textColor="#212121"
                         android:text="Add address"
                         android:layout_alignParentLeft="true"
                         />
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginRight="5dp"
                         android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
                         android:src="@drawable/plus_grey"/>
 
 
@@ -256,7 +268,7 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:gravity="center_vertical"
-            android:text="Your Savings:"
+            android:text="Your Savings"
             android:paddingTop="8dp"
             android:paddingLeft="14dp"
             android:textColor="#212121"

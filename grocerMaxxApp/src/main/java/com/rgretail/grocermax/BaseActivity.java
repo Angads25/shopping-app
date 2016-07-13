@@ -671,6 +671,14 @@ public void showSubscriptionPopup(){
                 try{
                     UtilityMethods.clickCapture(activity,"Search","",search_key,"",MySharedPrefs.INSTANCE.getSelectedCity());
 					UtilityMethods.sendGTMEvent(activity,"search result",search_key,"Android Category Interaction");
+					/*QGraph event*/
+					JSONObject json=new JSONObject();
+					json.put("Keyword",search_key);
+					if(MySharedPrefs.INSTANCE.getUserId()!=null)
+					  json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+					UtilityMethods.setQGraphevent("Andriod Category Interaction - Search",json);
+                   /*--------------*/
+
 					RocqAnalytics.trackEvent("Search", new ActionProperties("Category", "Search", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",search_key));
                 }catch(Exception e){
                     e.printStackTrace();

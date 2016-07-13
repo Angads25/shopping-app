@@ -26,6 +26,8 @@ import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class ShopByCategoryListAdapter extends BaseAdapter {
@@ -134,7 +136,13 @@ public class ShopByCategoryListAdapter extends BaseAdapter {
                     UtilityMethods.clickCapture(context, "L1", "",data.get(position).getName(), "", MySharedPrefs.INSTANCE.getSelectedCity());
                     UtilityMethods.sendGTMEvent(activity,"category page",data.get(position).getName(),"Android Category Interaction");
                     RocqAnalytics.trackEvent("L1", new ActionProperties("Category", "L1", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", data.get(position).getName()));
-
+                  /*QGraph event*/
+                    JSONObject json=new JSONObject();
+                    json.put("Category name",data.get(position).getName());
+                    if(MySharedPrefs.INSTANCE.getUserId()!=null)
+                        json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+                    UtilityMethods.setQGraphevent("Andriod Category Interaction - Category Page",json);
+                   /*--------------*/
                 }catch(Exception e){}
 
             }
