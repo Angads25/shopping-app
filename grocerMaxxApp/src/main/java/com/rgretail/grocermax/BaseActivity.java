@@ -231,7 +231,7 @@ public void showSubscriptionPopup(){
 
 
 		TextView tv_message=(TextView)view.findViewById(R.id.tv_offer);
-		ImageView img_offer=(ImageView)view.findViewById(R.id.img_cancel_offer);
+		LinearLayout img_offer=(LinearLayout)view.findViewById(R.id.img_cancel_offer);
 		tv_message.setText(MySharedPrefs.INSTANCE.gettBootomBarMessage());
 		img_offer.setOnClickListener(new OnClickListener() {
 			@Override

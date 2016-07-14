@@ -67,7 +67,6 @@ public class ShopByDealItemDetailFragment extends Fragment {
 
 
         try {
-
             ((BaseActivity) getActivity()).initHeader(getActivity().findViewById(R.id.header_left), true, AppConstants.strTitleHotDeal);
             ((BaseActivity) getActivity()).findViewById(R.id.header_left).setVisibility(View.VISIBLE);
             ((BaseActivity) getActivity()).findViewById(R.id.header).setVisibility(View.GONE);
