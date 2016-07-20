@@ -120,6 +120,19 @@ public class SearchTabs extends BaseActivity{
 			}
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 //			if (size > 2) {
 //				pager.setOffscreenPageLimit(2);
 //			} else {

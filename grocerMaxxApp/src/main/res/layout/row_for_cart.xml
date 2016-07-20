@@ -31,8 +31,9 @@
                 android:background="@color/white">
 
                 <RelativeLayout
+                    android:id="@+id/rl_image"
                     android:layout_width="80dp"
-                    android:layout_height="113dp">
+                    android:layout_height="wrap_content">
 
                     <ImageView
                         android:id="@+id/product_image"
@@ -42,6 +43,16 @@
                         android:layout_alignTop="@+id/ll"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
+                        android:src="@drawable/app_icon" />
+                    <ImageView
+                        android:id="@+id/product_image_free"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_alignBottom="@+id/ll"
+                        android:layout_alignTop="@+id/ll"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:visibility="gone"
                         android:src="@drawable/app_icon" />
 
 
@@ -315,6 +326,25 @@
                             android:text="Rs. 230"
                             android:textColor="#b22603"
                             android:textSize="16dp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_free1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="0dp"
+                            android:layout_toRightOf="@+id/mrp"
+                            android:background="@drawable/saving_bg"
+                            android:gravity="center"
+                            android:paddingBottom="4dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingTop="4dp"
+                            android:singleLine="true"
+                            android:visibility="gone"
+                            android:text="SAVING Rs. 2"
+                            android:textColor="@color/white"
+                            android:textSize="10dp"
                             android:textStyle="bold" />
 
 

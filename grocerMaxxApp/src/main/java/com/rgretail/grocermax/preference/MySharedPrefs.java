@@ -40,6 +40,7 @@ public enum MySharedPrefs {
 	private final String TOTAL_ITEM = "total_item";
 	private final String BRADCRUM = "bradcrum";
 	private final String SUBSCRIPTION_DATA = "subscription_data";
+	private final String SUBSCRIPTION_ACTIVE = "subscription_active";
 	private final String BOTTOM_MESSAGE = "bottom_bar_message";
 	private final String BOTTOM_EXP = "bottom_bar_exp";
 	private final String INVITE_REFERRAL_ID = "invite_referral_id";
@@ -364,6 +365,14 @@ public enum MySharedPrefs {
 
 
 	/*----------Subscription Popup-----------------------*/
+
+	public void putIsSubscriptionActive(String subscription_active) {
+		getAppPreference().edit().putString(SUBSCRIPTION_ACTIVE, subscription_active).commit();
+	}
+
+	public String getIsSubscriptionActive() {
+		return getAppPreference().getString(SUBSCRIPTION_ACTIVE, null);
+	}
 
 	public void putSubscriptionSet(String subscription_data) {
 		getAppPreference().edit().putString(SUBSCRIPTION_DATA, subscription_data).commit();

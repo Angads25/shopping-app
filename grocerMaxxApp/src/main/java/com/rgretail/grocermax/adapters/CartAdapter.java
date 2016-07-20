@@ -94,6 +94,7 @@ public class CartAdapter extends BaseAdapter{
 //			holder.prod_name_1 = (TextView) convertView.findViewById(R.id.product_name1);
 			holder.price = (TextView) convertView.findViewById(R.id.mrp);
 			holder.offerImage = (ImageView) convertView.findViewById(R.id.offer_image);
+			holder.product_image_free = (ImageView) convertView.findViewById(R.id.product_image_free);
 			holder.tvOffers = (TextView) convertView.findViewById(R.id.tv_offers_cart);
 			holder.ll_offer=(LinearLayout)convertView.findViewById(R.id.ll_offers_cart);
 			holder.tv_saving_free = (TextView) convertView.findViewById(R.id.tv_saving_free);
@@ -107,6 +108,7 @@ public class CartAdapter extends BaseAdapter{
 
 
 //			holder.saving = (TextView) convertView.findViewById(R.id.saving);
+			holder.tv_free1 = (TextView) convertView.findViewById(R.id.tv_free1);
 			holder.quantity = (TextView) convertView.findViewById(R.id.quantity);
 			holder.unit_price = (TextView) convertView.findViewById(R.id.unit_price);
 			holder.tv_quantity= (TextView) convertView.findViewById(R.id.tv_quantity);
@@ -118,6 +120,7 @@ public class CartAdapter extends BaseAdapter{
 			holder.llCancel = (LinearLayout) convertView.findViewById(R.id.ll_cancel);
 
 			holder.rlOutofStock = (RelativeLayout) convertView.findViewById(R.id.rl_out_of_stock);
+			holder.rl_image = (RelativeLayout) convertView.findViewById(R.id.rl_image);
 			holder.llPlusMinus = (LinearLayout) convertView.findViewById(R.id.llplusminus);
 
 			convertView.setTag(holder);
@@ -201,17 +204,24 @@ public class CartAdapter extends BaseAdapter{
 //		}
 
 
+			if (obj.getBrand()!=null) {
+				holder.prod_brand_name.setText(obj.getBrand());
+			} else {
+				holder.prod_brand_name.setText("");
+			}
 
-		holder.prod_brand_name.setText(obj.getBrand());
+			holder.prod_name.setText(obj.getProductName());
+			if (obj.getGramsORml()!=null) {
+				if(obj.getGramsORml().length()>8)
+                    holder.prod_gmorml.setText(obj.getGramsORml().substring(0,8)+"...");
+                else
+                    holder.prod_gmorml.setText(obj.getGramsORml());
+			} else {
+				holder.prod_gmorml.setText("");
+			}
 
-		holder.prod_name.setText(obj.getProductName());
-			if(obj.getGramsORml().length()>8)
-				holder.prod_gmorml.setText(obj.getGramsORml().substring(0,8)+"...");
-			else
-				holder.prod_gmorml.setText(obj.getGramsORml());
 
-
-		String price=obj.getPrice().toString().replace(",", "");
+			String price=obj.getPrice().toString().replace(",", "");
 
 		String mrp=obj.getMrp().toString().replace(",", "");
 
@@ -226,14 +236,27 @@ public class CartAdapter extends BaseAdapter{
 				holder.decrease_quantity.setVisibility(View.INVISIBLE);
 				holder.delete_item.setVisibility(View.INVISIBLE);
 				holder.llCancel.setVisibility(View.INVISIBLE);
-				holder.tv_saving_free.setText("Free Item");
+				holder.tv_saving_free.setVisibility(View.GONE);
+				holder.price.setVisibility(View.GONE);
+				holder.tv_free1.setVisibility(View.VISIBLE);
+				holder.tv_free1.setText("Free Item");
+				holder.tv_free1.setTextColor(Color.parseColor("#ee2d09"));
+				holder.tv_free1.setBackground(activity.getResources().getDrawable(R.drawable.free_item_bg));
+				holder.prod_image.setVisibility(View.GONE);
+				holder.product_image_free.setVisibility(View.VISIBLE);
+				/*holder.tv_saving_free.setText("Free Item");
 				holder.tv_saving_free.setTextColor(Color.parseColor("#ee2d09"));
-				holder.tv_saving_free.setBackground(activity.getResources().getDrawable(R.drawable.free_item_bg));
+				holder.tv_saving_free.setBackground(activity.getResources().getDrawable(R.drawable.free_item_bg));*/
 			}else{
+				holder.prod_image.setVisibility(View.VISIBLE);
+				holder.product_image_free.setVisibility(View.GONE);
 				holder.increase_quantity.setVisibility(View.VISIBLE);
 				holder.decrease_quantity.setVisibility(View.VISIBLE);
 				holder.delete_item.setVisibility(View.VISIBLE);
 				holder.llCancel.setVisibility(View.VISIBLE);
+				holder.tv_saving_free.setVisibility(View.VISIBLE);
+				holder.price.setVisibility(View.VISIBLE);
+				holder.tv_free1.setVisibility(View.GONE);
 				holder.tv_saving_free.setText("SAVING "+activity.getResources().getString(R.string.rs)+""+String.format("%.2f", saving));
 				holder.tv_saving_free.setTextColor(activity.getResources().getColor(R.color.white));
 				holder.tv_saving_free.setBackground(activity.getResources().getDrawable(R.drawable.saving_bg));
@@ -249,6 +272,7 @@ public class CartAdapter extends BaseAdapter{
 			}
 
 		ImageLoader.getInstance().displayImage(obj.getProduct_thumbnail(),holder.prod_image, ((BaseActivity)activity).baseImageoptions);
+		ImageLoader.getInstance().displayImage(obj.getProduct_thumbnail(),holder.product_image_free, ((BaseActivity)activity).baseImageoptions);
 
 		int value = obj.getQty();
 		  float sell_price = Float.parseFloat(obj.getPrice().replace(",", ""));
@@ -473,13 +497,13 @@ public class CartAdapter extends BaseAdapter{
 		TextView saving;
 		ImageView offerImage;
 		TextView tvOffers;
-		TextView tv_saving_free,unit_price;
+		TextView tv_saving_free,unit_price,tv_free1;
 		TextView tvMultiply;
 		//		TextView quantity;
 //		TextView price,amount,tv_quantity,;
-		ImageView prod_image, increase_quantity,decrease_quantity, delete_item;
+		ImageView prod_image, increase_quantity,decrease_quantity, delete_item,product_image_free;
 		LinearLayout llCancel,ll_offer;
-		RelativeLayout rlOutofStock;
+		RelativeLayout rlOutofStock,rl_image;
 		LinearLayout llPlusMinus;
 
 	}

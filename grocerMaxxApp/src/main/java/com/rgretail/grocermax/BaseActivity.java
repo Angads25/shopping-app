@@ -163,7 +163,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	}
 
 public void showSubscriptionPopup(){
-	if (MySharedPrefs.INSTANCE.getUserId()==null || MySharedPrefs.INSTANCE.getUserId().equals("")) {
+	if ((MySharedPrefs.INSTANCE.getUserId()==null || MySharedPrefs.INSTANCE.getUserId().equals(""))&&MySharedPrefs.INSTANCE.getIsSubscriptionActive().equals("1")) {
 		if (!MyApplication.isSubscribed) {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -1295,6 +1295,7 @@ public void showSubscriptionPopup(){
 			if(MySharedPrefs.INSTANCE.getGCMDeviceTocken()!=null)
 			  Log.e("ROCQ GCM TOKEN",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
 
+			System.out.println("out in method saveGcmTokenTOServer");
 			myApi.reqSendGcmTokenToServer(strurl.replaceAll(" ", "%20"), dataSendTOserver);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1549,7 +1550,6 @@ public void showSubscriptionPopup(){
 							{
 								UtilityMethods.writeCloneCart(BaseActivity.this, Constants.localCloneFile, cartBean.getItems().get(i));
 							}
-
 							Intent i = new Intent(mContext, CartProductList.class);
 							i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							Bundle bundle_cart = new Bundle();
@@ -1596,8 +1596,11 @@ public void showSubscriptionPopup(){
 //					}
 
 
+					}else if(intent.getAction().equals(MyReceiverActions.REG_DEVICE_TOKEN)){
+						System.out.println("success saveGcmTokenTOServer");
+						String walletResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);
+						//UtilityMethods.customToast(walletResponse,BaseActivity.this);
 					}
-
 					else if (intent.getAction().equals(
 							MyReceiverActions.SEARCH_PRODUCT_LIST)) {
 
@@ -1677,6 +1680,7 @@ public void showSubscriptionPopup(){
 						//			group_click = 0;
 						Simple responseBean = (Simple) bundle.getSerializable(ConnectionService.RESPONSE);
 						if (responseBean.getFlag().equalsIgnoreCase("1")) {
+							MyApplication.categoryId_for_QGraph="0";
 							Intent call = new Intent(BaseActivity.this, CategoryTabs.class);
 							Bundle call_bundle = new Bundle();
 							call_bundle.putSerializable("PRODUCTDATA", responseBean);

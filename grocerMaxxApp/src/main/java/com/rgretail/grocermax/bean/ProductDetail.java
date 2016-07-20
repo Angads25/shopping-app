@@ -38,6 +38,9 @@ public class ProductDetail implements Serializable{
 	@Expose
 	private String productBrand;
 
+	@Expose
+	private String categoryid;
+
     @SerializedName("promotion_level")
     @Expose
     private String productPromotion;
@@ -49,7 +52,16 @@ public class ProductDetail implements Serializable{
 	@Expose
 	private String productPack;
 
-    public String getProductPromotion() {
+
+	public String getCategoryid() {
+		return categoryid;
+	}
+
+	public void setCategoryid(String categoryid) {
+		this.categoryid = categoryid;
+	}
+
+	public String getProductPromotion() {
         return productPromotion;
     }
 

@@ -407,7 +407,7 @@ public class HomeScreen extends BaseActivity {
                     //JSONObject subscriptionPopup=new JSONObject("{'message': 'Enter your email id to get the latest offers and discounts','expTime': '2','ok_button_text':'OK','cancel_button_text':'CANCEL'}");
                         JSONObject subscriptionPopup=jsonO.getJSONObject("subscriptionPopUp");
                         if(subscriptionPopup.length()>0){
-
+                            MySharedPrefs.INSTANCE.putIsSubscriptionActive(subscriptionPopup.getString("active"));
                             MySharedPrefs.INSTANCE.putSubscriptionSet(subscriptionPopup.toString());
                             if(MySharedPrefs.INSTANCE.getUserId()==null || MySharedPrefs.INSTANCE.getUserId().equals("")) {
                                 showSubscriptionPopup();

@@ -152,7 +152,7 @@ public class ShopByDealItemDetailFragment extends Fragment {
                 UtilityMethods.sendGTMEvent(getActivity(),"Deal Page",label,"Android Deal Interaction");
             RocqAnalytics.trackEvent("Drawer - Deal Category L2", new ActionProperties("Category", "Drawer - Deal Category L2", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",label));
             /*QGraph event*/
-                /*JSONObject json=new JSONObject();
+               /* JSONObject json=new JSONObject();
                 json.put("Deal label",label);
                 if(MySharedPrefs.INSTANCE.getUserId()!=null)
                     json.put("User Id",MySharedPrefs.INSTANCE.getUserId());

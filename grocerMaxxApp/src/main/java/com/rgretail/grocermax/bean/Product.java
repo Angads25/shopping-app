@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Product implements Serializable, Parcelable {
 
@@ -23,6 +24,8 @@ public class Product implements Serializable, Parcelable {
 	private String sale_price;
 	@Expose
 	private String Image;
+
+	private ArrayList<String> categoryid;
 	
 	@Expose
 	private String Status;
@@ -48,6 +51,15 @@ public class Product implements Serializable, Parcelable {
 	private String promo_id;
 	@Expose
 	private String product_count;
+
+
+	public ArrayList<String> getCategoryid() {
+		return categoryid;
+	}
+
+	public void setCategoryid(ArrayList<String> categoryid) {
+		this.categoryid = categoryid;
+	}
 
 	public String getPromo_id() {
 		return promo_id;

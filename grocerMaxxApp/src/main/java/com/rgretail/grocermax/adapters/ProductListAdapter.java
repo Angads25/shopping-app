@@ -309,6 +309,13 @@ public class ProductListAdapter extends BaseAdapter {
                     added_product_count.setVisibility(View.VISIBLE);
                     img_added_product_count.setVisibility(View.VISIBLE);
 
+                    if(obj.getCategoryid()!=null && obj.getCategoryid().size()>0)
+                        MyApplication.categoryId_for_QGraph=obj.getCategoryid().get(0);
+
+                     System.out.println("cat_id = " + MyApplication.categoryId_for_QGraph);
+
+                    System.out.println("comming from category");
+
                     try{
                         UtilityMethods.clickCapture(activity,"Add to Cart","",obj.getName(),"",MySharedPrefs.INSTANCE.getSelectedCity());
                         System.out.println("GTM_FROM="+MyApplication.GTM_FROM);
@@ -320,6 +327,10 @@ public class ProductListAdapter extends BaseAdapter {
                         json.put("Product Code",obj.getProductid());
                         json.put("Product Qty",obj.getQuantity());
                         json.put("Product SP",obj.getPrice());
+
+                        if(MyApplication.categoryId_for_QGraph!=null)
+                            json.put("Category Id",MyApplication.categoryId_for_QGraph);
+
                         if(MySharedPrefs.INSTANCE.getUserId()!=null)
                             json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
 

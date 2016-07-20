@@ -272,7 +272,9 @@ public class UtilityMethods {
                     try {
                         String email=edtComment.getText().toString();
                         if(isValidEmail(email)){
-                           // MyApplication.isSubscribed=true;
+                            final SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+                            String current_time = dateFormat.format(new Date());
+                            MySharedPrefs.INSTANCE.putSubscriptionPopupCloseTime(current_time);
                             alert.dismiss();
                             ((BaseActivity)context).subscribeUser(email,getDeviceId(context));
 
@@ -285,6 +287,14 @@ public class UtilityMethods {
                 }
             });
             alert.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
+            alert.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    final SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+                    String current_time = dateFormat.format(new Date());
+                    MySharedPrefs.INSTANCE.putSubscriptionPopupCloseTime(current_time);
+                }
+            });
             alert.show();
         }
     }

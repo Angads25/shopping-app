@@ -55,7 +55,11 @@ public class CouponPage extends BaseActivity{
         });
         try {
             showDialog();
-            myApi.reqPramotion(UrlsConstants.PRAMOTION_URL);
+            if (MySharedPrefs.INSTANCE.getUserId()!=null) {
+                myApi.reqPramotion(UrlsConstants.PRAMOTION_URL+"?user_id="+MySharedPrefs.INSTANCE.getUserId());
+            } else {
+                myApi.reqPramotion(UrlsConstants.PRAMOTION_URL);
+            }
         } catch (Exception e) {
             new GrocermaxBaseException("Pramotion page","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION, "error in getting pramotion list");
         }

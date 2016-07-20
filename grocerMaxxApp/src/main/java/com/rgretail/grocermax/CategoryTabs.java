@@ -286,8 +286,20 @@ public class CategoryTabs extends BaseActivity {
                     //indicator.getChildAt(position).getT
                     try{
                         String catName=alCategory.get(position % alCategory.size()).getCategory_name();
+                        String catID=alCategory.get(position % alCategory.size()).getCategory_id();
+                        System.out.println("catID = " + catID+"-----"+catName);
+
+                        MyApplication.categoryId_for_QGraph=catID;
                         UtilityMethods.clickCapture(activity,"L4","",catName,"",MySharedPrefs.INSTANCE.getSelectedCity());
                         RocqAnalytics.trackEvent("L4", new ActionProperties("Category", "L4", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",catName));
+                        UtilityMethods.sendGTMEvent(activity,"category page",catName,"Android Category Interaction");
+                         /*QGraph event*/
+                        JSONObject json=new JSONObject();
+                        json.put("Category name",catName);
+                        if(MySharedPrefs.INSTANCE.getUserId()!=null)
+                            json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
+                        UtilityMethods.setQGraphevent("Andriod Category Interaction - Category Page",json);
+                   /*--------------*/
                     }catch(Exception e){
                         e.printStackTrace();
                     }

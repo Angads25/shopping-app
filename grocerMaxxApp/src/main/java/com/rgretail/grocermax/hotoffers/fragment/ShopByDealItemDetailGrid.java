@@ -53,12 +53,11 @@ public class ShopByDealItemDetailGrid extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.gridView1);
         lv = (ListView) view.findViewById(R.id.gridView);
         lv.setVisibility(View.VISIBLE);
+
         recyclerView.setVisibility(View.GONE);
-//        GridLayoutManager gridLayout = new GridLayoutManager(getActivity(), 2);
 
         MyApplication.GTM_FROM="deal page";
         ShopByDealDetailListAdapter optionsListAdapter = new ShopByDealDetailListAdapter(getActivity(), this);
-//        recyclerView.setAdapter(optionsListAdapter);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(llm);
         lv.setAdapter(optionsListAdapter);

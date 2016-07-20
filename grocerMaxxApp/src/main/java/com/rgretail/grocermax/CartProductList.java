@@ -174,7 +174,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				String Sku_All_Product="";
 				for(int i=0;i<cartBean.getItems().size();i++)
 				{
-					Sku_All_Product=","+cartBean.getItems().get(i).getSku();
+					Sku_All_Product=Sku_All_Product+","+cartBean.getItems().get(i).getSku();
 				}
 							/*QGraph event*/
 				JSONObject json=new JSONObject();
@@ -271,9 +271,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 						saving = saving + (cartList.get(i).getQty() * (Float.parseFloat(cartList.get(i).getMrp()) - Float.parseFloat(cartList.get(i).getPrice())));
 						totalcount += cartBean.getItems().get(i).getQty();
 					}
-
-
-
 
 					System.out.println(totalcount+"==size is========="+cartList.size());
 					try {
@@ -607,6 +604,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				cartList.clear();
 				cartList = cartBean.getItems();
 				setCartList(cartBean);
+				setAppliedCoupon(cartBean);
 				checkConditionToShowUpdatePopup();
 				boolean bSingleItemFlag = false;    //it will use when only 1 item in cart and deleted(b/c in that case it will not compare using loops as cartList will empty coming from server)
 				boolean bFlag = false;             //it will call when all items of clone cart compare in j loop and is on last index and not found with same id in cartList (means this id not found and should be deleted from local cart)
@@ -666,7 +664,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				cartList.clear();
 				cartList = cartBean.getItems();
 				setCartList(cartBean);
-
+				setAppliedCoupon(cartBean);
 				callAddressApi();                        //commented on 4/8/15
 			} else if (action.equals(MyReceiverActions.VIEW_CART_GO_HOME_SCREEN)) {
 				dismissDialog();
@@ -691,13 +689,13 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					cartList = cartBean.getItems();
 
 					setCartList(cartBean);
-
+					setAppliedCoupon(cartBean);
 
 					/*QGraph event*/
 					String Sku_All_Product="";
 					for(int i=0;i<cartBean.getItems().size();i++)
 					{
-						Sku_All_Product=","+cartBean.getItems().get(i).getSku();
+						Sku_All_Product=Sku_All_Product+","+cartBean.getItems().get(i).getSku();
 					}
 					JSONObject json=new JSONObject();
 					json.put("Total Qty",String.valueOf(MySharedPrefs.INSTANCE.getTotalItem()));
@@ -747,6 +745,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					cartList.clear();
 					cartList = cartBean.getItems();
 					setCartList(cartBean);
+					setAppliedCoupon(cartBean);
 					checkConditionToShowUpdatePopup();
 
 //					bIsEdit = false;                //used b/c finish call and then onDestroy call and update will call but when user hits viewcart then no need of calling update service from onDestroy()
@@ -762,6 +761,17 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 				else
 				{
 					UtilityMethods.customToast(AppConstants.ToastConstant.CART_EMPTY, mContext);
+
+					UtilityMethods.deleteCloneCart(this);
+					if (MySharedPrefs.INSTANCE.getTotalItem() != null) {
+						MySharedPrefs.INSTANCE.putTotalItem(String.valueOf((int) Float.parseFloat(cartBean.getItems_qty())));
+						cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
+					}
+					cartList.clear();
+					cartList = cartBean.getItems();
+					setCartList(cartBean);
+					setAppliedCoupon(cartBean);
+					checkConditionToShowUpdatePopup();
 				}
 			}
 
@@ -809,7 +819,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 						String Sku_All_Product="";
 						for(int i=0;i<cartBean.getItems().size();i++)
 						{
-							Sku_All_Product=","+cartBean.getItems().get(i).getSku();
+							Sku_All_Product=Sku_All_Product+","+cartBean.getItems().get(i).getSku();
 						}
 							/*QGraph event*/
 						JSONObject json=new JSONObject();

@@ -353,6 +353,15 @@ public class ProductDetailScreen extends BaseActivity implements
                             }
                         }
 
+
+
+                        if(productDetail.getCategoryid()!=null )
+                            MyApplication.categoryId_for_QGraph=productDetail.getCategoryid();
+
+                        System.out.println("cat_id = " + MyApplication.categoryId_for_QGraph);
+
+                        System.out.println("comming from product detail");
+
                         /*code to track add to cart event */
 
                         try{
@@ -366,6 +375,8 @@ public class ProductDetailScreen extends BaseActivity implements
                             json.put("Product Code",product.getProductid());
                             json.put("Product Qty",product.getQuantity());
                             json.put("Product SP",product.getPrice());
+                            if(MyApplication.categoryId_for_QGraph!=null)
+                                json.put("Category Id",MyApplication.categoryId_for_QGraph);
                             if(MySharedPrefs.INSTANCE.getUserId()!=null)
                                 json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
                             if(MySharedPrefs.INSTANCE.getQuoteId()!=null && !MySharedPrefs.INSTANCE.getQuoteId().equals(""))

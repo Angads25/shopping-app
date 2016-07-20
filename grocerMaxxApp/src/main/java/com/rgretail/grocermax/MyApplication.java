@@ -24,6 +24,7 @@ public class MyApplication extends Application {
 	public static boolean isFromFinalCheckout=false;
 	public static String GTM_FROM;
 	public static boolean isSubscribed;
+	public static String categoryId_for_QGraph;
 //	private static String PROPERTY_ID;
 
 
