@@ -89,6 +89,7 @@ public class BannerFragment extends Fragment {
                 linkurl = (((HomeFragment) frag).getHomeBannerBean()).getBanner().get(((HomeFragment) frag).getPosition()).getLinkurl();
                 name = (((HomeFragment) frag).getHomeBannerBean()).getBanner().get(((HomeFragment) frag).getPosition()).getName();
                 String imageUrl=(((HomeFragment) frag).getHomeBannerBean()).getBanner().get(((HomeFragment) frag).getPosition()).getImageurl();
+
                    /*tracking GA even when banner image is clicked*/
                     try{
                         UtilityMethods.clickCapture(getActivity(),"Banner Click","",imageUrl,"", MySharedPrefs.INSTANCE.getSelectedCity());
@@ -199,11 +200,15 @@ public class BannerFragment extends Fragment {
                         ((HomeScreen) context).hitForShopByCategory(strId);
                        // try{UtilityMethods.clickCapture(context,"","","","",HomeScreen.SCREENNAME+name+"-"+AppConstants.GA_EVENT_DEALS_OFFER_THROUGH_HOME_BANNER);}catch(Exception e){}
                     }else if(strType.equalsIgnoreCase("productdetail")){
-
                         AppConstants.strPopupData="";
                         ((HomeScreen) context).showDialog();
                         String url = UrlsConstants.NEW_BASE_URL + linkurl;
                         ((HomeScreen) context).myApi.reqProductDetailFromNotification(url);
+                    }else if(strType.equalsIgnoreCase("singlepage")){
+
+                        ((HomeScreen) context).showDialog();
+                        String url = UrlsConstants.WALLET_INFO_URL + MySharedPrefs.INSTANCE.getUserId();
+                        ((HomeScreen) context).myApi.reqSinglePageDate(url);
                     }
                 }catch(Exception e){}
 

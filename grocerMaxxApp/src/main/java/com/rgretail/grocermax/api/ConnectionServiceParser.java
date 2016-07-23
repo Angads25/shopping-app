@@ -84,6 +84,7 @@ public class ConnectionServiceParser {
 		int SUBSCRIBE_USER = 142;
 		int APPLY_REMOVE_COUPON = 143;
 		int REDEEM_POINT = 144;
+		int SINGLE_PAGE_DATA = 145;
 	}
 
 	public static BaseResponseBean parseSimpleResponse(String jsonString)

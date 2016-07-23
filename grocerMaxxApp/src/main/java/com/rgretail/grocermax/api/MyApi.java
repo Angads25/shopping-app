@@ -508,6 +508,18 @@ public class MyApi {
             new GrocermaxBaseException("MyApi","reqProductContentList",e.getMessage(), GrocermaxBaseException.EXCEPTION,url);
         }
     }
+	public void reqSinglePageDate(String url) {
+		try{
+			Intent reqIntent = new Intent(m_context, ConnectionService.class);
+			reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.SINGLE_PAGE_DATA);
+			reqIntent.putExtra(ConnectionService.URL, url);
+			reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+			reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.SINGLE_PAGE_DATA);
+			m_context.startService(reqIntent);
+		}catch(Exception e){
+			new GrocermaxBaseException("MyApi","reqProductContentList",e.getMessage(), GrocermaxBaseException.EXCEPTION,url);
+		}
+	}
 	
 	public void reqAddToCart(String url) {
 		try{

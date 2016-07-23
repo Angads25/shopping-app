@@ -33,6 +33,7 @@ import com.rgretail.grocermax.DealListScreen;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.UnderMaintanance;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
+import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.api.SearchLoader;
 import com.rgretail.grocermax.bean.DealByDealTypeBean;
@@ -48,6 +49,7 @@ import com.rgretail.grocermax.hotoffers.fragment.ExpandableMenuFragment;
 import com.rgretail.grocermax.hotoffers.fragment.HomeFragment;
 import com.rgretail.grocermax.hotoffers.fragment.MenuFragment;
 import com.rgretail.grocermax.hotoffers.fragment.ShopByDealItemDetailFragment;
+import com.rgretail.grocermax.hotoffers.fragment.SinglePageFragment;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
@@ -124,6 +126,7 @@ public class HomeScreen extends BaseActivity {
         addActionsInFilter(MyReceiverActions.ALL_PRODUCTS_CATEGORY);
         addActionsInFilter(MyReceiverActions.LOCATION);
         addActionsInFilter(MyReceiverActions.CATEGORY_LIST);
+        addActionsInFilter(MyReceiverActions.SINGLE_PAGE_DATA);
 
 
         menuIcon = (ImageView) findViewById(R.id.menuIcon);
@@ -679,6 +682,21 @@ public class HomeScreen extends BaseActivity {
                 fragment.setArguments(data);
                 changeFragment(fragment);
 
+            }else if (action.equals(MyReceiverActions.SINGLE_PAGE_DATA)) {
+                System.out.println("RESULT OFFER");
+                dismissDialog();
+                String singlePageResponse = (String) bundle.getSerializable(ConnectionService.RESPONSE);
+                //String singlePageResponse="{'imageName':'Free Deal' ,'imageUrl': 'http://www.wallpaper77.com/upload/DesktopWallpapers/cache/Grocery-food-wallpaper-fruit-wallpapers-480x800.jpg','deeplink':'grocermax://search?keyword=atta&name=ATTA'}";
+                JSONObject singlePageJson=new JSONObject(singlePageResponse);
+                System.out.println("RESPONSE OFFER" + singlePageJson.toString());
+                SinglePageFragment fragment = new SinglePageFragment();
+                Bundle data = new Bundle();
+                data.putString("ImageName", singlePageJson.getString("imageName"));
+                data.putString("ImageUrl", singlePageJson.getString("imageUrl"));
+                data.putString("Deeplink", singlePageJson.getString("deeplink"));
+                fragment.setArguments(data);
+                changeFragment(fragment);
+
             } else if (action.equals(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE)) {         //responsible for product listing through deals [ShopByDealItemDetailFragment -> DealListScreen]
 
 //                DealListBean dealListBean = (DealListBean) bundle
@@ -885,6 +903,11 @@ public class HomeScreen extends BaseActivity {
             showDialog();
             String url = UrlsConstants.NEW_BASE_URL + strLinkurl;
             myApi.reqProductDetailFromNotification(url);
+        }else if(strType.equalsIgnoreCase("singlepage")){
+
+            showDialog();
+            String url = UrlsConstants.WALLET_INFO_URL + MySharedPrefs.INSTANCE.getUserId();
+            myApi.reqSinglePageDate(url);
         }
     }
 
