@@ -207,7 +207,7 @@ public class BannerFragment extends Fragment {
                     }else if(strType.equalsIgnoreCase("singlepage")){
 
                         ((HomeScreen) context).showDialog();
-                        String url = UrlsConstants.WALLET_INFO_URL + MySharedPrefs.INSTANCE.getUserId();
+                        String url = UrlsConstants.PAGE_BANNER_MSG;
                         ((HomeScreen) context).myApi.reqSinglePageDate(url);
                     }
                 }catch(Exception e){}

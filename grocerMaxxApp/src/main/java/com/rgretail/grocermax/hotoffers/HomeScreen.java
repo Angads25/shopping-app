@@ -221,6 +221,11 @@ public class HomeScreen extends BaseActivity {
                 super.onBackPressed();
             }
         }
+
+
+
+
+
     }
 
 
@@ -270,7 +275,7 @@ public class HomeScreen extends BaseActivity {
          /*  coming form deep linking and rocq notification*/
         try {
             Intent intent = getIntent();
-            if (intent != null || intent.getData() != null) {
+            if (intent != null && intent.getData() != null) {
                 Bundle bundle2=new Bundle();
                 String path=intent.getData().toString();
                 path=path.replace("grocermax://","");
@@ -402,8 +407,20 @@ public class HomeScreen extends BaseActivity {
                     if(bottomBarMessage.length()>0){
                         MySharedPrefs.INSTANCE.putBootomBarMessage(bottomBarMessage.getString("message"));
                         MySharedPrefs.INSTANCE.putBootomBarExpTime(bottomBarMessage.getString("expTime"));
+                        MySharedPrefs.INSTANCE.setBootomBarActive(bottomBarMessage.getString("active"));
                         initBottom(findViewById(R.id.footer1));
                     }
+
+                        JSONObject exitAppPopup=jsonO.getJSONObject("existMsg");
+                        if(exitAppPopup.length()>0){
+                            MySharedPrefs.INSTANCE.putExitAppMessage(exitAppPopup.getString("message"));
+                            MySharedPrefs.INSTANCE.putExitAppOkButtonText(exitAppPopup.getString("ok"));
+                            MySharedPrefs.INSTANCE.putExitAppCancelButtonText(exitAppPopup.getString("cancle"));
+                            MySharedPrefs.INSTANCE.setExitAppPopupActive(exitAppPopup.getString("active"));
+
+                        }
+
+
                     MySharedPrefs.INSTANCE.putInviteReferralId(jsonO.optString("compId"));
                         //MySharedPrefs.INSTANCE.putInviteReferralId("10483");
 
@@ -494,10 +511,13 @@ public class HomeScreen extends BaseActivity {
                         progress.dismiss();
 
                         /*save gcm token to our server*/
-                        try {
-                            saveGcmTokenTOServer();
-                        } catch (Exception e) {
-                            e.printStackTrace();
+
+                        if (MySharedPrefs.INSTANCE.getGCMDeviceTocken()!=null && !MySharedPrefs.INSTANCE.getGCMDeviceTocken().equals("")) {
+                            try {
+                                saveGcmTokenTOServer();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
 
                         /*  coming form notification */
@@ -691,9 +711,9 @@ public class HomeScreen extends BaseActivity {
                 System.out.println("RESPONSE OFFER" + singlePageJson.toString());
                 SinglePageFragment fragment = new SinglePageFragment();
                 Bundle data = new Bundle();
-                data.putString("ImageName", singlePageJson.getString("imageName"));
+                data.putString("ImageName", singlePageJson.getString("name"));
                 data.putString("ImageUrl", singlePageJson.getString("imageUrl"));
-                data.putString("Deeplink", singlePageJson.getString("deeplink"));
+                data.putString("Deeplink", singlePageJson.getString("linkUrl"));
                 fragment.setArguments(data);
                 changeFragment(fragment);
 
@@ -904,9 +924,8 @@ public class HomeScreen extends BaseActivity {
             String url = UrlsConstants.NEW_BASE_URL + strLinkurl;
             myApi.reqProductDetailFromNotification(url);
         }else if(strType.equalsIgnoreCase("singlepage")){
-
             showDialog();
-            String url = UrlsConstants.WALLET_INFO_URL + MySharedPrefs.INSTANCE.getUserId();
+            String url = UrlsConstants.PAGE_BANNER_MSG;
             myApi.reqSinglePageDate(url);
         }
     }

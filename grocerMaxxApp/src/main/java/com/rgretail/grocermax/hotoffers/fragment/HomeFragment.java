@@ -1,11 +1,13 @@
 package com.rgretail.grocermax.hotoffers.fragment;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -13,6 +15,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -285,8 +288,33 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
 
-
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        if (MySharedPrefs.INSTANCE.isExitAppPopupActive().equals("1")) {
+                            UtilityMethods.showExitAppPopup(getActivity());
+                        }else{
+                            Intent intent = new Intent(Intent.ACTION_MAIN);
+                            intent.addCategory(Intent.CATEGORY_HOME);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            getActivity().finish();
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+    }
 
     // responsible for Home screen Banner  //
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
@@ -358,6 +386,8 @@ public class HomeFragment extends Fragment {
             e.printStackTrace();
         }
     }
+
+
 
     /*downloading file for banner on home screen*/
     class GetImage extends AsyncTask<String,Void,Bitmap> {

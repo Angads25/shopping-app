@@ -25,7 +25,6 @@ public class SinglePageFragment extends Fragment {
     String imagename,imageurl,deeplink;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -33,6 +32,7 @@ public class SinglePageFragment extends Fragment {
             HomeScreen.bFromHome = false;
         else
             HomeScreen.bFromHome = true;
+
 
         View view = inflater.inflate(R.layout.single_page_frag, container, false);
         try {
@@ -67,7 +67,7 @@ public class SinglePageFragment extends Fragment {
                         bundle2.putString("linkurl", deeplink);
                         bundle2.putString("name",imagename);
                         ((HomeScreen) getActivity()).getNotificationData(bundle2);
-    
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -102,5 +102,12 @@ public class SinglePageFragment extends Fragment {
         getActivity().findViewById(R.id.header).setVisibility(View.GONE);
         getActivity().findViewById(R.id.header_left).setVisibility(View.VISIBLE);
         super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        getActivity().findViewById(R.id.header).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.header_left).setVisibility(View.VISIBLE);
+        super.onResume();
     }
 }

@@ -80,7 +80,7 @@ public class GCMIntentService extends GcmListenerService {
                 strLinkurl = data.getString("linkurl");
                 strImageUrl = data.getString("imageurl");
                 strSubText = data.getString("subtext");
-                feedback = data.getString("feedback");
+                //feedback = data.getString("feedback");
                 //orderid = data.getString("orderid");
                 //cus_id = data.getString("cus_id");
 
@@ -88,10 +88,11 @@ public class GCMIntentService extends GcmListenerService {
                 Log.d(TAG, "From: " + from);
                 Log.d(TAG, "Message: " + message);
 
-                if(feedback.equals("0"))
+                sendNotification(message,data);
+               /* if(feedback.equals("0"))
                 sendNotification(message,data);
                 else
-                sendFeedbackNotification(message,data);
+                sendFeedbackNotification(message,data);*/
             }
 
         }catch(Exception e){}

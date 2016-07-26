@@ -76,6 +76,9 @@ public class UrlsConstants {
 	/*public final static String CATEGORY_COLLECTION_LISTING_URL = BASE_URL
 			+ "categorycollection.php";*/
 
+	public final static String PAGE_BANNER_MSG = NEW_BASE_URL
+			+ "pagebannermsg";
+
     public final static String WALLET_INFO_URL = NEW_BASE_URL
             + "getwalletbalance?CustId=";
 

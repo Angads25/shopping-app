@@ -15,11 +15,13 @@
         android:text="New Text"
         android:textSize="20dp"
         android:textColor="#212121"
+        android:visibility="gone"
         android:id="@+id/tvImageName" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:visibility="gone"
         android:background="#b6b6b6"/>
 
     <ImageView

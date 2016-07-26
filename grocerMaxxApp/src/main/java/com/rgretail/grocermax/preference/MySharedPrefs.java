@@ -41,8 +41,13 @@ public enum MySharedPrefs {
 	private final String BRADCRUM = "bradcrum";
 	private final String SUBSCRIPTION_DATA = "subscription_data";
 	private final String SUBSCRIPTION_ACTIVE = "subscription_active";
+	private final String EXIT_APP_OK_BUTTON_TEXT = "exit_app_ok_button_text";
+	private final String EXIT_APP_CANCEL_BUTTON_TEXT = "exit_app_cancel_button_text";
+	private final String EXIT_APP_ACTIVE = "exit_app_active";
+	private final String EXIT_APP_MESSAGE = "exit_app_message";
 	private final String BOTTOM_MESSAGE = "bottom_bar_message";
 	private final String BOTTOM_EXP = "bottom_bar_exp";
+	private final String BOTTOM_ACTIVE = "bottom_active";
 	private final String INVITE_REFERRAL_ID = "invite_referral_id";
 	private final String BOTTOM_BAR_CLOSE_TIME = "bottom_bar_close_time";
 	private final String SUBSCRIPTION_POPUP_CLOSE_TIME = "subscription_popup_close_time";
@@ -395,6 +400,32 @@ public enum MySharedPrefs {
 	/*-------------------------------------------------*/
 
 
+	public void putExitAppMessage(String msg) {
+		getAppPreference().edit().putString(EXIT_APP_MESSAGE, msg).commit();
+	}
+	public String getExitAppMessage() {
+		return getAppPreference().getString(EXIT_APP_MESSAGE, "");
+	}
+	public void putExitAppOkButtonText(String text) {
+		getAppPreference().edit().putString(EXIT_APP_OK_BUTTON_TEXT, text).commit();
+	}
+	public String getExitAppOkButtonText() {
+		return getAppPreference().getString(EXIT_APP_OK_BUTTON_TEXT, "");
+	}
+	public void putExitAppCancelButtonText(String text) {
+		getAppPreference().edit().putString(EXIT_APP_CANCEL_BUTTON_TEXT, text).commit();
+	}
+	public String getExitAppCancelButtonText() {
+		return getAppPreference().getString(EXIT_APP_CANCEL_BUTTON_TEXT, "");
+	}
+	public void setExitAppPopupActive(String active) {
+		getAppPreference().edit().putString(EXIT_APP_ACTIVE, active).commit();
+	}
+	public String isExitAppPopupActive() {
+		return getAppPreference().getString(EXIT_APP_ACTIVE, "");
+	}
+
+
 
 
 	public void putBootomBarMessage(String msg) {
@@ -411,6 +442,14 @@ public enum MySharedPrefs {
 
 	public String getBootomBarExpTime() {
 		return getAppPreference().getString(BOTTOM_EXP, "");
+	}
+
+	public void setBootomBarActive(String active) {
+		getAppPreference().edit().putString(BOTTOM_ACTIVE, active).commit();
+	}
+
+	public String isBootomBarActive() {
+		return getAppPreference().getString(BOTTOM_ACTIVE, "");
 	}
 
 	public void putBootomBarCloseTime(String time) {

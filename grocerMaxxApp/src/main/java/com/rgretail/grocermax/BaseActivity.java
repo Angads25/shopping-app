@@ -205,43 +205,42 @@ public void showSubscriptionPopup(){
 
 	public void initBottom(final View view){
 		//view.setVisibility(View.VISIBLE);
-		final SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
-		if(!MySharedPrefs.INSTANCE.getBootomBarCloseTime().equals("")){
-			String current_time = dateFormat.format(new Date());
-			String saved_time=MySharedPrefs.INSTANCE.getBootomBarCloseTime();
-			Date d1 = null;
-			Date d2 = null;
-			try {
-				d1 = dateFormat.parse(saved_time);
-				d2 = dateFormat.parse(current_time);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			long diff = d2.getTime() - d1.getTime();
-			long diffMinuts = diff / (60 * 1000);
-			long expTime=Long.parseLong(MySharedPrefs.INSTANCE.getBootomBarExpTime());
-			if(expTime>diffMinuts)
-				view.setVisibility(View.GONE);
-			else
-				view.setVisibility(View.VISIBLE);
-		}else{
-			view.setVisibility(View.VISIBLE);
+		if (MySharedPrefs.INSTANCE.isBootomBarActive().equals("1")) {
+			final SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+			if(!MySharedPrefs.INSTANCE.getBootomBarCloseTime().equals("")){
+                String current_time = dateFormat.format(new Date());
+                String saved_time=MySharedPrefs.INSTANCE.getBootomBarCloseTime();
+                Date d1 = null;
+                Date d2 = null;
+                try {
+                    d1 = dateFormat.parse(saved_time);
+                    d2 = dateFormat.parse(current_time);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                long diff = d2.getTime() - d1.getTime();
+                long diffMinuts = diff / (60 * 1000);
+                long expTime=Long.parseLong(MySharedPrefs.INSTANCE.getBootomBarExpTime());
+                if(expTime>diffMinuts)
+                    view.setVisibility(View.GONE);
+                else
+                    view.setVisibility(View.VISIBLE);
+            }else{
+                view.setVisibility(View.VISIBLE);
+            }
+			TextView tv_message=(TextView)view.findViewById(R.id.tv_offer);
+			LinearLayout img_offer=(LinearLayout)view.findViewById(R.id.img_cancel_offer);
+			tv_message.setText(MySharedPrefs.INSTANCE.gettBootomBarMessage());
+			img_offer.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    String current_time = dateFormat.format(new Date());
+                    MySharedPrefs.INSTANCE.putBootomBarCloseTime(current_time);
+                    view.setVisibility(View.GONE);
+                }
+            });
 		}
-
-
-
-		TextView tv_message=(TextView)view.findViewById(R.id.tv_offer);
-		LinearLayout img_offer=(LinearLayout)view.findViewById(R.id.img_cancel_offer);
-		tv_message.setText(MySharedPrefs.INSTANCE.gettBootomBarMessage());
-		img_offer.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-
-				String current_time = dateFormat.format(new Date());
-				MySharedPrefs.INSTANCE.putBootomBarCloseTime(current_time);
-				view.setVisibility(View.GONE);
-			}
-		});
 	}
 
 	public void initHeader(View view, boolean showSearch, String name) {
@@ -1267,7 +1266,7 @@ public void showSubscriptionPopup(){
 	public void saveGcmTokenTOServer(){
 		try {
 
-			System.out.println("enter in method saveGcmTokenTOServer");
+			System.out.println("enter in method saveGcmTokenTOServer ---------------"+MySharedPrefs.INSTANCE.getGCMDeviceTocken());
 
 			addActionsInFilter(MyReceiverActions.REG_DEVICE_TOKEN);
 			String strurl = UrlsConstants.SEND_DEVICE_TOKEN;
@@ -1295,7 +1294,6 @@ public void showSubscriptionPopup(){
 			if(MySharedPrefs.INSTANCE.getGCMDeviceTocken()!=null)
 			  Log.e("ROCQ GCM TOKEN",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
 
-			System.out.println("out in method saveGcmTokenTOServer");
 			myApi.reqSendGcmTokenToServer(strurl.replaceAll(" ", "%20"), dataSendTOserver);
 		} catch (Exception e) {
 			e.printStackTrace();

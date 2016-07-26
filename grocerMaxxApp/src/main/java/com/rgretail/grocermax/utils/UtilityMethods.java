@@ -299,6 +299,57 @@ public class UtilityMethods {
         }
     }
 
+    public static void showExitAppPopup(final Context context) {
+
+
+            Typeface typeface=Typeface.createFromAsset(context.getAssets(),"Roboto-Regular.ttf");
+            Typeface typeface1=Typeface.createFromAsset(context.getAssets(),"Roboto-Light.ttf");
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View dialogView = inflater.inflate(R.layout.update_available_dialog, null);
+            alertDialog.setView(dialogView);
+            alertDialog.setCancelable(false);
+            alert = alertDialog.create();
+            TextView tv_msg=(TextView)dialogView.findViewById(R.id.tv_msg);
+            tv_msg.setTypeface(typeface1);
+            tv_msg.setText(MySharedPrefs.INSTANCE.getExitAppMessage());
+
+            final EditText edtComment=(EditText)dialogView.findViewById(R.id.edt_otp);
+            edtComment.setVisibility(View.GONE);
+
+            TextView tv_skip = (TextView) dialogView.findViewById(R.id.tv_skip);
+            tv_skip.setTypeface(typeface);
+            tv_skip.setVisibility(View.VISIBLE);
+            tv_skip.setText(MySharedPrefs.INSTANCE.getExitAppCancelButtonText());
+            tv_skip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alert.dismiss();
+                }
+            });
+
+            TextView tv_update=(TextView)dialogView.findViewById(R.id.tv_update);
+            tv_update.setTypeface(typeface);
+            tv_update.setText(MySharedPrefs.INSTANCE.getExitAppOkButtonText());
+            tv_update.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // alert.dismiss();
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                        ((Activity)context).finish();
+                    } catch (Exception e){
+
+                    }
+                }
+            });
+          //  alert.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
+            alert.show();
+    }
+
 	public static void email(String[] recipients, String subject,
 			String content, Context context) {
 		Intent intent = new Intent(Intent.ACTION_SEND);
@@ -1216,7 +1267,7 @@ public class UtilityMethods {
 
 			try {
 				if(jsonObject.getString("urlImg") != null) {
-					Constants.base_url_category_image = jsonObject.getString("urlImg");
+					Constants.base_url_category_image = jsonObject.optString("urlImg");
 				}
 			}catch(Exception e){
                 e.printStackTrace();
@@ -1807,27 +1858,27 @@ public class UtilityMethods {
     public static void saveImageInInternalMemory(Context con,String file_name,Bitmap bitmapImage){
         try {
             ContextWrapper cw = new ContextWrapper(con);
-            File directory = cw.getDir("Grocermax_Banner", Context.MODE_PRIVATE);
-            File mypath=new File(directory,file_name);
 
-            FileOutputStream fos = null;
-            try {
-                fos = new FileOutputStream(mypath);
-                // Use the compress method on the BitMap object to write image to the OutputStream
-                bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
+            if (cw!=null) {
+                File directory = cw.getDir("Grocermax_Banner", Context.MODE_PRIVATE);
+                File mypath=new File(directory,file_name);
+                FileOutputStream fos = null;
                 try {
-                    fos.close();
-                } catch (IOException e) {
+                    fos = new FileOutputStream(mypath);
+                    // Use the compress method on the BitMap object to write image to the OutputStream
+                    bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                } catch (Exception e) {
                     e.printStackTrace();
+                } finally {
+                    try {
+                        fos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
-           // return directory.getAbsolutePath();
         } catch (Exception e) {
             e.printStackTrace();
-            //return null;
         }
     }
 

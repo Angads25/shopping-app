@@ -1144,7 +1144,6 @@ public class MyApi {
 
 	public void reqSendGcmTokenToServer(String url,JSONObject jsonObject) {
 		try{
-			System.out.println("REG_DEVICE_TOKEN - reqSendGcmTokenToServer- start "+jsonObject.toString());
 			Intent reqIntent = new Intent(m_context, ConnectionService.class);
 			reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.REG_DEVICE_TOKEN);
 			reqIntent.putExtra(ConnectionService.URL, url);
@@ -1156,7 +1155,6 @@ public class MyApi {
 			}
 			reqIntent.putExtra(ConnectionService.PARSE_TYPE, MyParserType.REG_DEVICE_TOKEN);
 			m_context.startService(reqIntent);
-			System.out.println("REG_DEVICE_TOKEN - reqSendGcmTokenToServer- end "+jsonObject.toString());
 		}catch(Exception e){
 			new GrocermaxBaseException("MyApi","sending device token",e.getMessage(), GrocermaxBaseException.EXCEPTION,url+jsonObject);
 		}

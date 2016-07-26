@@ -21,7 +21,6 @@ import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.LocationListBean;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
-import com.rgretail.grocermax.info.ContactInfoService;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.Constants;
@@ -61,8 +60,8 @@ public class SplashScreen extends BaseActivity
 		super.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.splash_screen);
 
-		Intent intent=new Intent(SplashScreen.this, ContactInfoService.class);
-		startService(intent);
+		//Intent intent=new Intent(SplashScreen.this, ContactInfoService.class);
+		//startService(intent);
 
         /*screen tracking using rocq*/
         RocqAnalytics.initialize(this);
@@ -75,7 +74,7 @@ public class SplashScreen extends BaseActivity
 
         /*registering device on GCM server*/
         if(MySharedPrefs.INSTANCE.getGCMDeviceTocken()==null)
-        registerGCM();
+        	registerGCM();
         else{
             /*set gcm registration id for Rocq Analytics*/
             try {
@@ -143,7 +142,7 @@ public class SplashScreen extends BaseActivity
 			/*comment by ishan*/
             //registerGCM();
             /*-----*/
-			finish();
+			//finish();
 		}
 	};
 
@@ -295,8 +294,7 @@ public class SplashScreen extends BaseActivity
 		pushClientManager = new GCMClientManager(this, Constants.GCM_SENDER_KEY);
 		pushClientManager.registerIfNeeded(new GCMClientManager.RegistrationCompletedHandler() {
 			@Override
-			public void onSuccess(String registrationId,
-								  boolean isNewRegistration) {
+			public void onSuccess(String registrationId,boolean isNewRegistration) {
 				DeviceRegistrationId = registrationId;
 
                 /*set gcm registration id for Rocq Analytics*/
@@ -306,6 +304,14 @@ public class SplashScreen extends BaseActivity
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+				  /*save gcm token to our server*/
+				try {
+					saveGcmTokenTOServer();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+
             }
 
 			@Override
