@@ -9,11 +9,6 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
-import com.flurry.android.FlurryAgent;
-import com.google.android.gms.analytics.GoogleAnalytics;
 import com.invitereferrals.invitereferrals.InviteReferralsApi;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
@@ -40,12 +35,7 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		try{
-//			((AnalyticsSampleApp) getApplication()).getTracker(AnalyticsSampleApp.TrackerName.APP_TRACKER);
-			AppsFlyerLib.setCurrencyCode("INR");
-			AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");
-			AppsFlyerLib.sendTracking(getApplicationContext());
-		}catch(Exception e){}
+
 
 		try{
 				UtilityMethods.screenView(this,"CODConfirmation");
@@ -99,7 +89,6 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
                 /*Tracking the GA event for successful payment*/
 				try{
 					UtilityMethods.clickCapture(mContext,"Order Successful","","","", MySharedPrefs.INSTANCE.getSelectedCity());
-					RocqAnalytics.trackEvent("Order Successful", new ActionProperties("Category", "Order Successful", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
 					UtilityMethods.sendGTMEvent(CODConfirmation.this,"Order Successful",MySharedPrefs.INSTANCE.getUserEmail(),"Android Checkout Funnel");
 
 					/*QGraph event*/
@@ -175,7 +164,6 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
                /*Tracking the GA event for Failure payment*/
                 try{
 					UtilityMethods.clickCapture(mContext,"Order Failed","","","", MySharedPrefs.INSTANCE.getSelectedCity());
-					RocqAnalytics.trackEvent("Order Failed", new ActionProperties("Category", "Order Failed", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
 					UtilityMethods.sendGTMEvent(CODConfirmation.this,"Order Failure",MySharedPrefs.INSTANCE.getUserEmail(),"Android Checkout Funnel");
 				/*QGraph event*/
 					JSONObject json=new JSONObject();
@@ -239,9 +227,7 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		try{
-			AppsFlyerLib.onActivityResume(this);
-		}catch(Exception e){}
+
 		try{
 			initHeader(findViewById(R.id.header), true, null);
 		}catch(Exception e){
@@ -252,9 +238,7 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
 	@Override
 	public void onPause() {
 		super.onPause();
-		try{
-			AppsFlyerLib.onActivityPause(this);
-		}catch(Exception e){}
+
 	}
 	
 	@Override
@@ -275,23 +259,7 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
     protected void onStart() {
     	// TODO Auto-generated method stub
     	super.onStart();
-		try{
-//			GoogleAnalytics.getInstance(this).reportActivityStart(this);
-			AppsFlyerLib.onActivityResume(this);
-		}catch(Exception e){}
-    	try{
-//			EasyTracker.getInstance(this).activityStart(this);
-			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-			FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){
-		}
-		 /*screen tracking using rocq*/
-		try {
-			RocqAnalytics.initialize(this);
-			RocqAnalytics.startScreen(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
        /*------------------------------*/
     }
     
@@ -299,20 +267,7 @@ public class CODConfirmation extends BaseActivity implements OnClickListener{
     protected void onStop() {
     	// TODO Auto-generated method stub
     	super.onStop();
-		try{
-			GoogleAnalytics.getInstance(this).reportActivityStop(this);
-			AppsFlyerLib.onActivityPause(this);
-		}catch(Exception e){}
-    	try{
-//			EasyTracker.getInstance(this).activityStop(this);
-			FlurryAgent.onEndSession(this);
-    	}catch(Exception e){
-		}
-		try {
-			RocqAnalytics.stopScreen(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
     }
 	
 	

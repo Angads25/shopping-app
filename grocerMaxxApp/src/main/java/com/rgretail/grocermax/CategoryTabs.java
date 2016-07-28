@@ -16,10 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
-import com.flurry.android.FlurryAgent;
 import com.melnykov.fab.FloatingActionButton;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
@@ -72,11 +68,7 @@ public class CategoryTabs extends BaseActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.s_category_tabs);
 
-        try{
-            AppsFlyerLib.setCurrencyCode("INR");
-            AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
-            AppsFlyerLib.sendTracking(getApplicationContext());
-        }catch(Exception e){}
+
 
         try {
             sort_condition="popularity";
@@ -291,7 +283,6 @@ public class CategoryTabs extends BaseActivity {
 
                         MyApplication.categoryId_for_QGraph=catID;
                         UtilityMethods.clickCapture(activity,"L4","",catName,"",MySharedPrefs.INSTANCE.getSelectedCity());
-                        RocqAnalytics.trackEvent("L4", new ActionProperties("Category", "L4", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",catName));
                         UtilityMethods.sendGTMEvent(activity,"category page",catName,"Android Category Interaction");
                          /*QGraph event*/
                         JSONObject json=new JSONObject();
@@ -515,9 +506,7 @@ public class CategoryTabs extends BaseActivity {
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        try{
-            AppsFlyerLib.onActivityResume(this);
-        }catch(Exception e){}
+
         try {
 //			if (MySharedPrefs.INSTANCE.getBradecrum() != null) {
 //				String brade_crum[] = MySharedPrefs.INSTANCE.getBradecrum().split(">>");
@@ -541,9 +530,7 @@ public class CategoryTabs extends BaseActivity {
     @Override
     public void onPause() {
         super.onPause();
-        try{
-            AppsFlyerLib.onActivityPause(this);
-        }catch(Exception e){}
+
     }
 
     @Override
@@ -603,22 +590,7 @@ public class CategoryTabs extends BaseActivity {
     protected void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
-        try{
-            AppsFlyerLib.onActivityResume(this);
-        }catch(Exception e){}
-        try {
-//            EasyTracker.getInstance(this).activityStart(this);
-            FlurryAgent.onStartSession(this, getResources().getString(R.string.flurry_api_key));
-            FlurryAgent.onPageView();         //Use onPageView to report page view count.
-        } catch (Exception e) {
-        }
-        /*screen tracking using rocq*/
-        try {
-            RocqAnalytics.initialize(this);
-            RocqAnalytics.startScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
        /*------------------------------*/
     }
 
@@ -626,19 +598,7 @@ public class CategoryTabs extends BaseActivity {
     protected void onStop() {
         // TODO Auto-generated method stub
         super.onStop();
-        try{
-            AppsFlyerLib.onActivityPause(this);
-        }catch(Exception e){}
-        try {
-//            EasyTracker.getInstance(this).activityStop(this);
-            FlurryAgent.onEndSession(this);
-        } catch (Exception e) {
-        }
-        try {
-            RocqAnalytics.stopScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
 }

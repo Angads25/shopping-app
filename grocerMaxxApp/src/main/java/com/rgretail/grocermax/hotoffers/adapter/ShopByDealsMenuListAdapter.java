@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
 import com.rgretail.grocermax.MyApplication;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.bean.ShopByDealModel;
@@ -93,7 +91,6 @@ public class ShopByDealsMenuListAdapter extends BaseAdapter {
                     MyApplication.isFromDrawer=true;
                     UtilityMethods.clickCapture(mContext, "Drawer - Deal Category L1", "", offerList.get(position).getDealType(), "", MySharedPrefs.INSTANCE.getSelectedCity());
 					//UtilityMethods.sendGTMEvent(mContext,"deal page",offerList.get(position).getDealType(),"Android Category Interaction");
-					RocqAnalytics.trackEvent("Drawer - Deal Category L1", new ActionProperties("Category", "Drawer - Deal Category L1", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",offerList.get(position).getDealType()));
                 /*QGraph event*/
 					/*JSONObject json=new JSONObject();
 					json.put("Deal label",offerList.get(position).getDealType());

@@ -10,8 +10,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.dq.rocq.RocqAnalytics;
-import com.flurry.android.FlurryAgent;
 import com.rgretail.grocermax.bean.CartDetail;
 import com.rgretail.grocermax.bean.OrderReviewBean;
 import com.rgretail.grocermax.preference.MySharedPrefs;
@@ -146,18 +144,7 @@ public class OffersPromoCode extends BaseActivity implements OnClickListener{
     protected void onStart() {
     	// TODO Auto-generated method stub
     	super.onStart();
-    	try{
-//	    	tracker.activityStart(this);
-	    	FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-	    	FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){}
-		 /*screen tracking using rocq*/
-		try {
-			RocqAnalytics.initialize(this);
-			RocqAnalytics.startScreen(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
        /*------------------------------*/
     }
     
@@ -165,15 +152,7 @@ public class OffersPromoCode extends BaseActivity implements OnClickListener{
     protected void onStop() {
     	// TODO Auto-generated method stub
     	super.onStop();
-    	try{
-//	    	tracker.activityStop(this);
-	    	FlurryAgent.onEndSession(this);
-    	}catch(Exception e){}
-		try {
-			RocqAnalytics.stopScreen(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
     }
     
 	@Override

@@ -15,8 +15,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.CategoryActivity1;
@@ -135,7 +133,6 @@ public class ShopByCategoryListAdapter extends BaseAdapter {
                 try{
                     UtilityMethods.clickCapture(context, "L1", "",data.get(position).getName(), "", MySharedPrefs.INSTANCE.getSelectedCity());
                     UtilityMethods.sendGTMEvent(activity,"category page",data.get(position).getName(),"Android Category Interaction");
-                    RocqAnalytics.trackEvent("L1", new ActionProperties("Category", "L1", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", data.get(position).getName()));
                   /*QGraph event*/
                     JSONObject json=new JSONObject();
                     json.put("Category name",data.get(position).getName());

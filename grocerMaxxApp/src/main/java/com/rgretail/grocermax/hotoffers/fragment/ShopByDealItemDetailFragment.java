@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.MyApplication;
 import com.rgretail.grocermax.R;
@@ -150,7 +148,6 @@ public class ShopByDealItemDetailFragment extends Fragment {
             if(MyApplication.isFromDrawer==true){
             UtilityMethods.clickCapture(getActivity(), "Drawer - Deal Category L2", "", label, "", MySharedPrefs.INSTANCE.getSelectedCity());
                 UtilityMethods.sendGTMEvent(getActivity(),"Deal Page",label,"Android Deal Interaction");
-            RocqAnalytics.trackEvent("Drawer - Deal Category L2", new ActionProperties("Category", "Drawer - Deal Category L2", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",label));
             /*QGraph event*/
                /* JSONObject json=new JSONObject();
                 json.put("Deal label",label);
@@ -163,7 +160,6 @@ public class ShopByDealItemDetailFragment extends Fragment {
             else{
             UtilityMethods.clickCapture(getActivity(), "Deal Category L2", "", label, "", MySharedPrefs.INSTANCE.getSelectedCity());
                // UtilityMethods.sendGTMEvent(getActivity(),"deal page",label,"Android Category Interaction");
-            RocqAnalytics.trackEvent("Deal Category L2", new ActionProperties("Category", "Deal Category L2", "Action", MySharedPrefs.INSTANCE.getSelectedCity(),"Label",label));
             /*QGraph event*/
                 /*JSONObject json=new JSONObject();
                 json.put("Deal label",label);

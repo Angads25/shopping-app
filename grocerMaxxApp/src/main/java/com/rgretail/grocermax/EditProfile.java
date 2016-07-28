@@ -17,10 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
-import com.flurry.android.FlurryAgent;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.BaseResponseBean;
@@ -60,11 +56,7 @@ public class EditProfile extends BaseActivity{
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_profile);
 
-		try{
-			AppsFlyerLib.setCurrencyCode("INR");
-			AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
-			AppsFlyerLib.sendTracking(getApplicationContext());
-		}catch(Exception e){}
+
 
         try {
 			addActionsInFilter(MyReceiverActions.EDIT_PROFILE);
@@ -240,9 +232,7 @@ public class EditProfile extends BaseActivity{
                                 /*tracking GA event for edit profile and change password both*/
                    try{
                        UtilityMethods.clickCapture(activity,"Profile Activity","","Edit Information","",MySharedPrefs.INSTANCE.getSelectedCity());
-                       RocqAnalytics.trackEvent("Profile Activity", new ActionProperties("Category", "Profile Activity", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", "Edit Information"));
                        UtilityMethods.clickCapture(activity, "Profile Activity", "", "Change Password", "", MySharedPrefs.INSTANCE.getSelectedCity());
-                       RocqAnalytics.trackEvent("Profile Activity", new ActionProperties("Category", "Profile Activity", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label","Change Password"));
                    }catch(Exception e){
                        e.printStackTrace();
                    }
@@ -259,7 +249,6 @@ public class EditProfile extends BaseActivity{
                                 /*tracking GA event only for Edit information*/
                    try{
                        UtilityMethods.clickCapture(activity,"Profile Activity","","Edit Information","",MySharedPrefs.INSTANCE.getSelectedCity());
-                       RocqAnalytics.trackEvent("Profile Activity", new ActionProperties("Category", "Profile Activity", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label","Edit Information"));
                    }catch(Exception e){
                        e.printStackTrace();
                    }
@@ -417,9 +406,7 @@ public class EditProfile extends BaseActivity{
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		try{
-			AppsFlyerLib.onActivityResume(this);
-		}catch(Exception e){}
+
 		try{
 			initHeader(findViewById(R.id.header), true, "Edit Profile");
 		}catch(Exception e){
@@ -430,30 +417,14 @@ public class EditProfile extends BaseActivity{
 	@Override
 	public void onPause() {
 		super.onPause();
-		try{
-			AppsFlyerLib.onActivityPause(this);
-		}catch(Exception e){}
+
 	}
 
 	@Override
     protected void onStart() {
     	// TODO Auto-generated method stub
     	super.onStart();
-		try{
-			AppsFlyerLib.onActivityResume(this);
-		}catch(Exception e){}
-    	try{
-//			EasyTracker.getInstance(this).activityStart(this);
-			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-			FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){}
-        /*screen tracking using rocq*/
-        try {
-            RocqAnalytics.initialize(this);
-            RocqAnalytics.startScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
        /*------------------------------*/
     }
     
@@ -461,18 +432,7 @@ public class EditProfile extends BaseActivity{
     protected void onStop() {
     	// TODO Auto-generated method stub
     	super.onStop();
-		try{
-			AppsFlyerLib.onActivityPause(this);
-		}catch(Exception e){}
-    	try{
-//			EasyTracker.getInstance(this).activityStop(this);
-			FlurryAgent.onEndSession(this);
-    	}catch(Exception e){}
-        try {
-            RocqAnalytics.stopScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 	
 }

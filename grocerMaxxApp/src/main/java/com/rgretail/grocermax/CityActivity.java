@@ -14,9 +14,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
 import com.rgretail.grocermax.api.BillingStateCityLoader;
 import com.rgretail.grocermax.api.ConnectionService;
@@ -63,17 +60,7 @@ public class CityActivity extends BaseActivity {
     @Override
     public void onStart() {
         super.onStart();
-        try{
-            AppsFlyerLib.onActivityResume(this);
-        }catch(Exception e){}
 
-        /*screen tracking using rocq*/
-        try {
-            RocqAnalytics.initialize(this);
-            RocqAnalytics.startScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
        /*------------------------------*/
     }
 
@@ -82,11 +69,7 @@ public class CityActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try{
-            AppsFlyerLib.setCurrencyCode("INR");
-            AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
-            AppsFlyerLib.sendTracking(getApplicationContext());
-        }catch(Exception e){}
+
         try{
         setContentView(R.layout.location_screen);
         addActionsInFilter(MyReceiverActions.CATEGORY_LIST);
@@ -316,17 +299,13 @@ public class CityActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        try{
-            AppsFlyerLib.onActivityResume(this);
-        }catch(Exception e){}
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        try{
-            AppsFlyerLib.onActivityPause(this);
-        }catch(Exception e){}
+
     }
 
     @Override
@@ -394,13 +373,11 @@ public class CityActivity extends BaseActivity {
             if(MyApplication.isFromDrawer){
                 try {
                     UtilityMethods.clickCapture(mContext, "City Change", "", "", "", MySharedPrefs.INSTANCE.getSelectedCity());
-                    RocqAnalytics.trackEvent("City Change", new ActionProperties("Category", "City Change", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
                 } catch (Exception e) {
                 }
             }else {
                 try {
                     UtilityMethods.clickCapture(mContext, "Profile Activity", "", "City Change", "", MySharedPrefs.INSTANCE.getSelectedCity());
-                    RocqAnalytics.trackEvent("Profile Activity", new ActionProperties("Category", "Profile Activity", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label","City Change"));
                 } catch (Exception e) {
                 }
             }
@@ -451,15 +428,7 @@ public class CityActivity extends BaseActivity {
     @Override
     public void onStop() {
         super.onStop();
-        try{
-            AppsFlyerLib.onActivityPause(this);
-        }catch(Exception e){}
 
-        try {
-            RocqAnalytics.stopScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

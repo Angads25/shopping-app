@@ -16,10 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
-import com.flurry.android.FlurryAgent;
 import com.rgretail.grocermax.adapters.CartAdapter;
 import com.rgretail.grocermax.adapters.UpdateCartListAdapter;
 import com.rgretail.grocermax.api.ConnectionService;
@@ -99,11 +95,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_categoty_list);
 
-		try{
-			AppsFlyerLib.setCurrencyCode("INR");
-			AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
-			AppsFlyerLib.sendTracking(getApplicationContext());
-		}catch(Exception e){}
+
 
 		try {
 			user_id = MySharedPrefs.INSTANCE.getUserId();
@@ -801,7 +793,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 
 						UtilityMethods.sendGTMEvent(activity,"Proceed Details","totalQty="+MySharedPrefs.INSTANCE.getTotalItem()+"/order_amount="+String.format("%.2f", Float.parseFloat(orderReviewBean.getGrandTotal())),"Android Proceed to Checkout");
 
-						RocqAnalytics.trackEvent("Proceed to Checkout", new ActionProperties("Category", "Proceed to Checkout", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -1055,7 +1046,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
             /*-----track event for update cart-------*/
             try{
                 UtilityMethods.clickCapture(activity,"Update Cart","","","",MySharedPrefs.INSTANCE.getSelectedCity());
-				RocqAnalytics.trackEvent("Update Cart", new ActionProperties("Category", "Update Cart", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -1258,9 +1248,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		try{
-			AppsFlyerLib.onActivityResume(this);
-		}catch(Exception e){}
+
 
 		try {
 			System.out.println("resume entered");
@@ -1392,31 +1380,14 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	public void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		try{
-			AppsFlyerLib.onActivityPause(this);
-		}catch(Exception e){}
+
 	}
 
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-		try{
-			AppsFlyerLib.onActivityResume(this);
-		}catch(Exception e){}
 
-		try{
-//			EasyTracker.getInstance(this).activityStart(this);
-			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-			FlurryAgent.onPageView();         //Use onPageView to report page view count.
-		}catch(Exception e){}
-		/*screen tracking using rocq*/
-		try {
-			RocqAnalytics.initialize(this);
-			RocqAnalytics.startScreen(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
        /*------------------------------*/
 	}
 
@@ -1424,18 +1395,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		try{
-			AppsFlyerLib.onActivityPause(this);
-		}catch(Exception e){}
-		try{
-//			EasyTracker.getInstance(this).activityStop(this);
-			FlurryAgent.onEndSession(this);
-		}catch(Exception e){}
-		try {
-			RocqAnalytics.stopScreen(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
 	}
 
 	@Override

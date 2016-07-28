@@ -5,9 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 
-import com.appsflyer.AppsFlyerLib;
-import com.dq.rocq.RocqAnalytics;
-import com.flurry.android.FlurryAgent;
 import com.paytm.pgsdk.PaytmMerchant;
 import com.paytm.pgsdk.PaytmOrder;
 import com.paytm.pgsdk.PaytmPGService;
@@ -66,11 +63,7 @@ public class PayTMActivity extends BaseActivity
 		Log.d("LOG", "onCreate of MainActivity");
 		getWindow().requestFeature(Window.FEATURE_PROGRESS);
 		setContentView(R.layout.paytm);
-		try{
-			AppsFlyerLib.setCurrencyCode("INR");
-			AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
-			AppsFlyerLib.sendTracking(getApplicationContext());
-		}catch(Exception e){}
+
 		try {
 			amount = getIntent().getStringExtra("amount");
 			order_id = getIntent().getStringExtra("order_id");
@@ -286,17 +279,13 @@ public class PayTMActivity extends BaseActivity
 	public void onResume() {
 		super.onResume();
 
-		try{
-			AppsFlyerLib.onActivityResume(this);
-		}catch(Exception e){}
+
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		try{
-			AppsFlyerLib.onActivityPause(this);
-		}catch(Exception e){}
+
 	}
 
 	@Override
@@ -356,21 +345,7 @@ public class PayTMActivity extends BaseActivity
     protected void onStart() {
     	// TODO Auto-generated method stub
     	super.onStart();
-		try{
-			AppsFlyerLib.onActivityResume(this);
-		}catch(Exception e){}
-    	try{
-//			EasyTracker.getInstance(this).activityStart(this);
-			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-			FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){}
-		 /*screen tracking using rocq*/
-		try {
-			RocqAnalytics.initialize(this);
-			RocqAnalytics.startScreen(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
        /*------------------------------*/
     }
     
@@ -378,18 +353,7 @@ public class PayTMActivity extends BaseActivity
     protected void onStop() {
     	// TODO Auto-generated method stub
     	super.onStop();
-		try{
-			AppsFlyerLib.onActivityPause(this);
-		}catch(Exception e){}
-    	try{
-//			EasyTracker.getInstance(this).activityStop(this);
-			FlurryAgent.onEndSession(this);
-    	}catch(Exception e){}
-		try {
-			RocqAnalytics.stopScreen(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
     }
 	
 }

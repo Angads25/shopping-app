@@ -14,8 +14,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.BaseActivity;
@@ -260,7 +258,6 @@ public class CategoryScreenAdapter extends BaseAdapter {
                         try{
                             UtilityMethods.clickCapture(activity, "L2", "", alcatObjSend.get(position).getCategory(), "", MySharedPrefs.INSTANCE.getSelectedCity());
                             UtilityMethods.sendGTMEvent(activity,"category page",alcatObjSend.get(position).getCategory(),"Android Category Interaction");
-                            RocqAnalytics.trackEvent("L2", new ActionProperties("Category", "L2", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",alcatObjSend.get(position).getCategory()));
                           /*QGraph event*/
                             JSONObject json=new JSONObject();
                             json.put("Category name",alcatObjSend.get(position).getCategory());

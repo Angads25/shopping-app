@@ -9,8 +9,6 @@ import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.appsflyer.AppsFlyerLib;
-import com.dq.rocq.RocqAnalytics;
 import com.google.gson.Gson;
 import com.rgretail.grocermax.adapters.CategoryScreenAdapter;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
@@ -63,11 +61,7 @@ public class CategoryActivity1 extends BaseActivity {
             addActionsInFilter(MyReceiverActions.PRODUCT_LISTING_BY_DEALTYPE);
 
 
-            try {
-                AppsFlyerLib.setCurrencyCode("INR");
-                AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
-                AppsFlyerLib.sendTracking(getApplicationContext());
-            } catch (Exception e) {}
+
             lv_catg=(ListView)findViewById(R.id.cat_list);
 
 
@@ -160,16 +154,7 @@ public class CategoryActivity1 extends BaseActivity {
     @Override
     public void onStart() {
         super.onStart();
-        try{
-            AppsFlyerLib.onActivityResume(this);
-        }catch(Exception e){}
-        /*screen tracking using rocq*/
-        try {
-            RocqAnalytics.initialize(this);
-            RocqAnalytics.startScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
        /*------------------------------*/
     }
 
@@ -180,7 +165,6 @@ public class CategoryActivity1 extends BaseActivity {
             initHeader(findViewById(R.id.app_bar_header), true, strCatName);
             initBottom(findViewById(R.id.footer));
             showSubscriptionPopup();
-            AppsFlyerLib.onActivityResume(this);
         }catch(Exception e){}
 
     }
@@ -188,22 +172,13 @@ public class CategoryActivity1 extends BaseActivity {
     @Override
     public void onPause() {
         super.onPause();
-        try{
-            AppsFlyerLib.onActivityPause(this);
-        }catch(Exception e){}
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        try{
-            AppsFlyerLib.onActivityPause(this);
-        }catch(Exception e){}
-        try {
-            RocqAnalytics.stopScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override

@@ -31,7 +31,6 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import com.dq.rocq.push.RocqGcmIntentService;
 import com.google.android.gms.gcm.GcmListenerService;
 import com.quantumgraph.sdk.GcmNotificationIntentService;
 import com.quantumgraph.sdk.QG;
@@ -71,8 +70,7 @@ public class GCMIntentService extends GcmListenerService {
                 intent.putExtras(data);
                 getApplicationContext().startService(intent);
                 return;
-            }else if(!new RocqGcmIntentService().handleRocqMessage(data, getApplicationContext()))
-            {
+            }else{
                 System.out.println("notification recieved");
 
                 String message = data.getString("message");

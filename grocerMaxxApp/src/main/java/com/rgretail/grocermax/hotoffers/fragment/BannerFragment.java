@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.DealListScreen;
@@ -94,7 +92,6 @@ public class BannerFragment extends Fragment {
                     try{
                         UtilityMethods.clickCapture(getActivity(),"Banner Click","",imageUrl,"", MySharedPrefs.INSTANCE.getSelectedCity());
                         UtilityMethods.sendGTMEvent(context,"Home - Flagship",name,"Android Deal Interaction");
-                        RocqAnalytics.trackEvent("Banner Click", new ActionProperties("Category", "Banner Click", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",imageUrl));
                     /*QGraph event*/
                         JSONObject json=new JSONObject();
                         json.put("Banner Name",name);
@@ -205,10 +202,15 @@ public class BannerFragment extends Fragment {
                         String url = UrlsConstants.NEW_BASE_URL + linkurl;
                         ((HomeScreen) context).myApi.reqProductDetailFromNotification(url);
                     }else if(strType.equalsIgnoreCase("singlepage")){
-
-                        ((HomeScreen) context).showDialog();
-                        String url = UrlsConstants.PAGE_BANNER_MSG;
-                        ((HomeScreen) context).myApi.reqSinglePageDate(url);
+                        try {
+                            index = linkurl.indexOf("?");
+                            String id=linkurl.substring(index+1,linkurl.length());
+                            ((HomeScreen) context).showDialog();
+                            String url = UrlsConstants.PAGE_BANNER_MSG+"?"+id;
+                            ((HomeScreen) context).myApi.reqSinglePageDate(url);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }catch(Exception e){}
 

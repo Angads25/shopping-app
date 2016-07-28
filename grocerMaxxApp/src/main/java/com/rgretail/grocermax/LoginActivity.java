@@ -11,9 +11,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -23,7 +20,6 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.flurry.android.FlurryAgent;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
@@ -103,11 +99,7 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 //		setContentView(R.layout.order_failure);
 
 
-		try{
-			AppsFlyerLib.setCurrencyCode("INR");
-			AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
-			AppsFlyerLib.sendTracking(getApplicationContext());
-		}catch(Exception e){}
+
 
 		try {
 			//context = this;
@@ -347,7 +339,6 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 						UtilityMethods.sendGTMEvent(activity,"Login","Existing User","Android Checkout Funnel");
 						UtilityMethods.clickCapture(context,"Login","","Regular","",MySharedPrefs.INSTANCE.getSelectedCity()); /*GA Tracking*/
                         MySharedPrefs.INSTANCE.putLoginMethod("Regular");
-						RocqAnalytics.trackEvent("Login", new ActionProperties("Category", "Login", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", "Regular")); /*ROCQ Tracking*/
                     }catch(Exception e){}
 
 
@@ -418,7 +409,6 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 			try{
 				UtilityMethods.sendGTMEvent(activity,"Login","Existing User","Android Checkout Funnel");
 				UtilityMethods.clickCapture(context, "Login", "", "Facebook", "", MySharedPrefs.INSTANCE.getSelectedCity()); /*GA Tracking*/
-				RocqAnalytics.trackEvent("Login", new ActionProperties("Category", "Login", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", "Facebook")); /*ROCQ Tracking*/
 
 			}catch(Exception e){}
 
@@ -720,40 +710,19 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-		try{
-			AppsFlyerLib.onActivityResume(this);
-		}catch(Exception e){}
-		try{
-//			EasyTracker.getInstance(this).activityStart(this);
-			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-			FlurryAgent.onPageView();         //Use onPageView to report page view count.
-		}catch(Exception e){}
-		 /*screen tracking using rocq*/
-		try {
-			RocqAnalytics.initialize(this);
-			RocqAnalytics.startScreen(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
        /*------------------------------*/
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		try{
-			AppsFlyerLib.onActivityResume(this);
-		}catch(Exception e){}
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		try{
-			AppsFlyerLib.onActivityPause(this);
-            System.out.println("Ishan onPAuse");
-		}catch(Exception e){}
+
 	}
 
 	@Override
@@ -761,12 +730,9 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 		// TODO Auto-generated method stub
 		super.onStop();
         System.out.println("Ishan onStop");
-		try{
-			AppsFlyerLib.onActivityPause(this);
-		}catch(Exception e){}
+
 		try{
 //			EasyTracker.getInstance(this).activityStop(this);
-			FlurryAgent.onEndSession(this);
             googlePlusLogout();
 			if(mGoogleApiClient != null){
 				if (mGoogleApiClient.isConnected()) {
@@ -775,11 +741,7 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 			}
 
 		}catch(Exception e){}
-		try {
-			RocqAnalytics.stopScreen(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
 	}
 
 	/**************************************************  GOOGLE PLUS INTEGARTION *************************************************/
@@ -1037,7 +999,6 @@ public class LoginActivity extends BaseActivity implements ConnectionCallbacks, 
 			try{
 				UtilityMethods.sendGTMEvent(activity,"Login","Existing User","Android Checkout Funnel");
 				UtilityMethods.clickCapture(context, "Login", "", "Google", "", MySharedPrefs.INSTANCE.getSelectedCity()); /*GA Tracking*/
-				RocqAnalytics.trackEvent("Login",new ActionProperties("Category","Login","Action",MySharedPrefs.INSTANCE.getSelectedCity(),"Label","Google")); /*ROCQ Tracking*/
 
 			}catch(Exception e){}
             MySharedPrefs.INSTANCE.putLoginMethod("Social");

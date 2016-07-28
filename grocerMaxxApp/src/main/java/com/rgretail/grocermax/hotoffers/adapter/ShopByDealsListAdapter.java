@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.MyApplication;
@@ -87,7 +85,6 @@ public class ShopByDealsListAdapter extends RecyclerView.Adapter<ShopByDealsList
                     MyApplication.isFromDrawer=false;
                     UtilityMethods.clickCapture(context, "Deal Category L1", "", data.get(position).getDealType(),"", MySharedPrefs.INSTANCE.getSelectedCity());
                     //UtilityMethods.sendGTMEvent(context,"deal page",data.get(position).getDealType(),"Android Category Interaction");
-                    RocqAnalytics.trackEvent("Deal Category L1", new ActionProperties("Category", "Deal Category L1", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",data.get(position).getDealType()));
                 /*QGraph event*/
                    /* JSONObject json=new JSONObject();
                     json.put("Deal label",data.get(position).getDealType());

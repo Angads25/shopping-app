@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.dq.rocq.RocqAnalytics;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -24,7 +23,6 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.flurry.android.FlurryAgent;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -878,18 +876,7 @@ public class Registration extends BaseActivity implements
     protected void onStart() {
     	// TODO Auto-generated method stub
     	super.onStart();
-    	try{
-//			EasyTracker.getInstance(this).activityStart(this);
-			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-			FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){}
-		/*screen tracking using rocq*/
-		try {
-			RocqAnalytics.initialize(this);
-			RocqAnalytics.startScreen(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
        /*------------------------------*/
     }
     
@@ -897,15 +884,7 @@ public class Registration extends BaseActivity implements
     protected void onStop() {
     	// TODO Auto-generated method stub
     	super.onStop();
-    	try{
-//			EasyTracker.getInstance(this).activityStop(this);
-			FlurryAgent.onEndSession(this);
-    	}catch(Exception e){}
-		try {
-			RocqAnalytics.stopScreen(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
     }
 
 

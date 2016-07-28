@@ -23,9 +23,6 @@ import com.citrus.sdk.TransactionResponse;
 import com.citrus.sdk.ui.fragments.ResultFragment;
 import com.citrus.sdk.ui.utils.CitrusFlowManager;
 import com.citrus.sdk.ui.utils.ResultModel;
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
-import com.flurry.android.FlurryAgent;
 import com.mobikwik.sdk.MobikwikSDK;
 import com.mobikwik.sdk.lib.MKTransactionResponse;
 import com.mobikwik.sdk.lib.Transaction;
@@ -260,7 +257,6 @@ public class ReviewOrderAndPay extends BaseActivity
                         /*  capturing event when coupon is applied*/
                         try{
 							UtilityMethods.clickCapture(mContext,"Coupon Apply","","Coupon-"+etCouponCode.getText().toString(),"",MySharedPrefs.INSTANCE.getSelectedCity());
-							RocqAnalytics.trackEvent("Coupon Apply", new ActionProperties("Category", "Coupon Apply", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", "Coupon-"+etCouponCode.getText().toString()));
                         }catch(Exception e){}
                         /*----------------------------------------*/
 
@@ -286,7 +282,6 @@ public class ReviewOrderAndPay extends BaseActivity
                         /*  capturing event when coupon is removed*/
                         try{
 							UtilityMethods.clickCapture(mContext,"Coupon Remove","","Coupon-"+etCouponCode.getText().toString(),"",MySharedPrefs.INSTANCE.getSelectedCity());
-							RocqAnalytics.trackEvent("Coupon Remove", new ActionProperties("Category", "Coupon Remove", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", "Coupon-"+etCouponCode.getText().toString()));
                         }catch(Exception e){}
                         /*----------------------------------------*/
 
@@ -679,7 +674,6 @@ public class ReviewOrderAndPay extends BaseActivity
 						UtilityMethods.clickCapture(mContext,"Review and Place order","","","",MySharedPrefs.INSTANCE.getSelectedCity());
 						String data=MySharedPrefs.INSTANCE.getUserEmail()+"/"+MySharedPrefs.INSTANCE.getUserId();
 						UtilityMethods.sendGTMEvent(activity,"Payment Method",data,"Android Checkout Funnel");
-						RocqAnalytics.trackEvent("Review and Place order", new ActionProperties("Category", "Review and Place order", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
 					 /*QGraph event*/
 						JSONObject json=new JSONObject();
 						json.put("Payment Option",payment_mode);
@@ -1459,18 +1453,7 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-		try{
-//			EasyTracker.getInstance(this).activityStart(this);
-			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-			FlurryAgent.onPageView();         //Use onPageView to report page view count.
-		}catch(Exception e){}
-		 /*screen tracking using rocq*/
-		try {
-			RocqAnalytics.initialize(this);
-			RocqAnalytics.startScreen(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
        /*------------------------------*/
 	}
 
@@ -1481,13 +1464,8 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 		try{
 			pause_timeing = dateFormat.format(new Date());
 			System.out.println("pause timing="+pause_timeing);
-			FlurryAgent.onEndSession(this);
 		}catch(Exception e){}
-		try {
-			RocqAnalytics.stopScreen(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
 	}
 
 

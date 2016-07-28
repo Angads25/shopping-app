@@ -251,15 +251,9 @@
             android:screenOrientation="portrait" />
         -->
             <!--   meta data for Rocq Notification-->
-        <meta-data
-            android:name="rocq_notofication_icon"
-        android:value="grocemax_cloud" />
 
-        <activity
-            android:name="com.dq.rocq.inapp.RocqInappMessageActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
-        </activity>
+
+
 
         <meta-data
             android:name="rocq_homescreen"

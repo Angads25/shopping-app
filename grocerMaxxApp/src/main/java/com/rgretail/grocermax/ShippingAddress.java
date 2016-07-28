@@ -10,9 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
-import com.flurry.android.FlurryAgent;
 import com.rgretail.grocermax.adapters.BillingAdapter;
 import com.rgretail.grocermax.adapters.ShippingAdapter;
 import com.rgretail.grocermax.api.BillingStateCityLoader;
@@ -275,7 +272,6 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                             UtilityMethods.clickCapture(mContext,"Shipping address","","","",MySharedPrefs.INSTANCE.getSelectedCity());
                             String data=MySharedPrefs.INSTANCE.getUserEmail()+"/"+MySharedPrefs.INSTANCE.getUserId();
                             UtilityMethods.sendGTMEvent(activity,"Shipping",data,"Android Checkout Funnel");
-                            RocqAnalytics.trackEvent("Shipping address", new ActionProperties("Category", "Shipping address", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
 
                             /*QGraph event*/
                             JSONObject json=new JSONObject();
@@ -557,18 +553,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
     protected void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
-        try{
-//            EasyTracker.getInstance(this).activityStart(this);
-            FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-            FlurryAgent.onPageView();         //Use onPageView to report page view count.
-        }catch(Exception e){}
-        /*screen tracking using rocq*/
-        try {
-            RocqAnalytics.initialize(this);
-            RocqAnalytics.startScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
        /*------------------------------*/
     }
 
@@ -576,15 +561,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
     protected void onStop() {
         // TODO Auto-generated method stub
         super.onStop();
-        try{
-//            EasyTracker.getInstance(this).activityStop(this);
-            FlurryAgent.onEndSession(this);
-        }catch(Exception e){}
-        try {
-            RocqAnalytics.stopScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
 }

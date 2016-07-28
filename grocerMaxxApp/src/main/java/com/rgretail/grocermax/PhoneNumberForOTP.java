@@ -9,9 +9,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
-import com.dq.rocq.RocqAnalytics;
-import com.flurry.android.FlurryAgent;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.OTPResponse;
@@ -42,11 +39,7 @@ public class PhoneNumberForOTP extends BaseActivity {
         setContentView(R.layout.otp);
 
         addActionsInFilter(MyReceiverActions.OTP);
-        try {
-            AppsFlyerLib.setCurrencyCode("INR");
-            AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
-            AppsFlyerLib.sendTracking(getApplicationContext());
-        } catch (Exception e) {}
+
 
         tv_msg=(TextView)findViewById(R.id.tv_msg);
         tv_suggesion=(TextView)findViewById(R.id.tv_suggesion);
@@ -135,21 +128,7 @@ public class PhoneNumberForOTP extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        try{
-            AppsFlyerLib.onActivityResume(this);
-        }catch(Exception e){}
-        try {
-//            EasyTracker.getInstance(this).activityStart(this);
-            FlurryAgent.onStartSession(this, getResources().getString(R.string.flurry_api_key));
-            FlurryAgent.onPageView();         //Use onPageView to report page view count.
-        }catch(Exception e){}
-        /*screen tracking using rocq*/
-        try {
-            RocqAnalytics.initialize(this);
-            RocqAnalytics.startScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
        /*------------------------------*/
     }
 
@@ -157,18 +136,7 @@ public class PhoneNumberForOTP extends BaseActivity {
     protected void onStop() {
         // TODO Auto-generated method stub
         super.onStop();
-        try{
-            AppsFlyerLib.onActivityPause(this);
-        }catch(Exception e){}
-        try{
-//            EasyTracker.getInstance(this).activityStop(this);
-            FlurryAgent.onEndSession(this);
-        }catch(Exception e){}
-        try {
-            RocqAnalytics.stopScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override
@@ -176,16 +144,13 @@ public class PhoneNumberForOTP extends BaseActivity {
         super.onResume();
         try{
             initHeader(findViewById(R.id.header), true, null);
-            AppsFlyerLib.onActivityResume(this);
         }catch(Exception e){}
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        try{
-            AppsFlyerLib.onActivityPause(this);
-        }catch(Exception e){}
+
     }
 
     @Override

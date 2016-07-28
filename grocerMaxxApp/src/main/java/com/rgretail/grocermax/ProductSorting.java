@@ -10,8 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.appsflyer.AppsFlyerLib;
-import com.dq.rocq.RocqAnalytics;
 
 
 public class ProductSorting extends BaseActivity implements View.OnClickListener{
@@ -27,11 +25,6 @@ public class ProductSorting extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_sorting);
 
-        try{
-            AppsFlyerLib.setCurrencyCode("INR");
-            AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");
-            AppsFlyerLib.sendTracking(getApplicationContext());
-        }catch(Exception e){}
         context = this;
 
         icon_header_back=(ImageView)findViewById(R.id.icon_header_back);
@@ -98,26 +91,13 @@ public class ProductSorting extends BaseActivity implements View.OnClickListener
     @Override
     public void onStart() {
         super.onStart();
-        try{
-            AppsFlyerLib.onActivityResume(this);
-        }catch(Exception e){}
-        /*screen tracking using rocq*/
-        try {
-            RocqAnalytics.initialize(this);
-            RocqAnalytics.startScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
        /*------------------------------*/
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        try{
-           // initHeader(findViewById(R.id.header), true, "Sort");
-            AppsFlyerLib.onActivityResume(this);
-        }catch(Exception e){}
 
        /* try {
             icon_header_search.setVisibility(View.GONE);
@@ -129,22 +109,13 @@ public class ProductSorting extends BaseActivity implements View.OnClickListener
     @Override
     public void onPause() {
         super.onPause();
-        try{
-            AppsFlyerLib.onActivityPause(this);
-        }catch(Exception e){}
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        try{
-            AppsFlyerLib.onActivityPause(this);
-        }catch(Exception e){}
-        try {
-            RocqAnalytics.stopScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override

@@ -43,10 +43,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.appsflyer.AFInAppEventParameterName;
-import com.appsflyer.AppsFlyerLib;
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
 import com.facebook.AccessToken;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
@@ -59,6 +55,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.rgretail.grocermax.BaseActivity;
+import com.rgretail.grocermax.GCM.GCMClientManager;
 import com.rgretail.grocermax.LoginActivity;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.Registration;
@@ -580,7 +577,6 @@ public class UtilityMethods {
                     /*tracking GA event for logout action*/
             try{
                 UtilityMethods.clickCapture((Activity)ctx,"Profile Activity","","Logout","",MySharedPrefs.INSTANCE.getSelectedCity());
-                RocqAnalytics.trackEvent("Profile Activity", new ActionProperties("Category", "Profile Activity", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", "Logout"));
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -1571,19 +1567,6 @@ public class UtilityMethods {
 	public static void clickCapture(Context context,String strPrice,String strContentType,String strContentId,String strName,String strEventName){
 		//		5 /Example 2: ​Purchase Event/
 
-        /*For AppsFlyer event tracking*/
-        try {
-			Map<String, Object> eventValue = new HashMap<String, Object>();
-			eventValue.put(AFInAppEventParameterName.PRICE, strPrice);
-			eventValue.put(AFInAppEventParameterName.CONTENT_TYPE, strContentType);
-			eventValue.put(AFInAppEventParameterName.CONTENT_ID, strContentId);
-			eventValue.put("NAME", strName);
-			eventValue.put(AFInAppEventParameterName.CURRENCY, "INR");
-			;
-			AppsFlyerLib.trackEvent(context, strEventName, eventValue);
-		}catch(Exception e){}
-
-
         /*For google event tracking*/
         try {
 			if(BaseActivity.mTracker != null) {
@@ -1971,5 +1954,10 @@ public class UtilityMethods {
         listView.setLayoutParams(params);
         listView.requestLayout();
     }
+
+
+
+
+
 
 }

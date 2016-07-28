@@ -1,6 +1,7 @@
 package com.rgretail.grocermax.GCM;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -10,7 +11,14 @@ import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.rgretail.grocermax.api.ConnectionService;
+import com.rgretail.grocermax.api.ConnectionServiceParser;
+import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.preference.MySharedPrefs;
+import com.rgretail.grocermax.utils.UrlsConstants;
+import com.rgretail.grocermax.utils.UtilityMethods;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -96,6 +104,53 @@ public class GCMClientManager {
 			protected void onPostExecute(String regId) {
 			    if (regId != null) {
                     MySharedPrefs.INSTANCE.putGCMDeviceTocken(regId);
+
+					try {
+						String strurl = UrlsConstants.SEND_DEVICE_TOKEN;
+						JSONObject dataSendTOserver = new JSONObject();
+						if(MySharedPrefs.INSTANCE.getGCMDeviceTocken()!=null)
+							dataSendTOserver.put("device_token",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
+						else
+							dataSendTOserver.put("device_token","");
+
+						if(UtilityMethods.getDeviceId(getContext())!=null)
+							dataSendTOserver.put("device_id", UtilityMethods.getDeviceId(getContext()));
+						else
+							dataSendTOserver.put("device_id","");
+
+						if(MySharedPrefs.INSTANCE.getUserEmail()!=null)
+							dataSendTOserver.put("email", MySharedPrefs.INSTANCE.getUserEmail().trim());
+						else
+							dataSendTOserver.put("email","");
+
+						if(MySharedPrefs.INSTANCE.getUserId()!=null)
+							dataSendTOserver.put("fname", MySharedPrefs.INSTANCE.getUserId().trim());
+						else
+							dataSendTOserver.put("fname","");
+
+						try{
+							Intent reqIntent = new Intent(getContext(), ConnectionService.class);
+							reqIntent.putExtra(ConnectionService.ACTION, MyReceiverActions.REG_DEVICE_TOKEN);
+							reqIntent.putExtra(ConnectionService.URL, strurl.replaceAll(" ", "%20"));
+							if(dataSendTOserver.length() > 0){
+								reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "POST");
+								reqIntent.putExtra(ConnectionService.JSON_STRING, String.valueOf(dataSendTOserver));
+							}else{
+								reqIntent.putExtra(ConnectionService.HTTP_REQUEST_TYPE, "GET");
+							}
+							reqIntent.putExtra(ConnectionService.PARSE_TYPE, ConnectionServiceParser.MyParserType.REG_DEVICE_TOKEN);
+							getContext().startService(reqIntent);
+						}catch(Exception e){
+							e.printStackTrace();
+						}
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+
+
+
 			        handler.onSuccess(regId, true);
 			    }
 			}

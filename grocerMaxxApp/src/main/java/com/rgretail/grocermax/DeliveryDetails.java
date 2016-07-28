@@ -19,10 +19,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
-import com.flurry.android.FlurryAgent;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.Address;
 import com.rgretail.grocermax.bean.CheckoutAddressBean;
@@ -81,11 +77,7 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
 
         auto_selected=0;
         selected_position=-1;
-        try{
-            AppsFlyerLib.setCurrencyCode("INR");
-            AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
-            AppsFlyerLib.sendTracking(getApplicationContext());
-        }catch(Exception e){}
+
         try {
             addActionsInFilter(MyReceiverActions.ADD_ADDRESS);
             addActionsInFilter(MyReceiverActions.ADD_BILL_ADDRESS);
@@ -139,7 +131,6 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
                             UtilityMethods.clickCapture(mContext,"Delivery details","","","",MySharedPrefs.INSTANCE.getSelectedCity());
                             String data=MySharedPrefs.INSTANCE.getUserEmail()+"/"+MySharedPrefs.INSTANCE.getUserId();
                             UtilityMethods.sendGTMEvent(activity,"Delivery Slot",data,"Android Checkout Funnel");
-                            RocqAnalytics.trackEvent("Delivery details", new ActionProperties("Category", "Delivery details", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
                             /*QGraph event*/
                             JSONObject json=new JSONObject();
                             json.put("Delivery Slot",time);
@@ -547,16 +538,13 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
         super.onResume();
         try{
             initHeader(findViewById(R.id.app_bar_header), true, "Delivery Details");
-            AppsFlyerLib.onActivityResume(this);
         }catch(Exception e){}
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        try{
-            AppsFlyerLib.onActivityPause(this);
-        }catch(Exception e){}
+
     }
 
 
@@ -569,21 +557,7 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
     protected void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
-        try{
-            AppsFlyerLib.onActivityResume(this);
-        }catch(Exception e){}
-        try{
-//            EasyTracker.getInstance(this).activityStart(this);
-            FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-            FlurryAgent.onPageView();         //Use onPageView to report page view count.
-        }catch(Exception e){}
-        /*screen tracking using rocq*/
-        try {
-            RocqAnalytics.initialize(this);
-            RocqAnalytics.startScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
        /*------------------------------*/
     }
 
@@ -591,19 +565,7 @@ public class DeliveryDetails extends BaseActivity implements View.OnClickListene
     protected void onStop() {
         // TODO Auto-generated method stub
         super.onStop();
-        try{
-            AppsFlyerLib.onActivityPause(this);
-        }catch(Exception e){}
-        try{
-//            EasyTracker.getInstance(this).activityStop(this);
-            FlurryAgent.onEndSession(this);
-        }catch(Exception e){}
 
-        try {
-            RocqAnalytics.stopScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public class TimeSlotAdapter extends BaseAdapter{

@@ -16,10 +16,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
-import com.flurry.android.FlurryAgent;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
@@ -76,11 +72,7 @@ public class ProductDetailScreen extends BaseActivity implements
         super.onCreate(savedInstanceState);
         super.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        try{
-            AppsFlyerLib.setCurrencyCode("INR");
-            AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
-            AppsFlyerLib.sendTracking(getApplicationContext());
-        }catch(Exception e){}
+
         try {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
@@ -367,7 +359,6 @@ public class ProductDetailScreen extends BaseActivity implements
                         try{
                             UtilityMethods.clickCapture(activity,"Add to Cart","",product.getName(),"",MySharedPrefs.INSTANCE.getSelectedCity());
                             UtilityMethods.sendGTMEvent(activity,"product detail page","productName="+product.getName()+"/productId="+product.getProductid(),"Android Add to Cart");
-                            RocqAnalytics.trackEvent("Add to Cart", new ActionProperties("Category", "Add to Cart", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", product.getName()));
 
                             /*QGraph event*/
                             JSONObject json=new JSONObject();
@@ -535,9 +526,7 @@ public class ProductDetailScreen extends BaseActivity implements
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        try{
-            AppsFlyerLib.onActivityResume(this);
-        }catch(Exception e){}
+
         try {
 //			initHeader(findViewById(R.id.header), true, null);
             initHeader(findViewById(R.id.header), true, screenName);
@@ -551,31 +540,14 @@ public class ProductDetailScreen extends BaseActivity implements
     @Override
     public void onPause() {
         super.onPause();
-        try{
-            AppsFlyerLib.onActivityPause(this);
-        }catch(Exception e){}
+
     }
 
     @Override
     protected void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
-        try{
-            AppsFlyerLib.onActivityResume(this);
-        }catch(Exception e){}
-        try {
-//            EasyTracker.getInstance(this).activityStart(this);
-            FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-            FlurryAgent.onPageView();         //Use onPageView to report page view count.
-        } catch (Exception e) {
-        }
-        /*screen tracking using rocq*/
-        try {
-            RocqAnalytics.initialize(this);
-            RocqAnalytics.startScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
        /*------------------------------*/
     }
 
@@ -583,19 +555,7 @@ public class ProductDetailScreen extends BaseActivity implements
     protected void onStop() {
         // TODO Auto-generated method stub
         super.onStop();
-        try{
-            AppsFlyerLib.onActivityPause(this);
-        }catch(Exception e){}
-        try {
-//            EasyTracker.getInstance(this).activityStop(this);
-            FlurryAgent.onEndSession(this);
-        } catch (Exception e) {
-        }
-        try {
-            RocqAnalytics.stopScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
 

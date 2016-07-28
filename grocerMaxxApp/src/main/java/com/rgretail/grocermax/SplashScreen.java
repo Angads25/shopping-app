@@ -14,8 +14,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
-import com.dq.rocq.RocqAnalytics;
 import com.rgretail.grocermax.GCM.GCMClientManager;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
@@ -63,26 +61,16 @@ public class SplashScreen extends BaseActivity
 		//Intent intent=new Intent(SplashScreen.this, ContactInfoService.class);
 		//startService(intent);
 
-        /*screen tracking using rocq*/
-        RocqAnalytics.initialize(this);
-        RocqAnalytics.startScreen(this);
-        /*------------------------------*/
-
 		/*deleting banner images from internal storage*/
 		UtilityMethods.deleteBannerDirecort(SplashScreen.this);
 
 
-        /*registering device on GCM server*/
+		System.out.println("GCM TOKEN="+MySharedPrefs.INSTANCE.getGCMDeviceTocken());
+		/*registering device on GCM server*/
         if(MySharedPrefs.INSTANCE.getGCMDeviceTocken()==null)
         	registerGCM();
         else{
-            /*set gcm registration id for Rocq Analytics*/
-            try {
-                RocqAnalytics.initialize(SplashScreen.this);
-                RocqAnalytics.setPushtRegistrationId(MySharedPrefs.INSTANCE.getGCMDeviceTocken(),SplashScreen.this);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
         }
 
 		addActionsInFilter(MyReceiverActions.LOCATION);
@@ -91,10 +79,6 @@ public class SplashScreen extends BaseActivity
 		MyApplication application = (MyApplication) getApplication();
 		mTracker = application.getDefaultTracker();
 
-		AppsFlyerLib.setCurrencyCode("INR");
-//		4
-		AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
-		AppsFlyerLib.sendTracking(getApplicationContext());        //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
 
 //		}                                                              //place in onCreate   //6.6  to report�launches�initiated�through�deeplinks
 
@@ -149,18 +133,12 @@ public class SplashScreen extends BaseActivity
 	@Override
 	public void onPause() {
 		super.onPause();
-		try{
-			AppsFlyerLib.onActivityPause(this);
-		}catch(Exception e){}
+
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		try{
-			AppsFlyerLib.onActivityResume(this);
-		}catch(Exception e){}
 
 			try {
 					if (!UtilityMethods.isInternetAvailable(activity)) {                 //exit app after 4 sec
@@ -280,14 +258,11 @@ public class SplashScreen extends BaseActivity
 	@Override
 	public void onStart() {
 		super.onStart();
-		AppsFlyerLib.onActivityResume(this);
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		AppsFlyerLib.onActivityPause(this);
-        RocqAnalytics.stopScreen(this);
 	}
 
 	public void registerGCM() {
@@ -296,24 +271,15 @@ public class SplashScreen extends BaseActivity
 			@Override
 			public void onSuccess(String registrationId,boolean isNewRegistration) {
 				DeviceRegistrationId = registrationId;
-
                 /*set gcm registration id for Rocq Analytics*/
-                try {
-                    RocqAnalytics.initialize(SplashScreen.this);
-                    RocqAnalytics.setPushtRegistrationId(registrationId,SplashScreen.this);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+
 				  /*save gcm token to our server*/
 				try {
 					saveGcmTokenTOServer();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
-
             }
-
 			@Override
 			public void onFailure(String ex) {
 				super.onFailure(ex);

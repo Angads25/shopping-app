@@ -8,9 +8,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
-import com.flurry.android.FlurryAgent;
 import com.rgretail.grocermax.adapters.OrderHistoryAdapter;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
@@ -93,7 +90,6 @@ public class OrderHistory extends BaseActivity{
         /*tracking event for reorder*/
         try{
             UtilityMethods.clickCapture(activity,"Profile Activity","","Reorder","",MySharedPrefs.INSTANCE.getSelectedCity());
-			RocqAnalytics.trackEvent("Profile Activity", new ActionProperties("Category", "Profile Activity", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label", "Reorder"));
 		}catch(Exception e){
             e.printStackTrace();
         }
@@ -149,19 +145,7 @@ public class OrderHistory extends BaseActivity{
     protected void onStart() {
     	// TODO Auto-generated method stub
     	super.onStart();
-    	try{
-//			EasyTracker.getInstance(this).activityStart(this);
-			FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-			FlurryAgent.onPageView();         //Use onPageView to report page view count.
-    	}catch(Exception e){
-		}
-		/*screen tracking using rocq*/
-		try {
-			RocqAnalytics.initialize(this);
-			RocqAnalytics.startScreen(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
        /*------------------------------*/
     }
     
@@ -169,15 +153,7 @@ public class OrderHistory extends BaseActivity{
     protected void onStop() {
     	// TODO Auto-generated method stub
     	super.onStop();
-    	try{
-//			EasyTracker.getInstance(this).activityStop(this);
-			FlurryAgent.onEndSession(this);
-    	}catch(Exception e){}
-		try {
-			RocqAnalytics.stopScreen(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
 
     }
 	

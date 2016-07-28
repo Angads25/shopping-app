@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
 
-import com.appsflyer.AppsFlyerLib;
 import com.google.gson.Gson;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.bean.DealByDealTypeBean;
@@ -85,7 +84,6 @@ public class CategoryOffer extends BaseActivity {
             showSubscriptionPopup();
             findViewById(R.id.header_left).setVisibility(View.VISIBLE);
             findViewById(R.id.header).setVisibility(View.GONE);
-            AppsFlyerLib.onActivityResume(this);
         }catch(Exception e){}
 
     }

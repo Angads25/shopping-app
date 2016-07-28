@@ -8,9 +8,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.appsflyer.AppsFlyerLib;
-import com.dq.rocq.RocqAnalytics;
-import com.flurry.android.FlurryAgent;
 import com.rgretail.grocermax.adapters.ProductListAdapter;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
@@ -56,11 +53,7 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try{
-            AppsFlyerLib.setCurrencyCode("INR");
-            AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
-            AppsFlyerLib.sendTracking(getApplicationContext());
-        }catch(Exception e){}
+
 
         try {
             Bundle bundle = getIntent().getExtras();
@@ -350,9 +343,7 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        try{
-            AppsFlyerLib.onActivityResume(this);
-        }catch(Exception e){}
+
         try{
             initHeader(findViewById(R.id.header), true, header);
             clickStatus=0;
@@ -364,31 +355,15 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
     @Override
     public void onPause() {
         super.onPause();
-        try{
-            AppsFlyerLib.onActivityPause(this);
-        }catch(Exception e){}
+
     }
 
     @Override
     protected void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
-        try{
-            AppsFlyerLib.onActivityResume(this);
-        }catch(Exception e){}
-        try{
-//            EasyTracker.getInstance(this).activityStart(this);
-            FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-            FlurryAgent.onPageView();         //Use onPageView to report page view count.
-        }catch(Exception e){}
 
-/*screen tracking using rocq*/
-        try {
-            RocqAnalytics.initialize(this);
-            RocqAnalytics.startScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
        /*------------------------------*/
 
 
@@ -398,19 +373,7 @@ public class DealListScreen extends BaseActivity implements AbsListView.OnScroll
     protected void onStop() {
         // TODO Auto-generated method stub
         super.onStop();
-        try{
-            AppsFlyerLib.onActivityPause(this);
-        }catch(Exception e){}
-        try{
-//            EasyTracker.getInstance(this).activityStop(this);
-            FlurryAgent.onEndSession(this);
-        }catch(Exception e){}
 
-        try {
-            RocqAnalytics.stopScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

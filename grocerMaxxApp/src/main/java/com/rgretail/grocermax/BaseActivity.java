@@ -46,8 +46,6 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.analytics.Tracker;
@@ -678,7 +676,6 @@ public void showSubscriptionPopup(){
 					UtilityMethods.setQGraphevent("Andriod Category Interaction - Search",json);
                    /*--------------*/
 
-					RocqAnalytics.trackEvent("Search", new ActionProperties("Category", "Search", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",search_key));
                 }catch(Exception e){
                     e.printStackTrace();
                 }
@@ -1972,7 +1969,6 @@ public void showSubscriptionPopup(){
             /*track event for open cart*/
             try{
                 UtilityMethods.clickCapture(activity,"Open Cart","","","",MySharedPrefs.INSTANCE.getSelectedCity());
-				RocqAnalytics.trackEvent("Open Cart", new ActionProperties("Category", "Open Cart", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
             }catch(Exception e){
                 e.printStackTrace();
             }

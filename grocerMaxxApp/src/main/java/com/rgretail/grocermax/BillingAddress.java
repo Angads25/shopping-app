@@ -10,10 +10,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
-import com.flurry.android.FlurryAgent;
 import com.rgretail.grocermax.adapters.BillingAdapter;
 import com.rgretail.grocermax.api.BillingStateCityLoader;
 import com.rgretail.grocermax.api.ConnectionService;
@@ -69,11 +65,7 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.checkout_billing_2);
 
-        try{
-            AppsFlyerLib.setCurrencyCode("INR");
-            AppsFlyerLib.setAppsFlyerKey("XNjhQZD7Yhe2dFs8kL7bpn");     //SDK�Initialization�and�Installation�Event (Minimum� Requirement�for�Tracking)�
-            AppsFlyerLib.sendTracking(getApplicationContext());
-        }catch(Exception e){}
+
 
         try {
             addActionsInFilter(MyReceiverActions.ADD_ADDRESS);
@@ -118,7 +110,6 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
                             UtilityMethods.clickCapture(mContext,"Billing address","","","",MySharedPrefs.INSTANCE.getSelectedCity());
                             String data=MySharedPrefs.INSTANCE.getUserEmail()+"/"+MySharedPrefs.INSTANCE.getUserId();
                             UtilityMethods.sendGTMEvent(activity,"Billing",data,"Android Checkout Funnel");
-                            RocqAnalytics.trackEvent("Billing address", new ActionProperties("Category", "Billing address", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
                         }catch(Exception e){}
 
                         OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
@@ -263,10 +254,6 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        try{
-            AppsFlyerLib.onActivityResume(this);
-        }catch(Exception e){}
-
         initHeader(findViewById(R.id.app_bar_header), true, "Select Billing Address");
         LinearLayout llIcon = (LinearLayout)findViewById(R.id.ll_placeholder_logoIcon_appBar);
         llIcon.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 7f));
@@ -275,9 +262,6 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
     @Override
     public void onPause() {
         super.onPause();
-        try{
-            AppsFlyerLib.onActivityPause(this);
-        }catch(Exception e){}
     }
 
 
@@ -293,21 +277,7 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
     protected void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
-        try{
-            AppsFlyerLib.onActivityResume(this);
-        }catch(Exception e){}
-        try{
-//            EasyTracker.getInstance(this).activityStart(this);
-            FlurryAgent.onStartSession(this,getResources().getString(R.string.flurry_api_key));
-            FlurryAgent.onPageView();         //Use onPageView to report page view count.
-        }catch(Exception e){}
-        /*screen tracking using rocq*/
-        try {
-            RocqAnalytics.initialize(this);
-            RocqAnalytics.startScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
        /*------------------------------*/
     }
 
@@ -315,20 +285,7 @@ public class BillingAddress extends BaseActivity implements View.OnClickListener
     protected void onStop() {
         // TODO Auto-generated method stub
         super.onStop();
-        try{
-            AppsFlyerLib.onActivityPause(this);
-        }catch(Exception e){}
 
-        try{
-//            EasyTracker.getInstance(this).activityStop(this);
-            FlurryAgent.onEndSession(this);
-        }catch(Exception e){}
-
-        try {
-            RocqAnalytics.stopScreen(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 }

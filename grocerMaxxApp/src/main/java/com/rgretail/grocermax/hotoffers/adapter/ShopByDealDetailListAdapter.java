@@ -17,8 +17,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.CategoryOffer;
@@ -197,7 +195,6 @@ public class ShopByDealDetailListAdapter extends BaseAdapter{
                             //System.out.println("offer Click="+data.get(position).getTitle());
                             UtilityMethods.clickCapture(context,"Deal Click","",data.get(position).getPromotionLevel(),"", MySharedPrefs.INSTANCE.getSelectedCity());
                            // UtilityMethods.sendGTMEvent(activity,"deal page",data.get(position).getPromotionLevel(),"Android Category Interaction");
-                            RocqAnalytics.trackEvent("Deal Click", new ActionProperties("Category", "Deal Click", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",data.get(position).getPromotionLevel()));
                          /*QGraph event*/
                            /* JSONObject json=new JSONObject();
                             json.put("Deal label",data.get(position).getPromotionLevel());
@@ -367,7 +364,6 @@ public class ShopByDealDetailListAdapter extends BaseAdapter{
                             UtilityMethods.clickCapture(activity,"Add to Cart","",obj.getName(),"",MySharedPrefs.INSTANCE.getSelectedCity());
                             System.out.println("GTM_FROM="+MyApplication.GTM_FROM);
                             UtilityMethods.sendGTMEvent(activity, MyApplication.GTM_FROM,"productName="+obj.getName()+"/productId="+obj.getProductid(),"Android Add to Cart");
-                            RocqAnalytics.trackEvent("Add to Cart", new ActionProperties("Category", "Add to Cart", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",obj.getName()));
                         /*QGraph event*/
                             JSONObject json=new JSONObject();
                             json.put("Product Name",obj.getName());

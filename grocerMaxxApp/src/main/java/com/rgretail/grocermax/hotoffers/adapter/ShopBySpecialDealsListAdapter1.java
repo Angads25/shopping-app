@@ -12,8 +12,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.MyApplication;
@@ -105,7 +103,6 @@ public class ShopBySpecialDealsListAdapter1 extends BaseAdapter{
                         MyApplication.isFromDrawer=false;
                         UtilityMethods.clickCapture(context, "Special Deal-"+data.get(position).getName(), "", data.get(position).getName(),"", MySharedPrefs.INSTANCE.getSelectedCity());
                         UtilityMethods.sendGTMEvent(context,"Home - Banner"+(position+1),data.get(position).getName(),"Android Deal Interaction");
-                        RocqAnalytics.trackEvent("Special Deal-"+data.get(position).getName(), new ActionProperties("Category", "Special Deal-"+data.get(position).getName(), "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",data.get(position).getName()));
                      /*QGraph event*/
                         JSONObject json=new JSONObject();
                         json.put("Banner Name",data.get(position).getName());

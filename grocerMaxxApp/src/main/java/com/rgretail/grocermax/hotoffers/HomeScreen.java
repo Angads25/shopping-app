@@ -18,9 +18,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 
-import com.appsflyer.AppsFlyerLib;
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.tagmanager.ContainerHolder;
@@ -30,6 +27,7 @@ import com.invitereferrals.invitereferrals.InviteReferralsApi;
 import com.quantumgraph.sdk.QG;
 import com.rgretail.grocermax.BaseActivity;
 import com.rgretail.grocermax.DealListScreen;
+import com.rgretail.grocermax.GCM.GCMClientManager;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.UnderMaintanance;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
@@ -105,6 +103,18 @@ public class HomeScreen extends BaseActivity {
             InviteReferralsApi.getInstance(HomeScreen.this).initialize(getIntent().getData());
             Log.e("Invite Referral","Initialized");
         }catch(Exception e){}
+
+
+        try {
+            if(MySharedPrefs.INSTANCE.getGCMDeviceTocken()==null)
+                registerGCM();
+            else{
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
 
         /*ActivityManager am = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
@@ -256,14 +266,6 @@ public class HomeScreen extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        try{
-            AppsFlyerLib.onActivityResume(this);
-        }catch(Exception e){}
-        try{
-            RocqAnalytics.initialize(this);
-            RocqAnalytics.startScreen(this);
-        }catch(Exception e){}
-
         try {
             qg = QG.getInstance(getApplicationContext());
             qg.onStart();
@@ -318,29 +320,20 @@ public class HomeScreen extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        try{
-            AppsFlyerLib.onActivityPause(this);
-        }catch(Exception e){}
-        try{
-            RocqAnalytics.stopScreen(this);
-        }catch(Exception e){}
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        try{
-            AppsFlyerLib.onActivityPause(this);
-        }catch(Exception e){}
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        try{
-            AppsFlyerLib.onActivityResume(this);
-        }catch(Exception e){}
+
 
        /* if(isFromNotification)
         {
@@ -924,9 +917,15 @@ public class HomeScreen extends BaseActivity {
             String url = UrlsConstants.NEW_BASE_URL + strLinkurl;
             myApi.reqProductDetailFromNotification(url);
         }else if(strType.equalsIgnoreCase("singlepage")){
-            showDialog();
-            String url = UrlsConstants.PAGE_BANNER_MSG;
-            myApi.reqSinglePageDate(url);
+            try {
+                index = strLinkurl.indexOf("?");
+                String id=strLinkurl.substring(index+1,strLinkurl.length());
+                showDialog();
+                String url = UrlsConstants.PAGE_BANNER_MSG+"?"+id;
+                myApi.reqSinglePageDate(url);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -984,7 +983,6 @@ public class HomeScreen extends BaseActivity {
                     drawerLayout.openDrawer(Gravity.LEFT);
                     try{
                         UtilityMethods.clickCapture(mContext,"Open Drawer","","","",MySharedPrefs.INSTANCE.getSelectedCity());
-                        RocqAnalytics.trackEvent("Open Drawer", new ActionProperties("Category", "Open Drawer", "Action", MySharedPrefs.INSTANCE.getSelectedCity()));
                     }catch(Exception e){}
                 }
             }
@@ -1010,4 +1008,29 @@ public class HomeScreen extends BaseActivity {
         }catch(Exception e){}
 
     }
+
+    public void registerGCM() {
+        GCMClientManager pushClientManager = new GCMClientManager(this, Constants.GCM_SENDER_KEY);
+        pushClientManager.registerIfNeeded(new GCMClientManager.RegistrationCompletedHandler() {
+            @Override
+            public void onSuccess(String registrationId,boolean isNewRegistration) {
+                /*set gcm registration id for Rocq Analytics*/
+
+				  /*save gcm token to our server*/
+                try {
+                    saveGcmTokenTOServer();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(String ex) {
+                super.onFailure(ex);
+                //Show Toast here.
+            }
+        });
+
+    }
+
+
 }

@@ -19,10 +19,7 @@
             android:layout_height="40dp"
             android:src="@drawable/carat_left_white" />
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/wallet_image" />
+
 
         <TextView
             android:layout_width="match_parent"

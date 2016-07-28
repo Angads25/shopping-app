@@ -5,11 +5,9 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.dq.rocq.RocqAnalytics;
 import com.facebook.FacebookSdk;
 import com.facebook.LoggingBehavior;
 import com.facebook.appevents.AppEventsLogger;
-import com.flurry.android.FlurryAgent;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.rgretail.grocermax.preference.MySharedPrefs;
@@ -75,14 +73,10 @@ public class MyApplication extends Application {
 			FacebookSdk.addLoggingBehavior(LoggingBehavior.APP_EVENTS);
 			/*------------------------------*/
 
-           /*initialization of rocq analytics*/
-            RocqAnalytics.initialize(getApplicationContext());
+
 
 			mApplication = this;
-			// configure Flurry
-			FlurryAgent.setLogEnabled(false);
-			// init Flurry
-			FlurryAgent.init(this, getResources().getString(R.string.flurry_api_key));
+
 		}catch (Exception e){}
 
 		analytics = GoogleAnalytics.getInstance(this);

@@ -13,8 +13,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.dq.rocq.RocqAnalytics;
-import com.dq.rocq.models.ActionProperties;
 import com.rgretail.grocermax.CategoryTabs;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.adapters.CategorySubcategoryBean;
@@ -128,7 +126,6 @@ public class ExpandableMenuFragment extends Fragment {
                 try{
                     UtilityMethods.clickCapture(getActivity(),"Drawer - L2","",catObj.get(groupPosition).getCategory(),"", MySharedPrefs.INSTANCE.getSelectedCity());
                     UtilityMethods.sendGTMEvent(getActivity(),"category page",catObj.get(groupPosition).getCategory(),"Android Category Interaction");
-                    RocqAnalytics.trackEvent("Drawer - L2", new ActionProperties("Category", "Drawer - L2", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",catObj.get(groupPosition).getCategory()));
                 /*QGraph event*/
                     JSONObject json=new JSONObject();
                     json.put("Categogy name",catObj.get(groupPosition).getCategory());
@@ -205,7 +202,6 @@ public class ExpandableMenuFragment extends Fragment {
                 try{
                     UtilityMethods.clickCapture(getActivity(),"Drawer - L3","",catObj.get(groupPosition).getChildren().get(childPosition).getCategory(),"",MySharedPrefs.INSTANCE.getSelectedCity());
                     UtilityMethods.sendGTMEvent(getActivity(),"category page",catObj.get(groupPosition).getChildren().get(childPosition).getCategory(),"Android Category Interaction");
-                    RocqAnalytics.trackEvent("Drawer - L3", new ActionProperties("Category", "Drawer - L3", "Action", MySharedPrefs.INSTANCE.getSelectedCity(), "Label",catObj.get(groupPosition).getChildren().get(childPosition).getCategory()));
                 /*QGraph event*/
                     JSONObject json=new JSONObject();
                     json.put("Categogy name",catObj.get(groupPosition).getChildren().get(childPosition).getCategory());
