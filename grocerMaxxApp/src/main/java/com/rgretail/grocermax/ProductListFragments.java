@@ -167,7 +167,7 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 			mList.setOnScrollListener(this);
 
 			//FloatingActionButton fab = (FloatingActionButton)view.findViewById(R.id.fab);
-			ImageView fab = (ImageView)view.findViewById(R.id.fab);
+			final ImageView fab = (ImageView)view.findViewById(R.id.fab);
 			fab.setOnClickListener(new View.OnClickListener() {
 
 				@Override
@@ -178,7 +178,6 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 					startActivityForResult(intent, 0);
 				}
 			});
-
 
 
 //		CallAPI callapi=new CallAPI();
