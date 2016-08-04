@@ -271,8 +271,7 @@ public class SplashScreen extends BaseActivity
 			@Override
 			public void onSuccess(String registrationId,boolean isNewRegistration) {
 				DeviceRegistrationId = registrationId;
-                /*set gcm registration id for Rocq Analytics*/
-
+				MySharedPrefs.INSTANCE.putGCMDeviceTocken(DeviceRegistrationId);
 				  /*save gcm token to our server*/
 				try {
 					saveGcmTokenTOServer();

@@ -108,8 +108,8 @@ public class GCMClientManager {
 					try {
 						String strurl = UrlsConstants.SEND_DEVICE_TOKEN;
 						JSONObject dataSendTOserver = new JSONObject();
-						if(MySharedPrefs.INSTANCE.getGCMDeviceTocken()!=null)
-							dataSendTOserver.put("device_token",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
+						if(regId!=null)
+							dataSendTOserver.put("device_token",regId);
 						else
 							dataSendTOserver.put("device_token","");
 

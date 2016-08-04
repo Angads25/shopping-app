@@ -1014,7 +1014,7 @@ public class HomeScreen extends BaseActivity {
         pushClientManager.registerIfNeeded(new GCMClientManager.RegistrationCompletedHandler() {
             @Override
             public void onSuccess(String registrationId,boolean isNewRegistration) {
-                /*set gcm registration id for Rocq Analytics*/
+                MySharedPrefs.INSTANCE.putGCMDeviceTocken(registrationId);
 
 				  /*save gcm token to our server*/
                 try {
