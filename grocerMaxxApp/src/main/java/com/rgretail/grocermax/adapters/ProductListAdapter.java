@@ -83,7 +83,7 @@ public class ProductListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        final ViewHolder holder;
         try{
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.product_list_row, parent,
@@ -216,7 +216,22 @@ public class ProductListAdapter extends BaseAdapter {
             holder.prod_image.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                   /* ScaleAnimation scale = new ScaleAnimation(0, 1, 0, 1, ScaleAnimation.RELATIVE_TO_SELF, .5f, ScaleAnimation.RELATIVE_TO_SELF, .5f);
+                    scale.setDuration(500);
+                    scale.setInterpolator(new OvershootInterpolator());
+                    holder.prod_image.startAnimation(scale);*/
 
+                   /* AnimationSet set = new AnimationSet(true);
+                    Animation animation = new ScaleAnimation(1,0.5f,1, 0.5f);
+                    animation.setDuration(1000);
+                    set.addAnimation(animation);
+                    animation = new TranslateAnimation(
+                            Animation.RELATIVE_TO_SELF, 0.0f,Animation.RELATIVE_TO_PARENT, 1.0f,
+                            Animation.RELATIVE_TO_SELF, 0.0f,Animation.RELATIVE_TO_PARENT, -1.0f
+                    );
+                    animation.setDuration(1000);
+                    set.addAnimation(animation);
+                    holder.prod_image.startAnimation(set);*/
                 }
             });
 

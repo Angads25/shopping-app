@@ -53,6 +53,15 @@
         <item name="vpiUnderlinePageIndicatorStyle">@style/CustomUnderlinePageIndicator</item>
         
     </style>
+    <style name="StyledIndicators2" parent="AppTheme.Base">
+
+        <item name="vpiCirclePageIndicatorStyle">@style/CustomCirclePageIndicator</item>
+        <item name="vpiLinePageIndicatorStyle">@style/CustomLinePageIndicator</item>
+        <item name="vpiTitlePageIndicatorStyle">@style/CustomTitlePageIndicator</item>
+        <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator2</item>
+        <item name="vpiUnderlinePageIndicatorStyle">@style/CustomUnderlinePageIndicator</item>
+
+    </style>
 
     <style name="CustomTitlePageIndicator">
         <item name="android:background">@color/primaryColor</item>
@@ -92,6 +101,23 @@
         <item name="android:background">@drawable/custom_tab_indicator_2</item>
 
     </style>
+
+    <style name="CustomTabPageIndicator2" parent="Widget.TabPageIndicator">
+        <!--      <item name="android:background">@drawable/custom_tab_indicator</item>  -->
+        <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:dividerPadding">20dp</item>
+        <item name="android:showDividers">middle</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:background">@drawable/custom_tab_indicator_2</item>
+
+    </style>
+
+
+
+
     <!-- <item name="android:textStyle">bold</item> -->
     <!-- <item name="android:divider">@drawable/custom_tab_indicator_divider</item> -->
 

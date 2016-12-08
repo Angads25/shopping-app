@@ -178,7 +178,6 @@ public class CategoryActivity1 extends BaseActivity {
     @Override
     public void onStop() {
         super.onStop();
-
     }
 
     @Override
@@ -197,7 +196,6 @@ public class CategoryActivity1 extends BaseActivity {
                     else {
                         product_list = new ArrayList<ShopByDealModel>();
                     }
-
                     if (Integer.parseInt(data.get(mainCatPosition).getOffercount()) > 0)
                     {
                         CategorySubcategoryBean categorySubcategoryBean=new CategorySubcategoryBean();
@@ -205,7 +203,6 @@ public class CategoryActivity1 extends BaseActivity {
                         categorySubcategoryBean.setCategory("TOP OFFERS");
                         alcatObjSend.add(categorySubcategoryBean);
                     }
-
                     lv_catg.setAdapter(new CategoryScreenAdapter(CategoryActivity1.this, product_list,alcatObjSend,mainCatPosition,catObj));
                 }
             }catch(Exception e)

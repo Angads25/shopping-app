@@ -77,7 +77,7 @@ public class CategoryScreenAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         // TODO Auto-generated method stub
-        return 0;
+        return position;
     }
 
     @Override
@@ -99,21 +99,15 @@ public class CategoryScreenAdapter extends BaseAdapter {
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
+            System.out.println("subcategory list = " + position);
             if(position==0){
              holder.card_view.setVisibility(View.GONE);
              holder.sub_catg_grid.setVisibility(View.VISIBLE);
-             holder.sub_catg_grid.setAdapter(new SubCategoryListAdapter());
+             SubCategoryListAdapter adapter=new SubCategoryListAdapter();
+             holder.sub_catg_grid.setAdapter(adapter);
              ((CategoryActivity1)activity).setGridViewHeightBasedOnChildren(holder.sub_catg_grid, 3);
             }
-            /*if (position==1){
-                holder.card_view.setVisibility(View.GONE);
-                if (Integer.parseInt(CategoryActivity1.data.get(mainCatPosition).getOffercount()) > 0)
-                holder.img_top_offer.setVisibility(View.VISIBLE);
-                else
-                holder.img_top_offer.setVisibility(View.GONE);
-                holder.sub_catg_grid.setVisibility(View.GONE);
-            }*/
-            else if (position>0) {
+            else {
                 //position=position-2;
                 holder.card_view.setVisibility(View.VISIBLE);
                 holder.sub_catg_grid.setVisibility(View.GONE);
@@ -175,7 +169,6 @@ public class CategoryScreenAdapter extends BaseAdapter {
 
         public DisplayImageOptions baseImageoptions1;
         public SubCategoryListAdapter() {
-            //initImageLoaderMCtegoryDeal();
             baseImageoptions1=UtilityMethods.initImageLoaderMCtegoryDeal(activity,R.drawable.placeholder_level2);
         }
 
@@ -224,22 +217,23 @@ public class CategoryScreenAdapter extends BaseAdapter {
             width=width/4;*/
             holder.imageView.setVisibility(View.GONE);
             holder.imageView_l2.setVisibility(View.VISIBLE);
+            holder.footer.setVisibility(View.VISIBLE);
             //holder.imageView.setLayoutParams(new LinearLayout.LayoutParams(108,80));
-
 
             if(alcatObjSend.get(position).getCategoryId().equals("")){
                 holder.imageView_l2.setImageResource(R.drawable.top_offers);
                 holder.imageView_l2.setPadding(6,6,6,6);
                 holder.footer.setTextColor(Color.RED);
                 holder.footer.setTextSize(13);
-
             }else{
-            String strurlImage = Constants.base_url_category_image + alcatObjSend.get(position).getCategoryId() + ".png";
-            if (baseImageoptions1!=null) {
-                ImageLoader.getInstance().displayImage(strurlImage,holder.imageView_l2,baseImageoptions1);
+                holder.footer.setTextSize(11);
+                holder.footer.setTextColor(Color.parseColor("#212121"));
+                String strurlImage = Constants.base_url_category_image + alcatObjSend.get(position).getCategoryId() + ".png";
+                if (baseImageoptions1!=null) {
+                    ImageLoader.getInstance().displayImage(strurlImage,holder.imageView_l2,baseImageoptions1);
+                }
             }
-            }
-
+            System.out.println("subcategory = " + alcatObjSend.get(position).getCategory());
             holder.footer.setText(alcatObjSend.get(position).getCategory());
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -265,8 +259,6 @@ public class CategoryScreenAdapter extends BaseAdapter {
                                 json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
                             UtilityMethods.setQGraphevent("Andriod Category Interaction - Category Page",json);
                    /*--------------*/
-
-
                         }catch(Exception e){
                             e.printStackTrace();
                         }

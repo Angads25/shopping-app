@@ -2,6 +2,7 @@ package com.rgretail.grocermax;
 
 import android.os.Bundle;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -67,8 +68,10 @@ public class TermAndCondition extends BaseActivity {
                 String response = (String) bundle.getSerializable(ConnectionService.RESPONSE);
                 JSONObject termJSON=new JSONObject(response);
                 if(termJSON.getInt("flag")==1){
-                    String term=termJSON.getString("term");
+                    //String term=termJSON.getString("term");
+                    String term="Call on <br><b><a href='tel:8010500700'>8010 500 700</a> </b><br><br>\r\nMail to  <br><b> <a href='mailto:hello@grocermax.com'>hello@grocermax.com </a></b><br><br>\r\nReach at  <br><b>465, Ground Floor, Udyog Vihar, Phase-V, Gurgaon-122015 </b>";
                     tv_term.setText(Html.fromHtml(term));
+                    tv_term.setMovementMethod(LinkMovementMethod.getInstance());
                 }
             } catch (Exception e) {
                 e.printStackTrace();

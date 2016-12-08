@@ -410,6 +410,7 @@
             android:name=".RedeemHistory"
             android:label="@string/title_activity_wallet"
             android:screenOrientation="portrait"
+            android:theme="@style/StyledIndicators2"
             android:windowSoftInputMode="adjustResize|stateHidden"></activity>
 
 

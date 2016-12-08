@@ -167,7 +167,12 @@ public class PhoneNumberForOTP extends BaseActivity {
                     jsonObjectParams.put("uemail", MySharedPrefs.INSTANCE.getUserEmail());
                     jsonObjectParams.put("number", edt_phoneNumber.getText().toString().trim());
                     jsonObjectParams.put("otp", "1");
-                    jsonObjectParams.put("device_token",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
+
+                    if(MySharedPrefs.INSTANCE.getGCMDeviceTocken()==null||MySharedPrefs.INSTANCE.getGCMDeviceTocken().equals(""))
+                        jsonObjectParams.put("device_token","");
+                    else
+                        jsonObjectParams.put("device_token",MySharedPrefs.INSTANCE.getGCMDeviceTocken());
+
                     jsonObjectParams.put("device_id",UtilityMethods.getDeviceId(PhoneNumberForOTP.this));
                     if(MySharedPrefs.INSTANCE.getQuoteId()==null||MySharedPrefs.INSTANCE.getQuoteId().equals(""))
                     jsonObjectParams.put("quote_id","no");

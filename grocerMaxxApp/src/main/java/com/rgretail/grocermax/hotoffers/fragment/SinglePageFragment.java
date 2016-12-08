@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rgretail.grocermax.BaseActivity;
@@ -20,7 +19,6 @@ import com.rgretail.grocermax.utils.AppConstants;
  */
 public class SinglePageFragment extends Fragment {
 
-    TextView tvimagename;
     ImageView imgImage;
     String imagename,imageurl,deeplink;
 
@@ -36,7 +34,6 @@ public class SinglePageFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.single_page_frag, container, false);
         try {
-            tvimagename = (TextView) view.findViewById(R.id.tvImageName);
             imgImage = (ImageView) view.findViewById(R.id.imgImage);
 
             if(getActivity() instanceof HomeScreen){
@@ -57,7 +54,7 @@ public class SinglePageFragment extends Fragment {
             ((BaseActivity) getActivity()).findViewById(R.id.header_left).setVisibility(View.VISIBLE);
             ((BaseActivity) getActivity()).findViewById(R.id.header).setVisibility(View.GONE);
 
-            tvimagename.setText(imagename);
+            //ImageLoader.getInstance().displayImage("http://i960.photobucket.com/albums/ae81/busybudgetingmama/SETUP-2.jpg",imgImage, ((BaseActivity) getActivity()).baseImageoptions);
             ImageLoader.getInstance().displayImage(imageurl,imgImage, ((BaseActivity) getActivity()).baseImageoptions);
             imgImage.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -67,7 +64,6 @@ public class SinglePageFragment extends Fragment {
                         bundle2.putString("linkurl", deeplink);
                         bundle2.putString("name",imagename);
                         ((HomeScreen) getActivity()).getNotificationData(bundle2);
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

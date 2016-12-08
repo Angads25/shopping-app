@@ -1,22 +1,21 @@
 package com.rgretail.grocermax;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.text.Html;
-import android.view.LayoutInflater;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
+import com.rgretail.grocermax.bean.MaxCoin;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
-import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.UrlsConstants;
+import com.viewpagerindicator.TabPageIndicator;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,7 +30,10 @@ public class RedeemHistory extends BaseActivity {
     TextView tv_coins;
     private ListView listview_RedeemTransaction;
     ImageView icon_header_back;
-    ArrayList<com.rgretail.grocermax.bean.RedeemHistory> historiesList;
+    ArrayList<com.rgretail.grocermax.bean.RedeemHistory> historiesList_used;
+    ArrayList<com.rgretail.grocermax.bean.RedeemHistory> historiesList_un_used;
+    ArrayList<MaxCoin> maxCoinList;
+    MaxCoinFragment maxCoinFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,8 @@ public class RedeemHistory extends BaseActivity {
 
         try {
             showDialog();
-            myApi.reqRedeemPoint(UrlsConstants.REDEEM_POINT + MySharedPrefs.INSTANCE.getUserId());
+            /*myApi.reqRedeemPoint(UrlsConstants.REDEEM_POINT + MySharedPrefs.INSTANCE.getUserId());*/
+            myApi.reqRedeemPoint(UrlsConstants.REDEEM_POINT + "3519");
         } catch (Exception e) {
             new GrocermaxBaseException("WalletActivity","onCreate",e.getMessage(), GrocermaxBaseException.EXCEPTION, "error in getting wallet amount");
         }
@@ -76,7 +79,9 @@ public class RedeemHistory extends BaseActivity {
                     String point=reOrderJSON.getString("totalPoint");
                     tv_coins.setText(point);
                     JSONArray redeemArray=reOrderJSON.getJSONArray("redeemLog");
-                    historiesList=new ArrayList<>();
+                    historiesList_used=new ArrayList<>();
+                    historiesList_un_used=new ArrayList<>();
+                    maxCoinList=new ArrayList<>();
                     for(int i=0;i<redeemArray.length();i++){
                         com.rgretail.grocermax.bean.RedeemHistory history=new com.rgretail.grocermax.bean.RedeemHistory();
                         history.setId(redeemArray.getJSONObject(i).getString("id"));
@@ -86,9 +91,33 @@ public class RedeemHistory extends BaseActivity {
                         history.setExp_date(redeemArray.getJSONObject(i).getString("coupon_exp_date"));
                         history.setUsed_coupon(redeemArray.getJSONObject(i).getString("coupon_code"));
                         history.setType_action(redeemArray.getJSONObject(i).getString("type_action"));
-                        historiesList.add(history);
+                        if(Integer.parseInt(redeemArray.getJSONObject(i).getString("type_action"))==8)
+                            historiesList_used.add(history);
+                        else
+                            historiesList_un_used.add(history);
                     }
-                    listview_RedeemTransaction.setAdapter(new RedeemListAdapter());
+
+                    MaxCoin maxCoin_used=new MaxCoin("Used",historiesList_used);
+                    MaxCoin maxCoin_Unused=new MaxCoin("Unused",historiesList_un_used);
+                    maxCoinList.add(maxCoin_used);
+                    maxCoinList.add(maxCoin_Unused);
+
+                    FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
+                   /* pager.setAdapter(adapter);
+                    pager.setOffscreenPageLimit(0);
+                    if (pager != null)
+                        indicator.setViewPager(pager);*/
+                    ViewPager pager = (ViewPager) findViewById(R.id.pager);
+                    pager.setAdapter(adapter);
+                    pager.setOffscreenPageLimit(0);
+
+                    final TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
+                    if (pager != null)
+                        indicator.setViewPager(pager);
+
+
+
+                   // listview_RedeemTransaction.setAdapter(new RedeemListAdapter());
                 }else{
                     tv_coins.setText("0");
                 }
@@ -100,7 +129,56 @@ public class RedeemHistory extends BaseActivity {
     }
 
 
-        public class RedeemListAdapter extends BaseAdapter{
+    class GoogleMusicAdapter extends FragmentPagerAdapter {
+
+        public GoogleMusicAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            try {
+                maxCoinFragment=MaxCoinFragment.newInstance(maxCoinList.get(position % maxCoinList.size()).getCouponList());
+                return maxCoinFragment;
+                //return ProductListFragments.newInstance(alCategory.get(position % alCategory.size()));
+            } catch (Exception e) {
+                new GrocermaxBaseException("Maxcoin", "GoogleMusicAdapter", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+            }
+            return new Fragment();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            try {
+//            	return catObj.get(position % catObj.size()).getCategory().toUpperCase();
+//				String str = alCategory.get(position % alCategory.size()).getCategory_name().toUpperCase();;
+//				System.out.println("==Cat value is=="+str);
+
+                return maxCoinList.get(position % maxCoinList.size()).getTitle().toUpperCase();
+            } catch (Exception e) {
+                new GrocermaxBaseException("CategoryTabs", "GoogleMusicAdapter", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+            }
+            return "";
+        }
+
+        @Override
+        public int getCount() {
+            try {
+//          		return catObj.size();
+                return maxCoinList.size();
+            } catch (Exception e) {
+                new GrocermaxBaseException("CategoryTabs", "GoogleMusicAdapter", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
+            }
+            return 0;
+
+        }
+
+    }
+
+
+
+
+       /* public class RedeemListAdapter extends BaseAdapter{
         @Override
         public int getCount() {
             return historiesList.size();
@@ -167,5 +245,5 @@ public class RedeemHistory extends BaseActivity {
 
             return convertView;
         }
-    }
+    }*/
 }

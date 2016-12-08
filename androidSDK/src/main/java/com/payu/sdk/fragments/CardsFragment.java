@@ -2,20 +2,17 @@ package com.payu.sdk.fragments;
 
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -115,13 +112,17 @@ public class CardsFragment extends ProcessPaymentFragment implements PaymentList
                 try { // lets hide the day spinner on pre lollipop devices
                     Field datePickerFields[] = datePicker.getClass().getDeclaredFields();
                     for (Field datePickerField : datePickerFields) {
-                        if ("mDayPicker".equals(datePickerField.getName()) || "mDaySpinner".equals(datePickerField.getName()) || "mDelegate".equals(datePickerField.getName())) {
+                        if ("mDayPicker".equals(datePickerField.getName()) || "mDaySpinner".equals(datePickerField.getName()) /*|| "mDelegate".equals(datePickerField.getName())*/) {
                             datePickerField.setAccessible(true);
-                            ((View) datePickerField.get(datePicker)).setVisibility(View.GONE);
+
+                            Object daypicker = new Object();
+                            daypicker = datePickerField.get(datePicker);
+                            ((View) daypicker).setVisibility(View.GONE);
+                            //((View) datePickerField.get(datePicker)).setVisibility(View.GONE);
                         }
                     }
                 } catch (Exception e) {
-
+                  e.printStackTrace();
                 }
                 dialog.show();
                 okButton.setOnClickListener(new View.OnClickListener() {
