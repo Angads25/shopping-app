@@ -231,11 +231,6 @@ public class HomeScreen extends BaseActivity {
                 super.onBackPressed();
             }
         }
-
-
-
-
-
     }
 
 

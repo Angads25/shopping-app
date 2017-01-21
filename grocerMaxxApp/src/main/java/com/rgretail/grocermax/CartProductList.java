@@ -6,9 +6,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -55,7 +57,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 	OrderReviewBean orderReviewBean;
 	CartAdapter mAdapter;
 	int position = -1;
-	TextView txt_subTotal,txt_shipping,txt_grand_total,txt_discount,txt_yousaved,tv_bill_buster;
+	TextView txt_subTotal,txt_shipping,txt_saving,txt_grand_total,txt_discount,txt_yousaved,tv_bill_buster,tv_itemcount;
 	public TextView tv_subTotal,tv_discount;
 	public TextView tv_grandTotal,tv_shipping;
 	//	TextView tv_yousave;
@@ -131,15 +133,18 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 
 			txt_subTotal = (TextView) findViewById(R.id.txt_subtotal);
 			txt_shipping = (TextView) findViewById(R.id.txt_shipping);
+			txt_saving = (TextView) findViewById(R.id.txt_saving);
 			txt_yousaved = (TextView) findViewById(R.id.txt_yousaved);
 			txt_grand_total = (TextView) findViewById(R.id.txt_grand_total);
 			txt_discount = (TextView) findViewById(R.id.txt_discount);
 			textView1 = (TextView) findViewById(R.id.textView1);
 			textViewCoupon = (TextView) findViewById(R.id.textViewcoupon);
+			tv_itemcount = (TextView) findViewById(R.id.tv_itemcount);
 
 
 			txt_subTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			txt_shipping.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+			txt_saving.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			txt_grand_total.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			txt_discount.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			textView1.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
@@ -179,11 +184,6 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 					json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
 				UtilityMethods.setQGraphevent("Andriod View Cart",json);
                           /*--------------*/
-
-
-
-
-
 				initHeader(findViewById(R.id.header), true, "Your Basket");
 				setCartList(cartBean);
 				setAppliedCoupon(cartBean);
@@ -225,8 +225,9 @@ public class CartProductList extends BaseActivity implements OnClickListener{
                     ll_coupon_change.setVisibility(View.VISIBLE);
                     TextView tv_couponApplied=(TextView)findViewById(R.id.tv_coupon_applied);
                     TextView tv_coupon_change=(TextView)findViewById(R.id.tv_coupon_change);
+					tv_coupon_change.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
                     TextView tv_coupon_desc=(TextView)findViewById(R.id.tv_coupon_detail);
-                    tv_couponApplied.setText("Coupon Applied - "+cartBean.getCoupon_code());
+                    tv_couponApplied.setText(Html.fromHtml("<b>"+cartBean.getCoupon_code()+"</b> Applied"));
                     tv_coupon_desc.setText(cartBean.getCoupon_desc());
                     MySharedPrefs.INSTANCE.putCouponCode(cartBean.getCoupon_code());
                     MySharedPrefs.INSTANCE.putCouponAmount(String.valueOf(Float.parseFloat(cartBean.getSubTotal())-Float.parseFloat(cartBean.getSubtotal_with_discount())));
@@ -270,6 +271,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 //						MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(totalcount));
 						MySharedPrefs.INSTANCE.putTotalItem(String.valueOf(totalcount));
 						cart_count_txt.setText(MySharedPrefs.INSTANCE.getTotalItem());
+						tv_itemcount.setText(MySharedPrefs.INSTANCE.getTotalItem());
 					} catch (Exception e) {
 					}
 
@@ -1301,6 +1303,11 @@ public class CartProductList extends BaseActivity implements OnClickListener{
             initHeader(findViewById(R.id.header), false, "Your Cart");
 			icon_header_cart.setClickable(false);
 			cart_count_txt.setClickable(false);
+			icon_header_search.setVisibility(View.GONE);
+			icon_header_cart.setVisibility(View.GONE);
+			cart_count_txt.setVisibility(View.GONE);
+			LinearLayout llIcon = (LinearLayout)findViewById(R.id.ll_placeholder_logoIcon_appBar);
+			llIcon.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 7f));
 
 //            ((ImageView)findViewById(R.id.icon_header_cart)).setVisibility(View.INVISIBLE);
 //            ((TextView)findViewById(R.id.nom_producte)).setVisibility(View.INVISIBLE);
