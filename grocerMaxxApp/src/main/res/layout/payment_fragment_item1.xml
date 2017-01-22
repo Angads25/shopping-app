@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="7dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="left"
+        android:id="@+id/rl_paytm"
+       >
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="25dp"
+    android:layout_weight="1">
+        <ImageView
+            android:id="@+id/img_payment_icon"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:src="@drawable/paytm"
+            />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_payment_status"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/chkbox_unselected" />
+
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_payment_offer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textSize="@dimen/text_size_10"
+        android:textColor="@color/pallete_black"
+        android:text=""
+        android:visibility="visible"/>
+
+</LinearLayout>

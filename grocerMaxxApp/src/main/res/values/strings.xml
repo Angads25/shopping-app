@@ -30,6 +30,6 @@
     <string name="title_activity_wallet">WalletActivity</string>
     <string name="Rs">\u20B9</string>
     <string name="at">\u0040</string>
-    <string name="my_wallet">Refund Balance (\u20B90.00)</string>
+    <string name="my_wallet">Use Refund Balance | \u20B90.00</string>
 
 </resources>

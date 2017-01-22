@@ -211,6 +211,7 @@
             android:name=".ReviewOrderAndPay"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
+            android:theme="@style/StyledIndicators3"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".OffersPromoCode"

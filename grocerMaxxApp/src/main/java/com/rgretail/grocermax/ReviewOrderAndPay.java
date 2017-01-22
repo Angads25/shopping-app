@@ -8,12 +8,18 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -36,9 +42,11 @@ import com.payu.sdk.exceptions.HashException;
 import com.payu.sdk.exceptions.MissingParameterException;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
+import com.rgretail.grocermax.bean.AllPayment;
 import com.rgretail.grocermax.bean.CartDetail;
 import com.rgretail.grocermax.bean.FinalCheckoutBean;
 import com.rgretail.grocermax.bean.OrderReviewBean;
+import com.rgretail.grocermax.bean.Payments;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.hotoffers.HomeScreen;
 import com.rgretail.grocermax.preference.MySharedPrefs;
@@ -47,6 +55,7 @@ import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.MyHttpUtils;
 import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
+import com.viewpagerindicator.TabPageIndicator;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -61,19 +70,20 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 public class ReviewOrderAndPay extends BaseActivity
 {
-	private Button button_pay;
+	private LinearLayout button_pay;
 	private FinalCheckoutBean finalCheckoutBean;
 	TextView billing_amt, shipping_amt, tax, grand_total;
 
 	public static String order_id;
 	public static String order_db_id;
-	private boolean bOnline,bCash,bPayTM,bMobiKwik,bCitrus;
+	public static boolean bOnline,bCash,bPayTM,bMobiKwik,bCitrus;
 	OrderReviewBean orderReviewBean;
 	public static String payment_mode;
 	float total;
@@ -81,7 +91,7 @@ public class ReviewOrderAndPay extends BaseActivity
 	//	ProgressDialog mProgressDialog;
 	String txnId;
 	TextView txtItemCount,txtSubTotal,txtShippingCharges,txtYouSaved,txtTotal,txtCouponDiscount,txtWalletDiscount;
-	TextView tvItemCount,tvSubTotal,tvShippingCharges,tvYouSaved,tvTotal,tvCouponDiscount,tv_save_price;
+	TextView tvItemCount,tvSubTotal,tvShippingCharges,tvYouSaved,tvTotal,tvCouponDiscount,tv_save_price,tv_itemcount;
 	EditText etCouponCode;
 	float saving=0;
 	String strApplyCoupon;
@@ -104,11 +114,17 @@ public class ReviewOrderAndPay extends BaseActivity
     RelativeLayout llWallet,rl_wallet_discount;
     double wallet_amount=0.0;
     boolean wallet_checked_status=false;
-    View v_my_wallet;
+    //View v_my_wallet;
     double t_amount;
     public static final String TAG = "ReviewAndPay-Citrus";
     public static String pause_timeing;
 	SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+
+	ArrayList<Payments> wallet_Payments;
+	ArrayList<Payments> CC_CD_Payments;
+	ArrayList<Payments> COD_Payments;
+	ArrayList<AllPayment> allPaymentsList;
+	PaymentOptionFragment paymentOptionFragment;
 
 
 	@Override
@@ -122,6 +138,11 @@ public class ReviewOrderAndPay extends BaseActivity
 			addActionsInFilter(MyReceiverActions.SET_PAYTM_ORDER_STATUS_SUCCESS);
 
 			setContentView(R.layout.checkout_process_3);
+
+			wallet_Payments=new ArrayList<>();
+			CC_CD_Payments=new ArrayList<>();
+			COD_Payments=new ArrayList<>();
+			allPaymentsList=new ArrayList<>();
 
 			pause_timeing = dateFormat.format(new Date());
 
@@ -156,6 +177,9 @@ public class ReviewOrderAndPay extends BaseActivity
 			tv_up_coming=(TextView)findViewById(R.id.tv_up_coming);
 			tv_up_coming.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 
+			tv_itemcount = (TextView) findViewById(R.id.tv_itemcount);
+			tv_itemcount.setText(MySharedPrefs.INSTANCE.getTotalItem());
+
 
 
 			llFirstPage = (Button) findViewById(R.id.ll_first_page);
@@ -189,6 +213,11 @@ public class ReviewOrderAndPay extends BaseActivity
 			tvYouSaved.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 			tvTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 
+			bCash=false;
+			bPayTM=false;
+			bMobiKwik=false;
+			bOnline=false;
+			bCitrus=false;
 
 			etCouponCode = (EditText) findViewById(R.id.edit_coupon_code);
 			List<CartDetail> cartList = orderReviewBean.getProduct();
@@ -614,7 +643,7 @@ public class ReviewOrderAndPay extends BaseActivity
 
 
 
-			button_pay = (Button) findViewById(R.id.btn_apply_coupon);
+			button_pay = (LinearLayout) findViewById(R.id.btn_apply_coupon);
 
 			button_pay.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -762,7 +791,7 @@ public class ReviewOrderAndPay extends BaseActivity
 
 			total = Float.parseFloat(orderReviewBean.getGrandTotal());
 
-			initHeader(findViewById(R.id.app_bar_header), true, "Payment Method");
+			initHeader(findViewById(R.id.app_bar_header), true, "Payment Options");
 			initFooter(findViewById(R.id.footer), 4, 3);
 			icon_header_search.setVisibility(View.GONE);
 			icon_header_cart.setVisibility(View.GONE);
@@ -779,7 +808,7 @@ public class ReviewOrderAndPay extends BaseActivity
             tv_my_wallet=(TextView)findViewById(R.id.btn_my_wallet);
             tv_my_wallet.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
             iv_my_wallet=(ImageView)findViewById(R.id.iv_my_wallet);
-            v_my_wallet=(View)findViewById(R.id.v_my_wallet);
+            //v_my_wallet=(View)findViewById(R.id.v_my_wallet);
             llWallet.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -788,14 +817,14 @@ public class ReviewOrderAndPay extends BaseActivity
                         iv_my_wallet.setImageResource(R.drawable.chkbox_selected);
                         wallet_checked_status=true;
                         rl_wallet_discount.setVisibility(View.VISIBLE);
-                        v_my_wallet.setVisibility(View.VISIBLE);
+                        //v_my_wallet.setVisibility(View.VISIBLE);
                         setTotolAfterWalletSelectUnSelect(t_amount);
                     }else{
                         /*if wallet get unselected*/
                         iv_my_wallet.setImageResource(R.drawable.chkbox_unselected);
                         wallet_checked_status=false;
                         rl_wallet_discount.setVisibility(View.GONE);
-                        v_my_wallet.setVisibility(View.GONE);
+                       // v_my_wallet.setVisibility(View.GONE);
                         //t_amount=Double.parseDouble(orderReviewBean.getGrandTotal());
                         setTotolAfterWalletSelectUnSelect(t_amount);
                     }
@@ -1293,19 +1322,20 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
                         wallet_amount=walletResponse.getDouble("Balance");
                         if(wallet_amount<=0){
                             //tv_walletAmount.setText("0.00");
-                            tv_my_wallet.setText("Refund Balance ("+getResources().getString(R.string.Rs)+"0.00)");
+							tv_my_wallet.setText(Html.fromHtml("Use Refund Balance | <b>"+getResources().getString(R.string.Rs)+"0.00</b>"));
                             iv_my_wallet.setVisibility(View.GONE);
                         }
                         else{
                             String w_amount=String.format("%.2f",wallet_amount);
-                            tv_my_wallet.setText("Refund Balance ("+getResources().getString(R.string.Rs)+" "+w_amount+")");
-                            //tv_my_wallet.setText("My Wallet ("+getResources().getString(R.string.Rs)+String.format('"&.2f",wallet_amount)+")");
+                            tv_my_wallet.setText(Html.fromHtml("Use Refund Balance | <b>"+getResources().getString(R.string.Rs)+" "+w_amount+"</b>"));
                             iv_my_wallet.setVisibility(View.VISIBLE);
                         }
                     }else{
-                        tv_my_wallet.setText("Refund Balance ("+getResources().getString(R.string.Rs)+"0.00)");
+                        tv_my_wallet.setText(Html.fromHtml("Use Refund Balance | <b>"+getResources().getString(R.string.Rs)+"0.00</b>"));
                         iv_my_wallet.setVisibility(View.GONE);
                     }
+
+
 
                     /*Displaying the payment option based on server response*/
                         try{
@@ -1313,24 +1343,33 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
                           /*to check if payment with internal wallet will be available or not*/
                             if(payment.has("customercredit")){
                                 llWallet.setVisibility(View.VISIBLE);
-                                v_my_wallet.setVisibility(View.VISIBLE);
+                                //v_my_wallet.setVisibility(View.VISIBLE);
                                 if(payment.getJSONObject("customercredit").getString("mobile_label")!=null && !payment.getJSONObject("customercredit").getString("mobile_label").equals("null"))
                                 tv_my_wallet_offer.setText(payment.getJSONObject("customercredit").getString("mobile_label"));
                                 else
                                 tv_my_wallet_offer.setText("");
                             }else{
                                 llWallet.setVisibility(View.GONE);
-                                v_my_wallet.setVisibility(View.GONE);
+                                //v_my_wallet.setVisibility(View.GONE);
                             }
 
                           /*to check if payment with paytm will be available or not*/
                           if(payment.has("paytm_cc")){
-                            llPayTM.setVisibility(View.VISIBLE);
-                            view_paytm.setVisibility(View.VISIBLE);
-                              if(payment.getJSONObject("paytm_cc").getString("mobile_label")!=null && !payment.getJSONObject("paytm_cc").getString("mobile_label").equals("null"))
+							  Payments payments=new Payments();
+                              llPayTM.setVisibility(View.VISIBLE);
+                              view_paytm.setVisibility(View.VISIBLE);
+                              if(payment.getJSONObject("paytm_cc").getString("mobile_label")!=null && !payment.getJSONObject("paytm_cc").getString("mobile_label").equals("null")){
                               tv_paytm_offer.setText(payment.getJSONObject("paytm_cc").getString("mobile_label"));
-                              else
+							  payments.setDesc(payment.getJSONObject("paytm_cc").getString("mobile_label"));
+							  }else{
                               tv_paytm_offer.setText("");
+							  payments.setDesc("");
+							  }
+							  payments.setIcon(R.drawable.paytm);
+							  payments.setChecke_status(true);
+							  payments.setPayment_mode("paytm_cc");
+							  wallet_Payments.add(payments);
+
                           }else{
                               llPayTM.setVisibility(View.GONE);
                               view_paytm.setVisibility(View.GONE);
@@ -1343,18 +1382,42 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
                             tv_online_payment_offer.setText(payment.getJSONObject("payucheckout_shared").getString("mobile_label"));
                             else
                             tv_online_payment_offer.setText("");
+
+							Payments payments=new Payments();
+							payments.setChecke_status(true);
+							payments.setPayment_mode("payucheckout_shared");
+							payments.setDesc("Card (Credit or Debit)");
+							CC_CD_Payments.add(payments);
+
+							Payments payments_new=new Payments();
+							payments_new.setChecke_status(false);
+							payments_new.setPayment_mode("payucheckout_shared");
+							payments_new.setDesc("NetBanking");
+							CC_CD_Payments.add(payments_new);
+
                         }else{
                             llOnlinePayment.setVisibility(View.GONE);
                             view_online_payment.setVisibility(View.GONE);
                         }
                         /*to check if payment with Citrus will be available or not*/
                         if(payment.has("moto")){
+							Payments payments=new Payments();
+
                             llCitrus.setVisibility(View.VISIBLE);
                             view_citrus.setVisibility(View.VISIBLE);
-                            if(payment.getJSONObject("moto").getString("mobile_label")!=null && !payment.getJSONObject("moto").getString("mobile_label").equals("null"))
-                            tv_citrus_offer.setText(payment.getJSONObject("moto").getString("mobile_label"));
-                            else
+                            if(payment.getJSONObject("moto").getString("mobile_label")!=null && !payment.getJSONObject("moto").getString("mobile_label").equals("null")) {
+								tv_citrus_offer.setText(payment.getJSONObject("moto").getString("mobile_label"));
+								payments.setDesc(payment.getJSONObject("moto").getString("mobile_label"));
+							}else{
                             tv_citrus_offer.setText("");
+								payments.setDesc("");
+							}
+
+							payments.setIcon(R.drawable.citrus_icon);
+							payments.setChecke_status(false);
+							payments.setPayment_mode("moto");
+							wallet_Payments.add(payments);
+
                         }else{
                             llCitrus.setVisibility(View.GONE);
                             view_citrus.setVisibility(View.GONE);
@@ -1362,12 +1425,21 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 
 						/*to check if payment with Mobikwik will be available or not*/
 						if(payment.has("wallet")){
+							Payments payments=new Payments();
+
 							llMobiKwik.setVisibility(View.VISIBLE);
 							view_mobikwik.setVisibility(View.VISIBLE);
-							if(payment.getJSONObject("wallet").getString("mobile_label")!=null && !payment.getJSONObject("wallet").getString("mobile_label").equals("null"))
+							if(payment.getJSONObject("wallet").getString("mobile_label")!=null && !payment.getJSONObject("wallet").getString("mobile_label").equals("null")) {
 								tv_mobikwik_offer.setText(payment.getJSONObject("wallet").getString("mobile_label"));
-							else
+								payments.setDesc(payment.getJSONObject("wallet").getString("mobile_label"));
+							}else{
 								tv_mobikwik_offer.setText("");
+								payments.setDesc("");
+							}
+							payments.setIcon(R.drawable.mobikwik);
+							payments.setChecke_status(false);
+							payments.setPayment_mode("wallet");
+							wallet_Payments.add(payments);
 						}else{
 							llMobiKwik.setVisibility(View.GONE);
 							view_mobikwik.setVisibility(View.GONE);
@@ -1387,6 +1459,30 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 								view_up_coming.setVisibility(View.GONE);
 							}
 
+							Payments payments=new Payments();
+							payments.setChecke_status(true);
+							payments.setPayment_mode("cashondelivery");
+							payments.setDesc("Pay with cash on delivery");
+							COD_Payments.add(payments);
+
+							Payments payments_new=new Payments();
+							payments_new.setChecke_status(false);
+							payments_new.setPayment_mode("cashondelivery");
+							payments_new.setDesc("Pay with card on delivery");
+							COD_Payments.add(payments_new);
+
+							allPaymentsList.add(new AllPayment("Wallet",wallet_Payments));
+							allPaymentsList.add(new AllPayment("Card/Netbanking",CC_CD_Payments));
+							allPaymentsList.add(new AllPayment("Cash",COD_Payments));
+
+							FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
+							final CustomViewPager pager = (CustomViewPager) findViewById(R.id.pager);
+							pager.setAdapter(adapter);
+							pager.setOffscreenPageLimit(0);
+							final TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
+							if (pager != null)
+								indicator.setViewPager(pager);
+
 
                         }catch (Exception e){
                             new GrocermaxBaseException("ReviewOrderAndPay","OnResponse",e.getMessage(),GrocermaxBaseException.EXCEPTION,"error in getting payment option to be displayed");
@@ -1401,6 +1497,57 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 
 		}catch(Exception e){
 			new GrocermaxBaseException("ReviewOrderAndPay","onResponse",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+		}
+
+	}
+	class GoogleMusicAdapter extends FragmentPagerAdapter {
+		private int mCurrentPosition = -1;
+
+		public GoogleMusicAdapter(FragmentManager fm) {
+			super(fm);
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			try {
+				paymentOptionFragment=PaymentOptionFragment.newInstance(allPaymentsList.get(position % allPaymentsList.size()).getPaymentsList(),position);
+				return paymentOptionFragment;
+				//return ProductListFragments.newInstance(alCategory.get(position % alCategory.size()));
+			} catch (Exception e) {
+			}
+			return new Fragment();
+		}
+
+		@Override
+		public void setPrimaryItem(ViewGroup container, int position, Object object) {
+			super.setPrimaryItem(container, position, object);
+			if (position != mCurrentPosition) {
+				Fragment fragment = (Fragment) object;
+				CustomViewPager pager = (CustomViewPager) container;
+				if (fragment != null && fragment.getView() != null) {
+					mCurrentPosition = position;
+					pager.measureCurrentView(fragment.getView());
+				}
+			}
+		}
+
+		@Override
+		public CharSequence getPageTitle(int position) {
+			try {
+				return allPaymentsList.get(position % allPaymentsList.size()).getPayment_Type();
+			} catch (Exception e) {
+			}
+			return "";
+		}
+
+		@Override
+		public int getCount() {
+			try {
+//          		return catObj.size();
+				return allPaymentsList.size();
+			} catch (Exception e) {
+			}
+			return 0;
 		}
 
 	}
@@ -1431,7 +1578,7 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 				startActivity(intent);
 				finish();
 			}else{
-				initHeader(findViewById(R.id.app_bar_header), true, "Payment Method");
+				initHeader(findViewById(R.id.app_bar_header), true, "Payment Options");
 			}
 		}catch(Exception e){
 			new GrocermaxBaseException("ReviewOrderAndPay","onResume",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
