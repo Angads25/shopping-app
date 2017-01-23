@@ -11,23 +11,18 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.rgretail.grocermax.bean.Payments;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.utils.UtilityMethods;
-
-import java.util.ArrayList;
 
 /**
  * Created by anchit-pc on 23-Jan-17.
  */
 public class WalletPaymentFragment extends Fragment{
     ListView mList;
-    ArrayList<Payments> paymentses;
     int type;
 
-    public static WalletPaymentFragment newInstance(ArrayList<Payments> paymentses,int position) {
+    public static WalletPaymentFragment newInstance(int position) {
         WalletPaymentFragment fragment = new WalletPaymentFragment();
-        fragment.paymentses=paymentses;
         fragment.type=position;
         return fragment;
     }
@@ -52,12 +47,12 @@ public class WalletPaymentFragment extends Fragment{
     public class PaymentListAdapter extends BaseAdapter {
         @Override
         public int getCount() {
-            return paymentses.size();
+            return ReviewOrderAndPay.wallet_Payments.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return paymentses.get(position);
+            return ReviewOrderAndPay.wallet_Payments.get(position);
         }
 
         @Override
@@ -74,9 +69,9 @@ public class WalletPaymentFragment extends Fragment{
                 TextView tv_desc=(TextView)convertView.findViewById(R.id.tv_payment_offer);
                 ImageView img_icon=(ImageView)convertView.findViewById(R.id.img_payment_icon);
                 ImageView img_payment_status=(ImageView)convertView.findViewById(R.id.img_payment_status);
-                tv_desc.setText(paymentses.get(position).getDesc());
-                img_icon.setImageResource(paymentses.get(position).getIcon());
-                if(paymentses.get(position).isChecke_status())
+                tv_desc.setText(ReviewOrderAndPay.wallet_Payments.get(position).getDesc());
+                img_icon.setImageResource(ReviewOrderAndPay.wallet_Payments.get(position).getIcon());
+                if(ReviewOrderAndPay.wallet_Payments.get(position).isChecke_status())
                     img_payment_status.setImageResource(R.drawable.chkbox_selected);
                 else
                     img_payment_status.setImageResource(R.drawable.chkbox_unselected);
@@ -84,13 +79,13 @@ public class WalletPaymentFragment extends Fragment{
                 img_payment_status.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        for(int i=0;i<paymentses.size();i++){
-                            paymentses.get(i).setChecke_status(false);
+                        for(int i=0;i<ReviewOrderAndPay.wallet_Payments.size();i++){
+                            ReviewOrderAndPay.wallet_Payments.get(i).setChecke_status(false);
                         }
-                        paymentses.get(position).setChecke_status(true);
+                        ReviewOrderAndPay.wallet_Payments.get(position).setChecke_status(true);
                         mList.setAdapter(new PaymentListAdapter());
                         UtilityMethods.setListViewHeightBasedOnChildren(mList);
-                        if(paymentses.get(position).getPayment_mode().equals("paytm_cc")){
+                        /*if(ReviewOrderAndPay.wallet_Payments.get(position).getPayment_mode().equals("paytm_cc")){
                             ReviewOrderAndPay.bPayTM=true;
                             ReviewOrderAndPay.bCitrus=false;
                             ReviewOrderAndPay.bOnline=false;
@@ -108,11 +103,11 @@ public class WalletPaymentFragment extends Fragment{
                             ReviewOrderAndPay.bOnline=false;
                             ReviewOrderAndPay.bMobiKwik=true;
                             ReviewOrderAndPay.bCash=false;
-                        }
+                        }*/
                     }
                 });
 
-                for(int i=0;i<paymentses.size();i++){
+                /*for(int i=0;i<paymentses.size();i++){
                     if(paymentses.get(i).getPayment_mode().equals("paytm_cc")&&paymentses.get(i).isChecke_status()){
                         ReviewOrderAndPay.bPayTM=true;
                         ReviewOrderAndPay.bCitrus=false;
@@ -132,7 +127,7 @@ public class WalletPaymentFragment extends Fragment{
                         ReviewOrderAndPay.bMobiKwik=true;
                         ReviewOrderAndPay.bCash=false;
                     }
-                }
+                }*/
             return convertView;
         }
     }

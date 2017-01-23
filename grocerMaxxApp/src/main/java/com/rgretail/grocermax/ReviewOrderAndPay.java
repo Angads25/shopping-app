@@ -120,9 +120,9 @@ public class ReviewOrderAndPay extends BaseActivity
     public static String pause_timeing;
 	SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
 
-	ArrayList<Payments> wallet_Payments;
-	ArrayList<Payments> CC_CD_Payments;
-	ArrayList<Payments> COD_Payments;
+	public static ArrayList<Payments> wallet_Payments;
+	public static ArrayList<Payments> CC_CD_Payments;
+	public static ArrayList<Payments> COD_Payments;
 	ArrayList<AllPayment> allPaymentsList;
 	PaymentOptionFragment paymentOptionFragment;
 	TabPageIndicator indicator;
@@ -651,6 +651,71 @@ public class ReviewOrderAndPay extends BaseActivity
 			button_pay.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
+
+
+					int index=pager.getCurrentItem();
+					if(index==0){
+						for(int i=0;i<wallet_Payments.size();i++){
+							if(wallet_Payments.get(i).getPayment_mode().equals("paytm_cc")&&wallet_Payments.get(i).isChecke_status()){
+								ReviewOrderAndPay.bPayTM=true;
+								ReviewOrderAndPay.bCitrus=false;
+								ReviewOrderAndPay.bOnline=false;
+								ReviewOrderAndPay.bMobiKwik=false;
+								ReviewOrderAndPay.bCash=false;
+								break;
+							}else if(wallet_Payments.get(i).getPayment_mode().equals("moto")&&wallet_Payments.get(i).isChecke_status()){
+								ReviewOrderAndPay.bPayTM=false;
+								ReviewOrderAndPay.bCitrus=true;
+								ReviewOrderAndPay.bOnline=false;
+								ReviewOrderAndPay.bMobiKwik=false;
+								ReviewOrderAndPay.bCash=false;
+								break;
+							}if(wallet_Payments.get(i).getPayment_mode().equals("wallet")&&wallet_Payments.get(i).isChecke_status()){
+								ReviewOrderAndPay.bPayTM=false;
+								ReviewOrderAndPay.bCitrus=false;
+								ReviewOrderAndPay.bOnline=false;
+								ReviewOrderAndPay.bMobiKwik=true;
+								ReviewOrderAndPay.bCash=false;
+								break;
+							}
+						}
+
+
+					}else if(index==1){
+						for(int i=0;i<CC_CD_Payments.size();i++){
+							if(CC_CD_Payments.get(i).getPayment_mode().equals("payucheckout_shared")&&CC_CD_Payments.get(i).isChecke_status()){
+								ReviewOrderAndPay.bPayTM=false;
+								ReviewOrderAndPay.bCitrus=false;
+								ReviewOrderAndPay.bOnline=true;
+								ReviewOrderAndPay.bMobiKwik=false;
+								ReviewOrderAndPay.bCash=false;
+							}else if(CC_CD_Payments.get(i).getPayment_mode().equals("payucheckout_shared")&&CC_CD_Payments.get(i).isChecke_status()){
+								ReviewOrderAndPay.bPayTM=false;
+								ReviewOrderAndPay.bCitrus=false;
+								ReviewOrderAndPay.bOnline=true;
+								ReviewOrderAndPay.bMobiKwik=false;
+								ReviewOrderAndPay.bCash=false;
+							}
+						}
+
+					}else if(index==2){
+						for(int i=0;i<COD_Payments.size();i++){
+							if(COD_Payments.get(i).getPayment_mode().equals("cashondelivery")&&COD_Payments.get(i).isChecke_status()){
+								ReviewOrderAndPay.bPayTM=false;
+								ReviewOrderAndPay.bCitrus=false;
+								ReviewOrderAndPay.bOnline=false;
+								ReviewOrderAndPay.bMobiKwik=false;
+								ReviewOrderAndPay.bCash=true;
+							}else if(COD_Payments.get(i).getPayment_mode().equals("cashondelivery")&&COD_Payments.get(i).isChecke_status()){
+								ReviewOrderAndPay.bPayTM=false;
+								ReviewOrderAndPay.bCitrus=false;
+								ReviewOrderAndPay.bOnline=false;
+								ReviewOrderAndPay.bMobiKwik=false;
+								ReviewOrderAndPay.bCash=true;
+							}
+						}
+					}
+
 
 					orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
 					total = Float.parseFloat(orderReviewBean.getGrandTotal());
@@ -1515,18 +1580,18 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 		@Override
 		public Fragment getItem(int position) {
 			try {
-				paymentOptionFragment=PaymentOptionFragment.newInstance(allPaymentsList.get(position % allPaymentsList.size()).getPaymentsList(),position);
-				return paymentOptionFragment;
-				/*if(position==0){
-					WalletPaymentFragment walletPaymentFragment=WalletPaymentFragment.newInstance(allPaymentsList.get(position % allPaymentsList.size()).getPaymentsList(),position);
+				/*paymentOptionFragment=PaymentOptionFragment.newInstance(allPaymentsList.get(position % allPaymentsList.size()).getPaymentsList(),position);
+				return paymentOptionFragment;*/
+				if(position==0){
+					WalletPaymentFragment walletPaymentFragment=WalletPaymentFragment.newInstance(position);
 					return walletPaymentFragment;
 				}else if(position==1){
-					CardPaymentFragment cardPaymentFragment=CardPaymentFragment.newInstance(allPaymentsList.get(position % allPaymentsList.size()).getPaymentsList(),position);
+					CardPaymentFragment cardPaymentFragment=CardPaymentFragment.newInstance(position);
 					return cardPaymentFragment;
 				}else{
-					CashPaymentFragment cashPaymentFragment=CashPaymentFragment.newInstance(allPaymentsList.get(position % allPaymentsList.size()).getPaymentsList(),position);
+					CashPaymentFragment cashPaymentFragment=CashPaymentFragment.newInstance(position);
 					return cashPaymentFragment;
-				}*/
+				}
 			} catch (Exception e) {
 			}
 			return new Fragment();

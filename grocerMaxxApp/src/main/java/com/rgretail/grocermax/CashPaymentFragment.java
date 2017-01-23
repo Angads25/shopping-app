@@ -23,12 +23,10 @@ import java.util.ArrayList;
 public class CashPaymentFragment extends Fragment {
 
     ListView mList;
-    ArrayList<Payments> paymentses;
     int type;
 
-    public static CashPaymentFragment newInstance(ArrayList<Payments> paymentses,int position) {
+    public static CashPaymentFragment newInstance(int position) {
         CashPaymentFragment fragment = new CashPaymentFragment();
-        fragment.paymentses=paymentses;
         fragment.type=position;
         return fragment;
     }
@@ -53,12 +51,12 @@ public class CashPaymentFragment extends Fragment {
     public class PaymentListAdapter extends BaseAdapter {
         @Override
         public int getCount() {
-            return paymentses.size();
+            return ReviewOrderAndPay.COD_Payments.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return paymentses.get(position);
+            return ReviewOrderAndPay.COD_Payments.get(position);
         }
 
         @Override
@@ -74,8 +72,8 @@ public class CashPaymentFragment extends Fragment {
             }
             TextView tv_payment=(TextView)convertView.findViewById(R.id.tv_payment);
             ImageView img_payment_status=(ImageView)convertView.findViewById(R.id.img_payment_status);
-            tv_payment.setText(paymentses.get(position).getDesc());
-            if(paymentses.get(position).isChecke_status())
+            tv_payment.setText(ReviewOrderAndPay.COD_Payments.get(position).getDesc());
+            if(ReviewOrderAndPay.COD_Payments.get(position).isChecke_status())
                 img_payment_status.setImageResource(R.drawable.chkbox_selected);
             else
                 img_payment_status.setImageResource(R.drawable.chkbox_unselected);
@@ -83,13 +81,13 @@ public class CashPaymentFragment extends Fragment {
             img_payment_status.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    for(int i=0;i<paymentses.size();i++){
-                        paymentses.get(i).setChecke_status(false);
+                    for(int i=0;i<ReviewOrderAndPay.COD_Payments.size();i++){
+                        ReviewOrderAndPay.COD_Payments.get(i).setChecke_status(false);
                     }
-                    paymentses.get(position).setChecke_status(true);
+                    ReviewOrderAndPay.COD_Payments.get(position).setChecke_status(true);
                     mList.setAdapter(new PaymentListAdapter());
                     UtilityMethods.setListViewHeightBasedOnChildren(mList);
-                    if(paymentses.get(position).getPayment_mode().equals("payucheckout_shared")){
+                    /*if(paymentses.get(position).getPayment_mode().equals("payucheckout_shared")){
                         ReviewOrderAndPay.bPayTM=false;
                         ReviewOrderAndPay.bCitrus=false;
                         ReviewOrderAndPay.bOnline=true;
@@ -101,11 +99,11 @@ public class CashPaymentFragment extends Fragment {
                         ReviewOrderAndPay.bOnline=false;
                         ReviewOrderAndPay.bMobiKwik=false;
                         ReviewOrderAndPay.bCash=true;
-                    }
+                    }*/
                 }
             });
 
-            for(int i=0;i<paymentses.size();i++){
+           /* for(int i=0;i<paymentses.size();i++){
                 System.out.println("type="+type);
                 if(paymentses.get(i).getPayment_mode().equals("payucheckout_shared")&&paymentses.get(i).isChecke_status()){
                     ReviewOrderAndPay.bPayTM=false;
@@ -120,7 +118,7 @@ public class CashPaymentFragment extends Fragment {
                     ReviewOrderAndPay.bMobiKwik=false;
                     ReviewOrderAndPay.bCash=true;
                 }
-            }
+            }*/
 
 
             return convertView;
