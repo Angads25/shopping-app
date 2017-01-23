@@ -125,6 +125,9 @@ public class ReviewOrderAndPay extends BaseActivity
 	ArrayList<Payments> COD_Payments;
 	ArrayList<AllPayment> allPaymentsList;
 	PaymentOptionFragment paymentOptionFragment;
+	TabPageIndicator indicator;
+	public static CustomViewPager pager;
+	public static int tab_index;
 
 
 	@Override
@@ -1476,12 +1479,14 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 							allPaymentsList.add(new AllPayment("Cash",COD_Payments));
 
 							FragmentPagerAdapter adapter = new GoogleMusicAdapter(getSupportFragmentManager());
-							final CustomViewPager pager = (CustomViewPager) findViewById(R.id.pager);
+							pager = (CustomViewPager) findViewById(R.id.pager);
 							pager.setAdapter(adapter);
 							pager.setOffscreenPageLimit(0);
-							final TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
+							indicator = (TabPageIndicator) findViewById(R.id.indicator);
 							if (pager != null)
 								indicator.setViewPager(pager);
+
+
 
 
                         }catch (Exception e){
@@ -1512,7 +1517,16 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 			try {
 				paymentOptionFragment=PaymentOptionFragment.newInstance(allPaymentsList.get(position % allPaymentsList.size()).getPaymentsList(),position);
 				return paymentOptionFragment;
-				//return ProductListFragments.newInstance(alCategory.get(position % alCategory.size()));
+				/*if(position==0){
+					WalletPaymentFragment walletPaymentFragment=WalletPaymentFragment.newInstance(allPaymentsList.get(position % allPaymentsList.size()).getPaymentsList(),position);
+					return walletPaymentFragment;
+				}else if(position==1){
+					CardPaymentFragment cardPaymentFragment=CardPaymentFragment.newInstance(allPaymentsList.get(position % allPaymentsList.size()).getPaymentsList(),position);
+					return cardPaymentFragment;
+				}else{
+					CashPaymentFragment cashPaymentFragment=CashPaymentFragment.newInstance(allPaymentsList.get(position % allPaymentsList.size()).getPaymentsList(),position);
+					return cashPaymentFragment;
+				}*/
 			} catch (Exception e) {
 			}
 			return new Fragment();

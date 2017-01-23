@@ -26,6 +26,7 @@ public class PaymentOptionFragment extends Fragment {
     ArrayList<Payments> paymentses;
     int type;
 
+
     public static PaymentOptionFragment newInstance(ArrayList<Payments> paymentses,int position) {
         PaymentOptionFragment fragment = new PaymentOptionFragment();
         fragment.paymentses=paymentses;
@@ -68,6 +69,8 @@ public class PaymentOptionFragment extends Fragment {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
+
+            System.out.println("tab index="+ReviewOrderAndPay.pager.getCurrentItem());
             LayoutInflater inflater=(LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 if(convertView==null){
                     if (type==0) {
@@ -119,6 +122,30 @@ public class PaymentOptionFragment extends Fragment {
                         }
                     });
 
+                    for(int i=0;i<paymentses.size();i++){
+                        if(paymentses.get(i).getPayment_mode().equals("paytm_cc")&&paymentses.get(i).isChecke_status()){
+                            ReviewOrderAndPay.bPayTM=true;
+                            ReviewOrderAndPay.bCitrus=false;
+                            ReviewOrderAndPay.bOnline=false;
+                            ReviewOrderAndPay.bMobiKwik=false;
+                            ReviewOrderAndPay.bCash=false;
+                        }else if(paymentses.get(i).getPayment_mode().equals("moto")&&paymentses.get(i).isChecke_status()){
+                            ReviewOrderAndPay.bPayTM=false;
+                            ReviewOrderAndPay.bCitrus=true;
+                            ReviewOrderAndPay.bOnline=false;
+                            ReviewOrderAndPay.bMobiKwik=false;
+                            ReviewOrderAndPay.bCash=false;
+                        }if(paymentses.get(i).getPayment_mode().equals("wallet")&&paymentses.get(i).isChecke_status()){
+                            ReviewOrderAndPay.bPayTM=false;
+                            ReviewOrderAndPay.bCitrus=false;
+                            ReviewOrderAndPay.bOnline=false;
+                            ReviewOrderAndPay.bMobiKwik=true;
+                            ReviewOrderAndPay.bCash=false;
+                        }
+                    }
+
+
+
                 }else if(type==1||type==2){
                     TextView tv_payment=(TextView)convertView.findViewById(R.id.tv_payment);
                     ImageView img_payment_status=(ImageView)convertView.findViewById(R.id.img_payment_status);
@@ -152,6 +179,23 @@ public class PaymentOptionFragment extends Fragment {
                             }
                         }
                     });
+
+                    for(int i=0;i<paymentses.size();i++){
+                        if(paymentses.get(i).getPayment_mode().equals("payucheckout_shared")&&paymentses.get(i).isChecke_status()){
+                            ReviewOrderAndPay.bPayTM=false;
+                            ReviewOrderAndPay.bCitrus=false;
+                            ReviewOrderAndPay.bOnline=true;
+                            ReviewOrderAndPay.bMobiKwik=false;
+                            ReviewOrderAndPay.bCash=false;
+                        }else if(paymentses.get(i).getPayment_mode().equals("cashondelivery")&&paymentses.get(i).isChecke_status()){
+                            ReviewOrderAndPay.bPayTM=false;
+                            ReviewOrderAndPay.bCitrus=false;
+                            ReviewOrderAndPay.bOnline=false;
+                            ReviewOrderAndPay.bMobiKwik=false;
+                            ReviewOrderAndPay.bCash=true;
+                        }
+                    }
+
                 }
 
             return convertView;
