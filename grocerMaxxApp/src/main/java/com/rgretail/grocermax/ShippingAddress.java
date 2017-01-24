@@ -1,6 +1,7 @@
 package com.rgretail.grocermax;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
     boolean bShippingAsBilling = true;
 
     ScrollView scrollView;
+    LinearLayout ll_place_order;
 
 
 
@@ -116,6 +118,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
             tv_shipping = (TextView) findViewById(R.id.tv_shipping1);
             tv_grandTotal = (TextView) findViewById(R.id.tv_grandTotal1);
             scrollView=(ScrollView)findViewById(R.id.scrollView);
+            ll_place_order=(LinearLayout) findViewById(R.id.ll_place_order);
 
             tv_save_price.setText(getResources().getString(R.string.rs)+"" + String.format("%.2f", Float.parseFloat(CartProductList.savingGlobal)));
             /*if(Float.parseFloat(CartProductList.shippingGlobal)==0)
@@ -146,8 +149,11 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                 Address add=new Address();
                 add.setFirstname("Add");
                 add.setLastname("Address");
-                add.setStreetAddress("<br>...<br>...<br>");
+                add.setStreetAddress("...<br>...<br>...");
                 addressList.add(add);
+                ll_place_order.setBackgroundColor(getResources().getColor(R.color.gray_1));
+            }else{
+                ll_place_order.setBackgroundColor(Color.parseColor("#0e69e5"));
             }
 
 

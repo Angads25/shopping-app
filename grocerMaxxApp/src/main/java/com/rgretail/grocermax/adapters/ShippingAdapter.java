@@ -116,8 +116,19 @@ public class ShippingAdapter extends BaseAdapter{
 
         holder.profilename.setText(obj.getFirstname() + " " + obj.getLastname());
 
+            if(bIsSelect[position] == false){
+                holder.ivCbCheckOut.setImageResource(R.drawable.chkbox_unselected);
+            }
+
+            if(position == ((ShippingAddress)mContext).selectedPosition) {
+                holder.ivCbCheckOut.setImageResource(R.drawable.chkbox_selected);
+            }else{
+                holder.ivCbCheckOut.setImageResource(R.drawable.chkbox_unselected);
+            }
+            holder.llCbCheckout.setTag(position);
 
             if (!obj.getFirstname().equals("Add")) {
+                ((ShippingAddress) mContext).selectedPosition = (Integer)holder.llCbCheckout.getTag();
                 holder.iv_edit.setVisibility(View.VISIBLE);
                 holder.iv_add.setVisibility(View.GONE);
                 if(obj.getRegion()!=null) {
@@ -186,17 +197,7 @@ public class ShippingAdapter extends BaseAdapter{
                 }
             });
 
-        if(bIsSelect[position] == false){
-            holder.ivCbCheckOut.setImageResource(R.drawable.chkbox_unselected);
-        }
 
-        if(position == ((ShippingAddress)mContext).selectedPosition) {
-            holder.ivCbCheckOut.setImageResource(R.drawable.chkbox_selected);
-        }else{
-            holder.ivCbCheckOut.setImageResource(R.drawable.chkbox_unselected);
-        }
-        holder.llCbCheckout.setTag(position);
-        ((ShippingAddress) mContext).selectedPosition = (Integer)holder.llCbCheckout.getTag();
 
         holder.llCbCheckout.setOnClickListener(new View.OnClickListener() {
 
