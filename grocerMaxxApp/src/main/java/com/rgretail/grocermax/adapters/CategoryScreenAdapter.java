@@ -95,6 +95,8 @@ public class CategoryScreenAdapter extends BaseAdapter {
                 holder.card_view=(CardView)convertView.findViewById(R.id.card_view);
                 holder.sub_catg_grid=(GridView)convertView.findViewById(R.id.sub_catg_grid);
                 holder.img=(ImageView)convertView.findViewById(R.id.img);
+                holder.tv_deal_name=(TextView)convertView.findViewById(R.id.tv_deal_name);
+                holder.v_line=(View)convertView.findViewById(R.id.view);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -102,6 +104,8 @@ public class CategoryScreenAdapter extends BaseAdapter {
             System.out.println("subcategory list = " + position);
             if(position==0){
              holder.card_view.setVisibility(View.GONE);
+             holder.tv_deal_name.setVisibility(View.GONE);
+             holder.v_line.setVisibility(View.GONE);
              holder.sub_catg_grid.setVisibility(View.VISIBLE);
              SubCategoryListAdapter adapter=new SubCategoryListAdapter();
              holder.sub_catg_grid.setAdapter(adapter);
@@ -109,6 +113,8 @@ public class CategoryScreenAdapter extends BaseAdapter {
             }
             else {
                 //position=position-2;
+                holder.tv_deal_name.setVisibility(View.VISIBLE);
+                holder.v_line.setVisibility(View.VISIBLE);
                 holder.card_view.setVisibility(View.VISIBLE);
                 holder.sub_catg_grid.setVisibility(View.GONE);
                 holder.card_view.setShadowPadding(0, 0, 0, 0);
@@ -118,6 +124,8 @@ public class CategoryScreenAdapter extends BaseAdapter {
                 final ShopByDealModel obj = getItem(position-1);
                 System.out.println("img url = " + obj.getImageurl());
                 ImageLoader.getInstance().displayImage(obj.getImageurl(), holder.img, ((BaseActivity) activity).baseImageoptions);
+                holder.tv_deal_name.setText(obj.getName());
+                holder.tv_deal_name.setTypeface(Typeface.createFromAsset(activity.getAssets(),"Gotham-Book.ttf"));
 
                 holder.card_view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -153,6 +161,8 @@ public class CategoryScreenAdapter extends BaseAdapter {
         GridView sub_catg_grid;
         ImageView img;
         CardView card_view;
+        TextView tv_deal_name;
+        View v_line;
     }
 
     public void updateList(List<ShopByDealModel> list) {

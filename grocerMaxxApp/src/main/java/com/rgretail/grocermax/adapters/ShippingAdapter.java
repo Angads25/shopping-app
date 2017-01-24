@@ -1,6 +1,7 @@
 package com.rgretail.grocermax.adapters;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,15 +66,17 @@ public class ShippingAdapter extends BaseAdapter{
         try{
         final ViewHolder holder;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.address_row, parent, false);
+            convertView = inflater.inflate(R.layout.address_row1, parent, false);
             holder = new ViewHolder();
-
-//			convertView.findViewById(R.id.layout_address_info).setBackgroundColor(mContext.getResources().getColor(R.color.grey_bg));
 
             holder.edit_address = (RelativeLayout) convertView
                     .findViewById(R.id.rl_editaddress);
             holder.ivCbCheckOut = (ImageView) convertView
                     .findViewById(R.id.iv_cb_checkout);
+            holder.iv_add = (ImageView) convertView
+                    .findViewById(R.id.iv_add);
+            holder.iv_edit = (ImageView) convertView
+                    .findViewById(R.id.iv_edit);
             holder.llCbCheckout  = (LinearLayout) convertView
                     .findViewById(R.id.ll_cb_checkout);
 
@@ -113,89 +116,75 @@ public class ShippingAdapter extends BaseAdapter{
 
         holder.profilename.setText(obj.getFirstname() + " " + obj.getLastname());
 
-//        String str = obj.getRegion();
 
-//        if(obj.getRegion()!=null ) {
-//            if(!obj.getRegion().equals("")) {
-//                holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() + obj.getStreet() + "," + obj.getCity() + "," + obj.getRegion() + "," + "India" + "," + obj.getPostcode());
-//            }
-//        }
-
-            if(obj.getRegion()!=null) {
-                if(!obj.getRegion().equals("")) {
-                    String strAddress = obj.getFirstname() + " " + obj.getLastname() +",";
-                    try{
-                        if(obj.getStreet() != null){
-                            String addr = obj.getStreet();
-                            strAddress += addr.split("\n")[0] + ","+ addr.split("\n")[1] + ","+addr.split("\n")[2]+",";
-                            strAddress += obj.getCity() + "," + obj.getRegion() + "," + "India" + "," + obj.getPostcode();
-                            holder.address1.setText(strAddress);
-                        }}
-                    catch(Exception e){
-                        holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() +","+ obj.getStreet() + "," + obj.getCity() + "," + obj.getRegion() + "," + "India" + "," + obj.getPostcode());
+            if (!obj.getFirstname().equals("Add")) {
+                holder.iv_edit.setVisibility(View.VISIBLE);
+                holder.iv_add.setVisibility(View.GONE);
+                if(obj.getRegion()!=null) {
+                    if(!obj.getRegion().equals("")) {
+                        String strAddress = obj.getFirstname() + " " + obj.getLastname() +",";
+                        try{
+                            if(obj.getStreet() != null){
+                                String addr = obj.getStreet();
+                                strAddress += addr.split("\n")[0] + ","+ addr.split("\n")[1] + ","+addr.split("\n")[2]+",";
+                                strAddress += obj.getCity() + "," + obj.getRegion() + "," + "India" + "," + obj.getPostcode();
+                                holder.address1.setText(strAddress);
+                            }}
+                        catch(Exception e){
+                            holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() +","+ obj.getStreet() + "," + obj.getCity() + "," + obj.getRegion() + "," + "India" + "," + obj.getPostcode());
+                        }
                     }
-//				tvHouseNo.setText(addr.split("\n")[0]);
-//				tvLocation.setText(addr.split("\n")[1]);
-//				tvLandMark.setText(addr.split("\n")[2]);
-//				+ obj.getStreet() + "," + obj.getCity() + "," + obj.getRegion() + "," + "India" + "," + obj.getPostcode();
-//				holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() +","+ obj.getStreet() + "," + obj.getCity() + "," + obj.getRegion() + "," + "India" + "," + obj.getPostcode());
-
-
                 }
+            } else {
+                holder.iv_edit.setVisibility(View.GONE);
+                holder.iv_add.setVisibility(View.VISIBLE);
+                holder.address1.setText(Html.fromHtml(obj.getStreetAddress()));
             }
 
 
-
-//        else{
-//            holder.address1.setText(obj.getFirstname() + " " + obj.getLastname() + obj.getStreet() + "," + obj.getCity() + ","+obj.getState()+","+"India"+","+obj.getPostcode());
-//        }
-
-//        holder.address1.setText(obj.getStreet()+",");
-//        holder.city.setText(obj.getCity()+",");
-//        if(obj.getRegion()!=null || !obj.getRegion().equals(""))
-//            holder.state.setText(obj.getRegion()+",");
-//        else
-//            holder.state.setText(obj.getState()+",");
-//        holder.country.setText("India"+",");
-//        holder.pincode.setText(obj.getPostcode());
-
-        holder.edit_address.setOnClickListener(new View.OnClickListener() {
+            holder.edit_address.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-//                if(AppConstants.strSelectedState.equalsIgnoreCase(obj.getRegion()) && AppConstants.strSelectedCity.equalsIgnoreCase(obj.getCity()))
-
                 try {
                     if (obj.getRegionId() != null && MySharedPrefs.INSTANCE.getSelectedStateRegionId() != null) {
                         if (!obj.getRegionId().equals(MySharedPrefs.INSTANCE.getSelectedStateRegionId())) {
-//                            UtilityMethods.customToast("We deliver only in " + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + ".Kindly select add new address", mContext);
                             UtilityMethods.customToast(AppConstants.ToastConstant.EDIT_DIFFERENT_ADDRESS_FIRST + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + AppConstants.ToastConstant.EDIT_DIFFERENT_ADDRESS_SECOND, mContext);
                             return;
                         }else{
-                           // try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_EXISTING_SHIPPING_EDIT);}catch(Exception e){}
                             ((ShippingAddress) mContext).goToAddress(obj,position);
                         }
                     }
                 }catch(Exception e){}
 
 
-//                if(MySharedPrefs.INSTANCE.getSelectedState().equalsIgnoreCase(obj.getRegion()) && MySharedPrefs.INSTANCE.getSelectedCity().equalsIgnoreCase(obj.getCity()))
-//                ((ShippingAddress)mContext).goToAddress(obj,position);
-//                else{
-//                    UtilityMethods.customToast("We deliver only in "+MySharedPrefs.INSTANCE.getSelectedCity()+","+MySharedPrefs.INSTANCE.getSelectedState()+".Kindly select add new address", mContext);
-//                }
             }
         });
 
+            holder.iv_edit.setOnClickListener(new View.OnClickListener() {
 
-//        holder.delete_address.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                ((ChooseAddress)mContext).deleteAddress(obj,position);
-//            }
-//        });
+                @Override
+                public void onClick(View v) {
+                    try {
+                        if (obj.getRegionId() != null && MySharedPrefs.INSTANCE.getSelectedStateRegionId() != null) {
+                            if (!obj.getRegionId().equals(MySharedPrefs.INSTANCE.getSelectedStateRegionId())) {
+                                UtilityMethods.customToast(AppConstants.ToastConstant.EDIT_DIFFERENT_ADDRESS_FIRST + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + AppConstants.ToastConstant.EDIT_DIFFERENT_ADDRESS_SECOND, mContext);
+                                return;
+                            }else{
+                                ((ShippingAddress) mContext).goToAddress(obj,position);
+                            }
+                        }
+                    }catch(Exception e){}
 
+
+                }
+            });
+            holder.iv_add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((ShippingAddress)mContext).addAddress();
+                }
+            });
 
         if(bIsSelect[position] == false){
             holder.ivCbCheckOut.setImageResource(R.drawable.chkbox_unselected);
@@ -207,26 +196,16 @@ public class ShippingAdapter extends BaseAdapter{
             holder.ivCbCheckOut.setImageResource(R.drawable.chkbox_unselected);
         }
         holder.llCbCheckout.setTag(position);
+        ((ShippingAddress) mContext).selectedPosition = (Integer)holder.llCbCheckout.getTag();
 
         holder.llCbCheckout.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
             try {
-               // try{UtilityMethods.clickCapture(mContext,"","","","",AppConstants.GA_EVENT_EXISTING_SHIPPING_SELECT);}catch(Exception e){}
                 ((ShippingAddress) mContext).selectedPosition = (Integer) v.getTag();
                 notifyDataSetChanged();
             }catch(Exception e){}
-
-//                TextView quantity = (TextView) v.getTag();
-//                if(bIsSelect[position] == true){
-//                    bIsSelect[position] = false;
-//                    holder.ivCbCheckOut.setImageResource(R.drawable.uncheck_pay);
-//                }else{
-//                    bIsSelect[position] = true;
-//                    holder.ivCbCheckOut.setImageResource(R.drawable.check_pay);
-//                }
-//                notifyDataSetChanged();
             }
 
         });
@@ -240,7 +219,7 @@ public class ShippingAdapter extends BaseAdapter{
         TextView profilename, address1, state, city, pincode, country;
 //        TextView name,phone;
         RelativeLayout edit_address;
-        ImageView ivCbCheckOut;
+        ImageView ivCbCheckOut,iv_add,iv_edit;
         LinearLayout llCbCheckout;
         //        ,delete_address;
         TextView txtHeader;

@@ -118,10 +118,12 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
             scrollView=(ScrollView)findViewById(R.id.scrollView);
 
             tv_save_price.setText(getResources().getString(R.string.rs)+"" + String.format("%.2f", Float.parseFloat(CartProductList.savingGlobal)));
-            if(Float.parseFloat(CartProductList.shippingGlobal)==0)
+            /*if(Float.parseFloat(CartProductList.shippingGlobal)==0)
                 tv_shipping.setText("Free");
             else
-                tv_shipping.setText(getResources().getString(R.string.rs)+""+String.format("%.2f", Float.parseFloat(CartProductList.shippingGlobal)));
+                tv_shipping.setText(getResources().getString(R.string.rs)+""+String.format("%.2f", Float.parseFloat(CartProductList.shippingGlobal)));*/
+
+            tv_shipping.setText(MySharedPrefs.INSTANCE.getTotalItem());
 
             tv_grandTotal.setText(getResources().getString(R.string.rs)+"" + String.format("%.2f", Float.parseFloat(CartProductList.totalGlobal)));
 
@@ -133,10 +135,21 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                 if(address_obj.getAddress().get(i).getCity() != null && address_obj.getAddress().get(i).getRegion() != null){
                     if(address_obj.getAddress().get(i).getCity().equalsIgnoreCase(MySharedPrefs.INSTANCE.getSelectedCity()) &&
                             address_obj.getAddress().get(i).getRegion().equalsIgnoreCase(MySharedPrefs.INSTANCE.getSelectedState())) {
-                    addressList.add(address_obj.getAddress().get(i));
-                  }
+                        if (addressList.size()==0) {
+                            addressList.add(address_obj.getAddress().get(i));
+                        }
+                    }
                 }
             }
+
+            if(addressList.size()==0){
+                Address add=new Address();
+                add.setFirstname("Add");
+                add.setLastname("Address");
+                add.setStreetAddress("<br>...<br>...<br>");
+                addressList.add(add);
+            }
+
 
             /*for billing*/
             addressList_billing = new ArrayList<Address>();
@@ -393,6 +406,22 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
             llIcon.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 7f));
         }catch(Exception e){
             new GrocermaxBaseException("ShippingAddress"," btnSelectDeliveryDetails.setOnClickListener",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
+        }
+    }
+
+    public void addAddress(){
+        try {
+            if (ShippingLocationLoader.alLocationShipping == null || ShippingLocationLoader.alLocationShipping.size() == 0) {                //first time call this service for getting states
+                Address addres = null;
+                new ShippingLocationLoader(ShippingAddress.this, addres, "shipping", "-1").execute(UrlsConstants.GET_LOCATION_SHIPPING + MySharedPrefs.INSTANCE.getSelectedStateId());
+            } else {
+                Intent intent = new Intent(mContext, CreateNewAddress.class);
+                intent.putExtra("shippingorbillingaddress", "shipping");
+                intent.putExtra("editindex", "-1");                                    //means adding the address not editing.
+                startActivityForResult(intent, requestNewAddress);
+            }
+        } catch (Exception e) {
+            new GrocermaxBaseException("AddressDetail", "goToAddress", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
         }
     }
 
