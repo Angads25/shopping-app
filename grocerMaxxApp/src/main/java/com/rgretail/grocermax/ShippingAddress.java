@@ -3,23 +3,30 @@ package com.rgretail.grocermax;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.rgretail.grocermax.adapters.BillingAdapter;
 import com.rgretail.grocermax.adapters.ShippingAdapter;
+import com.rgretail.grocermax.adapters.TimeSlotAdapter;
 import com.rgretail.grocermax.api.BillingStateCityLoader;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
 import com.rgretail.grocermax.api.ShippingLocationLoader;
 import com.rgretail.grocermax.bean.Address;
 import com.rgretail.grocermax.bean.CheckoutAddressBean;
+import com.rgretail.grocermax.bean.DateObject;
 import com.rgretail.grocermax.bean.OrderReviewBean;
+import com.rgretail.grocermax.bean.TimeSlotStatus;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
@@ -28,7 +35,11 @@ import com.rgretail.grocermax.utils.UtilityMethods;
 
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 
 //import com.google.analytics.tracking.android.EasyTracker;
 
@@ -50,6 +61,16 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
 
     ScrollView scrollView;
     LinearLayout ll_place_order;
+
+    TextView tv_date,tv_time;
+    ImageView iv_edit_slot;
+    public static int index;
+    ArrayList<String> date_list;
+    HashMap<String,ArrayList<String>> date_timeSlot_new;
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    ArrayList<TimeSlotStatus> dateStatus;
+    ArrayList<TimeSlotStatus> timeStatus;
+    String selected_date,selected_time;
 
 
 
@@ -117,6 +138,18 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
             tv_save_price = (TextView) findViewById(R.id.tv_save_price1);
             tv_shipping = (TextView) findViewById(R.id.tv_shipping1);
             tv_grandTotal = (TextView) findViewById(R.id.tv_grandTotal1);
+
+            tv_date = (TextView) findViewById(R.id.tv_date);
+            tv_time = (TextView) findViewById(R.id.tv_Time);
+            index=-1;
+            iv_edit_slot=(ImageView)findViewById(R.id.iv_edit_slot);
+            iv_edit_slot.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showTimeSlot();
+                }
+            });
+
             scrollView=(ScrollView)findViewById(R.id.scrollView);
             ll_place_order=(LinearLayout) findViewById(R.id.ll_place_order);
 
@@ -351,8 +384,14 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                             orderReviewBean1.setBilling(billing_json_obj);
                             MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean1);
 
-                            Intent intent1 = new Intent(ShippingAddress.this, DeliveryDetails.class);
+                            /*Intent intent1 = new Intent(ShippingAddress.this, DeliveryDetails.class);
                             intent1.putExtra("addressBean", address_obj);
+                            startActivity(intent1);*/
+                            OrderReviewBean orderReviewBean2 = MySharedPrefs.INSTANCE.getOrderReviewBean();
+                            orderReviewBean2.setDate(selected_date);
+                            orderReviewBean2.setTimeSlot(selected_time);
+                            MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean2);
+                            Intent intent1 = new Intent(ShippingAddress.this, ReviewOrderAndPay.class);
                             startActivity(intent1);
                         } else {
                             OrderReviewBean orderReviewBean = MySharedPrefs.INSTANCE.getOrderReviewBean();
@@ -390,18 +429,57 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                             orderReviewBean1.setBilling(billing_json_obj);
                             MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean1);
 
-                           /* Intent intent = new Intent(ShippingAddress.this, BillingAddress.class);
-                            intent.putExtra("addressBean", address_obj);
-                            startActivity(intent);*/
-                            Intent intent1 = new Intent(ShippingAddress.this, DeliveryDetails.class);
+                            /*Intent intent1 = new Intent(ShippingAddress.this, DeliveryDetails.class);
                             intent1.putExtra("addressBean", address_obj);
+                            startActivity(intent1);*/
+
+                            OrderReviewBean orderReviewBean2 = MySharedPrefs.INSTANCE.getOrderReviewBean();
+                            orderReviewBean2.setDate(selected_date);
+                            orderReviewBean2.setTimeSlot(selected_time);
+                            MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean2);
+                            Intent intent1 = new Intent(ShippingAddress.this, ReviewOrderAndPay.class);
                             startActivity(intent1);
+
+
                         }
                     } catch (Exception e) {
                         new GrocermaxBaseException("ShippingAddress", "onCreate", e.getMessage(), GrocermaxBaseException.EXCEPTION, "nodetail");
                     }
                 }
             });
+
+            /*------ for setting current available slot--------------------*/
+            dateStatus=new ArrayList<>();
+            timeStatus=new ArrayList<>();
+            date_timeSlot_new=address_obj.getDate_timeSlot_new();
+            date_list = new ArrayList<String>(address_obj.getDate_timeSlot_new().keySet());          //will contain all dates. in format 2015-08-30
+            ArrayList<DateObject> datArrayList = new ArrayList<DateObject>();
+            for (int i = 0; i < date_list.size(); i++) {
+                DateObject dateObject = new DateObject();
+                try {
+
+                    dateObject.setDateTime(formatter.parse(date_list.get(i)));   //will contain sun aug 30 00:00:00  GMT +15:30 2015
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                datArrayList.add(dateObject);
+            }
+            Collections.sort(datArrayList);                                //will contain Tue Aug 25 00:00:00 GMT+05:30 2015  in sorting format
+            date_list.clear();
+
+            for (int i = 0; i < datArrayList.size(); i++) {
+                date_list.add(formatter.format(datArrayList.get(i).getDateTime()));                //will contain 25-08-2015 in sorted format
+                if (i==0) {
+                    dateStatus.add(new TimeSlotStatus(formatter.format(datArrayList.get(i).getDateTime()),true));
+                } else {
+                    dateStatus.add(new TimeSlotStatus(formatter.format(datArrayList.get(i).getDateTime()),false));
+                }
+            }
+            selected_date = date_list.get(0);
+            selected_time=date_timeSlot_new.get(selected_date).get(0);
+            tv_date.setText(selected_date);
+            tv_time.setText(selected_time);
+            /*----------------------------------------------------------------*/
 
             initHeader(findViewById(R.id.app_bar_header), true, "Delivery Addresses");
             initFooter(findViewById(R.id.footer), 4, 3);
@@ -414,6 +492,79 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
             new GrocermaxBaseException("ShippingAddress"," btnSelectDeliveryDetails.setOnClickListener",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
         }
     }
+
+
+    public void showTimeSlot(){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ShippingAddress.this);
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.time_slot_popup, null);
+        dialogBuilder.setView(dialogView);
+
+        final ListView lv_date=(ListView) dialogView.findViewById(R.id.lv_date);
+        final ListView lv_time=(ListView) dialogView.findViewById(R.id.lv_time);
+        TextView tv_done=(TextView)dialogView.findViewById(R.id.tv_done);
+
+        for(int i=0;i<date_timeSlot_new.get(date_list.get(0)).size();i++){
+            if (i==0) {
+                timeStatus.add(new TimeSlotStatus(date_timeSlot_new.get(date_list.get(0)).get(i),true));
+            } else {
+                timeStatus.add(new TimeSlotStatus(date_timeSlot_new.get(date_list.get(0)).get(i),false));
+            }
+        }
+
+
+        lv_date.setAdapter(new TimeSlotAdapter(ShippingAddress.this,dateStatus));
+        lv_time.setAdapter(new TimeSlotAdapter(ShippingAddress.this,timeStatus));
+
+        lv_date.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                for(int i=0;i<dateStatus.size();i++)
+                    dateStatus.get(i).setStatus(false);
+                dateStatus.get(position).setStatus(true);
+                selected_date=dateStatus.get(position).getData();
+                lv_date.setAdapter(new TimeSlotAdapter(ShippingAddress.this,dateStatus));
+
+                timeStatus.clear();
+                for(int i=0;i<date_timeSlot_new.get(date_list.get(position)).size();i++){
+                    if (i==0) {
+                        timeStatus.add(new TimeSlotStatus(date_timeSlot_new.get(date_list.get(position)).get(i),true));
+                    } else {
+                        timeStatus.add(new TimeSlotStatus(date_timeSlot_new.get(date_list.get(position)).get(i),false));
+                    }
+                }
+
+                lv_time.setAdapter(new TimeSlotAdapter(ShippingAddress.this,timeStatus));
+            }
+        });
+        lv_time.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                for(int i=0;i<timeStatus.size();i++)
+                    timeStatus.get(i).setStatus(false);
+                timeStatus.get(position).setStatus(true);
+                selected_time=timeStatus.get(position).getData();
+                lv_time.setAdapter(new TimeSlotAdapter(ShippingAddress.this,timeStatus));
+            }
+        });
+
+        final AlertDialog b = dialogBuilder.create();
+
+        tv_done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_date.setText(selected_date);
+                tv_time.setText(selected_time);
+                b.dismiss();
+            }
+        });
+        b.show();
+    }
+
+
+
+
 
     public void addAddress(){
         try {

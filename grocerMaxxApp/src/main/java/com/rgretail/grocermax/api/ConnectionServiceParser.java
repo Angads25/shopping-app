@@ -639,6 +639,26 @@ public class ConnectionServiceParser {
 				}
 			}
 
+			HashMap<String,ArrayList<String>> date_timeSlot_new=new HashMap<String, ArrayList<String>>();
+			for(int i=0;i<shipping_obj.length();i++)
+			{
+				JSONObject slot_obj=shipping_obj.getJSONObject(i);
+				if(date_timeSlot_new.containsKey(slot_obj.getString("Date")))
+				{
+					if (slot_obj.getString("Available").equals("1")) {
+						ArrayList<String> timeSlot=date_timeSlot_new.get(slot_obj.getString("Date"));
+						timeSlot.add(slot_obj.getString("TimeSlot"));
+						date_timeSlot_new.put(slot_obj.getString("Date"), timeSlot);
+					}
+				}else{
+					if (slot_obj.getString("Available").equals("1")) {
+						ArrayList<String> timeSlot=new ArrayList<String>();
+						timeSlot.add(slot_obj.getString("TimeSlot"));
+						date_timeSlot_new.put(slot_obj.getString("Date"), timeSlot);
+					}
+				}
+			}
+            bean.setDate_timeSlot_new(date_timeSlot_new);
 			bean.setDate_timeSlot(date_timeSlot);
 			bean.setDate_timeAvailableSlot(date_timeAvailableSlot);
 		}catch(Exception e){

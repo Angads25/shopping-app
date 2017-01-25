@@ -15,13 +15,13 @@
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@+id/rl_use_shipping_asbilling_address"
         android:layout_below="@+id/app_bar_header">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TextView
@@ -45,6 +45,63 @@
                 android:visibility="visible">
             </com.rgretail.grocermax.ExpandableHeightListView>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delivery Date  Time"
+                android:gravity="center_vertical"
+                android:textColor="#212121"
+                android:textStyle="bold"
+                android:textSize="12dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                 android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/white_bg"
+                android:elevation="2dp"
+                android:padding="15dp"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:id="@+id/tv_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="Wed, 25 jan"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_14" />
+                    <ImageView
+                        android:id="@+id/iv_edit_slot"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/edit_icon"
+                        android:visibility="visible" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_Time"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="2.00 pm - 5.00 pm"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_14" />
+
+            </LinearLayout>
+
 
             <RelativeLayout
                 android:id="@+id/rl_add_new_address"
@@ -58,7 +115,8 @@
                 android:background="@drawable/white_bg"
                 android:elevation="2dp"
                 android:padding="8dp"
-                android:visibility="gone">
+                android:layout_margin="10dp"
+                android:visibility="invisible">
 
                 <TextView
                     android:layout_width="wrap_content"

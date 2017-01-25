@@ -1269,7 +1269,6 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
                UrlsConstants.CITRUS_BILL_GENRATOR+""+citrus_order_id,
                UrlsConstants.CITRUS_RETURN_URL);
 
-
        /*This credential provided by citrus */
       /* CitrusFlowManager.initCitrusConfig("8x5hn2kbpc-signup","2b591f683aa3cf1426fd2a1103c5d845",
                                           "8x5hn2kbpc-signin","2996366165262aeb051533c6f7a78230",

@@ -1,10 +1,10 @@
 package com.rgretail.grocermax.bean;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import com.google.gson.annotations.Expose;
 
 public class CheckoutAddressBean implements Serializable {
 
@@ -36,6 +36,16 @@ public class CheckoutAddressBean implements Serializable {
 
 
 	HashMap<String,ArrayList<String>> date_timeSlot=new HashMap<String, ArrayList<String>>();
+
+	HashMap<String,ArrayList<String>> date_timeSlot_new=new HashMap<String, ArrayList<String>>();
+
+	public HashMap<String, ArrayList<String>> getDate_timeSlot_new() {
+		return date_timeSlot_new;
+	}
+
+	public void setDate_timeSlot_new(HashMap<String, ArrayList<String>> date_timeSlot_new) {
+		this.date_timeSlot_new = date_timeSlot_new;
+	}
 
 	/**
 	 * 
