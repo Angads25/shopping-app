@@ -7,17 +7,15 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.rgretail.grocermax.adapters.BillingAdapter;
 import com.rgretail.grocermax.adapters.ShippingAdapter;
-import com.rgretail.grocermax.adapters.TimeSlotAdapter;
 import com.rgretail.grocermax.api.BillingStateCityLoader;
 import com.rgretail.grocermax.api.ConnectionService;
 import com.rgretail.grocermax.api.MyReceiverActions;
@@ -26,7 +24,6 @@ import com.rgretail.grocermax.bean.Address;
 import com.rgretail.grocermax.bean.CheckoutAddressBean;
 import com.rgretail.grocermax.bean.DateObject;
 import com.rgretail.grocermax.bean.OrderReviewBean;
-import com.rgretail.grocermax.bean.TimeSlotStatus;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
@@ -68,8 +65,8 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
     ArrayList<String> date_list;
     HashMap<String,ArrayList<String>> date_timeSlot_new;
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    ArrayList<TimeSlotStatus> dateStatus;
-    ArrayList<TimeSlotStatus> timeStatus;
+    ArrayList<String> dateStatus;
+    ArrayList<String> timeStatus;
     String selected_date,selected_time;
 
 
@@ -469,11 +466,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
 
             for (int i = 0; i < datArrayList.size(); i++) {
                 date_list.add(formatter.format(datArrayList.get(i).getDateTime()));                //will contain 25-08-2015 in sorted format
-                if (i==0) {
-                    dateStatus.add(new TimeSlotStatus(formatter.format(datArrayList.get(i).getDateTime()),true));
-                } else {
-                    dateStatus.add(new TimeSlotStatus(formatter.format(datArrayList.get(i).getDateTime()),false));
-                }
+                dateStatus.add(formatter.format(datArrayList.get(i).getDateTime()));
             }
             selected_date = date_list.get(0);
             selected_time=date_timeSlot_new.get(selected_date).get(0);
@@ -500,23 +493,53 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
         final View dialogView = inflater.inflate(R.layout.time_slot_popup, null);
         dialogBuilder.setView(dialogView);
 
-        final ListView lv_date=(ListView) dialogView.findViewById(R.id.lv_date);
-        final ListView lv_time=(ListView) dialogView.findViewById(R.id.lv_time);
+        final NumberPicker np_date=(NumberPicker) dialogView.findViewById(R.id.np_date);
+        final NumberPicker np_time=(NumberPicker) dialogView.findViewById(R.id.np_time);
         TextView tv_done=(TextView)dialogView.findViewById(R.id.tv_done);
-
+         timeStatus.clear();
         for(int i=0;i<date_timeSlot_new.get(date_list.get(0)).size();i++){
-            if (i==0) {
-                timeStatus.add(new TimeSlotStatus(date_timeSlot_new.get(date_list.get(0)).get(i),true));
-            } else {
-                timeStatus.add(new TimeSlotStatus(date_timeSlot_new.get(date_list.get(0)).get(i),false));
-            }
+                timeStatus.add(date_timeSlot_new.get(date_list.get(0)).get(i));
         }
+        String[] date_arryay = dateStatus.toArray(new String[dateStatus.size()]);
+        np_date.setMinValue(0);
+        np_date.setMaxValue(date_arryay.length-1);
+        np_date.setDisplayedValues(date_arryay);
+        np_date.setWrapSelectorWheel(false);
+
+        String[] time_arryay = timeStatus.toArray(new String[timeStatus.size()]);
+        np_time.setMinValue(0);
+        np_time.setMaxValue(time_arryay.length-1);
+        np_time.setDisplayedValues(time_arryay);
+        np_time.setWrapSelectorWheel(false);
+
+        np_date.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal){
+                timeStatus.clear();
+                for(int i=0;i<date_timeSlot_new.get(date_list.get(newVal)).size();i++){
+                        timeStatus.add(date_timeSlot_new.get(date_list.get(newVal)).get(i));
+                }
+                selected_date=date_list.get(newVal);
+                String[] time_arryay = timeStatus.toArray(new String[timeStatus.size()]);
+                np_time.setMinValue(0);
+                np_time.setMaxValue(time_arryay.length-1);
+                np_time.setDisplayedValues(time_arryay);
+                np_time.setWrapSelectorWheel(false);
+            }
+        });
+
+        np_time.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                selected_time=timeStatus.get(newVal);
+            }
+        });
 
 
-        lv_date.setAdapter(new TimeSlotAdapter(ShippingAddress.this,dateStatus));
-        lv_time.setAdapter(new TimeSlotAdapter(ShippingAddress.this,timeStatus));
+        /*lv_date.setAdapter(new TimeSlotAdapter(ShippingAddress.this,dateStatus));
+        lv_time.setAdapter(new TimeSlotAdapter(ShippingAddress.this,timeStatus));*/
 
-        lv_date.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*lv_date.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -537,8 +560,8 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
 
                 lv_time.setAdapter(new TimeSlotAdapter(ShippingAddress.this,timeStatus));
             }
-        });
-        lv_time.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        });*/
+        /*lv_time.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 for(int i=0;i<timeStatus.size();i++)
@@ -547,7 +570,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                 selected_time=timeStatus.get(position).getData();
                 lv_time.setAdapter(new TimeSlotAdapter(ShippingAddress.this,timeStatus));
             }
-        });
+        });*/
 
         final AlertDialog b = dialogBuilder.create();
 
