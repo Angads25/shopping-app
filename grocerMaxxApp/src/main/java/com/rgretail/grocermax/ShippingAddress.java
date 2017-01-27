@@ -1,7 +1,9 @@
 package com.rgretail.grocermax;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -65,6 +67,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
     ArrayList<String> date_list;
     HashMap<String,ArrayList<String>> date_timeSlot_new;
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    //SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd");
     ArrayList<String> dateStatus;
     ArrayList<String> timeStatus;
     String selected_date,selected_time;
@@ -174,7 +177,6 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                     }
                 }
             }
-
             if(addressList.size()==0){
                 Address add=new Address();
                 add.setFirstname("Add");
@@ -454,7 +456,6 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
             for (int i = 0; i < date_list.size(); i++) {
                 DateObject dateObject = new DateObject();
                 try {
-
                     dateObject.setDateTime(formatter.parse(date_list.get(i)));   //will contain sun aug 30 00:00:00  GMT +15:30 2015
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -465,16 +466,17 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
             date_list.clear();
 
             for (int i = 0; i < datArrayList.size(); i++) {
+                SimpleDateFormat formatter12 = new SimpleDateFormat("E, dd MMM");
                 date_list.add(formatter.format(datArrayList.get(i).getDateTime()));                //will contain 25-08-2015 in sorted format
-                dateStatus.add(formatter.format(datArrayList.get(i).getDateTime()));
+                dateStatus.add(formatter12.format(datArrayList.get(i).getDateTime()));
             }
-            selected_date = date_list.get(0);
-            selected_time=date_timeSlot_new.get(selected_date).get(0);
+            selected_date = dateStatus.get(0);
+            selected_time=date_timeSlot_new.get(date_list.get(0)).get(0);
             tv_date.setText(selected_date);
             tv_time.setText(selected_time);
             /*----------------------------------------------------------------*/
 
-            initHeader(findViewById(R.id.app_bar_header), true, "Delivery Addresses");
+            initHeader(findViewById(R.id.app_bar_header), true, "Address and Date & Time");
             initFooter(findViewById(R.id.footer), 4, 3);
             icon_header_search.setVisibility(View.GONE);
             icon_header_cart.setVisibility(View.GONE);
@@ -493,25 +495,31 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
         final View dialogView = inflater.inflate(R.layout.time_slot_popup, null);
         dialogBuilder.setView(dialogView);
 
-        final NumberPicker np_date=(NumberPicker) dialogView.findViewById(R.id.np_date);
-        final NumberPicker np_time=(NumberPicker) dialogView.findViewById(R.id.np_time);
+        final CustomNumberPicker np_date=(CustomNumberPicker) dialogView.findViewById(R.id.np_date);
+        final CustomNumberPicker np_time=(CustomNumberPicker) dialogView.findViewById(R.id.np_time);
+        
+        setDividerColor(np_date,getResources().getColor(R.color.orange_text));
+        setDividerColor(np_time,getResources().getColor(R.color.orange_text));
         TextView tv_done=(TextView)dialogView.findViewById(R.id.tv_done);
          timeStatus.clear();
         for(int i=0;i<date_timeSlot_new.get(date_list.get(0)).size();i++){
                 timeStatus.add(date_timeSlot_new.get(date_list.get(0)).get(i));
         }
-        String[] date_arryay = dateStatus.toArray(new String[dateStatus.size()]);
-        np_date.setMinValue(0);
-        np_date.setMaxValue(date_arryay.length-1);
-        np_date.setDisplayedValues(date_arryay);
-        np_date.setWrapSelectorWheel(false);
+        try {
+            String[] date_arryay = dateStatus.toArray(new String[dateStatus.size()]);
+            np_date.setMinValue(0);
+            np_date.setMaxValue(date_arryay.length-1);
+            np_date.setDisplayedValues(date_arryay);
+            np_date.setWrapSelectorWheel(false);
 
-        String[] time_arryay = timeStatus.toArray(new String[timeStatus.size()]);
-        np_time.setMinValue(0);
-        np_time.setMaxValue(time_arryay.length-1);
-        np_time.setDisplayedValues(time_arryay);
-        np_time.setWrapSelectorWheel(false);
-
+            String[] time_arryay = timeStatus.toArray(new String[timeStatus.size()]);
+            np_time.setMinValue(0);
+            np_time.setMaxValue(time_arryay.length-1);
+            np_time.setDisplayedValues(time_arryay);
+            np_time.setWrapSelectorWheel(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         np_date.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal){
@@ -519,12 +527,16 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                 for(int i=0;i<date_timeSlot_new.get(date_list.get(newVal)).size();i++){
                         timeStatus.add(date_timeSlot_new.get(date_list.get(newVal)).get(i));
                 }
-                selected_date=date_list.get(newVal);
+                selected_date=dateStatus.get(newVal);
                 String[] time_arryay = timeStatus.toArray(new String[timeStatus.size()]);
-                np_time.setMinValue(0);
-                np_time.setMaxValue(time_arryay.length-1);
-                np_time.setDisplayedValues(time_arryay);
-                np_time.setWrapSelectorWheel(false);
+                try {
+                    np_time.setMinValue(0);
+                    np_time.setMaxValue(time_arryay.length-1);
+                    np_time.setDisplayedValues(time_arryay);
+                    np_time.setWrapSelectorWheel(false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -536,41 +548,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
         });
 
 
-        /*lv_date.setAdapter(new TimeSlotAdapter(ShippingAddress.this,dateStatus));
-        lv_time.setAdapter(new TimeSlotAdapter(ShippingAddress.this,timeStatus));*/
 
-        /*lv_date.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                for(int i=0;i<dateStatus.size();i++)
-                    dateStatus.get(i).setStatus(false);
-                dateStatus.get(position).setStatus(true);
-                selected_date=dateStatus.get(position).getData();
-                lv_date.setAdapter(new TimeSlotAdapter(ShippingAddress.this,dateStatus));
-
-                timeStatus.clear();
-                for(int i=0;i<date_timeSlot_new.get(date_list.get(position)).size();i++){
-                    if (i==0) {
-                        timeStatus.add(new TimeSlotStatus(date_timeSlot_new.get(date_list.get(position)).get(i),true));
-                    } else {
-                        timeStatus.add(new TimeSlotStatus(date_timeSlot_new.get(date_list.get(position)).get(i),false));
-                    }
-                }
-
-                lv_time.setAdapter(new TimeSlotAdapter(ShippingAddress.this,timeStatus));
-            }
-        });*/
-        /*lv_time.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                for(int i=0;i<timeStatus.size();i++)
-                    timeStatus.get(i).setStatus(false);
-                timeStatus.get(position).setStatus(true);
-                selected_time=timeStatus.get(position).getData();
-                lv_time.setAdapter(new TimeSlotAdapter(ShippingAddress.this,timeStatus));
-            }
-        });*/
 
         final AlertDialog b = dialogBuilder.create();
 
@@ -584,6 +562,29 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
         });
         b.show();
     }
+
+    private void setDividerColor(NumberPicker picker, int color) {
+
+        java.lang.reflect.Field[] pickerFields = NumberPicker.class.getDeclaredFields();
+        for (java.lang.reflect.Field pf : pickerFields) {
+            if (pf.getName().equals("mSelectionDivider")) {
+                pf.setAccessible(true);
+                try {
+                    ColorDrawable colorDrawable = new ColorDrawable(color);
+                    pf.set(picker, colorDrawable);
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                } catch (Resources.NotFoundException e) {
+                    e.printStackTrace();
+                }
+                catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+        }
+    }
+
 
 
 
@@ -744,7 +745,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        initHeader(findViewById(R.id.app_bar_header), true, "Delivery Addresses");
+        initHeader(findViewById(R.id.app_bar_header), true, "Address and Date & Time");
         LinearLayout llIcon = (LinearLayout)findViewById(R.id.ll_placeholder_logoIcon_appBar);
         llIcon.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT,7f));
     }

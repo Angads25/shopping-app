@@ -118,8 +118,8 @@
 
                     <ImageView
                         android:id="@+id/cancel_image"
-                        android:layout_width="18dp"
-                        android:layout_height="22dp"
+                        android:layout_width="15dp"
+                        android:layout_height="18dp"
                         android:src="@drawable/delete_icon" />
 
                 </LinearLayout>
@@ -493,7 +493,8 @@
                 android:layout_width="20dp"
                 android:layout_height="19dp"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/bell" />
+                android:src="@drawable/bell"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/tv_offers_cart"

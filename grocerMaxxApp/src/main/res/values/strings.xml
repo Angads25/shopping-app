@@ -31,5 +31,7 @@
     <string name="Rs">\u20B9</string>
     <string name="at">\u0040</string>
     <string name="my_wallet">Use Refund Balance | \u20B90.00</string>
+    <string name="slot">Delivery Date &#38; Time</string>
+    <string name="datetime">Select Date &#38; Time</string>
 
 </resources>

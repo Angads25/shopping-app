@@ -7,29 +7,30 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Select Date Time"
+        android:text="@string/datetime"
         android:gravity="center"
         android:textColor="#212121"
         android:textSize="20dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp">
 
-        <NumberPicker
+        <com.rgretail.grocermax.CustomNumberPicker
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/np_date"
             android:layout_weight="1"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
-            />
+            android:layout_marginRight="5dp"/>
 
-        <NumberPicker
+        <com.rgretail.grocermax.CustomNumberPicker
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/np_time"
-            android:layout_weight="1.5"
+            android:layout_weight="1"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"/>
     </LinearLayout>
@@ -37,7 +38,7 @@
         android:id="@+id/tv_done"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/app_header"
+        android:background="@color/orange_text"
         android:text="DONE"
         android:textColor="@color/white"
         android:textStyle="bold"

@@ -27,11 +27,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SHIPPING ADDRESS"
+                android:text="Shipping Detail"
                 android:gravity="center_vertical"
-                android:textColor="#212121"
-                android:textStyle="bold"
-                android:textSize="12dp"
+                android:textColor="@color/gray_2"
+                android:textSize="15dp"
                 android:layout_marginTop="10dp"
                 android:paddingLeft="10dp"/>
 
@@ -48,11 +47,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Delivery Date  Time"
+                android:text="@string/slot"
                 android:gravity="center_vertical"
-                android:textColor="#212121"
-                android:textStyle="bold"
-                android:textSize="12dp"
+                android:textColor="@color/gray_2"
+                android:textSize="15dp"
                 android:layout_marginTop="10dp"
                 android:paddingLeft="10dp"/>
 

@@ -1,6 +1,7 @@
 package com.rgretail.grocermax.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,18 +75,18 @@ public class ShippingAdapter extends BaseAdapter{
             holder.ivCbCheckOut = (ImageView) convertView
                     .findViewById(R.id.iv_cb_checkout);
             holder.iv_add = (ImageView) convertView
-                    .findViewById(R.id.iv_add);
+                    .findViewById(R.id.iv_add1);
             holder.iv_edit = (ImageView) convertView
-                    .findViewById(R.id.iv_edit);
+                    .findViewById(R.id.iv_edit1);
             holder.llCbCheckout  = (LinearLayout) convertView
                     .findViewById(R.id.ll_cb_checkout);
 
 
 //            holder.delete_address = (ImageView) convertView.findViewById(R.id.deleteAddress);
             holder.profilename = (TextView) convertView
-                    .findViewById(R.id.text_header);
+                    .findViewById(R.id.text_header1);
             holder.address1 = (TextView) convertView
-                    .findViewById(R.id.address1);
+                    .findViewById(R.id.address2);
             holder.state = (TextView) convertView
                     .findViewById(R.id.state);
 //            holder.name = (TextView) convertView.findViewById(R.id.name);
@@ -95,8 +96,8 @@ public class ShippingAdapter extends BaseAdapter{
                     .findViewById(R.id.pincode);
             holder.country = (TextView) convertView
                     .findViewById(R.id.country);
-            holder.txtHeader = (TextView) convertView
-                    .findViewById(R.id.text_header);
+           /* holder.txtHeader = (TextView) convertView
+                    .findViewById(R.id.text_header1);*/
             convertView.setTag(holder);
         }else {
             holder = (ViewHolder) convertView.getTag();
@@ -110,7 +111,7 @@ public class ShippingAdapter extends BaseAdapter{
         holder.city.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
         holder.pincode.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
         holder.country.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
-        holder.txtHeader.setTypeface(CustomFonts.getInstance().getRobotoBold(mContext));
+        //holder.txtHeader.setTypeface(CustomFonts.getInstance().getRobotoBold(mContext));
 
         final Address obj = getItem(position);
 
@@ -128,6 +129,7 @@ public class ShippingAdapter extends BaseAdapter{
             holder.llCbCheckout.setTag(position);
 
             if (!obj.getFirstname().equals("Add")) {
+                holder.profilename.setTextColor(Color.parseColor("#212121"));
                 ((ShippingAddress) mContext).selectedPosition = (Integer)holder.llCbCheckout.getTag();
                 holder.iv_edit.setVisibility(View.VISIBLE);
                 holder.iv_add.setVisibility(View.GONE);
@@ -147,6 +149,7 @@ public class ShippingAdapter extends BaseAdapter{
                     }
                 }
             } else {
+                holder.profilename.setTextColor(mContext.getResources().getColor(R.color.primaryColor));
                 holder.iv_edit.setVisibility(View.GONE);
                 holder.iv_add.setVisibility(View.VISIBLE);
                 holder.address1.setText(Html.fromHtml(obj.getStreetAddress()));
