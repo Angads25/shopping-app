@@ -29,9 +29,9 @@
                 android:layout_height="wrap_content"
                 android:text="Shipping Detail"
                 android:gravity="center_vertical"
-                android:textColor="@color/gray_2"
+                android:textColor="#727272"
                 android:textSize="15dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="25dp"
                 android:paddingLeft="10dp"/>
 
             <com.rgretail.grocermax.ExpandableHeightListView
@@ -41,6 +41,7 @@
                 android:divider="@android:color/transparent"
                 android:dividerHeight="0dp"
                 android:padding="6dp"
+                android:layout_marginTop="16dp"
                 android:visibility="visible">
             </com.rgretail.grocermax.ExpandableHeightListView>
 
@@ -49,9 +50,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/slot"
                 android:gravity="center_vertical"
-                android:textColor="@color/gray_2"
+                android:textColor="#727272"
                 android:textSize="15dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="25dp"
                 android:paddingLeft="10dp"/>
 
 
@@ -64,7 +65,7 @@
                 android:background="@drawable/white_bg"
                 android:elevation="2dp"
                 android:padding="15dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -78,14 +79,15 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:text="Wed, 25 jan"
-                        android:textColor="@color/black"
+                        android:textColor="#212121"
                         android:textSize="@dimen/text_size_14" />
                     <ImageView
                         android:id="@+id/iv_edit_slot"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:padding="3dp"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/edit_icon"
+                        android:src="@drawable/edit_icon1"
                         android:visibility="visible" />
                 </LinearLayout>
                 <TextView
@@ -95,7 +97,7 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="2.00 pm - 5.00 pm"
-                    android:textColor="@color/black"
+                    android:textColor="#212121"
                     android:textSize="@dimen/text_size_14" />
 
             </LinearLayout>
@@ -307,7 +309,6 @@
                     android:paddingLeft="14dp"
                     android:text="Item: "
                     android:textColor="@color/white"
-                    android:textStyle="bold"
                     android:textSize="15dp" />
 
                 <TextView
@@ -317,7 +318,6 @@
                     android:gravity="center_vertical|right"
                     android:text="0"
                     android:textColor="@color/white"
-                    android:textStyle="bold"
                     android:textSize="14dp" />
             </LinearLayout>
             <LinearLayout
@@ -362,7 +362,6 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="18dp"/>
             <ImageView
                 android:layout_width="wrap_content"

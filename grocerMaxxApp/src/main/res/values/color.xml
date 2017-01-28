@@ -18,6 +18,7 @@
     <!-- Registartion Color Code -->
     <color name="line_color">#ededed</color>
     <color name="orange_text">#EC6523</color>
+    <color name="orange_text1">#F57C00</color>
     <color name="text_grey">#707070</color>
     <color name="teal_color">#16a6b1</color>
     <color name="bg_light">#F4F4F4</color>
@@ -49,6 +50,7 @@
     <color name="register_address_selected_line_color">#e5390e</color>
     
     <color name="headmultiplepage">#121212</color>
+    <color name="light_black">#212121</color>
 
 
     <!-- material (appCompat) theme colors -->

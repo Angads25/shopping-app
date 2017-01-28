@@ -149,7 +149,7 @@ public class ShippingAdapter extends BaseAdapter{
                     }
                 }
             } else {
-                holder.profilename.setTextColor(mContext.getResources().getColor(R.color.primaryColor));
+                holder.profilename.setTextColor(Color.parseColor("#b22603"));
                 holder.iv_edit.setVisibility(View.GONE);
                 holder.iv_add.setVisibility(View.VISIBLE);
                 holder.address1.setText(Html.fromHtml(obj.getStreetAddress()));

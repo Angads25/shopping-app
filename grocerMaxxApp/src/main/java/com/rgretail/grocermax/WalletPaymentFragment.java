@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
+import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
 /**
@@ -70,7 +71,14 @@ public class WalletPaymentFragment extends Fragment{
                 ImageView img_icon=(ImageView)convertView.findViewById(R.id.img_payment_icon);
                 ImageView img_payment_status=(ImageView)convertView.findViewById(R.id.img_payment_status);
                 tv_desc.setText(ReviewOrderAndPay.wallet_Payments.get(position).getDesc());
+                tv_desc.setTypeface(CustomFonts.getInstance().getRobotoRegular(getActivity()));
                 img_icon.setImageResource(ReviewOrderAndPay.wallet_Payments.get(position).getIcon());
+
+                if(ReviewOrderAndPay.wallet_Payments.get(position).getDesc().equals(""))
+                    tv_desc.setVisibility(View.GONE);
+                else
+                    tv_desc.setVisibility(View.VISIBLE);
+
                 if(ReviewOrderAndPay.wallet_Payments.get(position).isChecke_status())
                     img_payment_status.setImageResource(R.drawable.chkbox_selected);
                 else

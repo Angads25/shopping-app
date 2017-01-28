@@ -29,6 +29,7 @@ import com.rgretail.grocermax.bean.OrderReviewBean;
 import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
+import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.UrlsConstants;
 import com.rgretail.grocermax.utils.UtilityMethods;
 
@@ -498,9 +499,10 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
         final CustomNumberPicker np_date=(CustomNumberPicker) dialogView.findViewById(R.id.np_date);
         final CustomNumberPicker np_time=(CustomNumberPicker) dialogView.findViewById(R.id.np_time);
         
-        setDividerColor(np_date,getResources().getColor(R.color.orange_text));
-        setDividerColor(np_time,getResources().getColor(R.color.orange_text));
+        setDividerColor(np_date,getResources().getColor(R.color.orange_text1));
+        setDividerColor(np_time,getResources().getColor(R.color.orange_text1));
         TextView tv_done=(TextView)dialogView.findViewById(R.id.tv_done);
+        tv_done.setTypeface(CustomFonts.getInstance().getRobotoMedium(ShippingAddress.this));
          timeStatus.clear();
         for(int i=0;i<date_timeSlot_new.get(date_list.get(0)).size();i++){
                 timeStatus.add(date_timeSlot_new.get(date_list.get(0)).get(i));
@@ -517,9 +519,12 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
             np_time.setMaxValue(time_arryay.length-1);
             np_time.setDisplayedValues(time_arryay);
             np_time.setWrapSelectorWheel(false);
+            selected_date=date_arryay[0];
+            selected_time=time_arryay[0];
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         np_date.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal){
@@ -546,7 +551,6 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                 selected_time=timeStatus.get(newVal);
             }
         });
-
 
 
 

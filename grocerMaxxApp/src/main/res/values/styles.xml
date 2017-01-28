@@ -128,8 +128,8 @@
     <style name="CustomTabPageIndicator3" parent="Widget.TabPageIndicator">
         <!--      <item name="android:background">@drawable/custom_tab_indicator</item>  -->
         <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:textColor">@color/light_black</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
         <item name="android:dividerPadding">20dp</item>
         <item name="android:showDividers">middle</item>
         <item name="android:paddingLeft">10dp</item>

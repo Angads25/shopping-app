@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:orientation="vertical"
+    android:layout_height="wrap_content"
     android:background="@color/white"
-    android:padding="7dp">
+    android:orientation="vertical"
+    android:paddingLeft="7dp"
+    android:paddingRight="7dp"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp">
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:gravity="left"
         android:id="@+id/rl_paytm"
-       >
-<LinearLayout
-    android:layout_width="0dp"
-    android:layout_height="25dp"
-    android:layout_weight="1">
-        <ImageView
-            android:id="@+id/img_payment_icon"
-            android:layout_width="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:gravity="left"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="25dp"
-            android:src="@drawable/paytm"
-            />
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/img_payment_icon"
+                android:layout_width="80dp"
+                android:layout_height="25dp"
+                android:src="@drawable/paytm" />
         </LinearLayout>
 
         <ImageView
@@ -34,14 +37,15 @@
 
 
     </LinearLayout>
+
     <TextView
         android:id="@+id/tv_payment_offer"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:textSize="@dimen/text_size_10"
-        android:textColor="@color/pallete_black"
+        android:layout_height="wrap_content"
         android:text=""
-        android:visibility="visible"/>
+        android:textColor="#009507"
+        android:textSize="@dimen/text_size_13"
+        android:layout_marginTop="8sp"
+        android:visibility="gone" />
 
 </LinearLayout>

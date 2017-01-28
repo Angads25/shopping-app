@@ -874,7 +874,7 @@ public class ReviewOrderAndPay extends BaseActivity
             txtWalletDiscount=(TextView)findViewById(R.id.txt_wallet_discount);
             txtWalletDiscount.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
             tv_my_wallet=(TextView)findViewById(R.id.btn_my_wallet);
-            tv_my_wallet.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+            tv_my_wallet.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
             iv_my_wallet=(ImageView)findViewById(R.id.iv_my_wallet);
             //v_my_wallet=(View)findViewById(R.id.v_my_wallet);
             llWallet.setOnClickListener(new View.OnClickListener() {

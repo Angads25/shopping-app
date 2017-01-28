@@ -35,7 +35,7 @@
                 android:singleLine="true"
                 android:text="Ishan"
                 android:textColor="#212121"
-                android:textSize="@dimen/text_size_15" />
+                android:textSize="@dimen/text_size_14" />
 
             <ImageView
                 android:id="@+id/editaddress"
@@ -77,20 +77,21 @@
 
                 <ImageView
                     android:id="@+id/iv_add1"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_gravity="right"
-                    android:src="@drawable/add"
+                    android:src="@drawable/add_icon"
                     android:visibility="visible" />
 
                 <ImageView
                     android:id="@+id/iv_edit1"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:padding="3dp"
                     android:layout_alignParentRight="true"
                     android:layout_gravity="right"
-                    android:src="@drawable/trusticon"
+                    android:src="@drawable/edit_icon1"
                     android:visibility="gone" />
 
             </LinearLayout>
@@ -219,8 +220,8 @@
                 android:lineSpacingExtra="3dp"
                 android:maxLines="3"
                 android:text=""
-                android:textColor="#A19C9A"
-                android:textSize="@dimen/text_size_14" />
+                android:textColor="#727272"
+                android:textSize="@dimen/text_size_12" />
 
             <TextView
                 android:id="@+id/city"

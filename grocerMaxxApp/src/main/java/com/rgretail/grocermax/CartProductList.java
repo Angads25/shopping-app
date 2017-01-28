@@ -143,13 +143,13 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 
 
 			txt_subTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-			txt_shipping.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-			txt_saving.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+			txt_shipping.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
+			txt_saving.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
 			txt_grand_total.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			txt_discount.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			textView1.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			textViewCoupon.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-			tvSavePrice.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			tvSavePrice.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
 //			tvCartItemCount.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 //			tvCartTotalTop.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 //			txtItems.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
@@ -157,9 +157,9 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 
 			tv_subTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 			tv_discount.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-			tvCoupon.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+			tvCoupon.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
 			tv_grandTotal.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
-			tv_shipping.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+			tv_shipping.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
 			txtDiscount.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
 			tvYourCart.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
 
@@ -225,7 +225,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
                     ll_coupon_change.setVisibility(View.VISIBLE);
                     TextView tv_couponApplied=(TextView)findViewById(R.id.tv_coupon_applied);
                     TextView tv_coupon_change=(TextView)findViewById(R.id.tv_coupon_change);
-					tv_coupon_change.setTypeface(CustomFonts.getInstance().getRobotoBold(this));
+					tv_coupon_change.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
                     TextView tv_coupon_desc=(TextView)findViewById(R.id.tv_coupon_detail);
                     tv_couponApplied.setText(Html.fromHtml("<b>"+cartBean.getCoupon_code()+"</b> Applied"));
                     tv_coupon_desc.setText(cartBean.getCoupon_desc());

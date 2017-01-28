@@ -10,13 +10,13 @@
         android:text="@string/datetime"
         android:gravity="center"
         android:textColor="#212121"
-        android:textSize="20dp"/>
+        android:textSize="16sp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:orientation="horizontal"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp">
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp">
 
         <com.rgretail.grocermax.CustomNumberPicker
             android:layout_width="0dp"
@@ -24,26 +24,26 @@
             android:id="@+id/np_date"
             android:layout_weight="1"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="8dp"/>
 
         <com.rgretail.grocermax.CustomNumberPicker
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/np_time"
             android:layout_weight="1"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginRight="10dp"/>
     </LinearLayout>
     <TextView
         android:id="@+id/tv_done"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/orange_text"
+        android:background="@color/orange_text1"
         android:text="DONE"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:gravity="center"
-        android:textSize="20dp"/>
+        android:textSize="14sp"/>
 
 
 </LinearLayout>
