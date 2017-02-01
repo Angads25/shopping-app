@@ -7,7 +7,7 @@
     android:background="@color/primaryColor"
     android:clipToPadding="false"
     app:popupTheme="@style/CustomToolBarTheme"
-    app:theme="@style/CustomToolBarTheme"
+    android:theme="@style/CustomToolBarTheme"
     app:contentInsetLeft="0dp"
     app:contentInsetStart="0dp">
 

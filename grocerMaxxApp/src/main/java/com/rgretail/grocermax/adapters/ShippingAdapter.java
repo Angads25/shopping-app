@@ -12,15 +12,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.ShippingAddress;
+import com.rgretail.grocermax.bean.Address;
+import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.UtilityMethods;
-import com.rgretail.grocermax.bean.Address;
-import com.rgretail.grocermax.exception.GrocermaxBaseException;
 
 import java.util.ArrayList;
 
@@ -180,14 +179,15 @@ public class ShippingAdapter extends BaseAdapter{
                 @Override
                 public void onClick(View v) {
                     try {
-                        if (obj.getRegionId() != null && MySharedPrefs.INSTANCE.getSelectedStateRegionId() != null) {
+                        /*if (obj.getRegionId() != null && MySharedPrefs.INSTANCE.getSelectedStateRegionId() != null) {
                             if (!obj.getRegionId().equals(MySharedPrefs.INSTANCE.getSelectedStateRegionId())) {
                                 UtilityMethods.customToast(AppConstants.ToastConstant.EDIT_DIFFERENT_ADDRESS_FIRST + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + AppConstants.ToastConstant.EDIT_DIFFERENT_ADDRESS_SECOND, mContext);
                                 return;
                             }else{
                                 ((ShippingAddress) mContext).goToAddress(obj,position);
                             }
-                        }
+                        }*/
+                        ((ShippingAddress)mContext).selectAddress();
                     }catch(Exception e){}
 
 

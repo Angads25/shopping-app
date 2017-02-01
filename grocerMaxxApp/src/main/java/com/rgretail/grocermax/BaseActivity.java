@@ -1565,7 +1565,11 @@ public void showSubscriptionPopup(){
 								.getSerializable(ConnectionService.RESPONSE);
 						Intent i = new Intent(mContext, AddressDetail.class);
 						i.putExtra("AddressList", bean);
-						startActivity(i);
+						if (MyApplication.getAddressFrom.equals("profile_page")) {
+							startActivity(i);
+						} else {
+							startActivityForResult(i,101);
+						}
 					}else if (intent.getAction().equals(
 							MyReceiverActions.DEAL_PRODUCT_LIST)) {
 						DealListBean dealListBean = (DealListBean) bundle

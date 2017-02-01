@@ -58,6 +58,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
     String editIndex = "";
     ImageView ivShippingBilling;
     boolean bShippingAsBilling = true;
+    ExpandableHeightListView mList;
 
     ScrollView scrollView;
     LinearLayout ll_place_order;
@@ -85,6 +86,9 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
     public int selectedPosition_billing = -1;
     String editIndex_billing = "";
     LinearLayout ll_billing;
+
+
+    public static int request = 101;
 
     public void goToAddress(Address address,int position)
     {
@@ -234,7 +238,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                 for (int i = 0; i < bIsSelect.length; i++) {
                     bIsSelect[i] = false;
                 }
-                ExpandableHeightListView mList = (ExpandableHeightListView) findViewById(R.id.lv_shipping_addresses);
+                mList = (ExpandableHeightListView) findViewById(R.id.lv_shipping_addresses);
                 ShippingAdapter shippingAdapter;
                 shippingAdapter = new ShippingAdapter(ShippingAddress.this, addressList, bIsSelect);
                 mList.setAdapter(shippingAdapter);
@@ -490,6 +494,21 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
     }
 
 
+    public void selectAddress(){
+        try {
+            String userId = MySharedPrefs.INSTANCE.getUserId();
+            MyApplication.getAddressFrom="shipping_page";
+            showDialog();
+            String url = UrlsConstants.ADDRESS_BOOK + userId;
+            myApi.reqAddressBook(url, MyReceiverActions.ADDRESS_BOOK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
     public void showTimeSlot(){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ShippingAddress.this);
         LayoutInflater inflater = getLayoutInflater();
@@ -739,6 +758,19 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                 showDialog();
                 String url = UrlsConstants.CHECKOUT_ADDRESS_BOOK+ MySharedPrefs.INSTANCE.getUserId();
                 myApi.reqCheckOutAddress(url,MyReceiverActions.CHECKOUT_ADDRESS_BILLING);
+            }
+            if (requestCode == request && resultCode==RESULT_OK) {
+                Bundle bundle = data.getExtras();
+                Address a = (Address) bundle.getSerializable("AddressList");
+                addressList.clear();
+                addressList.add(a);
+                bIsSelect = new boolean[addressList.size()];
+                for (int i = 0; i < bIsSelect.length; i++) {
+                    bIsSelect[i] = false;
+                }
+                ShippingAdapter shippingAdapter = new ShippingAdapter(ShippingAddress.this, addressList, bIsSelect);
+                mList.setAdapter(shippingAdapter);
+                mList.setExpanded(true);
             }
         }catch (Exception e){
             new GrocermaxBaseException("ShippingAddress","onActivityResult",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");

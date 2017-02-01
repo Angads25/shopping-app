@@ -640,8 +640,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/txt_shipping"
@@ -662,7 +662,7 @@
                 android:gravity="center_horizontal"
                 android:text="Rs 200"
                 android:textColor="#212121"
-                android:textSize="15dp" />
+                android:textSize="14dp" />
         </LinearLayout>
 
         <View
@@ -675,8 +675,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/txt_saving"
@@ -697,7 +697,7 @@
                 android:gravity="center_horizontal"
                 android:text="@string/Rs"
                 android:textColor="#b22603"
-                android:textSize="15dp" />
+                android:textSize="14dp" />
         </LinearLayout>
 
         <View
@@ -709,8 +709,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <FrameLayout
                 android:layout_width="match_parent"

@@ -1,5 +1,6 @@
 package com.rgretail.grocermax;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,12 +8,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.rgretail.grocermax.adapters.AddressListAdapter;
 import com.rgretail.grocermax.api.BillingStateCityLoader;
 import com.rgretail.grocermax.api.ConnectionService;
@@ -82,6 +85,9 @@ public class AddressDetail extends BaseActivity{
 							break;
 						}
 					}
+
+					if(MyApplication.getAddressFrom.equals("shipping_page"))
+						bIsBilling=false;
 
 					if(bIsBilling){
 //						mAddressList.remove(indexBilling);
@@ -158,6 +164,17 @@ public class AddressDetail extends BaseActivity{
 					if(mAddressList.size() > 0) {
 						mAdapter = new AddressListAdapter(AddressDetail.this, mAddressList);
 						mList.setAdapter(mAdapter);
+					}
+					if (MyApplication.getAddressFrom.equals("shipping_page")) {
+						mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Intent i=new Intent();
+                                i.putExtra("AddressList", mAddressList.get(position));
+                                setResult(Activity.RESULT_OK,i);
+                                finish();
+                            }
+                        });
 					}
 				}
 			} else {

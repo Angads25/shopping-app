@@ -276,7 +276,7 @@ public class UserHeaderProfile extends BaseActivity implements View.OnClickListe
                             json.put("User Id",MySharedPrefs.INSTANCE.getUserId());
                         UtilityMethods.setQGraphevent("Android Profile Activity - View Address",json);
                                 /*--------------*/
-
+                        MyApplication.getAddressFrom="profile_page";
                         showDialog();
                         String url = UrlsConstants.ADDRESS_BOOK + userId;
                         myApi.reqAddressBook(url, MyReceiverActions.ADDRESS_BOOK);

@@ -23,6 +23,7 @@ public class MyApplication extends Application {
 	public static String GTM_FROM;
 	public static boolean isSubscribed;
 	public static String categoryId_for_QGraph;
+	public static String getAddressFrom;
 //	private static String PROPERTY_ID;
 
 
