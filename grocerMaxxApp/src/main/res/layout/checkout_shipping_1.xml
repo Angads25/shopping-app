@@ -41,7 +41,7 @@
                 android:divider="@android:color/transparent"
                 android:dividerHeight="0dp"
                 android:padding="6dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:visibility="visible">
             </com.rgretail.grocermax.ExpandableHeightListView>
 
@@ -52,24 +52,32 @@
                 android:gravity="center_vertical"
                 android:textColor="#727272"
                 android:textSize="15dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="17dp"
                 android:paddingLeft="10dp"/>
 
-
+             <android.support.v7.widget.CardView
+                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="8dp"
+                 android:layout_marginRight="8dp"
+                 android:layout_marginTop="16dp"
+                 card_view:cardCornerRadius="4dp"
+                 card_view:cardElevation="2dp"
+                 card_view:cardUseCompatPadding="true">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                 android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
                 android:background="@drawable/white_bg"
-                android:elevation="2dp"
-                android:padding="15dp"
-                android:layout_marginTop="16dp">
+                android:paddingTop="18dp"
+                android:paddingBottom="18dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="30dp"
                     android:orientation="horizontal"
                     android:gravity="center_vertical">
                     <TextView
@@ -77,7 +85,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="center_vertical"
+                        android:gravity="left"
                         android:text="Wed, 25 jan"
                         android:textColor="#212121"
                         android:textSize="@dimen/text_size_14" />
@@ -86,14 +94,14 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:padding="3dp"
-                        android:layout_gravity="center_vertical"
+                        android:layout_gravity="left"
                         android:src="@drawable/edit_icon1"
                         android:visibility="visible" />
                 </LinearLayout>
                 <TextView
                     android:id="@+id/tv_Time"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="2.00 pm - 5.00 pm"
@@ -101,7 +109,7 @@
                     android:textSize="@dimen/text_size_14" />
 
             </LinearLayout>
-
+             </android.support.v7.widget.CardView>
 
             <RelativeLayout
                 android:id="@+id/rl_add_new_address"

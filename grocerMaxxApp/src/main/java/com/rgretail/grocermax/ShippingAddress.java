@@ -517,6 +517,8 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
 
         final CustomNumberPicker np_date=(CustomNumberPicker) dialogView.findViewById(R.id.np_date);
         final CustomNumberPicker np_time=(CustomNumberPicker) dialogView.findViewById(R.id.np_time);
+        TextView tv=(TextView)dialogView.findViewById(R.id.header_time_slot);
+        tv.setTypeface(CustomFonts.getInstance().getRobotoRegular(ShippingAddress.this));
         
         setDividerColor(np_date,getResources().getColor(R.color.orange_text1));
         setDividerColor(np_time,getResources().getColor(R.color.orange_text1));

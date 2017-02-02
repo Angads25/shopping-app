@@ -632,8 +632,7 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:visibility="visible"
-        android:elevation="2dp">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -659,10 +658,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
+                android:gravity="center"
                 android:text="Rs 200"
                 android:textColor="#212121"
-                android:textSize="14dp" />
+                android:textSize="14dp"/>
         </LinearLayout>
 
         <View
@@ -694,10 +693,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
+                android:gravity="center"
                 android:text="@string/Rs"
                 android:textColor="#b22603"
-                android:textSize="14dp" />
+                android:textSize="14dp"/>
         </LinearLayout>
 
         <View
@@ -764,11 +763,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:gravity="center_horizontal"
+                        android:gravity="center"
                         android:singleLine="true"
                         android:text="Happy10 Applied"
                         android:textColor="#429f46"
-                        android:textSize="10dp" />
+                        android:textSize="10dp"/>
                 </LinearLayout>
 
             </FrameLayout>

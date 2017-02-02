@@ -13,11 +13,14 @@
         android:layout_height="50dp"
         android:id="@+id/rl_wallet"
         android:background="@color/white"
-        android:padding="7dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingRight="18dp"
         android:visibility="visible"
         android:gravity="center_vertical"
         android:layout_below="@id/app_bar_header"
-        >
+        android:elevation="2dp">
 
         <TextView
             android:id="@+id/btn_my_wallet"
@@ -40,7 +43,7 @@
             android:layout_toLeftOf="@+id/iv_my_wallet"
             android:layout_toRightOf="@+id/btn_my_wallet"
             android:paddingLeft="8dp"
-            android:visibility="visible"
+            android:visibility="gone"
             />
 
         <ImageView
