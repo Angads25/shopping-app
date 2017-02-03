@@ -3,12 +3,14 @@ package com.rgretail.grocermax;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -1134,6 +1136,13 @@ public class CreateNewAddress extends BaseActivity{
 				initHeader(findViewById(R.id.header), true, "Create New Address");
 			}else{
 				initHeader(findViewById(R.id.header), true, "Update Address");
+			}
+			if (MyApplication.getAddressFrom.equals("shipping_page")) {
+				icon_header_search.setVisibility(View.GONE);
+				icon_header_cart.setVisibility(View.GONE);
+				cart_count_txt.setVisibility(View.GONE);
+				LinearLayout llIcon = (LinearLayout)findViewById(R.id.ll_placeholder_logoIcon_appBar);
+				llIcon.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 7f));
 			}
 		}catch(Exception e){
 			new GrocermaxBaseException("CreateNewAddress","onResume",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");

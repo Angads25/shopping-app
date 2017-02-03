@@ -182,14 +182,16 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                     }
                 }
             }
+
             if(addressList.size()==0){
                 Address add=new Address();
                 add.setFirstname("Add");
                 add.setLastname("Address");
                 add.setStreetAddress("...<br>...<br>...");
                 addressList.add(add);
-                ll_place_order.setBackgroundColor(getResources().getColor(R.color.gray_1));
+                ll_place_order.setBackgroundColor(Color.parseColor("#b6b6b6"));
             }else{
+                MyApplication.customerAddressID=addressList.get(0).getCustomer_address_id();
                 ll_place_order.setBackgroundColor(Color.parseColor("#0e69e5"));
             }
 

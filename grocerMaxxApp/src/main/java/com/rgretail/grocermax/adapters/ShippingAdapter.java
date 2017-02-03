@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.rgretail.grocermax.MyApplication;
 import com.rgretail.grocermax.R;
 import com.rgretail.grocermax.ShippingAddress;
 import com.rgretail.grocermax.bean.Address;
@@ -196,6 +197,7 @@ public class ShippingAdapter extends BaseAdapter{
             holder.iv_add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    MyApplication.getAddressFrom="shipping_page";
                     ((ShippingAddress)mContext).addAddress();
                 }
             });

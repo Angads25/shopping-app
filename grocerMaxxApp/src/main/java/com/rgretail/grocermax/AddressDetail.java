@@ -1,6 +1,5 @@
 package com.rgretail.grocermax;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,7 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -165,7 +164,7 @@ public class AddressDetail extends BaseActivity{
 						mAdapter = new AddressListAdapter(AddressDetail.this, mAddressList);
 						mList.setAdapter(mAdapter);
 					}
-					if (MyApplication.getAddressFrom.equals("shipping_page")) {
+					/*if (MyApplication.getAddressFrom.equals("shipping_page")) {
 						mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -175,7 +174,7 @@ public class AddressDetail extends BaseActivity{
                                 finish();
                             }
                         });
-					}
+					}*/
 				}
 			} else {
 				TextView msg = (TextView) findViewById(R.id.msg);
@@ -363,6 +362,13 @@ public class AddressDetail extends BaseActivity{
 		super.onResume();
 		try {
 			initHeader(findViewById(R.id.header), true, "My Addresses");
+			if (MyApplication.getAddressFrom.equals("shipping_page")) {
+				icon_header_search.setVisibility(View.GONE);
+				icon_header_cart.setVisibility(View.GONE);
+				cart_count_txt.setVisibility(View.GONE);
+				LinearLayout llIcon = (LinearLayout)findViewById(R.id.ll_placeholder_logoIcon_appBar);
+				llIcon.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 7f));
+			}
 		}catch(Exception e){
 			new GrocermaxBaseException("AddressDetail","onResume",e.getMessage(),GrocermaxBaseException.EXCEPTION,"nodetail");
 		}

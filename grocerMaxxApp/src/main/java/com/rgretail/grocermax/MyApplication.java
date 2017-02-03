@@ -24,6 +24,7 @@ public class MyApplication extends Application {
 	public static boolean isSubscribed;
 	public static String categoryId_for_QGraph;
 	public static String getAddressFrom;
+	public static String customerAddressID;
 //	private static String PROPERTY_ID;
 
 

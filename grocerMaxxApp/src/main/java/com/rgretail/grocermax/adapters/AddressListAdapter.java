@@ -1,8 +1,8 @@
 package com.rgretail.grocermax.adapters;
 
-import java.util.ArrayList;
-
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,13 +14,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.rgretail.grocermax.AddressDetail;
+import com.rgretail.grocermax.MyApplication;
 import com.rgretail.grocermax.R;
+import com.rgretail.grocermax.bean.Address;
+import com.rgretail.grocermax.exception.GrocermaxBaseException;
 import com.rgretail.grocermax.preference.MySharedPrefs;
 import com.rgretail.grocermax.utils.AppConstants;
 import com.rgretail.grocermax.utils.CustomFonts;
 import com.rgretail.grocermax.utils.UtilityMethods;
-import com.rgretail.grocermax.bean.Address;
-import com.rgretail.grocermax.exception.GrocermaxBaseException;
+
+import java.util.ArrayList;
 
 public class AddressListAdapter extends BaseAdapter{
 	
@@ -67,7 +70,9 @@ public class AddressListAdapter extends BaseAdapter{
 //			holder.edit_address = (TextView) convertView.findViewById(R.id.edit_address);
 			holder.rl_editaddress = (RelativeLayout) convertView.findViewById(R.id.rl_editaddress);
 			holder.delete_address = (ImageView) convertView.findViewById(R.id.deleteAddress);
+			holder.img_pick = (ImageView) convertView.findViewById(R.id.pickAddress);
 			holder.llDeleteAddress = (LinearLayout) convertView.findViewById(R.id.ll_delete_address);
+			holder.llPickAddress = (LinearLayout) convertView.findViewById(R.id.ll_pick_address);
 			holder.profilename = (TextView) convertView
 					.findViewById(R.id.text_header);
 
@@ -149,16 +154,23 @@ public class AddressListAdapter extends BaseAdapter{
 			}
 		}
 
-
-
-//		holder.address1.setText(obj.getStreet()+",");
-//		holder.city.setText(obj.getCity()+",");
-//		if(obj.getRegion()!=null || !obj.getRegion().equals(""))
-//			holder.state.setText(obj.getRegion()+",");
-//		else
-//			holder.state.setText(obj.getState()+",");
-//		holder.country.setText("India"+",");
-//		holder.pincode.setText(obj.getPostcode());
+			if (MyApplication.getAddressFrom.equals("shipping_page")) {
+				holder.llPickAddress.setVisibility(View.VISIBLE);
+				holder.llDeleteAddress.setVisibility(View.GONE);
+				if(MyApplication.customerAddressID.equals(addressList.get(position).getCustomer_address_id()))
+					holder.img_pick.setImageResource(R.drawable.selected);
+				else
+					holder.img_pick.setImageResource(R.drawable.not_selected_check);
+			}else{
+				holder.llPickAddress.setVisibility(View.GONE);
+				if(obj.getDefaultShipping().equalsIgnoreCase("true")){             //user can't be deleted.
+					holder.llDeleteAddress.setEnabled(false);
+					holder.llDeleteAddress.setVisibility(View.GONE);
+				}else{
+					holder.llDeleteAddress.setEnabled(true);
+					holder.llDeleteAddress.setVisibility(View.VISIBLE);
+				}
+			}
 		
 		holder.rl_editaddress.setOnClickListener(new OnClickListener() {
 			
@@ -185,6 +197,17 @@ public class AddressListAdapter extends BaseAdapter{
 				((AddressDetail)mContext).deleteAddress(obj,position);
 			}
 		});
+
+			holder.llPickAddress.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					MyApplication.customerAddressID=addressList.get(position).getCustomer_address_id();
+					Intent i=new Intent();
+					i.putExtra("AddressList", addressList.get(position));
+					((AddressDetail)mContext).setResult(Activity.RESULT_OK,i);
+					((AddressDetail)mContext).finish();
+				}
+			});
 		}catch(Exception e){
 			new GrocermaxBaseException("AddressListAdapter","getView",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
@@ -194,8 +217,8 @@ public class AddressListAdapter extends BaseAdapter{
 	private class ViewHolder {
 		TextView profilename, address1, state, city, pincode, country;
 //		TextView name,phone;
-		ImageView delete_address;
-		LinearLayout llDeleteAddress;
+		ImageView delete_address,img_pick;
+		LinearLayout llDeleteAddress,llPickAddress;
 //		ImageView edit_address,
 //		TextView edit_address;
 		LinearLayout llHeader;
