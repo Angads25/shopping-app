@@ -1480,7 +1480,7 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 								payments.setDesc("");
 							}
 
-							payments.setIcon(R.drawable.citrus_icon);
+							payments.setIcon(R.drawable.citrus1);
 							payments.setChecke_status(false);
 							payments.setPayment_mode("moto");
 							wallet_Payments.add(payments);
