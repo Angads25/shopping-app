@@ -753,7 +753,6 @@
                         android:layout_weight="1"
                         android:gravity="center_horizontal|bottom"
                         android:paddingBottom="3dp"
-                        android:paddingLeft="10dp"
                         android:text="Change Coupon"
                         android:textColor="#727272"
                         android:textSize="10dp" />
@@ -763,7 +762,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:gravity="center"
+                        android:gravity="center_horizontal|bottom"
                         android:singleLine="true"
                         android:text="Happy10 Applied"
                         android:textColor="#429f46"

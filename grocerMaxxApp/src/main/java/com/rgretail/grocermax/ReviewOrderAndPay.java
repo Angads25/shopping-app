@@ -1390,7 +1390,7 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
                         if(wallet_amount<=0){
                             //tv_walletAmount.setText("0.00");
 							tv_my_wallet.setText(Html.fromHtml("Use Refund Balance | <b>"+getResources().getString(R.string.Rs)+"0.00</b>"));
-                            iv_my_wallet.setVisibility(View.GONE);
+                           iv_my_wallet.setVisibility(View.GONE);
                         }
                         else{
                             String w_amount=String.format("%.2f",wallet_amount);
@@ -1399,7 +1399,7 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
                         }
                     }else{
                         tv_my_wallet.setText(Html.fromHtml("Use Refund Balance | <b>"+getResources().getString(R.string.Rs)+"0.00</b>"));
-                        iv_my_wallet.setVisibility(View.GONE);
+						iv_my_wallet.setVisibility(View.GONE);
                     }
 
 

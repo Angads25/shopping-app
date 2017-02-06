@@ -35,6 +35,7 @@ import com.astuetz.pagerslidingtabstrip.R;
 
 import java.util.Locale;
 
+@SuppressWarnings("ResourceType")
 public class MyPagerSlidingTabStrip extends HorizontalScrollView {
 
     public interface IconTabProvider {

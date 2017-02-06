@@ -1106,6 +1106,7 @@ public class CreateNewAddress extends BaseActivity{
 			if (action.equals(MyReceiverActions.ADD_ADDRESS) || action.equals(MyReceiverActions.EDIT_ADDRESS)) {
 				BaseResponseBean responseBean = (BaseResponseBean) bundle.getSerializable(ConnectionService.RESPONSE);
 				if (responseBean.getFlag().equalsIgnoreCase("1")) {
+					MyApplication.customerAddressID="";
 					showDialog();
 					String url = UrlsConstants.ADDRESS_BOOK + MySharedPrefs.INSTANCE.getUserId();
 					UtilityMethods.customToast(responseBean.getResult(), mContext);

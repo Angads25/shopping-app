@@ -72,7 +72,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
     //SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd");
     ArrayList<String> dateStatus;
     ArrayList<String> timeStatus;
-    String selected_date,selected_time;
+    String selected_date,selected_time,selected_date_send;
 
 
 
@@ -394,7 +394,9 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                             intent1.putExtra("addressBean", address_obj);
                             startActivity(intent1);*/
                             OrderReviewBean orderReviewBean2 = MySharedPrefs.INSTANCE.getOrderReviewBean();
-                            orderReviewBean2.setDate(selected_date);
+                            orderReviewBean2.setDate(selected_date_send);
+                            /*SimpleDateFormat formatter12 = new SimpleDateFormat("E, dd MMM");
+                            orderReviewBean2.setDate(formatter.format(formatter12.parse(selected_date)));*/
                             orderReviewBean2.setTimeSlot(selected_time);
                             MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean2);
                             Intent intent1 = new Intent(ShippingAddress.this, ReviewOrderAndPay.class);
@@ -440,7 +442,9 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                             startActivity(intent1);*/
 
                             OrderReviewBean orderReviewBean2 = MySharedPrefs.INSTANCE.getOrderReviewBean();
-                            orderReviewBean2.setDate(selected_date);
+                            orderReviewBean2.setDate(selected_date_send);
+                            /*SimpleDateFormat formatter12 = new SimpleDateFormat("E, dd MMM");
+                            orderReviewBean2.setDate(formatter.format(formatter12.parse(selected_date)));*/
                             orderReviewBean2.setTimeSlot(selected_time);
                             MySharedPrefs.INSTANCE.putOrderReviewBean(orderReviewBean2);
                             Intent intent1 = new Intent(ShippingAddress.this, ReviewOrderAndPay.class);
@@ -478,6 +482,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                 dateStatus.add(formatter12.format(datArrayList.get(i).getDateTime()));
             }
             selected_date = dateStatus.get(0);
+            selected_date_send=date_list.get(0);
             selected_time=date_timeSlot_new.get(date_list.get(0)).get(0);
             tv_date.setText(selected_date);
             tv_time.setText(selected_time);
@@ -544,6 +549,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
             np_time.setWrapSelectorWheel(false);
             selected_date=date_arryay[0];
             selected_time=time_arryay[0];
+            selected_date_send=date_list.get(0);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -556,6 +562,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
                         timeStatus.add(date_timeSlot_new.get(date_list.get(newVal)).get(i));
                 }
                 selected_date=dateStatus.get(newVal);
+                selected_date_send=date_list.get(newVal);
                 String[] time_arryay = timeStatus.toArray(new String[timeStatus.size()]);
                 try {
                     np_time.setMinValue(0);

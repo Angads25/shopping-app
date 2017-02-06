@@ -57,16 +57,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:paddingLeft="4dp"
-                android:paddingBottom="8dp"
+                android:paddingBottom="4dp"
                 android:paddingTop="8dp"
                 android:paddingRight="8dp"
                 android:orientation="vertical">
 
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
-                    android:layout_height="130dp"
+                    android:layout_height="120dp"
                     android:orientation="horizontal"
                     android:weightSum="3"
                     >
@@ -92,7 +91,8 @@
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="2.10" >
+                        android:layout_weight="2.10"
+                        android:paddingTop="5dp">
 
                         <TextView
                             android:id="@+id/product_brand"
@@ -104,7 +104,7 @@
                             android:text="SECO FRUITO"
                             android:textAllCaps="true"
                             android:textColor="#b6b6b6"
-                            android:textSize="12dp"
+                            android:textSize="11sp"
                             />
 
                         <RelativeLayout
@@ -147,27 +147,24 @@
                         <TextView
                             android:id="@+id/product_name"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="20dp"
                             android:layout_below="@+id/product_brand"
-
                             android:singleLine="true"
-                            android:layout_marginTop="2dp"
+                            android:gravity="bottom"
                             android:text="product name"
                             android:textColor="#212121"
-                            android:textSize="14dp" />
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/product_gram_or_ml"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="20dp"
                             android:layout_below="@+id/product_name"
-
                             android:singleLine="true"
                             android:text="quantity"
-                            android:layout_marginTop="2dp"
-
+                            android:gravity="bottom"
                             android:textColor="#212121"
-                            android:textSize="14dp" />
+                            android:textSize="12sp" />
 
                         <!--<TextView
                             android:id="@+id/amount"
@@ -211,17 +208,16 @@
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="20dp"
                                 android:orientation="horizontal"
                                 android:id="@+id/calculation_top"
-                                android:layout_marginTop="2dp"
-                                >
+                                android:gravity="bottom">
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text=""
                                     android:id="@+id/quantity_2"
-                                    android:textSize="@dimen/text_size_14"/>
+                                    android:textSize="@dimen/text_size_12"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -235,7 +231,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:id="@+id/sale_price"
-                                    android:textSize="14dp"
+                                    android:textSize="12sp"
                                     android:textColor="@color/pallete_black"
                                     android:text="price"/>
                                 <TextView
@@ -254,7 +250,7 @@
                                     android:text="discounted rate"
                                     android:textColor="#b6b6b6"
                                     android:id="@+id/amount"
-                                    android:textSize="14dp"/>
+                                    android:textSize="12dp"/>
                             </LinearLayout>
 
 
@@ -262,7 +258,6 @@
                                 android:id="@+id/llplusminus"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
                                 android:orientation="horizontal"
                                 android:layout_below="@+id/calculation_top" >
 
@@ -337,7 +332,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:visibility="visible"
-                                    android:paddingBottom="10dp"
+                                    android:paddingBottom="5dp"
                                     android:paddingRight="5dp"
                                     >
 
@@ -374,7 +369,7 @@
                                             android:gravity="center"
                                             android:text="1"
                                             android:textColor="@color/pallete_black"
-                                            android:textSize="@dimen/text_size_16"
+                                            android:textSize="@dimen/text_size_12"
                                             />
                                         <!--android:background="@drawable/shape_grey_border_withoutroundcorners"-->
 
@@ -424,14 +419,14 @@
             <TextView
                 android:id="@+id/tv_offers"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
                 android:background="#DFEDFD"
                 android:gravity="center"
                 android:padding="5dp"
                 android:layout_gravity="bottom"
                 android:text="MCIVITIES COOKIES BUY 2,GET 1 FREE"
                 android:textColor="#3b4d55"
-                android:textSize="@dimen/text_size_12"
+                android:textSize="@dimen/text_size_10"
                 android:visibility="visible" />
             <ImageView
                 android:id="@+id/img_show_more"
