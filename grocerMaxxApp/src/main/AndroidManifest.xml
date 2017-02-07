@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rgretail.grocermax"
     android:versionCode="12"
-    android:versionName="1.4.8">
+    android:versionName="1.4.7">
 
     <!-- package="com.rgretail.grocermax.permission.MAPS_RECEIVE" -->
 

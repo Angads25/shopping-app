@@ -313,7 +313,7 @@
                     android:id="@+id/txt_shipping"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
+                    android:gravity="bottom"
                     android:paddingLeft="14dp"
                     android:text="Item: "
                     android:textColor="@color/white"
@@ -323,7 +323,7 @@
                     android:id="@+id/tv_shipping1"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical|right"
+                    android:gravity="bottom|right"
                     android:text="0"
                     android:textColor="@color/white"
                     android:textSize="14dp" />
@@ -340,6 +340,7 @@
                     android:layout_height="match_parent"
                     android:paddingLeft="14dp"
                     android:text="Total: "
+                    android:gravity="bottom"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:textSize="15dp" />
@@ -351,6 +352,7 @@
                     android:text="Rs 200"
                     android:textColor="@color/white"
                     android:textStyle="bold"
+                    android:gravity="bottom"
                     android:textSize="14dp" />
             </LinearLayout>
 

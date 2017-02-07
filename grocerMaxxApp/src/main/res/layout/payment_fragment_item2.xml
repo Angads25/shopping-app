@@ -20,11 +20,13 @@
             android:textColor="#727272"
             android:text="Cash on delivery"
             android:gravity="center_vertical"
+            android:layout_marginLeft="8dp"
             />
         <ImageView
             android:id="@+id/img_payment_status"
             android:layout_width="25dp"
             android:layout_height="25dp"
+            android:layout_marginRight="8dp"
             android:layout_alignParentRight="true"
             android:src="@drawable/chkbox_unselected"
             />
