@@ -662,6 +662,7 @@
                 android:text="Rs 200"
                 android:textColor="#212121"
                 android:textSize="14dp"/>
+
         </LinearLayout>
 
         <View
@@ -697,6 +698,7 @@
                 android:text="@string/Rs"
                 android:textColor="#b22603"
                 android:textSize="14dp"/>
+
         </LinearLayout>
 
         <View
@@ -767,6 +769,7 @@
                         android:text="Happy10 Applied"
                         android:textColor="#429f46"
                         android:textSize="10dp"/>
+
                 </LinearLayout>
 
             </FrameLayout>

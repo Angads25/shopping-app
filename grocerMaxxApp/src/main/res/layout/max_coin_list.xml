@@ -8,6 +8,9 @@
         android:id="@+id/listview_redeemTran"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"/>
+        android:visibility="visible"
+        android:fadeScrollbars="false"
+        android:scrollbarFadeDuration="0"
+        android:scrollbarAlwaysDrawVerticalTrack="true"/>
 
 </LinearLayout>

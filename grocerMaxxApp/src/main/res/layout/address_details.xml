@@ -45,7 +45,8 @@
         android:layout_weight="1"
         android:cacheColorHint="@android:color/transparent"
         android:clipToPadding="false"
-        android:divider="@null"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="7dp"
         android:listSelector="@android:color/transparent"
         android:padding="8dp"/>
 

@@ -138,7 +138,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_wallet"
-        android:layout_above="@+id/ll_saving_strip">
+        android:layout_above="@+id/ll_saving_strip"
+        android:fadeScrollbars="false"
+        android:scrollbarFadeDuration="0"
+        android:scrollbarAlwaysDrawVerticalTrack="true">
 
 
 
@@ -146,8 +149,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp"
-            >
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/tv_choose_to_pay"
@@ -178,7 +180,7 @@
                     android:id="@+id/indicator"
                     android:layout_width="fill_parent"
                     android:layout_height="50dp"
-                    android:elevation="2dp"
+                    android:elevation="3dp"
                     android:background="@color/white"
                     />
 
