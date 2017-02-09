@@ -191,7 +191,7 @@ public class AddressDetail extends BaseActivity{
 				}
 			});
 
-			create_address.setTypeface(CustomFonts.getInstance().getRobotoMedium(this));
+			create_address.setTypeface(CustomFonts.getInstance().getRobotoRegular(this));
 			addActionsInFilter(MyReceiverActions.ADD_ADDRESS);
 
 			initHeader(findViewById(R.id.header), true, "My Addresses");

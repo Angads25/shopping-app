@@ -69,6 +69,7 @@ public class AddressListAdapter extends BaseAdapter{
 //			holder.edit_address = (ImageView) convertView.findViewById(R.id.editaddress);
 //			holder.edit_address = (TextView) convertView.findViewById(R.id.edit_address);
 			holder.rl_editaddress = (RelativeLayout) convertView.findViewById(R.id.rl_editaddress);
+			holder.img_edit_address = (ImageView) convertView.findViewById(R.id.img_edit_address);
 			holder.delete_address = (ImageView) convertView.findViewById(R.id.deleteAddress);
 			holder.img_pick = (ImageView) convertView.findViewById(R.id.pickAddress);
 			holder.llDeleteAddress = (LinearLayout) convertView.findViewById(R.id.ll_delete_address);
@@ -158,9 +159,9 @@ public class AddressListAdapter extends BaseAdapter{
 				holder.llPickAddress.setVisibility(View.VISIBLE);
 				holder.llDeleteAddress.setVisibility(View.GONE);
 				if(MyApplication.customerAddressID.equals(addressList.get(position).getCustomer_address_id()))
-					holder.img_pick.setImageResource(R.drawable.selected);
+					holder.img_pick.setImageResource(R.drawable.chkbox_selected);
 				else
-					holder.img_pick.setImageResource(R.drawable.not_selected_check);
+					holder.img_pick.setImageResource(R.drawable.chkbox_unselected);
 			}else{
 				holder.llPickAddress.setVisibility(View.GONE);
 				if(obj.getDefaultShipping().equalsIgnoreCase("true")){             //user can't be deleted.
@@ -173,7 +174,6 @@ public class AddressListAdapter extends BaseAdapter{
 			}
 		
 		holder.rl_editaddress.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				try{
@@ -190,6 +190,23 @@ public class AddressListAdapter extends BaseAdapter{
 //				((AddressDetail)mContext).goToAddress(obj, position);
 			}
 		});
+			holder.img_edit_address.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					try{
+						if (obj.getRegionId() != null && MySharedPrefs.INSTANCE.getSelectedStateRegionId() != null) {
+							if (!obj.getRegionId().equals(MySharedPrefs.INSTANCE.getSelectedStateRegionId())) {
+//							UtilityMethods.customToast("Your Selected location is " + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + ".Kindly select add new address", mContext);
+								UtilityMethods.customToast(AppConstants.ToastConstant.EDIT_DIFFERENT_ADDRESS_FIRST + MySharedPrefs.INSTANCE.getSelectedCity() + "," + MySharedPrefs.INSTANCE.getSelectedState() + AppConstants.ToastConstant.EDIT_DIFFERENT_ADDRESS_SECOND, mContext);
+							}else{
+								((AddressDetail)mContext).goToAddress(obj, position);
+							}
+						}
+					}catch(Exception e){}
+
+//				((AddressDetail)mContext).goToAddress(obj, position);
+				}
+			});
        holder.llDeleteAddress.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -217,7 +234,7 @@ public class AddressListAdapter extends BaseAdapter{
 	private class ViewHolder {
 		TextView profilename, address1, state, city, pincode, country;
 //		TextView name,phone;
-		ImageView delete_address,img_pick;
+		ImageView delete_address,img_pick,img_edit_address;
 		LinearLayout llDeleteAddress,llPickAddress;
 //		ImageView edit_address,
 //		TextView edit_address;

@@ -134,14 +134,14 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <ScrollView
+  <!--  <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_wallet"
         android:layout_above="@+id/ll_saving_strip"
         android:fadeScrollbars="false"
         android:scrollbarFadeDuration="0"
-        android:scrollbarAlwaysDrawVerticalTrack="true">
+        android:scrollbarAlwaysDrawVerticalTrack="true">-->
 
 
 
@@ -149,6 +149,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_below="@+id/rl_wallet"
+            android:layout_above="@+id/ll_saving_strip"
             android:padding="8dp">
 
             <TextView
@@ -174,7 +176,7 @@
                 android:background="@color/white">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
                 <com.viewpagerindicator.TabPageIndicator
                     android:id="@+id/indicator"
@@ -830,7 +832,7 @@
             </android.support.v7.widget.CardView>
         </LinearLayout>
 
-    </ScrollView>
+    <!--</ScrollView>-->
 
     <LinearLayout
         android:id="@+id/ll_saving_strip"

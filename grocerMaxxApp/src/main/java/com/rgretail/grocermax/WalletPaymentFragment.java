@@ -71,11 +71,13 @@ public class WalletPaymentFragment extends Fragment{
                 ImageView img_icon=(ImageView)convertView.findViewById(R.id.img_payment_icon);
                 ImageView img_payment_status=(ImageView)convertView.findViewById(R.id.img_payment_status);
                 tv_desc.setText(ReviewOrderAndPay.wallet_Payments.get(position).getDesc());
+            //tv_desc.setText("jhhjhd hdggd gdjgjsg hgdsgjhs djgsjhgjd ggjsgjdg gjdghsjgj hsgjgdjg gsjdgjgsjdg gdgsjgdjsgj");
                 tv_desc.setTypeface(CustomFonts.getInstance().getRobotoRegular(getActivity()));
                 img_icon.setImageResource(ReviewOrderAndPay.wallet_Payments.get(position).getIcon());
 
                 if(ReviewOrderAndPay.wallet_Payments.get(position).getDesc().equals(""))
-                    tv_desc.setVisibility(View.GONE);
+                   tv_desc.setVisibility(View.GONE);
+                    //tv_desc.setVisibility(View.VISIBLE);
                 else
                     tv_desc.setVisibility(View.VISIBLE);
 
