@@ -67,10 +67,10 @@
                 android:gravity="left"
                 android:text=""
                 android:singleLine="true"
-                android:textColor="@color/light_Gray"
+                android:textColor="#212121"
                 android:layout_toLeftOf="@+id/ll_delete_address"
                 android:layout_alignParentLeft="true"
-                android:textSize="@dimen/text_size_12"  />
+                android:textSize="@dimen/text_size_14"  />
 
             <ImageView
                 android:id="@+id/editaddress"
@@ -248,10 +248,12 @@
                 android:layout_weight="1"
                 android:text=""
                 android:maxLines="3"
+                android:lineSpacingExtra="3dp"
                 android:paddingRight="10dp"
-                android:textColor="@color/pallete_black"
-                android:textSize="@dimen/text_size_14" />
+                android:textColor="#727272"
+                android:textSize="@dimen/text_size_12" />
             <LinearLayout
+                android:id="@+id/ll_edit_address"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"

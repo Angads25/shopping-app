@@ -192,7 +192,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
 			icon_header_cart.setClickable(false);
 			cart_count_txt.setClickable(false);
 
-			tvCoupon.setOnClickListener(new OnClickListener() {
+			ll_coupon_apply.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					String userId = MySharedPrefs.INSTANCE.getUserId();
@@ -231,7 +231,7 @@ public class CartProductList extends BaseActivity implements OnClickListener{
                     tv_coupon_desc.setText(cartBean.getCoupon_desc());
                     MySharedPrefs.INSTANCE.putCouponCode(cartBean.getCoupon_code());
                     MySharedPrefs.INSTANCE.putCouponAmount(String.valueOf(Float.parseFloat(cartBean.getSubTotal())-Float.parseFloat(cartBean.getSubtotal_with_discount())));
-                    tv_coupon_change.setOnClickListener(new OnClickListener() {
+                    ll_coupon_change.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent i=new Intent(CartProductList.this,CouponPage.class);

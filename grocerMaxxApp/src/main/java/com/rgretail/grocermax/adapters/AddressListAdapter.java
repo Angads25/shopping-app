@@ -73,6 +73,7 @@ public class AddressListAdapter extends BaseAdapter{
 			holder.delete_address = (ImageView) convertView.findViewById(R.id.deleteAddress);
 			holder.img_pick = (ImageView) convertView.findViewById(R.id.pickAddress);
 			holder.llDeleteAddress = (LinearLayout) convertView.findViewById(R.id.ll_delete_address);
+			holder.ll_edit_address = (LinearLayout) convertView.findViewById(R.id.ll_edit_address);
 			holder.llPickAddress = (LinearLayout) convertView.findViewById(R.id.ll_pick_address);
 			holder.profilename = (TextView) convertView
 					.findViewById(R.id.text_header);
@@ -112,9 +113,11 @@ public class AddressListAdapter extends BaseAdapter{
 		final Address obj = getItem(position);
 
 		if(position == 0){
-			holder.tvHeader.setVisibility(View.VISIBLE);
 			holder.tvHeader.setText("Shipping Address");
-			holder.llHeader.setVisibility(View.VISIBLE);
+			//holder.tvHeader.setVisibility(View.VISIBLE);
+			//holder.llHeader.setVisibility(View.VISIBLE);
+			holder.tvHeader.setVisibility(View.GONE);
+			holder.llHeader.setVisibility(View.GONE);
 		}else{
 			holder.tvHeader.setVisibility(View.GONE);
 			holder.llHeader.setVisibility(View.GONE);
@@ -140,7 +143,8 @@ public class AddressListAdapter extends BaseAdapter{
 
 		if(obj.getRegion()!=null) {
 			if(!obj.getRegion().equals("")) {
-				String strAddress = obj.getFirstname() + " " + obj.getLastname() +",";
+				//String strAddress = obj.getFirstname() + " " + obj.getLastname() +",";
+				String strAddress = "";
 				try{
 				if(obj.getStreet() != null){
 					String addr = obj.getStreet();
@@ -190,7 +194,7 @@ public class AddressListAdapter extends BaseAdapter{
 //				((AddressDetail)mContext).goToAddress(obj, position);
 			}
 		});
-			holder.img_edit_address.setOnClickListener(new OnClickListener() {
+			holder.ll_edit_address.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					try{
@@ -238,7 +242,7 @@ public class AddressListAdapter extends BaseAdapter{
 		LinearLayout llDeleteAddress,llPickAddress;
 //		ImageView edit_address,
 //		TextView edit_address;
-		LinearLayout llHeader;
+		LinearLayout llHeader,ll_edit_address;
 		TextView tvHeader;
 		RelativeLayout rl_editaddress;
 		TextView txtHeader;

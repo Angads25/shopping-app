@@ -155,7 +155,7 @@ public class AddressDetail extends BaseActivity{
 
 					ArrayList<Address> addressList = new ArrayList<Address>();
 					for(int i=0;i<mAddressList.size();i++){
-						if(!mAddressList.get(i).getDefaultBilling().equals("true")){
+						if(!mAddressList.get(i).getDefaultBilling().equals("true") || mAddressList.get(i).getDefaultShipping().equals("true")){
 							addressList.add(mAddressList.get(i));
 						}
 					}
