@@ -49,8 +49,6 @@
         android:textSize="@dimen/text_size_13"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8sp"
-        android:singleLine="true"
-        android:ellipsize="end"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
 </LinearLayout>

@@ -247,7 +247,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text=""
-                android:maxLines="3"
                 android:lineSpacingExtra="3dp"
                 android:paddingRight="10dp"
                 android:textColor="#727272"

@@ -128,6 +128,7 @@ public class ReviewOrderAndPay extends BaseActivity
 	TabPageIndicator indicator;
 	public static CustomViewPager pager;
 	public static int tab_index;
+	JSONObject payment;
 
 
 	@Override
@@ -655,7 +656,7 @@ public class ReviewOrderAndPay extends BaseActivity
 
 					int index=pager.getCurrentItem();
 					if(index==0){
-						for(int i=0;i<wallet_Payments.size();i++){
+						/*for(int i=0;i<wallet_Payments.size();i++){
 							if(wallet_Payments.get(i).getPayment_mode().equals("paytm_cc")&&wallet_Payments.get(i).isChecke_status()){
 								ReviewOrderAndPay.bPayTM=true;
 								ReviewOrderAndPay.bCitrus=false;
@@ -679,8 +680,7 @@ public class ReviewOrderAndPay extends BaseActivity
 								break;
 							}
 						}
-
-
+*/
 					}else if(index==1){
 						for(int i=0;i<CC_CD_Payments.size();i++){
 							if(CC_CD_Payments.get(i).getPayment_mode().equals("payucheckout_shared")&&CC_CD_Payments.get(i).isChecke_status()){
@@ -1408,7 +1408,7 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 
                     /*Displaying the payment option based on server response*/
                         try{
-                         JSONObject payment=walletResponse.getJSONObject("payment");
+                         payment=walletResponse.getJSONObject("payment");
                           /*to check if payment with internal wallet will be available or not*/
                             if(payment.has("customercredit")){
                                 llWallet.setVisibility(View.VISIBLE);
@@ -1424,20 +1424,20 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 
                           /*to check if payment with paytm will be available or not*/
                           if(payment.has("paytm_cc")){
-							  Payments payments=new Payments();
+							  //Payments payments=new Payments();
                               llPayTM.setVisibility(View.VISIBLE);
                               view_paytm.setVisibility(View.VISIBLE);
                               if(payment.getJSONObject("paytm_cc").getString("mobile_label")!=null && !payment.getJSONObject("paytm_cc").getString("mobile_label").equals("null")){
                               tv_paytm_offer.setText(payment.getJSONObject("paytm_cc").getString("mobile_label"));
-							  payments.setDesc(payment.getJSONObject("paytm_cc").getString("mobile_label"));
+							  //payments.setDesc(payment.getJSONObject("paytm_cc").getString("mobile_label"));
 							  }else{
                               tv_paytm_offer.setText("");
-							  payments.setDesc("");
+							  //payments.setDesc("");
 							  }
-							  payments.setIcon(R.drawable.paytm);
-							  payments.setChecke_status(true);
-							  payments.setPayment_mode("paytm_cc");
-							  wallet_Payments.add(payments);
+//							  payments.setIcon(R.drawable.paytm);
+//							  payments.setChecke_status(true);
+//							  payments.setPayment_mode("paytm_cc");
+//							  wallet_Payments.add(payments);
 
                           }else{
                               llPayTM.setVisibility(View.GONE);
@@ -1470,22 +1470,22 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
                         }
                         /*to check if payment with Citrus will be available or not*/
                         if(payment.has("moto")){
-							Payments payments=new Payments();
+							//Payments payments=new Payments();
 
                             llCitrus.setVisibility(View.VISIBLE);
                             view_citrus.setVisibility(View.VISIBLE);
                             if(payment.getJSONObject("moto").getString("mobile_label")!=null && !payment.getJSONObject("moto").getString("mobile_label").equals("null")) {
 								tv_citrus_offer.setText(payment.getJSONObject("moto").getString("mobile_label"));
-								payments.setDesc(payment.getJSONObject("moto").getString("mobile_label"));
+								//payments.setDesc(payment.getJSONObject("moto").getString("mobile_label"));
 							}else{
                             tv_citrus_offer.setText("");
-								payments.setDesc("");
+								//payments.setDesc("");
 							}
 
-							payments.setIcon(R.drawable.citrus1);
-							payments.setChecke_status(false);
-							payments.setPayment_mode("moto");
-							wallet_Payments.add(payments);
+//							payments.setIcon(R.drawable.citrus1);
+//							payments.setChecke_status(false);
+//							payments.setPayment_mode("moto");
+//							wallet_Payments.add(payments);
 
                         }else{
                             llCitrus.setVisibility(View.GONE);
@@ -1494,21 +1494,21 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 
 						/*to check if payment with Mobikwik will be available or not*/
 						if(payment.has("wallet")){
-							Payments payments=new Payments();
+							//Payments payments=new Payments();
 
 							llMobiKwik.setVisibility(View.VISIBLE);
 							view_mobikwik.setVisibility(View.VISIBLE);
 							if(payment.getJSONObject("wallet").getString("mobile_label")!=null && !payment.getJSONObject("wallet").getString("mobile_label").equals("null")) {
 								tv_mobikwik_offer.setText(payment.getJSONObject("wallet").getString("mobile_label"));
-								payments.setDesc(payment.getJSONObject("wallet").getString("mobile_label"));
+								//payments.setDesc(payment.getJSONObject("wallet").getString("mobile_label"));
 							}else{
 								tv_mobikwik_offer.setText("");
-								payments.setDesc("");
+								//payments.setDesc("");
 							}
-							payments.setIcon(R.drawable.mobikwik);
-							payments.setChecke_status(false);
-							payments.setPayment_mode("wallet");
-							wallet_Payments.add(payments);
+//							payments.setIcon(R.drawable.mobikwik);
+//							payments.setChecke_status(false);
+//							payments.setPayment_mode("wallet");
+//							wallet_Payments.add(payments);
 						}else{
 							llMobiKwik.setVisibility(View.GONE);
 							view_mobikwik.setVisibility(View.GONE);
@@ -1584,7 +1584,7 @@ public void changeOrderStatusAndGotoConfirmationPage(int success_code){
 				/*paymentOptionFragment=PaymentOptionFragment.newInstance(allPaymentsList.get(position % allPaymentsList.size()).getPaymentsList(),position);
 				return paymentOptionFragment;*/
 				if(position==0){
-					WalletPaymentFragment walletPaymentFragment=WalletPaymentFragment.newInstance(position);
+					WalletPaymentFragment walletPaymentFragment=WalletPaymentFragment.newInstance(payment);
 					return walletPaymentFragment;
 				}else if(position==1){
 					CardPaymentFragment cardPaymentFragment=CardPaymentFragment.newInstance(position);

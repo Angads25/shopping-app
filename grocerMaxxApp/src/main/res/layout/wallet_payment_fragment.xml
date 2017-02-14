@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/llPaytm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/rl_paytm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="8dp">
+
+                <ImageView
+                    android:id="@+id/img_payment_icon"
+                    android:layout_width="62dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/paytm" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/img_payment_status"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="8dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/chkbox_unselected" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_payment_offer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#009507"
+            android:textSize="@dimen/text_size_13"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8sp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+    <View
+        android:id="@+id/view_payTm"
+        android:layout_width="match_parent"
+        android:layout_height="0.5sp"
+        android:background="#b6b6b6"
+        android:visibility="visible"/>
+    <LinearLayout
+        android:id="@+id/ll_citrus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/rl_citrus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="8dp">
+
+                <ImageView
+                    android:id="@+id/img_citrus_icon"
+                    android:layout_width="62dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/citrus_icon" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/img_citrus_status"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="8dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/chkbox_unselected" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_citrus_offer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#009507"
+            android:textSize="@dimen/text_size_13"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8sp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+    <View
+        android:id="@+id/view_citrus"
+        android:layout_width="match_parent"
+        android:layout_height="0.5sp"
+        android:background="#b6b6b6"
+        android:visibility="visible"/>
+    <LinearLayout
+        android:id="@+id/ll_mobikwik"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/rl_mowikwik"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="8dp">
+
+                <ImageView
+                    android:id="@+id/img_mobikwik_icon"
+                    android:layout_width="62dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/mobikwik" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/img_mobikwik_status"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="8dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/chkbox_unselected" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_mobikwik_offer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#009507"
+            android:textSize="@dimen/text_size_13"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8sp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</LinearLayout>
