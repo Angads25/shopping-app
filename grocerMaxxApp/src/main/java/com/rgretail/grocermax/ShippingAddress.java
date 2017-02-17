@@ -521,6 +521,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.time_slot_popup, null);
         dialogBuilder.setView(dialogView);
+        dialogBuilder.setCancelable(false);
 
         final CustomNumberPicker np_date=(CustomNumberPicker) dialogView.findViewById(R.id.np_date);
         final CustomNumberPicker np_time=(CustomNumberPicker) dialogView.findViewById(R.id.np_time);
@@ -557,18 +558,36 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
         np_date.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal){
+                try {
                 timeStatus.clear();
                 for(int i=0;i<date_timeSlot_new.get(date_list.get(newVal)).size();i++){
                         timeStatus.add(date_timeSlot_new.get(date_list.get(newVal)).get(i));
                 }
+                selected_time=timeStatus.get(0);
                 selected_date=dateStatus.get(newVal);
                 selected_date_send=date_list.get(newVal);
                 String[] time_arryay = timeStatus.toArray(new String[timeStatus.size()]);
-                try {
-                    np_time.setMinValue(0);
+
+                    int max=time_arryay.length-1;
+                    int maxV=np_time.getMaxValue();
+                    System.out.println("time array="+time_arryay.length+" time status="+timeStatus.size());
+                    if (max>maxV){
+                        np_time.setMinValue(0);
+                        np_time.setValue(0);
+                        np_time.setDisplayedValues(time_arryay);
+                        np_time.setMaxValue(max);
+                    }else{
+                        np_time.setMinValue(0);
+                        np_time.setValue(0);
+                        np_time.setMaxValue(max);
+                        np_time.setDisplayedValues(time_arryay);
+                    }
+                    np_time.setWrapSelectorWheel(false);
+
+                   /* np_time.setMinValue(0);
                     np_time.setMaxValue(time_arryay.length-1);
                     np_time.setDisplayedValues(time_arryay);
-                    np_time.setWrapSelectorWheel(false);
+                    np_time.setWrapSelectorWheel(false);*/
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -578,7 +597,11 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
         np_time.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                selected_time=timeStatus.get(newVal);
+                try {
+                    selected_time=timeStatus.get(newVal);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -591,6 +614,7 @@ public class ShippingAddress extends BaseActivity implements View.OnClickListene
             public void onClick(View v) {
                 tv_date.setText(selected_date);
                 tv_time.setText(selected_time);
+
                 b.dismiss();
             }
         });

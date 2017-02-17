@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        android:divider="#b6b6b6"
+        android:divider="#d4d4d4"
         android:dividerHeight="0.5sp"
         android:fadeScrollbars="false"
         android:scrollbarFadeDuration="0"

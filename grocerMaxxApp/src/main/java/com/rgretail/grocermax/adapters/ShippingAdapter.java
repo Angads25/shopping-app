@@ -135,7 +135,8 @@ public class ShippingAdapter extends BaseAdapter{
                 holder.iv_add.setVisibility(View.GONE);
                 if(obj.getRegion()!=null) {
                     if(!obj.getRegion().equals("")) {
-                        String strAddress = obj.getFirstname() + " " + obj.getLastname() +",";
+                        //String strAddress = obj.getFirstname() + " " + obj.getLastname() +",";
+                        String strAddress ="";
                         try{
                             if(obj.getStreet() != null){
                                 String addr = obj.getStreet();

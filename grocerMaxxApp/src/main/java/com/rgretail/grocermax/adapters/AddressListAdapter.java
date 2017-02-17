@@ -108,7 +108,7 @@ public class AddressListAdapter extends BaseAdapter{
 		holder.city.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
 		holder.pincode.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
 		holder.country.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
-		holder.txtHeader.setTypeface(CustomFonts.getInstance().getRobotoBold(mContext));
+		holder.txtHeader.setTypeface(CustomFonts.getInstance().getRobotoRegular(mContext));
 		
 		final Address obj = getItem(position);
 
