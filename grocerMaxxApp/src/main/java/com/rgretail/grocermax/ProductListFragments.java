@@ -231,14 +231,7 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 			main_lay.setVisibility(View.VISIBLE);
 			progressBar.setVisibility(View.GONE);
 			ProductListBean listBean = null;
-//			if (result!=null) {
-//				Log.i(TAG, "RESPONSE:::" + result);
-//			JSONArray products = new JSONArray();
-//			int size= category.getItems().size();
-//			System.out.println("====size si=="+size);
-//			for(int i=0;i<category.getItems().size();i++)
-//			{
-//				Product pro = category.getItems().get(i);
+
 			listBean = new ProductListBean();
 			List<Product> lis = new ArrayList<Product>();
 			lis = categoryData.getItems();
@@ -407,15 +400,6 @@ public final class ProductListFragments extends Fragment implements OnScrollList
 			new GrocermaxBaseException("ProductListFragments","onPostExecute",e.getMessage(), GrocermaxBaseException.EXCEPTION,"nodetail");
 		}
 	}
-
-
-	/*@TargetApi(Build.VERSION_CODES.HONEYCOMB) // API 11
-    void startMyTask(AsyncTask<String, String, String> asyncTask,String params) {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-            asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
-        else
-            asyncTask.execute(params);
-    }*/
 
 	public class CallAPI extends AsyncTask<String, String, String> {
 		@Override
